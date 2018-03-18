@@ -1,0 +1,246 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.logicapps.certificates.createorupdate
+name: Create Or Update
+service: Logic Apps
+groupName: Certificates
+apiVersion: 2016-06-01
+summary: Creates or updates an integration account certificate.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/certificates/{certificateName}?api-version=2016-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: integrationAccountName
+  in: path
+  isRequired: true
+  description: The integration account name.
+  types:
+  - uid: string
+- name: certificateName
+  in: path
+  isRequired: true
+  description: The integration account certificate name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: IntegrationAccountCertificate
+- name: 201 Created
+  description: Created
+  types:
+  - uid: IntegrationAccountCertificate
+requestBody:
+- parameters:
+  - name: properties.metadata
+    in: body
+    description: The metadata.
+    types:
+    - uid: Metadata
+  - name: properties.key
+    in: body
+    description: The key details in the key vault.
+    types:
+    - uid: KeyVaultKeyReference
+  - name: properties.publicCertificate
+    in: body
+    description: The public certificate.
+    types:
+    - uid: string
+  - name: location
+    in: body
+    description: The resource location.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: The resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: Metadata
+  description: The metadata.
+  kind: object
+  properties: []
+- name: KeyVaultKeyReference
+  description: The reference to the key vault key.
+  kind: object
+  properties:
+  - name: keyVault
+    description: The key vault reference.
+    types:
+    - uid: KeyVault
+  - name: keyName
+    description: The private key name in key vault.
+    types:
+    - uid: string
+  - name: keyVersion
+    description: The private key version in key vault.
+    types:
+    - uid: string
+- name: IntegrationAccountCertificate
+  description: The integration account certificate.
+  kind: object
+  properties:
+  - name: properties.createdTime
+    isReadyOnly: true
+    description: The created time.
+    types:
+    - uid: string
+  - name: properties.changedTime
+    isReadyOnly: true
+    description: The changed time.
+    types:
+    - uid: string
+  - name: properties.metadata
+    description: The metadata.
+    types:
+    - uid: Metadata
+  - name: properties.key
+    description: The key details in the key vault.
+    types:
+    - uid: KeyVaultKeyReference
+  - name: properties.publicCertificate
+    description: The public certificate.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The resource id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Gets the resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Gets the resource type.
+    types:
+    - uid: string
+  - name: location
+    description: The resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: The resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: KeyVault
+  description: The key vault reference.
+  kind: object
+  properties:
+  - name: id
+    description: The resource id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+examples:
+- name: Create or update a certificate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/certificates/testCertificate?api-version=2016-06-01
+    body: >-
+      {
+        "properties": {
+          "key": {
+            "keyVault": {
+              "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testResourceGroup/providers/microsoft.keyvault/vaults/<keyVaultName>"
+            },
+            "keyName": "<keyName>",
+            "keyVersion": "87d9764197604449b9b8eb7bd8710868"
+          },
+          "publicCertificate": "<publicCertificateValue>"
+        },
+        "location": "brazilsouth"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "key": {
+            "keyVault": {
+              "name": "<keyVaultName>",
+              "id": "/subscriptions/f34b22a3-2202-4fb1-b040-1332bd928c84/resourcegroups/flowrg/providers/microsoft.keyvault/vaults/<keyVaultName>",
+              "type": "Microsoft.KeyVault/vaults"
+            },
+            "keyName": "<keyName>",
+            "keyVersion": "87d9764197604449b9b8eb7bd8710868"
+          },
+          "publicCertificate": "<publicCertificateValue>",
+          "createdTime": "2017-03-06T20:42:21.0510202Z",
+          "changedTime": "2017-03-06T20:42:21.051317Z"
+        },
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/certificates/testCertificate",
+        "name": "testCertificate",
+        "type": "Microsoft.Logic/integrationAccounts/certificates"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "key": {
+            "keyVault": {
+              "name": "<keyVaultName>",
+              "id": "/subscriptions/f34b22a3-2202-4fb1-b040-1332bd928c84/resourcegroups/flowrg/providers/microsoft.keyvault/vaults/<keyVaultName>",
+              "type": "Microsoft.KeyVault/vaults"
+            },
+            "keyName": "<keyName>",
+            "keyVersion": "87d9764197604449b9b8eb7bd8710868"
+          },
+          "publicCertificate": "<publicCertificateValue>",
+          "createdTime": "2017-03-06T20:42:21.0510202Z",
+          "changedTime": "2017-03-06T20:42:21.051317Z"
+        },
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/certificates/testCertificate",
+        "name": "testCertificate",
+        "type": "Microsoft.Logic/integrationAccounts/certificates"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,7 +1,7 @@
 ---
 title: "Create Index (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2018-02-09"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -64,7 +64,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 |*Content-Type:*|Required. Set this to `application/json`|  
 |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Create Index** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the Azure classic portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the Azure classic portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body Syntax  
  The body of the request contains a schema definition, which includes the list of data fields within documents that will be fed into this index.  
@@ -152,11 +152,11 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
         "sum (default) | average | minimum | maximum | firstMatching"  
     }  
   ],  
-"analyzers":(optional)[ ... ],
-"charFilters":(optional)[ ... ],
-"tokenizers":(optional)[ ... ],
-"tokenFilters":(optional)[ ... ],
-"defaultScoringProfile": (optional) "...",  
+  "analyzers":(optional)[ ... ],
+  "charFilters":(optional)[ ... ],
+  "tokenizers":(optional)[ ... ],
+  "tokenFilters":(optional)[ ... ],
+  "defaultScoringProfile": (optional) "...",  
   "corsOptions": (optional) {  
     "allowedOrigins": ["*"] | ["origin_1", "origin_2", ...],  
     "maxAgeInSeconds": (optional) max_age_in_seconds (non-negative integer)  
@@ -171,12 +171,12 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 |---------------|-----------------|  
 |**name**|Sets the name of the field.|  
 |**type**|Sets the data type for the field. See [Supported data types &#40;Azure Search&#41;](supported-data-types.md) for a list of supported types.|  
+|**key**|Marks the field as containing unique identifiers for documents within the index. Exactly one field must be chosen as the key field and it must be of type `Edm.String`. Key fields can be used to look up documents directly. See [Lookup Document &#40;Azure Search Service REST API&#41;](lookup-document.md) for details.|  
+|**retrievable**|Sets whether the field can be returned in a search result. This is useful when you want to use a field (e.g., margin) as a filter, sorting, or scoring mechanism but do not want the field to be visible to the end user. This attribute must be `true` for `key` fields.|  
 |**searchable**|Marks the field as full-text search-able. This means it will undergo analysis such as word-breaking during indexing. If you set a searchable field to a value like "sunny day", internally it will be split into the individual tokens "sunny" and "day". This enables full-text searches for these terms. Fields of type `Edm.String` or `Collection(Edm.String)` are **searchable** by default. Fields of other types are not **searchable**. **Note:**  **searchable** fields consume extra space in your index since Azure Search will store an additional tokenized version of the field value for full-text searches. If you want to save space in your index and you don't need a field to be included in searches, set **searchable** to `false`.|  
 |**filterable**|Allows the field to be referenced in **$filter** queries. **filterable** differs from searchable in how strings are handled. Fields of type `Edm.String` or `Collection(Edm.String)` that are **filterable** do not undergo word-breaking, so comparisons are for exact matches only. For example, if you set such a field f to "sunny day", `$filter=f eq 'sunny'` will find no matches, but `$filter=f eq 'sunny day'` will. All fields are **filterable** by default.|  
 |**sortable**|By default the system sorts results by score, but in many experiences users will want to sort by fields in the documents. Fields of type `Collection(Edm.String)` cannot be **sortable**. All other fields are **sortable** by default.|  
 |**facetable**|Typically used in a presentation of search results that includes hit count by category (e.g. search for digital cameras and see hits by brand, by megapixels, by price, etc.). This option cannot be used with fields of type `Edm.GeographyPoint`. All other fields are **facetable** by default. **Note:**  Fields of type `Edm.String` that are **filterable**, **sortable**, or **facetable** can be at most 32 kilobytes in length. This is because such fields are treated as a single search term, and the maximum length of a term in Azure Search is 32K kilobytes. If you need to store more text than this in a single string field, you will need to explicitly set **filterable**, **sortable**, and **facetable** to `false` in your index definition. **Note:**  If a field has none of the above attributes set to `true` (searchable, filterable, sortable, facetable) the field is effectively excluded from the inverted index. This option is useful for fields that are not used in queries, but are needed in search results. Excluding such fields from the index improves performance.|  
-|**key**|Marks the field as containing unique identifiers for documents within the index. Exactly one field must be chosen as the key field and it must be of type `Edm.String`. Key fields can be used to look up documents directly. See [Lookup Document &#40;Azure Search Service REST API&#41;](lookup-document.md) for details.|  
-|**retrievable**|Sets whether the field can be returned in a search result. This is useful when you want to use a field (e.g., margin) as a filter, sorting, or scoring mechanism but do not want the field to be visible to the end user. This attribute must be `true` for `key` fields.|  
 |**analyzer**|Sets the name of the language analyzer to use for the field. For the allowed set of values see [Language support &#40;Azure Search Service REST API&#41;](language-support.md). This option can be used only with **searchable** fields and it can't be set together with either `searchAnalyzer` or `indexAnalyzer`. Once the analyzer is chosen, it cannot be changed for the field.|  
 |**searchAnalyzer**|Sets the name of the analyzer used at search time for the field. For the allowed set of values see [Analyzers](https://msdn.microsoft.com/library/mt605304.aspx). This option can be used only with `searchable` fields. It must be set together with `indexAnalyzer` and it cannot be set together with the `analyzer` option. This analyzer can be updated on an existing field.|
 |**indexAnalyzer**|Sets the name of the analyzer used at indexing time for the field. For the allowed set of values see [Analyzers](https://msdn.microsoft.com/library/mt605304.aspx). This option can be used only with `searchable` fields. It must be set together with `searchAnalyzer` and it cannot be set together with the `analyzer` option. Once the analyzer is chosen, it cannot be changed for the field.|
@@ -213,7 +213,6 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
   {"name": "description_fr", "type": "Edm.String", "filterable": false, "sortable": false, "facetable": false, "analyzer": "fr.lucene"},
   {"name": "hotelName", "type": "Edm.String"},
   {"name": "category", "type": "Edm.String"},
-    {"name": "tags", "type": "Collection(Edm.String)"},
   {"name": "tags", "type": "Collection(Edm.String)", "analyzer": "tagsAnalyzer"},
   {"name": "parkingIncluded", "type": "Edm.Boolean"},
   {"name": "smokingAllowed", "type": "Edm.Boolean"},
@@ -233,7 +232,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
    "name": "tagsAnalyzer",
    "@odata.type": "#Microsoft.Azure.Search.CustomAnalyzer",
    "charFilters": [ "html_strip" ],
-   "tokenizer": "standard"
+   "tokenizer": "standard_v2"
   }
  ]
 }

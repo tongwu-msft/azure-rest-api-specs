@@ -1,6 +1,6 @@
 ---
 title: "PagedServiceInfoList"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -49,4 +49,4 @@ ____
 __Type__: array of [ServiceInfo](sfclient-model-serviceinfo.md) <br/>
 __Required__: No<br/>
 <br/>
-
+List of service information.

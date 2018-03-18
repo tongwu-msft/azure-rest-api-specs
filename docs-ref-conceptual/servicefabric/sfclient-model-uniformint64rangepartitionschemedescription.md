@@ -1,6 +1,6 @@
 ---
 title: "UniformInt64RangePartitionSchemeDescription"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -58,7 +58,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-String indicating the lower bound of the partition key range that 
+String indicating the lower bound of the partition key range that
 should be split between the partition ‘Count’
 
 
@@ -67,6 +67,6 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-String indicating the upper bound of the partition key range that 
+String indicating the upper bound of the partition key range that
 should be split between the partition ‘Count’
 

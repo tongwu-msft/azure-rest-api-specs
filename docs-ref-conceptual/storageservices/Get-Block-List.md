@@ -264,6 +264,7 @@ Date: Wed, 14 Sep 2011 00:40:22 GMT
   
  `Get Block List` applies only to block blobs. Calling `Get Block List` on a page blob results in status code 400 (Bad Request).  
   
+ `Get Block List` on an archived block blob will fail.
 ## See Also  
  [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   

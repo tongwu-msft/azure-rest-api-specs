@@ -1,0 +1,271 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devtestlabs.customimages.list
+name: List
+service: Dev Test Labs
+groupName: Custom Images
+apiVersion: 2016-05-15
+summary: List custom images in a given lab.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages?api-version=2016-05-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages?$expand={$expand}&$filter={$filter}&$top={$top}&$orderby={$orderby}&api-version=2016-05-15
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: labName
+  in: path
+  isRequired: true
+  description: The name of the lab.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: "Specify the $expand query. Example: 'properties($select=vm)'"
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply to the operation.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The maximum number of resources to return from the operation.
+  types:
+  - uid: integer
+  format: int32
+- name: $orderby
+  in: query
+  description: The ordering expression for the results, using OData notation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ResponseWithContinuation[CustomImage]
+- name: Other Status Codes
+  description: BadRequest
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ResponseWithContinuation[CustomImage]
+  description: The response of a list operation.
+  kind: object
+  properties:
+  - name: value
+    description: A custom image.
+    types:
+    - uid: CustomImage
+      isArray: true
+  - name: nextLink
+    description: Link for next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - name: error
+    description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+- name: CustomImage
+  description: A custom image.
+  kind: object
+  properties:
+  - name: properties.vm
+    description: The virtual machine from which the image is to be created.
+    types:
+    - uid: CustomImagePropertiesFromVm
+  - name: properties.vhd
+    description: The VHD from which the image is to be created.
+    types:
+    - uid: CustomImagePropertiesCustom
+  - name: properties.description
+    description: The description of the custom image.
+    types:
+    - uid: string
+  - name: properties.author
+    description: The author of the custom image.
+    types:
+    - uid: string
+  - name: properties.creationDate
+    isReadyOnly: true
+    description: The creation date of the custom image.
+    types:
+    - uid: string
+  - name: properties.managedImageId
+    description: The Managed Image Id backing the custom image.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: The provisioning status of the resource.
+    types:
+    - uid: string
+  - name: properties.uniqueIdentifier
+    description: The unique immutable identifier of a resource (Guid).
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The identifier of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: location
+    description: The location of the resource.
+    types:
+    - uid: string
+  - name: tags
+    description: The tags of the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - name: code
+    types:
+    - uid: string
+  - name: message
+    types:
+    - uid: string
+  - name: target
+    types:
+    - uid: string
+  - name: details
+    description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: CustomImagePropertiesFromVm
+  description: Properties for creating a custom image from a virtual machine.
+  kind: object
+  properties:
+  - name: sourceVmId
+    description: The source vm identifier.
+    types:
+    - uid: string
+  - name: windowsOsInfo
+    description: The Windows OS information of the VM.
+    types:
+    - uid: WindowsOsInfo
+  - name: linuxOsInfo
+    description: The Linux OS information of the VM.
+    types:
+    - uid: LinuxOsInfo
+- name: CustomImagePropertiesCustom
+  description: Properties for creating a custom image from a VHD.
+  kind: object
+  properties:
+  - name: imageName
+    description: The image name.
+    types:
+    - uid: string
+  - name: sysPrep
+    description: Indicates whether sysprep has been run on the VHD.
+    types:
+    - uid: boolean
+  - name: osType
+    description: The OS type of the custom image (i.e. Windows, Linux)
+    types:
+    - uid: CustomImageOsType
+- name: WindowsOsInfo
+  description: Information about a Windows OS.
+  kind: object
+  properties:
+  - name: windowsOsState
+    description: The state of the Windows OS (i.e. NonSysprepped, SysprepRequested, SysprepApplied).
+    types:
+    - uid: WindowsOsState
+- name: LinuxOsInfo
+  description: Information about a Linux OS.
+  kind: object
+  properties:
+  - name: linuxOsState
+    description: The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested, DeprovisionApplied).
+    types:
+    - uid: LinuxOsState
+- name: CustomImageOsType
+  description: The OS type of the custom image (i.e. Windows, Linux)
+  kind: enum
+  properties:
+  - name: Windows
+    types:
+    - uid: string
+  - name: Linux
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: WindowsOsState
+  description: The state of the Windows OS (i.e. NonSysprepped, SysprepRequested, SysprepApplied).
+  kind: enum
+  properties:
+  - name: NonSysprepped
+    types:
+    - uid: string
+  - name: SysprepRequested
+    types:
+    - uid: string
+  - name: SysprepApplied
+    types:
+    - uid: string
+- name: LinuxOsState
+  description: The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested, DeprovisionApplied).
+  kind: enum
+  properties:
+  - name: NonDeprovisioned
+    types:
+    - uid: string
+  - name: DeprovisionRequested
+    types:
+    - uid: string
+  - name: DeprovisionApplied
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: OAuth2 Implicit Grant
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Access Microsoft Azure

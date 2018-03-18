@@ -1,0 +1,275 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.group.createorupdate
+name: Create Or Update
+service: API Management
+groupName: Group
+apiVersion: 2018-01-01
+summary: Creates or Updates a group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}?api-version=2018-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: groupId
+  in: path
+  isRequired: true
+  description: Group identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Group was created succesfully.
+  types:
+  - uid: GroupContract
+- name: 200 OK
+  description: Group already exists.
+  types:
+  - uid: GroupContract
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: properties.displayName
+    in: body
+    isRequired: true
+    description: Group name.
+    types:
+    - uid: string
+  - name: properties.description
+    in: body
+    description: Group description.
+    types:
+    - uid: string
+  - name: properties.type
+    in: body
+    description: Group type.
+    types:
+    - uid: GroupType
+  - name: properties.externalId
+    in: body
+    description: Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    types:
+    - uid: string
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the Entity. Not required when creating an entity, but required when updating an entity.
+  types:
+  - uid: string
+definitions:
+- name: GroupContract
+  description: Contract details.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: Group name.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Group description. Can contain HTML formatting tags.
+    types:
+    - uid: string
+  - name: properties.builtIn
+    isReadyOnly: true
+    description: true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
+    types:
+    - uid: boolean
+  - name: properties.type
+    description: Group type.
+    types:
+    - uid: GroupType
+  - name: properties.externalId
+    description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Error Field contract.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: GroupCreateParameters
+  description: Parameters supplied to the Create Group operation.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: Group name.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Group description.
+    types:
+    - uid: string
+  - name: properties.type
+    description: Group type.
+    types:
+    - uid: GroupType
+  - name: properties.externalId
+    description: Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
+    types:
+    - uid: string
+- name: GroupType
+  description: Group type.
+  kind: enum
+  properties:
+  - name: custom
+    types:
+    - uid: string
+  - name: system
+    types:
+    - uid: string
+  - name: external
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementCreateGroup
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/tempgroup?api-version=2018-01-01
+    body: >-
+      {
+        "properties": {
+          "displayName": "temp group"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/tempgroup",
+        "type": "Microsoft.ApiManagement/service/groups",
+        "name": "tempgroup",
+        "properties": {
+          "displayName": "temp group",
+          "type": "custom"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/tempgroup",
+        "type": "Microsoft.ApiManagement/service/groups",
+        "name": "tempgroup",
+        "properties": {
+          "displayName": "temp group",
+          "type": "custom"
+        }
+      }
+- name: ApiManagementCreateGroupExternal
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/aadGroup?api-version=2018-01-01
+    body: >-
+      {
+        "properties": {
+          "displayName": "NewGroup (samiraad.onmicrosoft.com)",
+          "description": "new group to test",
+          "type": "external",
+          "externalId": "aad://samiraad.onmicrosoft.com/groups/83cf2753-5831-4675-bc0e-2f8dc067c58d"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/aadGroup",
+        "type": "Microsoft.ApiManagement/service/groups",
+        "name": "aadGroup",
+        "properties": {
+          "displayName": "NewGroup (samiraad.onmicrosoft.com)",
+          "description": "new group to test",
+          "type": "external",
+          "externalId": "aad://samiraad.onmicrosoft.com/groups/83cf2753-5831-4675-bc0e-2f8dc067c58d"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/aadGroup",
+        "type": "Microsoft.ApiManagement/service/groups",
+        "name": "aadGroup",
+        "properties": {
+          "displayName": "NewGroup (samiraad.onmicrosoft.com)",
+          "description": "new group to test",
+          "type": "external",
+          "externalId": "aad://samiraad.onmicrosoft.com/groups/83cf2753-5831-4675-bc0e-2f8dc067c58d"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

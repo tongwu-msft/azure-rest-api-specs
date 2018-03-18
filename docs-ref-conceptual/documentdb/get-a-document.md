@@ -1,5 +1,5 @@
 ---
-title: "Get a Document"
+title: "Get a Document - Azure Cosmos DB REST API"
 ms.custom: ""
 ms.date: "2016-03-29"
 ms.prod: "azure"
@@ -13,7 +13,6 @@ caps.latest.revision: 9
 author: "mimig1"
 ms.author: "mimig"
 manager: "jhubbard"
-robots: noindex,nofollow
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -27,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Get a Document
-Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the Azure Cosmos DB API for Azure Cosmos DB. 
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the SQL API for Azure Cosmos DB. 
 
 The `Get Document` operation retrieves a document by its partition key and document key. 
   
@@ -76,7 +75,7 @@ The `Get Document` operation retrieves a document by its partition key and docum
 |--------------|-----------------|  
 |**id**|This is the unique name used to identify a document, i.e. no two documents can share the same **id**. The **id** must not exceed 255 characters.|  
 |custom|Any user-defined JSON.|  
-|**_rid**|This is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/documentdb-resources#system-vs-user-defined-resources). The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
+|**_rid**|This is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/sql-api-resources#system-vs-user-defined-resources). The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
 |**_ts**|This is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
 |**_self**|This is a system generated property. It is the unique addressable URI for the resource.|  
 |**_etag**|This is a system generated property that specifies the resource etag required for optimistic concurrency control.|  
@@ -179,8 +178,8 @@ Date: Tue, 29 Mar 2016 02:03:06 GMT
 ```  
   
 ## See Also  
-* [Azure Cosmos DB documentation](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
-* [Azure DocumentDB Reference Documentation](index.md)   
-* [Azure Cosmos DB SDKs](https://docs.microsoft.com/azure/documentdb/documentdb-sdk-dotnet)    
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB SQL API SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
 

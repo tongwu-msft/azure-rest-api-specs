@@ -1,6 +1,6 @@
 ---
 title: "WaitForInbuildReplicaSafetyCheck"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # WaitForInbuildReplicaSafetyCheck
 
-Safety check that waits for the replica build operation to finish. This indiciates that there is a replica that is going through the copy or is providing data for building another replica. Bring the node down will abort this copy operation which are typoically expensive involving data movements.
+Safety check that waits for the replica build operation to finish. This indicates that there is a replica that is going through the copy or is providing data for building another replica. Bring the node down will abort this copy operation which are typically expensive involving data movements.
 
 ## Properties
 | Name | Type | Required |

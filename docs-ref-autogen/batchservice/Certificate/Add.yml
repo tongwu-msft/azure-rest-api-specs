@@ -1,0 +1,191 @@
+### YamlMime:RESTOperation
+uid: batch.core.windows.net.batchservice.certificate.add
+name: Add
+service: Batch Service
+groupName: Certificate
+apiVersion: 2017-09-01.6.0
+summary: Adds a certificate to the specified account.
+consumes:
+- application/json; odata=minimalmetadata
+produces:
+- application/json
+paths:
+- content: POST https://batch.core.windows.net/certificates?api-version=2017-09-01.6.0
+- content: POST https://batch.core.windows.net/certificates?timeout={timeout}&api-version=2017-09-01.6.0
+  isOptional: true
+uriParameters:
+- name: timeout
+  in: query
+  description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  headers:
+  - name: client-request-id
+    value: string
+  - name: request-id
+    value: string
+  - name: ETag
+    value: string
+  - name: Last-Modified
+    value: string
+  - name: DataServiceId
+    value: string
+  description: The request to the Batch service was successful.
+- name: Other Status Codes
+  description: The error from the Batch service.
+  types:
+  - uid: BatchError
+requestBody:
+- parameters:
+  - name: thumbprint
+    in: body
+    isRequired: true
+    description: The X.509 thumbprint of the certificate. This is a sequence of up to 40 hex digits (it may include spaces but these are removed).
+    types:
+    - uid: string
+  - name: thumbprintAlgorithm
+    in: body
+    isRequired: true
+    description: The algorithm used to derive the thumbprint. This must be sha1.
+    types:
+    - uid: string
+  - name: data
+    in: body
+    isRequired: true
+    description: The base64-encoded contents of the certificate. The maximum size is 10KB.
+    types:
+    - uid: string
+  - name: certificateFormat
+    in: body
+    description: The format of the certificate data.
+    types:
+    - uid: CertificateFormat
+  - name: password
+    in: body
+    description: "The password to access the certificate's private key.  \nThis is required if the certificate format is pfx. It should be omitted if the certificate format is cer."
+    types:
+    - uid: string
+requestHeader:
+- name: client-request-id
+  in: header
+  description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+  types:
+  - uid: string
+  format: uuid
+- name: return-client-request-id
+  in: header
+  description: Whether the server should return the client-request-id in the response.
+  types:
+  - uid: boolean
+- name: ocp-date
+  in: header
+  description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+definitions:
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+  - name: values
+    description: An item of additional information included in an Azure Batch error response.
+    types:
+    - uid: BatchErrorDetail
+      isArray: true
+- name: CertificateAddParameter
+  description: A certificate that can be installed on compute nodes and can be used to authenticate operations on the machine.
+  kind: object
+  properties:
+  - name: thumbprint
+    description: The X.509 thumbprint of the certificate. This is a sequence of up to 40 hex digits (it may include spaces but these are removed).
+    types:
+    - uid: string
+  - name: thumbprintAlgorithm
+    description: The algorithm used to derive the thumbprint. This must be sha1.
+    types:
+    - uid: string
+  - name: data
+    description: The base64-encoded contents of the certificate. The maximum size is 10KB.
+    types:
+    - uid: string
+  - name: certificateFormat
+    description: The format of the certificate data.
+    types:
+    - uid: CertificateFormat
+  - name: password
+    description: "The password to access the certificate's private key.  \nThis is required if the certificate format is pfx. It should be omitted if the certificate format is cer."
+    types:
+    - uid: string
+- name: ErrorMessage
+  description: An error message received in an Azure Batch error response.
+  kind: object
+  properties:
+  - name: lang
+    description: The language code of the error message
+    types:
+    - uid: string
+  - name: value
+    description: The text of the message.
+    types:
+    - uid: string
+- name: BatchErrorDetail
+  description: An item of additional information included in an Azure Batch error response.
+  kind: object
+  properties:
+  - name: key
+    description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+  - name: value
+    description: The additional information included with the error response.
+    types:
+    - uid: string
+- name: CertificateFormat
+  description: The format of the certificate data.
+  kind: enum
+  properties:
+  - name: pfx
+    description: The certificate is a PFX (PKCS#12) formatted certificate or certificate chain.
+    types:
+    - uid: string
+  - name: cer
+    description: The certificate is a base64-encoded X.509 certificate.
+    types:
+    - uid: string
+examples:
+- name: Certificate add
+  request:
+    uri: POST https://batch.core.windows.net/certificates?api-version=2017-09-01.6.0
+    body: >-
+      {
+        "thumbprintAlgorithm": "sha1",
+        "thumbprint": "0123456789abcdef0123456789abcdef01234567",
+        "data": "#####...",
+        "certificateFormat": "pfx",
+        "password": "certpassword"
+      }
+    headers:
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
+  responses:
+  - statusCode: "201"
+    body: "\"\""
+security: []

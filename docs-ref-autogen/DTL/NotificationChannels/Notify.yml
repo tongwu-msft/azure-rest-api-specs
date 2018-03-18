@@ -1,0 +1,122 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devtestlabs.notificationchannels.notify
+name: Notify
+service: Dev Test Labs
+groupName: Notification Channels
+apiVersion: 2016-05-15
+summary: Send notification to provided channel.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/notificationchannels/{name}/notify?api-version=2016-05-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: labName
+  in: path
+  isRequired: true
+  description: The name of the lab.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the notificationChannel.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+- name: Other Status Codes
+  description: BadRequest
+  types:
+  - uid: CloudError
+requestBody:
+- parameters:
+  - name: eventName
+    in: body
+    description: The type of event (i.e. AutoShutdown, Cost)
+    types:
+    - uid: NotificationChannelEventType
+  - name: jsonPayload
+    in: body
+    description: Properties for the notification in json format.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - name: error
+    description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+- name: NotifyParameters
+  description: Properties for generating a Notification.
+  kind: object
+  properties:
+  - name: eventName
+    description: The type of event (i.e. AutoShutdown, Cost)
+    types:
+    - uid: NotificationChannelEventType
+  - name: jsonPayload
+    description: Properties for the notification in json format.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - name: code
+    types:
+    - uid: string
+  - name: message
+    types:
+    - uid: string
+  - name: target
+    types:
+    - uid: string
+  - name: details
+    description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: NotificationChannelEventType
+  description: The event type for which this notification is enabled (i.e. AutoShutdown, Cost)
+  kind: enum
+  properties:
+  - name: AutoShutdown
+    types:
+    - uid: string
+  - name: Cost
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: OAuth2 Implicit Grant
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Access Microsoft Azure

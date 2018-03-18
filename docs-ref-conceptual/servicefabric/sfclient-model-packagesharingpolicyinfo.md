@@ -1,6 +1,6 @@
 ---
 title: "PackageSharingPolicyInfo"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -49,11 +49,16 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-Represents the scope for PackageSharingPolicy. This is specified during DeployServicePackageToNode operation. Possible values are following.
+
+
+Represents the scope for PackageSharingPolicy. This is specified during DeployServicePackageToNode operation.
+
+Possible values are: 
 
   - None - No package sharing policy scope. The value is 0.
   - All - Share all code, config and data packages from corresponding service manifest. The value is 1.
   - Code - Share all code packages from corresponding service manifest. The value is 2.
   - Config - Share all config packages from corresponding service manifest. The value is 3.
   - Data - Share all data packages from corresponding service manifest. The value is 4.
+
 

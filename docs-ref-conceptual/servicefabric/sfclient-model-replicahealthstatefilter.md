@@ -1,6 +1,6 @@
 ---
 title: "ReplicaHealthStateFilter"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -45,7 +45,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Id of the stateful service replica or stateles service instance that matches the filter. The filter is applied only to the specified replica, if it exists.
+Id of the stateful service replica or stateless service instance that matches the filter. The filter is applied only to the specified replica, if it exists.
 If the replica doesn't exist, no replica is returned in the cluster health chunk based on this filter.
 If the replica exists, it is included in the cluster health chunk if it respects the other filter properties.
 If not specified, all replicas that match the parent filters (if any) are taken into consideration and matched against the other filter members, like health state filter.
@@ -64,7 +64,7 @@ The state values are flag based enumeration, so the value could be a combination
 For example, if the provided value is 6, it matches replicas with HealthState value of OK (2) and Warning (4).
 
 - Default - Default value. Matches any HealthState. The value is zero.
-- None - Filter that doesn’t match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+- None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
 - Ok - Filter that matches input with HealthState value Ok. The value is 2.
 - Warning - Filter that matches input with HealthState value Warning. The value is 4.
 - Error - Filter that matches input with HealthState value Error. The value is 8.

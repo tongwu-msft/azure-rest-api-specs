@@ -1,6 +1,6 @@
 ---
 title: "DeployedServicePackageInfo"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -44,7 +44,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The name of the service package.
+The name of the service package as specified in the service manifest.
 
 ____
 ### Version
@@ -58,7 +58,12 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-Specifies the status of a deployed application or service package on a Service Fabric node. Possible values are following.
+
+
+Specifies the status of a deployed application or service package on a Service Fabric node.
+
+
+Possible values are: 
 
   - Invalid - Indicates status of the application or service package is not known or invalid. The value is 0.
   - Downloading - Indicates the application or service package is being downloaded to the node from the ImageStore. The value is 1.
@@ -66,6 +71,7 @@ Specifies the status of a deployed application or service package on a Service F
   - Active - Indicates the application or service package is active the node. The value is 3.
   - Upgrading - Indicates the application or service package is being upgraded. The value is 4.
   - Deactivating - Indicates the application or service package is being deactivated. The value is 5.
+
 
 
 ____

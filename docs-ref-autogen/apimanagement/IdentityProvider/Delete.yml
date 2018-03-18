@@ -1,0 +1,141 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.identityprovider.delete
+name: Delete
+service: API Management
+groupName: Identity Provider
+apiVersion: 2018-01-01
+summary: Deletes the specified identity provider configuration.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}?api-version=2018-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: identityProviderName
+  in: path
+  isRequired: true
+  description: Identity Provider Type identifier.
+  types:
+  - uid: IdentityProviderType
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The identity provider configuration was successfully deleted.
+- name: 204 No Content
+  description: The identity provider configuration was successfully deleted.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: If-Match
+  in: header
+  isRequired: true
+  description: ETag of the Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
+  types:
+  - uid: string
+definitions:
+- name: IdentityProviderType
+  description: Identity Provider Type identifier.
+  kind: enum
+  properties:
+  - name: facebook
+    description: Facebook as Identity provider.
+    types:
+    - uid: string
+  - name: google
+    description: Google as Identity provider.
+    types:
+    - uid: string
+  - name: microsoft
+    description: Microsoft Live as Identity provider.
+    types:
+    - uid: string
+  - name: twitter
+    description: Twitter as Identity provider.
+    types:
+    - uid: string
+  - name: aad
+    description: Azure Active Directory as Identity provider.
+    types:
+    - uid: string
+  - name: aadB2C
+    description: Azure Active Directory B2C as Identity provider.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Error Field contract.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementDeleteIdentityProvider
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/identityProviders/aad?api-version=2018-01-01
+    headers:
+    - name: If-Match
+      value: '*'
+  responses:
+  - statusCode: "200"
+  - statusCode: "204"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

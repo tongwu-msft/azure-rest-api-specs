@@ -33,7 +33,7 @@ The `List Ranges` operation returns the list of valid ranges for a file.
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |GET|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?comp=rangelist`|HTTP/1.1|  
-  
+|GET|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sharesnapshot=<DateTime>&comp=rangelist`|HTTP/1.1|  
  Replace the path components shown in the request URI with your own, as follows:  
   
 |Path Component|Description|  
@@ -50,6 +50,7 @@ The `List Ranges` operation returns the list of valid ranges for a file.
   
 |Parameter|Description|  
 |---------------|-----------------|  
+|`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query for the file. |
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request Headers  

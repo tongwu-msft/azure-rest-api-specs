@@ -1,4 +1,4 @@
----
+﻿---
 title: "Authentication for the Azure Storage Services"
 ms.custom: na
 ms.date: 2016-12-13
@@ -113,7 +113,7 @@ StringToSign = VERB + "\n" +
  The following example shows a signature string for a [Get Blob](Get-Blob.md) operation. Note that where there is no header value, the new-line character only is specified.  
   
 ```  
-GET\n\n\n\n\n\n\n\n\n\n\n\nx-ms-date:Sun, 11 Oct 2009 21:49:13 GMT\nx-ms-version:2009-09-19\n/myaccount/ mycontainer\ncomp:metadata\nrestype:container\ntimeout:20  
+GET\n\n\n\n\n\n\n\n\n\n\n\nx-ms-date:Sun, 11 Oct 2009 21:49:13 GMT\nx-ms-version:2009-09-19\n/myaccount/mycontainer\ncomp:metadata\nrestype:container\ntimeout:20  
 ```  
   
  Breaking this down line-by-line shows each portion of the same string:  
@@ -258,9 +258,11 @@ Authorization: SharedKeyLite testaccount1:uay+rilMVayH/SVI8X+a3fL8k/NxCnIePdyZSk
     > [!NOTE]
     >  [Lexicographical ordering](http://en.wikipedia.org/wiki/Lexicographical_order) may not always coincide with conventional alphabetical ordering.  
   
-4.  Unfold the string by replacing any breaking white space with a single space.  
+4.  Replace any linear whitespace in the header value with a single space.  
   
-5.  Trim any white space around the colon in the header.  
+ Linear whitespace includes carriage return/line feed (CRLF), spaces, and tabs. See [RFC 2616, section 4.2](https://tools.ietf.org/html/rfc2616#section-4.2) for details. Do not replace any whitespace inside a quoted string.  
+  
+5.  Trim any whitespace around the colon in the header.  
   
 6.  Finally, append a new-line character to each canonicalized header in the resulting list. Construct the `CanonicalizedHeaders` string by concatenating all headers in this list into a single string.  
   
@@ -304,16 +306,16 @@ Authorization: SharedKeyLite testaccount1:uay+rilMVayH/SVI8X+a3fL8k/NxCnIePdyZSk
   
 2.  Append the resource's encoded URI path, without any query parameters.  
   
-3.  Append a new-line character (\n) after the resource name.  
+3.  Retrieve all query parameters on the resource URI, including the `comp` parameter if it exists.  
   
-4.  Retrieve all query parameters on the resource URI, including the `comp` parameter if it exists.  
+4.  Convert all parameter names to lowercase.  
   
-5.  Convert all parameter names to lowercase.  
+5.  Sort the query parameters lexicographically by parameter name, in ascending order.  
   
-6.  Sort the query parameters lexicographically by parameter name, in ascending order.  
+6.  URL-decode each query parameter name and value.  
   
-7.  URL-decode each query parameter name and value.  
-  
+7.  Include a new-line character (\n) before each name-value pair.
+
 8.  Append each query parameter name and value to the string in the following format, making sure to include the colon (:) between the name and the value:  
   
      `parameter-name:parameter-value`  
@@ -321,10 +323,8 @@ Authorization: SharedKeyLite testaccount1:uay+rilMVayH/SVI8X+a3fL8k/NxCnIePdyZSk
 9. If a query parameter has more than one value, sort all values lexicographically, then include them in a comma-separated list:  
   
      `parameter-name:parameter-value-1,parameter-value-2,parameter-value-n`  
-  
-10. Append a new-line character (\n) after each name-value pair.  
-  
- Keep in mind the following rules for constructing the canonicalized resource string:  
+ 
+Keep in mind the following rules for constructing the canonicalized resource string:  
   
 -   Avoid using the new-line character (\n) in values for query parameters. If it must be used, ensure that it does not affect the format of the canonicalized resource string.  
   
@@ -360,10 +360,10 @@ CanonicalizedResource:
 2.  Append the resource's encoded URI path. If the request URI addresses a component of the resource, append the appropriate query string. The query string should include the question mark and the `comp` parameter (for example, `?comp=metadata`). No other parameters should be included on the query string.  
   
 ### Encoding the Signature  
- To encode the signature, call the HMAC-SHA256 algorithm on the UTF-8-encoded signature string and encode the result as Base64. Use the following format (shown as pseudocode):  
+ To encode the signature, call the HMAC-SHA256 algorithm on the UTF-8-encoded signature string and encode the result as Base64. Note that you also need to Base64-decode your storage account key. Use the following format (shown as pseudocode):  
   
 ```  
-Signature=Base64(HMAC-SHA256(UTF8(StringToSign)))  
+Signature=Base64(HMAC-SHA256(UTF8(StringToSign), Base64.decode(<your_azure_storage_account_shared_key>)))  
 ```  
   
 ## See Also  

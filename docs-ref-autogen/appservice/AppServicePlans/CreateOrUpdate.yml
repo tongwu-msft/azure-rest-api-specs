@@ -1,0 +1,473 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.appserviceplans.createorupdate
+name: Create Or Update
+service: App Service
+groupName: App Service Plans
+apiVersion: 2016-09-01
+summary: Creates or updates an App Service Plan.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}?api-version=2016-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the App Service plan.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: AppServicePlan
+- name: 202 Accepted
+  description: Operation is in progress.
+  types:
+  - uid: AppServicePlan
+requestBody:
+- parameters:
+  - name: sku
+    in: body
+    description: Description of a SKU for a scalable resource.
+    types:
+    - uid: SkuDescription
+  - name: properties.name
+    in: body
+    isRequired: true
+    description: Name for the App Service plan.
+    types:
+    - uid: string
+  - name: properties.workerTierName
+    in: body
+    description: Target worker tier assigned to the App Service plan.
+    types:
+    - uid: string
+  - name: properties.adminSiteName
+    in: body
+    description: App Service plan administration site.
+    types:
+    - uid: string
+  - name: properties.hostingEnvironmentProfile
+    in: body
+    description: Specification for the App Service Environment to use for the App Service plan.
+    types:
+    - uid: HostingEnvironmentProfile
+  - name: properties.perSiteScaling
+    in: body
+    description: >-
+      If <code>true</code>, apps assigned to this App Service plan can be scaled independently.
+
+      If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
+    types:
+    - uid: boolean
+  - name: properties.isSpot
+    in: body
+    description: If <code>true</code>, this App Service Plan owns spot instances.
+    types:
+    - uid: boolean
+  - name: properties.spotExpirationTime
+    in: body
+    description: The time when the server farm expires. Valid only if it is a spot server farm.
+    types:
+    - uid: string
+  - name: properties.reserved
+    in: body
+    description: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
+    types:
+    - uid: boolean
+  - name: properties.targetWorkerCount
+    in: body
+    description: Scaling worker count.
+    types:
+    - uid: integer
+  - name: properties.targetWorkerSizeId
+    in: body
+    description: Scaling worker size ID.
+    types:
+    - uid: integer
+  - name: kind
+    in: body
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: Resource Location.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: SkuDescription
+  description: Description of a SKU for a scalable resource.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the resource SKU.
+    types:
+    - uid: string
+  - name: tier
+    description: Service tier of the resource SKU.
+    types:
+    - uid: string
+  - name: size
+    description: Size specifier of the resource SKU.
+    types:
+    - uid: string
+  - name: family
+    description: Family code of the resource SKU.
+    types:
+    - uid: string
+  - name: capacity
+    description: Current number of instances assigned to the resource.
+    types:
+    - uid: integer
+  - name: skuCapacity
+    description: Min, max, and default scale values of the SKU.
+    types:
+    - uid: SkuCapacity
+  - name: locations
+    description: Locations of the SKU.
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Describes the capabilities/features allowed for a specific SKU.
+    types:
+    - uid: Capability
+      isArray: true
+- name: HostingEnvironmentProfile
+  description: Specification for an App Service Environment to use for this resource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID of the App Service Environment.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the App Service Environment.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type of the App Service Environment.
+    types:
+    - uid: string
+- name: AppServicePlan
+  description: App Service plan.
+  kind: object
+  properties:
+  - name: sku
+    description: Description of a SKU for a scalable resource.
+    types:
+    - uid: SkuDescription
+  - name: properties.name
+    description: Name for the App Service plan.
+    types:
+    - uid: string
+  - name: properties.workerTierName
+    description: Target worker tier assigned to the App Service plan.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: App Service plan status.
+    types:
+    - uid: StatusOptions
+  - name: properties.subscription
+    isReadyOnly: true
+    description: App Service plan subscription.
+    types:
+    - uid: string
+  - name: properties.adminSiteName
+    description: App Service plan administration site.
+    types:
+    - uid: string
+  - name: properties.hostingEnvironmentProfile
+    description: Specification for the App Service Environment to use for the App Service plan.
+    types:
+    - uid: HostingEnvironmentProfile
+  - name: properties.maximumNumberOfWorkers
+    isReadyOnly: true
+    description: Maximum number of instances that can be assigned to this App Service plan.
+    types:
+    - uid: integer
+  - name: properties.geoRegion
+    isReadyOnly: true
+    description: Geographical location for the App Service plan.
+    types:
+    - uid: string
+  - name: properties.perSiteScaling
+    description: >-
+      If <code>true</code>, apps assigned to this App Service plan can be scaled independently.
+
+      If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
+    types:
+    - uid: boolean
+  - name: properties.numberOfSites
+    isReadyOnly: true
+    description: Number of apps assigned to this App Service plan.
+    types:
+    - uid: integer
+  - name: properties.isSpot
+    description: If <code>true</code>, this App Service Plan owns spot instances.
+    types:
+    - uid: boolean
+  - name: properties.spotExpirationTime
+    description: The time when the server farm expires. Valid only if it is a spot server farm.
+    types:
+    - uid: string
+  - name: properties.resourceGroup
+    isReadyOnly: true
+    description: Resource group of the App Service plan.
+    types:
+    - uid: string
+  - name: properties.reserved
+    description: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
+    types:
+    - uid: boolean
+  - name: properties.targetWorkerCount
+    description: Scaling worker count.
+    types:
+    - uid: integer
+  - name: properties.targetWorkerSizeId
+    description: Scaling worker size ID.
+    types:
+    - uid: integer
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the App Service Environment.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: location
+    description: Resource Location.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: SkuCapacity
+  description: Description of the App Service plan scale options.
+  kind: object
+  properties:
+  - name: minimum
+    description: Minimum number of workers for this App Service plan SKU.
+    types:
+    - uid: integer
+  - name: maximum
+    description: Maximum number of workers for this App Service plan SKU.
+    types:
+    - uid: integer
+  - name: default
+    description: Default number of workers for this App Service plan SKU.
+    types:
+    - uid: integer
+  - name: scaleType
+    description: Available scale configurations for an App Service plan.
+    types:
+    - uid: string
+- name: Capability
+  description: Describes the capabilities/features allowed for a specific SKU.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the SKU capability.
+    types:
+    - uid: string
+  - name: value
+    description: Value of the SKU capability.
+    types:
+    - uid: string
+  - name: reason
+    description: Reason of the SKU capability.
+    types:
+    - uid: string
+- name: StatusOptions
+  description: App Service plan status.
+  kind: enum
+  properties:
+  - name: Ready
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Provisioning state of the App Service Environment.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+examples:
+- name: Create or Update App Service plan
+  request:
+    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141?api-version=2016-09-01
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141",
+        "name": "testsf6141",
+        "type": "Microsoft.Web/serverfarms",
+        "kind": "app",
+        "location": "East US",
+        "properties": {
+          "name": "testsf6141"
+        },
+        "sku": {
+          "name": "P1",
+          "tier": "Premium",
+          "size": "P1",
+          "family": "P",
+          "capacity": 1
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141",
+        "name": "testsf6141",
+        "type": "Microsoft.Web/serverfarms",
+        "kind": "app",
+        "location": "East US",
+        "properties": {
+          "name": "testsf6141",
+          "workerSize": "Default",
+          "numberOfWorkers": 1,
+          "currentWorkerSize": "Default",
+          "currentNumberOfWorkers": 1,
+          "status": "Ready",
+          "maximumNumberOfWorkers": 20,
+          "geoRegion": "East US",
+          "numberOfSites": 4,
+          "reserved": false,
+          "mdmId": "waws-prod-blu-033_4740",
+          "targetWorkerCount": 0,
+          "targetWorkerSizeId": 0,
+          "provisioningState": "Succeeded"
+        },
+        "sku": {
+          "name": "P1",
+          "tier": "Premium",
+          "size": "P1",
+          "family": "P",
+          "capacity": 1
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141/operationresults/F0C6B8EC-0D53-432C-913B-1CD9E8CDE3A0
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141/operationresults/F0C6B8EC-0D53-432C-913B-1CD9E8CDE3A0
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141",
+        "name": "testsf6141",
+        "type": "Microsoft.Web/serverfarms",
+        "kind": "app",
+        "location": "East US",
+        "properties": {
+          "name": "testsf6141",
+          "workerSize": "Default",
+          "numberOfWorkers": 1,
+          "currentWorkerSize": "Default",
+          "currentNumberOfWorkers": 1,
+          "status": "Ready",
+          "maximumNumberOfWorkers": 20,
+          "geoRegion": "East US",
+          "numberOfSites": 4,
+          "isSpot": false,
+          "reserved": false,
+          "mdmId": "waws-prod-blu-033_4740",
+          "targetWorkerCount": 0,
+          "targetWorkerSizeId": 0,
+          "provisioningState": "Succeeded"
+        },
+        "sku": {
+          "name": "P1",
+          "tier": "Premium",
+          "size": "P1",
+          "family": "P",
+          "capacity": 1
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

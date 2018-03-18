@@ -1,0 +1,174 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothubdeviceprovisioningservice.dpscertificate.get
+name: Get
+service: IoT Hub Device Provisioning Service
+groupName: Dps Certificate
+apiVersion: 2017-11-15
+summary: Get the certificate from the provisioning service.
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}?api-version=2017-11-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group identifier.
+  types:
+  - uid: string
+- name: provisioningServiceName
+  in: path
+  isRequired: true
+  description: Name of the provisioning service the certificate is associated with.
+  types:
+  - uid: string
+- name: certificateName
+  in: path
+  isRequired: true
+  description: Name of the certificate to retrieve.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Metadata for the specified certificate.
+  types:
+  - uid: CertificateResponse
+- name: Other Status Codes
+  description: Default error response.
+  types:
+  - uid: ErrorDetails
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the certificate.
+  types:
+  - uid: string
+definitions:
+- name: CertificateResponse
+  description: The X509 Certificate.
+  kind: object
+  properties:
+  - name: properties
+    description: properties of a certificate
+    types:
+    - uid: CertificateProperties
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the certificate.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: The entity tag.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: Code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: HttpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: Message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: Details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+- name: CertificateProperties
+  description: The description of an X509 CA Certificate.
+  kind: object
+  properties:
+  - name: subject
+    isReadyOnly: true
+    description: The certificate's subject name.
+    types:
+    - uid: string
+  - name: expiry
+    isReadyOnly: true
+    description: The certificate's expiration date and time.
+    types:
+    - uid: string
+  - name: thumbprint
+    isReadyOnly: true
+    description: The certificate's thumbprint.
+    types:
+    - uid: string
+  - name: isVerified
+    isReadyOnly: true
+    description: Determines whether certificate has been verified.
+    types:
+    - uid: boolean
+  - name: created
+    isReadyOnly: true
+    description: The certificate's creation date and time.
+    types:
+    - uid: string
+  - name: updated
+    isReadyOnly: true
+    description: The certificate's last update date and time.
+    types:
+    - uid: string
+examples:
+- name: DPSGetCertificate
+  request:
+    uri: GET https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/provisioningServices/myFirstProvisioningService/certificates/cert?api-version=2017-11-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "subject": "CN=testdevice1",
+          "expiry": "Sat, 31 Dec 2039 23:59:59 GMT",
+          "thumbprint": "97388663832D0393C9246CAB4FBA2C8677185A25",
+          "isVerified": false,
+          "created": "Thu, 12 Oct 2017 19:23:50 GMT",
+          "updated": "Thu, 12 Oct 2017 19:23:50 GMT"
+        },
+        "id": "/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/andbuc-hub/certificates/cert",
+        "name": "cert",
+        "type": "Microsoft.Devices/ProvisioningServices/Certificates",
+        "etag": "AAAAAAExpNs="
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

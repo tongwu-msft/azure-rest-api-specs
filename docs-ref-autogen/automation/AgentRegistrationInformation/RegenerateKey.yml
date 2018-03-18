@@ -1,0 +1,183 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.agentregistrationinformation.regeneratekey
+name: Regenerate Key
+service: Automation
+groupName: Agent Registration Information
+apiVersion: 2015-10-31
+summary: Regenerate a primary or secondary agent registration key
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/agentRegistrationInformation/regenerateKey?api-version=2015-10-31
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The automation account name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: AgentRegistration
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: keyName
+    in: body
+    isRequired: true
+    description: Gets or sets the agent registration key name - primary or secondary.
+    types:
+    - uid: AgentRegistrationKeyName
+  - name: name
+    in: body
+    description: Gets or sets the name of the resource.
+    types:
+    - uid: string
+  - name: location
+    in: body
+    description: Gets or sets the location of the resource.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Gets or sets the tags attached to the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: AgentRegistration
+  description: Definition of the agent registration infomration type.
+  kind: object
+  properties:
+  - name: dscMetaConfiguration
+    description: Gets or sets the dsc meta configuration.
+    types:
+    - uid: string
+  - name: endpoint
+    description: Gets or sets the dsc server endpoint.
+    types:
+    - uid: string
+  - name: keys
+    description: Gets or sets the agent registration keys.
+    types:
+    - uid: AgentRegistrationKeys
+  - name: id
+    description: Gets or sets the id.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: AgentRegistrationRegenerateKeyParameter
+  description: The parameters supplied to the regenerate keys operation.
+  kind: object
+  properties:
+  - name: keyName
+    description: Gets or sets the agent registration key name - primary or secondary.
+    types:
+    - uid: AgentRegistrationKeyName
+  - name: name
+    description: Gets or sets the name of the resource.
+    types:
+    - uid: string
+  - name: location
+    description: Gets or sets the location of the resource.
+    types:
+    - uid: string
+  - name: tags
+    description: Gets or sets the tags attached to the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: AgentRegistrationKeys
+  description: Definition of the agent registration keys.
+  kind: object
+  properties:
+  - name: primary
+    description: Gets or sets the primary key.
+    types:
+    - uid: string
+  - name: secondary
+    description: Gets or sets the secondary key.
+    types:
+    - uid: string
+- name: AgentRegistrationKeyName
+  description: Gets or sets the agent registration key name - primary or secondary.
+  kind: enum
+  properties:
+  - name: primary
+    types:
+    - uid: string
+  - name: secondary
+    types:
+    - uid: string
+examples:
+- name: Regenerate the Primary Agent Registration Key
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/agentRegistrationInformation/regenerateKey?api-version=2015-10-31
+    body: >-
+      {
+        "keyName": "primary"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": null,
+        "keys": {
+          "primary": "DXW********************************************************ZqnQ==",
+          "secondary": "UM4A********************************************************66pg=="
+        },
+        "endpoint": "https://wcus-agentservice-prod-1.azure-automation.net/accounts/ea8cd428-7887-4020-883d-ec6c5f2c06c2",
+        "dscMetaConfiguration": null
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

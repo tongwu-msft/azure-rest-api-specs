@@ -1,6 +1,6 @@
 ---
 title: "Cluster"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -40,5 +40,16 @@ translation.priority.mt:
 | [Get Provisioned Fabric Code Version Info List](sfclient-api-getprovisionedfabriccodeversioninfolist.md) | Gets a list of fabric code versions that are provisioned in a Service Fabric cluster.<br/> |
 | [Get Provisioned Fabric Config Version Info List](sfclient-api-getprovisionedfabricconfigversioninfolist.md) | Gets a list of fabric config versions that are provisioned in a Service Fabric cluster.<br/> |
 | [Get Cluster Upgrade Progress](sfclient-api-getclusterupgradeprogress.md) | Gets the progress of the current cluster upgrade.<br/> |
+| [Get Cluster Configuration](sfclient-api-getclusterconfiguration.md) | Get the Service Fabric standalone cluster configuration.<br/> |
+| [Get Cluster Configuration Upgrade Status](sfclient-api-getclusterconfigurationupgradestatus.md) | Get the cluster configuration upgrade status of a Service Fabric standalone cluster.<br/> |
+| [Get Upgrade Orchestration Service State](sfclient-api-getupgradeorchestrationservicestate.md) | Get the service state of Service Fabric Upgrade Orchestration Service.<br/> |
+| [Set Upgrade Orchestration Service State](sfclient-api-setupgradeorchestrationservicestate.md) | Update the service state of Service Fabric Upgrade Orchestration Service.<br/> |
+| [Provision Cluster](sfclient-api-provisioncluster.md) | Provision the code or configuration packages of a Service Fabric cluster.<br/> |
+| [Unprovision Cluster](sfclient-api-unprovisioncluster.md) | Unprovision the code or configuration packages of a Service Fabric cluster.<br/> |
+| [Rollback Cluster Upgrade](sfclient-api-rollbackclusterupgrade.md) | Rollback the upgrade of a Service Fabric cluster.<br/> |
+| [Resume Cluster Upgrade](sfclient-api-resumeclusterupgrade.md) | Make the cluster upgrade move on to the next upgrade domain.<br/> |
+| [Start Cluster Upgrade](sfclient-api-startclusterupgrade.md) | Start upgrading the code or configuration version of a Service Fabric cluster.<br/> |
+| [Start Cluster Configuration Upgrade](sfclient-api-startclusterconfigurationupgrade.md) | Start upgrading the configuration of a Service Fabric standalone cluster.<br/> |
+| [Update Cluster Upgrade](sfclient-api-updateclusterupgrade.md) | Update the upgrade parameters of a Service Fabric cluster upgrade.<br/> |
 | [Get Aad Metadata](sfclient-api-getaadmetadata.md) | Gets the Azure Active Directory metadata used for secured connection to cluster.<br/> |
 

@@ -1,0 +1,202 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.dscnode.update
+name: Update
+service: Automation
+groupName: Dsc Node
+apiVersion: 2015-10-31
+summary: Update the dsc node.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}?api-version=2015-10-31
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The automation account name.
+  types:
+  - uid: string
+- name: nodeId
+  in: path
+  isRequired: true
+  description: Parameters supplied to the update dsc node.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: DscNode
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: nodeId
+    in: body
+    description: Gets or sets the id of the dsc node.
+    types:
+    - uid: string
+  - name: nodeConfiguration
+    in: body
+    description: Gets or sets the configuration of the node.
+    types:
+    - uid: DscNodeConfigurationAssociationProperty
+requestHeader: []
+definitions:
+- name: DscNodeConfigurationAssociationProperty
+  description: The dsc nodeconfiguration property associated with the entity.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the dsc nodeconfiguration.
+    types:
+    - uid: string
+- name: DscNode
+  description: Definition of the dsc node type.
+  kind: object
+  properties:
+  - name: lastSeen
+    description: Gets or sets the last seen time of the node.
+    types:
+    - uid: string
+  - name: registrationTime
+    description: Gets or sets the registration time of the node.
+    types:
+    - uid: string
+  - name: ip
+    description: Gets or sets the ip of the node.
+    types:
+    - uid: string
+  - name: accountId
+    description: Gets or sets the account id of the node.
+    types:
+    - uid: string
+  - name: nodeConfiguration
+    description: Gets or sets the configuration of the node.
+    types:
+    - uid: DscNodeConfigurationAssociationProperty
+  - name: status
+    description: Gets or sets the status of the node.
+    types:
+    - uid: string
+  - name: nodeId
+    description: Gets or sets the node id.
+    types:
+    - uid: string
+  - name: etag
+    description: Gets or sets the etag of the resource.
+    types:
+    - uid: string
+  - name: extensionHandler
+    description: The dsc extensionHandler property associated with the node
+    types:
+    - uid: DscNodeExtensionHandlerAssociationProperty
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: DscNodeUpdateParameters
+  description: The parameters supplied to the update dsc node operation.
+  kind: object
+  properties:
+  - name: nodeId
+    description: Gets or sets the id of the dsc node.
+    types:
+    - uid: string
+  - name: nodeConfiguration
+    description: Gets or sets the configuration of the node.
+    types:
+    - uid: DscNodeConfigurationAssociationProperty
+- name: DscNodeExtensionHandlerAssociationProperty
+  description: The dsc extensionHandler property associated with the node
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the extension handler.
+    types:
+    - uid: string
+  - name: version
+    description: Gets or sets the version of the extension handler.
+    types:
+    - uid: string
+examples:
+- name: Update a node
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/nodeId?api-version=2015-10-31
+    body: >-
+      {
+        "nodeId": "nodeId",
+        "nodeConfiguration": {
+          "name": "SetupServer.localhost"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/nodeId",
+        "lastSeen": "2017-03-28T23:16:30.3192468+00:00",
+        "registrationTime": "2017-03-28T20:19:24.7915026+00:00",
+        "name": "DSCCOMP",
+        "ip": "172.16.2.5;127.0.0.1;fe80::4c51:9518:aa3c:256a%5;::2000:0:0:0;::1;::2000:0:0:0;2001:0:9d38:78cf:106b:130a:53ef:fdfa;fe80::106b:1",
+        "nodeId": "nodeId",
+        "status": null,
+        "nodeConfiguration": {
+          "name": "SetupServer.localhost"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,6 +1,6 @@
 ---
 title: "ApplicationDescription"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -52,7 +52,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The application type name found in the application manifest.
+The application type name as defined in the application manifest.
 
 ____
 ### TypeVersion

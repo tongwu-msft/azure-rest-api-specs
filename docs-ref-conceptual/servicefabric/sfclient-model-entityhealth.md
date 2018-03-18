@@ -1,6 +1,6 @@
 ---
 title: "EntityHealth"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -38,6 +38,7 @@ Health information common to all entities in the cluster. It contains the aggreg
 | [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |
 | [HealthEvents](#healthevents) | array of [HealthEvent](sfclient-model-healthevent.md) | No |
 | [UnhealthyEvaluations](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
+| [HealthStatistics](#healthstatistics) | [HealthStatistics](sfclient-model-healthstatistics.md) | No |
 
 ____
 ### AggregatedHealthState
@@ -50,6 +51,8 @@ The aggregation is done by applying the desired health policy.
 
 
 The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+Possible values are: 
 
   - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
   - Ok - Indicates the health state is okay. The value is 1.
@@ -72,3 +75,10 @@ __Type__: array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrap
 __Required__: No<br/>
 <br/>
 The unhealthy evaluations that show why the current aggregated health state was returned by Health Manager.
+
+____
+### HealthStatistics
+__Type__: [HealthStatistics](sfclient-model-healthstatistics.md) <br/>
+__Required__: No<br/>
+<br/>
+Shows the health statistics for all children types of the queried entity.

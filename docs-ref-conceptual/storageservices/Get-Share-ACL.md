@@ -122,4 +122,4 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
  Only the account owner may call this operation.  
   
 ## Remarks  
- None.
+ The Access policy of the share applies to all of its share snapshots also. An access policy cannot be set or retrieved for a share snapshot. If an attempt is made to retrieve an access policy, then the service returns status code 400 (InvalidQueryParameterValue). 

@@ -29,7 +29,7 @@ The Server Message Block (SMB) protocol is the preferred file share protocol use
   
  The Azure File service also offers a compelling alternative to traditional Direct Attached Storage (DAS) and Storage Area Network (SAN) solutions, which are often complex and expensive to install, configure, and operate. Pricing for the new Azure File service is consistent with existing Azure Storage services and is charged in units of storage capacity and transactions. See the [Azure Storage Pricing page](https://www.windowsazure.com/pricing/details/) for details.  
   
- Files stored in Azure File service shares are accessible via the SMB protocol, and also via REST APIs, at the endpoint `http|https://<account>.file.core.window.net`. Note that HTTPS is recommended.  
+ Files stored in Azure File service shares are accessible via the SMB protocol, and also via REST APIs, at the endpoint `http|https://<account>.file.core.windows.net`. Note that HTTPS is recommended.  
   
  While the Azure File service REST APIs are similar to the Azure Blob service REST APIs, there are minor differences related to how the service models the underlying file system. These differences are noted in the operations table below.  
   
@@ -47,6 +47,7 @@ The Server Message Block (SMB) protocol is the preferred file share protocol use
 |[Set File Service Properties](Set-File-Service-Properties.md)|Storage account|PUT|Sets the File service properties for the storage account|None|  
 |[Preflight File Request](Preflight-File-Request.md)|Storage account|OPTIONS|Queries the Cross-Origin Resource Sharing (CORS) rules for the File service prior to sending the actual request.|None|  
 |[Create Share](Create-Share.md)|Share|PUT|Creates a new share in a storage account.|Request header|  
+|[Snapshot Share](snapshot-share.md)|Share|PUT|Creates a new share snapshot for an existing share in a storage account.|Request header|  
 |[Get Share ACL](Get-Share-ACL.md)|Share|GET/HEAD|Returns information about stored access policies specified on the share.|Response body|  
 |[Set Share ACL](Set-Share-ACL.md)|Share|PUT|Sets a stored access policy for use with shared access signatures.|Request body|  
 |[Get Share Properties](Get-Share-Properties.md)|Share|GET/HEAD|Returns all user-defined metadata and system properties of a share.|None|  

@@ -1,0 +1,188 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.notificationrecipientuser.createorupdate
+name: Create Or Update
+service: API Management
+groupName: Notification Recipient User
+apiVersion: 2018-01-01
+summary: Adds the API Management User to the list of Recipients for the Notification.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{uid}?api-version=2018-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: notificationName
+  in: path
+  isRequired: true
+  description: Notification Name Identifier.
+  types:
+  - uid: NotificationName
+- name: uid
+  in: path
+  isRequired: true
+  description: User identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Recipient User was successfully added to the notification list.
+  types:
+  - uid: RecipientUserContract
+- name: 200 OK
+  description: Recipient User is already part of the notification list.
+  types:
+  - uid: RecipientUserContract
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: NotificationName
+  description: Notification Name Identifier.
+  kind: enum
+  properties:
+  - name: RequestPublisherNotificationMessage
+    description: The following email recipients and users will receive email notifications about subscription requests for API products requiring approval.
+    types:
+    - uid: string
+  - name: PurchasePublisherNotificationMessage
+    description: The following email recipients and users will receive email notifications about new API product subscriptions.
+    types:
+    - uid: string
+  - name: NewApplicationNotificationMessage
+    description: The following email recipients and users will receive email notifications when new applications are submitted to the application gallery.
+    types:
+    - uid: string
+  - name: BCC
+    description: The following recipients will receive blind carbon copies of all emails sent to developers.
+    types:
+    - uid: string
+  - name: NewIssuePublisherNotificationMessage
+    description: The following email recipients and users will receive email notifications when a new issue or comment is submitted on the developer portal.
+    types:
+    - uid: string
+  - name: AccountClosedPublisher
+    description: The following email recipients and users will receive email notifications when developer closes his account.
+    types:
+    - uid: string
+  - name: QuotaLimitApproachingPublisherNotificationMessage
+    description: The following email recipients and users will receive email notifications when subscription usage gets close to usage quota.
+    types:
+    - uid: string
+- name: RecipientUserContract
+  description: Recipient User details.
+  kind: object
+  properties:
+  - name: properties.userId
+    description: API Management UserId subscribed to notification.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Error Field contract.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementCreateRecipientUser
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/notifications/RequestPublisherNotificationMessage/recipientUsers/576823d0a40f7e74ec07d642?api-version=2018-01-01
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/notifications/RequestPublisherNotificationMessage/recipientUsers/576823d0a40f7e74ec07d642",
+        "type": "Microsoft.ApiManagement/service/notifications/recipientUsers",
+        "name": "576823d0a40f7e74ec07d642",
+        "properties": {
+          "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/576823d0a40f7e74ec07d642"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/notifications/RequestPublisherNotificationMessage/recipientUsers/576823d0a40f7e74ec07d642",
+        "type": "Microsoft.ApiManagement/service/notifications/recipientUsers",
+        "name": "576823d0a40f7e74ec07d642",
+        "properties": {
+          "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/576823d0a40f7e74ec07d642"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

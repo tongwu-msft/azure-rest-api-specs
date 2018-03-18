@@ -1,6 +1,6 @@
 ---
 title: "CodePackageEntryPoint"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -75,14 +75,19 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-Specifies the status of the code package entry point deployed on a Service Fabric node. Possible values are following.
+
+
+Specifies the status of the code package entry point deployed on a Service Fabric node.
+
+Possible values are: 
 
   - Invalid - Indicates status of entry point is not known or invalid. The value is 0.
   - Pending - Indicates the entry point is scheduled to be started. The value is 1.
   - Starting - Indicates the entry point is being started. The value is 2.
   - Started - Indicates the entry point was started successfully and is running. The value is 3.
-  - Stopping - Indicates the entry point is being stoppped. The value is 4.
+  - Stopping - Indicates the entry point is being stopped. The value is 4.
   - Stopped - Indicates the entry point is not running. The value is 5.
+
 
 
 ____

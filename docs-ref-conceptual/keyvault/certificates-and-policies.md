@@ -1,4 +1,4 @@
-﻿---
+---
 ms.assetid: 63a42254-f2ea-4beb-9aff-d23341006538
 title: Azure Key Vault certificates and policies | Microsoft Docs
 ms.service: key-vault
@@ -19,22 +19,22 @@ Following are a list of the tasks with each certificates and certificate policie
 
  The Azure Key Vault REST API supports the following operations on certificates.  
 
--   [Create a certificate ](../../docs-ref-autogen/keyvault/CreateCertificate.json)
--   [Import a certificate](../../docs-ref-autogen/keyvault/ImportCertificate.json)  
--   [List versions of a certificate](../../docs-ref-autogen/keyvault/GetCertificateVersions.json)  
--   [List certificates](../../docs-ref-autogen/keyvault/GetCertificates.json)  
--   [Get a certificate](../../docs-ref-autogen/keyvault/GetCertificate.json)  
--   [Delete a certificate](../../docs-ref-autogen/keyvault/DeleteCertificate.json)  
--   [Update a certificate](../../docs-ref-autogen/keyvault/UpdateCertificate.json)  
--   [Merge a certificate](../../docs-ref-autogen/keyvault/MergeCertificate.json)
+-   [Create a certificate ](xref:keyvault.createcertificate)
+-   [Import a certificate](xref:keyvault.importcertificate)  
+-   [List versions of a certificate](xref:keyvault.getcertificateversions)  
+-   [List certificates](xref:keyvault.getcertificates)  
+-   [Get a certificate](xref:keyvault.getcertificate)  
+-   [Delete a certificate](xref:keyvault.deletecertificate)  
+-   [Update a certificate](xref:keyvault.updatecertificate)  
+-   [Merge a certificate](xref:keyvault.mergecertificate)
 
 ### Certificate management operations
 
 These REST operations are for the management of certificate operations associated with a Key Vault certificate.
 
--   [Delete certificate operation](../../docs-ref-autogen/keyvault/DeleteCertificateOperation.json)
--   [Get certificate operation](../../docs-ref-autogen/keyvault/GetCertificateOperation.json)
--   [Update certificate operation](../../docs-ref-autogen/keyvault/UpdateCertificateOperation.json)
+-   [Delete certificate operation](xref:keyvault.deletecertificateoperation)
+-   [Get certificate operation](xref:keyvault.getcertificateoperation)
+-   [Update certificate operation](xref:keyvault.updatecertificateoperation)
 
 For usage detail and examples, see [Monitor and manage certificate creation](https://docs.microsoft.com/rest/api/keyvault/create-certificate-scenarios).
 
@@ -42,17 +42,17 @@ For usage detail and examples, see [Monitor and manage certificate creation](htt
 
  The following operations are available on a certificate policy:  
 
--   [Get a certificate policy](../../docs-ref-autogen/keyvault/GetCertificatePolicy.json)  
--   [Update a certificate policy](../../docs-ref-autogen/keyvault/UpdateCertificatePolicy.json)
+-   [Get a certificate policy](xref:keyvault.getcertificatepolicy)  
+-   [Update a certificate policy](xref:keyvault.updatecertificatepolicy)
 
 ### Soft-delete operations
 
 The soft-delete feature supports these operations for deleted certificates:
 
-- [Get deleted certificate](../../docs-ref-autogen/keyvault/GetDeletedCertificate.json)
-- [Get deleted certificates](../../docs-ref-autogen/keyvault/GetDeletedCertificates.json)
-- [Purge deleted certificate](../../docs-ref-autogen/keyvault/PurgeDeletedCertificate.json)
-- [Recover deleted certificate](../../docs-ref-autogen/keyvault/RecoverDeletedCertificate.json)
+- [Get deleted certificate](xref:keyvault.getdeletedcertificate)
+- [Get deleted certificates](xref:keyvault.getdeletedcertificates)
+- [Purge deleted certificate](xref:keyvault.purgedeletedcertificate)
+- [Recover deleted certificate](xref:keyvault.recoverdeletedcertificate)
 
 For more information on Key Vault's soft-delete feature, see [Azure Key Vault soft-delete feature overview](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete).
 
@@ -160,7 +160,7 @@ Elements of a policy's key.
 |Element Name|Type|Description|  
 |------------------|----------|-----------------|  
 |name|String|Possible values are "Unknown", "Self" or {IssuerName}. Default value is "Unknown" which represents an out of band issuer. "Self" is for a self-signed issuance of x509 certificate.<br /><br /> IssuerName is name of the object created using an partner issuers provider created as /certificates/issuers/{issuerName}|  
-|cty|String|Certificate type that should be supplied to the issuer provider. This field is optional. The allowed values depend on the issuer provider. The following values are allowed with specified providers<br /><br /> DigiCert: OV-SSL, EV-SSL (defaults to OV-SSL if nothing is specified)<br /><br /> GlobalSign: OV-SSL, EV-SSL (defaults to OV-SSL if nothing is specified)<br /><br /> WoSign: OV-SSL, EV-SSL (defaults to value as configured on the WoSign portal)|  
+|cty|String|Certificate type that should be supplied to the issuer provider. This field is optional. The allowed values depend on the issuer provider. The following values are allowed with specified providers<br /><br /> DigiCert: OV-SSL, EV-SSL (defaults to OV-SSL if nothing is specified)<br /><br /> GlobalSign: OV-SSL, EV-SSL (defaults to OV-SSL if nothing is specified)|  
 
 #### Attributes
 

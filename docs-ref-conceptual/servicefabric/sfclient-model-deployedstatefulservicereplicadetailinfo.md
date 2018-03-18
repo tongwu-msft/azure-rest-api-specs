@@ -1,6 +1,6 @@
 ---
 title: "DeployedStatefulServiceReplicaDetailInfo"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # DeployedStatefulServiceReplicaDetailInfo
 
-Information about a stateful replica running in a code package.
+Information about a stateful replica running in a code package. Please note DeployedServiceReplicaQueryResult will contain duplicate data like ServiceKind, ServiceName, PartitionId and replicaId.
 
 ## Properties
 | Name | Type | Required |
@@ -46,6 +46,7 @@ Information about a stateful replica running in a code package.
 | [WriteStatus](#writestatus) | string (enum) | No |
 | [ReplicatorStatus](#replicatorstatus) | [ReplicatorStatus](sfclient-model-replicatorstatus.md) | No |
 | [ReplicaStatus](#replicastatus) | [KeyValueStoreReplicaStatus](sfclient-model-keyvaluestorereplicastatus.md) | No |
+| [DeployedServiceReplicaQueryResult](#deployedservicereplicaqueryresult) | [DeployedStatefulServiceReplicaInfo](sfclient-model-deployedstatefulservicereplicainfo.md) | No |
 
 ____
 ### ServiceKind
@@ -73,13 +74,19 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-Specifies the current active life-cycle operation on a stateful service replica or stateless service instance. Possible values are following.
+
+
+Specifies the current active life-cycle operation on a stateful service replica or stateless service instance.
+
+Possible values are: 
+
   - Unknown - Reserved for future use.
   - None - The service replica or instance is not going through any life-cycle changes.
   - Open - The service replica or instance is being opened.
   - ChangeRole - The service replica is changing roles.
   - Close - The service replica or instance is being closed.
   - Abort - The service replica or instance is being aborted.
+
 
 
 ____
@@ -101,14 +108,19 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Id of the stateful service replica.
+Id of a stateful service replica. ReplicaId is used by Service Fabric to uniquely identify a replica of a partition. It is unique within a partition and does not change for the lifetime of the replica. If a replica gets dropped and another replica gets created on the same node for the same partition, it will get a different value for the id. Sometimes the id of a stateless service instance is also referred as a replica id.
 
 ____
 ### CurrentReplicatorOperation
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-Specifies the operation currently being executed by the Replicator. Possible values are following.
+
+
+Specifies the operation currently being executed by the Replicator.
+
+Possible values are: 
+
   - Invalid - Default value if the replicator is not yet ready.
   - None - Replicator is not running any operation from Service Fabric perspective.
   - Open - Replicator is opening.
@@ -121,17 +133,24 @@ Specifies the operation currently being executed by the Replicator. Possible val
   - Build - Replicator is in the process of building one or more replicas.
 
 
+
 ____
 ### ReadStatus
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-Specifies the access status of the partition. Possible values are following.
+
+
+Specifies the access status of the partition.
+
+Possible values are: 
+
   - Invalid - Indicates that the read or write operation access status is not valid. This value is not returned to the caller.
   - Granted - Indicates that the read or write operation access is granted and the operation is allowed.
-  - ReconfigurationPending - Indicates that the client should try again later, because a reconfiguration is in progress. 
+  - ReconfigurationPending - Indicates that the client should try again later, because a reconfiguration is in progress.
   - NotPrimary - Indicates that this client request was received by a replica that is not a Primary replica.
   - NoWriteQuorum - Indicates that no write quorum is available and, therefore, no write operation can be accepted.
+
 
 
 ____
@@ -139,12 +158,18 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-Specifies the access status of the partition. Possible values are following.
+
+
+Specifies the access status of the partition.
+
+Possible values are: 
+
   - Invalid - Indicates that the read or write operation access status is not valid. This value is not returned to the caller.
   - Granted - Indicates that the read or write operation access is granted and the operation is allowed.
-  - ReconfigurationPending - Indicates that the client should try again later, because a reconfiguration is in progress. 
+  - ReconfigurationPending - Indicates that the client should try again later, because a reconfiguration is in progress.
   - NotPrimary - Indicates that this client request was received by a replica that is not a Primary replica.
   - NoWriteQuorum - Indicates that no write quorum is available and, therefore, no write operation can be accepted.
+
 
 
 ____
@@ -162,3 +187,10 @@ __Type__: [KeyValueStoreReplicaStatus](sfclient-model-keyvaluestorereplicastatus
 __Required__: No<br/>
 <br/>
 Key value store related information for the replica.
+
+____
+### DeployedServiceReplicaQueryResult
+__Type__: [DeployedStatefulServiceReplicaInfo](sfclient-model-deployedstatefulservicereplicainfo.md) <br/>
+__Required__: No<br/>
+<br/>
+Information about a stateful service replica deployed on a node.

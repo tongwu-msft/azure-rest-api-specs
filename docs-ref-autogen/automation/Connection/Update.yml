@@ -1,0 +1,205 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.connection.update
+name: Update
+service: Automation
+groupName: Connection
+apiVersion: 2015-10-31
+summary: Update a connection.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connections/{connectionName}?api-version=2015-10-31
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The automation account name.
+  types:
+  - uid: string
+- name: connectionName
+  in: path
+  isRequired: true
+  description: The parameters supplied to the update a connection operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Connection
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    description: Gets or sets the name of the connection.
+    types:
+    - uid: string
+  - name: properties.description
+    in: body
+    description: Gets or sets the description of the connection.
+    types:
+    - uid: string
+  - name: properties.fieldDefinitionValues
+    in: body
+    description: Gets or sets the field definition values of the connection.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: Connection
+  description: Definition of the connection.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Gets the id of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Gets the name of the connection.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: properties.connectionType
+    description: Gets or sets the connectionType of the connection.
+    types:
+    - uid: ConnectionTypeAssociationProperty
+  - name: properties.fieldDefinitionValues
+    isReadyOnly: true
+    description: Gets the field definition values of the connection.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.creationTime
+    isReadyOnly: true
+    description: Gets the creation time.
+    types:
+    - uid: string
+  - name: properties.lastModifiedTime
+    isReadyOnly: true
+    description: Gets the last modified time.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Gets or sets the description.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ConnectionUpdateParameters
+  description: The parameters supplied to the update connection operation.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the connection.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Gets or sets the description of the connection.
+    types:
+    - uid: string
+  - name: properties.fieldDefinitionValues
+    description: Gets or sets the field definition values of the connection.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ConnectionTypeAssociationProperty
+  description: The connection type property associated with the entity.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the connection type.
+    types:
+    - uid: string
+examples:
+- name: Update a connection
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount28/connections/myConnection?api-version=2015-10-31
+    body: >-
+      {
+        "name": "myConnection",
+        "properties": {
+          "description": "my description goes here",
+          "fieldDefinitionValues": {
+            "AutomationCertificateName": "myCertificateName",
+            "SubscriptionID": "b5e4748c-f69a-467c-8749-e2f9c8cd3009"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount29/connections/myConnection",
+        "name": "myConnection",
+        "properties": {
+          "creationTime": "2017-03-27T08:21:29.313+00:00",
+          "lastModifiedTime": "2017-03-27T08:21:30.093+00:00",
+          "description": "my description goes here",
+          "fieldDefinitionValues": {
+            "AutomationCertificateName": "myCertificateName",
+            "SubscriptionID": "b5e4748c-f69a-467c-8749-e2f9c8cd3009"
+          },
+          "connectionType": {
+            "name": "Azure"
+          }
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

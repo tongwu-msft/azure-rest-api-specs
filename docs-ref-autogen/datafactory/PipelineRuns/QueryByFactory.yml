@@ -1,0 +1,356 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.pipelineruns.querybyfactory
+name: Query By Factory
+service: Data Factory
+groupName: Pipeline Runs
+apiVersion: 2017-09-01-preview
+summary: Query pipeline runs in the factory based on input filter conditions.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns?api-version=2017-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: PipelineRunQueryResponse
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: continuationToken
+    in: body
+    description: The continuation token for getting the next page of results. Null for first page.
+    types:
+    - uid: string
+  - name: lastUpdatedAfter
+    in: body
+    isRequired: true
+    description: The time at or after which the pipeline run event was updated in 'ISO 8601' format.
+    types:
+    - uid: string
+  - name: lastUpdatedBefore
+    in: body
+    isRequired: true
+    description: The time at or before which the pipeline run event was updated in 'ISO 8601' format.
+    types:
+    - uid: string
+  - name: filters
+    in: body
+    description: Query filter option for listing pipeline runs.
+    types:
+    - uid: PipelineRunQueryFilter
+      isArray: true
+  - name: orderBy
+    in: body
+    description: An object to provide order by options for listing pipeline runs.
+    types:
+    - uid: PipelineRunQueryOrderBy
+      isArray: true
+requestHeader: []
+definitions:
+- name: PipelineRunQueryFilter
+  description: Query filter option for listing pipeline runs.
+  kind: object
+  properties:
+  - name: operand
+    description: Parameter name to be used for filter.
+    types:
+    - uid: PipelineRunQueryFilterOperand
+  - name: operator
+    description: Operator to be used for filter.
+    types:
+    - uid: PipelineRunQueryFilterOperator
+  - name: values
+    description: List of filter values.
+    types:
+    - uid: string
+      isArray: true
+- name: PipelineRunQueryOrderBy
+  description: An object to provide order by options for listing pipeline runs.
+  kind: object
+  properties:
+  - name: orderBy
+    description: Parameter name to be used for order by.
+    types:
+    - uid: PipelineRunQueryOrderByField
+  - name: order
+    description: Sorting order of the parameter.
+    types:
+    - uid: PipelineRunQueryOrder
+- name: PipelineRunQueryResponse
+  description: A list pipeline runs.
+  kind: object
+  properties:
+  - name: value
+    description: Information about a pipeline run.
+    types:
+    - uid: PipelineRun
+      isArray: true
+  - name: continuationToken
+    description: The continuation token for getting the next page of results, if any remaining results exist, null otherwise.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: details
+    description: The object that defines the structure of an Azure Data Factory response.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+- name: PipelineRunFilterParameters
+  description: Query parameters for listing pipeline runs.
+  kind: object
+  properties:
+  - name: continuationToken
+    description: The continuation token for getting the next page of results. Null for first page.
+    types:
+    - uid: string
+  - name: lastUpdatedAfter
+    description: The time at or after which the pipeline run event was updated in 'ISO 8601' format.
+    types:
+    - uid: string
+  - name: lastUpdatedBefore
+    description: The time at or before which the pipeline run event was updated in 'ISO 8601' format.
+    types:
+    - uid: string
+  - name: filters
+    description: Query filter option for listing pipeline runs.
+    types:
+    - uid: PipelineRunQueryFilter
+      isArray: true
+  - name: orderBy
+    description: An object to provide order by options for listing pipeline runs.
+    types:
+    - uid: PipelineRunQueryOrderBy
+      isArray: true
+- name: PipelineRunQueryFilterOperand
+  description: Parameter name to be used for filter.
+  kind: enum
+  properties:
+  - name: PipelineName
+    types:
+    - uid: string
+  - name: Status
+    types:
+    - uid: string
+  - name: RunStart
+    types:
+    - uid: string
+  - name: RunEnd
+    types:
+    - uid: string
+- name: PipelineRunQueryFilterOperator
+  description: Operator to be used for filter.
+  kind: enum
+  properties:
+  - name: Equals
+    types:
+    - uid: string
+  - name: NotEquals
+    types:
+    - uid: string
+  - name: In
+    types:
+    - uid: string
+  - name: NotIn
+    types:
+    - uid: string
+- name: PipelineRunQueryOrderByField
+  description: Parameter name to be used for order by.
+  kind: enum
+  properties:
+  - name: RunStart
+    types:
+    - uid: string
+  - name: RunEnd
+    types:
+    - uid: string
+- name: PipelineRunQueryOrder
+  description: Sorting order of the parameter.
+  kind: enum
+  properties:
+  - name: ASC
+    types:
+    - uid: string
+  - name: DESC
+    types:
+    - uid: string
+- name: PipelineRun
+  description: Information about a pipeline run.
+  kind: object
+  properties:
+  - name: runId
+    isReadyOnly: true
+    description: Identifier of a run.
+    types:
+    - uid: string
+  - name: pipelineName
+    isReadyOnly: true
+    description: The pipeline name.
+    types:
+    - uid: string
+  - name: parameters
+    isReadyOnly: true
+    description: The full or partial list of parameter name, value pair used in the pipeline run.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: invokedBy
+    isReadyOnly: true
+    description: Entity that started the pipeline run.
+    types:
+    - uid: PipelineRunInvokedBy
+  - name: lastUpdated
+    isReadyOnly: true
+    description: The last updated timestamp for the pipeline run event in ISO8601 format.
+    types:
+    - uid: string
+  - name: runStart
+    isReadyOnly: true
+    description: The start time of a pipeline run in ISO8601 format.
+    types:
+    - uid: string
+  - name: runEnd
+    isReadyOnly: true
+    description: The end time of a pipeline run in ISO8601 format.
+    types:
+    - uid: string
+  - name: durationInMs
+    isReadyOnly: true
+    description: The duration of a pipeline run.
+    types:
+    - uid: integer
+  - name: status
+    isReadyOnly: true
+    description: The status of a pipeline run.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The message from a pipeline run.
+    types:
+    - uid: string
+- name: PipelineRunInvokedBy
+  description: Provides entity name and id that started the pipeline run.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the entity that started the pipeline run.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The ID of the entity that started the run.
+    types:
+    - uid: string
+examples:
+- name: PipelineRuns_QueryByFactory
+  request:
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelineruns?api-version=2017-09-01-preview
+    body: >-
+      {
+        "lastUpdatedAfter": "2017-09-13T17:54:57.0811551Z",
+        "lastUpdatedBefore": "2017-09-13T18:07:59.6211018Z",
+        "filters": [
+          {
+            "operand": "PipelineName",
+            "operator": "Equals",
+            "values": [
+              "examplePipeline"
+            ]
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2017 17:58:09 GMT
+    - name: x-ms-request-id
+      value: 76f99b48-a79c-4af2-a0f0-0655fead6b24
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1199"
+    - name: x-ms-correlation-request-id
+      value: 988c8123-bf35-4601-a5d0-8958c1a2114d
+    body: >-
+      {
+        "value": [
+          {
+            "runId": "a420e4fd-ebe9-4758-8db7-852b4d06245e",
+            "pipelineName": "examplePipeline",
+            "parameters": {
+              "OutputBlobNameList": "[\"exampleoutput.csv\"]"
+            },
+            "invokedBy": {
+              "id": "be423891558d4c5294d4b49401a34620",
+              "name": "Manual"
+            },
+            "runStart": "2017-09-13T17:55:57.1202147Z",
+            "runEnd": "2017-09-13T17:56:25.2051416Z",
+            "durationInMs": 28084,
+            "status": "Succeeded",
+            "message": "",
+            "lastUpdated": "2017-09-13T17:56:25.2051416Z"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

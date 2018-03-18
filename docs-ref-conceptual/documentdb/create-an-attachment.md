@@ -1,5 +1,5 @@
 ---
-title: "Create an Attachment"
+title: "Create an Attachment - Azure Cosmos DB REST API"
 ms.custom: ""
 ms.date: "2016-02-25"
 ms.prod: "azure"
@@ -13,7 +13,6 @@ caps.latest.revision: 8
 author: "mimig1"
 ms.author: "mimig"
 manager: "jhubbard"
-robots: noindex,nofollow
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -72,7 +71,7 @@ The `Create Attachment` operation creates an attachment for a document.
 |201 Created|The operation was successful.|  
 |400 Bad Request|The JSON body is invalid. Check for missing curly brackets or quotes.|  
 |409 Conflict|The id or Slug provided for the new attachment has been taken by an existing attachment.|  
-|413 Entity Too Large|The document size in the request exceeded the allowable document size in a request. For more information on document size limits, see [Azure Cosmos DB limits](http://azure.microsoft.com/documentation/articles/documentdb-limits/).|  
+|413 Entity Too Large|The document size in the request exceeded the allowable document size in a request. |  
   
 ### Body  
  Creating an attachment results in the creation of an attachment resource with the following response body.  
@@ -169,10 +168,10 @@ The first is to POST the raw media in the body payload to store it in the provid
 The second way to create an attachment resource is to POST the attachment resource properties noting the type and media link of the attachment. Unlike the first type of attachment resource, you must not set the Content-Type and Slug headers. 
 
 ## See Also  
- [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB SQL API SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet)    
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
 

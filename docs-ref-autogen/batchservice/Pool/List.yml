@@ -1,0 +1,1043 @@
+### YamlMime:RESTOperation
+uid: batch.core.windows.net.batchservice.pool.list
+name: List
+service: Batch Service
+groupName: Pool
+apiVersion: 2017-09-01.6.0
+summary: Lists all of the pools in the specified account.
+consumes:
+- application/json; odata=minimalmetadata
+produces:
+- application/json
+paths:
+- content: GET https://batch.core.windows.net/pools?api-version=2017-09-01.6.0
+- content: GET https://batch.core.windows.net/pools?$filter={$filter}&$select={$select}&$expand={$expand}&maxresults={maxresults}&timeout={timeout}&api-version=2017-09-01.6.0
+  isOptional: true
+uriParameters:
+- name: $filter
+  in: query
+  description: An OData $filter clause. For more information on constructing this filter, see https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-pools.
+  types:
+  - uid: string
+- name: $select
+  in: query
+  description: An OData $select clause.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: An OData $expand clause.
+  types:
+  - uid: string
+- name: maxresults
+  in: query
+  description: The maximum number of items to return in the response. A maximum of 1000 pools can be returned.
+  types:
+  - uid: integer
+  format: int32
+- name: timeout
+  in: query
+  description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: client-request-id
+    value: string
+  - name: request-id
+    value: string
+  - name: ETag
+    value: string
+  - name: Last-Modified
+    value: string
+  description: A response containing the list of pools.
+  types:
+  - uid: CloudPoolListResult
+- name: Other Status Codes
+  description: The error from the Batch service.
+  types:
+  - uid: BatchError
+requestHeader:
+- name: client-request-id
+  in: header
+  description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+  types:
+  - uid: string
+  format: uuid
+- name: return-client-request-id
+  in: header
+  description: Whether the server should return the client-request-id in the response.
+  types:
+  - uid: boolean
+- name: ocp-date
+  in: header
+  description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+definitions:
+- name: CloudPoolListResult
+  description: The result of listing the pools in an account.
+  kind: object
+  properties:
+  - name: value
+    description: A pool in the Azure Batch service.
+    types:
+    - uid: CloudPool
+      isArray: true
+  - name: odata.nextLink
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+  - name: values
+    description: An item of additional information included in an Azure Batch error response.
+    types:
+    - uid: BatchErrorDetail
+      isArray: true
+- name: CloudPool
+  description: A pool in the Azure Batch service.
+  kind: object
+  properties:
+  - name: id
+    description: "A string that uniquely identifies the pool within the account.  \nThe ID can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 64 characters. The ID is case-preserving and case-insensitive (that is, you may not have two IDs within an account that differ only by case)."
+    types:
+    - uid: string
+  - name: displayName
+    description: "The display name for the pool.  \nThe display name need not be unique and can contain any Unicode characters up to a maximum length of 1024."
+    types:
+    - uid: string
+  - name: url
+    description: The URL of the pool.
+    types:
+    - uid: string
+  - name: eTag
+    description: "The ETag of the pool.  \nThis is an opaque string. You can use it to detect whether the pool has changed between requests. In particular, you can be pass the ETag when updating a pool to specify that your changes should take effect only if nobody else has modified the pool in the meantime."
+    types:
+    - uid: string
+  - name: lastModified
+    description: "The last modified time of the pool.  \nThis is the last time at which the pool level data, such as the targetDedicatedNodes or enableAutoscale settings, changed. It does not factor in node-level changes such as a compute node changing state."
+    types:
+    - uid: string
+  - name: creationTime
+    description: The creation time of the pool.
+    types:
+    - uid: string
+  - name: state
+    description: The current state of the pool.
+    types:
+    - uid: PoolState
+  - name: stateTransitionTime
+    description: The time at which the pool entered its current state.
+    types:
+    - uid: string
+  - name: allocationState
+    description: Whether the pool is resizing.
+    types:
+    - uid: AllocationState
+  - name: allocationStateTransitionTime
+    description: The time at which the pool entered its current allocation state.
+    types:
+    - uid: string
+  - name: vmSize
+    description: "The size of virtual machines in the pool. All virtual machines in a pool are the same size.  \nFor information about available sizes of virtual machines for Cloud Services pools (pools created with cloudServiceConfiguration), see Sizes for Cloud Services (http://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch supports all Cloud Services VM sizes except ExtraSmall, A1V2 and A2V2. For information about available VM sizes for pools using images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series)."
+    types:
+    - uid: string
+  - name: cloudServiceConfiguration
+    description: "The cloud service configuration for the pool.  \nThis property and virtualMachineConfiguration are mutually exclusive and one of the properties must be specified. This property cannot be specified if the Batch account was created with its poolAllocationMode property set to 'UserSubscription'."
+    types:
+    - uid: CloudServiceConfiguration
+  - name: virtualMachineConfiguration
+    description: "The virtual machine configuration for the pool.  \nThis property and cloudServiceConfiguration are mutually exclusive and one of the properties must be specified."
+    types:
+    - uid: VirtualMachineConfiguration
+  - name: resizeTimeout
+    description: "The timeout for allocation of compute nodes to the pool.  \nThis is the timeout for the most recent resize operation. (The initial sizing when the pool is created counts as a resize.) The default value is 15 minutes."
+    types:
+    - uid: string
+  - name: resizeErrors
+    description: An error that occurred when resizing a pool.
+    types:
+    - uid: ResizeError
+      isArray: true
+  - name: currentDedicatedNodes
+    description: The number of dedicated compute nodes currently in the pool.
+    types:
+    - uid: integer
+  - name: currentLowPriorityNodes
+    description: "The number of low-priority compute nodes currently in the pool.  \nLow-priority compute nodes which have been preempted are included in this count."
+    types:
+    - uid: integer
+  - name: targetDedicatedNodes
+    description: The desired number of dedicated compute nodes in the pool.
+    types:
+    - uid: integer
+  - name: targetLowPriorityNodes
+    description: The desired number of low-priority compute nodes in the pool.
+    types:
+    - uid: integer
+  - name: enableAutoScale
+    description: "Whether the pool size should automatically adjust over time.  \nIf false, at least one of targetDedicateNodes and targetLowPriorityNodes must be specified. If true, the autoScaleFormula property is required and the pool automatically resizes according to the formula. The default value is false."
+    types:
+    - uid: boolean
+  - name: autoScaleFormula
+    description: "A formula for the desired number of compute nodes in the pool.  \nThis property is set only if the pool automatically scales, i.e. enableAutoScale is true."
+    types:
+    - uid: string
+  - name: autoScaleEvaluationInterval
+    description: "The time interval at which to automatically adjust the pool size according to the autoscale formula.  \nThis property is set only if the pool automatically scales, i.e. enableAutoScale is true."
+    types:
+    - uid: string
+  - name: autoScaleRun
+    description: "The results and errors from the last execution of the autoscale formula.  \nThis property is set only if the pool automatically scales, i.e. enableAutoScale is true."
+    types:
+    - uid: AutoScaleRun
+  - name: enableInterNodeCommunication
+    description: "Whether the pool permits direct communication between nodes.  \nThis imposes restrictions on which nodes can be assigned to the pool. Specifying this value can reduce the chance of the requested number of nodes to be allocated in the pool."
+    types:
+    - uid: boolean
+  - name: networkConfiguration
+    description: "The network configuration for the pool.  \nThe network configuration for a pool."
+    types:
+    - uid: NetworkConfiguration
+  - name: startTask
+    description: A task specified to run on each compute node as it joins the pool.
+    types:
+    - uid: StartTask
+  - name: certificateReferences
+    description: A reference to a certificate to be installed on compute nodes in a pool.
+    types:
+    - uid: CertificateReference
+      isArray: true
+  - name: applicationPackageReferences
+    description: A reference to an application package to be deployed to compute nodes.
+    types:
+    - uid: ApplicationPackageReference
+      isArray: true
+  - name: applicationLicenses
+    description: "The list of application licenses the Batch service will make available on each compute node in the pool.  \nThe list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, pool creation will fail."
+    types:
+    - uid: string
+      isArray: true
+  - name: maxTasksPerNode
+    description: The maximum number of tasks that can run concurrently on a single compute node in the pool.
+    types:
+    - uid: integer
+  - name: taskSchedulingPolicy
+    description: How tasks are distributed across compute nodes in a pool.
+    types:
+    - uid: TaskSchedulingPolicy
+  - name: userAccounts
+    description: Properties used to create a user used to execute tasks on an Azure Batch node.
+    types:
+    - uid: UserAccount
+      isArray: true
+  - name: metadata
+    description: "A name-value pair associated with a Batch service resource.  \nThe Batch service does not assign any meaning to this metadata; it is solely for the use of user code."
+    types:
+    - uid: MetadataItem
+      isArray: true
+  - name: stats
+    description: Utilization and resource usage statistics for the entire lifetime of the pool.
+    types:
+    - uid: PoolStatistics
+- name: ErrorMessage
+  description: An error message received in an Azure Batch error response.
+  kind: object
+  properties:
+  - name: lang
+    description: The language code of the error message
+    types:
+    - uid: string
+  - name: value
+    description: The text of the message.
+    types:
+    - uid: string
+- name: BatchErrorDetail
+  description: An item of additional information included in an Azure Batch error response.
+  kind: object
+  properties:
+  - name: key
+    description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+  - name: value
+    description: The additional information included with the error response.
+    types:
+    - uid: string
+- name: PoolState
+  description: The current state of the pool.
+  kind: enum
+  properties:
+  - name: active
+    description: The pool is available to run tasks subject to the availability of compute nodes.
+    types:
+    - uid: string
+  - name: deleting
+    description: The user has requested that the pool be deleted, but the delete operation has not yet completed.
+    types:
+    - uid: string
+  - name: upgrading
+    description: The user has requested that the operating system of the pool's nodes be upgraded, but the upgrade operation has not yet completed (that is, some nodes in the pool have not yet been upgraded). While upgrading, the pool may be able to run tasks (with reduced capacity) but this is not guaranteed.
+    types:
+    - uid: string
+- name: AllocationState
+  description: Whether the pool is resizing.
+  kind: enum
+  properties:
+  - name: steady
+    description: The pool is not resizing. There are no changes to the number of nodes in the pool in progress. A pool enters this state when it is created and when no operations are being performed on the pool to change the number of nodes.
+    types:
+    - uid: string
+  - name: resizing
+    description: The pool is resizing; that is, compute nodes are being added to or removed from the pool.
+    types:
+    - uid: string
+  - name: stopping
+    description: The pool was resizing, but the user has requested that the resize be stopped, but the stop request has not yet been completed.
+    types:
+    - uid: string
+- name: CloudServiceConfiguration
+  description: The configuration for nodes in a pool based on the Azure Cloud Services platform.
+  kind: object
+  properties:
+  - name: osFamily
+    description: "The Azure Guest OS family to be installed on the virtual machines in the pool.  \nPossible values are: 2 - OS Family 2, equivalent to Windows Server 2008 R2 SP1. 3 - OS Family 3, equivalent to Windows Server 2012. 4 - OS Family 4, equivalent to Windows Server 2012 R2. 5 - OS Family 5, equivalent to Windows Server 2016. For more information, see Azure Guest OS Releases (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases)."
+    types:
+    - uid: string
+  - name: targetOSVersion
+    description: "The Azure Guest OS version to be installed on the virtual machines in the pool.  \nThe default value is * which specifies the latest operating system version for the specified OS family."
+    types:
+    - uid: string
+  - name: currentOSVersion
+    isReadyOnly: true
+    description: "The Azure Guest OS Version currently installed on the virtual machines in the pool.  \nThis may differ from targetOSVersion if the pool state is Upgrading. In this case some virtual machines may be on the targetOSVersion and some may be on the currentOSVersion during the upgrade process. Once all virtual machines have upgraded, currentOSVersion is updated to be the same as targetOSVersion."
+    types:
+    - uid: string
+- name: VirtualMachineConfiguration
+  description: The configuration for compute nodes in a pool based on the Azure Virtual Machines infrastructure.
+  kind: object
+  properties:
+  - name: imageReference
+    description: A reference to the Azure Virtual Machines Marketplace image or the custom Virtual Machine image to use.
+    types:
+    - uid: ImageReference
+  - name: osDisk
+    description: Settings for the operating system disk of the Virtual Machine.
+    types:
+    - uid: OSDisk
+  - name: nodeAgentSKUId
+    description: "The SKU of the Batch node agent to be provisioned on compute nodes in the pool.  \nThe Batch node agent is a program that runs on each node in the pool, and provides the command-and-control interface between the node and the Batch service. There are different implementations of the node agent, known as SKUs, for different operating systems. You must specify a node agent SKU which matches the selected image reference. To get the list of supported node agent SKUs along with their list of verified image references, see the 'List supported node agent SKUs' operation."
+    types:
+    - uid: string
+  - name: windowsConfiguration
+    description: "Windows operating system settings on the virtual machine.  \nThis property must not be specified if the imageReference or osDisk property specifies a Linux OS image."
+    types:
+    - uid: WindowsConfiguration
+  - name: dataDisks
+    description: Settings which will be used by the data disks associated to compute nodes in the pool.
+    types:
+    - uid: DataDisk
+      isArray: true
+  - name: licenseType
+    description: "The type of on-premises license to be used when deploying the operating system.  \nThis only applies to images that contain the Windows operating system, and should only be used when you hold valid on-premises licenses for the nodes which will be deployed. If omitted, no on-premises licensing discount is applied. Values are:\n\n Windows_Server - The on-premises license is for Windows Server.\n Windows_Client - The on-premises license is for Windows Client."
+    types:
+    - uid: string
+  - name: containerConfiguration
+    description: "The container configuration for the pool.  \nIf specified, setup is performed on each node in the pool to allow tasks to run in containers. All regular tasks and job manager tasks run on this pool must specify the containerSettings property, and all other tasks may specify it."
+    types:
+    - uid: ContainerConfiguration
+- name: ResizeError
+  description: An error that occurred when resizing a pool.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the pool resize error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the pool resize error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: values
+    description: Represents a name-value pair.
+    types:
+    - uid: NameValuePair
+      isArray: true
+- name: AutoScaleRun
+  description: The results and errors from an execution of a pool autoscale formula.
+  kind: object
+  properties:
+  - name: timestamp
+    description: The time at which the autoscale formula was last evaluated.
+    types:
+    - uid: string
+  - name: results
+    description: "The final values of all variables used in the evaluation of the autoscale formula.  \nEach variable value is returned in the form $variable=value, and variables are separated by semicolons."
+    types:
+    - uid: string
+  - name: error
+    description: Details of the error encountered evaluating the autoscale formula on the pool, if the evaluation was unsuccessful.
+    types:
+    - uid: AutoScaleRunError
+- name: NetworkConfiguration
+  description: The network configuration for a pool.
+  kind: object
+  properties:
+  - name: subnetId
+    description: "The ARM resource identifier of the virtual network subnet which the compute nodes of the pool will join. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}.  \nThe virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes, and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. For pools created with virtualMachineConfiguration only ARM virtual networks ('Microsoft.Network/virtualNetworks') are supported, but for pools created with cloudServiceConfiguration both ARM and classic virtual networks are supported. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. For pools created with a virtual machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. For pools created with a cloud service configuration, enable ports 10100, 20100, and 30100. Also enable outbound connections to Azure Storage on port 443. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration"
+    types:
+    - uid: string
+  - name: endpointConfiguration
+    description: "The configuration for endpoints on compute nodes in the Batch pool.  \nPool endpoint configuration is only supported on pools with the virtualMachineConfiguration property."
+    types:
+    - uid: PoolEndpointConfiguration
+- name: StartTask
+  description: A task which is run when a compute node joins a pool in the Azure Batch service, or when the compute node is rebooted or reimaged.
+  kind: object
+  properties:
+  - name: commandLine
+    description: "The command line of the start task.  \nThe command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using \"cmd /c MyCommand\" in Windows or \"/bin/sh -c MyCommand\" in Linux."
+    types:
+    - uid: string
+  - name: containerSettings
+    description: "The settings for the container under which the start task runs.  \nWhen this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all task environment variables are mapped into the container, and the task command line is executed in the container."
+    types:
+    - uid: TaskContainerSettings
+  - name: resourceFiles
+    description: A file to be downloaded from Azure blob storage to a compute node.
+    types:
+    - uid: ResourceFile
+      isArray: true
+  - name: environmentSettings
+    description: An environment variable to be set on a task process.
+    types:
+    - uid: EnvironmentSetting
+      isArray: true
+  - name: userIdentity
+    description: "The user identity under which the start task runs.  \nIf omitted, the task runs as a non-administrative user unique to the task."
+    types:
+    - uid: UserIdentity
+  - name: maxTaskRetryCount
+    description: "The maximum number of times the task may be retried.  \nThe Batch service retries a task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task. If the maximum retry count is -1, the Batch service retries the task without limit."
+    types:
+    - uid: integer
+  - name: waitForSuccess
+    description: "Whether the Batch service should wait for the start task to complete successfully (that is, to exit with exit code 0) before scheduling any tasks on the compute node.  \nIf true and the start task fails on a compute node, the Batch service retries the start task up to its maximum retry count (maxTaskRetryCount). If the task has still not completed successfully after all retries, then the Batch service marks the compute node unusable, and will not schedule tasks to it. This condition can be detected via the node state and failure info details. If false, the Batch service will not wait for the start task to complete. In this case, other tasks can start executing on the compute node while the start task is still running; and even if the start task fails, new tasks will continue to be scheduled on the node. The default is false."
+    types:
+    - uid: boolean
+- name: CertificateReference
+  description: A reference to a certificate to be installed on compute nodes in a pool.
+  kind: object
+  properties:
+  - name: thumbprint
+    description: The thumbprint of the certificate.
+    types:
+    - uid: string
+  - name: thumbprintAlgorithm
+    description: The algorithm with which the thumbprint is associated. This must be sha1.
+    types:
+    - uid: string
+  - name: storeLocation
+    description: "The location of the certificate store on the compute node into which to install the certificate.  \nThe default value is currentuser. This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory."
+    types:
+    - uid: CertificateStoreLocation
+  - name: storeName
+    description: "The name of the certificate store on the compute node into which to install the certificate.  \nThis property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). Common store names include: My, Root, CA, Trust, Disallowed, TrustedPeople, TrustedPublisher, AuthRoot, AddressBook, but any custom store name can also be used. The default value is My."
+    types:
+    - uid: string
+  - name: visibility
+    description: "Which user accounts on the compute node should have access to the private data of the certificate.  \nYou can specify more than one visibility in this collection. The default is all accounts."
+    types:
+    - uid: string
+      isArray: true
+- name: ApplicationPackageReference
+  description: A reference to an application package to be deployed to compute nodes.
+  kind: object
+  properties:
+  - name: applicationId
+    description: The ID of the application to deploy.
+    types:
+    - uid: string
+  - name: version
+    description: "The version of the application to deploy. If omitted, the default version is deployed.  \nIf this is omitted on a pool, and no default version is specified for this application, the request fails with the error code InvalidApplicationPackageReferences and HTTP status code 409. If this is omitted on a task, and no default version is specified for this application, the task fails with a pre-processing error."
+    types:
+    - uid: string
+- name: TaskSchedulingPolicy
+  description: Specifies how tasks should be distributed across compute nodes.
+  kind: object
+  properties:
+  - name: nodeFillType
+    description: How tasks are distributed across compute nodes in a pool.
+    types:
+    - uid: ComputeNodeFillType
+- name: UserAccount
+  description: Properties used to create a user used to execute tasks on an Azure Batch node.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the user account.
+    types:
+    - uid: string
+  - name: password
+    description: The password for the user account.
+    types:
+    - uid: string
+  - name: elevationLevel
+    description: "The elevation level of the user account.  \nnonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin."
+    types:
+    - uid: ElevationLevel
+  - name: linuxUserConfiguration
+    description: "The Linux-specific user configuration for the user account.  \nThis property is ignored if specified on a Windows pool. If not specified, the user is created with the default options."
+    types:
+    - uid: LinuxUserConfiguration
+- name: MetadataItem
+  description: A name-value pair associated with a Batch service resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the metadata item.
+    types:
+    - uid: string
+  - name: value
+    description: The value of the metadata item.
+    types:
+    - uid: string
+- name: PoolStatistics
+  description: Contains utilization and resource usage statistics for the lifetime of a pool.
+  kind: object
+  properties:
+  - name: url
+    description: The URL for the statistics.
+    types:
+    - uid: string
+  - name: startTime
+    description: The start time of the time range covered by the statistics.
+    types:
+    - uid: string
+  - name: lastUpdateTime
+    description: The time at which the statistics were last updated. All statistics are limited to the range between startTime and lastUpdateTime.
+    types:
+    - uid: string
+  - name: usageStats
+    description: Statistics related to pool usage, such as the amount of core-time used.
+    types:
+    - uid: UsageStatistics
+  - name: resourceStats
+    description: Statistics related to resource consumption by compute nodes in the pool.
+    types:
+    - uid: ResourceStatistics
+- name: ImageReference
+  description: A reference to an Azure Virtual Machines Marketplace image or a custom Azure Virtual Machine image. To get the list of all Azure Marketplace image references verified by Azure Batch, see the 'List node agent SKUs' operation.
+  kind: object
+  properties:
+  - name: publisher
+    description: "The publisher of the Azure Virtual Machines Marketplace image.  \nFor example, Canonical or MicrosoftWindowsServer."
+    types:
+    - uid: string
+  - name: offer
+    description: "The offer type of the Azure Virtual Machines Marketplace image.  \nFor example, UbuntuServer or WindowsServer."
+    types:
+    - uid: string
+  - name: sku
+    description: "The SKU of the Azure Virtual Machines Marketplace image.  \nFor example, 14.04.0-LTS or 2012-R2-Datacenter."
+    types:
+    - uid: string
+  - name: version
+    description: "The version of the Azure Virtual Machines Marketplace image.  \nA value of 'latest' can be specified to select the latest version of an image. If omitted, the default is 'latest'."
+    types:
+    - uid: string
+  - name: virtualMachineImageId
+    description: "The ARM resource identifier of the virtual machine image. Computes nodes of the pool will be created using this custom image. This is of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}  \nThis property is mutually exclusive with other ImageReference properties. The virtual machine image must be in the same region and subscription as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration."
+    types:
+    - uid: string
+- name: OSDisk
+  description: Settings for the operating system disk of the virtual machine.
+  kind: object
+  properties:
+  - name: caching
+    description: "The type of caching to enable for the OS disk.  \nThe default value for caching is none. For information about the caching options see: https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/."
+    types:
+    - uid: CachingType
+- name: WindowsConfiguration
+  description: Windows operating system settings to apply to the virtual machine.
+  kind: object
+  properties:
+  - name: enableAutomaticUpdates
+    description: "Whether automatic updates are enabled on the virtual machine.  \nIf omitted, the default value is true."
+    types:
+    - uid: boolean
+- name: DataDisk
+  description: Settings which will be used by the data disks associated to compute nodes in the pool.
+  kind: object
+  properties:
+  - name: lun
+    description: "The logical unit number.  \nThe lun is used to uniquely identify each data disk. If attaching multiple disks, each should have a distinct lun."
+    types:
+    - uid: integer
+  - name: caching
+    description: "The type of caching to be enabled for the data disks.  \nThe default value for caching is none. For information about the caching options see: https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/."
+    types:
+    - uid: CachingType
+  - name: diskSizeGB
+    description: The initial disk size in gigabytes.
+    types:
+    - uid: integer
+  - name: storageAccountType
+    description: "The storage account type to be used for the data disk.  \nIf omitted, the default is \"standard_lrs\"."
+    types:
+    - uid: StorageAccountType
+- name: ContainerConfiguration
+  description: The configuration for container-enabled pools.
+  kind: object
+  properties:
+  - name: type
+    description: The container technology to be used.
+    types:
+    - uid: ContainerType
+  - name: containerImageNames
+    description: "The collection of container image names.  \nThis is the full image reference, as would be specified to \"docker pull\". An image will be sourced from the default Docker registry unless the image is fully qualified with an alternative registry."
+    types:
+    - uid: string
+      isArray: true
+  - name: containerRegistries
+    description: A private container registry.
+    types:
+    - uid: ContainerRegistry
+      isArray: true
+- name: NameValuePair
+  description: Represents a name-value pair.
+  kind: object
+  properties:
+  - name: name
+    description: The name in the name-value pair.
+    types:
+    - uid: string
+  - name: value
+    description: The value in the name-value pair.
+    types:
+    - uid: string
+- name: AutoScaleRunError
+  description: An error that occurred when executing or evaluating a pool autoscale formula.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the autoscale error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the autoscale error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: values
+    description: Represents a name-value pair.
+    types:
+    - uid: NameValuePair
+      isArray: true
+- name: PoolEndpointConfiguration
+  description: The endpoint configuration for a pool.
+  kind: object
+  properties:
+  - name: inboundNATPools
+    description: A inbound NAT pool that can be used to address specific ports on compute nodes in a Batch pool externally.
+    types:
+    - uid: InboundNATPool
+      isArray: true
+- name: TaskContainerSettings
+  description: The container settings for a task.
+  kind: object
+  properties:
+  - name: containerRunOptions
+    description: "Additional options to the container create command.  \nThese additional options are supplied as arguments to the \"docker create\" command, in addition to those controlled by the Batch Service."
+    types:
+    - uid: string
+  - name: imageName
+    description: "The image to use to create the container in which the task will run.  \nThis is the full image reference, as would be specified to \"docker pull\". If no tag is provided as part of the image name, the tag \":latest\" is used as a default."
+    types:
+    - uid: string
+  - name: registry
+    description: "The private registry which contains the container image.  \nThis setting can be omitted if was already provided at pool creation."
+    types:
+    - uid: ContainerRegistry
+- name: ResourceFile
+  description: A file to be downloaded from Azure blob storage to a compute node.
+  kind: object
+  properties:
+  - name: blobSource
+    description: "The URL of the file within Azure Blob Storage.  \nThis URL must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+    types:
+    - uid: string
+  - name: filePath
+    description: The location on the compute node to which to download the file, relative to the task's working directory.
+    types:
+    - uid: string
+  - name: fileMode
+    description: "The file permission mode attribute in octal format.  \nThis property applies only to files being downloaded to Linux compute nodes. It will be ignored if it is specified for a resourceFile which will be downloaded to a Windows node. If this property is not specified for a Linux node, then a default value of 0770 is applied to the file."
+    types:
+    - uid: string
+- name: EnvironmentSetting
+  description: An environment variable to be set on a task process.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the environment variable.
+    types:
+    - uid: string
+  - name: value
+    description: The value of the environment variable.
+    types:
+    - uid: string
+- name: UserIdentity
+  description: The definition of the user identity under which the task is run.
+  kind: object
+  properties:
+  - name: username
+    description: "The name of the user identity under which the task is run.  \nThe userName and autoUser properties are mutually exclusive; you must specify one but not both."
+    types:
+    - uid: string
+  - name: autoUser
+    description: "The auto user under which the task is run.  \nThe userName and autoUser properties are mutually exclusive; you must specify one but not both."
+    types:
+    - uid: AutoUserSpecification
+- name: CertificateStoreLocation
+  description: The location of the certificate store on the compute node into which to install the certificate.
+  kind: enum
+  properties:
+  - name: currentuser
+    description: Certificates should be installed to the CurrentUser certificate store.
+    types:
+    - uid: string
+  - name: localmachine
+    description: Certificates should be installed to the LocalMachine certificate store.
+    types:
+    - uid: string
+- name: ComputeNodeFillType
+  description: How tasks are distributed across compute nodes in a pool.
+  kind: enum
+  properties:
+  - name: spread
+    description: Tasks should be assigned evenly across all nodes in the pool.
+    types:
+    - uid: string
+  - name: pack
+    description: As many tasks as possible (maxTasksPerNode) should be assigned to each node in the pool before any tasks are assigned to the next node in the pool.
+    types:
+    - uid: string
+- name: ElevationLevel
+  description: The elevation level of the user.
+  kind: enum
+  properties:
+  - name: nonadmin
+    description: The user is a standard user without elevated access.
+    types:
+    - uid: string
+  - name: admin
+    description: The user is a user with elevated access and operates with full Administrator permissions.
+    types:
+    - uid: string
+- name: LinuxUserConfiguration
+  description: Properties used to create a user account on a Linux node.
+  kind: object
+  properties:
+  - name: uid
+    description: "The user ID of the user account.  \nThe uid and gid properties must be specified together or not at all. If not specified the underlying operating system picks the uid."
+    types:
+    - uid: integer
+  - name: gid
+    description: "The group ID for the user account.  \nThe uid and gid properties must be specified together or not at all. If not specified the underlying operating system picks the gid."
+    types:
+    - uid: integer
+  - name: sshPrivateKey
+    description: "The SSH private key for the user account.  \nThe private key must not be password protected. The private key is used to automatically configure asymmetric-key based authentication for SSH between nodes in a Linux pool when the pool's enableInterNodeCommunication property is true (it is ignored if enableInterNodeCommunication is false). It does this by placing the key pair into the user's .ssh directory. If not specified, password-less SSH is not configured between nodes (no modification of the user's .ssh directory is done)."
+    types:
+    - uid: string
+- name: UsageStatistics
+  description: Statistics related to pool usage information.
+  kind: object
+  properties:
+  - name: startTime
+    description: The start time of the time range covered by the statistics.
+    types:
+    - uid: string
+  - name: lastUpdateTime
+    description: The time at which the statistics were last updated. All statistics are limited to the range between startTime and lastUpdateTime.
+    types:
+    - uid: string
+  - name: dedicatedCoreTime
+    description: The aggregated wall-clock time of the dedicated compute node cores being part of the pool.
+    types:
+    - uid: string
+- name: ResourceStatistics
+  description: Statistics related to resource consumption by compute nodes in a pool.
+  kind: object
+  properties:
+  - name: startTime
+    description: The start time of the time range covered by the statistics.
+    types:
+    - uid: string
+  - name: lastUpdateTime
+    description: The time at which the statistics were last updated. All statistics are limited to the range between startTime and lastUpdateTime.
+    types:
+    - uid: string
+  - name: avgCPUPercentage
+    description: The average CPU usage across all nodes in the pool (percentage per node).
+    types:
+    - uid: number
+  - name: avgMemoryGiB
+    description: The average memory usage in GiB across all nodes in the pool.
+    types:
+    - uid: number
+  - name: peakMemoryGiB
+    description: The peak memory usage in GiB across all nodes in the pool.
+    types:
+    - uid: number
+  - name: avgDiskGiB
+    description: The average used disk space in GiB across all nodes in the pool.
+    types:
+    - uid: number
+  - name: peakDiskGiB
+    description: The peak used disk space in GiB across all nodes in the pool.
+    types:
+    - uid: number
+  - name: diskReadIOps
+    description: The total number of disk read operations across all nodes in the pool.
+    types:
+    - uid: integer
+  - name: diskWriteIOps
+    description: The total number of disk write operations across all nodes in the pool.
+    types:
+    - uid: integer
+  - name: diskReadGiB
+    description: The total amount of data in GiB of disk reads across all nodes in the pool.
+    types:
+    - uid: number
+  - name: diskWriteGiB
+    description: The total amount of data in GiB of disk writes across all nodes in the pool.
+    types:
+    - uid: number
+  - name: networkReadGiB
+    description: The total amount of data in GiB of network reads across all nodes in the pool.
+    types:
+    - uid: number
+  - name: networkWriteGiB
+    description: The total amount of data in GiB of network writes across all nodes in the pool.
+    types:
+    - uid: number
+- name: CachingType
+  description: The type of caching to enable for the disk.
+  kind: enum
+  properties:
+  - name: none
+    description: The caching mode for the disk is not enabled.
+    types:
+    - uid: string
+  - name: readonly
+    description: The caching mode for the disk is read only.
+    types:
+    - uid: string
+  - name: readwrite
+    description: The caching mode for the disk is read and write.
+    types:
+    - uid: string
+- name: StorageAccountType
+  description: The storage account type for use in creating data disks.
+  kind: enum
+  properties:
+  - name: standard_lrs
+    description: The data disk should use standard locally redundant storage.
+    types:
+    - uid: string
+  - name: premium_lrs
+    description: The data disk should use premium locally redundant storage.
+    types:
+    - uid: string
+- name: ContainerType
+  description: The container technology to be used.
+  kind: enum
+  properties:
+  - name: docker
+    description: Docker will be used to launch the containers.
+    types:
+    - uid: string
+- name: ContainerRegistry
+  description: A private container registry.
+  kind: object
+  properties:
+  - name: registryServer
+    description: "The registry URL.  \nIf omitted, the default is \"docker.io\"."
+    types:
+    - uid: string
+  - name: username
+    description: The user name to log into the registry server.
+    types:
+    - uid: string
+  - name: password
+    description: The password to log into the registry server.
+    types:
+    - uid: string
+- name: InboundNATPool
+  description: A inbound NAT pool that can be used to address specific ports on compute nodes in a Batch pool externally.
+  kind: object
+  properties:
+  - name: name
+    description: "The name of the endpoint.  \nThe name must be unique within a Batch pool, can contain letters, numbers, underscores, periods, and hyphens. Names must start with a letter or number, must end with a letter, number, or underscore, and cannot exceed 77 characters.  If any invalid values are provided the request fails with HTTP status code 400."
+    types:
+    - uid: string
+  - name: protocol
+    description: The protocol of the endpoint.
+    types:
+    - uid: InboundEndpointProtocol
+  - name: backendPort
+    description: "The port number on the compute node.  \nThis must be unique within a Batch pool. Acceptable values are between 1 and 65535 except for 22, 3389, 29876 and 29877 as these are reserved. If any reserved values are provided the request fails with HTTP status code 400."
+    types:
+    - uid: integer
+  - name: frontendPortRangeStart
+    description: "The first port number in the range of external ports that will be used to provide inbound access to the backendPort on individual compute nodes.  \nAcceptable values range between 1 and 65534 except ports from 50000 to 55000 which are reserved. All ranges within a pool must be distinct and cannot overlap. Each range must contain at least 40 ports. If any reserved or overlapping values are provided the request fails with HTTP status code 400."
+    types:
+    - uid: integer
+  - name: frontendPortRangeEnd
+    description: "The last port number in the range of external ports that will be used to provide inbound access to the backendPort on individual compute nodes.  \nAcceptable values range between 1 and 65534 except ports from 50000 to 55000 which are reserved by the Batch service. All ranges within a pool must be distinct and cannot overlap. Each range must contain at least 40 ports. If any reserved or overlapping values are provided the request fails with HTTP status code 400."
+    types:
+    - uid: integer
+  - name: networkSecurityGroupRules
+    description: A network security group rule to apply to an inbound endpoint.
+    types:
+    - uid: NetworkSecurityGroupRule
+      isArray: true
+- name: AutoUserSpecification
+  description: Specifies the parameters for the auto user that runs a task on the Batch service.
+  kind: object
+  properties:
+  - name: scope
+    description: "The scope for the auto user  \nThe default value is task."
+    types:
+    - uid: AutoUserScope
+  - name: elevationLevel
+    description: "The elevation level of the auto user.  \nnonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin."
+    types:
+    - uid: ElevationLevel
+- name: InboundEndpointProtocol
+  description: The protocol of the endpoint.
+  kind: enum
+  properties:
+  - name: tcp
+    description: Use TCP for the endpoint.
+    types:
+    - uid: string
+  - name: udp
+    description: Use UDP for the endpoint.
+    types:
+    - uid: string
+- name: NetworkSecurityGroupRule
+  description: A network security group rule to apply to an inbound endpoint.
+  kind: object
+  properties:
+  - name: priority
+    description: "The priority for this rule.  \nPriorities within a pool must be unique and are evaluated in order of priority. The lower the number the higher the priority. For example, rules could be specified with order numbers of 150, 250, and 350. The rule with the order number of 150 takes precedence over the rule that has an order of 250. Allowed priorities are 150 to 3500. If any reserved or duplicate values are provided the request fails with HTTP status code 400."
+    types:
+    - uid: integer
+  - name: access
+    description: The action that should be taken for a specified IP address, subnet range or tag.
+    types:
+    - uid: NetworkSecurityGroupRuleAccess
+  - name: sourceAddressPrefix
+    description: "The source address prefix or tag to match for the rule.  \nValid values are a single IP address (i.e. 10.10.10.10), IP subnet (i.e. 192.168.1.0/24), default tag, or * (for all addresses).  If any other values are provided the request fails with HTTP status code 400."
+    types:
+    - uid: string
+- name: AutoUserScope
+  description: The scope for the auto user
+  kind: enum
+  properties:
+  - name: task
+    description: Specifies that the service should create a new user for the task.
+    types:
+    - uid: string
+  - name: pool
+    description: Specifies that the task runs as the common auto user account which is created on every node in a pool.
+    types:
+    - uid: string
+- name: NetworkSecurityGroupRuleAccess
+  description: The action that should be taken for a specified IP address, subnet range or tag.
+  kind: enum
+  properties:
+  - name: allow
+    description: Allow access.
+    types:
+    - uid: string
+  - name: deny
+    description: Deny access.
+    types:
+    - uid: string
+examples:
+- name: Pool list
+  request:
+    uri: GET https://batch.core.windows.net/pools?api-version=2017-09-01.6.0
+    headers:
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "testPool",
+            "url": "https://accountname.region.batch.azure.com/pools/testPool",
+            "eTag": "0x8D4123BEF87D233",
+            "lastModified": "2016-11-21T18:26:39.7108787Z",
+            "creationTime": "2016-11-21T18:26:39.7108787Z",
+            "state": "active",
+            "stateTransitionTime": "2016-11-21T18:26:39.7108787Z",
+            "allocationState": "steady",
+            "allocationStateTransitionTime": "2016-11-21T18:27:40.287803Z",
+            "vmSize": "small",
+            "resizeTimeout": "PT15M",
+            "currentDedicatedNodes": 3,
+            "currentLowPriorityNodes": 0,
+            "targetDedicatedNodes": 3,
+            "targetLowPriorityNodes": 0,
+            "enableAutoScale": false,
+            "enableInterNodeCommunication": false,
+            "startTask": {
+              "commandLine": "cmd /c echo hello",
+              "userIdentity": {
+                "autoUser": {
+                  "scope": "task",
+                  "elevationLevel": "nonadmin"
+                }
+              },
+              "maxTaskRetryCount": 0,
+              "waitForSuccess": false
+            },
+            "maxTasksPerNode": 1,
+            "taskSchedulingPolicy": {
+              "nodeFillType": "spread"
+            },
+            "cloudServiceConfiguration": {
+              "osFamily": "4",
+              "targetOSVersion": "*",
+              "currentOSVersion": "*"
+            }
+          }
+        ]
+      }
+security: []

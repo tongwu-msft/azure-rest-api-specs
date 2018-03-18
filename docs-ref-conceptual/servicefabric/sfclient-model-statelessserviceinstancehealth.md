@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceInstanceHealth"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # StatelessServiceInstanceHealth
 
-Represents the health of the statelss service instance.
+Represents the health of the stateless service instance.
 Contains the instance aggregated health state, the health events and the unhealthy evaluations.
 
 
@@ -40,6 +40,7 @@ Contains the instance aggregated health state, the health events and the unhealt
 | [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |
 | [HealthEvents](#healthevents) | array of [HealthEvent](sfclient-model-healthevent.md) | No |
 | [UnhealthyEvaluations](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
+| [HealthStatistics](#healthstatistics) | [HealthStatistics](sfclient-model-healthstatistics.md) | No |
 | [PartitionId](#partitionid) | string (uuid) | No |
 | [InstanceId](#instanceid) | string | No |
 
@@ -61,6 +62,8 @@ The aggregation is done by applying the desired health policy.
 
 
 The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+Possible values are: 
 
   - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
   - Ok - Indicates the health state is okay. The value is 1.
@@ -85,6 +88,13 @@ __Required__: No<br/>
 The unhealthy evaluations that show why the current aggregated health state was returned by Health Manager.
 
 ____
+### HealthStatistics
+__Type__: [HealthStatistics](sfclient-model-healthstatistics.md) <br/>
+__Required__: No<br/>
+<br/>
+Shows the health statistics for all children types of the queried entity.
+
+____
 ### PartitionId
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
@@ -96,4 +106,4 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Id of the stateless service instance.
+Id of a stateless service instance. InstanceId is used by Service Fabric to uniquely identify an instance of a partition of a stateless service. It is unique within a partition and does not change for the lifetime of the instance. If the instance has failed over on the same or different node, it will get a different value for the InstanceId.

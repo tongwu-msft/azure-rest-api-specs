@@ -1,7 +1,7 @@
 ---
 title: "Asset"
 ms.custom: ""
-ms.date: "2016-07-14"
+ms.date: "03/14/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
@@ -67,13 +67,8 @@ The `Asset` entity contains digital files (including video, audio, images, thumb
 -   [Removing ContentKey Links](../operations/asset.md#removing_contentkey_links)  
   
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://azure.microsoft.com/documentation/articles/media-services-rest-how-to-use/).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
 ##  <a name="asset_entity_properties"></a> Asset Entity Properties  
   
 |Property|Type|Description|  
@@ -100,17 +95,14 @@ The `Asset` entity contains digital files (including video, audio, images, thumb
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/API/Assets|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-POST https://media.windows.net/API/Assets HTTP/1.1  
+POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -129,21 +121,18 @@ Expect: 100-continue
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/Assets|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/Assets('*assetid*')|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets('*assetid*')|HTTP/1.1|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
+To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://media.windows.net/API/Assets('nb:cid:UUID:fccb8cd9-7afa-4365-a36e-d5d68409bb64') HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets('nb:cid:UUID:fccb8cd9-7afa-4365-a36e-d5d68409bb64') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -160,17 +149,14 @@ Content-Length: 0
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|MERGE|https://media.windows.net/API/Assets('*assetid*')|HTTP/1.1|  
+|MERGE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets('*assetid*')|HTTP/1.1|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
+To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-MERGE https://media.windows.net/API/Assets('nb:cid:UUID:80782407-3f87-4e60-a43e-5e4454232f60') HTTP/1.1  
+MERGE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets('nb:cid:UUID:80782407-3f87-4e60-a43e-5e4454232f60') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -189,17 +175,14 @@ Expect: 100-continue
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://media.windows.net/API/Assets('*assetid*')|HTTP/1.1|  
+|DELETE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets('*assetid*')|HTTP/1.1|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
+To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-DELETE https://media.windows.net/API/Assets('nb:cid:UUID:fccb8cd9-7afa-4365-a36e-d5d68409bb64') HTTP/1.1  
+DELETE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets('nb:cid:UUID:fccb8cd9-7afa-4365-a36e-d5d68409bb64') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -226,17 +209,14 @@ Content-Length: 0
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/API/Assets(‘Asset Id')/$links/ContentKeys|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets(‘Asset Id')/$links/ContentKeys|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-POST https://media.windows.net/API/Assets('nb:cid:UUID:3ac4c50a-09c1-4ea3-b39c-c336d97f5a13')/$links/ContentKeys HTTP/1.1  
+POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets('nb:cid:UUID:3ac4c50a-09c1-4ea3-b39c-c336d97f5a13')/$links/ContentKeys HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -247,7 +227,7 @@ Host: media.windows.net
 Content-Length: 121  
 Expect: 100-continue  
   
-{ "uri": "https://media.windows.net/api/ContentKeys('nb%3Akid%3AUUID%3A5db89211-c9d9-404b-a6bc-3e6b91c7a214')"}  
+{ "uri": "https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/ContentKeys('nb%3Akid%3AUUID%3A5db89211-c9d9-404b-a6bc-3e6b91c7a214')"}  
   
 ```  
   
@@ -256,17 +236,14 @@ Expect: 100-continue
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://media.windows.net/API/Assets(‘Asset Id')/$links/ContentKeys('ContentKey Id')|HTTP/1.1|  
+|DELETE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets(‘Asset Id')/$links/ContentKeys('ContentKey Id')|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
+ 
+To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-DELETE https://media.windows.net/API/Assets('nb:cid:UUID:3ac4c50a-09c1-4ea3-b39c-c336d97f5a13')/$links/ContentKeys('nb:kid:UUID:5db89211-c9d9-404b-a6bc-3e6b91c7a214') HTTP/1.1  
+DELETE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets('nb:cid:UUID:3ac4c50a-09c1-4ea3-b39c-c336d97f5a13')/$links/ContentKeys('nb:kid:UUID:5db89211-c9d9-404b-a6bc-3e6b91c7a214') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  

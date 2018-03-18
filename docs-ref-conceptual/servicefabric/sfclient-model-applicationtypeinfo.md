@@ -1,6 +1,6 @@
 ---
 title: "ApplicationTypeInfo"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,36 +36,24 @@ Information about an application type.
 | --- | --- | --- |
 | [Name](#name) | string | No |
 | [Version](#version) | string | No |
-| [Status](#status) | string (enum) | No |
 | [DefaultParameterList](#defaultparameterlist) | array of [ApplicationParameter](sfclient-model-applicationparameter.md) | No |
+| [Status](#status) | string (enum) | No |
+| [StatusDetails](#statusdetails) | string | No |
+| [ApplicationTypeDefinitionKind](#applicationtypedefinitionkind) | string (enum) | No |
 
 ____
 ### Name
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The name of the application type.
+The application type name as defined in the application manifest.
 
 ____
 ### Version
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The version of the application type.
-
-____
-### Status
-__Type__: string (enum) <br/>
-__Required__: No<br/>
-<br/>
-The status of the application type. Possible values are following.
-
-  - Invalid - Indicates the application type status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Provisioning - Indicates that the application type is being provisioned in the cluster. The value is 1.
-  - Available - Indicates that the application type is fully provisioned and is avaiable for use. An application of this type and version can be created. The value is 2.
-  - Unprovisioning - Indicates that the application type is in process of being unprovisioned from the cluster. The value is 3.
-  - Failed - Indicates that the application type provisioning failed and it is unavaiable for use. The failure details can be obtained from the application type information query. The failed application type information remains in the cluster until it is unprovisioned or reprovisioned successfully. The value is 4.
-
+The version of the application type as defined in the application manifest.
 
 ____
 ### DefaultParameterList
@@ -73,3 +61,48 @@ __Type__: array of [ApplicationParameter](sfclient-model-applicationparameter.md
 __Required__: No<br/>
 <br/>
 List of application type parameters that can be overridden when creating or updating the application.
+
+____
+### Status
+__Type__: string (enum) <br/>
+__Required__: No<br/>
+<br/>
+
+
+The status of the application type.
+
+
+Possible values are: 
+
+  - Invalid - Indicates the application type status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - Provisioning - Indicates that the application type is being provisioned in the cluster. The value is 1.
+  - Available - Indicates that the application type is fully provisioned and is available for use. An application of this type and version can be created. The value is 2.
+  - Unprovisioning - Indicates that the application type is in process of being unprovisioned from the cluster. The value is 3.
+  - Failed - Indicates that the application type provisioning failed and it is unavailable for use. The failure details can be obtained from the application type information query. The failed application type information remains in the cluster until it is unprovisioned or reprovisioned successfully. The value is 4.
+
+
+
+____
+### StatusDetails
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+Additional detailed information about the status of the application type.
+
+____
+### ApplicationTypeDefinitionKind
+__Type__: string (enum) <br/>
+__Required__: No<br/>
+<br/>
+
+
+The mechanism used to define a Service Fabric application type.
+
+
+Possible values are: 
+
+  - Invalid - Indicates the application type definition kind is invalid. All Service Fabric enumerations have the invalid type. The value is 0.
+  - ServiceFabricApplicationPackage - Indicates the application type is defined and created by a Service Fabric application package provided by the user. The value is 1.
+  - Compose - Indicates the application type is defined and created implicitly as part of a compose deployment. The value is 2.
+
+

@@ -1,6 +1,6 @@
 ---
 title: "NodeUpgradeProgressInfo"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -43,19 +43,24 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The friendly name of the node
+The name of a Service Fabric node.
 
 ____
 ### UpgradePhase
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The state of the upgrading node.
+
+Possible values are: 
 
   - Invalid - Indicates the upgrade state is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
   - PreUpgradeSafetyCheck - The upgrade has not started yet due to pending safety checks. The value is 1
   - Upgrading - The upgrade is in progress. The value is 2
   - PostUpgradeSafetyCheck - The upgrade has completed and post upgrade safety checks are being performed. The value is 3
+
 
 
 ____

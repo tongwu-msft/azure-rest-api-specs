@@ -1,6 +1,6 @@
 ---
 title: "SafetyCheckWrapper"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # SafetyCheckWrapper
 
-A wrapper for the safety check object. Safety checks are performed by service fabric before continuing with the operations. These checks ensure the avaiability of the service and the reliability of the state.
+A wrapper for the safety check object. Safety checks are performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state.
 
 ## Properties
 | Name | Type | Required |
@@ -41,4 +41,4 @@ ____
 __Type__: [SafetyCheck](sfclient-model-safetycheck.md) <br/>
 __Required__: No<br/>
 <br/>
-Represents a safety check performed by service fabric before continuing with the operations. These checks ensure the avaiability of the service and the reliability of the state.
+Represents a safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state.

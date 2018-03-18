@@ -1,6 +1,6 @@
 ---
 title: "ServiceTypeInfo"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -44,7 +44,7 @@ ____
 __Type__: [ServiceTypeDescription](sfclient-model-servicetypedescription.md) <br/>
 __Required__: No<br/>
 <br/>
-Describes a service type defined in the service manifest of a provisioned application type. The properties the the ones defined in the service manifest.
+Describes a service type defined in the service manifest of a provisioned application type. The properties of the ones defined in the service manifest.
 
 ____
 ### ServiceManifestName

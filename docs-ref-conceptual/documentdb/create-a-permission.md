@@ -1,5 +1,5 @@
 ---
-title: "Create a Permission"
+title: "Create a Permission - Azure Cosmos DB REST API"
 ms.custom: ""
 ms.date: "2016-02-25"
 ms.prod: "azure"
@@ -13,7 +13,6 @@ caps.latest.revision: 10
 author: "mimig1"
 ms.author: "mimig"
 manager: "jhubbard"
-robots: noindex,nofollow
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -76,7 +75,7 @@ The `Create Permission` operation creates a new permission in a database.
   
 |Property|Description|  
 |--------------|-----------------|  
-|**_rid**|This is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/documentdb-resources#system-vs-user-defined-resources). The resource id (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the permission resource.|  
+|**_rid**|This is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/sql-api-resources#system-vs-user-defined-resources). The resource id (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the permission resource.|  
 |**_ts**|This is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
 |**_self**|This is a system generated property. It is the unique addressable URI for the resource.|  
 |**_etag**|This is a system generated property that represents the resource **etag** required for optimistic concurrency control.|  
@@ -157,10 +156,10 @@ Content-Length: 579
 ```  
   
 ## See Also  
- [Azure Cosmos DB documentation](http://azure.microsoft.com/documentation/services/documentdb/)   
- [Azure Cosmos DB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
- [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
- [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB SQL API SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet)    
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
 

@@ -1,0 +1,190 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.webhook.listbyautomationaccount
+name: List By Automation Account
+service: Automation
+groupName: Webhook
+apiVersion: 2015-10-31
+summary: Retrieve a list of webhooks.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks?api-version=2015-10-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks?$filter={$filter}&api-version=2015-10-31
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The automation account name.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: WebhookListResult
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: WebhookListResult
+  description: The response model for the list webhook operation.
+  kind: object
+  properties:
+  - name: value
+    description: Definition of the webhook type.
+    types:
+    - uid: Webhook
+      isArray: true
+  - name: nextLink
+    description: Gets or sets the next link.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: Webhook
+  description: Definition of the webhook type.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Gets the id of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Gets the name of the webhook.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Gets the type of the resource.
+    types:
+    - uid: string
+  - name: properties.isEnabled
+    description: Gets or sets the value of the enabled flag of the webhook.
+    types:
+    - uid: boolean
+  - name: properties.uri
+    description: Gets or sets the webhook uri.
+    types:
+    - uid: string
+  - name: properties.expiryTime
+    description: Gets or sets the expiry time.
+    types:
+    - uid: string
+  - name: properties.lastInvokedTime
+    description: Gets or sets the last invoked time.
+    types:
+    - uid: string
+  - name: properties.parameters
+    description: Gets or sets the parameters of the job that is created when the webhook calls the runbook it is associated with.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.runbook
+    description: Gets or sets the runbook the webhook is associated with.
+    types:
+    - uid: RunbookAssociationProperty
+  - name: properties.runOn
+    description: Gets or sets the name of the hybrid worker group the webhook job will run on.
+    types:
+    - uid: string
+  - name: properties.creationTime
+    description: Gets or sets the creation time.
+    types:
+    - uid: string
+  - name: properties.lastModifiedTime
+    description: Gets or sets the last modified time.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Gets or sets the description.
+    types:
+    - uid: string
+- name: RunbookAssociationProperty
+  description: The runbook property associated with the entity.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the runbook.
+    types:
+    - uid: string
+examples:
+- name: List webhooks by Automation Account
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/webhooks?api-version=2015-10-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/webhooks/TestWebhook",
+            "name": "TestWebhook",
+            "properties": {
+              "isEnabled": true,
+              "expiryTime": "2018-03-29T22:18:13.7002872+00:00",
+              "runbook": {
+                "name": "TestRunbook"
+              },
+              "lastInvokedTime": null,
+              "runOn": null,
+              "parameters": null,
+              "uri": null,
+              "creationTime": "2017-03-29T22:18:14.6651862+00:00",
+              "lastModifiedBy": "",
+              "lastModifiedTime": "2017-03-29T22:18:14.6651862+00:00"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

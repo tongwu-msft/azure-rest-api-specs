@@ -158,7 +158,9 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
   
  At most five separate access policies can be set for a given share at any time. If more than five access policies are passed in the request body, then the service returns status code 400 (Bad Request).  
   
- A shared access signature can be issued on a share or a file regardless of whether container data is available for anonymous read access. A shared access signature provides a greater measure of control over how, when, and to whom a resource is made accessible.  
+ A shared access signature can be issued on a share or a file regardless of whether container data is available for anonymous read access. A shared access signature provides a greater measure of control over how, when, and to whom a resource is made accessible.
+
+ An access policy cannot be set or retrieved for a share snapshot. If an attempt is made to set an access policy, then the service returns status code 400 (InvalidQueryParameterValue)  
   
 > [!NOTE]
 >  When you establish a stored access policy on a container, it may take up to 30 seconds to take effect. During this interval, a shared access signature that is associated with the stored access policy will fail with status code 403 (Forbidden), until the access policy becomes active.  

@@ -1,6 +1,6 @@
 ---
 title: "Get Node Transition Progress"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,7 +36,7 @@ Gets the progress of an operation started with StartNodeTransition using the pro
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Faults/Nodes/{nodeName}/$/GetTransitionProgress?api-version=3.0&OperationId={OperationId}&timeout={timeout}` |
+| GET | `/Faults/Nodes/{nodeName}/$/GetTransitionProgress?api-version=6.0&OperationId={OperationId}&timeout={timeout}` |
 
 
 ## Parameters
@@ -58,9 +58,14 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of this API. This is a required parameter and its value must be "6.0".
+
+Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+
 
 ____
 ### OperationId
@@ -94,7 +99,7 @@ This shows an example of possible output when GetTransitionProgress has reached 
 
 #### Request
 ```
-GET http://localhost:19080/Faults/Nodes/N0060/$/GetTransitionProgress?api-version=3.0&OperationId=a9c24269-88e9-4812-b4ad-a0bf2b724ad4
+GET http://localhost:19080/Faults/Nodes/N0060/$/GetTransitionProgress?api-version=6.0&OperationId=a9c24269-88e9-4812-b4ad-a0bf2b724ad4
 ```
 
 #### 200 Response
@@ -103,7 +108,7 @@ GET http://localhost:19080/Faults/Nodes/N0060/$/GetTransitionProgress?api-versio
 {
   "State": "Completed",
   "NodeTransitionResult": {
-    "ErrorCode": 0,
+    "ErrorCode": "0",
     "NodeResult": {
       "NodeName": "N0060",
       "NodeInstanceId": "131366982707950527"
@@ -119,7 +124,7 @@ This shows an example of output when GetTransitionProgress has a State of Runnin
 
 #### Request
 ```
-GET http://localhost:19080/Faults/Nodes/N0060/$/GetTransitionProgress?api-version=3.0&OperationId=ed903556-acf1-489c-9f33-b484c31f9087
+GET http://localhost:19080/Faults/Nodes/N0060/$/GetTransitionProgress?api-version=6.0&OperationId=ed903556-acf1-489c-9f33-b484c31f9087
 ```
 
 #### 200 Response

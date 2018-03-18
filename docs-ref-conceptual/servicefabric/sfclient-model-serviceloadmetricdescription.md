@@ -1,6 +1,6 @@
 ---
 title: "ServiceLoadMetricDescription"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -54,7 +54,9 @@ __Required__: No<br/>
 <br/>
 The service load metric relative weight, compared to other metrics configured for this service, as a number.
 
-Determines the metric weight relative to the other metrics that are configured for this service. During runtime, if two metrics end up in conflict, the Cluster Resource Manager prefers the metric with the higher weight. Possible values are following.
+Determines the metric weight relative to the other metrics that are configured for this service. During runtime, if two metrics end up in conflict, the Cluster Resource Manager prefers the metric with the higher weight.
+
+Possible values are: 
 
   - Zero - Disables resource balancing for this metric. This value is zero.
   - Low - Specifies the metric weight of the service load as Low. The value is 1.

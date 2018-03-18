@@ -1,6 +1,6 @@
 ---
 title: "NodeInfo"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -50,13 +50,15 @@ Information about a node in Service Fabric cluster.
 | [NodeDeactivationInfo](#nodedeactivationinfo) | [NodeDeactivationInfo](sfclient-model-nodedeactivationinfo.md) | No |
 | [IsStopped](#isstopped) | boolean | No |
 | [NodeDownTimeInSeconds](#nodedowntimeinseconds) | string | No |
+| [NodeUpAt](#nodeupat) | string (date-time) | No |
+| [NodeDownAt](#nodedownat) | string (date-time) | No |
 
 ____
 ### Name
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The name of the node.
+The name of a Service Fabric node.
 
 ____
 ### IpAddressOrFQDN
@@ -91,7 +93,11 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-The status of the node. Possible values are following.
+
+
+The status of the node.
+
+Possible values are: 
 
   - Invalid - Indicates the node status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
   - Up - Indicates the node is up. The value is 1.
@@ -103,25 +109,31 @@ The status of the node. Possible values are following.
   - Removed - Indicates the node is removed. A node would be in Removed state if NodeStateRemoved API has been called for this node. In other words, Service Fabric has been informed that the persisted state on the node has been permanently lost. The value is 7.
 
 
+
 ____
 ### NodeUpTimeInSeconds
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Time in seconds since the node has been in NodeStatus Up. Value ero indicates that the node is not Up.
+Time in seconds since the node has been in NodeStatus Up. Value zero indicates that the node is not Up.
 
 ____
 ### HealthState
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+Possible values are: 
 
   - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
   - Ok - Indicates the health state is okay. The value is 1.
   - Warning - Indicates the health state is at a warning level. The value is 2.
   - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
   - Unknown - Indicates an unknown health status. The value is 65535.
+
 
 
 ____
@@ -179,3 +191,17 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Time in seconds since the node has been in NodeStatus Down. Value zero indicates node is not NodeStatus Down.
+
+____
+### NodeUpAt
+__Type__: string (date-time) <br/>
+__Required__: No<br/>
+<br/>
+Date time in UTC when the node came up. If the node has never been up then this value will be zero date time.
+
+____
+### NodeDownAt
+__Type__: string (date-time) <br/>
+__Required__: No<br/>
+<br/>
+Date time in UTC when the node went down. If node has never been down then this value will be zero date time.

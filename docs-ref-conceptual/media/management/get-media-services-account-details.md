@@ -27,7 +27,7 @@ translation.priority.mt:
 # Get Media Services Account Details
 
 > [!NOTE]
->  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services management REST API reference](../../../docs-ref-autogen/media/MediaService.json).
+>  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services management REST API reference](xref:management.azure.com.mediaservices.mediaservice).
   
   
  The `GET` request method described in this topic returns an `AccountDetails` object for the specified Media Services account. The data contract for `AccountDetails` is defined later in this topic.  

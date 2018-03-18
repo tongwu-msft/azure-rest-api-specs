@@ -1,0 +1,112 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.appserviceenvironments.listusages
+name: List Usages
+service: App Service
+groupName: App Service Environments
+apiVersion: 2016-09-01
+summary: Get global usage metrics of an App Service Environment.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/usages?api-version=2016-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/usages?$filter={$filter}&api-version=2016-09-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the App Service Environment.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: "Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq '2014-01-01T00:00:00Z' and endTime eq '2014-12-31T23:59:59Z' and timeGrain eq duration'[Hour|Minute|Day]'."
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: CsmUsageQuotaCollection
+requestHeader: []
+definitions:
+- name: CsmUsageQuotaCollection
+  description: Collection of CSM usage quotas.
+  kind: object
+  properties:
+  - name: value
+    description: Usage of the quota resource.
+    types:
+    - uid: CsmUsageQuota
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to next page of resources.
+    types:
+    - uid: string
+- name: CsmUsageQuota
+  description: Usage of the quota resource.
+  kind: object
+  properties:
+  - name: unit
+    description: Units of measurement for the quota resourse.
+    types:
+    - uid: string
+  - name: nextResetTime
+    description: Next reset time for the resource counter.
+    types:
+    - uid: string
+  - name: currentValue
+    description: The current value of the resource counter.
+    types:
+    - uid: integer
+  - name: limit
+    description: The resource limit.
+    types:
+    - uid: integer
+  - name: name
+    description: Quota name.
+    types:
+    - uid: LocalizableString
+- name: LocalizableString
+  description: Localizable string object containing the name and a localized value.
+  kind: object
+  properties:
+  - name: value
+    description: Non-localized name.
+    types:
+    - uid: string
+  - name: localizedValue
+    description: Localized name.
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

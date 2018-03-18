@@ -1,5 +1,5 @@
 ---
-title: "Users"
+title: "Users - Azure Cosmos DB REST API"
 ms.custom: ""
 ms.date: "2016-02-12"
 ms.prod: "azure"
@@ -13,7 +13,6 @@ caps.latest.revision: 7
 author: "mimig1"
 ms.author: "mimig"
 manager: "jhubbard"
-robots: noindex,nofollow
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -27,9 +26,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Users
-Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the DocumentDB API for Azure Cosmos DB. 
+[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for managing user [resources](/azure/cosmos-db/sql-api-resources) using the [SQL API](/azure/cosmos-db/sql-api-introduction) via REST.  
 
-The Azure Cosmos DB REST API supports basic CRUD operations on the resources under a database account. This topic outlines the operations that can be used on an Azure Cosmos DB account. A user is a logical namespace for scoping permissions on collections, documents, attachment, stored procedures, triggers, and user-defined functions. The user construct lives under a database resource and thus cannot cross the database boundary it is under. The user resource is represented by users in the Azure Cosmos DB REST resource model. It is a system resource, and thus contains a fixed schema.  
+A user is a logical namespace for scoping permissions on collections, documents, attachment, stored procedures, triggers, and user-defined functions. The user construct lives under a database resource and thus cannot cross the database boundary it is under. The user resource is represented by users in the Azure Cosmos DB REST resource model. It is a system resource, and thus contains a fixed schema.  
   
 The following example shows an example JSON representation for a user:  
   
@@ -65,10 +64,9 @@ The following example shows an example JSON representation for a user:
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/documentdb/documentdb-introduction)   
-* [Azure DocumentDB Reference Documentation](https://go.microsoft.com/fwlink/?linkid=834805)   
-* [Azure Cosmos DB SDKs](https://azure.microsoft.com/documentation/articles/documentdb-sdk-dotnet/)   
-* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net) 
+* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB SQL API SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet)    
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
 

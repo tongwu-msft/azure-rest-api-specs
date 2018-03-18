@@ -1,6 +1,6 @@
 ---
 title: "Get Deployed Application Health"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Gets the information about health of an application deployed on a Service Fabric
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetHealth?api-version=3.0&EventsHealthStateFilter={EventsHealthStateFilter}&DeployedServicePackagesHealthStateFilter={DeployedServicePackagesHealthStateFilter}&timeout={timeout}` |
+| GET | `/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetHealth?api-version=6.0&EventsHealthStateFilter={EventsHealthStateFilter}&DeployedServicePackagesHealthStateFilter={DeployedServicePackagesHealthStateFilter}&ExcludeHealthStatistics={ExcludeHealthStatistics}&timeout={timeout}` |
 
 
 ## Parameters
@@ -46,6 +46,7 @@ Gets the information about health of an application deployed on a Service Fabric
 | [api-version](#api-version) | string | Yes | Query |
 | [EventsHealthStateFilter](#eventshealthstatefilter) | integer | No | Query |
 | [DeployedServicePackagesHealthStateFilter](#deployedservicepackageshealthstatefilter) | integer | No | Query |
+| [ExcludeHealthStatistics](#excludehealthstatistics) | boolean | No | Query |
 | [timeout](#timeout) | integer (int64) | No | Query |
 
 ____
@@ -61,14 +62,22 @@ __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The identity of the application. This is typically the full name of the application without the 'fabric:' URI scheme.
+Starting from version 6.0, hierarchical names are delimited with the "~" character.
+For example, if the application name is "fabric:/myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
+
 
 ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of this API. This is a required parameter and its value must be "6.0".
+
+Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+
 
 ____
 ### EventsHealthStateFilter
@@ -80,13 +89,13 @@ Allows filtering the collection of HealthEvent objects returned based on health 
 The possible values for this parameter include integer value of one of the following health states.
 Only events that match the filter are returned. All events are used to evaluate the aggregated health state.
 If not specified, all entries are returned. The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) are returned.
-  
-- Default - Default value. Matches any HealthState. The value is zero. 
-- None - Filter that doesn’t match any HealthState value. Used in order to return no results on a given collection of states. The value is 1. 
-- Ok - Filter that matches input with HealthState value Ok. The value is 2. 
-- Warning - Filter that matches input with HealthState value Warning. The value is 4. 
-- Error - Filter that matches input with HealthState value Error. The value is 8. 
-- All - Filter that matches input with any HealthState value. The value is 65535. 
+
+- Default - Default value. Matches any HealthState. The value is zero.
+- None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+- Ok - Filter that matches input with HealthState value Ok. The value is 2.
+- Warning - Filter that matches input with HealthState value Warning. The value is 4.
+- Error - Filter that matches input with HealthState value Error. The value is 8.
+- All - Filter that matches input with any HealthState value. The value is 65535.
 
 
 ____
@@ -100,14 +109,24 @@ The possible values for this parameter include integer value of one of the follo
 Only deployed service packages that match the filter are returned. All deployed service packages are used to evaluate the aggregated health state of the deployed application.
 If not specified, all entries are returned.
 The state values are flag based enumeration, so the value can be a combination of these value obtained using bitwise 'OR' operator.
-For example, if the provided value is 6 then health state of service packages with HealthState value of OK (2) and Warning (4) are returned. 
-  
-- Default - Default value. Matches any HealthState. The value is zero. 
-- None - Filter that doesn’t match any HealthState value. Used in order to return no results on a given collection of states. The value is 1. 
-- Ok - Filter that matches input with HealthState value Ok. The value is 2. 
-- Warning - Filter that matches input with HealthState value Warning. The value is 4. 
-- Error - Filter that matches input with HealthState value Error. The value is 8. 
-- All - Filter that matches input with any HealthState value. The value is 65535. 
+For example, if the provided value is 6 then health state of service packages with HealthState value of OK (2) and Warning (4) are returned.
+
+- Default - Default value. Matches any HealthState. The value is zero.
+- None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+- Ok - Filter that matches input with HealthState value Ok. The value is 2.
+- Warning - Filter that matches input with HealthState value Warning. The value is 4.
+- Error - Filter that matches input with HealthState value Error. The value is 8.
+- All - Filter that matches input with any HealthState value. The value is 65535.
+
+
+____
+### ExcludeHealthStatistics
+__Type__: boolean <br/>
+__Required__: No<br/>
+__Default__: false <br/>
+<br/>
+Indicates whether the health statistics should be returned as part of the query result. False by default.
+The statistics show the number of children entities in health state Ok, Warning, and Error.
 
 
 ____

@@ -1,0 +1,165 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.property.update
+name: Update
+service: API Management
+groupName: Property
+apiVersion: 2018-01-01
+summary: Updates the specific property.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties/{propId}?api-version=2018-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: propId
+  in: path
+  isRequired: true
+  description: Identifier of the property.
+  types:
+  - uid: string
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: Property was successfully updated.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: properties.displayName
+    in: body
+    description: Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters.
+    types:
+    - uid: string
+  - name: properties.value
+    in: body
+    description: Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace.
+    types:
+    - uid: string
+  - name: properties.tags
+    in: body
+    description: Optional tags that when provided can be used to filter the property list.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.secret
+    in: body
+    description: Determines whether the value is a secret and should be encrypted or not. Default value is false.
+    types:
+    - uid: boolean
+requestHeader:
+- name: If-Match
+  in: header
+  isRequired: true
+  description: ETag of the Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
+  types:
+  - uid: string
+definitions:
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Error Field contract.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: PropertyUpdateParameters
+  description: Property update Parameters.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters.
+    types:
+    - uid: string
+  - name: properties.value
+    description: Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace.
+    types:
+    - uid: string
+  - name: properties.tags
+    description: Optional tags that when provided can be used to filter the property list.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.secret
+    description: Determines whether the value is a secret and should be encrypted or not. Default value is false.
+    types:
+    - uid: boolean
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementUpdateProperty
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/properties/testprop2?api-version=2018-01-01
+    body: >-
+      {
+        "properties": {
+          "tags": [
+            "foo",
+            "bar2"
+          ],
+          "secret": true
+        }
+      }
+    headers:
+    - name: If-Match
+      value: '*'
+  responses:
+  - statusCode: "204"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

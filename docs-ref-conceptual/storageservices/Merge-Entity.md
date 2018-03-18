@@ -50,7 +50,7 @@ The `Merge Entity` operation updates an existing entity by updating the entity's
 
 |Parameter|Description|
 |---------|-----------|
-|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Queue Service Operations](Setting-Timeouts-for-Queue-Service-Operations.md).|
+|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Table Service Operations](Setting-Timeouts-for-Table-Service-Operations.md).|
 
 ### Request Headers  
  The following table describes required and optional request headers.  
@@ -111,7 +111,7 @@ Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0
  This operation can be performed by the account owner and by anyone with a shared access signature that has permission to perform this operation.  
   
 ## Remarks  
- Any properties with `null` values are ignored by the `Merge Entity` operation. All other properties will be updated.  
+ The Table service does not persist `null` values for properties. Specifying a property with a `null` value is equivalent to omitting that property in the request.  Only properties with non-`null` values will be updated by the `Merge Entity` operation.  
   
  A property cannot be removed with a `Merge Entity` operation. To remove a property from an entity, replace the entity by calling the [Update Entity](Update-Entity2.md) operation.  
   

@@ -1,0 +1,390 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storsimple.jobs.listbydevice
+name: List By Device
+service: StorSimple
+groupName: Jobs
+apiVersion: 2017-06-01
+summary: Gets all the jobs for specified device. With optional OData query parameters, a filtered set of jobs is returned.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/jobs?api-version=2017-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/jobs?api-version=2017-06-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription id
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name
+  types:
+  - uid: string
+- name: managerName
+  in: path
+  isRequired: true
+  description: The manager name
+  types:
+  - uid: string
+- name: deviceName
+  in: path
+  isRequired: true
+  description: The device name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData Filter options
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The collection of jobs for the specified manager and device name.
+  types:
+  - uid: JobList
+requestHeader: []
+definitions:
+- name: JobList
+  description: The collection of jobs.
+  kind: object
+  properties:
+  - name: value
+    description: The job.
+    types:
+    - uid: Job
+      isArray: true
+  - name: nextLink
+    description: The NextLink.
+    types:
+    - uid: string
+- name: Job
+  description: The job.
+  kind: object
+  properties:
+  - name: status
+    description: The current status of the job.
+    types:
+    - uid: JobStatus
+  - name: startTime
+    description: The UTC time at which the job was started.
+    types:
+    - uid: string
+  - name: endTime
+    description: The UTC time at which the job completed.
+    types:
+    - uid: string
+  - name: percentComplete
+    description: The percentage of the job that is already complete.
+    types:
+    - uid: integer
+  - name: error
+    description: The error details, if any, for the job.
+    types:
+    - uid: JobErrorDetails
+  - name: properties.jobType
+    description: The type of the job.
+    types:
+    - uid: JobType
+  - name: properties.dataStats
+    description: The data statistics properties of the job.
+    types:
+    - uid: DataStatistics
+  - name: properties.entityLabel
+    description: The entity identifier for which the job ran.
+    types:
+    - uid: string
+  - name: properties.entityType
+    description: The entity type for which the job ran.
+    types:
+    - uid: string
+  - name: properties.jobStages
+    description: The details about the specific stage of a job.
+    types:
+    - uid: JobStage
+      isArray: true
+  - name: properties.deviceId
+    description: The device ID in which the job ran.
+    types:
+    - uid: string
+  - name: properties.isCancellable
+    description: Represents whether the job is cancellable or not.
+    types:
+    - uid: boolean
+  - name: properties.backupType
+    description: The backup type (CloudSnapshot | LocalSnapshot). Applicable only for backup jobs.
+    types:
+    - uid: BackupType
+  - name: properties.sourceDeviceId
+    description: The source device ID of the failover job.
+    types:
+    - uid: string
+  - name: properties.backupPointInTime
+    description: The time of the backup used for the failover.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the object.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+  - name: kind
+    description: The Kind of the object. Currently only Series8000 is supported
+    types:
+    - uid: Kind
+- name: JobStatus
+  description: The current status of the job.
+  kind: enum
+  properties:
+  - name: Running
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: JobErrorDetails
+  description: The job error details. Contains list of job error items.
+  kind: object
+  properties:
+  - name: errorDetails
+    description: The job error items.
+    types:
+    - uid: JobErrorItem
+      isArray: true
+  - name: code
+    description: The error code intended for programmatic access.
+    types:
+    - uid: string
+  - name: message
+    description: The error message intended to describe the error in detail.
+    types:
+    - uid: string
+- name: JobType
+  description: The type of the job.
+  kind: enum
+  properties:
+  - name: ScheduledBackup
+    types:
+    - uid: string
+  - name: ManualBackup
+    types:
+    - uid: string
+  - name: RestoreBackup
+    types:
+    - uid: string
+  - name: CloneVolume
+    types:
+    - uid: string
+  - name: FailoverVolumeContainers
+    types:
+    - uid: string
+  - name: CreateLocallyPinnedVolume
+    types:
+    - uid: string
+  - name: ModifyVolume
+    types:
+    - uid: string
+  - name: InstallUpdates
+    types:
+    - uid: string
+  - name: SupportPackageLogs
+    types:
+    - uid: string
+  - name: CreateCloudAppliance
+    types:
+    - uid: string
+- name: DataStatistics
+  description: The additional details related to the data related statistics of a job. Currently applicable only for Backup, Clone and Restore jobs.
+  kind: object
+  properties:
+  - name: totalData
+    description: The total bytes of data to be processed, as part of the job.
+    types:
+    - uid: integer
+  - name: processedData
+    description: The number of bytes of data processed till now, as part of the job.
+    types:
+    - uid: integer
+  - name: cloudData
+    description: The number of bytes of data written to cloud, as part of the job.
+    types:
+    - uid: integer
+  - name: throughput
+    description: The average throughput of data processed(bytes/sec), as part of the job.
+    types:
+    - uid: integer
+- name: JobStage
+  description: The details about the specific stage of a job.
+  kind: object
+  properties:
+  - name: message
+    description: The message of the job stage.
+    types:
+    - uid: string
+  - name: stageStatus
+    description: The stage status.
+    types:
+    - uid: JobStatus
+  - name: detail
+    description: The details of the stage.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code of the stage if any.
+    types:
+    - uid: string
+- name: BackupType
+  description: The type of the backup.
+  kind: enum
+  properties:
+  - name: LocalSnapshot
+    types:
+    - uid: string
+  - name: CloudSnapshot
+    types:
+    - uid: string
+- name: Kind
+  description: The Kind of the object. Currently only Series8000 is supported
+  kind: enum
+  properties:
+  - name: Series8000
+    types:
+    - uid: string
+- name: JobErrorItem
+  description: The job error items.
+  kind: object
+  properties:
+  - name: recommendations
+    description: The recommended actions.
+    types:
+    - uid: string
+      isArray: true
+  - name: code
+    description: The error code intended for programmatic access.
+    types:
+    - uid: string
+  - name: message
+    description: The error message intended to describe the error in detail.
+    types:
+    - uid: string
+examples:
+- name: JobsListByDevice
+  request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/jobs?api-version=2017-06-01&$filter=jobType%20eq%20'ManualBackup'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "status": "Succeeded",
+            "startTime": "2017-06-23T22:01:19.708Z",
+            "endTime": "2017-06-23T22:02:39.005Z",
+            "percentComplete": 100,
+            "properties": {
+              "jobType": "ManualBackup",
+              "dataStats": {
+                "totalData": 21474836480,
+                "processedData": 21474836480,
+                "cloudData": 138,
+                "throughput": 76
+              },
+              "entityLabel": "BkUpPolicy01ForSDKTest",
+              "entityType": "Microsoft.StorSimple/managers/devices/backupPolicies",
+              "deviceId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest",
+              "isCancellable": true,
+              "backupType": "CloudSnapshot",
+              "backupPointInTime": "0001-01-01T00:00:00Z"
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/jobs/880e1774-94a8-4f3e-85e6-a61e6b94a8b7",
+            "name": "880e1774-94a8-4f3e-85e6-a61e6b94a8b7",
+            "type": "Microsoft.StorSimple/managers/devices/jobs",
+            "kind": "Series8000"
+          },
+          {
+            "status": "Succeeded",
+            "startTime": "2017-06-23T21:29:15.914Z",
+            "endTime": "2017-06-23T21:30:37.397Z",
+            "percentComplete": 100,
+            "properties": {
+              "jobType": "ManualBackup",
+              "dataStats": {
+                "totalData": 26843545600,
+                "processedData": 26843545600,
+                "cloudData": 152,
+                "throughput": 656
+              },
+              "entityLabel": "BkUpPolicy01ForSDKTest",
+              "entityType": "Microsoft.StorSimple/managers/devices/backupPolicies",
+              "deviceId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest",
+              "isCancellable": true,
+              "backupType": "CloudSnapshot",
+              "backupPointInTime": "0001-01-01T00:00:00Z"
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/jobs/69829a17-ab98-40c3-a6d3-fe8d315f52af",
+            "name": "69829a17-ab98-40c3-a6d3-fe8d315f52af",
+            "type": "Microsoft.StorSimple/managers/devices/jobs",
+            "kind": "Series8000"
+          },
+          {
+            "status": "Succeeded",
+            "startTime": "2017-06-23T21:22:01.372Z",
+            "endTime": "2017-06-23T21:23:21.028Z",
+            "percentComplete": 100,
+            "properties": {
+              "jobType": "ManualBackup",
+              "dataStats": {
+                "totalData": 26843545600,
+                "processedData": 26843545600,
+                "cloudData": 152,
+                "throughput": 85
+              },
+              "entityLabel": "BkUpPolicyForSDKTest1032280949",
+              "entityType": "Microsoft.StorSimple/managers/devices/backupPolicies",
+              "deviceId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest",
+              "isCancellable": true,
+              "backupType": "CloudSnapshot",
+              "backupPointInTime": "0001-01-01T00:00:00Z"
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/jobs/0826eda8-3d17-4cb9-b2af-d18ecf6ab819",
+            "name": "0826eda8-3d17-4cb9-b2af-d18ecf6ab819",
+            "type": "Microsoft.StorSimple/managers/devices/jobs",
+            "kind": "Series8000"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

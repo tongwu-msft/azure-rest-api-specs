@@ -1,6 +1,6 @@
 ---
 title: "ApplicationHealthPolicy"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -54,7 +54,7 @@ __Type__: integer <br/>
 __Required__: No<br/>
 __Default__: 0 <br/>
 <br/>
-The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100.        
+The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100.
 The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error.
 This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster.
 The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.

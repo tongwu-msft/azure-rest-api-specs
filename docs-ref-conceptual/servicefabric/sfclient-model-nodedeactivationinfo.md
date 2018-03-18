@@ -1,6 +1,6 @@
 ---
 title: "NodeDeactivationInfo"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -44,7 +44,11 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The intent or the reason for deactivating the node. Following are the possible values for it.
+
+Possible values are: 
 
   - Invalid - Indicates the node deactivation intent is invalid. All Service Fabric enumerations have the invalid type. The value is zero. This value is not used.
   - Pause - Indicates that the node should be paused. The value is 1.
@@ -53,18 +57,23 @@ The intent or the reason for deactivating the node. Following are the possible v
   - RemoveNode - Indicates that the node is being decommissioned and is not expected to return. Service Fabric does not decommission the node, this action is done outside of Service Fabric. The value is 4.
 
 
+
 ____
 ### NodeDeactivationStatus
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The status of node deactivation operation. Following are the possible values.
 
+Possible values are: 
+
   - None - No status is associated with the task. The value is zero.
-  - SafetyCheckInProgress - When a node is deactivated Service Fabric performs checks to ensure that the operation is safe to proceed to ensure avaiablity of the service and reliability of the state. This value indicates that one or more safety checks are in progress. The value is 1.
-  - SafetyCheckComplete - When a node is deactivated Service Fabric performs checks to ensure that the operation is safe to proceed to ensure avaiablity of the service and reliability of the state. This value indicates that all safety checks have been completed. The value is 2.
+  - SafetyCheckInProgress - When a node is deactivated Service Fabric performs checks to ensure that the operation is safe to proceed to ensure availability of the service and reliability of the state. This value indicates that one or more safety checks are in progress. The value is 1.
+  - SafetyCheckComplete - When a node is deactivated Service Fabric performs checks to ensure that the operation is safe to proceed to ensure availability of the service and reliability of the state. This value indicates that all safety checks have been completed. The value is 2.
   - Completed - The task is completed. The value is 3.
-  
+
 
 
 ____

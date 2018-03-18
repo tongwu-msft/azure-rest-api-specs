@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceInfo"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -55,21 +55,24 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The identity of the service. This is same as service name without the 'fabric:' URI scheme. This is used in the REST APIs to identify the service resource.
+The identity of the service. This is an encoded representation of the service name. This is used in the REST APIs to identify the service resource.
+Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the service name is "fabric:/myapp/app1/svc1",
+the service identity would be "myapp~app1\~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
+
 
 ____
 ### Name
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Full hierarchical name of the service in URI format starting with `fabric:`.
+The full name of the service with 'fabric:' URI scheme.
 
 ____
 ### TypeName
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The name of the service type as specified in the service manifest.
+Name of the service type as specified in the service manifest.
 
 ____
 ### ManifestVersion
@@ -83,7 +86,11 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+Possible values are: 
 
   - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
   - Ok - Indicates the health state is okay. The value is 1.
@@ -92,19 +99,25 @@ The health state of a Service Fabric entity such as Cluster, Node, Application, 
   - Unknown - Indicates an unknown health status. The value is 65535.
 
 
+
 ____
 ### ServiceStatus
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-The status of the application. Possible values are:
 
-- Unknown - Indicates the service status is unknown. The value is zero.
-- Active - Indicates the service status is active. The value is 1.
-- Upgrading - Indicates the service is upgrading. The value is 2.
-- Deleting - Indicates the service is being deleted. The value is 3.
-- Creating - Indicates the service is being created. The value is 4.
-- Failed - Indicates creation or deletion was terminated due to persistent failures. Another create/delete request can be accepted. The value is 5.
+
+The status of the application.
+
+Possible values are: 
+
+  - Unknown - Indicates the service status is unknown. The value is zero.
+  - Active - Indicates the service status is active. The value is 1.
+  - Upgrading - Indicates the service is upgrading. The value is 2.
+  - Deleting - Indicates the service is being deleted. The value is 3.
+  - Creating - Indicates the service is being created. The value is 4.
+  - Failed - Indicates creation or deletion was terminated due to persistent failures. Another create/delete request can be accepted. The value is 5.
+
 
 
 ____

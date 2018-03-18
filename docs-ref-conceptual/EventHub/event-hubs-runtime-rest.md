@@ -37,7 +37,7 @@ These APIs enable you to access the Event Hubs service to perform operations on 
   
 -   (Optional) Set the x-ms-retrypolicy header to `NoRetry`, to disable automatic retry on send operations in the case of transient errors.  
   
--   Set the optional {BrokerProperties} header to a JSON-encoded list of `BrokerProperties`. For example, to target a specific partition via `PartitionKey`, use the following example:  
+-   Set the optional [**{BrokerProperties}**](/rest/api/servicebus/message-headers-and-properties) header to a JSON-encoded list of `BrokerProperties`. For example, to target a specific partition via `PartitionKey`, use the following example:  
   
     ```  
     POST https://your-namespace.servicebus.windows.net/your-event-hub/messages?timeout=60&api-version=2014-01 HTTP/1.1  

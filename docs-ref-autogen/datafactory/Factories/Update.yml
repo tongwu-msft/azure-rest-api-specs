@@ -1,0 +1,225 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.factories.update
+name: Update
+service: Data Factory
+groupName: Factories
+apiVersion: 2017-09-01-preview
+summary: Updates a factory.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}?api-version=2017-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: Factory
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: tags
+    in: body
+    description: The resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: identity
+    in: body
+    description: Managed service identity of the factory.
+    types:
+    - uid: FactoryIdentity
+requestHeader: []
+definitions:
+- name: FactoryIdentity
+  description: Identity properties of the factory resource.
+  kind: object
+  properties:
+  - name: type
+    description: The identity type. Currently the only supported type is 'SystemAssigned'.
+    types:
+    - uid: FactoryIdentityType
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The client tenant id of the identity.
+    types:
+    - uid: string
+- name: Factory
+  description: Factory resource type.
+  kind: object
+  properties:
+  - name: identity
+    description: Managed service identity of the factory.
+    types:
+    - uid: FactoryIdentity
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Factory provisioning state, example Succeeded.
+    types:
+    - uid: string
+  - name: properties.createTime
+    isReadyOnly: true
+    description: Time the factory was created in ISO8601 format.
+    types:
+    - uid: string
+  - name: properties.version
+    isReadyOnly: true
+    description: Version of the factory.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: location
+    description: The resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: The resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: details
+    description: The object that defines the structure of an Azure Data Factory response.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+- name: FactoryUpdateParameters
+  description: Parameters for updating a factory resource.
+  kind: object
+  properties:
+  - name: tags
+    description: The resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: identity
+    description: Managed service identity of the factory.
+    types:
+    - uid: FactoryIdentity
+- name: FactoryIdentityType
+  description: The identity type. Currently the only supported type is 'SystemAssigned'.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+examples:
+- name: Factories_Update
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName?api-version=2017-09-01-preview
+    body: >-
+      {
+        "tags": {
+          "exampleTag": "exampleValue"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2017 17:33:55 GMT
+    - name: x-ms-request-id
+      value: 3223701f-ce33-4a58-bb14-d3d53569d4f0
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1197"
+    - name: x-ms-correlation-request-id
+      value: ec4ce622-a1dd-4c49-a324-17e8d4d1fe83
+    body: >-
+      {
+        "name": "exampleFactoryName",
+        "tags": {
+          "exampleTag": "exampleValue"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "createTime": "2017-09-13T17:33:54.0294655Z",
+          "version": "2017-09-01-preview"
+        },
+        "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleresourcegroup/providers/Microsoft.DataFactory/factories/exampleFactoryName",
+        "type": "Microsoft.DataFactory/factories",
+        "location": "East US"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

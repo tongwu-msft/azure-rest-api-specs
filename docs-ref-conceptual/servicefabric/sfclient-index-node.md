@@ -1,6 +1,6 @@
 ---
 title: "Node"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -32,7 +32,7 @@ translation.priority.mt:
 | Name | Description |
 | --- | --- |
 | [Get Node Info List](sfclient-api-getnodeinfolist.md) | Gets the list of nodes in the Service Fabric cluster.<br/> |
-| [Get Node Info](sfclient-api-getnodeinfo.md) | Gets the list of nodes in the Service Fabric cluster.<br/> |
+| [Get Node Info](sfclient-api-getnodeinfo.md) | Gets the information about a specific node in the Service Fabric cluster.<br/> |
 | [Get Node Health](sfclient-api-getnodehealth.md) | Gets the health of a Service Fabric node.<br/> |
 | [Get Node Health Using Policy](sfclient-api-getnodehealthusingpolicy.md) | Gets the health of a Service Fabric node, by using the specified health policy.<br/> |
 | [Report Node Health](sfclient-api-reportnodehealth.md) | Sends a health report on the Service Fabric node.<br/> |
@@ -40,7 +40,5 @@ translation.priority.mt:
 | [Disable Node](sfclient-api-disablenode.md) | Deactivate a Service Fabric cluster node with the specified deactivation intent.<br/> |
 | [Enable Node](sfclient-api-enablenode.md) | Activate a Service Fabric cluster node which is currently deactivated.<br/> |
 | [Remove Node State](sfclient-api-removenodestate.md) | Notifies Service Fabric that the persisted state on a node has been permanently removed or lost.<br/> |
-| [Start Node](sfclient-api-startnode.md) | Starts a Service Fabric cluster node.<br/> |
-| [Stop Node](sfclient-api-stopnode.md) | Stops a Service Fabric cluster node.<br/> |
 | [Restart Node](sfclient-api-restartnode.md) | Restarts a Service Fabric cluster node.<br/> |
 

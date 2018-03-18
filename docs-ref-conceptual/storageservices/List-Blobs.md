@@ -52,7 +52,7 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
 |`delimiter`|Optional. When the request includes this parameter, the operation returns a `BlobPrefix` element in the response body that acts as a placeholder for all blobs whose names begin with the same substring up to the appearance of the delimiter character. The delimiter may be a single character or a string.|  
 |`marker`|Optional. A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items.<br /><br /> The marker value is opaque to the client.|  
 |`maxresults`|Optional. Specifies the maximum number of blobs to return, including all `BlobPrefix` elements. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request).|  
-|`include={snapshots,metadata,uncommittedblobs,copy}`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Specifies that snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that blob metadata be returned in the response.<br />-   `uncommittedblobs`: Specifies that blobs for which blocks have been uploaded, but which have not been committed using [Put Block List](Put-Block-List.md), be included in the response.<br />-   `copy`: Version 2012-02-12 and newer. Specifies that metadata related to any current or previous `Copy Blob` operation should be included in the response.<br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").|  
+|`include={snapshots,metadata,uncommittedblobs,copy,deleted}`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Specifies that snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that blob metadata be returned in the response.<br />-   `uncommittedblobs`: Specifies that blobs for which blocks have been uploaded, but which have not been committed using [Put Block List](Put-Block-List.md), be included in the response.<br />-   `copy`: Version 2012-02-12 and newer. Specifies that metadata related to any current or previous `Copy Blob` operation should be included in the response.<br />-`deleted`: Version 2017-07-29 and newer. Specifies that soft deleted blobs should be included in the response.<br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
@@ -109,25 +109,32 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
 -   `Content-Encoding` (previously `ContentEncoding`)  
   
 -   `Content-Language` (previously `ContentLanguage`)  
-  
- The `Content-MD5` element appears for blobs created with version 2009-09-19 and newer. In version 2012-02-12 and newer, the Blob service calculates the `Content-MD5` value when you upload a blob using [Put Blob](Put-Blob.md), but does not calculate this when you create a blob using [Put Block List](Put-Block-List.md). You can explicitly set the `Content-MD5` value when you create the blob, or by calling [Put Block List](Put-Block-List.md) or [Set Blob Properties](Set-Blob-Properties.md) operations.  
-  
- For versions from 2009-09-19 and newer but prior to version 2015-02-21, calling `List Blobs` on a container that includes append blobs will fail with status code 409 (FeatureVersionMismatch) if the result of listing contains an append blob.  
-  
- `LeaseState` and `LeaseDuration` appear only in version 2012-02-12 and later.  
-  
- `CopyId`, `CopyStatus`, `CopySource`, `CopyProgress`, `CopyCompletionTime`, and `CopyStatusDescription` only appear in version 2012-02-12 and later, when this operation includes the `include={copy}` parameter. These elements do not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`. These elements also do not appear with a blob created by [Copy Blob](Copy-Blob.md) before version 2012-02-12.  
-  
- In version 2013-08-15 and newer, the `EnumerationResults` element contains a `ServiceEndpoint` attribute specifying the blob endpoint, and a `ContainerName` field specifying the name of the container. In previous versions these two attributes were combined together in the `ContainerName` field. Also in version 2013-08-15 and newer, the `Url` element under `Blob` has been removed.  
-  
- For version 2015-02-21 and above, `List Blobs` returns blobs of all types (block, page, and append blobs).  
-  
- For version 2015-12-11 and above, `List Blobs` returns the `ServerEncrypted` element. This element is set to `true` if the blob and application metadata are completely encrypted, and `false` otherwise.  
 
- For version 2016-05-31 and above, `List Blobs` returns the `IncrementalCopy` element for incremental copy blobs and snapshots with the value set to `true`.
- 
- For version 2017-04-17 and above, `List Blobs` returns the `AccessTier` element for page blobs on a premium storage account if an access tier has been explicitly set. For a full list of supported blob tiers, check [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features).  
-  
+
+The `Content-MD5` element appears for blobs created with version 2009-09-19 and newer. In version 2012-02-12 and newer, the Blob service calculates the `Content-MD5` value when you upload a blob using [Put Blob](Put-Blob.md), but does not calculate this when you create a blob using [Put Block List](Put-Block-List.md). You can explicitly set the `Content-MD5` value when you create the blob, or by calling [Put Block List](Put-Block-List.md) or [Set Blob Properties](Set-Blob-Properties.md) operations.
+
+For versions from 2009-09-19 and newer but prior to version 2015-02-21, calling `List Blobs` on a container that includes append blobs will fail with status code 409 (FeatureVersionMismatch) if the result of listing contains an append blob.  
+
+`LeaseState` and `LeaseDuration` appear only in version 2012-02-12 and later.
+
+`CopyId`, `CopyStatus`, `CopySource`, `CopyProgress`, `CopyCompletionTime`, and `CopyStatusDescription` only appear in version 2012-02-12 and later, when this operation includes the `include={copy}` parameter. These elements do not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`. These elements also do not appear with a blob created by [Copy Blob](Copy-Blob.md) before version 2012-02-12.
+
+In version 2013-08-15 and newer, the `EnumerationResults` element contains a `ServiceEndpoint` attribute specifying the blob endpoint, and a `ContainerName` field specifying the name of the container. In previous versions these two attributes were combined together in the `ContainerName` field. Also in version 2013-08-15 and newer, the `Url` element under `Blob` has been removed.
+
+For version 2015-02-21 and above, `List Blobs` returns blobs of all types (block, page, and append blobs).  
+
+For version 2015-12-11 and above, `List Blobs` returns the `ServerEncrypted` element. This element is set to `true` if the blob and application metadata are completely encrypted, and `false` otherwise.  
+
+For version 2016-05-31 and above, `List Blobs` returns the `IncrementalCopy` element for incremental copy blobs and snapshots with the value set to `true`.
+
+For version 2017-04-17 and above, `List Blobs` returns the `AccessTier` element if an access tier has been explicitly set. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features). For Blob Storage or General Purpose v2 accounts, valid values are `Hot`/`Cool`/`Archive`. If the blob is in rehydrate pending state then `ArchiveStatus` element is returned with one of the valid values `rehydrate-pending-to-hot`/`rehydrate-pending-to-cool`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
+
+For version 2017-04-17 and above, `List Blobs` returns the `AccessTierInferred` element on Blob Storage or General Purpose v2 accounts. If the block blob does not have the access tier set then we infer tier from storage account properties and this value is set to `true`. This header is present only if the tier is inferred from the account property. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
+
+For version 2017-04-17 and above, `List Blobs` returns the `AccessTierChangeTime` element on Blob Storage or General Purpose v2 accounts. This is returned only if tier on block blob was ever set. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
+
+For version 2017-07-29 and above, `Deleted`, `DeletedTime` and `RemainingRetentionDays` appear when this operation includes the `include={deleted}` parameter. These elements do not appear if this blob was not deleted. These elements appear for blob or snapshot that are deleted with `DELETE` operation when soft delete feature was enabled. `Deleted` element is set to true for blobs and snapshots that are soft deleted. `Deleted-Time` corresponds to time when the blob was deleted. `RemainingRetentionDays` indicates number of days after which soft deleted blob will be permanently deleted by blob service.
+
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
 <EnumerationResults ServiceEndpoint="http://myaccount.blob.core.windows.net/"  ContainerName="mycontainer">  
@@ -137,8 +144,9 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
   <Delimiter>string-value</Delimiter>  
   <Blobs>  
     <Blob>  
-      <Name>blob-name</name>  
-      <Snapshot>date-time-value</Snapshot>  
+      <Name>blob-name</name>    
+      <Deleted>true</Deleted>
+      <Snapshot>date-time-value</Snapshot>
       <Properties>  
         <Last-Modified>date-time-value</Last-Modified>  
         <Etag>etag</Etag>  
@@ -161,7 +169,11 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
         <CopyCompletionTime>datetime</CopyCompletionTime>  
         <CopyStatusDescription>error string</CopyStatusDescription>  
         <ServerEncrypted>true</ServerEncrypted> 
-        <IncrementalCopy>true</IncrementalCopy> 
+        <IncrementalCopy>true</IncrementalCopy>
+        <AccessTierInferred>true</AccessTierInferred>
+        <AccessTierChangeTime>datetime</AccessTierChangeTime>
+        <DeletedTime>datetime</DeletedTime>
+        <RemainingRetentionDays>no-of-days</RemainingRetentionDays>
       </Properties>  
       <Metadata>     
         <Name>value</Name>  
@@ -237,6 +249,13 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
 -   `Cache-Control`  
   
 -   `Metadata`  
+
+ **Deleted Blobs in the Response**  
+  
+ Deleted blobs are listed in the response only if the `include=deleted` parameter was specified on the the URI. Deleted blobs listed in the response do not include the **Lease** elements as deleted blobs cannot have active leases.
+
+ Deleted snapshots are included in list response if `include=deleted,snapshot` was specified on the URI.
+
   
  **Returning Result Sets Using a Marker Value**  
   

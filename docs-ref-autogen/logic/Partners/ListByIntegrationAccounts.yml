@@ -1,0 +1,206 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.logicapps.partners.listbyintegrationaccounts
+name: List By Integration Accounts
+service: Logic Apps
+groupName: Partners
+apiVersion: 2016-06-01
+summary: Gets a list of integration account partners.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners?api-version=2016-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners?api-version=2016-06-01&$top={$top}&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: integrationAccountName
+  in: path
+  isRequired: true
+  description: The integration account name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The number of items to be included in the result.
+  types:
+  - uid: integer
+  format: int32
+- name: $filter
+  in: query
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: IntegrationAccountPartnerListResult
+requestHeader: []
+definitions:
+- name: IntegrationAccountPartnerListResult
+  description: The list of integration account partners.
+  kind: object
+  properties:
+  - name: value
+    description: The integration account partner.
+    types:
+    - uid: IntegrationAccountPartner
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: IntegrationAccountPartner
+  description: The integration account partner.
+  kind: object
+  properties:
+  - name: properties.partnerType
+    description: The partner type.
+    types:
+    - uid: PartnerType
+  - name: properties.createdTime
+    isReadyOnly: true
+    description: The created time.
+    types:
+    - uid: string
+  - name: properties.changedTime
+    isReadyOnly: true
+    description: The changed time.
+    types:
+    - uid: string
+  - name: properties.metadata
+    description: The metadata.
+    types:
+    - uid: Metadata
+  - name: properties.content
+    description: The partner content.
+    types:
+    - uid: PartnerContent
+  - name: id
+    isReadyOnly: true
+    description: The resource id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Gets the resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Gets the resource type.
+    types:
+    - uid: string
+  - name: location
+    description: The resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: The resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: PartnerType
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: B2B
+    types:
+    - uid: string
+- name: Metadata
+  description: The metadata.
+  kind: object
+  properties: []
+- name: PartnerContent
+  description: The integration account partner content.
+  kind: object
+  properties:
+  - name: b2b
+    description: The B2B partner content.
+    types:
+    - uid: B2BPartnerContent
+- name: B2BPartnerContent
+  description: The B2B partner content.
+  kind: object
+  properties:
+  - name: businessIdentities
+    description: The integration account partner's business identity.
+    types:
+    - uid: BusinessIdentity
+      isArray: true
+- name: BusinessIdentity
+  description: The integration account partner's business identity.
+  kind: object
+  properties:
+  - name: qualifier
+    description: The business identity qualifier e.g. as2identity, ZZ, ZZZ, 31, 32
+    types:
+    - uid: string
+  - name: value
+    description: The user defined business identity value.
+    types:
+    - uid: string
+examples:
+- name: Get partners by integrationaccount name
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/partners?api-version=2016-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "partnerType": "B2B",
+              "content": {
+                "b2b": {
+                  "businessIdentities": [
+                    {
+                      "qualifier": "AA",
+                      "value": "ZZ"
+                    }
+                  ]
+                }
+              },
+              "createdTime": "2017-03-06T19:42:59.197919Z",
+              "changedTime": "2017-03-06T19:42:59.1987212Z",
+              "metadata": {}
+            },
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/IntegrationAccount2431/partners/testIntegrationAccount",
+            "name": "IntegrationAccountPartner947",
+            "type": "Microsoft.Logic/integrationAccounts/partners"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

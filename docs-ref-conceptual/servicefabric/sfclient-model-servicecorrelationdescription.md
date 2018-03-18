@@ -1,6 +1,6 @@
 ---
 title: "ServiceCorrelationDescription"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -44,7 +44,9 @@ __Required__: Yes<br/>
 <br/>
 The ServiceCorrelationScheme which describes the relationship between this service and the service specified via ServiceName.
 
-The service correlation scheme. Possible values are following.
+The service correlation scheme.
+
+Possible values are: 
 
   - Invalid - An invalid correlation scheme. Cannot be used. The value is zero.
   - Affinity - Indicates that this service has an affinity relationship with another service. Provided for backwards compatibility, consider preferring the Aligned or NonAlignedAffinity options. The value is 1.

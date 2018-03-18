@@ -1,6 +1,6 @@
 ---
 title: "Replica"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -38,6 +38,7 @@ translation.priority.mt:
 | [Report Replica Health](sfclient-api-reportreplicahealth.md) | Sends a health report on the Service Fabric replica.<br/> |
 | [Get Deployed Service Replica Info List](sfclient-api-getdeployedservicereplicainfolist.md) | Gets the list of replicas deployed on a Service Fabric node.<br/> |
 | [Get Deployed Service Replica Detail Info](sfclient-api-getdeployedservicereplicadetailinfo.md) | Gets the details of replica deployed on a Service Fabric node.<br/> |
+| [Get Deployed Service Replica Detail Info By Partition Id](sfclient-api-getdeployedservicereplicadetailinfobypartitionid.md) | Gets the details of replica deployed on a Service Fabric node.<br/> |
 | [Restart Replica](sfclient-api-restartreplica.md) | Restarts a service replica of a persisted service running on a node.<br/> |
 | [Remove Replica](sfclient-api-removereplica.md) | Removes a service replica running on a node.<br/> |
 

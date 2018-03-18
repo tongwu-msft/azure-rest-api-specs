@@ -1,6 +1,6 @@
 ---
 title: "DeployedServicePackageHealth"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,6 +37,7 @@ Information about the health of a service package for a specific application dep
 | [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |
 | [HealthEvents](#healthevents) | array of [HealthEvent](sfclient-model-healthevent.md) | No |
 | [UnhealthyEvaluations](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
+| [HealthStatistics](#healthstatistics) | [HealthStatistics](sfclient-model-healthstatistics.md) | No |
 | [ApplicationName](#applicationname) | string | No |
 | [ServiceManifestName](#servicemanifestname) | string | No |
 | [NodeName](#nodename) | string | No |
@@ -52,6 +53,8 @@ The aggregation is done by applying the desired health policy.
 
 
 The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+Possible values are: 
 
   - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
   - Ok - Indicates the health state is okay. The value is 1.
@@ -76,11 +79,18 @@ __Required__: No<br/>
 The unhealthy evaluations that show why the current aggregated health state was returned by Health Manager.
 
 ____
+### HealthStatistics
+__Type__: [HealthStatistics](sfclient-model-healthstatistics.md) <br/>
+__Required__: No<br/>
+<br/>
+Shows the health statistics for all children types of the queried entity.
+
+____
 ### ApplicationName
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Name of the application.
+The name of the application, including the 'fabric:' URI scheme.
 
 ____
 ### ServiceManifestName

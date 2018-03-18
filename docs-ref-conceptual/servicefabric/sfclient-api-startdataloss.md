@@ -1,6 +1,6 @@
 ---
 title: "Start Data Loss"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -33,7 +33,7 @@ This API will induce data loss for the specified partition. It will trigger a ca
 This API will induce data loss for the specified partition. It will trigger a call to the OnDataLoss API of the partition.
 Actual data loss will depend on the specified DataLossMode
 PartialDataLoss - Only a quorum of replicas are removed and OnDataLoss is triggered for the partition but actual data loss depends on the presence of in-flight replication.
-FullDataLoss - All replicas are removed hence all data is lost and OnDataLoss is triggered.            
+FullDataLoss - All replicas are removed hence all data is lost and OnDataLoss is triggered.
 
 This API should only be called with a stateful service as the target.
 
@@ -42,13 +42,13 @@ Calling this API with a system service as the target is not advised.
 Note:  Once this API has been called, it cannot be reversed. Calling CancelOperation will only stop execution and clean up internal system state.
 It will not restore data if the command has progressed far enough to cause data loss.
 
-Call the GetDataLossProgress API with the same OperationId to return information on the operation started with this API.               
+Call the GetDataLossProgress API with the same OperationId to return information on the operation started with this API.
 
 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/StartDataLoss?api-version=3.0&OperationId={OperationId}&DataLossMode={DataLossMode}&timeout={timeout}` |
+| POST | `/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/StartDataLoss?api-version=6.0&OperationId={OperationId}&DataLossMode={DataLossMode}&timeout={timeout}` |
 
 
 ## Parameters
@@ -67,6 +67,9 @@ __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
+Starting from version 6.0, hierarchical names are delimited with the "~" character.
+For example, if the service name is "fabric:/myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
+
 
 ____
 ### partitionId
@@ -79,9 +82,14 @@ ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 3.0 <br/>
+__Default__: 6.0 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "3.0".
+The version of this API. This is a required parameter and its value must be "6.0".
+
+Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+
 
 ____
 ### OperationId
@@ -95,11 +103,7 @@ ____
 __Type__: string (enum) <br/>
 __Required__: Yes<br/>
 <br/>
-This enum is passed to the StartDataLoss API to indicate what type of data loss to induce.
-- Invalid - Reserved.  Do not pass into API.
-- PartialDataLoss - PartialDataLoss option will cause a quorum of replicas to go down, triggering an OnDataLoss event in the system for the given partition. 
-- FullDataLoss - FullDataLoss option will drop all the replicas which means that all the data will be lost. 
-. Possible values include: 'Invalid', 'PartialDataLoss', 'FullDataLoss'
+This enum is passed to the StartDataLoss API to indicate what type of data loss to induce. Possible values include: 'Invalid', 'PartialDataLoss', 'FullDataLoss'
 
 ____
 ### timeout

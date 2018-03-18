@@ -1,0 +1,307 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storsimple.alerts.listbymanager
+name: List By Manager
+service: StorSimple
+groupName: Alerts
+apiVersion: 2017-06-01
+summary: Retrieves all the alerts in a manager.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/alerts?api-version=2017-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/alerts?api-version=2017-06-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription id
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name
+  types:
+  - uid: string
+- name: managerName
+  in: path
+  isRequired: true
+  description: The manager name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData Filter options
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The collection of alerts.
+  types:
+  - uid: AlertList
+requestHeader: []
+definitions:
+- name: AlertList
+  description: The collection of alerts.
+  kind: object
+  properties:
+  - name: value
+    description: The alert.
+    types:
+    - uid: Alert
+      isArray: true
+  - name: nextLink
+    description: The URI of the next page of alerts.
+    types:
+    - uid: string
+- name: Alert
+  description: The alert.
+  kind: object
+  properties:
+  - name: properties.title
+    description: The title of the alert
+    types:
+    - uid: string
+  - name: properties.scope
+    description: The scope of the alert
+    types:
+    - uid: AlertScope
+  - name: properties.alertType
+    description: The type of the alert
+    types:
+    - uid: string
+  - name: properties.appearedAtTime
+    description: The UTC time at which the alert was raised
+    types:
+    - uid: string
+  - name: properties.appearedAtSourceTime
+    description: The source time at which the alert was raised
+    types:
+    - uid: string
+  - name: properties.clearedAtTime
+    description: The UTC time at which the alert was cleared
+    types:
+    - uid: string
+  - name: properties.clearedAtSourceTime
+    description: The source time at which the alert was cleared
+    types:
+    - uid: string
+  - name: properties.source
+    description: The source at which the alert was raised
+    types:
+    - uid: AlertSource
+  - name: properties.recommendation
+    description: The recommended action for the issue raised in the alert
+    types:
+    - uid: string
+  - name: properties.resolutionReason
+    description: The reason for resolving the alert
+    types:
+    - uid: string
+  - name: properties.severity
+    description: The severity of the alert
+    types:
+    - uid: AlertSeverity
+  - name: properties.status
+    description: The current status of the alert
+    types:
+    - uid: AlertStatus
+  - name: properties.errorDetails
+    description: The details of the error for which the alert was raised
+    types:
+    - uid: AlertErrorDetails
+  - name: properties.detailedInformation
+    description: More details about the alert
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the object.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+  - name: kind
+    description: The Kind of the object. Currently only Series8000 is supported
+    types:
+    - uid: Kind
+- name: AlertScope
+  description: The scope of the alert
+  kind: enum
+  properties:
+  - name: Resource
+    types:
+    - uid: string
+  - name: Device
+    types:
+    - uid: string
+- name: AlertSource
+  description: The source details at which the alert was raised
+  kind: object
+  properties:
+  - name: name
+    description: The name of the source
+    types:
+    - uid: string
+  - name: timeZone
+    description: The time zone of the source
+    types:
+    - uid: string
+  - name: alertSourceType
+    description: The source type of the alert
+    types:
+    - uid: AlertSourceType
+- name: AlertSeverity
+  description: The severity of the alert
+  kind: enum
+  properties:
+  - name: Informational
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Critical
+    types:
+    - uid: string
+- name: AlertStatus
+  description: The current status of the alert
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Cleared
+    types:
+    - uid: string
+- name: AlertErrorDetails
+  description: The details of the error for which the alert was raised
+  kind: object
+  properties:
+  - name: errorCode
+    description: The error code
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message
+    types:
+    - uid: string
+  - name: occurences
+    description: The number of occurences
+    types:
+    - uid: integer
+- name: Kind
+  description: The Kind of the object. Currently only Series8000 is supported
+  kind: enum
+  properties:
+  - name: Series8000
+    types:
+    - uid: string
+- name: AlertSourceType
+  description: The source type of the alert
+  kind: enum
+  properties:
+  - name: Resource
+    types:
+    - uid: string
+  - name: Device
+    types:
+    - uid: string
+examples:
+- name: AlertsListByManager
+  request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/alerts?api-version=2017-06-01&$filter=status%20eq%20'Active'%20and%20appearedOnTime%20ge%20'2017-06-09T18:30:00Z'%20and%20appearedOnTime%20le%20'2017-06-19T18:30:00Z'%20and%20sourceType%20eq%20'Device'%20and%20sourceName%20eq%20'Device05ForSDKTest'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "title": "4 login attempts failed for SnapShotManager",
+              "scope": "Device",
+              "alertType": "Security",
+              "appearedAtTime": "2017-06-14T11:35:41.2266096Z",
+              "appearedAtSourceTime": "2017-06-14T11:35:41.2266096Z",
+              "clearedAtTime": "0001-01-01T00:00:00Z",
+              "clearedAtSourceTime": "0001-01-01T00:00:00Z",
+              "source": {
+                "name": "Device05ForSDKTest",
+                "timeZone": "Pacific Standard Time",
+                "alertSourceType": "Device"
+              },
+              "recommendation": "Your device might be under attack or an authorized user is attempting to connect with an incorrect password. Check that your SnapShot manager instances are configured with the correct password. Once you have taken appropriate action, please clear this alert from the alerts page.",
+              "severity": "Warning",
+              "status": "Active",
+              "errorDetails": {
+                "occurences": 1
+              },
+              "detailedInformation": {}
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/alerts/308b5bd2-824b-436f-840e-44bde075ef33",
+            "name": "308b5bd2-824b-436f-840e-44bde075ef33",
+            "type": "Microsoft.StorSimple/managers/devices/alerts",
+            "kind": "Series8000"
+          },
+          {
+            "properties": {
+              "title": "Connectivity to Cloud1 cannot be established",
+              "scope": "Device",
+              "alertType": "Cloud Connectivity",
+              "appearedAtTime": "2017-06-14T11:30:43.6564921Z",
+              "appearedAtSourceTime": "2017-06-14T11:30:43.6564921Z",
+              "clearedAtTime": "0001-01-01T00:00:00Z",
+              "clearedAtSourceTime": "0001-01-01T00:00:00Z",
+              "source": {
+                "name": "Device05ForSDKTest",
+                "timeZone": "Pacific Standard Time",
+                "alertSourceType": "Device"
+              },
+              "recommendation": "Check your network settings.",
+              "severity": "Warning",
+              "status": "Active",
+              "errorDetails": {
+                "occurences": 1
+              },
+              "detailedInformation": {
+                "httP code": "400",
+                "status code": "12",
+                "rpC code": "109"
+              }
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/alerts/3c3df90a-cbbc-4cc4-bd63-b54ca05997da",
+            "name": "3c3df90a-cbbc-4cc4-bd63-b54ca05997da",
+            "type": "Microsoft.StorSimple/managers/devices/alerts",
+            "kind": "Series8000"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

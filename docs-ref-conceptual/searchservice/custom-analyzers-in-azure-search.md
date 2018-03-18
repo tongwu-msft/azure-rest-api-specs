@@ -1,7 +1,7 @@
 ---
 title: "Custom analyzers in Azure Search | Microsoft docs"
 ms.custom: ""
-ms.date: "2017-03-16"
+ms.date: "2017-09-02"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -14,7 +14,7 @@ ms.assetid: ac4f0c8f-1f7c-4fad-bc7d-58c86de98bf6
 caps.latest.revision: 96
 author: "Yahnoosh"
 ms.author: "jlembicz"
-manager: "jhubbard"
+manager: "pablocas"
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -29,8 +29,7 @@ translation.priority.mt:
 ---
 # Custom analyzers in Azure Search
 
-> [!NOTE]
->  Analyzers are a specific component of search technology, which you can learn about in [How full text search works in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture). If you came to this page looking for log or traffic analysis, please see [Enabling and using Search Traffic Analytics](https://azure.microsoft.com/documentation/articles/search-traffic-analytics/) instead.  
+A *custom analyzer* is a user-specified combination of tokenizer and optional filters used for customizing text processing in the search engine. For example, you could create a custom analyzer with a *char filter* to remove HTML markup before text inputs are tokenized.
 
 ## Overview
 
@@ -54,24 +53,26 @@ translation.priority.mt:
 
  You can define multiple custom analyzers to vary the combination of filters, but each field can only use one analyzer for indexing analysis and one for search analysis.  
 
- This page provides a list of supported analyzers, tokenizers, token filters, and char filters. You will also find a description of changes to the index definition with a usage example. For more background about the underlying technology leveraged in the Azure Search implementation, see [Analysis package summary (Lucene)](http://lucene.apache.org/core/4_10_3/core/org/apache/lucene/analysis/package-summary.html).  
+ This page provides a list of supported analyzers, tokenizers, token filters, and char filters. You can also find a description of changes to the index definition with a usage example. For more background about the underlying technology leveraged in the Azure Search implementation, see [Analysis package summary (Lucene)](https://lucene.apache.org/core/4_10_0/core/org/apache/lucene/codecs/lucene410/package-summary.html). For examples of analyzer configurations, see [Analyzers in Azure Search > Examples](https://docs.microsoft.com/azure/search/search-analyzers#examples).
+
 
 ## Default analyzer  
- The default analyzer is the [Apache Lucene StandardAnalyzer (standard lucene)](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/StandardAnalyzer.html).  
 
- It's used automatically on every searchable field unless you explicitly override it with another analyzer within the field definition. Alternative analyzers can be a custom analyzer or a different predefined analyzer from the list of available [Analyzers](#Analyzer) below.
+By default, searchable fields in Azure Search are analyzed with the [Apache Lucene Standard analyzer (standard lucene)](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/StandardAnalyzer.html) which breaks text into elements following the ["Unicode Text Segmentation"](https://unicode.org/reports/tr29/) rules. Additionally, the standard analyzer converts all characters to their lower case form. Both indexed documents and search terms go through the analysis during indexing and query processing.  
+
+ It's used automatically on every searchable field unless you explicitly override it with another analyzer within the field definition. Alternative analyzers can be a custom analyzer or a different predefined analyzer from the list of available [Analyzers](#AnalyzerTable) below.
 
 ## Validation rules  
  Names of analyzers, tokenizers, token filters, and char filters have to be unique and cannot be the same as any of the predefined analyzers, tokenizers, token filters, or char filters. See the [Property Reference](#PropertyReference) for names already in use.
 
 ## Create a custom analyzer
- You can define custom analyzers at index creation time. The syntax for specifying a custom analyzer is described in this section. You can also familiarize yourself with the syntax by reviewing sample definitions in the [Examples](#Example) section further on.  
+ You can define custom analyzers at index creation time. The syntax for specifying a custom analyzer is described in this section. You can also familiarize yourself with the syntax by reviewing sample definitions in [Analyzers in Azure Search](https://docs.microsoft.com/azure/search/search-analyzers#examples).  
 
- An analyzer definition includes a name, a type, one or more char filters, a maximum of one tokenizer, and one or more token filters for post-tokenization processing. Char filers are applied before tokenization. Token filters and char filters will be applied from left to right.
+ An analyzer definition includes a name, a type, one or more char filters, a maximum of one tokenizer, and one or more token filters for post-tokenization processing. Char filers are applied before tokenization. Token filters and char filters are applied from left to right.
 
  The `tokenizer_name` is the name of a tokenizer, `token_filter_name_1`  and `token_filter_name_2` are the names of token filters, and `char_filter_name_1` and `char_filter_name_2` are the names of char filters (see the [Tokenizers](#Tokenizers), [Token filters](#TokenFilters) and [Char filters](#CharFilters) tables for valid values).
 
-The analyzer definition is a part of the larger index. See [Create Index preview API](https://azure.microsoft.com/documentation/articles/search-api-2016-09-01-preview/#create-index) for information about the rest of the index.
+The analyzer definition is a part of the larger index. See [Create Index API](https://docs.microsoft.com/rest/api/searchservice/create-index) for information about the rest of the index.
 
 ```  
 "analyzers":(optional)[  
@@ -150,7 +151,7 @@ Definitions for char filters, tokenizers, and token filters are added to the ind
 <a name="Testing custom analyzers"></a>
 ## Test a custom analyzer
 
-You can use the **Test Analyzer operation** in the [Preview REST API](https://docs.microsoft.com/azure/search/search-api-2015-02-28-preview) to see how an analyzer breaks given text into tokens.
+You can use the **Test Analyzer operation** in the [REST API](https://docs.microsoft.com/rest/api/searchservice/test-analyzer) to see how an analyzer breaks given text into tokens.
 
 **Request**
 ~~~~
@@ -203,10 +204,12 @@ Once an analyzer, a tokenizer, a token filter or a char filter is defined, it ca
 PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]&allowIndexDowntime=true
 ~~~~
 
-Note that this operation will take your index offline for at least a few seconds, causing your indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for very large indexes, but these effects are temporary and will eventually resolve on their own.
+Note that this operation takes your index offline for at least a few seconds, causing your indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for very large indexes, but these effects are temporary and eventually resolve on their own.
 
  <a name="ReferenceIndexAttributes"></a>
+
 ## Index Attribute Reference
+
 The tables below list the configuration properties for the analyzers, tokenizers, token filters and char filter section of an index definition. The structure of an analyzer, tokenizer, or filter in your index is composed of these attributes. For value assignment information, see the [Property Reference](#PropertyReference).
 
  ### Analyzers
@@ -229,7 +232,7 @@ For analyzers, index attributes vary depending on the whether you're using prede
 |Type|Must be "#Microsoft.Azure.Search.CustomAnalyzer".|  
 |CharFilters|All of the char filters are either one of predefined char filters listed in the [Char Filters](#CharFilter) table or any of the custom char filters defined in the index definition.|  
 |Tokenizer|Required. Must be one of predefined tokenizers listed in the [Tokenizers](#Tokenizers) table below or any of the custom tokenizers defined in the index definition.|  
-|TokenFilters|All of the token filters are either one of predefined token filters listed in the[Token filters](#TokenFilters) table or any of the custom token filters defined in the index definition.|  
+|TokenFilters|All of the token filters are either one of predefined token filters listed in the [Token filters](#TokenFilters) table or any of the custom token filters defined in the index definition.|  
 
  ### Char Filters
 
@@ -266,276 +269,123 @@ You can have multiple token filters in a custom analyzer. Token filters run in t
 |Options|Must be [Token filters](#TokenFilters) of a given token filter type.|  
 
 <a name="PropertyReference"></a>  
+
 ## Property reference
 
 This section provides the valid values for attributes specified in the definition of a custom analyzer, tokenizer, char filter, or token filter in your index. Analyzers, tokenizers, and filters that are implemented using Apache Lucene have links to the Lucene API documentation.
 
-###  <a name="Analyzers"></a> Analyzers  
+<a name="AnalyzerTable"></a>
+
+###  Predefined Analyzers Reference
 
 |**analyzer_name**|**analyzer_type**  <sup>1</sup>|**Description and Options**|  
 |-|-|-|  
-|[keyword](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/KeywordAnalyzer.html)| (type applies only when options are available) |Treats the entire content of a field as a single token. This is useful for data like zip codes, ids, and some product names.|  
-|[pattern](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/PatternAnalyzer.html)|PatternAnalyzer|Flexibly separates text into terms via a regular expression pattern.<br /><br /> **Options**<br /><br /> lowercase (type: bool) - Determines whether terms are lowercased. The default is true.<br /><br /> [pattern](http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html?is-external=true) (type: string) - A regular expression pattern to match token separators. The default is \w+.<br /><br /> [flags](http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html#field_summary) (type: string) - Regular expression flags. The default is an empty string. Allowed values: CANON_EQ, CASE_INSENSITIVE, COMMENTS, DOTALL, LITERAL, MULTILINE, UNICODE_CASE, UNIX_LINES<br /><br /> stopwords (type: string array) - A list of stopwords. The default is an empty list.|  
-|[simple](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/SimpleAnalyzer.html)|(type applies only when options are available) |Divides text at non-letters and converts them to lower case. |  
-|[standard](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/StandardAnalyzer.html) <br />(Also referred to as standard.lucene)|StandardAnalyzer|Standard Lucene analyzer, composed of the standard tokenizer, lowercase filter and stop filter.<br /><br /> **Options**<br /><br /> maxTokenLength (type: int) - The maximum token length. The default is 255. Tokens longer than the maximum length are split. Maximum token length that can be used is 300 characters.<br /><br /> stopwords (type: string array) - A list of stopwords. The default is an empty list.|  
+|[keyword](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/KeywordAnalyzer.html)| (type applies only when options are available) |Treats the entire content of a field as a single token. This is useful for data like zip codes, ids, and some product names.|  
+|[pattern](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/PatternAnalyzer.html)|PatternAnalyzer|Flexibly separates text into terms via a regular expression pattern.<br /><br /> **Options**<br /><br /> lowercase (type: bool) - Determines whether terms are lowercased. The default is true.<br /><br /> [pattern](https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html?is-external=true) (type: string) - A regular expression pattern to match token separators. The default is \w+.<br /><br /> [flags](https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html#field_summary) (type: string) - Regular expression flags. The default is an empty string. Allowed values: CANON_EQ, CASE_INSENSITIVE, COMMENTS, DOTALL, LITERAL, MULTILINE, UNICODE_CASE, UNIX_LINES<br /><br /> stopwords (type: string array) - A list of stopwords. The default is an empty list.|  
+|[simple](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/SimpleAnalyzer.html)|(type applies only when options are available) |Divides text at non-letters and converts them to lower case. |  
+|[standard](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/StandardAnalyzer.html) <br />(Also referred to as standard.lucene)|StandardAnalyzer|Standard Lucene analyzer, composed of the standard tokenizer, lowercase filter and stop filter.<br /><br /> **Options**<br /><br /> maxTokenLength (type: int) - The maximum token length. The default is 255. Tokens longer than the maximum length are split. Maximum token length that can be used is 300 characters.<br /><br /> stopwords (type: string array) - A list of stopwords. The default is an empty list.|  
 |standardasciifolding.lucene|(type applies only when options are available) |Standard analyzer with Ascii folding filter. |  
-|[stop](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/StopAnalyzer.html)|StopAnalyzer|Divides text at non-letters, applies the lowercase and stopword token filters.<br /><br /> **Options**<br /><br /> stopwords (type: string array) - A list of stopwords. The default is an empty list.|  
-|[whitespace](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/WhitespaceAnalyzer.html)|(type applies only when options are available) |An analyzer that uses the whitespace tokenizer. Tokens that are longer than 255 characters are split.|  
+|[stop](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/StopAnalyzer.html)|StopAnalyzer|Divides text at non-letters, applies the lowercase and stopword token filters.<br /><br /> **Options**<br /><br /> stopwords (type: string array) - A list of stopwords. The default is a predefined list for English. |  
+|[whitespace](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/WhitespaceAnalyzer.html)|(type applies only when options are available) |An analyzer that uses the whitespace tokenizer. Tokens that are longer than 255 characters are split.|  
 
  <sup>1</sup> Analyzer Types are always prefixed in code with "#Microsoft.Azure.Search" such that "PatternAnalyzer" would actually be specified as "#Microsoft.Azure.Search.PatternAnalyzer". We removed the prefix to reduce the width of the table, but please remember to include it in your code. Note that analyzer_type is only provided for analyzers that can be customized. If there are no options, as is the case with the keyword analyzer, there is no associated #Microsoft.Azure.Search type.
 
 
-###  <a name="CharFilter"></a> Char Filters  
+<a name="CharFilter"></a>
+
+###  Char Filters Reference
 
 In the table below, the character filters that are implemented using Apache Lucene are linked to the Lucene API documentation.
 
 |**char_filter_name**|**char_filter_type** <sup>1</sup>|**Description and Options**|  
 |-|-|-|
 |[html_strip](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/charfilter/HTMLStripCharFilter.html)|(type applies only when options are available)  |A char filter that attempts to strip out HTML constructs.|  
-|[mapping](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/charfilter/MappingCharFilter.html)|MappingCharFilter|A char filter that applies mappings defined with the mappings option. Matching is greedy (longest pattern matching at a given point wins). Replacement is allowed to be the empty string.<br /><br /> **Options**<br /><br /> mappings (type: string array) - A list of mappings of the following format: "a=>b" (all occurrences of the character "a" will be replaced with character "b"). Required.|  
+|[mapping](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/charfilter/MappingCharFilter.html)|MappingCharFilter|A char filter that applies mappings defined with the mappings option. Matching is greedy (longest pattern matching at a given point wins). Replacement is allowed to be the empty string.<br /><br /> **Options**<br /><br /> mappings (type: string array) - A list of mappings of the following format: "a=>b" (all occurrences of the character "a" are replaced with character "b"). Required.|  
 |[pattern_replace](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/pattern/PatternReplaceCharFilter.html)|PatternReplaceCharFilter|A char filter that replaces characters in the input string. It uses a regular expression to identify character sequences to preserve and a replacement pattern to identify characters to replace. For example, input text = "aa  bb aa bb", pattern="(aa)\\\s+(bb)" replacement="$1#$2", result = "aa#bb aa#bb".<br /><br /> **Options**<br /><br /> pattern (type: string) - Required.<br /><br /> replacement (type: string) - Required.|  
 
  <sup>1</sup> Char Filter Types are always prefixed in code with "#Microsoft.Azure.Search" such that "MappingCharFilter" would actually be specified as "#Microsoft.Azure.Search.MappingCharFilter. We removed the prefix to reduce the width of the table, but please remember to include it in your code. Note that char_filter_type is only provided for filters that can be customized. If there are no options, as is the case with html_strip, there is no associated #Microsoft.Azure.Search type.
 
-###  <a name="Tokenizers"></a> Tokenizers  
+<a name="Tokenizers"></a>
+
+###  Tokenizers Reference
 
 In the table below, the tokenizers that are implemented using Apache Lucene are linked to the Lucene API documentation.
 
 |**tokenizer_name**|**tokenizer_type** <sup>1</sup>|**Description and Options**|  
 |-|-|-|  
-|[classic](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/ClassicTokenizer.html)|ClassicTokenizer|Grammar based tokenizer that is suitable for processing most European-language documents.<br /><br /> **Options**<br /><br /> maxTokenLength (type: int) - The maximum token length. Default: 255, maximum: 300. Tokens longer than the maximum length are split.|  
+|[classic](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/ClassicTokenizer.html)|ClassicTokenizer|Grammar based tokenizer that is suitable for processing most European-language documents.<br /><br /> **Options**<br /><br /> maxTokenLength (type: int) - The maximum token length. Default: 255, maximum: 300. Tokens longer than the maximum length are split.|  
 |[edgeNGram](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ngram/EdgeNGramTokenizer.html)|EdgeNGramTokenizer|Tokenizes the input from an edge into n-grams of given size(s).<br /><br /> **Options**<br /><br /> minGram (type: int) - Default: 1, maximum: 300.<br /><br /> maxGram (type: int) - Default: 2, maximum: 300. Must be greater than minGram.<br /><br /> tokenChars (type: string array) - Character classes to keep in the tokens. Allowed values: <br />"letter", "digit", "whitespace", "punctuation", "symbol". Defaults to an empty array - keeps all characters. |  
-|[keyword_v2](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/KeywordTokenizer.html)|KeywordTokenizerV2|Emits the entire input as a single token.<br /><br /> **Options**<br /><br /> maxTokenLength (type: int) - The maximum token length. Default: 256, maximum: 300. Tokens longer than the maximum length are split.|  
-|[letter](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/LetterTokenizer.html)|(type applies only when options are available)  |Divides text at non-letters. Tokens that are longer than 255 characters are split.|  
-|[lowercase](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/LowerCaseTokenizer.html)|(type applies only when options are available)  |Divides text at non-letters and converts them to lower case. Tokens that are longer than 255 characters are split.|  
+|[keyword_v2](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/KeywordTokenizer.html)|KeywordTokenizerV2|Emits the entire input as a single token.<br /><br /> **Options**<br /><br /> maxTokenLength (type: int) - The maximum token length. Default: 256, maximum: 300. Tokens longer than the maximum length are split.|  
+|[letter](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/LetterTokenizer.html)|(type applies only when options are available)  |Divides text at non-letters. Tokens that are longer than 255 characters are split.|  
+|[lowercase](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/LowerCaseTokenizer.html)|(type applies only when options are available)  |Divides text at non-letters and converts them to lower case. Tokens that are longer than 255 characters are split.|  
 | microsoft_language_tokenizer| MicrosoftLanguageTokenizer| Divides text using language-specific rules.<br /><br /> **Options**<br /><br /> maxTokenLength (type: int) - The maximum token length, default: 255, maximum: 300. Tokens longer than the maximum length are split. Tokens longer than 300 characters are first split into tokens of length 300 and then each of those tokens is split based on the maxTokenLength set.<br /><br />isSearchTokenizer (type: bool) - Set to true if used as the search tokenizer, set to false if used as the indexing tokenizer. <br /><br /> language (type: string) - Language to use, default "english". Allowed values include:<br />"bangla", "bulgarian", "catalan", "chineseSimplified",  "chineseTraditional", "croatian", "czech", "danish", "dutch", "english",  "french", "german", "greek", "gujarati", "hindi", "icelandic", "indonesian", "italian", "japanese", "kannada", "korean", "malay", "malayalam", "marathi", "norwegianBokmaal", "polish", "portuguese", "portugueseBrazilian", "punjabi", "romanian", "russian", "serbianCyrillic", "serbianLatin", "slovenian", "spanish", "swedish", "tamil", "telugu", "thai", "ukrainian", "urdu", "vietnamese" |
 | microsoft_language_stemming_tokenizer | MicrosoftLanguageStemmingTokenizer| Divides text using language-specific rules and reduces words to their base forms<br /><br /> **Options**<br /><br />maxTokenLength (type: int) - The maximum token length, default: 255, maximum: 300. Tokens longer than the maximum length are split. Tokens longer than 300 characters are first split into tokens of length 300 and then each of those tokens is split based on the maxTokenLength set.<br /><br /> isSearchTokenizer (type: bool) - Set to true if used as the search tokenizer, set to false if used as the indexing tokenizer.<br /><br /> language (type: string) - Language to use, default "english". Allowed values include:<br />"arabic", "bangla", "bulgarian", "catalan", "croatian", "czech", "danish", "dutch", "english", "estonian", "finnish", "french", "german", "greek", "gujarati", "hebrew", "hindi", "hungarian", "icelandic", "indonesian", "italian", "kannada", "latvian", "lithuanian", "malay", "malayalam", "marathi", "norwegianBokmaal", "polish", "portuguese", "portugueseBrazilian", "punjabi", "romanian", "russian", "serbianCyrillic", "serbianLatin", "slovak", "slovenian", "spanish", "swedish", "tamil", "telugu", "turkish", "ukrainian", "urdu" |
-|[nGram](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ngram/NGramTokenizer.html)|NGramTokenizer|Tokenizes the input into n-grams of the given size(s).<br /><br /> **Options**<br /><br /> minGram (type: int) - Default: 1, maximum: 300.<br /><br /> maxGram (type: int) - Default: 2, maximum: 300. Must be greater than minGram. <br /><br /> tokenChars (type: string array) - Character classes to keep in the tokens. Allowed values: "letter", "digit", "whitespace", "punctuation", "symbol". Defaults to an empty array - keeps all characters. |  
-|[path_hierarchy_v2](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/path/PathHierarchyTokenizer.html)|PathHierarchyTokenizerV2|Tokenizer for path-like hierarchies.<br /><br /> **Options**<br /><br /> delimiter (type: string) - Default: '/.<br /><br /> replacement (type: string) - If set, replaces the delimiter character. Default same as the value of delimiter.<br /><br /> maxTokenLength (type: int) -  The maximum token length. Default: 300, maximum: 300. Paths loner than maxTokenLength are ignored.<br /><br /> reverse (type: bool) - If true, generates token in reverse order. Default: false.<br /><br /> skip (type: bool) - Initial tokens to skip. The default is 0.|  
-|[pattern](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/pattern/PatternTokenizer.html)|PatternTokenizer|This tokenizer uses regex pattern matching to construct distinct tokens.<br /><br /> **Options**<br /><br /> pattern (type: string) - Regular expression pattern. The default is \w+.<br /><br /> [flags](http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html#field_summary) (type: string) - Regular expression flags. The default is an empty string. Allowed values: CANON_EQ, CASE_INSENSITIVE, COMMENTS, DOTALL, LITERAL, MULTILINE, UNICODE_CASE, UNIX_LINES<br /><br /> group (type: int) - Which group to extract into tokens. The defaultis  -1 (split).|  
-|[standard_v2](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/StandardTokenizer.html)|StandardTokenizerV2|Breaks text following the [Unicode Text Segmentation rules](http://unicode.org/reports/tr29/).<br /><br /> **Options**<br /><br /> maxTokenLength (type: int) - The maximum token length. Default: 255, maximum: 300. Tokens longer than the maximum length are split.|  
-|[uax_url_email](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/UAX29URLEmailTokenizer.html)|UaxUrlEmailTokenizer|Tokenizes urls and emails as one token.<br /><br /> **Options**<br /><br /> maxTokenLength (type: int) - The maximum token length. Default: 255, maximum: 300. Tokens longer than the maximum length are split.|  
-|[whitespace](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/WhitespaceTokenizer.html)|(type applies only when options are available) |Divides text at whitespace. Tokens that are longer than 255 characters are split.|  
+|[nGram](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ngram/NGramTokenizer.html)|NGramTokenizer|Tokenizes the input into n-grams of the given size(s).<br /><br /> **Options**<br /><br /> minGram (type: int) - Default: 1, maximum: 300.<br /><br /> maxGram (type: int) - Default: 2, maximum: 300. Must be greater than minGram. <br /><br /> tokenChars (type: string array) - Character classes to keep in the tokens. Allowed values: "letter", "digit", "whitespace", "punctuation", "symbol". Defaults to an empty array - keeps all characters. |  
+|[path_hierarchy_v2](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/path/PathHierarchyTokenizer.html)|PathHierarchyTokenizerV2|Tokenizer for path-like hierarchies.<br /><br /> **Options**<br /><br /> delimiter (type: string) - Default: '/.<br /><br /> replacement (type: string) - If set, replaces the delimiter character. Default same as the value of delimiter.<br /><br /> maxTokenLength (type: int) -  The maximum token length. Default: 300, maximum: 300. Paths loner than maxTokenLength are ignored.<br /><br /> reverse (type: bool) - If true, generates token in reverse order. Default: false.<br /><br /> skip (type: bool) - Initial tokens to skip. The default is 0.|  
+|[pattern](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/pattern/PatternTokenizer.html)|PatternTokenizer|This tokenizer uses regex pattern matching to construct distinct tokens.<br /><br /> **Options**<br /><br /> pattern (type: string) - Regular expression pattern. The default is \w+.<br /><br /> [flags](https://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html#field_summary) (type: string) - Regular expression flags. The default is an empty string. Allowed values: CANON_EQ, CASE_INSENSITIVE, COMMENTS, DOTALL, LITERAL, MULTILINE, UNICODE_CASE, UNIX_LINES<br /><br /> group (type: int) - Which group to extract into tokens. The defaultis  -1 (split).|  
+|[standard_v2](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/StandardTokenizer.html)|StandardTokenizerV2|Breaks text following the [Unicode Text Segmentation rules](https://unicode.org/reports/tr29/).<br /><br /> **Options**<br /><br /> maxTokenLength (type: int) - The maximum token length. Default: 255, maximum: 300. Tokens longer than the maximum length are split.|  
+|[uax_url_email](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/UAX29URLEmailTokenizer.html)|UaxUrlEmailTokenizer|Tokenizes urls and emails as one token.<br /><br /> **Options**<br /><br /> maxTokenLength (type: int) - The maximum token length. Default: 255, maximum: 300. Tokens longer than the maximum length are split.|  
+|[whitespace](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/WhitespaceTokenizer.html)|(type applies only when options are available) |Divides text at whitespace. Tokens that are longer than 255 characters are split.|  
 
  <sup>1</sup> Tokenizer Types are always prefixed in code with "#Microsoft.Azure.Search" such that  "ClassicTokenizer" would actually be specified as "#Microsoft.Azure.Search.ClassicTokenizer". We removed the prefix to reduce the width of the table, but please remember to include it in your code. Note that tokenizer_type is only provided for tokenizers that can be customized. If there are no options, as is the case with the letter tokenizer, there is no associated #Microsoft.Azure.Search type.
 
-###  <a name="TokenFilters"></a> Token filters  
+<a name="TokenFilters"></a>
+
+###  Token Filters Reference
 
 In the table below, the token filters that are implemented using Apache Lucene are linked to the Lucene API documentation.
 
 |**token_filter_name**|**token_filter_type** <sup>1</sup>|**Description and Options**|  
 |-|-|-|  
-|[arabic_normalization](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ar/ArabicNormalizationFilter.html)|(type applies only when options are available)  |A token filter that applies the Arabic normalizer to normalize the orthography.|  
-|[apostrophe](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/tr/ApostropheFilter.html)|(type applies only when options are available)  |Strips all characters after an apostrophe (including the apostrophe itself). |  
-|[asciifolding](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/ASCIIFoldingFilter.html)|AsciiFoldingTokenFilter|Converts alphabetic, numeric, and symbolic Unicode characters which are not in the first 127 ASCII characters (the "Basic Latin" Unicode block) into their ASCII equivalents, if one exists.<br /><br /> **Options**<br /><br /> preserveOriginal (type: bool) - If true, the original token will be kept. The default is false.|  
-|[cjk_bigram](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/cjk/CJKBigramFilter.html)|CjkBigramTokenFilter|Forms bigrams of CJK terms that are generated from StandardTokenizer.<br /><br /> **Options**<br /><br /> ignoreScripts (type: string array) - Scripts to ignore. Allowed values include: "han", "hiragana", "katakana", "hangul". The default is an empty list.<br /><br /> outputUnigrams (type: bool) - Set to true if you always want to output both unigrams and bigrams. The default is false.|  
-|[cjk_width](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/cjk/CJKWidthFilter.html)|(type applies only when options are available)  |Normalizes CJK width differences. Folds fullwidth ASCII variants into the equivalent basic latin and half width Katakana variants into the equivalent kana. |  
-|[classic](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/ClassicFilter.html)|(type applies only when options are available)  |Removes the English possessives, and dots from acronyms. |  
-|[common_grams](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/commongrams/CommonGramsFilter.html)|CommonGramTokenFilter|Construct bigrams for frequently occurring terms while indexing. Single terms are still indexed too, with bigrams overlaid.<br /><br /> **Options**<br /><br /> commonWords (type: string array) - The set of common words. The default is an empty list. Required.<br /><br /> ignoreCase (type: bool) - If true, common words matching will be case insensitive. The default is false.<br /><br /> queryMode (type: bool) - Generates bigrams then removes common words and single terms followed by a common word. The default is false.|  
-|[dictionary_decompounder](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/compound/DictionaryCompoundWordTokenFilter.html)|DictionaryDecompounderTokenFilter|Decomposes compound words found in many Germanic languages.<br /><br /> **Options**<br /><br /> wordList (type: string array) - The list of words to match against. The default is an empty list. Required.<br /><br /> minWordSize (type: int) - Only words longer than this get processed. The default is 5.<br /><br /> minSubwordSize (type: int) - Only subwords longer than this are outputted. The default is 2.<br /><br /> maxSubwordSize (type: int) - Only subwords shorter than this are outputted. The default is 15.<br /><br /> onlyLongestMatch (type: bool) - Add only the longest matching subword to output. The default is false.|  
-|[edgeNGram_v2](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ngram/EdgeNGramTokenFilter.html)|EdgeNGramTokenFilterV2|Generates n-grams of the given size(s) from starting from the front or the back of an input token.<br /><br /> **Options**<br /><br /> minGram (type: int) - Default: 1, maximum: 300.<br /><br /> maxGram (type: int) - Default: 2, maximum 300. Must be greater than minGram.<br /><br /> side (type: string) - Specifies which side of the input the n-gram should be generated from. Allowed values: "front", "back" |  
-|[elision](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/util/ElisionFilter.html)|ElisionTokenFilter|Removes elisions. For example, "l'avion" (the plane) will be converted to "avion" (plane).<br /><br /> **Options**<br /><br /> articles (type: string array) - A set of articles to remove. The default is an empty list. If there is no list of articles set, by default all French articles will be removed.|  
-|[german_normalization](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/de/GermanNormalizationFilter.html)|(type applies only when options are available)  |Normalizes German characters according to the heuristics of the [German2 snowball algorithm](http://snowball.tartarus.org/algorithms/german2/stemmer.html) .|  
-|[hindi_normalization](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/hi/HindiNormalizationFilter.html)|(type applies only when options are available)  |Normalizes text in Hindi to remove some differences in spelling variations. |  
-|[indic_normalization](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/in/IndicNormalizationFilter.html)|IndicNormalizationTokenFilter|Normalizes the Unicode representation of text in Indian languages.
-|[keep](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/KeepWordFilter.html)|KeepTokenFilter|A token filter that only keeps tokens with text contained in specified list of words.<br /><br /> **Options**<br /><br /> keepWords (type: string array) - A list of words to keep. The default is an empty list. Required.<br /><br /> keepWordsCase (type: bool) - If true, lower case all words first. The default is false.|  
-|[keyword_marker](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/KeywordMarkerFilter.html)|KeywordMarkerTokenFilter|Marks terms as keywords.<br /><br /> **Options**<br /><br /> keywords (type: string array) - A list of words to mark as keywords. The default is an empty list. Required.<br /><br /> ignoreCase (type: bool) - If true, lower case all words first. The default is false.|  
-|[keyword_repeat](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/KeywordRepeatFilter.html)|(type applies only when options are available)  |Emits each incoming token twice once as keyword and once as non-keyword. |  
-|[kstem](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/en/KStemFilter.html)|(type applies only when options are available)  |A high-performance kstem filter for English. |  
-|[length](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/LengthFilter.html)|LengthTokenFilter|Removes words that are too long or too short.<br /><br /> **Options**<br /><br /> min (type: int) - The minimum number. Default: 0, maximum: 300.<br /><br /> max (type: int) - The maximum number. Default: 300, maximum: 300.|  
-|[limit](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/LimitTokenCountFilter.html)|Microsoft.Azure.Search.LimitTokenFilter|Limits the number of tokens while indexing.<br /><br /> **Options**<br /><br /> maxTokenCount (type: int) - Max number of tokens to produce. The default is 1.<br /><br /> consumeAllTokens (type: bool) - Whether all tokens from the input must be consumed even if maxTokenCount is reached. The default is false.|  
-|[lowercase](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/LowerCaseFilter.html)|(type applies only when options are available)  |Normalizes token text to lower case. |  
-|[nGram_v2](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ngram/NGramTokenFilter.html)|NGramTokenFilterV2|Generates n-grams of the given size(s).<br /><br /> **Options**<br /><br /> minGram (type: int) - Default: 1, maximum: 300.<br /><br /> maxGram (type: int) - Default: 2, maximum 300. Must be greater than minGram.|  
-|[pattern_capture](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/pattern/PatternCaptureGroupTokenFilter.html)|PatternCaptureTokenFilter|Uses Java regexes to emit multiple tokens, one for each capture group in one or more patterns.<br /><br /> **Options**<br /><br /> patterns (type: string array) - A list of patterns to match against each token. Required.<br /><br /> preserveOriginal (type: bool) - Set to true to return the original token even if one of the patterns matches, default: true |  
-|[pattern_replace](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/pattern/PatternReplaceFilter.html)|PatternReplaceTokenFilter|A token filter which applies a pattern to each token in the stream, replacing match occurrences with the specified replacement string.<br /><br /> **Options**<br /><br /> pattern (type: string) - Required.<br /><br /> replacement (type: string) - Required.|  
-|[persian_normalization](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/fa/PersianNormalizationFilter.html)|(type applies only when options are available) |Applies normalization for Persian. |  
-|[phonetic](https://lucene.apache.org/core/4_10_3/analyzers-phonetic/org/apache/lucene/analysis/phonetic/package-tree.html)|PhoneticTokenFilter|Create tokens for phonetic matches.<br /><br /> **Options**<br /><br /> encoder (type: string) - Phonetic encoder to use. Allowed values include: "metaphone", "doubleMetaphone", "soundex", "refinedSoundex", "caverphone1", "caverphone2", "cologne", "nysiis", "koelnerPhonetik", "haasePhonetik", "beiderMorse". Default: "metaphone". Default is metaphone.<br /><br /> See [encoder](http://commons.apache.org/proper/commons-codec/archives/1.10/apidocs/org/apache/commons/codec/language/package-frame.html) for more information.<br /><br /> replace (type: bool) - True if encoded tokens should replace original tokens, false if they should be added as synonyms. The default is true.|  
-|[porter_stem](http://lucene.apache.org/core/4_10_3/analyzers-common/org/tartarus/snowball/ext/PorterStemmer.html)|(type applies only when options are available)  |Transforms the token stream as per the [Porter stemming algorithm](http://tartarus.org/~martin/PorterStemmer/). |  
-|[reverse](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/reverse/ReverseStringFilter.html)|(type applies only when options are available)  |Reverses the token string. |  
-|[scandinavian_normalization](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/ScandinavianNormalizationFilter.html)|(type applies only when options are available)  |Normalizes use of the interchangeable Scandinavian characters. |  
-|[scandinavian_folding](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/ScandinavianFoldingFilter.html)|(type applies only when options are available)  |Folds Scandinavian characters åÅäæÄÆ->a and öÖøØ->o. It also discriminates against use of double vowels aa, ae, ao, oe and oo, leaving just the first one. |  
-|[shingle](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/shingle/ShingleFilter.html)|ShingleTokenFilter|Creates combinations of tokens as a single token.<br /><br /> **Options**<br /><br /> maxShingleSize (type: int) - Defaults to 2.<br /><br /> minShingleSize (type: int) - Defaults to 2.<br /><br /> outputUnigrams (type: bool) - if true, the output stream will contain the input tokens (unigrams) as well as shingles. The default is true.<br /><br /> outputUnigramsIfNoShingles (type: bool) - If true, override the behavior of outputUnigrams==false for those times when no shingles are available. The default is false.<br /><br /> tokenSeparator (type: string) - The string to use when joining adjacent tokens to form a shingle. The default is " ".<br /><br /> filterToken (type: string) - The string to insert for each position at which there is no token. The default is "_".|  
-|[snowball](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/snowball/SnowballFilter.html)|SnowballTokenFilter|Snowball Token Filter.<br /><br /> **Options**<br /><br /> language (type: string) - Allowed values include: "armenian", "basque", "catalan", "danish", "dutch", "english", "finnish", "french", "german", "german2", "hungarian", "italian", "kp", "lovins", "norwegian", "porter", "portuguese", "romanian", "russian", "spanish", "swedish", "turkish"|  
-|[sorani_normalization](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ckb/SoraniNormalizationFilter.html)|SoraniNormalizationTokenFilter|Normalizes the Unicode representation of Sorani text.<br /><br /> **Options**<br /><br /> None.|  
-|stemmer|StemmerTokenFilter|Language specific stemming filter.<br /><br /> **Options**<br /><br /> language (type: string) - Allowed values include: <br /> -   ["arabic"](http://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/ar/ArabicStemmer.html)<br />-   ["armenian"](http://snowball.tartarus.org/algorithms/armenian/stemmer.html)<br />-   ["basque"](http://snowball.tartarus.org/algorithms/basque/stemmer.html)<br />-   ["brazilian"](http://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/br/BrazilianStemmer.html)<br />-   ["bulgarian"](http://members.unine.ch/jacques.savoy/Papers/BUIR.pdf)<br />-   ["catalan"](http://snowball.tartarus.org/algorithms/catalan/stemmer.html)<br />-   ["czech"](http://portal.acm.org/citation.cfm?id=1598600)<br />-   ["danish"](http://snowball.tartarus.org/algorithms/danish/stemmer.html)<br />-   ["dutch"](http://snowball.tartarus.org/algorithms/dutch/stemmer.html)<br />-   ["dutchKp"](http://snowball.tartarus.org/algorithms/kraaij_pohlmann/stemmer.html)<br />-   ["english"](http://snowball.tartarus.org/algorithms/porter/stemmer.html)<br />-   ["lightEnglish"](http://ciir.cs.umass.edu/pubfiles/ir-35.pdf)<br />-   ["minimalEnglish"](http://www.researchgate.net/publication/220433848_How_effective_is_suffixing)<br />-   ["possessiveEnglish"](http://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/en/EnglishPossessiveFilter.html)<br />-   ["porter2"](http://snowball.tartarus.org/algorithms/english/stemmer.html)<br />-   ["lovins"](http://snowball.tartarus.org/algorithms/lovins/stemmer.html)<br />-   ["finnish"](http://snowball.tartarus.org/algorithms/finnish/stemmer.htm)<br />-   ["lightFinnish"](http://clef.isti.cnr.it/2003/WN_web/22.pdf)<br />-   ["french"](http://snowball.tartarus.org/algorithms/french/stemmer.html)<br />-   ["lightFrench"](http://dl.acm.org/citation.cfm?id=1141523)<br />-   ["minimalFrench"](http://dl.acm.org/citation.cfm?id=318984)<br />-   ["galician"](http://bvg.udc.es/recursos_lingua/stemming.jsp)<br />-   ["minimalGalician"](http://bvg.udc.es/recursos_lingua/stemming.jsp)<br />-   ["german"](http://snowball.tartarus.org/algorithms/german/stemmer.html)<br />-   ["german2"](http://snowball.tartarus.org/algorithms/german2/stemmer.html)<br />-   ["lightGerman"](http://dl.acm.org/citation.cfm?id=1141523)<br />-   ["minimalGerman"](http://members.unine.ch/jacques.savoy/clef/morpho.pdf)<br />-   ["greek"](http://sais.se/mthprize/2007/ntais2007.pdf)<br />-   ["hindi"](http://computing.open.ac.uk/Sites/EACLSouthAsia/Papers/p6-Ramanathan.pdf)<br />-   ["hungarian"](http://snowball.tartarus.org/algorithms/hungarian/stemmer.html)<br />-   ["lightHungarian"](http://dl.acm.org/citation.cfm?id=1141523&dl=ACM&coll=DL&CFID=179095584&CFTOKEN=80067181)<br />-   ["indonesian"](http://www.illc.uva.nl/Publications/ResearchReports/MoL-2003-02.text.pdf)<br />-   ["irish"](http://snowball.tartarus.org/otherapps/oregan/intro.html)<br />-   ["italian"](http://snowball.tartarus.org/algorithms/italian/stemmer.html)<br />-   ["lightItalian"](http://www.ercim.eu/publication/ws-proceedings/CLEF2/savoy.pdf)<br />-   ["sorani"](http://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/ckb/SoraniStemmer.html)<br />-   ["latvian"](http://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/lv/LatvianStemmer.html)<br />-   ["norwegian"](http://snowball.tartarus.org/algorithms/norwegian/stemmer.html)<br />-   ["lightNorwegian"](http://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/no/NorwegianLightStemmer.html)<br />-   ["minimalNorwegian"](http://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/no/NorwegianMinimalStemmer.html)<br />-   ["lightNynorsk"](http://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/no/NorwegianLightStemmer.html)<br />-   ["minimalNynorsk"](http://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/no/NorwegianMinimalStemmer.html)<br />-   ["portuguese"](http://snowball.tartarus.org/algorithms/portuguese/stemmer.html)<br />-   ["lightPortuguese"](http://dl.acm.org/citation.cfm?id=1141523&dl=ACM&coll=DL&CFID=179095584&CFTOKEN=80067181)<br />-   ["minimalPortuguese"](http://www.inf.ufrgs.br/~buriol/papers/Orengo_CLEF07.pdf)<br />-   ["portugueseRslp"](http://www.inf.ufrgs.br//~viviane/rslp/index.htm)<br />-   ["romanian"](http://snowball.tartarus.org/algorithms/romanian/stemmer.html)<br />-   ["russian"](http://snowball.tartarus.org/algorithms/russian/stemmer.html)<br />-   ["lightRussian"](http://doc.rero.ch/lm.php?url=1000%2C43%2C4%2C20091209094227-CA%2FDolamic_Ljiljana_-_Indexing_and_Searching_Strategies_for_the_Russian_20091209.pdf)<br />-   ["spanish"](http://snowball.tartarus.org/algorithms/spanish/stemmer.html)<br />-   ["lightSpanish"](http://www.ercim.eu/publication/ws-proceedings/CLEF2/savoy.pdf)<br />-   ["swedish"](http://snowball.tartarus.org/algorithms/swedish/stemmer.html)<br />-   ["lightSwedish"](http://clef.isti.cnr.it/2003/WN_web/22.pdf)<br />-   ["turkish"](http://snowball.tartarus.org/algorithms/turkish/stemmer.html)|  
-|[stemmer_override](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/StemmerOverrideFilter.html)|StemmerOverrideTokenFilter|Any dictionary-Stemmed terms will be marked as keywords so that they will not be stemmed with stemmers down the chain. Must be placed before any stemming filters.<br /><br /> **Options**<br /><br /> rules (type: string array) - Stemming rules in the following format "word => stem" e.g. "ran => run". The default is an empty list.  Required.|  
-|[stopwords](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/StopFilter.html)|StopwordsTokenFilter|Removes stop words from a token stream.<br /><br /> **Options**<br /><br /> stopwords (type: string array) - A list of stopwords. Default is an empty list. Cannot be specified if a stopwordsList is specified.<br /><br /> stopwordsList (type: string) - A predefined list of stopwords. Cannot be specified if stopwords is specified. Allowed values include:"arabic", "armenian", "basque", "brazilian", "bulgarian", "catalan", "czech", "danish", "dutch", "english", "finnish", "french", "galician", "german", "greek", "hindi", "hungarian", "indonesian", "irish", "italian", "latvian", "norwegian", "persian", "portuguese", "romanian", "russian", "sorani", "spanish", "swedish", "thai", "turkish", default: "english". Cannot be specified if stopwords is specified. Default: english<br /><br /> ignoreCase (type: bool) - If true, all words are lower cased first. The default is false.<br /><br /> removeTrailing (type: bool) - If true, ignore the last search term if it's a stop word. The default is true.
-|[synonym](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/synonym/SynonymFilter.html)|SynonymTokenFilter|Matches single or multi word synonyms in a token stream.<br /><br /> **Options**<br /><br /> synonyms (type: string array) - Required. List of synonyms in one of the following two formats:<br /><br /> -incredible, unbelievable, fabulous => amazing - all terms on the left side of => symbol will be replaced with all terms on its right side.<br /><br /> -incredible, unbelievable, fabulous, amazing - A comma separated list of equivalent words. Set the expand option to change how this list is interpreted.<br /><br /> ignoreCase (type: bool) - Case-folds input for matching. The default is false.<br /><br /> expand (type: bool) - If true, all words in the list of synonyms (if => notation is not used) will map to one another. <br />The following list: incredible, unbelievable, fabulous, amazing is equivalent to: incredible, unbelievable, fabulous, amazing => incredible, unbelievable, fabulous, amazing<br /><br />- If false, the following list: incredible, unbelievable, fabulous, amazing will be equivalent to: incredible, unbelievable, fabulous, amazing => incredible.|  
-|[trim](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/TrimFilter.html)|(type applies only when options are available)  |Trims leading and trailing whitespace from tokens. |  
-|[truncate](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/TruncateTokenFilter.html)|TruncateTokenFilter|Truncates the terms into a specific length.<br /><br /> **Options**<br /><br /> length (type: int) - Default: 300, maximum: 300. Required.|  
-|[unique](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/RemoveDuplicatesTokenFilter.html)|UniqueTokenFilter|Filters out tokens with same text as the previous token.<br /><br /> **Options**<br /><br /> onlyOnSamePosition (type: bool) - If set, removes duplicates only at the same position. The default is true.|  
-|[uppercase](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/UpperCaseFilter.html)|(type applies only when options are available)  |Normalizes token text to upper case. |  
-|[word_delimiter](http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/WordDelimiterFilter.html)|WordDelimiterTokenFilter|Splits words into subwords and performs optional transformations on subword groups.<br /><br /> **Options**<br /><br /> generateWordParts (type: bool) - Causes parts of words to be generated, e.g. "AzureSearch" becomes "Azure" "Search". The default is true.<br /><br /> generateNumberParts (type: bool) - Xauses number subwords to be generated. The default is true.<br /><br /> catenateWords (type: bool) - Causes maximum runs of word parts to be catenated, e.g. "Azure-Search" becomes "AzureSearch". The default is false.<br /><br /> catenateNumbers (type: bool) - Causes maximum runs of number parts to be catenated, e.g. "1-2" becomes "12". The default is false.<br /><br /> catenateAll (type: bool) - Causes all subword parts to be catenated, e.g "Azure-Search-1" becomes "AzureSearch1". The default is false.<br /><br /> splitOnCaseChange (type: bool) - If true, splits words on caseChange, e.g. "AzureSearch"becomes "Azure" "Search". The default is true.<br /><br /> preserveOriginal - Causes original words to be preserved and added to the subword list. The default is false.<br /><br /> splitOnNumerics (type: bool) - If true, splits on numbers, e.g., "Azure1Search" becomes "Azure" "1" "Search". The default is true.<br /><br /> stemEnglishPossessive (type: bool) - Causes trailing "'s" to be removed for each subword. The default is true.<br /><br /> protectedWords (type: string array) - Tokens to protect from being delimited. The default is an empty list.|  
+|[arabic_normalization](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ar/ArabicNormalizationFilter.html)|(type applies only when options are available)  |A token filter that applies the Arabic normalizer to normalize the orthography.|  
+|[apostrophe](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/tr/ApostropheFilter.html)|(type applies only when options are available)  |Strips all characters after an apostrophe (including the apostrophe itself). |  
+|[asciifolding](https://lucene.apache.org/core/4_0_0/analyzers-common/org/apache/lucene/analysis/miscellaneous/ASCIIFoldingFilter.html)|AsciiFoldingTokenFilter|Converts alphabetic, numeric, and symbolic Unicode characters which are not in the first 127 ASCII characters (the "Basic Latin" Unicode block) into their ASCII equivalents, if one exists.<br /><br /> **Options**<br /><br /> preserveOriginal (type: bool) - If true, the original token is kept. The default is false.|  
+|[cjk_bigram](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/cjk/CJKBigramFilter.html)|CjkBigramTokenFilter|Forms bigrams of CJK terms that are generated from StandardTokenizer.<br /><br /> **Options**<br /><br /> ignoreScripts (type: string array) - Scripts to ignore. Allowed values include: "han", "hiragana", "katakana", "hangul". The default is an empty list.<br /><br /> outputUnigrams (type: bool) - Set to true if you always want to output both unigrams and bigrams. The default is false.|  
+|[cjk_width](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/cjk/CJKWidthFilter.html)|(type applies only when options are available)  |Normalizes CJK width differences. Folds fullwidth ASCII variants into the equivalent basic latin and half width Katakana variants into the equivalent kana. |  
+|[classic](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/ClassicFilter.html)|(type applies only when options are available)  |Removes the English possessives, and dots from acronyms. |  
+|[common_grams](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/commongrams/CommonGramsFilter.html)|CommonGramTokenFilter|Construct bigrams for frequently occurring terms while indexing. Single terms are still indexed too, with bigrams overlaid.<br /><br /> **Options**<br /><br /> commonWords (type: string array) - The set of common words. The default is an empty list. Required.<br /><br /> ignoreCase (type: bool) - If true, matching is case insensitive. The default is false.<br /><br /> queryMode (type: bool) - Generates bigrams then removes common words and single terms followed by a common word. The default is false.|  
+|[dictionary_decompounder](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/compound/DictionaryCompoundWordTokenFilter.html)|DictionaryDecompounderTokenFilter|Decomposes compound words found in many Germanic languages.<br /><br /> **Options**<br /><br /> wordList (type: string array) - The list of words to match against. The default is an empty list. Required.<br /><br /> minWordSize (type: int) - Only words longer than this get processed. The default is 5.<br /><br /> minSubwordSize (type: int) - Only subwords longer than this are outputted. The default is 2.<br /><br /> maxSubwordSize (type: int) - Only subwords shorter than this are outputted. The default is 15.<br /><br /> onlyLongestMatch (type: bool) - Add only the longest matching subword to output. The default is false.|  
+|[edgeNGram_v2](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ngram/EdgeNGramTokenFilter.html)|EdgeNGramTokenFilterV2|Generates n-grams of the given size(s) from starting from the front or the back of an input token.<br /><br /> **Options**<br /><br /> minGram (type: int) - Default: 1, maximum: 300.<br /><br /> maxGram (type: int) - Default: 2, maximum 300. Must be greater than minGram.<br /><br /> side (type: string) - Specifies which side of the input the n-gram should be generated from. Allowed values: "front", "back" |  
+|[elision](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/util/ElisionFilter.html)|ElisionTokenFilter|Removes elisions. For example, "l'avion" (the plane) is converted to "avion" (plane).<br /><br /> **Options**<br /><br /> articles (type: string array) - A set of articles to remove. The default is an empty list. If there is no list of articles set, by default all French articles are removed.|  
+|[german_normalization](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/de/GermanNormalizationFilter.html)|(type applies only when options are available)  |Normalizes German characters according to the heuristics of the [German2 snowball algorithm](https://snowball.tartarus.org/algorithms/german2/stemmer.html) .|  
+|[hindi_normalization](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/hi/HindiNormalizationFilter.html)|(type applies only when options are available)  |Normalizes text in Hindi to remove some differences in spelling variations. |  
+|[indic_normalization](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/in/IndicNormalizationFilter.html)|IndicNormalizationTokenFilter|Normalizes the Unicode representation of text in Indian languages.
+|[keep](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/KeepWordFilter.html)|KeepTokenFilter|A token filter that only keeps tokens with text contained in specified list of words.<br /><br /> **Options**<br /><br /> keepWords (type: string array) - A list of words to keep. The default is an empty list. Required.<br /><br /> keepWordsCase (type: bool) - If true, lower case all words first. The default is false.|  
+|[keyword_marker](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/KeywordMarkerFilter.html)|KeywordMarkerTokenFilter|Marks terms as keywords.<br /><br /> **Options**<br /><br /> keywords (type: string array) - A list of words to mark as keywords. The default is an empty list. Required.<br /><br /> ignoreCase (type: bool) - If true, lower case all words first. The default is false.|  
+|[keyword_repeat](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/KeywordRepeatFilter.html)|(type applies only when options are available)  |Emits each incoming token twice once as keyword and once as non-keyword. |  
+|[kstem](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/en/KStemFilter.html)|(type applies only when options are available)  |A high-performance kstem filter for English. |  
+|[length](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/LengthFilter.html)|LengthTokenFilter|Removes words that are too long or too short.<br /><br /> **Options**<br /><br /> min (type: int) - The minimum number. Default: 0, maximum: 300.<br /><br /> max (type: int) - The maximum number. Default: 300, maximum: 300.|  
+|[limit](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/LimitTokenCountFilter.html)|Microsoft.Azure.Search.LimitTokenFilter|Limits the number of tokens while indexing.<br /><br /> **Options**<br /><br /> maxTokenCount (type: int) - Max number of tokens to produce. The default is 1.<br /><br /> consumeAllTokens (type: bool) - Whether all tokens from the input must be consumed even if maxTokenCount is reached. The default is false.|  
+|[lowercase](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/LowerCaseFilter.html)|(type applies only when options are available)  |Normalizes token text to lower case. |  
+|[nGram_v2](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ngram/NGramTokenFilter.html)|NGramTokenFilterV2|Generates n-grams of the given size(s).<br /><br /> **Options**<br /><br /> minGram (type: int) - Default: 1, maximum: 300.<br /><br /> maxGram (type: int) - Default: 2, maximum 300. Must be greater than minGram.|  
+|[pattern_capture](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/pattern/PatternCaptureGroupTokenFilter.html)|PatternCaptureTokenFilter|Uses Java regexes to emit multiple tokens, one for each capture group in one or more patterns.<br /><br /> **Options**<br /><br /> patterns (type: string array) - A list of patterns to match against each token. Required.<br /><br /> preserveOriginal (type: bool) - Set to true to return the original token even if one of the patterns matches, default: true |  
+|[pattern_replace](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/pattern/PatternReplaceFilter.html)|PatternReplaceTokenFilter|A token filter which applies a pattern to each token in the stream, replacing match occurrences with the specified replacement string.<br /><br /> **Options**<br /><br /> pattern (type: string) - Required.<br /><br /> replacement (type: string) - Required.|  
+|[persian_normalization](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/fa/PersianNormalizationFilter.html)|(type applies only when options are available) |Applies normalization for Persian. |  
+|[phonetic](https://lucene.apache.org/core/4_10_3/analyzers-phonetic/org/apache/lucene/analysis/phonetic/package-tree.html)|PhoneticTokenFilter|Create tokens for phonetic matches.<br /><br /> **Options**<br /><br /> encoder (type: string) - Phonetic encoder to use. Allowed values include: "metaphone", "doubleMetaphone", "soundex", "refinedSoundex", "caverphone1", "caverphone2", "cologne", "nysiis", "koelnerPhonetik", "haasePhonetik", "beiderMorse". Default: "metaphone". Default is metaphone.<br /><br /> See [encoder](https://commons.apache.org/proper/commons-codec/archives/1.10/apidocs/org/apache/commons/codec/language/package-frame.html) for more information.<br /><br /> replace (type: bool) - True if encoded tokens should replace original tokens, false if they should be added as synonyms. The default is true.|  
+|[porter_stem](https://lucene.apache.org/core/4_10_3/analyzers-common/org/tartarus/snowball/ext/PorterStemmer.html)|(type applies only when options are available)  |Transforms the token stream as per the [Porter stemming algorithm](https://tartarus.org/~martin/PorterStemmer/). |  
+|[reverse](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/reverse/ReverseStringFilter.html)|(type applies only when options are available)  |Reverses the token string. |  
+|[scandinavian_normalization](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/ScandinavianNormalizationFilter.html)|(type applies only when options are available)  |Normalizes use of the interchangeable Scandinavian characters. |  
+|[scandinavian_folding](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/ScandinavianFoldingFilter.html)|(type applies only when options are available)  |Folds Scandinavian characters åÅäæÄÆ->a and öÖøØ->o. It also discriminates against use of double vowels aa, ae, ao, oe and oo, leaving just the first one. |  
+|[shingle](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/shingle/ShingleFilter.html)|ShingleTokenFilter|Creates combinations of tokens as a single token.<br /><br /> **Options**<br /><br /> maxShingleSize (type: int) - Defaults to 2.<br /><br /> minShingleSize (type: int) - Defaults to 2.<br /><br /> outputUnigrams (type: bool) - if true, the output stream contains the input tokens (unigrams) as well as shingles. The default is true.<br /><br /> outputUnigramsIfNoShingles (type: bool) - If true, override the behavior of outputUnigrams==false for those times when no shingles are available. The default is false.<br /><br /> tokenSeparator (type: string) - The string to use when joining adjacent tokens to form a shingle. The default is " ".<br /><br /> filterToken (type: string) - The string to insert for each position at which there is no token. The default is "_".|  
+|[snowball](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/snowball/SnowballFilter.html)|SnowballTokenFilter|Snowball Token Filter.<br /><br /> **Options**<br /><br /> language (type: string) - Allowed values include: "armenian", "basque", "catalan", "danish", "dutch", "english", "finnish", "french", "german", "german2", "hungarian", "italian", "kp", "lovins", "norwegian", "porter", "portuguese", "romanian", "russian", "spanish", "swedish", "turkish"|  
+|[sorani_normalization](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ckb/SoraniNormalizationFilter.html)|SoraniNormalizationTokenFilter|Normalizes the Unicode representation of Sorani text.<br /><br /> **Options**<br /><br /> None.|  
+|stemmer|StemmerTokenFilter|Language specific stemming filter.<br /><br /> **Options**<br /><br /> language (type: string) - Allowed values include: <br /> -   ["arabic"](https://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/ar/ArabicStemmer.html)<br />-   ["armenian"](https://snowball.tartarus.org/algorithms/armenian/stemmer.html)<br />-   ["basque"](https://snowball.tartarus.org/algorithms/basque/stemmer.html)<br />-   ["brazilian"](https://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/br/BrazilianStemmer.html)<br />-   ["bulgarian"](https://members.unine.ch/jacques.savoy/Papers/BUIR.pdf)<br />-   ["catalan"](https://snowball.tartarus.org/algorithms/catalan/stemmer.html)<br />-   ["czech"](https://portal.acm.org/citation.cfm?id=1598600)<br />-   ["danish"](https://snowball.tartarus.org/algorithms/danish/stemmer.html)<br />-   ["dutch"](https://snowball.tartarus.org/algorithms/dutch/stemmer.html)<br />-   ["dutchKp"](https://snowball.tartarus.org/algorithms/kraaij_pohlmann/stemmer.html)<br />-   ["english"](https://snowball.tartarus.org/algorithms/porter/stemmer.html)<br />-   ["lightEnglish"](https://ciir.cs.umass.edu/pubfiles/ir-35.pdf)<br />-   ["minimalEnglish"](https://www.researchgate.net/publication/220433848_How_effective_is_suffixing)<br />-   ["possessiveEnglish"](https://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/en/EnglishPossessiveFilter.html)<br />-   ["porter2"](https://snowball.tartarus.org/algorithms/english/stemmer.html)<br />-   ["lovins"](https://snowball.tartarus.org/algorithms/lovins/stemmer.html)<br />-   ["finnish"](https://snowball.tartarus.org/algorithms/finnish/stemmer.htm)<br />-   ["lightFinnish"](https://clef.isti.cnr.it/2003/WN_web/22.pdf)<br />-   ["french"](https://snowball.tartarus.org/algorithms/french/stemmer.html)<br />-   ["lightFrench"](https://dl.acm.org/citation.cfm?id=1141523)<br />-   ["minimalFrench"](https://dl.acm.org/citation.cfm?id=318984)<br />-   ["galician"](https://bvg.udc.es/recursos_lingua/stemming.jsp)<br />-   ["minimalGalician"](https://bvg.udc.es/recursos_lingua/stemming.jsp)<br />-   ["german"](https://snowball.tartarus.org/algorithms/german/stemmer.html)<br />-   ["german2"](https://snowball.tartarus.org/algorithms/german2/stemmer.html)<br />-   ["lightGerman"](https://dl.acm.org/citation.cfm?id=1141523)<br />-   ["minimalGerman"](https://members.unine.ch/jacques.savoy/clef/morpho.pdf)<br />-   ["greek"](https://sais.se/mthprize/2007/ntais2007.pdf)<br />-   ["hindi"](https://computing.open.ac.uk/Sites/EACLSouthAsia/Papers/p6-Ramanathan.pdf)<br />-   ["hungarian"](https://snowball.tartarus.org/algorithms/hungarian/stemmer.html)<br />-   ["lightHungarian"](https://dl.acm.org/citation.cfm?id=1141523&dl=ACM&coll=DL&CFID=179095584&CFTOKEN=80067181)<br />-   ["indonesian"](https://www.illc.uva.nl/Publications/ResearchReports/MoL-2003-02.text.pdf)<br />-   ["irish"](https://snowball.tartarus.org/otherapps/oregan/intro.html)<br />-   ["italian"](https://snowball.tartarus.org/algorithms/italian/stemmer.html)<br />-   ["lightItalian"](https://www.ercim.eu/publication/ws-proceedings/CLEF2/savoy.pdf)<br />-   ["sorani"](https://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/ckb/SoraniStemmer.html)<br />-   ["latvian"](https://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/lv/LatvianStemmer.html)<br />-   ["norwegian"](https://snowball.tartarus.org/algorithms/norwegian/stemmer.html)<br />-   ["lightNorwegian"](https://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/no/NorwegianLightStemmer.html)<br />-   ["minimalNorwegian"](https://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/no/NorwegianMinimalStemmer.html)<br />-   ["lightNynorsk"](https://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/no/NorwegianLightStemmer.html)<br />-   ["minimalNynorsk"](https://lucene.apache.org/core/4_9_0/analyzers-common/org/apache/lucene/analysis/no/NorwegianMinimalStemmer.html)<br />-   ["portuguese"](https://snowball.tartarus.org/algorithms/portuguese/stemmer.html)<br />-   ["lightPortuguese"](https://dl.acm.org/citation.cfm?id=1141523&dl=ACM&coll=DL&CFID=179095584&CFTOKEN=80067181)<br />-   ["minimalPortuguese"](https://www.inf.ufrgs.br/~buriol/papers/Orengo_CLEF07.pdf)<br />-   ["portugueseRslp"](https://www.inf.ufrgs.br//~viviane/rslp/index.htm)<br />-   ["romanian"](https://snowball.tartarus.org/algorithms/romanian/stemmer.html)<br />-   ["russian"](https://snowball.tartarus.org/algorithms/russian/stemmer.html)<br />-   ["lightRussian"](https://doc.rero.ch/lm.php?url=1000%2C43%2C4%2C20091209094227-CA%2FDolamic_Ljiljana_-_Indexing_and_Searching_Strategies_for_the_Russian_20091209.pdf)<br />-   ["spanish"](https://snowball.tartarus.org/algorithms/spanish/stemmer.html)<br />-   ["lightSpanish"](https://www.ercim.eu/publication/ws-proceedings/CLEF2/savoy.pdf)<br />-   ["swedish"](https://snowball.tartarus.org/algorithms/swedish/stemmer.html)<br />-   ["lightSwedish"](https://clef.isti.cnr.it/2003/WN_web/22.pdf)<br />-   ["turkish"](https://snowball.tartarus.org/algorithms/turkish/stemmer.html)|  
+|[stemmer_override](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/StemmerOverrideFilter.html)|StemmerOverrideTokenFilter|Any dictionary-Stemmed terms are marked as keywords, which prevents stemming down the chain. Must be placed before any stemming filters.<br /><br /> **Options**<br /><br /> rules (type: string array) - Stemming rules in the following format "word => stem" for example "ran => run". The default is an empty list.  Required.|  
+|[stopwords](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/StopFilter.html)|StopwordsTokenFilter|Removes stop words from a token stream. By default, the filter uses a predefined stop word list for English.<br /><br /> **Options**<br /><br /> stopwords (type: string array) - A list of stopwords. Cannot be specified if a stopwordsList is specified.<br /><br /> stopwordsList (type: string) - A predefined list of stopwords. Cannot be specified if stopwords is specified. Allowed values include:"arabic", "armenian", "basque", "brazilian", "bulgarian", "catalan", "czech", "danish", "dutch", "english", "finnish", "french", "galician", "german", "greek", "hindi", "hungarian", "indonesian", "irish", "italian", "latvian", "norwegian", "persian", "portuguese", "romanian", "russian", "sorani", "spanish", "swedish", "thai", "turkish", default: "english". Cannot be specified if stopwords is specified. <br /><br /> ignoreCase (type: bool) - If true, all words are lower cased first. The default is false.<br /><br /> removeTrailing (type: bool) - If true, ignore the last search term if it's a stop word. The default is true.
+|[synonym](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/synonym/SynonymFilter.html)|SynonymTokenFilter|Matches single or multi word synonyms in a token stream.<br /><br /> **Options**<br /><br /> synonyms (type: string array) - Required. List of synonyms in one of the following two formats:<br /><br /> -incredible, unbelievable, fabulous => amazing - all terms on the left side of => symbol are replaced with all terms on its right side.<br /><br /> -incredible, unbelievable, fabulous, amazing - A comma-separated list of equivalent words. Set the expand option to change how this list is interpreted.<br /><br /> ignoreCase (type: bool) - Case-folds input for matching. The default is false.<br /><br /> expand (type: bool) - If true, all words in the list of synonyms (if => notation is not used) map to one another. <br />The following list: incredible, unbelievable, fabulous, amazing is equivalent to: incredible, unbelievable, fabulous, amazing => incredible, unbelievable, fabulous, amazing<br /><br />- If false, the following list: incredible, unbelievable, fabulous, amazing are equivalent to: incredible, unbelievable, fabulous, amazing => incredible.|  
+|[trim](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/TrimFilter.html)|(type applies only when options are available)  |Trims leading and trailing whitespace from tokens. |  
+|[truncate](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/TruncateTokenFilter.html)|TruncateTokenFilter|Truncates the terms into a specific length.<br /><br /> **Options**<br /><br /> length (type: int) - Default: 300, maximum: 300. Required.|  
+|[unique](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/RemoveDuplicatesTokenFilter.html)|UniqueTokenFilter|Filters out tokens with same text as the previous token.<br /><br /> **Options**<br /><br /> onlyOnSamePosition (type: bool) - If set, remove duplicates only at the same position. The default is true.|  
+|[uppercase](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/UpperCaseFilter.html)|(type applies only when options are available)  |Normalizes token text to upper case. |  
+|[word_delimiter](https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/WordDelimiterFilter.html)|WordDelimiterTokenFilter|Splits words into subwords and performs optional transformations on subword groups.<br /><br /> **Options**<br /><br /> generateWordParts (type: bool) - Causes parts of words to be generated, for example "AzureSearch" becomes "Azure" "Search". The default is true.<br /><br /> generateNumberParts (type: bool) - Causes number subwords to be generated. The default is true.<br /><br /> catenateWords (type: bool) - Causes maximum runs of word parts to be catenated, for example "Azure-Search" becomes "AzureSearch". The default is false.<br /><br /> catenateNumbers (type: bool) - Causes maximum runs of number parts to be catenated, for example "1-2" becomes "12". The default is false.<br /><br /> catenateAll (type: bool) - Causes all subword parts to be catenated, e.g "Azure-Search-1" becomes "AzureSearch1". The default is false.<br /><br /> splitOnCaseChange (type: bool) - If true, splits words on caseChange, for example "AzureSearch" becomes "Azure" "Search". The default is true.<br /><br /> preserveOriginal - Causes original words to be preserved and added to the subword list. The default is false.<br /><br /> splitOnNumerics (type: bool) - If true, splits on numbers, for example "Azure1Search" becomes "Azure" "1" "Search". The default is true.<br /><br /> stemEnglishPossessive (type: bool) - Causes trailing "'s" to be removed for each subword. The default is true.<br /><br /> protectedWords (type: string array) - Tokens to protect from being delimited. The default is an empty list.|  
 
  <sup>1</sup> Token Filter Types are always prefixed in code with "#Microsoft.Azure.Search" such that  "ArabicNormalizationTokenFilter" would actually be specified as "#Microsoft.Azure.Search.ArabicNormalizationTokenFilter".  We removed the prefix to reduce the width of the table, but please remember to include it in your code.  
 
 > [!NOTE]
-> It's required that you configure you custom analyzer not to produce tokens longer than 300 characters. Indexing will fail for documents with such tokens. To trim them or ignore them use the **TruncateTokenFilter** and the **LengthTokenFilter** respectively.
+> It's required that you configure your custom analyzer to not produce tokens longer than 300 characters. Indexing fails for documents with such tokens. To trim them or ignore them, use the **TruncateTokenFilter** and the **LengthTokenFilter** respectively.
 
-
- <a name="Example"></a>
-## Examples
-
-The examples below show analyzer definitions for a few key scenarios.
-
-<a name="Example1"></a>
-### Example 1: Custom options
-
-This example illustrates an analyzer definition with custom options. Custom options for char filters, tokenizers, and token filters are specified separately as named constructs, and then referenced in the analyzer definition. Predefined elements are used as-is and simply referenced by name.
-
-Walking through this example:
-
-* Analyzers are a property of the field class for a searchable field.
-* A custom analyzer is part of an index definition. It might be minimally customized (for example, customizing a single option in one filter) or customized in multiple places.
-* In this case, the custom analyzer is "my_analyzer" which in turn uses a customized standard tokenizer "my_standard_tokenizer" and two token filters: lowercase and customized asciifolding filter "my_asciifolding".
-* It also defines a custom  "map_dash" char filter to replace all dashes with underscores before tokenization (the standard tokenizer breaks on dash but not on underscore).
-
-~~~~
-  {
-     "name":"myindex",
-     "fields":[
-        {
-           "name":"id",
-           "type":"Edm.String",
-           "key":true,
-           "searchable":false
-        },
-        {
-           "name":"text",
-           "type":"Edm.String",
-           "searchable":true,
-           "analyzer":"my_analyzer"
-        }
-     ],
-     "analyzers":[
-        {
-           "name":"my_analyzer",
-           "@odata.type":"#Microsoft.Azure.Search.CustomAnalyzer",
-           "charFilters":[
-              "map_dash"
-           ],
-           "tokenizer":"my_standard_tokenizer",
-           "tokenFilters":[
-              "my_asciifolding",
-              "lowercase"
-           ]
-        }
-     ],
-     "charFilters":[
-        {
-           "name":"map_dash",
-           "@odata.type":"#Microsoft.Azure.Search.MappingCharFilter",
-           "mappings":["-=>_"]
-        }
-     ],
-     "tokenizers":[
-        {
-           "name":"my_standard_tokenizer",
-           "@odata.type":"#Microsoft.Azure.Search.StandardTokenizer",
-           "maxTokenLength":20
-        }
-     ],
-     "tokenFilters":[
-        {
-           "name":"my_asciifolding",
-           "@odata.type":"#Microsoft.Azure.Search.AsciiFoldingTokenFilter",
-           "preserveOriginal":true
-        }
-     ]
-  }
-~~~~
-
-<a name="Example2"></a>
-### Example 2: Override the default analyzer
-
-The Standard analyzer is the default. Suppose you want to replace the default with a different predefined analyzer, such as the pattern analyzer. If you are not setting custom options, you only need to specify it by name in the field definition.
-
-The "analyzer" element overrides the Standard analyzer on a field-by-field basis. There is no global override. In this example, `text1` uses the pattern analyzer and `text2`, which doesn't specify an analyzer, uses the default.
-
-~~~~
-  {
-     "name":"myindex",
-     "fields":[
-        {
-           "name":"id",
-           "type":"Edm.String",
-           "key":true,
-           "searchable":false
-        },
-        {
-           "name":"text1",
-           "type":"Edm.String",
-           "searchable":true,
-           "analyzer":"pattern"
-        },
-        {
-           "name":"text2",
-           "type":"Edm.String",
-           "searchable":true
-        }
-     ]
-  }
-~~~~
-
-<a name="Example3"></a>
-### Example 3: Different analyzers for indexing and search operations
-
-The preview APIs include additional index attributes for specifying different analyzers for indexing and search. The `searchAnalyzer` and `indexAnalyzer` attributes must be specified as a pair, replacing the single `analyzer` attribute.
-
-
-~~~~
-  {
-     "name":"myindex",
-     "fields":[
-        {
-           "name":"id",
-           "type":"Edm.String",
-           "key":true,
-           "searchable":false
-        },
-        {
-           "name":"text",
-           "type":"Edm.String",
-           "searchable":true,
-           "indexAnalyzer":"whitespace",
-           "searchAnalyzer":"simple"
-        },
-     ],
-  }
-~~~~
-
-<a name="Example4"></a>
-### Example 4: Language analyzer
-
-Fields containing strings in different languages can use a language analyzer, while other fields retain the default (or use some other predefined or custom analyzer). If you use a language analyzer, it must be used for both indexing and search operations. Fields that use a language analyzer cannot have different analyzers for indexing and search.
-
-~~~~
-  {
-     "name":"myindex",
-     "fields":[
-        {
-           "name":"id",
-           "type":"Edm.String",
-           "key":true,
-           "searchable":false
-        },
-        {
-           "name":"text",
-           "type":"Edm.String",
-           "searchable":true,
-           "IndexAnalyzer":"whitespace",
-           "searchAnalyzer":"simple"
-        },
-        {
-           "name":"text_fr",
-           "type":"Edm.String",
-           "searchable":true,
-           "analyzer":"fr.lucene"
-        }
-     ],
-  }
-~~~~
 
 ## See also  
  [Azure Search Service REST](index.md)   
+ [Analyzers in Azure Search > Examples](https://docs.microsoft.com/azure/search/search-analyzers#examples)    
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  

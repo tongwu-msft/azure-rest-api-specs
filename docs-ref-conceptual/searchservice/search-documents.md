@@ -1,7 +1,7 @@
 ---
 title: "Search Documents (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2017-06-06"
+ms.date: "01/23/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -28,7 +28,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Search Documents (Azure Search Service REST API)
-  Queries in Azure Search are implemented using the .NET library or REST API. For an overview of querying documents and different methodologies available, see [Queries in Azure Search](https://azure.microsoft.com/documentation/articles/search-query-overview/). For architecture and overview, see [How full text search works in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture).
+  Queries in Azure Search are implemented using the .NET library or REST API. This article is about using the REST API. For an overview of query construction and methodologies see [Queries in Azure Search](https://docs.microsoft.com/azure/search/search-query-overview). To learn about query engine and processing, see [How full text search works in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture).
 
  In the REST API, a **Search Documents** operation is issued as a GET or POST request and specifies query parameters that give the criteria for selecting matching documents.  
 
@@ -55,21 +55,23 @@ api-key: [admin or query key]
 
  The request URI specifies which index to query, for all documents that match the query parameters. Parameters are specified on the query string in the case of GET requests, and in the request body in the case of POST requests.  
 
+### URL-encoding recommendations
+
  As a best practice when creating GET requests, remember to [URL-encode](https://msdn.microsoft.com/library/system.uri.escapedatastring.aspx) specific query parameters when calling the REST API directly. For **Search Documents** operations, this includes:  
 
+-   **search**  
+
 -   **$filter**  
- 
+
 -   **facet**  
 
 -   **highlightPreTag**  
 
 -   **highlightPostTag**  
 
--   **search**  
+URL encoding is only recommended on the above query parameters. If you inadvertently URL-encode the entire query string (everything after the **?**), requests will break.  
 
- URL encoding is only recommended on the above query parameters. If you inadvertently URL-encode the entire query string (everything after the **?**), requests will break.  
-
- Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Search Documents** using POST, or when using the [Azure Search .NET client library](https://msdn.microsoft.com/library/azure/dn951165.aspx), which handles URL encoding for you.  
+Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Search Documents** using POST, or when using the [Azure Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet), which handles URL encoding for you.  
 
 ### Query Parameters  
 A query accepts several parameters that provide query criteria and also specify search behavior. You provide these parameters in the URL query string when calling via GET, and as JSON properties in the request body when calling via POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted as applicable below.  
@@ -107,7 +109,7 @@ Azure Search uses *server-side paging* to prevent queries from retrieving too ma
 
 #### `$count=true | false`
 
-Optional, defaults to `false`. When calling via POST, this parameter is named `count` instead of `$count`. Specifies whether to fetch the total count of results. This is the count of all documents that match the \`search\` and \`$filter\` parameters, ignoring \`$top\` and \`$skip\`. Setting this value to \`true\` may have a performance impact. Note that the count returned is an approximation. If you’d like to get only the count without any documents, you can use `$top=0`.
+Optional, defaults to `false`. When calling via POST, this parameter is named `count` instead of `$count`. Specifies whether to fetch the total count of results. This is the count of all documents that match the `search` and `$filter` parameters, ignoring `$top` and `$skip`. Setting this value to `true` may have a performance impact. Note that the count returned is an approximation. If you’d like to get only the count without any documents, you can use `$top=0`.
 
 #### `$orderby=[string] (optional)`
 
@@ -115,7 +117,7 @@ A list of comma-separated expressions to sort the results by. When calling via P
 
 #### `$select=[string] (optional)`
 
-A list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to \*, all fields marked as retrievable in the schema are included in the projection. When calling via POST, this parameter is named `select` instead of `$select`. 
+A list of comma-separated fields to include in the result set. Only fields marked as retrievable can be included in this clause. If unspecified or set to \*, all fields marked as retrievable in the schema are included in the projection. When calling via POST, this parameter is named `select` instead of `$select`.
 
 #### `facet=[string] (zero or more)`
 
@@ -142,9 +144,9 @@ Interval facets on date time are computed based on the UTC time if `timeoffset` 
 A structured search expression in standard OData syntax. When calling via POST, this parameter is named `filter` instead of `$filter`. See [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md) for details on the subset of the OData expression grammar that Azure Search supports.
 
 
-#### `highlight=[string] optional)`
+#### `highlight=[string] (optional)`
 
-A set of comma-separated field names used for hit highlights. Only `searchable` fields can be used for hit highlighting. Azure Search returns only up to 5 highlights per field. This limit is not configurable.
+A set of comma-separated field names used for hit highlights. Only `searchable` fields can be used for hit highlighting. By default, Azure Search returns up to 5 highlights per field. The limit is configurable per field by appending `-<max # of highlights>` following the field name. For example, `highlight=title-3,description-10` returns up to 3 highlighted hits from the title field and up to 10 hits from the description field. `<max # of highlights>` must be an integer between 1 and 1000 inclusive.
 
 #### `highlightPreTag=[string] (optional)`
 
@@ -185,7 +187,7 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 |Accept:|Specifies the content type of the results returned by the service. This value must be set to `application/json`.|  
 |api-key|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Search Documents** request can specify either an admin key or query key for `api-key`.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Portal. See
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal.
 
 ### Request Body  
  For GET: None.  
@@ -217,7 +219,11 @@ The `api-version` parameter is required. See [API versioning in Azure Search](ht
 
  Sometimes Azure Search can't return all the requested results in a single Search response. This can happen for different reasons, such as when the query requests too many documents by not specifying `$top` or specifying a value for `$top` that is too large. In such cases, Azure Search will include the `@odata.nextLink` annotation in the response body, and also `@search.nextPageParameters` if it was a POST request. You can use the values of these annotations to formulate another Search request to get the next part of the search response. This is called a *continuation* of the original Search request, and the annotations are generally called *continuation tokens*. See the example in Response below for details on the syntax of these annotations and where they appear in the response body.  
 
- The reasons why Azure Search might return continuation tokens are implementation-specific and subject to change. Robust clients should always be ready to handle cases where fewer documents than expected are returned and a continuation token is included to continue retrieving documents. Also note that you must use the same HTTP method as the original request in order to continue. For example, if you sent a GET request, any continuation requests you send must also use GET (and likewise for POST).  
+ The reasons why Azure Search might return continuation tokens are implementation-specific and subject to change. Robust clients should always be ready to handle cases where fewer documents than expected are returned and a continuation token is included to continue retrieving documents. Also note that you must use the same HTTP method as the original request in order to continue. For example, if you sent a GET request, any continuation requests you send must also use GET (and likewise for POST).
+
+> [!NOTE]
+> The purpose of `@odata.nextLink` and `@search.nextPageParameters` is to protect the service from queries that request too many results, not to provide a general mechanism for paging. If you want to page through results, use `$top` and `$skip` together. For example, if you want pages of size 10, your first request should have `$top=10` and `$skip=0`, the second request should have `$top=10` and `$skip=10`, the third request should have `$top=10` and `$skip=20`, and so on.
+
 
 ## Response  
 
@@ -496,4 +502,4 @@ Status Code: 200 OK is returned for a successful response.
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
  [Simple query syntax in Azure Search](simple-query-syntax-in-azure-search.md)    
- [Azure Search .NET library](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
+ [Azure Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  

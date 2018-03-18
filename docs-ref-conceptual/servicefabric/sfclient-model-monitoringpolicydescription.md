@@ -1,6 +1,6 @@
 ---
 title: "MonitoringPolicyDescription"
-ms.date: "2017-05-09"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -46,11 +46,16 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations.
 
-    - Invalid - Indicates the failure action is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-    - Rollback - The upgrade will start rolling back automatically. The value is 1
-    - Manual - The upgrade will switch to UnmonitoredManual upgrade mode. The value is 2
+Possible values are: 
+
+  - Invalid - Indicates the failure action is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - Rollback - The upgrade will start rolling back automatically. The value is 1
+  - Manual - The upgrade will switch to UnmonitoredManual upgrade mode. The value is 2
+
 
 
 ____

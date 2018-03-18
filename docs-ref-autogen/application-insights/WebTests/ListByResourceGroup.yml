@@ -1,0 +1,239 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.applicationinsights.webtests.listbyresourcegroup
+name: List By Resource Group
+service: Application Insights
+groupName: Web Tests
+apiVersion: 2015-05-01
+summary: Get all Application Insights web tests defined within a specified resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests?api-version=2015-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A list containing 0 or more web test definitions.
+  types:
+  - uid: webTestListResult
+requestHeader: []
+definitions:
+- name: webTestListResult
+  description: A list of 0 or more Application Insights web test definitions.
+  kind: object
+  properties:
+  - name: value
+    description: An Application Insights web test definition.
+    types:
+    - uid: WebTest
+      isArray: true
+  - name: nextLink
+    description: The link to get the next part of the returned list of web tests, should the return set be too large for a single request. May be null.
+    types:
+    - uid: string
+- name: WebTest
+  description: An Application Insights web test definition.
+  kind: object
+  properties:
+  - name: kind
+    description: The kind of web test that this web test watches. Choices are ping and multistep.
+    types:
+    - uid: WebTestKind
+  - name: properties.SyntheticMonitorId
+    description: Unique ID of this WebTest. This is typically the same value as the Name field.
+    types:
+    - uid: string
+  - name: properties.Name
+    description: User defined name if this WebTest.
+    types:
+    - uid: string
+  - name: properties.Description
+    description: Purpose/user defined descriptive test for this WebTest.
+    types:
+    - uid: string
+  - name: properties.Enabled
+    description: Is the test actively being monitored.
+    types:
+    - uid: boolean
+  - name: properties.Frequency
+    description: Interval in seconds between test runs for this WebTest. Default value is 300.
+    types:
+    - uid: integer
+  - name: properties.Timeout
+    description: Seconds until this WebTest will timeout and fail. Default value is 30.
+    types:
+    - uid: integer
+  - name: properties.Kind
+    description: The kind of web test this is, valid choices are ping and multistep.
+    types:
+    - uid: WebTestKind
+  - name: properties.RetryEnabled
+    description: Allow for retries should this WebTest fail.
+    types:
+    - uid: boolean
+  - name: properties.Locations
+    description: Geo-physical location to run a web test from. You must specify one or more locations for the test to run from.
+    types:
+    - uid: WebTestGeolocation
+      isArray: true
+  - name: properties.Configuration
+    description: An XML configuration specification for a WebTest.
+    types:
+    - uid: Configuration
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Current state of this component, whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying, Canceled, and Failed.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Azure resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Azure resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: WebTestKind
+  description: The kind of web test that this web test watches. Choices are ping and multistep.
+  kind: enum
+  properties:
+  - name: ping
+    types:
+    - uid: string
+  - name: multistep
+    types:
+    - uid: string
+- name: WebTestGeolocation
+  description: Geo-physical location to run a web test from. You must specify one or more locations for the test to run from.
+  kind: object
+  properties:
+  - name: Id
+    description: Location ID for the webtest to run from.
+    types:
+    - uid: string
+- name: Configuration
+  description: An XML configuration specification for a WebTest.
+  kind: object
+  properties:
+  - name: WebTest
+    description: The XML specification of a WebTest to run against an application.
+    types:
+    - uid: string
+examples:
+- name: webTestListByResourceGroup
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/webtests?api-version=2015-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/webtests/my-webtest-my-component",
+            "name": "my-webtest-my-component",
+            "type": "Microsoft.Insights/webtests",
+            "location": "southcentralus",
+            "tags": {
+              "hidden-link:/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component": "Resource",
+              "hidden-link:/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Web/sites/mytestwebapp": "Resource"
+            },
+            "kind": "ping",
+            "properties": {
+              "SyntheticMonitorId": "my-webtest-my-component",
+              "Name": "my-webtest",
+              "Description": "",
+              "Enabled": false,
+              "Frequency": 900,
+              "Timeout": 120,
+              "Kind": "ping",
+              "RetryEnabled": true,
+              "Locations": [
+                {
+                  "Id": "apac-hk-hkn-azr"
+                }
+              ],
+              "Configuration": {
+                "WebTest": "<WebTest Name=\"my-webtest\" Id=\"678ddf96-1ab8-44c8-9274-123456789abc\" Enabled=\"True\" CssProjectStructure=\"\" CssIteration=\"\" Timeout=\"120\" WorkItemIds=\"\" xmlns=\"http://microsoft.com/schemas/VisualStudio/TeamTest/2010\" Description=\"\" CredentialUserName=\"\" CredentialPassword=\"\" PreAuthenticate=\"True\" Proxy=\"default\" StopOnError=\"False\" RecordedResultFile=\"\" ResultsLocale=\"\"><Items><Request Method=\"GET\" Guid=\"a4162485-9114-fcfc-e086-123456789abc\" Version=\"1.1\" Url=\"http://my-component.azurewebsites.net\" ThinkTime=\"0\" Timeout=\"120\" ParseDependentRequests=\"True\" FollowRedirects=\"True\" RecordResult=\"True\" Cache=\"False\" ResponseTimeGoal=\"0\" Encoding=\"utf-8\" ExpectedHttpStatusCode=\"200\" ExpectedResponseUrl=\"\" ReportingName=\"\" IgnoreHttpStatusCode=\"False\" /></Items></WebTest>"
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/webtests/my-webtest-my-other-component",
+            "name": "my-webtest-my-other-component",
+            "type": "Microsoft.Insights/webtests",
+            "location": "southcentralus",
+            "tags": {
+              "Test": "You can delete this synthetic monitor anytime",
+              "hidden-link:/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-other-component": "Resource"
+            },
+            "kind": "ping",
+            "properties": {
+              "SyntheticMonitorId": "my-webtest-my-other-component",
+              "Name": "342bccf4-722f-496d-b064-123456789abc",
+              "Description": "",
+              "Enabled": false,
+              "Frequency": 300,
+              "Timeout": 90,
+              "Kind": "ping",
+              "RetryEnabled": false,
+              "Locations": [
+                {
+                  "Id": "us-fl-mia-edge"
+                }
+              ],
+              "Configuration": {
+                "WebTest": "<WebTest Name=\"342bccf4-722f-496d-b064-123456789abc\" Id=\"00a15cc1-c903-4f97-9af4-123456789abc\" Enabled=\"False\" CssProjectStructure=\"\" CssIteration=\"\" Timeout=\"120\" WorkItemIds=\"\" xmlns=\"http://microsoft.com/schemas/VisualStudio/TeamTest/2010\" Description=\"\" CredentialUserName=\"\" CredentialPassword=\"\" PreAuthenticate=\"True\" Proxy=\"default\" StopOnError=\"False\" RecordedResultFile=\"\" ResultsLocale=\"\"><Items><Request Method=\"GET\" Guid=\"347e1924-9899-4c6e-ad78-123456789abc\" Version=\"1.1\" Url=\"http://my-other-component.azurewebsites.net\" ThinkTime=\"0\" Timeout=\"120\" ParseDependentRequests=\"True\" FollowRedirects=\"True\" RecordResult=\"True\" Cache=\"False\" ResponseTimeGoal=\"0\" Encoding=\"utf-8\" ExpectedHttpStatusCode=\"200\" ExpectedResponseUrl=\"\" ReportingName=\"\" IgnoreHttpStatusCode=\"False\" /></Items></WebTest>"
+              },
+              "provisioningState": "Succeeded"
+            }
+          }
+        ],
+        "nextLink": ""
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

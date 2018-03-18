@@ -124,6 +124,8 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
  If a directory or file with the same name already exists, the operation fails with status code 409 (Conflict). If the parent directory does not exist, then the operation fails with status code 412 (Precondition Failed).  
   
  It is not possible to create a directory hierarchy with a single `Create Directory` operation. The directory will only be created if its immediate parent already exists, as specified in the path. If the parent directory does not exist, then the operation fails with status code 412 (Precondition Failed).  
-  
+
+ `Create Directory` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
+
 ## See Also  
  [Operations on Directories](Operations-on-Directories.md)
