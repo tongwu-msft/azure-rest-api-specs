@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.user.createorupdate
 name: Create Or Update
 service: API Management
 groupName: User
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Creates or Updates a user.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: User identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -82,6 +82,11 @@ requestBody:
     description: User Password. If no value is provided, a default password is generated.
     types:
     - uid: string
+  - name: properties.confirmation
+    in: body
+    description: Determines the type of confirmation e-mail that will be sent to the newly created user.
+    types:
+    - uid: Confirmation
   - name: properties.state
     in: body
     description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
@@ -92,10 +97,15 @@ requestBody:
     description: Optional note about a user set by the administrator.
     types:
     - uid: string
-requestHeader: []
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the Entity. Not required when creating an entity, but required when updating an entity.
+  types:
+  - uid: string
 definitions:
 - name: UserIdentityContract
-  description: Collection of user identities.
+  description: User identity details.
   kind: object
   properties:
   - name: provider
@@ -107,7 +117,7 @@ definitions:
     types:
     - uid: string
 - name: UserContract
-  description: Page values.
+  description: User details.
   kind: object
   properties:
   - name: properties.firstName
@@ -128,9 +138,9 @@ definitions:
     - uid: string
   - name: properties.groups
     isReadyOnly: true
-    description: Contract details.
+    description: Group contract Properties.
     types:
-    - uid: GroupContract
+    - uid: GroupContractProperties
       isArray: true
   - name: id
     isReadyOnly: true
@@ -198,6 +208,10 @@ definitions:
     description: User Password. If no value is provided, a default password is generated.
     types:
     - uid: string
+  - name: properties.confirmation
+    description: Determines the type of confirmation e-mail that will be sent to the newly created user.
+    types:
+    - uid: Confirmation
   - name: properties.state
     description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
     types:
@@ -212,44 +226,29 @@ definitions:
     types:
     - uid: UserIdentityContract
       isArray: true
-- name: GroupContract
-  description: Collection of groups user is part of.
+- name: GroupContractProperties
+  description: Group contract Properties.
   kind: object
   properties:
-  - name: properties.displayName
+  - name: displayName
     description: Group name.
     types:
     - uid: string
-  - name: properties.description
+  - name: description
     description: Group description. Can contain HTML formatting tags.
     types:
     - uid: string
-  - name: properties.builtIn
+  - name: builtIn
     isReadyOnly: true
     description: true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
     types:
     - uid: boolean
-  - name: properties.type
+  - name: type
     description: Group type.
     types:
     - uid: GroupType
-  - name: properties.externalId
+  - name: externalId
     description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type for API Management resource.
     types:
     - uid: string
 - name: UserState
@@ -257,9 +256,19 @@ definitions:
   kind: enum
   properties:
   - name: active
+    description: User state is active.
     types:
     - uid: string
   - name: blocked
+    description: User is blocked. Blocked users cannot authenticate at developer portal or call API.
+    types:
+    - uid: string
+  - name: pending
+    description: User account is pending. Requires identity confirmation before it can be made active.
+    types:
+    - uid: string
+  - name: deleted
+    description: User account is closed. All identities and related entities are removed.
     types:
     - uid: string
 - name: ErrorFieldContract
@@ -278,6 +287,18 @@ definitions:
     description: Property name.
     types:
     - uid: string
+- name: Confirmation
+  description: Determines the type of confirmation e-mail that will be sent to the newly created user.
+  kind: enum
+  properties:
+  - name: signup
+    description: Send an e-mail to the user confirming they have successfully signed up.
+    types:
+    - uid: string
+  - name: invite
+    description: Send an e-mail inviting the user to sign-up and complete registration.
+    types:
+    - uid: string
 - name: GroupType
   description: Group type.
   kind: enum
@@ -294,20 +315,21 @@ definitions:
 examples:
 - name: ApiManagementCreateUserBasic
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b?api-version=2018-01-01
     body: >-
       {
         "properties": {
           "firstName": "foo",
           "lastName": "bar",
-          "email": "foobar@outlook.com"
+          "email": "foobar@outlook.com",
+          "confirmation": "signup"
         }
       }
   responses:
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b",
+        "id": "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b",
         "type": "Microsoft.ApiManagement/service/users",
         "name": "5931a75ae4bbd512288c680b",
         "properties": {
@@ -315,7 +337,7 @@ examples:
           "lastName": "bar",
           "email": "foobar@outlook.com",
           "state": "active",
-          "registrationDate": "2017-06-02T18:22:12.98Z",
+          "registrationDate": "2018-01-07T21:21:29.16Z",
           "groups": [],
           "identities": [
             {
@@ -328,7 +350,7 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b",
+        "id": "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b",
         "type": "Microsoft.ApiManagement/service/users",
         "name": "5931a75ae4bbd512288c680b",
         "properties": {
@@ -336,7 +358,7 @@ examples:
           "lastName": "bar",
           "email": "foobar@outlook.com",
           "state": "active",
-          "registrationDate": "2017-06-02T18:22:12.98Z",
+          "registrationDate": "2018-01-07T21:21:29.16Z",
           "groups": [],
           "identities": [
             {

@@ -48,7 +48,7 @@ definitions:
   description: The saved search operation response.
   kind: object
   properties:
-  - name: __metadata
+  - name: metaData
     description: The metadata from search results.
     types:
     - uid: SearchMetadata
@@ -61,7 +61,7 @@ definitions:
   description: Metadata for search results.
   kind: object
   properties:
-  - name: RequestId
+  - name: requestId
     description: The request id of the search.
     types:
     - uid: string
@@ -81,24 +81,24 @@ definitions:
     description: The id of the search results request.
     types:
     - uid: string
-  - name: CoreSummaries
+  - name: coreSummaries
     description: The core summary of a search.
     types:
     - uid: CoreSummary
       isArray: true
-  - name: Status
+  - name: status
     description: The status of the search results.
     types:
     - uid: string
-  - name: StartTime
+  - name: startTime
     description: The start time for the search.
     types:
     - uid: string
-  - name: LastUpdated
+  - name: lastUpdated
     description: The time of last update.
     types:
     - uid: string
-  - name: ETag
+  - name: eTag
     description: The ETag of the search results.
     types:
     - uid: string
@@ -140,27 +140,37 @@ definitions:
     description: The id of the saved search.
     types:
     - uid: string
-  - name: etag
+  - name: name
+    isReadyOnly: true
+    description: The name of the saved search.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the saved search.
+    types:
+    - uid: string
+  - name: eTag
     description: The etag of the saved search.
     types:
     - uid: string
-  - name: properties.Category
+  - name: properties.category
     description: 'The category of the saved search. This helps the user to find a saved search faster. '
     types:
     - uid: string
-  - name: properties.DisplayName
+  - name: properties.displayName
     description: Saved search display name.
     types:
     - uid: string
-  - name: properties.Query
+  - name: properties.query
     description: The query expression for the saved search. Please see https://docs.microsoft.com/en-us/azure/log-analytics/log-analytics-search-reference for reference.
     types:
     - uid: string
-  - name: properties.Version
+  - name: properties.version
     description: The version number of the query lanuage. Only verion 1 is allowed here.
     types:
     - uid: integer
-  - name: properties.Tags
+  - name: properties.tags
     description: A tag of a saved search.
     types:
     - uid: Tag
@@ -169,11 +179,11 @@ definitions:
   description: The core summary of a search.
   kind: object
   properties:
-  - name: Status
+  - name: status
     description: The status of a core summary.
     types:
     - uid: string
-  - name: NumberOfDocuments
+  - name: numberOfDocuments
     description: The number of documents of a core summary.
     types:
     - uid: integer
@@ -205,11 +215,11 @@ definitions:
   description: A tag of a saved search.
   kind: object
   properties:
-  - name: Name
+  - name: name
     description: The tag name.
     types:
     - uid: string
-  - name: Value
+  - name: value
     description: The tag value.
     types:
     - uid: string
@@ -223,7 +233,31 @@ definitions:
   - name: desc
     types:
     - uid: string
-examples: []
+examples:
+- name: SavedSearchesList
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/TestRG/providers/Microsoft.OperationalInsights/workspaces/TestWS/savedSearches?api-version=2015-03-20
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "id": "subscriptions/00000000-0000-0000-0000-000000000005/resourceGroups/mms-eus/providers/Microsoft.OperationalInsights/workspaces/AtlantisDemo/savedSearches/test-new-saved-search-id-2015",
+          "eTag": "W/\"datetime'2017-10-02T23%3A15%3A41.0709875Z'\"",
+          "properties": {
+            "Category": " Saved Search Test Category",
+            "DisplayName": "Create or Update Saved Search Test",
+            "Query": "* | measure Count() by Computer",
+            "Tags": [
+              {
+                "Name": "Group",
+                "Value": "Computer"
+              }
+            ],
+            "Version": 1
+          }
+        }
+      ]
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

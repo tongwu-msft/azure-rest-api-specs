@@ -1,7 +1,7 @@
 ---
 title: "IngestManifestFile"
 ms.custom: ""
-ms.date: "2016-07-14"
+ms.date: "03/14/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
@@ -66,14 +66,14 @@ An IngestManifestFile represents an actual video or audio blob object that will 
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/API/IngestManifestFiles|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/IngestManifestFiles|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-POST https://media.windows.net/API/IngestManifestFiles HTTP/1.1  
+POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/IngestManifestFiles HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -93,15 +93,15 @@ Expect: 100-continue
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/IngestManifestFiles|HTTP/1.1|  
-|GET|https://media.windows.net/API/IngestManifestFiles(‘IngestManifestFile Id’)|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/IngestManifestFiles|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/IngestManifestFiles(‘IngestManifestFile Id’)|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://media.windows.net/API/IngestManifestFiles('nb:mfid:UUID:030ef5ef-c5b3-2c4a-86da-217d4d2170de') HTTP/1.1  
+GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/IngestManifestFiles('nb:mfid:UUID:030ef5ef-c5b3-2c4a-86da-217d4d2170de') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -117,14 +117,14 @@ Host: media.windows.net
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://media.windows.net/API/IngestManifestFiles(‘IngestManifestFile Id’)|HTTP/1.1|  
+|DELETE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/IngestManifestFiles(‘IngestManifestFile Id’)|HTTP/1.1|  
   
 ### Sample Request  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-DELETE https://media.windows.net/API/IngestManifestFiles('nb:mfid:UUID:030ef5ef-c5b3-2c4a-86da-217d4d2170de') HTTP/1.1  
+DELETE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/IngestManifestFiles('nb:mfid:UUID:030ef5ef-c5b3-2c4a-86da-217d4d2170de') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  

@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apimanagementservice.restore
 name: Restore
 service: API Management
 groupName: Api Management Service
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Restores a backup of an API Management service created using the ApiManagementService_Backup operation on the current service. This is a long running operation and could take several minutes to complete.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/restore?api-version=2017-03-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/restore?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -173,9 +173,15 @@ definitions:
     types:
     - uid: HostnameConfiguration
       isArray: true
-  - name: properties.staticIps
+  - name: properties.publicIPAddresses
     isReadyOnly: true
-    description: Static IP addresses of the API Management service virtual machines. Available only for Standard and Premium SKU.
+    description: Public Static Load Balanced IP addresses of the API Management service. Available only for Basic, Standard and Premium SKU.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.privateIPAddresses
+    isReadyOnly: true
+    description: Private Static Load Balanced IP addresses of the API Management service which is deployed in an Internal Virtual Network. Available only for Basic, Standard and Premium SKU.
     types:
     - uid: string
       isArray: true
@@ -226,7 +232,7 @@ definitions:
     types:
     - uid: string
 - name: ApiManagementServiceSkuProperties
-  description: SKU properties of the API Management service.
+  description: API Management service resource SKU properties.
   kind: object
   properties:
   - name: name
@@ -238,7 +244,7 @@ definitions:
     types:
     - uid: integer
 - name: ApiManagementServiceIdentity
-  description: Managed service identity of the Api Management service.
+  description: Identity properties of the Api Management service resource.
   kind: object
   properties:
   - name: type
@@ -322,7 +328,7 @@ definitions:
     description: SKU properties of the API Management service.
     types:
     - uid: ApiManagementServiceSkuProperties
-  - name: staticIps
+  - name: publicIPAddresses
     isReadyOnly: true
     description: Static IP addresses of the location's virtual machines.
     types:
@@ -350,7 +356,7 @@ definitions:
     types:
     - uid: string
   - name: storeName
-    description: The local certificate store location. Only Root and CertificateAuthority are valid locations.
+    description: The System.Security.Cryptography.x509certificates.Storename certificate store location. Only Root and CertificateAuthority are valid locations.
     types:
     - uid: CertificateAuthority
     - uid: Root
@@ -438,7 +444,7 @@ definitions:
 examples:
 - name: ApiManagementRestoreService
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/restore?api-version=2017-03-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/restore?api-version=2018-01-01
     body: >-
       {
         "storageAccount": "teststorageaccount",
@@ -450,7 +456,7 @@ examples:
   - statusCode: "202"
     headers:
     - name: location
-      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2017-03-01
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2018-01-01
   - statusCode: "200"
     body: >-
       {
@@ -473,7 +479,7 @@ examples:
           "managementApiUrl": "https://apimService1.management.azure-api.net",
           "scmUrl": "https://apimService1.scm.azure-api.net",
           "hostnameConfigurations": [],
-          "staticIps": [
+          "publicIPAddresses": [
             "207.46.155.24"
           ],
           "virtualNetworkType": "None"

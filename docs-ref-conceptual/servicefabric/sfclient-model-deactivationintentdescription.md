@@ -1,6 +1,6 @@
 ---
 title: "DeactivationIntentDescription"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -42,7 +42,14 @@ __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
 Describes the intent or reason for deactivating the node. The possible values are following.
+
+
+
+
+Possible values are: 
+
   - Pause - Indicates that the node should be paused. The value is 1.
   - Restart - Indicates that the intent is for the node to be restarted after a short period of time. The value is 2.
   - RemoveData - Indicates the intent is for the node to remove data. The value is 3.
+
 

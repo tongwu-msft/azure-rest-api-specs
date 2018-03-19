@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.identityprovider.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Identity Provider
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Creates or Updates the IdentityProvider configuration.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,7 +36,7 @@ uriParameters:
   isRequired: true
   description: Identity Provider Type identifier.
   types:
-  - uid: string
+  - uid: IdentityProviderType
 - name: api-version
   in: query
   isRequired: true
@@ -101,8 +101,41 @@ requestBody:
     description: Password Reset Policy Name. Only applies to AAD B2C Identity Provider.
     types:
     - uid: string
-requestHeader: []
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the Entity. Not required when creating an entity, but required when updating an entity.
+  types:
+  - uid: string
 definitions:
+- name: IdentityProviderType
+  description: Identity Provider Type identifier.
+  kind: enum
+  properties:
+  - name: facebook
+    description: Facebook as Identity provider.
+    types:
+    - uid: string
+  - name: google
+    description: Google as Identity provider.
+    types:
+    - uid: string
+  - name: microsoft
+    description: Microsoft Live as Identity provider.
+    types:
+    - uid: string
+  - name: twitter
+    description: Twitter as Identity provider.
+    types:
+    - uid: string
+  - name: aad
+    description: Azure Active Directory as Identity provider.
+    types:
+    - uid: string
+  - name: aadB2C
+    description: Azure Active Directory B2C as Identity provider.
+    types:
+    - uid: string
 - name: IdentityProviderContract
   description: Identity Provider details.
   kind: object
@@ -172,34 +205,6 @@ definitions:
     types:
     - uid: ErrorFieldContract
       isArray: true
-- name: IdentityProviderType
-  description: Identity Provider Type identifier.
-  kind: enum
-  properties:
-  - name: facebook
-    description: Facebook as Identity provider.
-    types:
-    - uid: string
-  - name: google
-    description: Google as Identity provider.
-    types:
-    - uid: string
-  - name: microsoft
-    description: Microsoft Live as Identity provider.
-    types:
-    - uid: string
-  - name: twitter
-    description: Twitter as Identity provider.
-    types:
-    - uid: string
-  - name: aad
-    description: Azure Active Directory as Identity provider.
-    types:
-    - uid: string
-  - name: aadB2C
-    description: Azure Active Directory B2C as Identity provider.
-    types:
-    - uid: string
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -219,7 +224,7 @@ definitions:
 examples:
 - name: ApiManagementCreateIdentityProvider
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/identityProviders/facebook?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/identityProviders/facebook?api-version=2018-01-01
     body: >-
       {
         "properties": {

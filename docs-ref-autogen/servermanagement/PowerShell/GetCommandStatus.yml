@@ -13,7 +13,7 @@ produces:
 - text/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServerManagement/nodes/{nodeName}/sessions/{session}/features/powerShellConsole/pssessions/{pssession}?api-version=2016-07-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServerManagement/nodes/{nodeName}/sessions/{session}/features/powerShellConsole/pssessions/{pssession}?api-version=2016-07-01-preview&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServerManagement/nodes/{nodeName}/sessions/{session}/features/powerShellConsole/pssessions/{pssession}?api-version=2016-07-01-preview&$expand=output
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -58,7 +58,7 @@ uriParameters:
   in: query
   description: Gets current output from an ongoing call.
   types:
-  - uid: string
+  - uid: PowerShellExpandOption
 responses:
 - name: 200 OK
   description: The operation completed successfully.
@@ -70,6 +70,13 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
+- name: PowerShellExpandOption
+  description: Gets current output from an ongoing call.
+  kind: enum
+  properties:
+  - name: output
+    types:
+    - uid: string
 - name: PowerShellCommandStatus
   description: Result status from invoking a PowerShell command.
   kind: object
@@ -80,15 +87,12 @@ definitions:
     - uid: PowerShellCommandResult
       isArray: true
   - name: properties.pssession
-    description: ''
     types:
     - uid: string
   - name: properties.command
-    description: ''
     types:
     - uid: string
   - name: properties.completed
-    description: ''
     types:
     - uid: boolean
   - name: id
@@ -120,7 +124,6 @@ definitions:
       - uid: string
       - uid: string
   - name: etag
-    description: ''
     types:
     - uid: string
 - name: Error
@@ -128,19 +131,16 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: ''
     types:
     - uid: integer
   - name: message
-    description: ''
     types:
     - uid: string
   - name: fields
-    description: ''
     types:
     - uid: string
 - name: PowerShellCommandResult
-  description: ''
+  description: Results from invoking a PowerShell command.
   kind: object
   properties:
   - name: messageType
@@ -185,7 +185,7 @@ definitions:
     - uid: PromptFieldDescription
       isArray: true
 - name: PromptFieldDescription
-  description: Collection of PromptFieldDescription objects that contains the user input.
+  description: Field description for the implementation of PSHostUserInterface.Prompt
   kind: object
   properties:
   - name: name
@@ -205,11 +205,9 @@ definitions:
     types:
     - uid: boolean
   - name: promptFieldType
-    description: ''
     types:
     - uid: PromptFieldType
 - name: PromptFieldType
-  description: ''
   kind: enum
   properties:
   - name: String

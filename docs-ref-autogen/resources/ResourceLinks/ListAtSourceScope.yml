@@ -11,7 +11,7 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/{scope}/providers/Microsoft.Resources/links?api-version=2016-09-01
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Resources/links?$filter={$filter}&api-version=2016-09-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Resources/links?$filter=atScope()&api-version=2016-09-01
   isOptional: true
 uriParameters:
 - name: scope
@@ -24,7 +24,7 @@ uriParameters:
   in: query
   description: The filter to apply when getting resource links. To get links only at the specified scope (not below the scope), use Filter.atScope().
   types:
-  - uid: string
+  - uid: Filter
 - name: api-version
   in: query
   isRequired: true
@@ -38,6 +38,13 @@ responses:
   - uid: ResourceLinkResult
 requestHeader: []
 definitions:
+- name: Filter
+  description: The filter to apply when getting resource links. To get links only at the specified scope (not below the scope), use Filter.atScope().
+  kind: enum
+  properties:
+  - name: atScope()
+    types:
+    - uid: string
 - name: ResourceLinkResult
   description: List of resource links.
   kind: object
@@ -53,7 +60,7 @@ definitions:
     types:
     - uid: string
 - name: ResourceLink
-  description: An array of resource links.
+  description: The resource link.
   kind: object
   properties:
   - name: id
@@ -71,7 +78,7 @@ definitions:
     types:
     - uid: ResourceLinkProperties
 - name: ResourceLinkProperties
-  description: Properties for resource link.
+  description: The resource link properties.
   kind: object
   properties:
   - name: sourceId

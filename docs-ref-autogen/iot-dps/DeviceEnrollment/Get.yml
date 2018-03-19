@@ -1,5 +1,5 @@
 ### YamlMime:RESTOperation
-uid: contoso.azure-devices-provisioning.net.iothubdeviceprovisioningservice.deviceenrollment.get
+uid: localhost.iothubdeviceprovisioningservice.deviceenrollment.get
 name: Get
 service: IoT Hub Device Provisioning Service
 groupName: Device Enrollment
@@ -9,7 +9,7 @@ consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://contoso.azure-devices-provisioning.net/enrollments/{id}?api-version=2017-11-15
+- content: GET https://localhost/enrollments/{id}?api-version=2017-11-15
 uriParameters:
 - name: id
   in: path
@@ -24,10 +24,24 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 400 Bad Request
+  description: The body of the request is not valid; for example, it cannot be parsed, or the object cannot be validated.
+- name: Other Status Codes
+  description: The authorization token cannot be validated; for example, it is expired or does not apply to the request’s URI. This error code is also returned to devices as part of the TPM attestation flow.
+- name: Other Status Codes
+  description: The Device Provisioning Service instance, or a resource (e.g. an enrollment) does not exist.
+- name: Other Status Codes
+  description: Operations are being throttled by the service. For specific service limits, see IoT Hub Device Provisioning Service limits.
+- name: Other Status Codes
+  description: An internal error occurred.
 - name: 200 OK
   description: Success
   types:
   - uid: IndividualEnrollment
+- name: Other Status Codes
+  description: Error response
+  types:
+  - uid: ProvisioningServiceErrorDetails
 requestHeader: []
 definitions:
 - name: IndividualEnrollment
@@ -76,8 +90,30 @@ definitions:
     description: The DateTime this resource was last updated.
     types:
     - uid: string
+- name: ProvisioningServiceErrorDetails
+  kind: object
+  properties:
+  - name: errorCode
+    types:
+    - uid: integer
+  - name: trackingId
+    types:
+    - uid: string
+  - name: message
+    types:
+    - uid: string
+  - name: info
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: timestampUtc
+    types:
+    - uid: string
 - name: DeviceRegistrationState
-  description: Current registration status.
+  description: Device registration state.
   kind: object
   properties:
   - name: registrationId
@@ -122,11 +158,10 @@ definitions:
     types:
     - uid: string
 - name: AttestationMechanism
-  description: Attestation method used by the device.
+  description: Device attestation method.
   kind: object
   properties:
   - name: type
-    description: ''
     types:
     - uid: none
     - uid: tpm
@@ -141,7 +176,7 @@ definitions:
     types:
     - uid: X509Attestation
 - name: InitialTwin
-  description: Initial device twin.
+  description: Initial device twin. Contains a subset of the properties of Twin.
   kind: object
   properties:
   - name: tags
@@ -157,11 +192,9 @@ definitions:
   kind: object
   properties:
   - name: endorsementKey
-    description: ''
     types:
     - uid: string
   - name: storageRootKey
-    description: ''
     types:
     - uid: string
 - name: X509Attestation
@@ -181,23 +214,18 @@ definitions:
     types:
     - uid: X509CAReferences
 - name: TwinCollection
-  description: Twin tags.
   kind: object
   properties:
   - name: version
-    description: ''
     types:
     - uid: integer
   - name: count
-    description: ''
     types:
     - uid: integer
   - name: metadata
-    description: ''
     types:
     - uid: Metadata
 - name: InitialTwinProperties
-  description: Twin desired properties.
   kind: object
   properties:
   - name: desired
@@ -221,19 +249,15 @@ definitions:
   kind: object
   properties:
   - name: primary
-    description: ''
     types:
     - uid: string
   - name: secondary
-    description: ''
     types:
     - uid: string
 - name: Metadata
-  description: ''
   kind: object
   properties:
   - name: lastUpdated
-    description: ''
     types:
     - uid: string
   - name: lastUpdatedVersion
@@ -245,7 +269,6 @@ definitions:
   kind: object
   properties:
   - name: certificate
-    description: ''
     types:
     - uid: string
   - name: info
@@ -257,35 +280,27 @@ definitions:
   kind: object
   properties:
   - name: subjectName
-    description: ''
     types:
     - uid: string
   - name: sha1Thumbprint
-    description: ''
     types:
     - uid: string
   - name: sha256Thumbprint
-    description: ''
     types:
     - uid: string
   - name: issuerName
-    description: ''
     types:
     - uid: string
   - name: notBeforeUtc
-    description: ''
     types:
     - uid: string
   - name: notAfterUtc
-    description: ''
     types:
     - uid: string
   - name: serialNumber
-    description: ''
     types:
     - uid: string
   - name: version
-    description: ''
     types:
     - uid: integer
 examples: []

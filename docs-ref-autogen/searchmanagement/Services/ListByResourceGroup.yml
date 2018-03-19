@@ -7,10 +7,8 @@ apiVersion: 2015-08-19
 summary: Gets a list of all Search services in the given resource group.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices?api-version=2015-08-19
 uriParameters:
@@ -72,7 +70,7 @@ definitions:
   kind: object
   properties:
   - name: sku
-    description: The SKU of the Search Service, which determines price tier and capacity limits.
+    description: The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service.
     types:
     - uid: Sku
   - name: properties.replicaCount
@@ -118,7 +116,7 @@ definitions:
     types:
     - uid: string
   - name: location
-    description: The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth).
+    description: The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth). This property is required when creating a new resource.
     types:
     - uid: string
   - name: tags
@@ -146,7 +144,7 @@ definitions:
     types:
     - uid: string
   - name: details
-    description: Contains nested errors that are related to this error.
+    description: Describes a particular API error with an error code and a message.
     types:
     - uid: CloudErrorBody
       isArray: true
@@ -222,7 +220,57 @@ definitions:
   - name: standard3
     types:
     - uid: string
-examples: []
+examples:
+- name: SearchListServicesByResourceGroup
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices?api-version=2015-08-19
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice",
+            "name": "mysearchservice",
+            "location": "westus",
+            "type": "Microsoft.Search/searchServices",
+            "tags": {
+              "app-name": "My e-commerce app"
+            },
+            "sku": {
+              "name": "standard"
+            },
+            "properties": {
+              "replicaCount": 3,
+              "partitionCount": 1,
+              "status": "running",
+              "statusDetails": "",
+              "hostingMode": "default",
+              "provisioningState": "succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice2",
+            "name": "mysearchservice2",
+            "location": "eastus",
+            "type": "Microsoft.Search/searchServices",
+            "tags": {
+              "app-name": "My e-commerce app"
+            },
+            "sku": {
+              "name": "basic"
+            },
+            "properties": {
+              "replicaCount": 1,
+              "partitionCount": 1,
+              "status": "running",
+              "statusDetails": "",
+              "hostingMode": "default",
+              "provisioningState": "succeeded"
+            }
+          }
+        ]
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

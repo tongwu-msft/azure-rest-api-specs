@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.productapi.listbyproduct
 name: List By Product
 service: API Management
 groupName: Product Api
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Lists a collection of the APIs associated with a product.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis?api-version=2017-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis?api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -39,7 +39,7 @@ uriParameters:
   description: Product identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: $filter
   in: query
   description: >
@@ -138,6 +138,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.apiVersionSet
+    description: 'An API Version Set contains the common configuration for a set of API Versions relating '
+    types:
+    - uid: ApiVersionSetContractDetails
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -173,14 +177,24 @@ definitions:
     description: Describes the Revision of the Api. If no value is provided, default revision 1 is created
     types:
     - uid: string
+  - name: properties.apiVersion
+    description: Indicates the Version identifier of the API if the API is versioned
+    types:
+    - uid: string
   - name: properties.isCurrent
+    isReadyOnly: true
     description: Indicates if API revision is current api revision.
     types:
     - uid: boolean
   - name: properties.isOnline
+    isReadyOnly: true
     description: Indicates if API revision is accessible via the gateway.
     types:
     - uid: boolean
+  - name: properties.apiVersionSetId
+    description: A resource identifier for the related ApiVersionSet.
+    types:
+    - uid: string
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -195,6 +209,33 @@ definitions:
     - uid: string
   - name: target
     description: Property name.
+    types:
+    - uid: string
+- name: ApiVersionSetContractDetails
+  description: 'An API Version Set contains the common configuration for a set of API Versions relating '
+  kind: object
+  properties:
+  - name: id
+    description: Identifier for existing API Version Set. Omit this value to create a new Version Set.
+    types:
+    - uid: string
+  - name: description
+    description: Description of API Version Set.
+    types:
+    - uid: string
+  - name: versioningScheme
+    description: An value that determines where the API Version identifer will be located in a HTTP request.
+    types:
+    - uid: Segment
+    - uid: Query
+    - uid: Header
+    typesTitle: enum
+  - name: versionQueryName
+    description: Name of query parameter that indicates the API Version if versioningScheme is set to `query`.
+    types:
+    - uid: string
+  - name: versionHeaderName
+    description: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.
     types:
     - uid: string
 - name: AuthenticationSettingsContract
@@ -242,7 +283,7 @@ definitions:
 examples:
 - name: ApiManagementListProductApis
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5768181ea40f7eb6c49f6ac7/apis?api-version=2017-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5768181ea40f7eb6c49f6ac7/apis?api-version=2018-01-01
   responses:
   - statusCode: "200"
     body: >-

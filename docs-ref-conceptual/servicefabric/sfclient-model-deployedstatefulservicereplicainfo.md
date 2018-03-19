@@ -1,6 +1,6 @@
 ---
 title: "DeployedStatefulServiceReplicaInfo"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -95,6 +95,8 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The status of a replica of a service. Possible values are following.
 
   -Invalid - Indicates the replica status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
@@ -103,6 +105,7 @@ The status of a replica of a service. Possible values are following.
   -Ready - The replica is ready. The value is 3.
   -Down - The replica is down. The value is 4.
   -Dropped - Replica is dropped. This means that the replica has been removed from the replica set. If it is persisted, its state has been deleted. The value is 5.
+
 
 
 ____
@@ -141,12 +144,18 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-The role of a replica of a stateful service. Possible values are following.
+
+
+The role of a replica of a stateful service.
+
+Possible values are: 
+
   - Unknown - Indicates the initial role that a replica is created in. The value is zero.
   - None - Specifies that the replica has no responsibility in regard to the replica set. The value is 1
   - Primary - Refers to the replica in the set on which all read and write operations are complete in order to enforce strong consistency semantics. Read operations are handled directly by the Primary replica, while write operations must be acknowledged by a quorum of the replicas in the replica set. There can only be one Primary replica in a replica set at a time. The value is 2.
   - IdleSecondary - Refers to a replica in the set that receives a state transfer from the Primary replica to prepare for becoming an active Secondary replica. There can be multiple Idle Secondary replicas in a replica set at a time. Idle Secondary replicas do not count as a part of a write quorum. The value is 3.
   - ActiveSecondary - Refers to a replica in the set that receives state updates from the Primary replica, applies them, and sends acknowledgements back. Secondary replicas must participate in the write quorum for a replica set. There can be multiple active Secondary replicas in a replica set at a time. The number of active Secondary replicas is configurable that the reliability subsystem should maintain. The value is 4.
+
 
 
 ____

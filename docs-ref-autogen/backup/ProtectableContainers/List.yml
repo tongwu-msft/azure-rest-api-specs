@@ -1,0 +1,293 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.recoveryservices-backup.protectablecontainers.list
+name: List
+service: Recovery Services - Backup
+groupName: Protectable Containers
+apiVersion: 2016-12-01
+summary: Lists the containers registered to Recovery Services Vault.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectableContainers?api-version=2016-12-01
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectableContainers?api-version=2016-12-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: fabricName
+  in: path
+  isRequired: true
+  description: Fabric name associated with the container.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter options.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ProtectableContainerResourceList
+requestHeader: []
+definitions:
+- name: ProtectableContainerResourceList
+  description: List of ProtectableContainer resources
+  kind: object
+  properties:
+  - name: value
+    description: Protectable Container Class.
+    types:
+    - uid: ProtectableContainerResource
+      isArray: true
+  - name: nextLink
+    description: The uri to fetch the next page of resources. Call ListNext() fetches next page of resources.
+    types:
+    - uid: string
+- name: ProtectableContainerResource
+  description: Protectable Container Class.
+  kind: object
+  properties:
+  - name: properties
+    description: ProtectableContainerResource properties
+    types:
+    - uid: AzureStorageProtectableContainer
+    - uid: AzureVMAppContainerProtectableContainer
+    typesTitle: ProtectableContainer
+  - name: id
+    isReadyOnly: true
+    description: Resource Id represents the complete path to the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name associated with the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    description: Optional ETag.
+    types:
+    - uid: string
+- name: AzureStorageProtectableContainer
+  description: Azure Storage-specific protectable containers
+  kind: object
+  properties:
+  - name: friendlyName
+    description: Friendly name of the container.
+    types:
+    - uid: string
+  - name: backupManagementType
+    description: Type of backup managemenent for the container.
+    types:
+    - uid: BackupManagementType
+  - name: protectableContainerType
+    isReadyOnly: true
+    description: >-
+      Type of the container. The value of this property for
+                  1. Compute Azure VM is Microsoft.Compute/virtualMachines
+                  2. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines
+    types:
+    - uid: StorageContainer
+    typesTitle: string
+  - name: healthStatus
+    description: Status of health of the container.
+    types:
+    - uid: string
+  - name: containerId
+    description: Fabric Id of the container such as ARM Id.
+    types:
+    - uid: string
+- name: AzureVMAppContainerProtectableContainer
+  description: Azure workload-specific container
+  kind: object
+  properties:
+  - name: friendlyName
+    description: Friendly name of the container.
+    types:
+    - uid: string
+  - name: backupManagementType
+    description: Type of backup managemenent for the container.
+    types:
+    - uid: BackupManagementType
+  - name: protectableContainerType
+    isReadyOnly: true
+    description: >-
+      Type of the container. The value of this property for
+                  1. Compute Azure VM is Microsoft.Compute/virtualMachines
+                  2. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines
+    types:
+    - uid: VMAppContainer
+    typesTitle: string
+  - name: healthStatus
+    description: Status of health of the container.
+    types:
+    - uid: string
+  - name: containerId
+    description: Fabric Id of the container such as ARM Id.
+    types:
+    - uid: string
+- name: BackupManagementType
+  description: Type of backup managemenent for the container.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AzureIaasVM
+    types:
+    - uid: string
+  - name: MAB
+    types:
+    - uid: string
+  - name: DPM
+    types:
+    - uid: string
+  - name: AzureBackupServer
+    types:
+    - uid: string
+  - name: AzureSql
+    types:
+    - uid: string
+  - name: AzureStorage
+    types:
+    - uid: string
+  - name: AzureWorkload
+    types:
+    - uid: string
+  - name: DefaultBackup
+    types:
+    - uid: string
+- name: ContainerType
+  description: Type of container for filter
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+  - name: IaasVMContainer
+    types:
+    - uid: string
+  - name: IaasVMServiceContainer
+    types:
+    - uid: string
+  - name: DPMContainer
+    types:
+    - uid: string
+  - name: AzureBackupServerContainer
+    types:
+    - uid: string
+  - name: MABContainer
+    types:
+    - uid: string
+  - name: Cluster
+    types:
+    - uid: string
+  - name: AzureSqlContainer
+    types:
+    - uid: string
+  - name: Windows
+    types:
+    - uid: string
+  - name: VCenter
+    types:
+    - uid: string
+  - name: VMAppContainer
+    types:
+    - uid: string
+  - name: SQLAGWorkLoadContainer
+    types:
+    - uid: string
+  - name: StorageContainer
+    types:
+    - uid: string
+  - name: GenericContainer
+    types:
+    - uid: string
+examples:
+- name: List protectable items with backupManagementType filter as AzureStorage
+  request:
+    uri: GET https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/testvault/backupFabrics/Azure/protectableContainers?api-version=2016-12-01&$filter=backupManagementType eq 'AzureStorage' and workloadType eq 'AzureFileShare'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.RecoveryServices/vaults/testvault/backupFabrics/Azure/protectableContainers/StorageContainer;storage;test-rg;teststorage",
+            "name": "StorageContainer;storage;test-rg;testst",
+            "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectableContainers",
+            "properties": {
+              "friendlyName": "teststorage",
+              "backupManagementType": "AzureStorage",
+              "protectableContainerType": "StorageContainer",
+              "healthStatus": "Healthy",
+              "containerId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Storage/storageAccounts/teststorage"
+            }
+          },
+          {
+            "id": "/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.RecoveryServices/vaults/testvault/backupFabrics/Azure/protectableContainers/StorageContainer;ClassicStorage;test-rg;teststorage",
+            "name": "StorageContainer;ClassicStorage;test-rg;teststorage",
+            "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectableContainers",
+            "properties": {
+              "friendlyName": "teststorage",
+              "backupManagementType": "AzureStorage",
+              "protectableContainerType": "StorageContainer",
+              "healthStatus": "Healthy",
+              "containerId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.ClassicStorage/storageAccounts/teststorage"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.

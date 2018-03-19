@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.api.update
 name: Update
 service: API Management
 groupName: Api
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Updates the specified API of the API Management service instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?api-version=2017-03-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,7 +34,7 @@ uriParameters:
 - name: apiId
   in: path
   isRequired: true
-  description: API identifier. Must be unique in the current API Management service instance.
+  description: API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
@@ -99,26 +99,26 @@ requestBody:
     description: Describes the Revision of the Api. If no value is provided, default revision 1 is created
     types:
     - uid: string
-  - name: properties.isCurrent
+  - name: properties.apiVersion
     in: body
-    description: Indicates if API revision is current api revision.
+    description: Indicates the Version identifier of the API if the API is versioned
     types:
-    - uid: boolean
-  - name: properties.isOnline
+    - uid: string
+  - name: properties.apiVersionSetId
     in: body
-    description: Indicates if API revision is accessible via the gateway.
+    description: A resource identifier for the related ApiVersionSet.
     types:
-    - uid: boolean
+    - uid: string
 requestHeader:
 - name: If-Match
   in: header
   isRequired: true
-  description: ETag of the API entity. ETag should match the current entity state in the header response of the GET request or it should be * for unconditional update.
+  description: ETag of the Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
   types:
   - uid: string
 definitions:
 - name: AuthenticationSettingsContract
-  description: Collection of authentication settings included into this API.
+  description: API Authentication Settings.
   kind: object
   properties:
   - name: oAuth2
@@ -126,7 +126,7 @@ definitions:
     types:
     - uid: OAuth2AuthenticationSettingsContract
 - name: SubscriptionKeyParameterNamesContract
-  description: Protocols over which API is made available.
+  description: Subscription key parameter names details.
   kind: object
   properties:
   - name: header
@@ -195,16 +195,26 @@ definitions:
     description: Describes the Revision of the Api. If no value is provided, default revision 1 is created
     types:
     - uid: string
+  - name: properties.apiVersion
+    description: Indicates the Version identifier of the API if the API is versioned
+    types:
+    - uid: string
   - name: properties.isCurrent
+    isReadyOnly: true
     description: Indicates if API revision is current api revision.
     types:
     - uid: boolean
   - name: properties.isOnline
+    isReadyOnly: true
     description: Indicates if API revision is accessible via the gateway.
     types:
     - uid: boolean
+  - name: properties.apiVersionSetId
+    description: A resource identifier for the related ApiVersionSet.
+    types:
+    - uid: string
 - name: OAuth2AuthenticationSettingsContract
-  description: OAuth2 Authentication settings
+  description: API OAuth2 Authentication settings details.
   kind: object
   properties:
   - name: authorizationServerId
@@ -244,7 +254,7 @@ definitions:
 examples:
 - name: ApiManagementUpdateApi.json
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api?api-version=2017-03-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api?api-version=2018-01-01
     body: >-
       {
         "properties": {

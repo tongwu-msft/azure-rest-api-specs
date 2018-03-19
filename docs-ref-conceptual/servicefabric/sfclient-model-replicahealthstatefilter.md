@@ -1,6 +1,6 @@
 ---
 title: "ReplicaHealthStateFilter"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -45,7 +45,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Id of the stateful service replica or stateles service instance that matches the filter. The filter is applied only to the specified replica, if it exists.
+Id of the stateful service replica or stateless service instance that matches the filter. The filter is applied only to the specified replica, if it exists.
 If the replica doesn't exist, no replica is returned in the cluster health chunk based on this filter.
 If the replica exists, it is included in the cluster health chunk if it respects the other filter properties.
 If not specified, all replicas that match the parent filters (if any) are taken into consideration and matched against the other filter members, like health state filter.

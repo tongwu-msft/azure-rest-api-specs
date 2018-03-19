@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceInstanceHealth"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # StatelessServiceInstanceHealth
 
-Represents the health of the statelss service instance.
+Represents the health of the stateless service instance.
 Contains the instance aggregated health state, the health events and the unhealthy evaluations.
 
 
@@ -61,9 +61,15 @@ The health evaluation of the entity reflects all events reported on the entity a
 The aggregation is done by applying the desired health policy.
 
 
-The HealthState representing the aggregated health state of the entity computed by Health Manager.
-The health evaluation of the entity reflects all events reported on the entity and its children (if any).
-The aggregation is done by applying the desired health policy.
+The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
+
+Possible values are: 
+
+  - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+  - Ok - Indicates the health state is okay. The value is 1.
+  - Warning - Indicates the health state is at a warning level. The value is 2.
+  - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+  - Unknown - Indicates an unknown health status. The value is 65535.
 
 
 
@@ -100,4 +106,4 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Id of a stateless service instance. InstanceId is used by Service Fabric to uniquely identify an instance of a partition of a stateless service. It is unique within a partition and does not change for the lifetime of the instance. If the instance is failedover on the same or different node, it will get a different value for the InstanceId.
+Id of a stateless service instance. InstanceId is used by Service Fabric to uniquely identify an instance of a partition of a stateless service. It is unique within a partition and does not change for the lifetime of the instance. If the instance has failed over on the same or different node, it will get a different value for the InstanceId.

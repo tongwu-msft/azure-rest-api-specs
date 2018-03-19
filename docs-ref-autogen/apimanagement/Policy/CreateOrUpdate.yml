@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.policy.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Policy
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Creates or updates the global policy configuration of the Api Management service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/policy?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,7 +36,7 @@ uriParameters:
   isRequired: true
   description: The identifier of the Policy.
   types:
-  - uid: string
+  - uid: PolicyIdName
 - name: api-version
   in: query
   isRequired: true
@@ -64,16 +64,32 @@ requestBody:
     description: Json escaped Xml Encoded contents of the Policy.
     types:
     - uid: string
+  - name: properties.contentFormat
+    in: body
+    description: Format of the policyContent.
+    types:
+    - uid: PolicyContentFormat
 requestHeader: []
 definitions:
+- name: PolicyIdName
+  description: The identifier of the Policy.
+  kind: enum
+  properties:
+  - name: policy
+    types:
+    - uid: string
 - name: PolicyContract
-  description: Policy Contract value.
+  description: Policy Contract details.
   kind: object
   properties:
   - name: properties.policyContent
     description: Json escaped Xml Encoded contents of the Policy.
     types:
     - uid: string
+  - name: properties.contentFormat
+    description: Format of the policyContent.
+    types:
+    - uid: PolicyContentFormat
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -106,6 +122,18 @@ definitions:
     types:
     - uid: ErrorFieldContract
       isArray: true
+- name: PolicyContentFormat
+  description: Format of the policyContent.
+  kind: enum
+  properties:
+  - name: xml
+    description: The contents are inline and Content type is an XML document.
+    types:
+    - uid: string
+  - name: xml-link
+    description: The policy XML document is hosted on a http endpoint accessible from the API Management service.
+    types:
+    - uid: string
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -125,10 +153,11 @@ definitions:
 examples:
 - name: ApiManagementCreatePolicy
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policies/policy?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policies/policy?api-version=2018-01-01
     body: >-
       {
         "properties": {
+          "contentFormat": "xml",
           "policyContent": "<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"
         }
       }

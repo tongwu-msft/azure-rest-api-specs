@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.logger.get
 name: Get
 service: API Management
 groupName: Logger
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Gets the details of the logger specified by its identifier.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerid}?api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerid}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: Logger identifier. Must be unique in the API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -59,7 +59,7 @@ responses:
 requestHeader: []
 definitions:
 - name: LoggerContract
-  description: Logger values.
+  description: Logger details.
   kind: object
   properties:
   - name: properties.loggerType
@@ -71,7 +71,10 @@ definitions:
     types:
     - uid: string
   - name: properties.credentials
-    description: The name and SendRule connection string of the event hub.
+    description: >-
+      The name and SendRule connection string of the event hub for azureEventHub logger.
+
+      Instrumentation key for applicationInsights logger.
     types:
     - uid: object
       isDictionary: true
@@ -122,6 +125,10 @@ definitions:
     description: Azure Event Hub as log destination.
     types:
     - uid: string
+  - name: applicationInsights
+    description: Azure Application Insights as log destination.
+    types:
+    - uid: string
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -141,7 +148,7 @@ definitions:
 examples:
 - name: ApiManagementGetLogger
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/templateLogger?api-version=2017-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/templateLogger?api-version=2018-01-01
   responses:
   - statusCode: "200"
     body: >-

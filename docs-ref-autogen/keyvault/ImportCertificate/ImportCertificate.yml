@@ -4,13 +4,13 @@ name: Import Certificate
 service: Key Vault
 groupName: Import Certificate
 apiVersion: 2016-10-01
-summary: Imports a certificate into a specified key vault. Imports an existing valid certificate, containing a private key, into Azure Key Vault. The certificate to be imported can be in either PFX or PEM format. If the certificate is in PEM format the PEM file must contain the key as well as x509 certificates.
+summary: Imports a certificate into a specified key vault. Imports an existing valid certificate, containing a private key, into Azure Key Vault. The certificate to be imported can be in either PFX or PEM format. If the certificate is in PEM format the PEM file must contain the key as well as x509 certificates. This operation requires the certificates/import permission.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://{vaultBaseUrl}/certificates/{certificate-name}/import?api-version=2016-10-01
+- content: POST {vaultBaseUrl}/certificates/{certificate-name}/import?api-version=2016-10-01
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -75,7 +75,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: CertificatePolicy
-  description: The management policy.
+  description: Management policy for a certificate.
   kind: object
   properties:
   - name: id
@@ -177,7 +177,7 @@ definitions:
       - uid: string
       - uid: string
 - name: KeyProperties
-  description: Properties of the key backing a certificate.
+  description: Properties of the key pair backing a certificate.
   kind: object
   properties:
   - name: exportable
@@ -197,7 +197,7 @@ definitions:
     types:
     - uid: boolean
 - name: SecretProperties
-  description: Properties of the secret backing a certificate.
+  description: Properties of the key backing a certificate.
   kind: object
   properties:
   - name: contentType
@@ -231,7 +231,7 @@ definitions:
     types:
     - uid: integer
 - name: LifetimeAction
-  description: Actions that will be performed by Key Vault over the lifetime of a certificate.
+  description: Action and its trigger that will be performed by Key Vault over the lifetime of a certificate.
   kind: object
   properties:
   - name: trigger
@@ -334,7 +334,7 @@ definitions:
       - uid: string
       - uid: string
 - name: Error
-  description: Error encountered, if any, during the certificate operation.
+  description: The key vault server error.
   kind: object
   properties:
   - name: code
@@ -348,11 +348,12 @@ definitions:
     types:
     - uid: string
   - name: innererror
-    description: ''
+    isReadyOnly: true
+    description: The key vault server error.
     types:
-    - {}
+    - uid: Error
 - name: SubjectAlternativeNames
-  description: The subject alternative names.
+  description: The subject alternate names of a X509 object.
   kind: object
   properties:
   - name: emails
@@ -371,7 +372,7 @@ definitions:
     - uid: string
       isArray: true
 - name: Trigger
-  description: The condition that will execute the action.
+  description: A condition to be satisfied for an action to be executed.
   kind: object
   properties:
   - name: lifetime_percentage

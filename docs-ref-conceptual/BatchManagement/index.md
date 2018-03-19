@@ -21,13 +21,13 @@ The Batch Management REST API provides operations for working with the Batch ser
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
-| [Application](~/docs-ref-autogen/batchmanagement/application.yml)          | Provides operations for working with the applications in your Batch account. An application has one or more application packages. |
-| [Application Package](~/docs-ref-autogen/batchmanagement/applicationpackage.yml)  | Provides operations for working with application packages. |
-| [Batch Account](~/docs-ref-autogen/batchmanagement/batchaccount.yml)  | Provides operations for working with Batch accounts. |
-| [Certificate](~/docs-ref-autogen/batchmanagement/certificate.yml)  | Provides operations for working with certificates in your Batch account. |
-| [Location](~/docs-ref-autogen/batchmanagement/location.yml) | Gets information about Batch account name availabilty and quotas in an Azure region. |
-| [Operations](~/docs-ref-autogen/batchmanagement/operations.yml) | Lists available operations for the Microsoft.Batch provider. |
-| [Pool](~/docs-ref-autogen/batchmanagement/pool.yml) | Provides operations for working with pools in your Batch account. |
+| [Application](xref:management.azure.com.batchmanagement.application)          | Provides operations for working with the applications in your Batch account. An application has one or more application packages. |
+| [Application Package](xref:management.azure.com.batchmanagement.applicationpackage)  | Provides operations for working with application packages. |
+| [Batch Account](xref:management.azure.com.batchmanagement.batchaccount)  | Provides operations for working with Batch accounts. |
+| [Certificate](xref:management.azure.com.batchmanagement.certificate)  | Provides operations for working with certificates in your Batch account. |
+| [Location](xref:management.azure.com.batchmanagement.location) | Gets information about Batch account name availabilty and quotas in an Azure region. |
+| [Operations](xref:management.azure.com.batchmanagement.operations) | Lists available operations for the Microsoft.Batch provider. |
+| [Pool](xref:management.azure.com.batchmanagement.pool) | Provides operations for working with pools in your Batch account. |
 
 ## See also
 

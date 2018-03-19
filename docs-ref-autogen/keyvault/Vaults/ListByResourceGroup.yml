@@ -17,7 +17,7 @@ uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
 - name: resourceGroupName
@@ -55,7 +55,7 @@ definitions:
     - uid: Vault
       isArray: true
   - name: nextLink
-    description: Gets or sets the URL to get the next set of vaults.
+    description: The URL to get the next set of vaults.
     types:
     - uid: string
 - name: Vault
@@ -72,6 +72,7 @@ definitions:
     types:
     - uid: string
   - name: name
+    isReadyOnly: true
     description: The name of the key vault.
     types:
     - uid: string
@@ -126,13 +127,17 @@ definitions:
     types:
     - uid: boolean
   - name: enableSoftDelete
-    description: Property to specify whether the 'soft delete' functionality is enabled for this key vault. It does not accept false value.
+    description: Property specifying whether recoverable deletion is enabled for this key vault. Setting this property to true activates the soft delete feature, whereby vaults or vault entities can be recovered after deletion. Enabling this functionality is irreversible - that is, the property does not accept false as its value.
     types:
     - uid: boolean
   - name: createMode
     description: The vault's create mode to indicate whether the vault need to be recovered or not.
     types:
     - uid: CreateMode
+  - name: enablePurgeProtection
+    description: Property specifying whether protection against purge is enabled for this vault. Setting this property to true activates protection against purge for this vault and its content - only the Key Vault service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible - that is, the property does not accept false as its value.
+    types:
+    - uid: boolean
 - name: Sku
   description: SKU details
   kind: object
@@ -193,7 +198,7 @@ definitions:
     types:
     - uid: string
 - name: Permissions
-  description: Permissions the identity has for keys, secrets and certificates.
+  description: Permissions the identity has for keys, secrets, certificates and storage.
   kind: object
   properties:
   - name: keys
@@ -216,5 +221,86 @@ definitions:
     types:
     - uid: string
       isArray: true
-examples: []
+examples:
+- name: List vaults in the specified resource group
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults?$top=1&api-version=2016-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault",
+            "name": "sample-vault",
+            "type": "Microsoft.KeyVault/vaults",
+            "location": "westus",
+            "tags": {},
+            "properties": {
+              "sku": {
+                "family": "A",
+                "name": "premium"
+              },
+              "tenantId": "00000000-0000-0000-0000-000000000000",
+              "accessPolicies": [
+                {
+                  "tenantId": "00000000-0000-0000-0000-000000000000",
+                  "objectId": "00000000-0000-0000-0000-000000000000",
+                  "permissions": {
+                    "keys": [
+                      "encrypt",
+                      "decrypt",
+                      "wrapKey",
+                      "unwrapKey",
+                      "sign",
+                      "verify",
+                      "get",
+                      "list",
+                      "create",
+                      "update",
+                      "import",
+                      "delete",
+                      "backup",
+                      "restore",
+                      "recover",
+                      "purge"
+                    ],
+                    "secrets": [
+                      "get",
+                      "list",
+                      "set",
+                      "delete",
+                      "backup",
+                      "restore",
+                      "recover",
+                      "purge"
+                    ],
+                    "certificates": [
+                      "get",
+                      "list",
+                      "delete",
+                      "create",
+                      "import",
+                      "update",
+                      "managecontacts",
+                      "getissuers",
+                      "listissuers",
+                      "setissuers",
+                      "deleteissuers",
+                      "manageissuers",
+                      "recover",
+                      "purge"
+                    ]
+                  }
+                }
+              ],
+              "enabledForDeployment": true,
+              "enabledForDiskEncryption": true,
+              "enabledForTemplateDeployment": true,
+              "vaultUri": "https://sample-vault.vault.azure.net/"
+            }
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults?api-version=2016-10-01&$skiptoken=dmF1bHQtcGVza3ktanVyeS03MzA3Ng=="
+      }
 security: []

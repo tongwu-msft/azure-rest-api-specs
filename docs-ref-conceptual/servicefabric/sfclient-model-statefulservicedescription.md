@@ -1,6 +1,6 @@
 ---
 title: "StatefulServiceDescription"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -133,7 +133,15 @@ __Required__: No<br/>
 <br/>
 The move cost for the service.
 
-The move cost for the service.
+Specifies the move cost for the service.
+
+Possible values are: 
+
+  - Zero - Zero move cost. This value is zero.
+  - Low - Specifies the move cost of the service as Low. The value is 1.
+  - Medium - Specifies the move cost of the service as Medium. The value is 2.
+  - High - Specifies the move cost of the service as High. The value is 3.
+
 
 
 ____
@@ -150,7 +158,13 @@ __Required__: No<br/>
 <br/>
 The activation mode of service package to be used for a service.
 
-The activation mode of service package to be used for a service.
+The activation mode of service package to be used for a Service Fabric service. This is specified at the time of creating the Service.
+
+Possible values are: 
+
+  - SharedProcess - This is the default activation mode. With this activation mode, replicas or instances from different partition(s) of service, on a given node, will share same activation of service package on a node. The value is zero.
+  - ExclusiveProcess - With this activation mode, each replica or instance of service, on a given node, will have its own dedicated activation of service package on a node. The value is 1.
+
 
 
 ____

@@ -3,14 +3,14 @@ uid: management.azure.com.containerinstances.containergroups.list
 name: List
 service: Container Instances
 groupName: Container Groups
-apiVersion: 2017-10-01-preview
+apiVersion: 2018-02-01-preview
 summary: Get a list of container groups in the specified subscription. Get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/containerGroups?api-version=2017-10-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/containerGroups?api-version=2018-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -154,7 +154,7 @@ definitions:
     - uid: VolumeMount
       isArray: true
 - name: ImageRegistryCredential
-  description: The image registry credentials by which the container group is created from.
+  description: Image registry credential.
   kind: object
   properties:
   - name: server
@@ -170,7 +170,7 @@ definitions:
     types:
     - uid: string
 - name: ContainerGroupRestartPolicy
-  description: "Restart policy for all containers within the container group. \n- `Always` Always restart\n- `OnFailure` Restart on failure\n- `Never` Never restart"
+  description: "Restart policy for all containers within the container group. \n- `Always` Always restart\n- `OnFailure` Restart on failure\n- `Never` Never restart\n"
   kind: enum
   properties:
   - name: Always
@@ -183,7 +183,7 @@ definitions:
     types:
     - uid: string
 - name: IpAddress
-  description: The IP address type of the container group.
+  description: IP address for the container group.
   kind: object
   properties:
   - name: ports
@@ -197,6 +197,15 @@ definitions:
     - uid: ContainerGroupIpAddressType
   - name: ip
     description: The IP exposed to the public internet.
+    types:
+    - uid: string
+  - name: dnsNameLabel
+    description: The Dns name label for the IP.
+    types:
+    - uid: string
+  - name: fqdn
+    isReadyOnly: true
+    description: The FQDN for the IP.
     types:
     - uid: string
 - name: OperatingSystemTypes
@@ -218,13 +227,25 @@ definitions:
     types:
     - uid: string
   - name: azureFile
-    description: The name of the Azure File volume.
+    description: The Azure File volume.
     types:
     - uid: AzureFileVolume
   - name: emptyDir
     description: The empty directory volume.
     types:
     - uid: EmptyDirVolume
+  - name: secret
+    description: The secret volume.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: gitRepo
+    description: The git repo volume.
+    types:
+    - uid: GitRepoVolume
 - name: InstanceView
   description: The instance view of the container instance. Only valid in response.
   kind: object
@@ -251,7 +272,7 @@ definitions:
     - uid: Event
       isArray: true
 - name: ContainerPort
-  description: The exposed ports on the container instance.
+  description: The port exposed on the container instance.
   kind: object
   properties:
   - name: protocol
@@ -263,7 +284,7 @@ definitions:
     types:
     - uid: integer
 - name: EnvironmentVariable
-  description: The environment variables to set in the container instance.
+  description: The environment variable to set within the container instance.
   kind: object
   properties:
   - name: name
@@ -275,7 +296,7 @@ definitions:
     types:
     - uid: string
 - name: ResourceRequirements
-  description: The resource requirements of the container instance.
+  description: The resource requirements.
   kind: object
   properties:
   - name: requests
@@ -287,7 +308,7 @@ definitions:
     types:
     - uid: ResourceLimits
 - name: VolumeMount
-  description: The volume mounts available to the container instance.
+  description: The properties of the volume mount.
   kind: object
   properties:
   - name: name
@@ -303,7 +324,7 @@ definitions:
     types:
     - uid: boolean
 - name: Port
-  description: The list of ports exposed on the container group.
+  description: The port exposed on the container group.
   kind: object
   properties:
   - name: protocol
@@ -345,8 +366,24 @@ definitions:
   description: The empty directory volume.
   kind: object
   properties: []
+- name: GitRepoVolume
+  description: Represents a volume that is populated with the contents of a git repository
+  kind: object
+  properties:
+  - name: directory
+    description: Target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the given name.
+    types:
+    - uid: string
+  - name: repository
+    description: Repository URL
+    types:
+    - uid: string
+  - name: revision
+    description: Commit hash for the specified revision.
+    types:
+    - uid: string
 - name: ContainerState
-  description: Current container instance state.
+  description: The container instance state.
   kind: object
   properties:
   - name: state
@@ -370,7 +407,7 @@ definitions:
     types:
     - uid: string
 - name: Event
-  description: The events of the container instance.
+  description: A container group or container instance event.
   kind: object
   properties:
   - name: count
@@ -408,7 +445,7 @@ definitions:
     types:
     - uid: string
 - name: ResourceRequests
-  description: The resource requests of this container instance.
+  description: The resource requests.
   kind: object
   properties:
   - name: memoryInGB
@@ -420,7 +457,7 @@ definitions:
     types:
     - uid: number
 - name: ResourceLimits
-  description: The resource limits of this container instance.
+  description: The resource limits.
   kind: object
   properties:
   - name: memoryInGB
@@ -444,27 +481,24 @@ definitions:
 examples:
 - name: ContainerGroupsList
   request:
-    uri: GET https://management.azure.com/subscriptions/ae43b1e3-c35d-4c8c-bc0d-f148b4c52b78/providers/Microsoft.ContainerInstance/containerGroups?api-version=2017-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ContainerInstance/containerGroups?api-version=2018-02-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
+            "id": "/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1",
+            "location": "WestUs",
+            "name": "demo1",
             "properties": {
-              "provisioningState": "Succeeded",
               "containers": [
                 {
-                  "name": "mycontainers",
+                  "name": "demo1",
                   "properties": {
-                    "image": "nginx",
                     "command": [],
-                    "ports": [
-                      {
-                        "port": 80
-                      }
-                    ],
                     "environmentVariables": [],
+                    "image": "nginx",
                     "instanceView": {
                       "restartCount": 0,
                       "currentState": {
@@ -472,71 +506,59 @@ examples:
                         "startTime": "2017-10-17T17:27:21Z",
                         "detailStatus": ""
                       },
-                      "events": [
-                        {
-                          "count": 1,
-                          "firstTimestamp": "2017-10-17T17:27:14Z",
-                          "lastTimestamp": "2017-10-17T17:27:14Z",
-                          "name": "Pulling",
-                          "message": "pulling image \"nginx\"",
-                          "type": "Normal"
-                        },
-                        {
-                          "count": 1,
-                          "firstTimestamp": "2017-10-17T17:27:20Z",
-                          "lastTimestamp": "2017-10-17T17:27:20Z",
-                          "name": "Pulled",
-                          "message": "Successfully pulled image \"nginx\"",
-                          "type": "Normal"
-                        },
-                        {
-                          "count": 1,
-                          "firstTimestamp": "2017-10-17T17:27:20Z",
-                          "lastTimestamp": "2017-10-17T17:27:20Z",
-                          "name": "Created",
-                          "message": "Created container with id 59ac4a83384ce9184c315ecd3c7cff39a7c9a3257646d41309758f8730b9a527",
-                          "type": "Normal"
-                        },
-                        {
-                          "count": 1,
-                          "firstTimestamp": "2017-10-17T17:27:21Z",
-                          "lastTimestamp": "2017-10-17T17:27:21Z",
-                          "name": "Started",
-                          "message": "Started container with id 59ac4a83384ce9184c315ecd3c7cff39a7c9a3257646d41309758f8730b9a527",
-                          "type": "Normal"
-                        }
-                      ]
+                      "events": []
                     },
+                    "ports": [
+                      {
+                        "port": 80
+                      }
+                    ],
                     "resources": {
                       "requests": {
-                        "memoryInGB": 1.5,
-                        "cpu": 1
+                        "cpu": 1,
+                        "memoryInGB": 1.5
                       }
-                    }
+                    },
+                    "volumeMounts": [
+                      {
+                        "mountPath": "/mnt/volume1",
+                        "name": "volume1",
+                        "readOnly": false
+                      }
+                    ]
                   }
                 }
               ],
-              "imageRegistryCredentials": [],
+              "imageRegistryCredentials": [
+                {
+                  "server": "azcloudconsoleregistry.azurecr.io",
+                  "username": "azcloudconsoleregistry"
+                }
+              ],
               "ipAddress": {
+                "ip": "10.0.0.1",
                 "ports": [
                   {
-                    "protocol": "TCP",
-                    "port": 80
+                    "port": 80,
+                    "protocol": "TCP"
                   }
                 ],
-                "ip": "13.64.70.13",
                 "type": "Public"
               },
               "osType": "Linux",
-              "instanceView": {
-                "events": [],
-                "state": "Running"
-              }
+              "provisioningState": "Succeeded",
+              "volumes": [
+                {
+                  "azureFile": {
+                    "readOnly": false,
+                    "shareName": "share1",
+                    "storageAccountName": "stroage1"
+                  },
+                  "name": "volume1"
+                }
+              ]
             },
-            "id": "/subscriptions/ae43b1e3-c35d-4c8c-bc0d-f148b4c52b78/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/mycontainers",
-            "name": "mycontainers",
-            "type": "Microsoft.ContainerInstance/containerGroups",
-            "location": "westus"
+            "type": "Microsoft.ContainerInstance/containerGroups"
           }
         ]
       }

@@ -35,8 +35,10 @@ translation.priority.mt:
 |GET|`https://{databaseaccount}.documents.azure.com/offers/{_rid-offer}`|Note that {databaseaccount} is the name of the Azure Cosmos DB account you created under your subscription. The {_rid-offer} value is the system generated resource ID of the offer.|  
   
 ### Headers  
- See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
-  
+ See [Common Azure Cosmos DB REST request headers](common-documentdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.
+
+ When [constructing the hashed signature for the master key token](access-control-on-documentdb-resources.md#constructkeytoken), the **ResourceType** should be "offers".  The **ResourceLink** should be *only* the _rid of the offer you wish to retrieve.  The value must be lowercase.  For example, when performing a GET on `https://querydemo.documents.azure.com/offers/uT2L`, the **ResourceLink** in the master key token should be "ut2l".
+
 ### Body  
  None.  
   
@@ -52,17 +54,17 @@ translation.priority.mt:
 |HTTP status code|Description|  
 |----------------------|-----------------|  
 |200 Ok|The operation was successful.|  
-|404 Not Found|The offer is no longer a resource, i.e. the parent collection resource was deleted.|  
+|404 Not Found|The offer is no longer a resource, that is, the parent collection resource was deleted.|  
   
 ### Body  
   
 |Property|Description|  
 |--------------|-----------------|  
-|**offerVersion**|**Required**. This can be V1 for pre-defined throughput levels and V2 for user-defined throughput levels.|  
-|**offerType**|**Required**. This is a user settable property, which must be set to **S1**, **S2**, or **S3** for pre-defined performance levels, and Invalid for user-defined performance levels.|  
-|**content**|**Optional**. Contains information about the offer – for V2 offers, this contains the throughput of the collection.|  
+|**offerVersion**|**Required**. This value can be V1 for pre-defined throughput levels and V2 for user-defined throughput levels.|  
+|**offerType**|**Required**. For pre-defined performance levels, this property must be **S1**, **S2**, or **S3**.  For user-defined performance levels, it must be **Invalid**.|  
+|**content**|**Optional**. This property specifies additional information about the offer.  For V2 offers, it contains the throughput of the collection.|  
 |**resource**|**Required**. When creating a new collection, this property is set to the self-link of the collection e.g. dbs/pLJdAA==/colls/pLJdAOlEdgA=/.|  
-|**offerResourceId**|**Required**. During creation of a collection, this property is automatically associated to the resource id, i.e. **_rid** of the collection. In the example above, the **_rid** for the collection is pLJdAOlEdgA=.|  
+|**offerResourceId**|**Required**. During creation of a collection, this property is automatically associated to the resource ID, i.e. **_rid** of the collection. In the example above, the **_rid** for the collection is pLJdAOlEdgA=.|  
 |**id**|This is a system generated property.  The **id** for the offer resource is automatically generated when it is created.  It has the same value as the **_rid** for the offer.|  
 |**_rid**|This is a system generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the offer.|  
 |**_ts**|This is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
@@ -139,8 +141,8 @@ Date: Tue, 29 Mar 2016 17:50:18 GMT
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB: DocumentDB API](https://docs.microsoft.com/azure/cosmos-db/documentdb-introduction)   
-* [Azure Cosmos DB SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-sdk-dotnet)   
+* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB SQL API SDKs](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   

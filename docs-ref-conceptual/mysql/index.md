@@ -29,12 +29,12 @@ The following information is common to all tasks that you might do using these R
 
 | Operation group | Description |
 |---|---|
-| [Server](~/docs-ref-autogen/mysql/Servers.yml) | Create, Restore, Update, Delete, Get, or List servers. |
-| [Configurations](~/docs-ref-autogen/mysql/Configurations.yml) | Update, Get, and List the configuration of a server. | 
-| [Databases](~/docs-ref-autogen/mysql/Databases.yml)  | Create, Delete, Get, or List databases in the server. | 
-| [Firewall Rules](~/docs-ref-autogen/mysql/FirewallRules.yml) | Create, Delete, Get, or List the firewall rules in a server. |
-| [Log Files](~/docs-ref-autogen/mysql/LogFiles.yml) | List the log files in a given server. |
-| [Operations](~/docs-ref-autogen/mysql/Operations.yml) | List the available REST API operations. |
+| [Server](xref:management.azure.com.mysql.servers) | Create, Restore, Update, Delete, Get, or List servers. |
+| [Configurations](xref:management.azure.com.mysql.configurations) | Update, Get, and List the configuration of a server. | 
+| [Databases](xref:management.azure.com.mysql.databases)  | Create, Delete, Get, or List databases in the server. | 
+| [Firewall Rules](xref:management.azure.com.mysql.firewallrules) | Create, Delete, Get, or List the firewall rules in a server. |
+| [Log Files](xref:management.azure.com.mysql.logfiles) | List the log files in a given server. |
+| [Operations](xref:management.azure.com.mysql.operations) | List the available REST API operations. |
 
 
 ## See also

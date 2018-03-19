@@ -84,14 +84,18 @@ definitions:
     - uid: ErrorResponse
       isArray: true
 - name: LinkedServiceResource
-  description: List of linked services.
+  description: Linked service resource type.
   kind: object
   properties:
   - name: properties
     description: Properties of linked service.
     types:
+    - uid: AzureDatabricksLinkedService
     - uid: AzureDataLakeAnalyticsLinkedService
     - uid: HDInsightOnDemandLinkedService
+    - uid: SalesforceMarketingCloudLinkedService
+    - uid: NetezzaLinkedService
+    - uid: VerticaLinkedService
     - uid: ZohoLinkedService
     - uid: XeroLinkedService
     - uid: SquareLinkedService
@@ -127,6 +131,7 @@ definitions:
     - uid: CustomDataSourceLinkedService
     - uid: AmazonRedshiftLinkedService
     - uid: AmazonS3LinkedService
+    - uid: SapEccLinkedService
     - uid: SapCloudForCustomerLinkedService
     - uid: SalesforceLinkedService
     - uid: AzureDataLakeStoreLinkedService
@@ -175,6 +180,74 @@ definitions:
     description: Etag identifies change in the resource.
     types:
     - uid: string
+- name: AzureDatabricksLinkedService
+  description: Azure Databricks linked service.
+  kind: object
+  properties:
+  - name: typeProperties.domain
+    description: '<REGION>.azuredatabricks.net, domain name of your Databricks deployment. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.accessToken
+    description: 'Access token for databricks REST API. Refer to https://docs.azuredatabricks.net/api/latest/authentication.html. Type: string (or Expression with resultType string).'
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.existingClusterId
+    description: 'The id of an existing cluster that will be used for all runs of this job. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.newClusterVersion
+    description: 'The Spark version of new cluster. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.newClusterNumOfWorker
+    description: "Number of worker nodes that new cluster should have. A string formatted Int32, like '1' means numOfWorker is 1 or '1:10' means auto-scale from 1 as min and 10 as max. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
+  - name: typeProperties.newClusterNodeType
+    description: 'The node types of new cluster. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.newClusterSparkConf
+    description: a set of optional, user-specified Spark configuration key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.encryptedCredential
+    description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of linked service.
+    types:
+    - uid: AzureDatabricks
+    typesTitle: string
+  - name: connectVia
+    description: The integration runtime reference.
+    types:
+    - uid: IntegrationRuntimeReference
+  - name: description
+    description: Linked service description.
+    types:
+    - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: AzureDataLakeAnalyticsLinkedService
   description: Azure Data Lake Analytics linked service.
   kind: object
@@ -191,6 +264,8 @@ definitions:
     description: The Key of the application used to authenticate against the Azure Data Lake Analytics account.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.tenant
     description: 'The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string).'
     types:
@@ -224,6 +299,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: HDInsightOnDemandLinkedService
   description: HDInsight ondemand linked service.
   kind: object
@@ -256,6 +344,8 @@ definitions:
     description: The key for the service principal id.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.tenant
     description: 'The Tenant id/name to which the service principal belongs. Type: string (or Expression with resultType string).'
     types:
@@ -276,6 +366,8 @@ definitions:
     description: The password to access the cluster.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.clusterSshUserName
     description: 'The username to SSH remotely connect to cluster’s node (for Linux). Type: string (or Expression with resultType string).'
     types:
@@ -284,6 +376,8 @@ definitions:
     description: The password to SSH remotely connect cluster’s node (for Linux).
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.additionalLinkedServiceNames
     description: Linked service reference type.
     types:
@@ -337,6 +431,18 @@ definitions:
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
     - uid: object
+  - name: typeProperties.headNodeSize
+    description: Specifies the size of the head node for the HDInsight cluster.
+    types:
+    - uid: object
+  - name: typeProperties.dataNodeSize
+    description: Specifies the size of the data node for the HDInsight cluster.
+    types:
+    - uid: object
+  - name: typeProperties.zookeeperNodeSize
+    description: Specifies the size of the Zoo Keeper node for the HDInsight cluster.
+    types:
+    - uid: object
   - name: type
     description: Type of linked service.
     types:
@@ -350,6 +456,155 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+- name: SalesforceMarketingCloudLinkedService
+  description: Salesforce Marketing Cloud linked service.
+  kind: object
+  properties:
+  - name: typeProperties.clientId
+    description: 'The client ID associated with the Salesforce Marketing Cloud application. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.clientSecret
+    description: 'The client secret associated with the Salesforce Marketing Cloud application. Type: string (or Expression with resultType string).'
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.useEncryptedEndpoints
+    description: 'Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: typeProperties.useHostVerification
+    description: "Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean)."
+    types:
+    - uid: object
+  - name: typeProperties.usePeerVerification
+    description: 'Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: typeProperties.encryptedCredential
+    description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of linked service.
+    types:
+    - uid: SalesforceMarketingCloud
+    typesTitle: string
+  - name: connectVia
+    description: The integration runtime reference.
+    types:
+    - uid: IntegrationRuntimeReference
+  - name: description
+    description: Linked service description.
+    types:
+    - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+- name: NetezzaLinkedService
+  description: Netezza linked service.
+  kind: object
+  properties:
+  - name: typeProperties.connectionString
+    description: An ODBC connection string.
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.encryptedCredential
+    description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of linked service.
+    types:
+    - uid: Netezza
+    typesTitle: string
+  - name: connectVia
+    description: The integration runtime reference.
+    types:
+    - uid: IntegrationRuntimeReference
+  - name: description
+    description: Linked service description.
+    types:
+    - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+- name: VerticaLinkedService
+  description: Vertica linked service.
+  kind: object
+  properties:
+  - name: typeProperties.connectionString
+    description: An ODBC connection string.
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.encryptedCredential
+    description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of linked service.
+    types:
+    - uid: Vertica
+    typesTitle: string
+  - name: connectVia
+    description: The integration runtime reference.
+    types:
+    - uid: IntegrationRuntimeReference
+  - name: description
+    description: Linked service description.
+    types:
+    - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: ZohoLinkedService
   description: Zoho server linked service.
   kind: object
@@ -393,6 +648,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: XeroLinkedService
   description: Xero Serivce linked service.
   kind: object
@@ -445,6 +713,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: SquareLinkedService
   description: Square Serivce linked service.
   kind: object
@@ -496,6 +777,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: SparkLinkedService
   description: Spark Server linked service.
   kind: object
@@ -571,6 +865,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: ShopifyLinkedService
   description: Shopify Serivce linked service.
   kind: object
@@ -614,6 +921,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: ServiceNowLinkedService
   description: ServiceNow server linked service.
   kind: object
@@ -675,6 +995,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: QuickBooksLinkedService
   description: QuickBooks server linked service.
   kind: object
@@ -720,6 +1053,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: PrestoLinkedService
   description: Presto server linked service.
   kind: object
@@ -795,6 +1141,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: PhoenixLinkedService
   description: Phoenix server linked service.
   kind: object
@@ -862,6 +1221,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: PaypalLinkedService
   description: Paypal Serivce linked service.
   kind: object
@@ -909,6 +1281,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: MarketoLinkedService
   description: Marketo server linked service.
   kind: object
@@ -956,6 +1341,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: MariaDBLinkedService
   description: MariaDB server linked service.
   kind: object
@@ -983,6 +1381,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: MagentoLinkedService
   description: Magento server linked service.
   kind: object
@@ -1026,6 +1437,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: JiraLinkedService
   description: Jira Serivce linked service.
   kind: object
@@ -1077,6 +1501,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: ImpalaLinkedService
   description: Impala server linked service.
   kind: object
@@ -1140,6 +1577,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: HubspotLinkedService
   description: Hubspot Serivce linked service.
   kind: object
@@ -1195,6 +1645,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: HiveLinkedService
   description: Hive Server linked service.
   kind: object
@@ -1282,6 +1745,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: HBaseLinkedService
   description: HBase server linked service.
   kind: object
@@ -1345,6 +1821,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: GreenplumLinkedService
   description: Greenplum Database linked service.
   kind: object
@@ -1372,6 +1861,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: GoogleBigQueryLinkedService
   description: Google BigQuery service linked service.
   kind: object
@@ -1394,6 +1896,18 @@ definitions:
     - uid: GoogleBigQueryAuthenticationType
   - name: typeProperties.refreshToken
     description: The refresh token obtained from Google for authorizing access to BigQuery for UserAuthentication.
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.clientId
+    description: The client id of the google application used to acquire the refresh token.
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.clientSecret
+    description: The client secret of the google application used to acquire the refresh token.
     types:
     - uid: SecureString
     - uid: AzureKeyVaultSecretReference
@@ -1431,6 +1945,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: EloquaLinkedService
   description: Eloqua server linked service.
   kind: object
@@ -1478,6 +2005,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: DrillLinkedService
   description: Drill server linked service.
   kind: object
@@ -1505,6 +2045,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: CouchbaseLinkedService
   description: Couchbase server linked service.
   kind: object
@@ -1532,6 +2085,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: ConcurLinkedService
   description: Concur Serivce linked service.
   kind: object
@@ -1579,6 +2145,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: AzurePostgreSqlLinkedService
   description: Azure PostgreSQL linked service.
   kind: object
@@ -1606,6 +2185,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: AmazonMWSLinkedService
   description: Amazon Marketplace Web Service linked service.
   kind: object
@@ -1667,6 +2259,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: SapHanaLinkedService
   description: SAP HANA Linked Service.
   kind: object
@@ -1687,6 +2292,8 @@ definitions:
     description: Password to access the SAP HANA server.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -1704,6 +2311,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: SapBWLinkedService
   description: SAP Business Warehouse Linked Service.
   kind: object
@@ -1728,6 +2348,8 @@ definitions:
     description: Password to access the SAP BW server.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -1745,6 +2367,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: SftpServerLinkedService
   description: 'A linked service for an SSH File Transfer Protocol (SFTP) server. '
   kind: object
@@ -1769,6 +2404,8 @@ definitions:
     description: Password to logon the SFTP server for Basic authentication.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -1781,10 +2418,14 @@ definitions:
     description: Base64 encoded SSH private key content for SshPublicKey authentication. For on-premises copy with SshPublicKey authentication, either PrivateKeyPath or PrivateKeyContent should be specified. SSH private key should be OpenSSH format.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.passPhrase
     description: The password to decrypt the SSH private key if the SSH private key is encrypted.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.skipHostKeyValidation
     description: 'If true, skip the SSH host key validation. Default value is false. Type: boolean (or Expression with resultType boolean).'
     types:
@@ -1806,6 +2447,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: FtpServerLinkedService
   description: A FTP server Linked Service.
   kind: object
@@ -1830,6 +2484,8 @@ definitions:
     description: Password to logon the FTP server.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -1855,6 +2511,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: HttpLinkedService
   description: Linked service for an HTTP source.
   kind: object
@@ -1875,6 +2544,8 @@ definitions:
     description: Password for Basic, Digest, Windows, or ClientCertificate with EmbeddedCertData authentication.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.embeddedCertData
     description: 'Base64 encoded certificate data for ClientCertificate authentication. For on-premises copy with ClientCertificate authentication, either CertThumbprint or EmbeddedCertData/Password should be specified. Type: string (or Expression with resultType string).'
     types:
@@ -1904,6 +2575,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: AzureSearchLinkedService
   description: Linked service for Windows Azure Search Service.
   kind: object
@@ -1916,6 +2600,8 @@ definitions:
     description: Admin Key for Azure Search service
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -1933,6 +2619,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: CustomDataSourceLinkedService
   description: Custom linked service.
   kind: object
@@ -1950,6 +2649,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: AmazonRedshiftLinkedService
   description: Linked service for Amazon Redshift.
   kind: object
@@ -1966,6 +2678,8 @@ definitions:
     description: The password of the Amazon Redshift source.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.database
     description: 'The database name of the Amazon Redshift source. Type: string (or Expression with resultType string).'
     types:
@@ -1991,6 +2705,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: AmazonS3LinkedService
   description: Linked service for Amazon S3.
   kind: object
@@ -2003,6 +2730,8 @@ definitions:
     description: The secret access key of the Amazon S3 Identity and Access Management (IAM) user.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2020,6 +2749,67 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+- name: SapEccLinkedService
+  description: Linked service for SAP ERP Central Component(SAP ECC).
+  kind: object
+  properties:
+  - name: typeProperties.url
+    description: "The URL of SAP ECC OData API. For example, '[https://hostname:port/sap/opu/odata/sap/servicename/]'. Type: string (or Expression with resultType string)."
+    types:
+    - uid: string
+  - name: typeProperties.username
+    description: 'The username for Basic authentication. Type: string (or Expression with resultType string).'
+    types:
+    - uid: string
+  - name: typeProperties.password
+    description: The password for Basic authentication.
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.encryptedCredential
+    description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Either encryptedCredential or username/password must be provided. Type: string (or Expression with resultType string).'
+    types:
+    - uid: string
+  - name: type
+    description: Type of linked service.
+    types:
+    - uid: SapEcc
+    typesTitle: string
+  - name: connectVia
+    description: The integration runtime reference.
+    types:
+    - uid: IntegrationRuntimeReference
+  - name: description
+    description: Linked service description.
+    types:
+    - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: SapCloudForCustomerLinkedService
   description: Linked service for SAP Cloud for Customer.
   kind: object
@@ -2036,6 +2826,8 @@ definitions:
     description: The password for Basic authentication.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Either encryptedCredential or username/password must be provided. Type: string (or Expression with resultType string).'
     types:
@@ -2053,6 +2845,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: SalesforceLinkedService
   description: Linked service for Salesforce.
   kind: object
@@ -2094,6 +2899,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: AzureDataLakeStoreLinkedService
   description: Azure Data Lake Store linked service.
   kind: object
@@ -2110,6 +2928,8 @@ definitions:
     description: The Key of the application used to authenticate against the Azure Data Lake Store account.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.tenant
     description: 'The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string).'
     types:
@@ -2143,6 +2963,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: MongoDbLinkedService
   description: Linked service for MongoDb data source.
   kind: object
@@ -2167,12 +3000,22 @@ definitions:
     description: Password for authentication.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.authSource
     description: 'Database to verify the username and password. Type: string (or Expression with resultType string).'
     types:
     - uid: object
   - name: typeProperties.port
     description: 'The TCP port number that the MongoDB server uses to listen for client connections. The default value is 27017. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: typeProperties.enableSsl
+    description: 'Specifies whether the connections to the server are encrypted using SSL. The default value is false. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: typeProperties.allowSelfSignedServerCert
+    description: 'Specifies whether to allow self-signed certificates from the server. The default value is false. Type: boolean (or Expression with resultType boolean).'
     types:
     - uid: object
   - name: typeProperties.encryptedCredential
@@ -2192,6 +3035,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: CassandraLinkedService
   description: Linked service for Cassandra data source.
   kind: object
@@ -2216,6 +3072,8 @@ definitions:
     description: Password for authentication.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2233,6 +3091,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: WebLinkedService
   description: Web linked service.
   kind: object
@@ -2257,6 +3128,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: ODataLinkedService
   description: Open Data Protocol (OData) linked service.
   kind: object
@@ -2277,6 +3161,8 @@ definitions:
     description: Password of the OData service.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2294,6 +3180,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: HdfsLinkedService
   description: Hadoop Distributed File System (HDFS) linked service.
   kind: object
@@ -2318,6 +3217,8 @@ definitions:
     description: Password for Windows authentication.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: type
     description: Type of linked service.
     types:
@@ -2331,6 +3232,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: OdbcLinkedService
   description: Open Database Connectivity (ODBC) linked service.
   kind: object
@@ -2339,6 +3253,8 @@ definitions:
     description: The non-access credential portion of the connection string as well as an optional encrypted credential.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.authenticationType
     description: 'Type of authentication used to connect to the ODBC data store. Possible values are: Anonymous and Basic. Type: string (or Expression with resultType string).'
     types:
@@ -2347,6 +3263,8 @@ definitions:
     description: The access credential portion of the connection string specified in driver-specific property-value format.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.userName
     description: 'User name for Basic authentication. Type: string (or Expression with resultType string).'
     types:
@@ -2355,6 +3273,8 @@ definitions:
     description: Password for Basic authentication.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2372,6 +3292,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: AzureMLLinkedService
   description: Azure ML Web Service linked service.
   kind: object
@@ -2384,6 +3317,8 @@ definitions:
     description: The API key for accessing the Azure ML model endpoint.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.updateResourceEndpoint
     description: 'The Update Resource REST URL for an Azure ML Web Service endpoint. Type: string (or Expression with resultType string).'
     types:
@@ -2396,6 +3331,8 @@ definitions:
     description: The key of the service principal used to authenticate against the ARM-based updateResourceEndpoint of an Azure ML web service.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.tenant
     description: 'The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string).'
     types:
@@ -2417,6 +3354,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: TeradataLinkedService
   description: Linked service for Teradata data source.
   kind: object
@@ -2441,6 +3391,8 @@ definitions:
     description: Password for authentication.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2458,6 +3410,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: Db2LinkedService
   description: Linked service for DB2 data source.
   kind: object
@@ -2486,6 +3451,8 @@ definitions:
     description: Password for authentication.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2503,6 +3470,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: SybaseLinkedService
   description: Linked service for Sybase data source.
   kind: object
@@ -2531,6 +3511,8 @@ definitions:
     description: Password for authentication.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2548,6 +3530,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: PostgreSqlLinkedService
   description: Linked service for PostgreSQL data source.
   kind: object
@@ -2572,6 +3567,8 @@ definitions:
     description: Password for authentication.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2589,6 +3586,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: MySqlLinkedService
   description: Linked service for MySQL data source.
   kind: object
@@ -2613,6 +3623,8 @@ definitions:
     description: Password for authentication.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2630,6 +3642,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: AzureMySqlLinkedService
   description: Azure MySQL database linked service.
   kind: object
@@ -2638,6 +3663,8 @@ definitions:
     description: The connection string.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2655,6 +3682,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: OracleLinkedService
   description: Oracle database.
   kind: object
@@ -2663,6 +3703,8 @@ definitions:
     description: The connection string.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2680,6 +3722,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: FileServerLinkedService
   description: File system linked service.
   kind: object
@@ -2696,6 +3751,8 @@ definitions:
     description: Password to logon the server.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2713,6 +3770,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: HDInsightLinkedService
   description: HDInsight linked service.
   kind: object
@@ -2729,6 +3799,8 @@ definitions:
     description: HDInsight cluster password.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.linkedServiceName
     description: The Azure Storage linked service reference.
     types:
@@ -2754,6 +3826,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: DynamicsLinkedService
   description: Dynamics linked service.
   kind: object
@@ -2768,6 +3853,10 @@ definitions:
     - uid: object
   - name: typeProperties.port
     description: 'The port of on-premises Dynamics server. The property is required for on-prem and not allowed for online. Default is 443. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: typeProperties.serviceUri
+    description: 'The URL to the Microsoft Dynamics server. The property is required for on-line and not allowed for on-prem. Type: string (or Expression with resultType string).'
     types:
     - uid: object
   - name: typeProperties.organizationName
@@ -2805,6 +3894,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: CosmosDbLinkedService
   description: Microsoft Azure Cosmos Database (CosmosDB) linked service.
   kind: object
@@ -2813,6 +3915,8 @@ definitions:
     description: The connection string.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2830,6 +3934,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: AzureKeyVaultLinkedService
   description: Azure Key Vault linked service.
   kind: object
@@ -2851,6 +3968,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: AzureBatchLinkedService
   description: Azure Batch linked service.
   kind: object
@@ -2863,6 +3993,8 @@ definitions:
     description: The Azure Batch account access key.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.batchUri
     description: 'The Azure Batch URI. Type: string (or Expression with resultType string).'
     types:
@@ -2892,6 +4024,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: AzureSqlDatabaseLinkedService
   description: Microsoft Azure SQL Database linked service.
   kind: object
@@ -2900,6 +4045,22 @@ definitions:
     description: The connection string.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.servicePrincipalId
+    description: 'The ID of the service principal used to authenticate against Azure SQL Database. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.servicePrincipalKey
+    description: The key of the service principal used to authenticate against Azure SQL Database.
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.tenant
+    description: 'The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2917,6 +4078,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: SqlServerLinkedService
   description: SQL Server linked service.
   kind: object
@@ -2925,6 +4099,8 @@ definitions:
     description: The connection string.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.userName
     description: 'The on-premises Windows authentication user name. Type: string (or Expression with resultType string).'
     types:
@@ -2933,6 +4109,8 @@ definitions:
     description: The on-premises Windows authentication password.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2950,6 +4128,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: AzureSqlDWLinkedService
   description: Azure SQL Data Warehouse linked service.
   kind: object
@@ -2958,6 +4149,22 @@ definitions:
     description: The connection string.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.servicePrincipalId
+    description: 'The ID of the service principal used to authenticate against Azure SQL Data Warehouse. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.servicePrincipalKey
+    description: The key of the service principal used to authenticate against Azure SQL Data Warehouse.
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.tenant
+    description: 'The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2975,6 +4182,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
 - name: AzureStorageLinkedService
   description: The storage account linked service.
   kind: object
@@ -2983,10 +4203,14 @@ definitions:
     description: The connection string. It is mutually exclusive with sasUri property.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.sasUri
     description: SAS URI of the Azure Storage resource. It is mutually exclusive with connectionString property.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -3004,19 +4228,19 @@ definitions:
     description: Linked service description.
     types:
     - uid: string
-- name: SecureString
-  description: Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls.
-  kind: object
-  properties:
-  - name: value
-    description: Value of secure string.
+  - name: parameters
+    description: Parameters for linked service.
     types:
-    - uid: string
-  - name: type
-    description: Type of the secret.
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
     types:
-    - uid: SecureString
-    typesTitle: string
+    - uid: object
+      isArray: true
 - name: IntegrationRuntimeReference
   description: Integration runtime reference type.
   kind: object
@@ -3038,8 +4262,16 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: object
+- name: ParameterDefinitionSpecification
+  description: Definition of all parameters for an entity.
+  kind: object
+  properties:
+  - name: ''
+    description: Definition of a single parameter for an entity.
+    types:
+    - uid: ParameterSpecification
 - name: LinkedServiceReference
-  description: The Azure Key Vault linked service reference.
+  description: Linked service reference type.
   kind: object
   properties:
   - name: type
@@ -3051,6 +4283,14 @@ definitions:
     description: Reference LinkedService name.
     types:
     - uid: string
+  - name: parameters
+    description: Arguments for LinkedService.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
 - name: SparkServerType
   description: The type of Spark server.
   kind: enum
@@ -3317,6 +4557,19 @@ definitions:
   - name: Ifd
     types:
     - uid: string
+- name: SecureString
+  description: Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls.
+  kind: object
+  properties:
+  - name: value
+    description: Value of secure string.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the secret.
+    types:
+    - uid: SecureString
+    typesTitle: string
 - name: AzureKeyVaultSecretReference
   description: Azure Key Vault secret reference.
   kind: object
@@ -3338,6 +4591,18 @@ definitions:
     types:
     - uid: AzureKeyVaultSecret
     typesTitle: string
+- name: ParameterSpecification
+  description: Definition of a single parameter for an entity.
+  kind: object
+  properties:
+  - name: type
+    description: Parameter type.
+    types:
+    - uid: ParameterType
+  - name: defaultValue
+    description: Default value of parameter.
+    types:
+    - uid: object
 - name: WebClientCertificateAuthentication
   description: A WebLinkedService that uses client certificate based authentication to communicate with an HTTP endpoint. This scheme follows mutual authentication; the server must also provide valid credentials to the client.
   kind: object
@@ -3346,10 +4611,14 @@ definitions:
     description: Base64-encoded contents of a PFX file.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: password
     description: Password for the PFX file.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: url
     description: 'The URL of the web service endpoint, e.g. http://www.microsoft.com . Type: string (or Expression with resultType string).'
     types:
@@ -3371,6 +4640,8 @@ definitions:
     description: The password for Basic authentication.
     types:
     - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: url
     description: 'The URL of the web service endpoint, e.g. http://www.microsoft.com . Type: string (or Expression with resultType string).'
     types:
@@ -3393,6 +4664,31 @@ definitions:
     types:
     - uid: Anonymous
     typesTitle: string
+- name: ParameterType
+  description: Parameter type.
+  kind: enum
+  properties:
+  - name: Object
+    types:
+    - uid: string
+  - name: String
+    types:
+    - uid: string
+  - name: Int
+    types:
+    - uid: string
+  - name: Float
+    types:
+    - uid: string
+  - name: Bool
+    types:
+    - uid: string
+  - name: Array
+    types:
+    - uid: string
+  - name: SecureString
+    types:
+    - uid: string
 examples:
 - name: LinkedServices_ListByFactory
   request:

@@ -86,7 +86,7 @@ definitions:
     types:
     - uid: integer
 - name: EnvironmentResource
-  description: Result of the List Environments operation.
+  description: An environment is a set of time-series data avaliable for query, and is the top level Azure Time Series Insights resource.
   kind: object
   properties:
   - name: sku
@@ -103,6 +103,11 @@ definitions:
     description: The fully qualified domain name used to access the environment data, e.g. to query the environment's events or upload reference data for the environment.
     types:
     - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: An object that represents the status of the environment, and its internal state in the Time Series Insights service.
+    types:
+    - uid: EnvironmentStatus
   - name: location
     description: Resource location
     types:
@@ -190,6 +195,15 @@ definitions:
   - name: S2
     types:
     - uid: string
+- name: EnvironmentStatus
+  description: An object that represents the status of the environment, and its internal state in the Time Series Insights service.
+  kind: object
+  properties:
+  - name: ingress
+    isReadyOnly: true
+    description: An object that represents the status of ingress on an environment.
+    types:
+    - uid: IngressEnvironmentStatus
 - name: StorageLimitExceededBehavior
   description: The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData.
   kind: enum
@@ -239,10 +253,54 @@ definitions:
     types:
     - uid: string
   - name: details
-    description: Contains nested errors that are related to this error.
+    description: Describes a particular API error with an error code and a message.
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: IngressEnvironmentStatus
+  description: An object that represents the status of ingress on an environment.
+  kind: object
+  properties:
+  - name: state
+    description: This string represents the state of ingress operations on an environment. It can be "Disabled", "Ready", "Running", "Paused" or "Unknown"
+    types:
+    - uid: IngressState
+  - name: stateDetails
+    isReadyOnly: true
+    description: An object that contains the details about an environment's state.
+    types:
+    - uid: EnvironmentStateDetails
+- name: IngressState
+  description: This string represents the state of ingress operations on an environment. It can be "Disabled", "Ready", "Running", "Paused" or "Unknown"
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Ready
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Paused
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+- name: EnvironmentStateDetails
+  description: An object that contains the details about an environment's state.
+  kind: object
+  properties:
+  - name: code
+    description: Contains the code that represents the reason of an environment being in a particular state. Can be used to programatically handle specific cases.
+    types:
+    - uid: string
+  - name: message
+    description: A message that describes the state in detail.
+    types:
+    - uid: string
 examples:
 - name: EnvironmentsUpdate
   request:

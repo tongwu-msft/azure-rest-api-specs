@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.productapi.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Product Api
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Adds an API to the specified product.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,14 +37,14 @@ uriParameters:
   description: Product identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: apiId
   in: path
   isRequired: true
   description: API identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -87,6 +87,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.apiVersionSet
+    description: 'An API Version Set contains the common configuration for a set of API Versions relating '
+    types:
+    - uid: ApiVersionSetContractDetails
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -122,14 +126,24 @@ definitions:
     description: Describes the Revision of the Api. If no value is provided, default revision 1 is created
     types:
     - uid: string
+  - name: properties.apiVersion
+    description: Indicates the Version identifier of the API if the API is versioned
+    types:
+    - uid: string
   - name: properties.isCurrent
+    isReadyOnly: true
     description: Indicates if API revision is current api revision.
     types:
     - uid: boolean
   - name: properties.isOnline
+    isReadyOnly: true
     description: Indicates if API revision is accessible via the gateway.
     types:
     - uid: boolean
+  - name: properties.apiVersionSetId
+    description: A resource identifier for the related ApiVersionSet.
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -147,6 +161,33 @@ definitions:
     types:
     - uid: ErrorFieldContract
       isArray: true
+- name: ApiVersionSetContractDetails
+  description: 'An API Version Set contains the common configuration for a set of API Versions relating '
+  kind: object
+  properties:
+  - name: id
+    description: Identifier for existing API Version Set. Omit this value to create a new Version Set.
+    types:
+    - uid: string
+  - name: description
+    description: Description of API Version Set.
+    types:
+    - uid: string
+  - name: versioningScheme
+    description: An value that determines where the API Version identifer will be located in a HTTP request.
+    types:
+    - uid: Segment
+    - uid: Query
+    - uid: Header
+    typesTitle: enum
+  - name: versionQueryName
+    description: Name of query parameter that indicates the API Version if versioningScheme is set to `query`.
+    types:
+    - uid: string
+  - name: versionHeaderName
+    description: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.
+    types:
+    - uid: string
 - name: AuthenticationSettingsContract
   description: API Authentication Settings.
   kind: object
@@ -208,7 +249,7 @@ definitions:
 examples:
 - name: ApiManagementCreateProductApi
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/testproduct/apis/echo-api?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/testproduct/apis/echo-api?api-version=2018-01-01
   responses:
   - statusCode: "201"
     body: >-

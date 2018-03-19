@@ -3,14 +3,16 @@ uid: management.azure.com.apimanagement.apipolicy.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Api Policy
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Creates or updates policy configuration for the API.
 consumes:
 - application/json
+- application/vnd.ms-azure-apim.policy+xml
+- application/vnd.ms-azure-apim.policy.raw+xml
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies/{policyId}?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies/policy?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,7 +36,7 @@ uriParameters:
 - name: apiId
   in: path
   isRequired: true
-  description: API identifier. Must be unique in the current API Management service instance.
+  description: API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
@@ -43,7 +45,7 @@ uriParameters:
   isRequired: true
   description: The identifier of the Policy.
   types:
-  - uid: string
+  - uid: PolicyIdName
 - name: api-version
   in: query
   isRequired: true
@@ -71,14 +73,25 @@ requestBody:
     description: Json escaped Xml Encoded contents of the Policy.
     types:
     - uid: string
+  - name: properties.contentFormat
+    in: body
+    description: Format of the policyContent.
+    types:
+    - uid: PolicyContentFormat
 requestHeader:
 - name: If-Match
   in: header
-  isRequired: true
-  description: The entity state (Etag) version of the Api Policy to update. A value of "*" can be used for If-Match to unconditionally apply the operation.
+  description: ETag of the Entity. Not required when creating an entity, but required when updating an entity.
   types:
   - uid: string
 definitions:
+- name: PolicyIdName
+  description: The identifier of the Policy.
+  kind: enum
+  properties:
+  - name: policy
+    types:
+    - uid: string
 - name: PolicyContract
   description: Policy Contract details.
   kind: object
@@ -87,6 +100,10 @@ definitions:
     description: Json escaped Xml Encoded contents of the Policy.
     types:
     - uid: string
+  - name: properties.contentFormat
+    description: Format of the policyContent.
+    types:
+    - uid: PolicyContentFormat
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -119,6 +136,18 @@ definitions:
     types:
     - uid: ErrorFieldContract
       isArray: true
+- name: PolicyContentFormat
+  description: Format of the policyContent.
+  kind: enum
+  properties:
+  - name: xml
+    description: The contents are inline and Content type is an XML document.
+    types:
+    - uid: string
+  - name: xml-link
+    description: The policy XML document is hosted on a http endpoint accessible from the API Management service.
+    types:
+    - uid: string
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -138,10 +167,11 @@ definitions:
 examples:
 - name: ApiManagementCreateApiPolicy
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5600b57e7e8880006a040001/policies/policy?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5600b57e7e8880006a040001/policies/policy?api-version=2018-01-01
     body: >-
       {
         "properties": {
+          "contentFormat": "xml",
           "policyContent": "<policies> <inbound /> <backend>    <forward-request />  </backend>  <outbound /></policies>"
         }
       }

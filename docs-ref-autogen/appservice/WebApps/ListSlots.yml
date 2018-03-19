@@ -54,6 +54,7 @@ definitions:
     - uid: Site
       isArray: true
   - name: nextLink
+    isReadyOnly: true
     description: Link to next page of resources.
     types:
     - uid: string
@@ -298,7 +299,7 @@ definitions:
     types:
     - uid: string
 - name: HostNameSslState
-  description: Hostname SSL states are used to manage the SSL bindings for app's hostnames.
+  description: SSL-enabled hostname.
   kind: object
   properties:
   - name: name
@@ -326,7 +327,7 @@ definitions:
     types:
     - uid: HostType
 - name: SiteConfig
-  description: Configuration of the app.
+  description: Configuration of an App Service app.
   kind: object
   properties:
   - name: numberOfWorkers
@@ -508,8 +509,16 @@ definitions:
     types:
     - uid: IpSecurityRestriction
       isArray: true
+  - name: http20Enabled
+    description: 'Http20Enabled: configures a web site to allow clients to connect over http2.0'
+    types:
+    - uid: boolean
+  - name: minTlsVersion
+    description: 'MinTlsVersion: configures the minimum version of TLS required for SSL requests'
+    types:
+    - uid: SupportedTlsVersions
 - name: HostingEnvironmentProfile
-  description: App Service Environment to use for the app.
+  description: Specification for an App Service Environment to use for this resource.
   kind: object
   properties:
   - name: id
@@ -527,7 +536,7 @@ definitions:
     types:
     - uid: string
 - name: CloningInfo
-  description: If specified during app creation, the app is cloned from a source app.
+  description: Information needed for cloning operation.
   kind: object
   properties:
   - name: correlationId
@@ -582,7 +591,7 @@ definitions:
     types:
     - uid: boolean
 - name: SnapshotRecoveryRequest
-  description: If specified during app creation, the app is created from a previous snapshot.
+  description: Details about app recovery operation.
   kind: object
   properties:
   - name: properties.snapshotTime
@@ -628,7 +637,7 @@ definitions:
     types:
     - uid: string
 - name: SlotSwapStatus
-  description: Status of the last deployment slot swap operation.
+  description: The status of the last successfull slot swap operation.
   kind: object
   properties:
   - name: timestampUtc
@@ -677,7 +686,7 @@ definitions:
     types:
     - uid: string
 - name: NameValuePair
-  description: Application settings.
+  description: Name value pair.
   kind: object
   properties:
   - name: name
@@ -689,7 +698,7 @@ definitions:
     types:
     - uid: string
 - name: ConnStringInfo
-  description: Connection strings.
+  description: Database connection string information.
   kind: object
   properties:
   - name: name
@@ -705,7 +714,7 @@ definitions:
     types:
     - uid: ConnectionStringType
 - name: SiteMachineKey
-  description: Site MachineKey.
+  description: MachineKey of an app.
   kind: object
   properties:
   - name: validation
@@ -725,7 +734,7 @@ definitions:
     types:
     - uid: string
 - name: HandlerMapping
-  description: Handler mappings.
+  description: "The IIS handler mappings used to define which handler processes HTTP requests with certain extension. \nFor example, it is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension."
   kind: object
   properties:
   - name: extension
@@ -794,7 +803,7 @@ definitions:
     types:
     - uid: string
 - name: VirtualApplication
-  description: Virtual applications.
+  description: Virtual application in an app.
   kind: object
   properties:
   - name: virtualPath
@@ -834,7 +843,7 @@ definitions:
     types:
     - uid: string
 - name: Experiments
-  description: This is work around for polymophic types.
+  description: Routing rules in production experiments.
   kind: object
   properties:
   - name: rampUpRules
@@ -843,7 +852,7 @@ definitions:
     - uid: RampUpRule
       isArray: true
 - name: SiteLimits
-  description: Site limits.
+  description: Metric limits set on an app.
   kind: object
   properties:
   - name: maxPercentageCpu
@@ -859,7 +868,7 @@ definitions:
     types:
     - uid: integer
 - name: AutoHealRules
-  description: Auto Heal rules.
+  description: Rules that can be defined for auto-heal.
   kind: object
   properties:
   - name: triggers
@@ -871,7 +880,7 @@ definitions:
     types:
     - uid: AutoHealActions
 - name: CorsSettings
-  description: Cross-Origin Resource Sharing (CORS) settings.
+  description: Cross-Origin Resource Sharing (CORS) settings for the app.
   kind: object
   properties:
   - name: allowedOrigins
@@ -883,7 +892,7 @@ definitions:
     - uid: string
       isArray: true
 - name: PushSettings
-  description: Push endpoint settings.
+  description: Push settings for the App.
   kind: object
   properties:
   - name: properties.isPushEnabled
@@ -930,7 +939,7 @@ definitions:
     types:
     - uid: string
 - name: IpSecurityRestriction
-  description: IP security restrictions.
+  description: IP security restriction on an app.
   kind: object
   properties:
   - name: ipAddress
@@ -939,6 +948,19 @@ definitions:
     - uid: string
   - name: subnetMask
     description: Subnet mask for the range of IP addresses the restriction is valid for.
+    types:
+    - uid: string
+- name: SupportedTlsVersions
+  description: 'MinTlsVersion: configures the minimum version of TLS required for SSL requests'
+  kind: enum
+  properties:
+  - name: "1.0"
+    types:
+    - uid: string
+  - name: "1.1"
+    types:
+    - uid: string
+  - name: "1.2"
     types:
     - uid: string
 - name: SnapshotRecoveryTarget
@@ -991,7 +1013,7 @@ definitions:
     types:
     - uid: string
 - name: VirtualDirectory
-  description: Virtual directories for virtual application.
+  description: Directory for virtual application.
   kind: object
   properties:
   - name: virtualPath
@@ -1003,7 +1025,7 @@ definitions:
     types:
     - uid: string
 - name: RampUpRule
-  description: List of ramp-up rules.
+  description: Routing rules for ramp up testing. This rule allows to redirect static traffic % to a slot or to gradually change routing % based on performance.
   kind: object
   properties:
   - name: actionHostName
@@ -1042,7 +1064,7 @@ definitions:
     types:
     - uid: string
 - name: AutoHealTriggers
-  description: Conditions that describe when to execute the auto-heal actions.
+  description: Triggers for auto-heal.
   kind: object
   properties:
   - name: requests
@@ -1063,7 +1085,7 @@ definitions:
     types:
     - uid: SlowRequestsBasedTrigger
 - name: AutoHealActions
-  description: Actions to be executed when a rule is triggered.
+  description: Actions which to take by the auto-heal module when a rule is triggered.
   kind: object
   properties:
   - name: actionType
@@ -1082,7 +1104,7 @@ definitions:
     types:
     - uid: string
 - name: RequestsBasedTrigger
-  description: A rule based on total requests.
+  description: Trigger based on total requests.
   kind: object
   properties:
   - name: count
@@ -1094,7 +1116,7 @@ definitions:
     types:
     - uid: string
 - name: StatusCodesBasedTrigger
-  description: A rule based on status codes.
+  description: Trigger based on status code.
   kind: object
   properties:
   - name: status
@@ -1118,7 +1140,7 @@ definitions:
     types:
     - uid: string
 - name: SlowRequestsBasedTrigger
-  description: A rule based on request execution time.
+  description: Trigger based on request execution time.
   kind: object
   properties:
   - name: timeTaken
@@ -1147,7 +1169,10 @@ definitions:
     types:
     - uid: string
 - name: AutoHealCustomAction
-  description: Custom action to be taken.
+  description: >-
+    Custom action to be executed
+
+    when an auto heal rule is triggered.
   kind: object
   properties:
   - name: exe

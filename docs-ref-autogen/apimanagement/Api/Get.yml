@@ -3,14 +3,17 @@ uid: management.azure.com.apimanagement.api.get
 name: Get
 service: API Management
 groupName: Api
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Gets the details of the API specified by its identifier.
 consumes:
 - application/json
 produces:
 - application/json
+- application/vnd.sun.wadl+xml
+- application/vnd.swagger.doc+json
+- application/wsdl+xml
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,7 +37,7 @@ uriParameters:
 - name: apiId
   in: path
   isRequired: true
-  description: API identifier. Must be unique in the current API Management service instance.
+  description: API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
@@ -59,7 +62,7 @@ responses:
 requestHeader: []
 definitions:
 - name: ApiContract
-  description: Page values.
+  description: API details.
   kind: object
   properties:
   - name: properties.displayName
@@ -79,6 +82,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.apiVersionSet
+    description: 'An API Version Set contains the common configuration for a set of API Versions relating '
+    types:
+    - uid: ApiVersionSetContractDetails
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -114,14 +121,24 @@ definitions:
     description: Describes the Revision of the Api. If no value is provided, default revision 1 is created
     types:
     - uid: string
+  - name: properties.apiVersion
+    description: Indicates the Version identifier of the API if the API is versioned
+    types:
+    - uid: string
   - name: properties.isCurrent
+    isReadyOnly: true
     description: Indicates if API revision is current api revision.
     types:
     - uid: boolean
   - name: properties.isOnline
+    isReadyOnly: true
     description: Indicates if API revision is accessible via the gateway.
     types:
     - uid: boolean
+  - name: properties.apiVersionSetId
+    description: A resource identifier for the related ApiVersionSet.
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Body contract.
   kind: object
@@ -139,8 +156,35 @@ definitions:
     types:
     - uid: ErrorFieldContract
       isArray: true
+- name: ApiVersionSetContractDetails
+  description: 'An API Version Set contains the common configuration for a set of API Versions relating '
+  kind: object
+  properties:
+  - name: id
+    description: Identifier for existing API Version Set. Omit this value to create a new Version Set.
+    types:
+    - uid: string
+  - name: description
+    description: Description of API Version Set.
+    types:
+    - uid: string
+  - name: versioningScheme
+    description: An value that determines where the API Version identifer will be located in a HTTP request.
+    types:
+    - uid: Segment
+    - uid: Query
+    - uid: Header
+    typesTitle: enum
+  - name: versionQueryName
+    description: Name of query parameter that indicates the API Version if versioningScheme is set to `query`.
+    types:
+    - uid: string
+  - name: versionHeaderName
+    description: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.
+    types:
+    - uid: string
 - name: AuthenticationSettingsContract
-  description: Collection of authentication settings included into this API.
+  description: API Authentication Settings.
   kind: object
   properties:
   - name: oAuth2
@@ -148,7 +192,7 @@ definitions:
     types:
     - uid: OAuth2AuthenticationSettingsContract
 - name: SubscriptionKeyParameterNamesContract
-  description: Protocols over which API is made available.
+  description: Subscription key parameter names details.
   kind: object
   properties:
   - name: header
@@ -186,7 +230,7 @@ definitions:
     types:
     - uid: string
 - name: OAuth2AuthenticationSettingsContract
-  description: OAuth2 Authentication settings
+  description: API OAuth2 Authentication settings details.
   kind: object
   properties:
   - name: authorizationServerId
@@ -200,7 +244,7 @@ definitions:
 examples:
 - name: ApiManagementGetApiContract
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a?api-version=2017-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a?api-version=2018-01-01
   responses:
   - statusCode: "200"
     body: >-

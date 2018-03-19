@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.groupuser.create
 name: Create
 service: API Management
 groupName: Group User
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Adds a user to the specified group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{uid}?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{uid}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,14 +37,14 @@ uriParameters:
   description: Group identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: uid
   in: path
   isRequired: true
   description: User identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -88,9 +88,9 @@ definitions:
     - uid: string
   - name: properties.groups
     isReadyOnly: true
-    description: Contract details.
+    description: Group contract Properties.
     types:
-    - uid: GroupContract
+    - uid: GroupContractProperties
       isArray: true
   - name: id
     isReadyOnly: true
@@ -138,44 +138,29 @@ definitions:
     types:
     - uid: ErrorFieldContract
       isArray: true
-- name: GroupContract
-  description: Page values.
+- name: GroupContractProperties
+  description: Group contract Properties.
   kind: object
   properties:
-  - name: properties.displayName
+  - name: displayName
     description: Group name.
     types:
     - uid: string
-  - name: properties.description
+  - name: description
     description: Group description. Can contain HTML formatting tags.
     types:
     - uid: string
-  - name: properties.builtIn
+  - name: builtIn
     isReadyOnly: true
     description: true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
     types:
     - uid: boolean
-  - name: properties.type
+  - name: type
     description: Group type.
     types:
     - uid: GroupType
-  - name: properties.externalId
+  - name: externalId
     description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type for API Management resource.
     types:
     - uid: string
 - name: UserState
@@ -183,9 +168,19 @@ definitions:
   kind: enum
   properties:
   - name: active
+    description: User state is active.
     types:
     - uid: string
   - name: blocked
+    description: User is blocked. Blocked users cannot authenticate at developer portal or call API.
+    types:
+    - uid: string
+  - name: pending
+    description: User account is pending. Requires identity confirmation before it can be made active.
+    types:
+    - uid: string
+  - name: deleted
+    description: User account is closed. All identities and related entities are removed.
     types:
     - uid: string
 - name: UserIdentityContract
@@ -232,7 +227,7 @@ definitions:
 examples:
 - name: ApiManagementCreateGroupUser
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/tempgroup/users/59307d350af58404d8a26300?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/tempgroup/users/59307d350af58404d8a26300?api-version=2018-01-01
   responses:
   - statusCode: "201"
     body: >-

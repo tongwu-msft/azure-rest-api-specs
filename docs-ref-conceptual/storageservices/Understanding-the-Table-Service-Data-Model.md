@@ -137,7 +137,7 @@ https://myaccount.table.core.windows.net
 |`Edm.Guid`|`Guid`|A 128-bit globally unique identifier.|  
 |`Edm.Int32`|`Int32` or `int`|A 32-bit integer.|  
 |`Edm.Int64`|`Int64` or `long`|A 64-bit integer.|  
-|`Edm.String`|`String`|A UTF-16-encoded value. String values may be up to 64 KB in size.|  
+|`Edm.String`|`String`|A UTF-16-encoded value. String values may be up to 64 KB in size. Note that the maximum number of characters supported is about 32 K or less.|  
   
  By default a property is created as type `String`, unless you specify a different type. To explicitly type a property, specify its data type by using the appropriate OData data type for an [Insert Entity](Insert-Entity.md) or [Update Entity](Update-Entity2.md) operation. For more information, see [Inserting and Updating Entities](Inserting-and-Updating-Entities.md).  
   

@@ -80,6 +80,7 @@ definitions:
     - uid: ProcessReference
     - uid: PortReference
     - uid: MachineReferenceWithHints
+    - uid: ClientGroupReference
     typesTitle: ResourceReference
   - name: etag
     description: Resource ETAG.
@@ -114,7 +115,7 @@ definitions:
     types:
     - uid: Error
 - name: Error
-  description: Error information.
+  description: Error details.
   kind: object
   properties:
   - name: code
@@ -246,8 +247,31 @@ definitions:
     types:
     - uid: ref:machinewithhints
     typesTitle: string
+- name: ClientGroupReference
+  description: Reference to a client group.
+  kind: object
+  properties:
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:clientgroup
+    typesTitle: string
 - name: OperatingSystemFamily
-  description: Last known operating system family.
+  description: Specifies the operating system family, e.g., Linux, Windows, etc.
   kind: enum
   properties:
   - name: unknown
@@ -265,7 +289,37 @@ definitions:
   - name: aix
     types:
     - uid: string
-examples: []
+examples:
+- name: SMClientGroupsGetGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/features/serviceMap/clientGroups/m!m-A4AB1C69-03E9-42D2-B822-B42555569FB4!b!b-c0a8010a_10000?api-version=2015-11-01-preview&startTime=1/8/2018 9:26:53 PM&endTime=1/8/2018 9:28:53 PM
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "kind": "clientGroup",
+        "properties": {
+          "clientsOf": {
+            "kind": "ref:port",
+            "properties": {
+              "machine": {
+                "kind": "ref:machine",
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                "name": "m-A4AB1C69-03E9-42D2-B822-B42555569FB4"
+              },
+              "ipAddress": "192.168.1.10",
+              "portNumber": 10000
+            },
+            "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4/ports/b-c0a8010a_10000",
+            "type": "Microsoft.OperationalInsights/workspaces/features/machines/ports",
+            "name": "b-c0a8010a_10000"
+          }
+        },
+        "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/clientGroups/m!m-A4AB1C69-03E9-42D2-B822-B42555569FB4!b!b-c0a8010a_10000",
+        "type": "Microsoft.OperationalInsights/workspaces/features/clientGroups",
+        "name": "m!m-A4AB1C69-03E9-42D2-B822-B42555569FB4!b!b-c0a8010a_10000"
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

@@ -115,6 +115,7 @@ definitions:
     - uid: ProcessReference
     - uid: PortReference
     - uid: MachineReferenceWithHints
+    - uid: ClientGroupReference
     typesTitle: ResourceReference
   - name: properties.executableName
     description: The name of the process executable
@@ -132,6 +133,10 @@ definitions:
     description: The inferred role of this process based on its name, command line, etc.
     types:
     - uid: ProcessRole
+  - name: properties.group
+    description: The name of the product or suite of the process. The group is determined by its executable name, command line, etc.
+    types:
+    - uid: string
   - name: properties.details
     description: Process metadata (command line, product name, etc.).
     types:
@@ -147,6 +152,7 @@ definitions:
     - uid: ProcessReference
     - uid: PortReference
     - uid: MachineReferenceWithHints
+    - uid: ClientGroupReference
     typesTitle: ResourceReference
   - name: properties.acceptorOf
     description: Present only for a discovered process acting as a server. References the port on which the discovered process is accepting.
@@ -155,7 +161,13 @@ definitions:
     - uid: ProcessReference
     - uid: PortReference
     - uid: MachineReferenceWithHints
+    - uid: ClientGroupReference
     typesTitle: ResourceReference
+  - name: properties.hosting
+    description: Information about the hosting environment
+    types:
+    - uid: AzureProcessHostingConfiguration
+    typesTitle: ProcessHostingConfiguration
   - name: etag
     description: Resource ETAG.
     types:
@@ -181,7 +193,7 @@ definitions:
     types:
     - uid: string
 - name: Error
-  description: Error information.
+  description: Error details.
   kind: object
   properties:
   - name: code
@@ -193,7 +205,7 @@ definitions:
     types:
     - uid: string
 - name: MonitoringState
-  description: Specifies whether the machine is actively monitored or discovered.
+  description: Used to specify if a resources is monitored or discovered.
   kind: enum
   properties:
   - name: monitored
@@ -222,7 +234,7 @@ definitions:
     types:
     - uid: string
 - name: ProcessDetails
-  description: Process metadata (command line, product name, etc.).
+  description: Describes process metadata.
   kind: object
   properties:
   - name: persistentKey
@@ -230,7 +242,7 @@ definitions:
     types:
     - uid: string
   - name: poolId
-    description: 'Represents the identity of the process pool assigned to the process by Dependency Agent. '
+    description: Represents the identity of the process pool assigned to the process by Dependency Agent.
     types:
     - uid: integer
   - name: firstPid
@@ -273,8 +285,17 @@ definitions:
     description: Process workingDirectory.
     types:
     - uid: string
+  - name: services
+    description: A service hosted by a process.
+    types:
+    - uid: ProcessHostedService
+      isArray: true
+  - name: zoneName
+    description: Process zone name (Linux only).
+    types:
+    - uid: string
 - name: ProcessUser
-  description: Information about the account under which the process is executing.
+  description: Describes the user under which a process is running.
   kind: object
   properties:
   - name: userName
@@ -406,8 +427,61 @@ definitions:
     types:
     - uid: ref:machinewithhints
     typesTitle: string
+- name: ClientGroupReference
+  description: Reference to a client group.
+  kind: object
+  properties:
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:clientgroup
+    typesTitle: string
+- name: ProcessHostedService
+  description: A service hosted by a process.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the service.
+    types:
+    - uid: string
+  - name: displayName
+    description: The service's display name.
+    types:
+    - uid: string
+- name: AzureProcessHostingConfiguration
+  description: Describes the hosting configuration of a process when hosted on azure
+  kind: object
+  properties:
+  - name: cloudService
+    description: Contains information about the cloud service the process belongs to
+    types:
+    - uid: AzureCloudServiceConfiguration
+  - name: provider
+    description: The hosting provider of the VM.
+    types:
+    - uid: azure
+    typesTitle: enum
+  - name: kind
+    description: Additional hostring configuration type qualifier.
+    types:
+    - uid: provider:azure
+    typesTitle: string
 - name: OperatingSystemFamily
-  description: Last known operating system family.
+  description: Specifies the operating system family, e.g., Linux, Windows, etc.
   kind: enum
   properties:
   - name: unknown
@@ -425,7 +499,142 @@ definitions:
   - name: aix
     types:
     - uid: string
-examples: []
+- name: AzureCloudServiceConfiguration
+  description: Describes an Azure Cloud Service
+  kind: object
+  properties:
+  - name: name
+    description: Cloud Service name
+    types:
+    - uid: string
+  - name: instanceId
+    description: Cloud Service instance identifier
+    types:
+    - uid: string
+  - name: deployment
+    description: Cloud Service deployment identifier
+    types:
+    - uid: string
+  - name: roleName
+    description: Cloud Service role name
+    types:
+    - uid: string
+  - name: roleType
+    description: Used to specify type of an Azure Cloud Service role
+    types:
+    - uid: AzureCloudServiceRoleType
+- name: AzureCloudServiceRoleType
+  description: Used to specify type of an Azure Cloud Service role
+  kind: enum
+  properties:
+  - name: unknown
+    types:
+    - uid: string
+  - name: worker
+    types:
+    - uid: string
+  - name: web
+    types:
+    - uid: string
+examples:
+- name: SMMachinesPortsListAcceptingProcessesGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/features/serviceMap/machines/m-1bc28d72-0e81-4aff-b1e3-ae12e8da155e/ports/b-c0a80101_8000/acceptingProcesses?api-version=2015-11-01-preview&startTime=1/8/2018 6:37:39 PM&endTime=1/8/2018 6:37:54 PM
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "kind": "process",
+            "properties": {
+              "monitoringState": "monitored",
+              "machine": {
+                "kind": "ref:machine",
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-1bc28d72-0e81-4aff-b1e3-ae12e8da155e",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                "name": "m-1bc28d72-0e81-4aff-b1e3-ae12e8da155e"
+              },
+              "executableName": "process",
+              "displayName": "process",
+              "startTime": "2018-01-08T18:27:39.936Z",
+              "group": "myproductname",
+              "details": {
+                "persistentKey": "1a502634-e7ca-4c56-b10d-545f60623ef2",
+                "poolId": 12,
+                "firstPid": 10,
+                "description": "mydescription",
+                "companyName": "mycompany",
+                "internalName": "myinternalname",
+                "productName": "myproductname",
+                "productVersion": "3.3.3.3",
+                "fileVersion": "1.2.3.4",
+                "commandLine": "cmdline",
+                "executablePath": "mypath",
+                "workingDirectory": "myworkingdir",
+                "services": [
+                  {
+                    "name": "foosvc",
+                    "displayName": "Foo Service"
+                  }
+                ],
+                "zoneName": "LinuxOnlyZone"
+              },
+              "user": {
+                "userName": "myuser",
+                "userDomain": "mydomain"
+              }
+            },
+            "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-1bc28d72-0e81-4aff-b1e3-ae12e8da155e/processes/p-e832fd7598b913c9f6d751b977028248c48c35dc",
+            "type": "Microsoft.OperationalInsights/workspaces/features/machines/processes",
+            "name": "p-e832fd7598b913c9f6d751b977028248c48c35dc"
+          },
+          {
+            "kind": "process",
+            "properties": {
+              "monitoringState": "monitored",
+              "machine": {
+                "kind": "ref:machine",
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-1bc28d72-0e81-4aff-b1e3-ae12e8da155e",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                "name": "m-1bc28d72-0e81-4aff-b1e3-ae12e8da155e"
+              },
+              "executableName": "process",
+              "displayName": "process",
+              "startTime": "2018-01-08T18:27:39.936Z",
+              "group": "myproductname",
+              "details": {
+                "persistentKey": "677cde70-5589-41f3-89b8-4b866ed5c86e",
+                "poolId": 12,
+                "firstPid": 10,
+                "description": "mydescription",
+                "companyName": "mycompany",
+                "internalName": "myinternalname",
+                "productName": "myproductname",
+                "productVersion": "3.3.3.3",
+                "fileVersion": "1.2.3.4",
+                "commandLine": "cmdline",
+                "executablePath": "mypath",
+                "workingDirectory": "myworkingdir",
+                "services": [
+                  {
+                    "name": "foosvc",
+                    "displayName": "Foo Service"
+                  }
+                ],
+                "zoneName": "LinuxOnlyZone"
+              },
+              "user": {
+                "userName": "myuser",
+                "userDomain": "mydomain"
+              }
+            },
+            "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-1bc28d72-0e81-4aff-b1e3-ae12e8da155e/processes/p-fa195e268682d998e42071ff3346c09f0af4f9e8",
+            "type": "Microsoft.OperationalInsights/workspaces/features/machines/processes",
+            "name": "p-fa195e268682d998e42071ff3346c09f0af4f9e8"
+          }
+        ]
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

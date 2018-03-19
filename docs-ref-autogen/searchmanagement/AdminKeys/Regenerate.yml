@@ -7,10 +7,8 @@ apiVersion: 2015-08-19
 summary: Regenerates either the primary or secondary admin API key. You can only regenerate one key at a time.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
 - content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/regenerateAdminKey/{keyKind}?api-version=2015-08-19
 uriParameters:
@@ -37,7 +35,7 @@ uriParameters:
   isRequired: true
   description: Specifies which key to regenerate. Valid values include 'primary' and 'secondary'.
   types:
-  - uid: string
+  - uid: AdminKeyKind
 - name: api-version
   in: query
   isRequired: true
@@ -61,6 +59,16 @@ requestHeader:
   - uid: string
   format: uuid
 definitions:
+- name: AdminKeyKind
+  description: Specifies which key to regenerate. Valid values include 'primary' and 'secondary'.
+  kind: enum
+  properties:
+  - name: primary
+    types:
+    - uid: string
+  - name: secondary
+    types:
+    - uid: string
 - name: AdminKeyResult
   description: Response containing the primary and secondary admin API keys for a given Azure Search service.
   kind: object
@@ -100,11 +108,21 @@ definitions:
     types:
     - uid: string
   - name: details
-    description: Contains nested errors that are related to this error.
+    description: Describes a particular API error with an error code and a message.
     types:
     - uid: CloudErrorBody
       isArray: true
-examples: []
+examples:
+- name: SearchRegenerateAdminKey
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/regenerateAdminKey/primary?api-version=2015-08-19
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "primaryKey": "<your primary admin API key>",
+        "secondaryKey": "<your secondary admin API key>"
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

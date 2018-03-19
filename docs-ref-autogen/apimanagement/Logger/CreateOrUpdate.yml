@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.logger.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Logger
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Creates or Updates a logger.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerid}?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerid}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: Logger identifier. Must be unique in the API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -73,7 +73,10 @@ requestBody:
   - name: properties.credentials
     in: body
     isRequired: true
-    description: The name and SendRule connection string of the event hub.
+    description: >-
+      The name and SendRule connection string of the event hub for azureEventHub logger.
+
+      Instrumentation key for applicationInsights logger.
     types:
     - uid: object
       isDictionary: true
@@ -85,10 +88,15 @@ requestBody:
     description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
     types:
     - uid: boolean
-requestHeader: []
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the Entity. Not required when creating an entity, but required when updating an entity.
+  types:
+  - uid: string
 definitions:
 - name: LoggerContract
-  description: Logger values.
+  description: Logger details.
   kind: object
   properties:
   - name: properties.loggerType
@@ -100,7 +108,10 @@ definitions:
     types:
     - uid: string
   - name: properties.credentials
-    description: The name and SendRule connection string of the event hub.
+    description: >-
+      The name and SendRule connection string of the event hub for azureEventHub logger.
+
+      Instrumentation key for applicationInsights logger.
     types:
     - uid: object
       isDictionary: true
@@ -151,6 +162,10 @@ definitions:
     description: Azure Event Hub as log destination.
     types:
     - uid: string
+  - name: applicationInsights
+    description: Azure Application Insights as log destination.
+    types:
+    - uid: string
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -168,9 +183,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ApiManagementCreateLogger
+- name: ApiManagementCreateEHLogger
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2018-01-01
     body: >-
       {
         "properties": {
@@ -213,6 +228,50 @@ examples:
             "connectionString": "{{59544ef2e4bbd50d9468c617}}"
           },
           "isBuffered": true
+        }
+      }
+- name: ApiManagementCreateAILogger
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2018-01-01
+    body: >-
+      {
+        "properties": {
+          "loggerType": "applicationInsights",
+          "description": "adding a new logger",
+          "credentials": {
+            "instrumentationKey": "11................a1"
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId",
+        "type": "Microsoft.ApiManagement/service/loggers",
+        "name": "loggerId",
+        "properties": {
+          "loggerType": "applicationInsights",
+          "description": null,
+          "credentials": {
+            "instrumentationKey": "{{5a.......2a}}"
+          },
+          "isBuffered": false
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId",
+        "type": "Microsoft.ApiManagement/service/loggers",
+        "name": "loggerId",
+        "properties": {
+          "loggerType": "applicationInsights",
+          "description": null,
+          "credentials": {
+            "instrumentationKey": "{{5a.......2a}}"
+          },
+          "isBuffered": false
         }
       }
 security:

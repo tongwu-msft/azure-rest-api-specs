@@ -17,4 +17,4 @@ Application Gateway is a Network Service which provides HTTP Load balancing as a
 
 |Operation Group|Description|
 |---|---|
-|[Application Gateway](~/docs-ref-autogen/application-gateway/applicationgateways.yml) |Provides operations for managing Application Gateways.|
+|[Application Gateway](xref:management.azure.com.applicationgateway.applicationgateways) |Provides operations for managing Application Gateways.|

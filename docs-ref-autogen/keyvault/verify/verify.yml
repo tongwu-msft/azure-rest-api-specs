@@ -4,13 +4,13 @@ name: verify
 service: Key Vault
 groupName: verify
 apiVersion: 2016-10-01
-summary: Verifies a signature using a specified key. The VERIFY operation is applicable to symmetric keys stored in Azure Key Vault. VERIFY is not strictly necessary for asymmetric keys stored in Azure Key Vault since signature verification can be performed using the public portion of the key but this operation is supported as a convenience for callers that only have a key-reference and not the public portion of the key.
+summary: Verifies a signature using a specified key. The VERIFY operation is applicable to symmetric keys stored in Azure Key Vault. VERIFY is not strictly necessary for asymmetric keys stored in Azure Key Vault since signature verification can be performed using the public portion of the key but this operation is supported as a convenience for callers that only have a key-reference and not the public portion of the key. This operation requires the keys/verify permission.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://{vaultBaseUrl}/keys/{key-name}/{key-version}/verify?api-version=2016-10-01
+- content: POST {vaultBaseUrl}/keys/{key-name}/{key-version}/verify?api-version=2016-10-01
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -102,7 +102,7 @@ definitions:
     types:
     - uid: string
 - name: Error
-  description: Error encountered, if any, during the certificate operation.
+  description: The key vault server error.
   kind: object
   properties:
   - name: code
@@ -116,9 +116,10 @@ definitions:
     types:
     - uid: string
   - name: innererror
-    description: ''
+    isReadyOnly: true
+    description: The key vault server error.
     types:
-    - {}
+    - uid: Error
 - name: JsonWebKeySignatureAlgorithm
   description: The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
   kind: enum

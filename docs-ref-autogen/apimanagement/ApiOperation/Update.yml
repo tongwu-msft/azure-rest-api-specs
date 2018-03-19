@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apioperation.update
 name: Update
 service: API Management
 groupName: Api Operation
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Updates the details of the operation in the API specified by its identifier.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}?api-version=2017-03-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,7 +34,7 @@ uriParameters:
 - name: apiId
   in: path
   isRequired: true
-  description: API identifier. Must be unique in the current API Management service instance.
+  description: API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
@@ -44,7 +44,7 @@ uriParameters:
   description: Operation identifier within an API. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -106,12 +106,12 @@ requestHeader:
 - name: If-Match
   in: header
   isRequired: true
-  description: ETag of the API Operation Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
+  description: ETag of the Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
   types:
   - uid: string
 definitions:
 - name: ParameterContract
-  description: Collection of URL template parameters.
+  description: Operation parameters details.
   kind: object
   properties:
   - name: name
@@ -140,7 +140,7 @@ definitions:
     - uid: string
       isArray: true
 - name: RequestContract
-  description: An entity containing request details.
+  description: Operation request details.
   kind: object
   properties:
   - name: description
@@ -163,7 +163,7 @@ definitions:
     - uid: RepresentationContract
       isArray: true
 - name: ResponseContract
-  description: Array of Operation responses.
+  description: Operation response details.
   kind: object
   properties:
   - name: statusCode
@@ -240,7 +240,7 @@ definitions:
     types:
     - uid: string
 - name: RepresentationContract
-  description: Collection of operation request representations.
+  description: Operation request/response representation details.
   kind: object
   properties:
   - name: contentType
@@ -283,7 +283,7 @@ definitions:
 examples:
 - name: ApiManagementUpdateApiOperation
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api/operations/operationId?api-version=2017-03-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api/operations/operationId?api-version=2018-01-01
     body: >-
       {
         "properties": {
