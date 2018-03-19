@@ -14,3 +14,9 @@ ms.manager: ygupta
 
 * To create and manage Databricks workspaces in the Azure Resource Manager, use the APIs in this section.
 * To interact with resources in the workspace, such as clusters, jobs, and notebooks inside your Databricks workspace, use this [Databricks REST API](https://docs.azuredatabricks.net/api/index.html).
+
+## REST Operation Group
+
+| Operation Group | Description |
+|-----------------|-------------|
+|[Workspaces](~/docs-ref-autogen/databricks/Workspaces.yml)| Provides operations to manage Azure Databricks workspaces in the Azure Resource Manager. |
