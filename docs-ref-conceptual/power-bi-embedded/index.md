@@ -14,9 +14,9 @@ This API provides a RESTful set of web services that enables you to create, retr
 
 | Operation groups                                                                  | Description                                                                       |
 |-----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| [Capacities](~/docs-ref-autogen/power-bi-embedded/Capacities.yml) | Provides operations for managing capacities for use with Power BI. |
-| [Capacity](~/docs-ref-autogen/power-bi-embedded/Capacity.yml) | Provides operations to create a capacity. |
-| [Operations](~/docs-ref-autogen/power-bi-embedded/Operations.yml) | Indicates which operations can be performed by the Power BI Resource Provider. |
+| [Capacities](xref:management.azure.com.powerbiembedded.capacities) | Provides operations for managing capacities for use with Power BI. |
+| [Capacity](xref:management.azure.com.powerbiembedded.capacities) | Provides operations to create a capacity. |
+| [Operations](xref:management.azure.com.powerbiembedded.operations) | Indicates which operations can be performed by the Power BI Resource Provider. |
 
 ## See also
 

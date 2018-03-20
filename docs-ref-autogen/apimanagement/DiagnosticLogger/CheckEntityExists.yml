@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.diagnosticlogger.checkentityexists
 name: Check Entity Exists
 service: API Management
 groupName: Diagnostic Logger
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Checks that logger entity specified by identifier is associated with the diagnostics entity.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: HEAD https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/diagnostics/{diagnosticId}/loggers/{loggerid}?api-version=2017-03-01
+- content: HEAD https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/diagnostics/{diagnosticId}/loggers/{loggerid}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,14 +37,14 @@ uriParameters:
   description: Diagnostic identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: loggerid
   in: path
   isRequired: true
   description: Logger identifier. Must be unique in the API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -53,7 +53,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 204 No Content
-  description: Entity exists
+  description: The logger is associated with the diagnostic entity.
+- name: Other Status Codes
+  description: The logger is not associated with the diagnostic entity.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -96,9 +98,10 @@ definitions:
 examples:
 - name: ApiManagementHeadDiagnosticLogger
   request:
-    uri: HEAD https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/diagnostics/default/loggers/templateLogger?api-version=2017-03-01
+    uri: HEAD https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/diagnostics/default/loggers/templateLogger?api-version=2018-01-01
   responses:
   - statusCode: "204"
+  - statusCode: "404"
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.

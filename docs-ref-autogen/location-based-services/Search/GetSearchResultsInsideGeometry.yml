@@ -1,0 +1,752 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.search.getsearchresultsinsidegeometry
+name: Get Search Results Inside Geometry
+service: Location Based Services Functional API
+groupName: Search
+apiVersion: "1.0"
+summary: Returns the search results that fall inside a list of passed-in geometries. Available geometry types are Polygon and Circle. The geometry should be provided as a GeoJSON FeatureCollection. The FeatureCollection can contain a Max of 50 GeoJSON Feature objects. Each Feature object should represent either a Polygon or a Circle. A Polygon geometry can have a max of 50 coordinates. A Feature object for the Circle geometry must contain the radius value (in meters) in the object's properties.
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: POST https://atlas.microsoft.com/search/geometry/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
+- content: POST https://atlas.microsoft.com/search/geometry/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&limit={limit}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&idxSet={idxSet}
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Possible values are json & xml.
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API.  Current version is 1.0
+  types:
+  - uid: string
+- name: query
+  in: query
+  isRequired: true
+  description: The applicable query string and/or coordinates
+  types:
+  - uid: string
+- name: limit
+  in: query
+  description: Maximum number of responses that will be returned.
+  types:
+  - uid: integer
+- name: language
+  in: query
+  description: Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used
+  types:
+  - uid: string
+- name: extendedPostalCodesFor
+  in: query
+  description: 'Indexes for which extended postal codes should be included in the results. Available indexes are: Addr = Address ranges, Geo = Geographies, PAD = Point Addresses, POI = Points of Interest, Str = Streets, XStr = Cross Streets (intersections)'
+  types:
+  - uid: string
+- name: idxSet
+  in: query
+  description: 'A comma separated list of indexes which should be utilized for the search. Item order does not matter. Available indexes are: Addr = Address range interpolation, Geo = Geographies, PAD = Point Addresses, POI = Points of interest, Str = Streets, Xstr = Cross Streets (intersections)'
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SearchGeometryResult
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: 'Unauthorized: Access is denied due to invalid credentials.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: Error
+requestBody:
+- parameters:
+  - name: type
+    in: body
+    description: Type property. Value should always be equal to - FeatureCollection
+    types:
+    - uid: string
+  - name: features
+    in: body
+    description: A GeoJSON compliant Feature object
+    types:
+    - uid: FeatureGeoJson
+      isArray: true
+requestHeader: []
+definitions:
+- name: FeatureGeoJson
+  description: A GeoJSON compliant Feature object
+  kind: object
+  properties:
+  - name: type
+    description: Type property. Value should always be equal to - Feature
+    types:
+    - uid: string
+  - name: geometry
+    description: A GeoJSON compliant Geometry object
+    types:
+    - uid: GeometryGeoJson
+  - name: properties
+    description: Properties can contain addition metadata about the Feature. Value can be any JSON object or a JSON null value.
+    types:
+    - uid: object
+- name: SearchGeometryResult
+  description: This object is returned from a successful Search By Geometry call
+  kind: object
+  properties:
+  - name: summary
+    isReadyOnly: true
+    description: Summary object
+    types:
+    - uid: Summary
+  - name: results
+    isReadyOnly: true
+    description: Results array
+    types:
+    - uid: SearchGeometryResultArray
+      isArray: true
+- name: Error
+  description: This object is returned when an error occurs in the Location Based Service API
+  kind: object
+  properties:
+  - name: statuscode
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+- name: FeatureCollectionGeoJson
+  description: A GeoJSON compliant FeatureCollection object
+  kind: object
+  properties:
+  - name: type
+    description: Type property. Value should always be equal to - FeatureCollection
+    types:
+    - uid: string
+  - name: features
+    description: A GeoJSON compliant Feature object
+    types:
+    - uid: FeatureGeoJson
+      isArray: true
+- name: GeometryGeoJson
+  description: A GeoJSON compliant Geometry object
+  kind: object
+  properties:
+  - name: type
+    description: Type property. This value must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection
+    types:
+    - uid: string
+  - name: coordinates
+    description: A GeoJSON compliant LineString Geometry object
+    types:
+    - uid: LineStringGeoJson
+      isArray: true
+- name: Summary
+  description: Summary object
+  kind: object
+  properties:
+  - name: query
+    isReadyOnly: true
+    description: Query property
+    types:
+    - uid: string
+  - name: queryType
+    isReadyOnly: true
+    description: QueryType property
+    types:
+    - uid: string
+  - name: queryTime
+    isReadyOnly: true
+    description: QueryTime property
+    types:
+    - uid: integer
+  - name: numResults
+    isReadyOnly: true
+    description: NumResults property
+    types:
+    - uid: integer
+  - name: offset
+    isReadyOnly: true
+    description: Offset property
+    types:
+    - uid: integer
+  - name: totalResults
+    isReadyOnly: true
+    description: TotalResults property
+    types:
+    - uid: integer
+  - name: fuzzyLevel
+    isReadyOnly: true
+    description: FuzzyLevel property
+    types:
+    - uid: integer
+- name: SearchGeometryResultArray
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: Type property
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Id property
+    types:
+    - uid: string
+  - name: score
+    isReadyOnly: true
+    description: Score property
+    types:
+    - uid: number
+  - name: info
+    isReadyOnly: true
+    description: Info property
+    types:
+    - uid: string
+  - name: entityType
+    isReadyOnly: true
+    description: Entity Type property
+    types:
+    - uid: string
+  - name: poi
+    description: POI property
+    types:
+    - uid: Poi
+  - name: address
+    description: The address of the result
+    types:
+    - uid: Address
+  - name: position
+    description: Coordinates of the result
+    types:
+    - uid: Position
+  - name: viewport
+    description: The viewport that covers the result
+    types:
+    - uid: Viewport
+  - name: entryPoints
+    description: Entry Points array
+    types:
+    - uid: EntityPoint
+      isArray: true
+- name: LineStringGeoJson
+  description: A GeoJSON compliant LineString Geometry object
+  kind: object
+  properties:
+  - name: type
+    description: Type property. This value must be equal to LineString.
+    types:
+    - uid: string
+  - name: coordinates
+    description: A GeoJSON compliant LineString Geometry object
+    types:
+    - uid: LineStringGeoJson
+      isArray: true
+- name: Poi
+  description: POI property
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: string
+  - name: phone
+    isReadyOnly: true
+    description: Phone property
+    types:
+    - uid: string
+  - name: url
+    isReadyOnly: true
+    description: URL property
+    types:
+    - uid: string
+  - name: categories
+    isReadyOnly: true
+    description: Categories array
+    types:
+    - uid: string
+      isArray: true
+  - name: classifications
+    isReadyOnly: true
+    description: Classification array
+    types:
+    - uid: Classification
+      isArray: true
+- name: Address
+  description: The address of the result
+  kind: object
+  properties:
+  - name: buildingNumber
+    isReadyOnly: true
+    description: Building Number property
+    types:
+    - uid: string
+  - name: street
+    isReadyOnly: true
+    description: Street property
+    types:
+    - uid: string
+  - name: crossStreet
+    isReadyOnly: true
+    description: Cross Street property
+    types:
+    - uid: string
+  - name: streetNumber
+    isReadyOnly: true
+    description: Street Number property
+    types:
+    - uid: string
+  - name: streetName
+    isReadyOnly: true
+    description: Street Name property
+    types:
+    - uid: string
+  - name: streetNameAndNumber
+    isReadyOnly: true
+    description: Street Name and Number property
+    types:
+    - uid: string
+  - name: municipality
+    isReadyOnly: true
+    description: Municipality property
+    types:
+    - uid: string
+  - name: municipalitySubdivision
+    isReadyOnly: true
+    description: Municipality Subdivision property
+    types:
+    - uid: string
+  - name: countryTertiarySubdivision
+    isReadyOnly: true
+    description: Country Tertiary Subdivision property
+    types:
+    - uid: string
+  - name: countrySecondarySubdivision
+    isReadyOnly: true
+    description: Country Secondary Subdivision property
+    types:
+    - uid: string
+  - name: countrySubdivision
+    isReadyOnly: true
+    description: Country Subdivision property
+    types:
+    - uid: string
+  - name: postalCode
+    isReadyOnly: true
+    description: Postal Code property
+    types:
+    - uid: string
+  - name: extendedPostalCode
+    isReadyOnly: true
+    description: Extended Postal Code property
+    types:
+    - uid: string
+  - name: countryCode
+    isReadyOnly: true
+    description: Country Code property
+    types:
+    - uid: string
+  - name: country
+    isReadyOnly: true
+    description: Country property
+    types:
+    - uid: string
+  - name: countryCodeISO3
+    isReadyOnly: true
+    description: Country Code ISO3 property
+    types:
+    - uid: string
+  - name: freeformAddress
+    isReadyOnly: true
+    description: Free form Address property
+    types:
+    - uid: string
+  - name: countrySubdivisionName
+    isReadyOnly: true
+    description: Country Subdividion Name property
+    types:
+    - uid: string
+  - name: boundingBox
+    description: Bounding Box for the address
+    types:
+    - uid: BoundingBox
+- name: Position
+  description: Coordinates of the result
+  kind: object
+  properties:
+  - name: lat
+    isReadyOnly: true
+    description: Latitude property
+    types:
+    - uid: number
+  - name: lon
+    isReadyOnly: true
+    description: Longitude property
+    types:
+    - uid: number
+- name: Viewport
+  description: The viewport that covers the result
+  kind: object
+  properties:
+  - name: topLeftPoint
+    description: Top left of the viewport
+    types:
+    - uid: TopLeftPoint
+  - name: btmRightPoint
+    description: Bottom right of the viewport
+    types:
+    - uid: BtmRightPoint
+- name: EntityPoint
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: Name Locale property
+    types:
+    - uid: string
+  - name: position
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: Position
+- name: Classification
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Code property
+    types:
+    - uid: string
+  - name: names
+    isReadyOnly: true
+    description: Names array
+    types:
+    - uid: ClassificationName
+      isArray: true
+- name: BoundingBox
+  description: Bounding Box for the address
+  kind: object
+  properties:
+  - name: northEast
+    isReadyOnly: true
+    description: The North East coordinates for the Bounding Box
+    types:
+    - uid: string
+  - name: southWest
+    isReadyOnly: true
+    description: The South West coordinates for the Bounding Box
+    types:
+    - uid: string
+- name: TopLeftPoint
+  description: Top left of the viewport
+  kind: object
+  properties:
+  - name: lat
+    isReadyOnly: true
+    description: Latitude
+    types:
+    - uid: number
+  - name: lon
+    isReadyOnly: true
+    description: Longitude
+    types:
+    - uid: number
+- name: BtmRightPoint
+  description: Bottom right of the viewport
+  kind: object
+  properties:
+  - name: lat
+    isReadyOnly: true
+    description: Latitude
+    types:
+    - uid: number
+  - name: lon
+    isReadyOnly: true
+    description: Longitude
+    types:
+    - uid: number
+- name: ClassificationName
+  kind: object
+  properties:
+  - name: nameLocale
+    isReadyOnly: true
+    description: Name Locale property
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: string
+examples:
+- name: GetSearchResultsInsideGeometry
+  request:
+    uri: POST https://atlas.microsoft.com/search/geometry/json?api-version=1.0&query=pizza&limit=2
+    body: >-
+      {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    -122.143035,
+                    47.653536
+                  ],
+                  [
+                    -122.187164,
+                    47.617556
+                  ],
+                  [
+                    -122.114981,
+                    47.570599
+                  ],
+                  [
+                    -122.132756,
+                    47.654009
+                  ],
+                  [
+                    -122.143035,
+                    47.653536
+                  ]
+                ]
+              ]
+            },
+            "properties": {}
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -122.126986,
+                47.639754
+              ]
+            },
+            "properties": {
+              "radius": 100
+            }
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "summary": {
+          "query": "pizza",
+          "queryType": "NON_NEAR",
+          "queryTime": 45,
+          "numResults": 2,
+          "offset": 0,
+          "totalResults": 18,
+          "fuzzyLevel": 1
+        },
+        "results": [
+          {
+            "type": "POI",
+            "id": "US/POI/p1/199865",
+            "score": 4,
+            "info": "search:decarta:ta:840539000519519-US",
+            "poi": {
+              "name": "Tutta Bella",
+              "phone": "+(1)-(425)-5027402",
+              "url": "TuttaBella.com",
+              "categories": [
+                "pizza",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "pizza"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "15600",
+              "streetName": "NE 8th St",
+              "municipalitySubdivision": "Bellevue, Crossroads",
+              "municipality": "Bellevue",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle East",
+              "countrySubdivision": "WA",
+              "postalCode": "98008",
+              "extendedPostalCode": "980084084",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "15600 NE 8th St, Bellevue, WA 98008",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.61705,
+              "lon": -122.13228
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.61795,
+                "lon": -122.13361
+              },
+              "btmRightPoint": {
+                "lat": 47.61615,
+                "lon": -122.13095
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.61701,
+                  "lon": -122.13228
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p1/205464",
+            "score": 4,
+            "info": "search:decarta:ta:840539000714286-US",
+            "poi": {
+              "name": "Q & S Food Co LLC",
+              "phone": "+(1)-(425)-7464764",
+              "categories": [
+                "pizza",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "pizza"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "511",
+              "streetName": "141st Ave SE",
+              "municipalitySubdivision": "Bellevue, West Lake Hills",
+              "municipality": "Bellevue, Eastgate",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle East",
+              "countrySubdivision": "WA",
+              "postalCode": "98007",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "511 141st Ave SE, Bellevue, WA 98007",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.6051,
+              "lon": -122.15226
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.606,
+                "lon": -122.15359
+              },
+              "btmRightPoint": {
+                "lat": 47.6042,
+                "lon": -122.15093
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.6051,
+                  "lon": -122.15219
+                }
+              }
+            ]
+          }
+        ]
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "statuscode": "400",
+        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "statuscode": "401",
+        "message": "Unauthorized: Access is denied due to invalid credentials."
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "statuscode": "403",
+        "message": "Permission, capacity, or authentication issues."
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "statuscode": "404",
+        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "statuscode": "500",
+        "message": "An error occurred while processing the request. Please try again later."
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: subscription-key
+  type: apiKey
+  in: query

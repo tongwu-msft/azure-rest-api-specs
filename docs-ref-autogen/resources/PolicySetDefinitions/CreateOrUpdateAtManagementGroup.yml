@@ -1,0 +1,260 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resourcemanagement.policysetdefinitions.createorupdateatmanagementgroup
+name: Create Or Update At Management Group
+service: Resource Management
+groupName: Policy Set Definitions
+apiVersion: 2017-06-01-preview
+summary: Creates or updates a policy set definition at management group level.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: PUT https://management.azure.com/providers/Microsoft.Management/managementgroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}?api-version=2017-06-01-preview
+uriParameters:
+- name: managementGroupId
+  in: path
+  isRequired: true
+  description: The ID of the management group.
+  types:
+  - uid: string
+- name: policySetDefinitionName
+  in: path
+  isRequired: true
+  description: The name of the policy set definition to create.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the operation.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Created - Returns information about the policy set definition.
+  types:
+  - uid: PolicySetDefinition
+- name: 200 OK
+  description: OK - Returns information about the policy set definition.
+  types:
+  - uid: PolicySetDefinition
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: properties.policyType
+    in: body
+    description: The type of policy definition. Possible values are NotSpecified, BuiltIn, and Custom.
+    types:
+    - uid: policyType
+  - name: properties.displayName
+    in: body
+    description: The display name of the policy set definition.
+    types:
+    - uid: string
+  - name: properties.description
+    in: body
+    description: The policy set definition description.
+    types:
+    - uid: string
+  - name: properties.metadata
+    in: body
+    description: The policy set definition metadata.
+    types:
+    - uid: object
+  - name: properties.parameters
+    in: body
+    description: The policy set definition parameters that can be used in policy definition references.
+    types:
+    - uid: object
+  - name: properties.policyDefinitions
+    in: body
+    isRequired: true
+    description: The policy definition reference.
+    types:
+    - uid: PolicyDefinitionReference
+      isArray: true
+requestHeader: []
+definitions:
+- name: PolicyDefinitionReference
+  description: The policy definition reference.
+  kind: object
+  properties:
+  - name: policyDefinitionId
+    description: The ID of the policy definition or policy set definition.
+    types:
+    - uid: string
+  - name: parameters
+    description: Required if a parameter is used in policy rule.
+    types:
+    - uid: object
+- name: PolicySetDefinition
+  description: The policy set definition.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ID of the policy set definition.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the policy set definition.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource (Microsoft.Authorization/policySetDefinitions).
+    types:
+    - uid: string
+  - name: properties.policyType
+    description: The type of policy definition. Possible values are NotSpecified, BuiltIn, and Custom.
+    types:
+    - uid: policyType
+  - name: properties.displayName
+    description: The display name of the policy set definition.
+    types:
+    - uid: string
+  - name: properties.description
+    description: The policy set definition description.
+    types:
+    - uid: string
+  - name: properties.metadata
+    description: The policy set definition metadata.
+    types:
+    - uid: object
+  - name: properties.parameters
+    description: The policy set definition parameters that can be used in policy definition references.
+    types:
+    - uid: object
+  - name: properties.policyDefinitions
+    description: The policy definition reference.
+    types:
+    - uid: PolicyDefinitionReference
+      isArray: true
+- name: ErrorResponse
+  description: Error reponse indicates ARM is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: httpStatus
+    description: Http status code.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: policyType
+  description: The type of policy definition. Possible values are NotSpecified, BuiltIn, and Custom.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: BuiltIn
+    types:
+    - uid: string
+  - name: Custom
+    types:
+    - uid: string
+examples:
+- name: Put a policy set definition
+  request:
+    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementgroups/mgid/providers/Microsoft.Authorization/policySetDefinitions/costManagement?api-version=2017-06-01-preview
+    body: >-
+      {
+        "properties": {
+          "displayName": "VM and Storage Cost Management",
+          "description": "Policies required to minimize the risk of accidental cost overruns",
+          "metadata": {
+            "category": "Cost Management"
+          },
+          "policyDefinitions": [
+            {
+              "policyDefinitionId": "/subscriptions/subId/providers/Microsoft.Authorization/policyDefinitions/storageSkus",
+              "parameters": {
+                "listOfAllowedSKUs": {
+                  "value": [
+                    "Standard_GRS",
+                    "Standard_LRS"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Management/managementgroups/mgid/providers/Microsoft.Authorization/policySetDefinitions/costManagement",
+        "type": "Microsoft.Authorization/policySetDefinitions",
+        "name": "costManagement",
+        "properties": {
+          "displayName": "VM and Storage Cost Management",
+          "description": "Policies required to minimize the risk of accidental cost overruns",
+          "metadata": {
+            "category": "Cost Management"
+          },
+          "policyDefinitions": [
+            {
+              "policyDefinitionId": "/subscriptions/subid/providers/Microsoft.Authorization/policyDefinitions/storageSkus",
+              "parameters": {
+                "listOfAllowedSKUs": {
+                  "value": [
+                    "Standard_GRS",
+                    "Standard_LRS"
+                  ]
+                }
+              }
+            }
+          ],
+          "policyType": "Custom"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Management/managementgroups/mgid/providers/Microsoft.Authorization/policySetDefinitions/costManagement",
+        "type": "Microsoft.Authorization/policySetDefinitions",
+        "name": "costManagement",
+        "properties": {
+          "displayName": "VM and Storage Cost Management",
+          "description": "Policies required to minimize the risk of accidental cost overruns",
+          "metadata": {
+            "category": "Cost Management"
+          },
+          "policyDefinitions": [
+            {
+              "policyDefinitionId": "/subscriptions/subid/providers/Microsoft.Authorization/policyDefinitions/storageSkus",
+              "parameters": {
+                "listOfAllowedSKUs": {
+                  "value": [
+                    "Standard_GRS",
+                    "Standard_LRS"
+                  ]
+                }
+              }
+            }
+          ],
+          "policyType": "Custom"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

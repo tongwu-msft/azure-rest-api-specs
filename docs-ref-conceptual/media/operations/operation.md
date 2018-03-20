@@ -1,7 +1,7 @@
 ---
 title: "Operation"
 ms.custom: ""
-ms.date: "2016-07-14"
+ms.date: "03/14/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
@@ -54,7 +54,7 @@ Represents the current state of a long-running operation. Examples of long-runni
   
 |Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/api/Operations(‘*OperationId*’)|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Operations(‘*OperationId*’)|HTTP/1.1|  
   
 ### Sample Request  
   

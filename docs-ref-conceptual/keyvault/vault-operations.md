@@ -10,7 +10,7 @@ ms.date: 06/13/2017
 
 Azure Key Vault supports the following vault operations
 
-- [Vault operations](../../docs-ref-autogen/keyvault/Vaults.yml)
+- [Vault operations](xref:management.azure.com.keyvault.vaults)
 
 ## See Also
 

@@ -44,7 +44,7 @@ ____
 __Type__: [ServiceTypeDescription](sfclient-v60-model-servicetypedescription.md) <br/>
 __Required__: No<br/>
 <br/>
-Describes a service type defined in the service manifest of a provisioned application type. The properties the the ones defined in the service manifest.
+Describes a service type defined in the service manifest of a provisioned application type. The properties of the ones defined in the service manifest.
 
 ____
 ### ServiceManifestName
