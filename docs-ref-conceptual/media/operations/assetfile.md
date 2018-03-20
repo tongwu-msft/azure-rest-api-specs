@@ -85,7 +85,7 @@ The `AssetFile` entity represents an actual video or audio file that is stored i
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Files('nb:cid:UUID:d0214595-fff0-164e-9c67-d576eba09605') HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/Files('nb:cid:UUID:d0214595-fff0-164e-9c67-d576eba09605') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
