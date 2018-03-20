@@ -8,7 +8,7 @@ ms.topic: reference
 ms.service: mysql-database
 ms.devlang: rest-api
 service_description: Azure Database for MySQL
-ms.date: 03/05/2018
+ms.date: 03/20/2018
 ---
 
 # Azure Database for MySQL REST API
@@ -18,7 +18,7 @@ Azure Database for MySQL provides a managed database service for app development
 
 The following information is common to all tasks that you might do using these REST APIs:  
 -   Use the URI `https://management.azure.com/`
--   Replace `{api-version}` with `2017-12-01-preview`.
+-   Replace `{api-version}` with `2017-12-01`.
 -   Replace `{subscriptionId}` with your subscription identifier in the URI. This value is a GUID unique to your subscription, such as 6B29FC40-CA47-1067-B31D-00DD010662DA.  Locate the subscription ID using the [Azure portal subsciptions blade](https://portal.azure.com/#blade/Microsoft_Azure_Billing/SubscriptionsBlade).
 -   Replace `{resourceGroupName}` with the resource group. For more information, see [Using Resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
 -   Replace `{serverName}` with the name of your Azure Database for MySQL server. Use the short name, such as `mydemoserver`, not the fully qualified network name, such as `mydemoserver.mysql.database.azure.com`.
