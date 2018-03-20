@@ -60,7 +60,7 @@ A media processor transforms media content into a different output. For example,
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/MediaProcessors HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/MediaProcessors HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
