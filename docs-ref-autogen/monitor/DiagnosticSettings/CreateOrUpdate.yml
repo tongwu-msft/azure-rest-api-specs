@@ -1,21 +1,27 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.monitor.servicediagnosticsettings.createorupdate
+uid: management.azure.com.monitor.diagnosticsettings.createorupdate
 name: Create Or Update
 service: Monitor
-groupName: Service Diagnostic Settings
-apiVersion: 2016-09-01
-summary: 'Create or update new diagnostic settings for the specified resource. **WARNING**: This method will be deprecated in future releases.'
+groupName: Diagnostic Settings
+apiVersion: 2017-05-01-preview
+summary: Creates or updates diagnostic settings for the specified resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{resourceUri}/providers/microsoft.insights/diagnosticSettings/service?api-version=2016-09-01
+- content: PUT https://management.azure.com/{resourceUri}/providers/microsoft.insights/diagnosticSettings/{name}?api-version=2017-05-01-preview
 uriParameters:
 - name: resourceUri
   in: path
   isRequired: true
   description: The identifier of the resource.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the diagnostic setting.
   types:
   - uid: string
 - name: api-version
@@ -25,10 +31,14 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: Successful request to create a service diagnostic setting
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
-  - uid: ServiceDiagnosticSettingsResource
+  - uid: ErrorResponse
+- name: 200 OK
+  description: Successful request to create a diagnostic setting
+  types:
+  - uid: DiagnosticSettingsResource
 requestBody:
 - parameters:
   - name: properties.storageAccountId
@@ -36,14 +46,14 @@ requestBody:
     description: The resource ID of the storage account to which you would like to send Diagnostic Logs.
     types:
     - uid: string
-  - name: properties.serviceBusRuleId
-    in: body
-    description: "The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming Diagnostic Logs. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'."
-    types:
-    - uid: string
   - name: properties.eventHubAuthorizationRuleId
     in: body
-    description: The resource Id for the event hub namespace authorization rule.
+    description: The resource Id for the event hub authorization rule.
+    types:
+    - uid: string
+  - name: properties.eventHubName
+    in: body
+    description: The name of the event hub. If none is specified, the default event hub will be selected.
     types:
     - uid: string
   - name: properties.metrics
@@ -63,21 +73,6 @@ requestBody:
     description: 'The workspace ID (resource ID of a Log Analytics workspace) for a Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2'
     types:
     - uid: string
-  - name: location
-    in: body
-    isRequired: true
-    description: Resource location
-    types:
-    - uid: string
-  - name: tags
-    in: body
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 requestHeader: []
 definitions:
 - name: MetricSettings
@@ -88,12 +83,16 @@ definitions:
     description: the timegrain of the metric in ISO8601 format.
     types:
     - uid: string
+  - name: category
+    description: Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.
+    types:
+    - uid: string
   - name: enabled
-    description: a value indicating whether this timegrain is enabled.
+    description: a value indicating whether this category is enabled.
     types:
     - uid: boolean
   - name: retentionPolicy
-    description: the retention policy for this timegrain.
+    description: the retention policy for this category.
     types:
     - uid: RetentionPolicy
 - name: LogSettings
@@ -112,20 +111,32 @@ definitions:
     description: the retention policy for this log.
     types:
     - uid: RetentionPolicy
-- name: ServiceDiagnosticSettingsResource
-  description: Description of a service diagnostic setting
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: DiagnosticSettingsResource
+  description: The diagnostic setting resource.
   kind: object
   properties:
   - name: properties.storageAccountId
     description: The resource ID of the storage account to which you would like to send Diagnostic Logs.
     types:
     - uid: string
-  - name: properties.serviceBusRuleId
-    description: "The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming Diagnostic Logs. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'."
+  - name: properties.eventHubAuthorizationRuleId
+    description: The resource Id for the event hub authorization rule.
     types:
     - uid: string
-  - name: properties.eventHubAuthorizationRuleId
-    description: The resource Id for the event hub namespace authorization rule.
+  - name: properties.eventHubName
+    description: The name of the event hub. If none is specified, the default event hub will be selected.
     types:
     - uid: string
   - name: properties.metrics
@@ -157,18 +168,6 @@ definitions:
     description: Azure resource type
     types:
     - uid: string
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: RetentionPolicy
   description: Specifies the retention policy for the log.
   kind: object
@@ -182,20 +181,19 @@ definitions:
     types:
     - uid: integer
 examples:
-- name: Create or update a service diagnostic setting
+- name: Creates or Updates the diagnostic setting
   request:
-    uri: PUT https://management.azure.com//subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourcegroups/viruela1/providers/microsoft.logic/workflows/viruela6/providers/microsoft.insights/diagnosticSettings/service?api-version=2016-09-01
+    uri: PUT https://management.azure.com//subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourcegroups/viruela1/providers/microsoft.logic/workflows/viruela6/providers/microsoft.insights/diagnosticSettings/mysetting?api-version=2017-05-01-preview
     body: >-
       {
-        "location": "",
         "properties": {
           "storageAccountId": "/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/apptest/providers/Microsoft.Storage/storageAccounts/appteststorage1",
-          "serviceBusRuleId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/andy1101/providers/Microsoft.EventHub/namespaces/andy1101/authorizationrules/RootManageSharedAccessKey",
           "workspaceId": "",
           "eventHubAuthorizationRuleId": "/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourceGroups/montest/providers/microsoft.eventhub/namespaces/mynamespace/eventhubs/myeventhub/authorizationrules/myrule",
+          "eventHubName": "myeventhub",
           "metrics": [
             {
-              "timeGrain": "PT1M",
+              "category": "WorkflowMetrics",
               "enabled": true,
               "retentionPolicy": {
                 "enabled": false,
@@ -219,19 +217,17 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourcegroups/viruela1/providers/microsoft.logic/workflows/viruela6/diagnosticSettings/service",
+        "id": "/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourcegroups/viruela1/providers/microsoft.logic/workflows/viruela6/diagnosticSettings/mysetting",
         "type": "",
-        "name": "service",
-        "location": "",
-        "tags": null,
+        "name": "mysetting",
         "properties": {
           "storageAccountId": "/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/apptest/providers/Microsoft.Storage/storageAccounts/appteststorage1",
-          "serviceBusRuleId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/andy1101/providers/Microsoft.EventHub/namespaces/andy1101/authorizationrules/RootManageSharedAccessKey",
           "workspaceId": "",
           "eventHubAuthorizationRuleId": "/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourceGroups/montest/providers/microsoft.eventhub/namespaces/mynamespace/eventhubs/myeventhub/authorizationrules/myrule",
+          "eventHubName": "myeventhub",
           "metrics": [
             {
-              "timeGrain": "PT1M",
+              "category": "WorkflowMetrics",
               "enabled": true,
               "retentionPolicy": {
                 "enabled": false,
