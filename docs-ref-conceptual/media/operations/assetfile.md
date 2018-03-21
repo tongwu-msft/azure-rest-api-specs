@@ -107,7 +107,7 @@ Host: media.windows.net
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-MERGE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Files('nb:cid:UUID:2710e174-3165-a34c-96ad-618714b0d504') HTTP/1.1  
+MERGE https://<accountname>.restv2.<location>.media.azure.net/api/Files('nb:cid:UUID:2710e174-3165-a34c-96ad-618714b0d504') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
