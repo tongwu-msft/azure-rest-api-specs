@@ -103,7 +103,7 @@ Date: Sun, 21 Apr 2013 21:44:17 GMT
  NotificationEndPoint can be updated using HTTP POST request.  
   
 ```  
-MERGE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A64bb03ea-bb6a-4d3c-b6e9-4a0f3e346638') HTTP/1.1  
+MERGE https://<accountname>.restv2.<location>.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A64bb03ea-bb6a-4d3c-b6e9-4a0f3e346638') HTTP/1.1  
 User-Agent: Microsoft ADO.NET Data Services  
 DataServiceVersion: 1.0  
 MaxDataServiceVersion: 3.0  
