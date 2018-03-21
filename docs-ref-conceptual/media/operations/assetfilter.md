@@ -196,7 +196,7 @@ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure
  Request headers:  
   
 ```  
-MERGE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/AssetFilters('nb%3Acid%3AUUID%3A536e555d-1500-80c3-92dc-f1e4fdc6c592__%23%23%23__TestFilter')  HTTP/1.1  
+MERGE https://<accountname>.restv2.<location>.media.azure.net/api/AssetFilters('nb%3Acid%3AUUID%3A536e555d-1500-80c3-92dc-f1e4fdc6c592__%23%23%23__TestFilter')  HTTP/1.1  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Content-Type: application/json  
