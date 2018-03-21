@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.sqldatabase.databases.update
-name: Update
+uid: management.azure.com.sqldatabase.databases-2014-04-01.createorupdate
+name: Create Or Update
 service: SQL Database
-groupName: Databases
+groupName: Databases - 2014-04-01
 apiVersion: 2014-04-01
-summary: Updates an existing database.
+summary: Creates a new database or updates an existing database.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}?api-version=2014-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}?api-version=2014-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,7 +33,7 @@ uriParameters:
 - name: databaseName
   in: path
   isRequired: true
-  description: The name of the database to be updated.
+  description: The name of the database to be operated on (updated or created).
   types:
   - uid: string
 - name: api-version
@@ -47,19 +47,14 @@ responses:
   description: OK
   types:
   - uid: Database
+- name: 201 Created
+  description: Created
+  types:
+  - uid: Database
 - name: 202 Accepted
   description: Accepted
 requestBody:
 - parameters:
-  - name: tags
-    in: body
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
   - name: properties.collation
     in: body
     description: The collation of the database. If createMode is not Default, this value is ignored.
@@ -155,6 +150,21 @@ requestBody:
     description: Whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones.
     types:
     - uid: boolean
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: Resource location.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: ServiceTierAdvisor
@@ -548,177 +558,6 @@ definitions:
     description: Resource location.
     types:
     - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-- name: DatabaseUpdate
-  description: Represents a database update.
-  kind: object
-  properties:
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: properties.collation
-    description: The collation of the database. If createMode is not Default, this value is ignored.
-    types:
-    - uid: string
-  - name: properties.creationDate
-    isReadyOnly: true
-    description: The creation date of the database (ISO8601 format).
-    types:
-    - uid: string
-  - name: properties.containmentState
-    isReadyOnly: true
-    description: The containment state of the database.
-    types:
-    - uid: integer
-  - name: properties.currentServiceObjectiveId
-    isReadyOnly: true
-    description: The current service level objective ID of the database. This is the ID of the service level objective that is currently active.
-    types:
-    - uid: string
-  - name: properties.databaseId
-    isReadyOnly: true
-    description: The ID of the database.
-    types:
-    - uid: string
-  - name: properties.earliestRestoreDate
-    isReadyOnly: true
-    description: This records the earliest start date and time that restore is available for this database (ISO8601 format).
-    types:
-    - uid: string
-  - name: properties.createMode
-    description: >-
-      Specifies the mode of database creation.
-
-
-      Default: regular database creation.
-
-
-      Copy: creates a database as a copy of an existing database. sourceDatabaseId must be specified as the resource ID of the source database.
-
-
-      OnlineSecondary/NonReadableSecondary: creates a database as a (readable or nonreadable) secondary replica of an existing database. sourceDatabaseId must be specified as the resource ID of the existing primary database.
-
-
-      PointInTimeRestore: Creates a database by restoring a point in time backup of an existing database. sourceDatabaseId must be specified as the resource ID of the existing database, and restorePointInTime must be specified.
-
-
-      Recovery: Creates a database by restoring a geo-replicated backup. sourceDatabaseId must be specified as the recoverable database resource ID to restore.
-
-
-      Restore: Creates a database by restoring a backup of a deleted database. sourceDatabaseId must be specified. If sourceDatabaseId is the database's original resource ID, then sourceDatabaseDeletionDate must be specified. Otherwise sourceDatabaseId must be the restorable dropped database resource ID and sourceDatabaseDeletionDate is ignored. restorePointInTime may also be specified to restore from an earlier point in time.
-
-
-      RestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault. recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID.
-
-
-      Copy, NonReadableSecondary, OnlineSecondary and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
-    types:
-    - uid: CreateMode
-  - name: properties.sourceDatabaseId
-    description: Conditional. If createMode is Copy, NonReadableSecondary, OnlineSecondary, PointInTimeRestore, Recovery, or Restore, then this value is required. Specifies the resource ID of the source database. If createMode is NonReadableSecondary or OnlineSecondary, the name of the source database must be the same as the new database being created.
-    types:
-    - uid: string
-  - name: properties.sourceDatabaseDeletionDate
-    description: Conditional. If createMode is Restore and sourceDatabaseId is the deleted database's original resource id when it existed (as opposed to its current restorable dropped database id), then this value is required. Specifies the time that the database was deleted.
-    types:
-    - uid: string
-  - name: properties.restorePointInTime
-    description: Conditional. If createMode is PointInTimeRestore, this value is required. If createMode is Restore, this value is optional. Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value.
-    types:
-    - uid: string
-  - name: properties.recoveryServicesRecoveryPointResourceId
-    description: Conditional. If createMode is RestoreLongTermRetentionBackup, then this value is required. Specifies the resource ID of the recovery point to restore from.
-    types:
-    - uid: string
-  - name: properties.edition
-    description: 'The edition of the database. The DatabaseEditions enumeration contains all the valid editions. If createMode is NonReadableSecondary or OnlineSecondary, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation." or use the Azure CLI command `az sql db list-editions -l westus --query [].name` .'
-    types:
-    - uid: DatabaseEdition
-  - name: properties.maxSizeBytes
-    description: 'The max size of the database expressed in bytes. If createMode is not Default, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
-    types:
-    - uid: string
-  - name: properties.requestedServiceObjectiveId
-    description: 'The configured service level objective ID of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of currentServiceObjectiveId property. If requestedServiceObjectiveId and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveId overrides the value of requestedServiceObjectiveName. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation." or use the Azure CLI command `az sql db list-editions --location <location> --query [].supportedServiceLevelObjectives[].name` .'
-    types:
-    - uid: string
-  - name: properties.requestedServiceObjectiveName
-    description: 'The name of the configured service level objective of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of serviceLevelObjective property. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation." or use the Azure CLI command `az sql db list-editions --location <location> --query [].supportedServiceLevelObjectives[].name` .'
-    types:
-    - uid: ServiceObjectiveName
-  - name: properties.serviceLevelObjective
-    isReadyOnly: true
-    description: The current service level objective of the database.
-    types:
-    - uid: ServiceObjectiveName
-  - name: properties.status
-    isReadyOnly: true
-    description: The status of the database.
-    types:
-    - uid: string
-  - name: properties.elasticPoolName
-    description: The name of the elastic pool the database is in. If elasticPoolName and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveName is ignored. Not supported for DataWarehouse edition.
-    types:
-    - uid: string
-  - name: properties.defaultSecondaryLocation
-    isReadyOnly: true
-    description: The default secondary region for this database.
-    types:
-    - uid: string
-  - name: properties.serviceTierAdvisors
-    isReadyOnly: true
-    description: Represents a Service Tier Advisor.
-    types:
-    - uid: ServiceTierAdvisor
-      isArray: true
-  - name: properties.transparentDataEncryption
-    isReadyOnly: true
-    description: Represents a database transparent data encryption configuration.
-    types:
-    - uid: TransparentDataEncryption
-      isArray: true
-  - name: properties.recommendedIndex
-    isReadyOnly: true
-    description: Represents a database recommended index.
-    types:
-    - uid: RecommendedIndex
-      isArray: true
-  - name: properties.failoverGroupId
-    isReadyOnly: true
-    description: The resource identifier of the failover group containing this database.
-    types:
-    - uid: string
-  - name: properties.readScale
-    description: Conditional. If the database is a geo-secondary, readScale indicates whether read-only connections are allowed to this database or not. Not supported for DataWarehouse edition.
-    types:
-    - uid: ReadScale
-  - name: properties.sampleName
-    description: Indicates the name of the sample schema to apply when creating this database. If createMode is not Default, this value is ignored. Not supported for DataWarehouse edition.
-    types:
-    - uid: SampleName
-  - name: properties.zoneRedundant
-    description: Whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones.
-    types:
-    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -1160,11 +999,765 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Update a database max
+- name: Create a database min
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/databases/testdb?api-version=2014-04-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/databases/testdb?api-version=2014-04-01
     body: >-
       {
+        "location": "Japan East"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-02-24T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-02-10T01:52:52.923Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-02-24T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-02-10T01:52:52.923Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "202"
+- name: Create a database max
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-6440/databases/testdb?api-version=2014-04-01
+    body: >-
+      {
+        "location": "Japan East",
+        "properties": {
+          "databaseId": "816c5f7e-0e36-4eec-9c51-eee7a276c14c",
+          "edition": "Standard",
+          "status": "Online",
+          "createMode": "Default",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "maxSizeBytes": "268435456000",
+          "creationDate": "2017-02-10T01:37:18.847Z",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-02-10T01:48:08.237Z",
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "sampleName": "AdventureWorksLT"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-8931/providers/Microsoft.Sql/servers/sqlcrudtest-1932/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "databaseId": "816c5f7e-0e36-4eec-9c51-eee7a276c14c",
+          "edition": "Standard",
+          "status": "Online",
+          "createMode": "Default",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "maxSizeBytes": "268435456000",
+          "creationDate": "2017-02-10T01:37:18.847Z",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "sourceDatabaseId": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-02-10T01:48:08.237Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-8931/providers/Microsoft.Sql/servers/sqlcrudtest-1932/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "databaseId": "816c5f7e-0e36-4eec-9c51-eee7a276c14c",
+          "edition": "Standard",
+          "status": "Online",
+          "createMode": "Default",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "maxSizeBytes": "268435456000",
+          "creationDate": "2017-02-10T01:37:18.847Z",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "sourceDatabaseId": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-02-10T01:48:08.237Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "202"
+- name: Create a database as a copy
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-6440/databases/testdb?api-version=2014-04-01
+    body: >-
+      {
+        "location": "Japan East",
+        "properties": {
+          "createMode": "Copy",
+          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-6440/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-02-24T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-02-10T01:52:52.923Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-6440/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-02-24T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-02-10T01:52:52.923Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "202"
+- name: Create a database as an online secondary
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-6440/databases/testdb?api-version=2014-04-01
+    body: >-
+      {
+        "location": "Japan East",
+        "properties": {
+          "createMode": "OnlineSecondary",
+          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-02-24T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-02-10T01:52:52.923Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-02-24T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-02-10T01:52:52.923Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "202"
+- name: Create a database as a non-readable secondary
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-6440/databases/testdb?api-version=2014-04-01
+    body: >-
+      {
+        "location": "Japan East",
+        "properties": {
+          "createMode": "NonReadableSecondary",
+          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-6440/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-02-24T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-02-10T01:52:52.923Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-6440/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-02-24T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-02-10T01:52:52.923Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "202"
+- name: Create a database as a point in time restore
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444 /resourceGroups/sqlcrudtest-8412/providers/Microsoft.Sql/servers/sqlcrudtest-3584/databases/testdb?api-version=2014-04-01
+    body: >-
+      {
+        "location": "Japan East",
+        "properties": {
+          "createMode": "PointInTimeRestore",
+          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444 /resourceGroups/sqlcrudtest-8412/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb",
+          "restorePointInTime": "2017-02-16T21:24:37.467Z"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-02-24T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-02-10T01:52:52.923Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-02-24T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-02-10T01:52:52.923Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "202"
+- name: Create a database as a dropped database restore to deletion time
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444 /resourceGroups/sqlcrudtest-8412/providers/Microsoft.Sql/servers/sqlcrudtest-3584/databases/testdb?api-version=2014-04-01
+    body: >-
+      {
+        "location": "Japan East",
+        "properties": {
+          "createMode": "Restore",
+          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444 /resourceGroups/sqlcrudtest-8412/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/sourcedb",
+          "sourceDatabaseDeletionDate": "2017-05-27T02:49:47.69Z"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-05-30T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-05-30T22:50:46.547Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-05-30T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-05-30T22:50:46.547Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "202"
+- name: Create a database as a dropped database restore to a specific point in time
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444 /resourceGroups/sqlcrudtest-8412/providers/Microsoft.Sql/servers/sqlcrudtest-3584/databases/testdb?api-version=2014-04-01
+    body: >-
+      {
+        "location": "Japan East",
+        "properties": {
+          "createMode": "Restore",
+          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444 /resourceGroups/sqlcrudtest-8412/providers/Microsoft.Sql/servers/sqlcrudtest-3782/restorableDroppedDatabases/sourcedb,131403269876900000",
+          "restorePointInTime": "2017-05-20T21:24:37.467Z"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-05-30T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-05-30T22:50:46.547Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-05-30T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-05-30T22:50:46.547Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "202"
+- name: Create a database as a geo restore
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444 /resourceGroups/sqlcrudtest-8412/providers/Microsoft.Sql/servers/sqlcrudtest-3584/databases/testdb?api-version=2014-04-01
+    body: >-
+      {
+        "location": "Japan East",
+        "properties": {
+          "createMode": "Recovery",
+          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444 /resourceGroups/sqlcrudtest-8412/providers/Microsoft.Sql/servers/sqlcrudtest-3782/recoverableDatabases/sourcedb"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-05-30T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-05-30T22:50:46.547Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-05-30T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-05-30T22:50:46.547Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "202"
+- name: Create a database from a long term retention backup
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444 /resourceGroups/sqlcrudtest-8412/providers/Microsoft.Sql/servers/sqlcrudtest-3584/databases/testdb?api-version=2014-04-01
+    body: >-
+      {
+        "location": "Japan East",
+        "properties": {
+          "createMode": "RestoreLongTermRetentionBackup",
+          "recoveryServicesRecoveryPointResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444 /resourceGroups/sqlcrudtest-8412/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/Azure/protectionContainers/AzureSqlContainer;Sql;sqlcrudtest-8412;testsvr/protectedItems/AzureSqlDb;dsName;testdb;9dafcc99-7c84-4727-88ee-1a4fdb89afd7/RecoveryPoints/16043455089734"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-05-30T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-05-30T22:50:46.547Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-3782/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "creationDate": "2017-05-30T22:39:46.547Z",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-05-30T22:50:46.547Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "202"
+- name: Update a database's elastic pool'
+  request:
+    uri: PUT https://management.azure.com/subscriptions/9d4e2ad0-e20b-4464-9219-353bded52513/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-6440/databases/testdb?api-version=2014-04-01
+    body: >-
+      {
+        "properties": {
+          "elasticPoolName": "7537"
+        },
+        "location": "Japan East"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-6440/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-02-10T01:52:52.923Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-6440/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases",
+        "location": "Japan East",
+        "kind": "v12.0,user",
+        "properties": {
+          "edition": "Standard",
+          "status": "Online",
+          "serviceLevelObjective": "S0",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "maxSizeBytes": "268435456000",
+          "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+          "requestedServiceObjectiveName": "S0",
+          "sampleName": null,
+          "defaultSecondaryLocation": "Japan West",
+          "earliestRestoreDate": "2017-02-10T01:52:52.923Z",
+          "elasticPoolName": null,
+          "containmentState": 2,
+          "readScale": "Disabled",
+          "failoverGroupId": null
+        }
+      }
+  - statusCode: "202"
+- name: Update a database max
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/databases/testdb?api-version=2014-04-01
+    body: >-
+      {
+        "location": "Japan East",
         "properties": {
           "edition": "Standard",
           "status": "Online",
@@ -1209,13 +1802,7 @@ examples:
           "failoverGroupId": null
         }
       }
-  - statusCode: "202"
-- name: Update a database min
-  request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/databases/testdb?api-version=2014-04-01
-    body: '{}'
-  responses:
-  - statusCode: "200"
+  - statusCode: "201"
     body: >-
       {
         "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-4799/providers/Microsoft.Sql/servers/sqlcrudtest-5961/databases/testdb",
