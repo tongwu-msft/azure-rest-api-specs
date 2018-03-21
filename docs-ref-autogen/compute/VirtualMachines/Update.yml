@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.compute.virtualmachinescalesetvms.list
-name: List
+uid: management.azure.com.compute.virtualmachines.update
+name: Update
 service: Compute
-groupName: Virtual Machine Scale Set VM s
+groupName: Virtual Machines
 apiVersion: 2017-12-01
-summary: Gets a list of all virtual machines in a VM scale sets.
+summary: The operation to update a virtual machine.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines?api-version=2017-12-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines?$filter={$filter}&$select={$select}&$expand={$expand}&api-version=2017-12-01
-  isOptional: true
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2017-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -26,25 +24,10 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
-- name: virtualMachineScaleSetName
+- name: vmName
   in: path
   isRequired: true
-  description: The name of the VM scale set.
-  types:
-  - uid: string
-- name: $filter
-  in: query
-  description: The filter to apply to the operation.
-  types:
-  - uid: string
-- name: $select
-  in: query
-  description: The list parameters.
-  types:
-  - uid: string
-- name: $expand
-  in: query
-  description: The expand expression to apply to the operation.
+  description: The name of the virtual machine.
   types:
   - uid: string
 - name: api-version
@@ -57,82 +40,56 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: VirtualMachineScaleSetVMListResult
-requestHeader: []
-definitions:
-- name: VirtualMachineScaleSetVMListResult
-  description: The List Virtual Machine Scale Set VMs operation response.
-  kind: object
-  properties:
-  - name: value
-    description: Describes a virtual machine scale set virtual machine.
-    types:
-    - uid: VirtualMachineScaleSetVM
-      isArray: true
-  - name: nextLink
-    description: The uri to fetch the next page of Virtual Machine Scale Set VMs. Call ListNext() with this to fetch the next page of VMSS VMs
-    types:
-    - uid: string
-- name: VirtualMachineScaleSetVM
-  description: Describes a virtual machine scale set virtual machine.
-  kind: object
-  properties:
-  - name: instanceId
-    isReadyOnly: true
-    description: The virtual machine instance ID.
-    types:
-    - uid: string
-  - name: sku
-    isReadyOnly: true
-    description: The virtual machine SKU.
-    types:
-    - uid: Sku
+  - uid: VirtualMachine
+- name: 201 Created
+  description: Created
+  types:
+  - uid: VirtualMachine
+requestBody:
+- parameters:
   - name: plan
+    in: body
     description: Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**.
     types:
     - uid: Plan
-  - name: resources
-    isReadyOnly: true
-    description: Describes a Virtual Machine Extension.
+  - name: identity
+    in: body
+    description: The identity of the virtual machine, if configured.
     types:
-    - uid: VirtualMachineExtension
-      isArray: true
-  - name: properties.latestModelApplied
-    isReadyOnly: true
-    description: Specifies whether the latest model has been applied to the virtual machine.
-    types:
-    - uid: boolean
-  - name: properties.vmId
-    isReadyOnly: true
-    description: Azure VM unique ID.
+    - uid: VirtualMachineIdentity
+  - name: zones
+    in: body
+    description: The virtual machine zones.
     types:
     - uid: string
-  - name: properties.instanceView
-    isReadyOnly: true
-    description: The virtual machine instance view.
-    types:
-    - uid: VirtualMachineInstanceView
+      isArray: true
   - name: properties.hardwareProfile
+    in: body
     description: Specifies the hardware settings for the virtual machine.
     types:
     - uid: HardwareProfile
   - name: properties.storageProfile
+    in: body
     description: Specifies the storage settings for the virtual machine disks.
     types:
     - uid: StorageProfile
   - name: properties.osProfile
+    in: body
     description: Specifies the operating system settings for the virtual machine.
     types:
     - uid: OSProfile
   - name: properties.networkProfile
+    in: body
     description: Specifies the network interfaces of the virtual machine.
     types:
     - uid: NetworkProfile
   - name: properties.diagnosticsProfile
+    in: body
     description: 'Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.'
     types:
     - uid: DiagnosticsProfile
   - name: properties.availabilitySet
+    in: body
     description: Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> For more information on Azure planned maintainance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set.
     types:
     - uid: VirtualMachineImageResource
@@ -145,35 +102,13 @@ definitions:
     - uid: VirtualMachineScaleSetNetworkConfiguration
     - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
     typesTitle: SubResource
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state, which only appears in the response.
-    types:
-    - uid: string
   - name: properties.licenseType
+    in: body
     description: 'Specifies that the image or disk that is being used was licensed on-premises. This element is only used for images that contain the Windows Server operating system. <br><br> Possible values are: <br><br> Windows_Client <br><br> Windows_Server <br><br> If this element is included in a request for an update, the value must match the initial value. This value cannot be updated. <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-hybrid-use-benefit-licensing?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Minimum api-version: 2015-06-15'
     types:
     - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
   - name: tags
+    in: body
     description: Resource tags
     types:
     - uid: object
@@ -181,22 +116,8 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: Sku
-  description: Describes a virtual machine scale set sku.
-  kind: object
-  properties:
-  - name: name
-    description: The sku name.
-    types:
-    - uid: string
-  - name: tier
-    description: Specifies the tier of virtual machines in a scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic**
-    types:
-    - uid: string
-  - name: capacity
-    description: Specifies the number of virtual machines in the scale set.
-    types:
-    - uid: integer
+requestHeader: []
+definitions:
 - name: Plan
   description: Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**.
   kind: object
@@ -217,128 +138,28 @@ definitions:
     description: The promotion code.
     types:
     - uid: string
-- name: VirtualMachineExtension
-  description: Describes a Virtual Machine Extension.
+- name: VirtualMachineIdentity
+  description: Identity for the virtual machine.
   kind: object
   properties:
-  - name: properties.forceUpdateTag
-    description: How the extension handler should be forced to update even if the extension configuration has not changed.
-    types:
-    - uid: string
-  - name: properties.publisher
-    description: The name of the extension handler publisher.
-    types:
-    - uid: string
-  - name: properties.type
-    description: Specifies the type of the extension; an example is "CustomScriptExtension".
-    types:
-    - uid: string
-  - name: properties.typeHandlerVersion
-    description: Specifies the version of the script handler.
-    types:
-    - uid: string
-  - name: properties.autoUpgradeMinorVersion
-    description: Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.
-    types:
-    - uid: boolean
-  - name: properties.settings
-    description: Json formatted public settings for the extension.
-    types:
-    - uid: object
-  - name: properties.protectedSettings
-    description: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
-    types:
-    - uid: object
-  - name: properties.provisioningState
+  - name: principalId
     isReadyOnly: true
-    description: The provisioning state, which only appears in the response.
+    description: The principal id of virtual machine identity. This property will only be provided for a system assigned identity.
     types:
     - uid: string
-  - name: properties.instanceView
-    description: The virtual machine extension instance view.
-    types:
-    - uid: VirtualMachineExtensionInstanceView
-  - name: id
+  - name: tenantId
     isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
+    description: The tenant id associated with the virtual machine. This property will only be provided for a system assigned identity.
     types:
     - uid: string
   - name: type
-    isReadyOnly: true
-    description: Resource type
+    description: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+    types:
+    - uid: ResourceIdentityType
+  - name: identityIds
+    description: "The list of user identities associated with the Virtual Machine. The user identity references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/identities/{identityName}'."
     types:
     - uid: string
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: VirtualMachineInstanceView
-  description: The instance view of a virtual machine.
-  kind: object
-  properties:
-  - name: platformUpdateDomain
-    description: Specifies the update domain of the virtual machine.
-    types:
-    - uid: integer
-  - name: platformFaultDomain
-    description: Specifies the fault domain of the virtual machine.
-    types:
-    - uid: integer
-  - name: computerName
-    description: The computer name assigned to the virtual machine.
-    types:
-    - uid: string
-  - name: osName
-    description: The Operating System running on the virtual machine.
-    types:
-    - uid: string
-  - name: osVersion
-    description: The version of Operating System running on the virtual machine.
-    types:
-    - uid: string
-  - name: rdpThumbPrint
-    description: The Remote desktop certificate thumbprint.
-    types:
-    - uid: string
-  - name: vmAgent
-    description: The VM Agent running on the virtual machine.
-    types:
-    - uid: VirtualMachineAgentInstanceView
-  - name: maintenanceRedeployStatus
-    description: The Maintenance Operation status on the virtual machine.
-    types:
-    - uid: MaintenanceRedeployStatus
-  - name: disks
-    description: The instance view of the disk.
-    types:
-    - uid: DiskInstanceView
-      isArray: true
-  - name: extensions
-    description: The instance view of a virtual machine extension.
-    types:
-    - uid: VirtualMachineExtensionInstanceView
-      isArray: true
-  - name: bootDiagnostics
-    description: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> For Linux Virtual Machines, you can easily view the output of your console log. <br><br> For both Windows and Linux virtual machines, Azure also enables you to see a screenshot of the VM from the hypervisor.
-    types:
-    - uid: BootDiagnosticsInstanceView
-  - name: statuses
-    description: Instance view status.
-    types:
-    - uid: InstanceViewStatus
       isArray: true
 - name: HardwareProfile
   description: Specifies the hardware settings for the virtual machine.
@@ -415,134 +236,254 @@ definitions:
     description: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> For Linux Virtual Machines, you can easily view the output of your console log. <br><br> For both Windows and Linux virtual machines, Azure also enables you to see a screenshot of the VM from the hypervisor.
     types:
     - uid: BootDiagnostics
-- name: VirtualMachineExtensionInstanceView
-  description: The instance view of a virtual machine extension.
+- name: VirtualMachineInstanceView
+  description: The instance view of a virtual machine.
   kind: object
   properties:
+  - name: platformUpdateDomain
+    description: Specifies the update domain of the virtual machine.
+    types:
+    - uid: integer
+  - name: platformFaultDomain
+    description: Specifies the fault domain of the virtual machine.
+    types:
+    - uid: integer
+  - name: computerName
+    description: The computer name assigned to the virtual machine.
+    types:
+    - uid: string
+  - name: osName
+    description: The Operating System running on the virtual machine.
+    types:
+    - uid: string
+  - name: osVersion
+    description: The version of Operating System running on the virtual machine.
+    types:
+    - uid: string
+  - name: rdpThumbPrint
+    description: The Remote desktop certificate thumbprint.
+    types:
+    - uid: string
+  - name: vmAgent
+    description: The VM Agent running on the virtual machine.
+    types:
+    - uid: VirtualMachineAgentInstanceView
+  - name: maintenanceRedeployStatus
+    description: The Maintenance Operation status on the virtual machine.
+    types:
+    - uid: MaintenanceRedeployStatus
+  - name: disks
+    description: The instance view of the disk.
+    types:
+    - uid: DiskInstanceView
+      isArray: true
+  - name: extensions
+    description: The instance view of a virtual machine extension.
+    types:
+    - uid: VirtualMachineExtensionInstanceView
+      isArray: true
+  - name: bootDiagnostics
+    description: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> For Linux Virtual Machines, you can easily view the output of your console log. <br><br> For both Windows and Linux virtual machines, Azure also enables you to see a screenshot of the VM from the hypervisor.
+    types:
+    - uid: BootDiagnosticsInstanceView
+  - name: statuses
+    description: Instance view status.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+- name: VirtualMachine
+  description: Describes a Virtual Machine.
+  kind: object
+  properties:
+  - name: plan
+    description: Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**.
+    types:
+    - uid: Plan
+  - name: resources
+    isReadyOnly: true
+    description: Describes a Virtual Machine Extension.
+    types:
+    - uid: VirtualMachineExtension
+      isArray: true
+  - name: identity
+    description: The identity of the virtual machine, if configured.
+    types:
+    - uid: VirtualMachineIdentity
+  - name: zones
+    description: The virtual machine zones.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.hardwareProfile
+    description: Specifies the hardware settings for the virtual machine.
+    types:
+    - uid: HardwareProfile
+  - name: properties.storageProfile
+    description: Specifies the storage settings for the virtual machine disks.
+    types:
+    - uid: StorageProfile
+  - name: properties.osProfile
+    description: Specifies the operating system settings for the virtual machine.
+    types:
+    - uid: OSProfile
+  - name: properties.networkProfile
+    description: Specifies the network interfaces of the virtual machine.
+    types:
+    - uid: NetworkProfile
+  - name: properties.diagnosticsProfile
+    description: 'Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.'
+    types:
+    - uid: DiagnosticsProfile
+  - name: properties.availabilitySet
+    description: Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> For more information on Azure planned maintainance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set.
+    types:
+    - uid: VirtualMachineImageResource
+    - uid: VirtualMachineCaptureResult
+    - uid: ImageReference
+    - uid: ManagedDiskParameters
+    - uid: NetworkInterfaceReference
+    - uid: VirtualMachineScaleSetIPConfiguration
+    - uid: VirtualMachineScaleSetUpdateIPConfiguration
+    - uid: VirtualMachineScaleSetNetworkConfiguration
+    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
+    typesTitle: SubResource
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state, which only appears in the response.
+    types:
+    - uid: string
+  - name: properties.instanceView
+    isReadyOnly: true
+    description: The virtual machine instance view.
+    types:
+    - uid: VirtualMachineInstanceView
+  - name: properties.licenseType
+    description: 'Specifies that the image or disk that is being used was licensed on-premises. This element is only used for images that contain the Windows Server operating system. <br><br> Possible values are: <br><br> Windows_Client <br><br> Windows_Server <br><br> If this element is included in a request for an update, the value must match the initial value. This value cannot be updated. <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-hybrid-use-benefit-licensing?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Minimum api-version: 2015-06-15'
+    types:
+    - uid: string
+  - name: properties.vmId
+    isReadyOnly: true
+    description: Specifies the VM unique ID which is a 128-bits identifier that is encoded and stored in all Azure IaaS VMs SMBIOS and can be read using platform BIOS commands.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
   - name: name
-    description: The virtual machine extension name.
+    isReadyOnly: true
+    description: Resource name
     types:
     - uid: string
   - name: type
-    description: Specifies the type of the extension; an example is "CustomScriptExtension".
+    isReadyOnly: true
+    description: Resource type
     types:
     - uid: string
-  - name: typeHandlerVersion
-    description: Specifies the version of the script handler.
+  - name: location
+    description: Resource location
     types:
     - uid: string
-  - name: substatuses
-    description: Instance view status.
+  - name: tags
+    description: Resource tags
     types:
-    - uid: InstanceViewStatus
-      isArray: true
-  - name: statuses
-    description: Instance view status.
-    types:
-    - uid: InstanceViewStatus
-      isArray: true
-- name: VirtualMachineAgentInstanceView
-  description: The instance view of the VM Agent running on the virtual machine.
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: VirtualMachineUpdate
+  description: Describes a Virtual Machine.
   kind: object
   properties:
-  - name: vmAgentVersion
-    description: The VM Agent full version.
+  - name: plan
+    description: Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**.
+    types:
+    - uid: Plan
+  - name: identity
+    description: The identity of the virtual machine, if configured.
+    types:
+    - uid: VirtualMachineIdentity
+  - name: zones
+    description: The virtual machine zones.
     types:
     - uid: string
-  - name: extensionHandlers
-    description: The instance view of a virtual machine extension handler.
-    types:
-    - uid: VirtualMachineExtensionHandlerInstanceView
       isArray: true
-  - name: statuses
-    description: Instance view status.
+  - name: properties.hardwareProfile
+    description: Specifies the hardware settings for the virtual machine.
     types:
-    - uid: InstanceViewStatus
-      isArray: true
-- name: MaintenanceRedeployStatus
-  description: Maintenance Operation Status.
-  kind: object
+    - uid: HardwareProfile
+  - name: properties.storageProfile
+    description: Specifies the storage settings for the virtual machine disks.
+    types:
+    - uid: StorageProfile
+  - name: properties.osProfile
+    description: Specifies the operating system settings for the virtual machine.
+    types:
+    - uid: OSProfile
+  - name: properties.networkProfile
+    description: Specifies the network interfaces of the virtual machine.
+    types:
+    - uid: NetworkProfile
+  - name: properties.diagnosticsProfile
+    description: 'Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.'
+    types:
+    - uid: DiagnosticsProfile
+  - name: properties.availabilitySet
+    description: Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> For more information on Azure planned maintainance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set.
+    types:
+    - uid: VirtualMachineImageResource
+    - uid: VirtualMachineCaptureResult
+    - uid: ImageReference
+    - uid: ManagedDiskParameters
+    - uid: NetworkInterfaceReference
+    - uid: VirtualMachineScaleSetIPConfiguration
+    - uid: VirtualMachineScaleSetUpdateIPConfiguration
+    - uid: VirtualMachineScaleSetNetworkConfiguration
+    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
+    typesTitle: SubResource
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state, which only appears in the response.
+    types:
+    - uid: string
+  - name: properties.instanceView
+    isReadyOnly: true
+    description: The virtual machine instance view.
+    types:
+    - uid: VirtualMachineInstanceView
+  - name: properties.licenseType
+    description: 'Specifies that the image or disk that is being used was licensed on-premises. This element is only used for images that contain the Windows Server operating system. <br><br> Possible values are: <br><br> Windows_Client <br><br> Windows_Server <br><br> If this element is included in a request for an update, the value must match the initial value. This value cannot be updated. <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-hybrid-use-benefit-licensing?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Minimum api-version: 2015-06-15'
+    types:
+    - uid: string
+  - name: properties.vmId
+    isReadyOnly: true
+    description: Specifies the VM unique ID which is a 128-bits identifier that is encoded and stored in all Azure IaaS VMs SMBIOS and can be read using platform BIOS commands.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ResourceIdentityType
+  description: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+  kind: enum
   properties:
-  - name: isCustomerInitiatedMaintenanceAllowed
-    description: True, if customer is allowed to perform Maintenance.
-    types:
-    - uid: boolean
-  - name: preMaintenanceWindowStartTime
-    description: Start Time for the Pre Maintenance Window.
+  - name: SystemAssigned
     types:
     - uid: string
-  - name: preMaintenanceWindowEndTime
-    description: End Time for the Pre Maintenance Window.
+  - name: UserAssigned
     types:
     - uid: string
-  - name: maintenanceWindowStartTime
-    description: Start Time for the Maintenance Window.
+  - name: SystemAssigned, UserAssigned
     types:
     - uid: string
-  - name: maintenanceWindowEndTime
-    description: End Time for the Maintenance Window.
-    types:
-    - uid: string
-  - name: lastOperationResultCode
-    description: The Last Maintenance Operation Result Code.
-    types:
-    - uid: MaintenanceOperationResultCodeTypes
-  - name: lastOperationMessage
-    description: Message returned for the last Maintenance Operation.
-    types:
-    - uid: string
-- name: DiskInstanceView
-  description: The instance view of the disk.
-  kind: object
-  properties:
-  - name: name
-    description: The disk name.
-    types:
-    - uid: string
-  - name: encryptionSettings
-    description: Describes a Encryption Settings for a Disk
-    types:
-    - uid: DiskEncryptionSettings
-      isArray: true
-  - name: statuses
-    description: Instance view status.
-    types:
-    - uid: InstanceViewStatus
-      isArray: true
-- name: BootDiagnosticsInstanceView
-  description: The instance view of a virtual machine boot diagnostics.
-  kind: object
-  properties:
-  - name: consoleScreenshotBlobUri
-    description: The console screenshot blob URI.
-    types:
-    - uid: string
-  - name: serialConsoleLogBlobUri
-    description: The Linux serial console log blob Uri.
-    types:
-    - uid: string
-- name: InstanceViewStatus
-  description: Instance view status.
-  kind: object
-  properties:
-  - name: code
-    description: The status code.
-    types:
-    - uid: string
-  - name: level
-    description: The level code.
-    types:
-    - uid: StatusLevelTypes
-  - name: displayStatus
-    description: The short localizable label for the status.
-    types:
-    - uid: string
-  - name: message
-    description: The detailed status message, including for alerts and error messages.
-    types:
-    - uid: string
-  - name: time
-    description: The time of the status.
+  - name: None
     types:
     - uid: string
 - name: VirtualMachineSizeTypes
@@ -1542,10 +1483,82 @@ definitions:
     description: Resource Id
     types:
     - uid: string
-- name: VirtualMachineExtensionHandlerInstanceView
-  description: The instance view of a virtual machine extension handler.
+- name: VirtualMachineAgentInstanceView
+  description: The instance view of the VM Agent running on the virtual machine.
   kind: object
   properties:
+  - name: vmAgentVersion
+    description: The VM Agent full version.
+    types:
+    - uid: string
+  - name: extensionHandlers
+    description: The instance view of a virtual machine extension handler.
+    types:
+    - uid: VirtualMachineExtensionHandlerInstanceView
+      isArray: true
+  - name: statuses
+    description: Instance view status.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+- name: MaintenanceRedeployStatus
+  description: Maintenance Operation Status.
+  kind: object
+  properties:
+  - name: isCustomerInitiatedMaintenanceAllowed
+    description: True, if customer is allowed to perform Maintenance.
+    types:
+    - uid: boolean
+  - name: preMaintenanceWindowStartTime
+    description: Start Time for the Pre Maintenance Window.
+    types:
+    - uid: string
+  - name: preMaintenanceWindowEndTime
+    description: End Time for the Pre Maintenance Window.
+    types:
+    - uid: string
+  - name: maintenanceWindowStartTime
+    description: Start Time for the Maintenance Window.
+    types:
+    - uid: string
+  - name: maintenanceWindowEndTime
+    description: End Time for the Maintenance Window.
+    types:
+    - uid: string
+  - name: lastOperationResultCode
+    description: The Last Maintenance Operation Result Code.
+    types:
+    - uid: MaintenanceOperationResultCodeTypes
+  - name: lastOperationMessage
+    description: Message returned for the last Maintenance Operation.
+    types:
+    - uid: string
+- name: DiskInstanceView
+  description: The instance view of the disk.
+  kind: object
+  properties:
+  - name: name
+    description: The disk name.
+    types:
+    - uid: string
+  - name: encryptionSettings
+    description: Describes a Encryption Settings for a Disk
+    types:
+    - uid: DiskEncryptionSettings
+      isArray: true
+  - name: statuses
+    description: Instance view status.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+- name: VirtualMachineExtensionInstanceView
+  description: The instance view of a virtual machine extension.
+  kind: object
+  properties:
+  - name: name
+    description: The virtual machine extension name.
+    types:
+    - uid: string
   - name: type
     description: Specifies the type of the extension; an example is "CustomScriptExtension".
     types:
@@ -1554,24 +1567,128 @@ definitions:
     description: Specifies the version of the script handler.
     types:
     - uid: string
-  - name: status
-    description: The extension handler status.
+  - name: substatuses
+    description: Instance view status.
     types:
     - uid: InstanceViewStatus
-- name: MaintenanceOperationResultCodeTypes
-  description: The Last Maintenance Operation Result Code.
+      isArray: true
+  - name: statuses
+    description: Instance view status.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+- name: BootDiagnosticsInstanceView
+  description: The instance view of a virtual machine boot diagnostics.
+  kind: object
+  properties:
+  - name: consoleScreenshotBlobUri
+    description: The console screenshot blob URI.
+    types:
+    - uid: string
+  - name: serialConsoleLogBlobUri
+    description: The Linux serial console log blob Uri.
+    types:
+    - uid: string
+- name: InstanceViewStatus
+  description: Instance view status.
+  kind: object
+  properties:
+  - name: code
+    description: The status code.
+    types:
+    - uid: string
+  - name: level
+    description: The level code.
+    types:
+    - uid: StatusLevelTypes
+  - name: displayStatus
+    description: The short localizable label for the status.
+    types:
+    - uid: string
+  - name: message
+    description: The detailed status message, including for alerts and error messages.
+    types:
+    - uid: string
+  - name: time
+    description: The time of the status.
+    types:
+    - uid: string
+- name: VirtualMachineExtension
+  description: Describes a Virtual Machine Extension.
+  kind: object
+  properties:
+  - name: properties.forceUpdateTag
+    description: How the extension handler should be forced to update even if the extension configuration has not changed.
+    types:
+    - uid: string
+  - name: properties.publisher
+    description: The name of the extension handler publisher.
+    types:
+    - uid: string
+  - name: properties.type
+    description: Specifies the type of the extension; an example is "CustomScriptExtension".
+    types:
+    - uid: string
+  - name: properties.typeHandlerVersion
+    description: Specifies the version of the script handler.
+    types:
+    - uid: string
+  - name: properties.autoUpgradeMinorVersion
+    description: Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.
+    types:
+    - uid: boolean
+  - name: properties.settings
+    description: Json formatted public settings for the extension.
+    types:
+    - uid: object
+  - name: properties.protectedSettings
+    description: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
+    types:
+    - uid: object
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state, which only appears in the response.
+    types:
+    - uid: string
+  - name: properties.instanceView
+    description: The virtual machine extension instance view.
+    types:
+    - uid: VirtualMachineExtensionInstanceView
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: OperatingSystemTypes
+  description: The operating system of the osDiskImage.
   kind: enum
   properties:
-  - name: None
+  - name: Windows
     types:
     - uid: string
-  - name: RetryLater
-    types:
-    - uid: string
-  - name: MaintenanceAborted
-    types:
-    - uid: string
-  - name: MaintenanceCompleted
+  - name: Linux
     types:
     - uid: string
 - name: DiskEncryptionSettings
@@ -1590,29 +1707,6 @@ definitions:
     description: Specifies whether disk encryption should be enabled on the virtual machine.
     types:
     - uid: boolean
-- name: StatusLevelTypes
-  description: The level code.
-  kind: enum
-  properties:
-  - name: Info
-    types:
-    - uid: string
-  - name: Warning
-    types:
-    - uid: string
-  - name: Error
-    types:
-    - uid: string
-- name: OperatingSystemTypes
-  description: The operating system of the osDiskImage.
-  kind: enum
-  properties:
-  - name: Windows
-    types:
-    - uid: string
-  - name: Linux
-    types:
-    - uid: string
 - name: VirtualHardDisk
   description: Describes the uri of a disk.
   kind: object
@@ -1803,6 +1897,51 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: VirtualMachineExtensionHandlerInstanceView
+  description: The instance view of a virtual machine extension handler.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the type of the extension; an example is "CustomScriptExtension".
+    types:
+    - uid: string
+  - name: typeHandlerVersion
+    description: Specifies the version of the script handler.
+    types:
+    - uid: string
+  - name: status
+    description: The extension handler status.
+    types:
+    - uid: InstanceViewStatus
+- name: MaintenanceOperationResultCodeTypes
+  description: The Last Maintenance Operation Result Code.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: RetryLater
+    types:
+    - uid: string
+  - name: MaintenanceAborted
+    types:
+    - uid: string
+  - name: MaintenanceCompleted
+    types:
+    - uid: string
+- name: StatusLevelTypes
+  description: The level code.
+  kind: enum
+  properties:
+  - name: Info
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
 - name: KeyVaultSecretReference
   description: Describes a reference to Key Vault Secret
   kind: object
