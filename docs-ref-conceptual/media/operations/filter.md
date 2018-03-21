@@ -172,7 +172,7 @@ Host: media.windows.net
  Request headers:  
   
 ```  
-PATCH https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Filters('filterName') HTTP/1.1  
+PATCH https://<accountname>.restv2.<location>.media.azure.net/api/Filters('filterName') HTTP/1.1  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Content-Type: application/json  
