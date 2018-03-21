@@ -76,7 +76,7 @@ A job is an entity that contains metadata about a set of tasks. Each task perfor
  The following code shows how to create a request using Media Services version 2.0. Remember that when using JSON and specifying to use the __metadata keyword in the request (for example, to reference a linked object) you MUST set the Accept header to JSON Verbose format (Accept: application/json;odata=verbose). Odata does not understand the \__metadata property in the request, unless you set it to verbose.  
   
 ```  
-POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs HTTP/1.1  
+POST https://<accountname>.restv2.<location>.media.azure.net/api/Jobs HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -104,7 +104,7 @@ Expect: 100-continue
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/$batch HTTP/1.1  
+POST https://<accountname>.restv2.<location>.media.azure.net/api/$batch HTTP/1.1  
 User-Agent: Microsoft ADO.NET Data Services  
 DataServiceVersion: 1.0  
 MaxDataServiceVersion: 3.0  
@@ -123,7 +123,7 @@ Content-Type: multipart/mixed; boundary=changeset_0e31bdec-b799-400c-aa2f-d040aa
 Content-Type: application/http  
 Content-Transfer-Encoding: binary  
   
-POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs HTTP/1.1  
+POST https://<accountname>.restv2.<location>.media.azure.net/api/Jobs HTTP/1.1  
 Content-ID: 1  
 Content-Type: application/atom+xml  
 DataServiceVersion: 3.0;NetFx  
@@ -136,7 +136,7 @@ Accept-Charset: UTF-8
 Content-Type: application/http  
 Content-Transfer-Encoding: binary  
   
-POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/$1/Tasks HTTP/1.1  
+POST https://<accountname>.restv2.<location>.media.azure.net/api/$1/Tasks HTTP/1.1  
 Content-ID: 2  
 Content-Type: application/atom+xml  
 DataServiceVersion: 3.0  
@@ -293,7 +293,7 @@ Location: https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/ap
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs('nb:jid:UUID:b1f956b3-774c-bb44-a3f7-ee47e23add31') HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/Jobs('nb:jid:UUID:b1f956b3-774c-bb44-a3f7-ee47e23add31') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -319,7 +319,7 @@ Host: media.windows.net
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-DELETE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Jobs('nb:jid:UUID:9f5b35d0-68ac-c249-8ece-ece9ea22a461') HTTP/1.1  
+DELETE https://<accountname>.restv2.<location>.media.azure.net/api/Jobs('nb:jid:UUID:9f5b35d0-68ac-c249-8ece-ece9ea22a461') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  

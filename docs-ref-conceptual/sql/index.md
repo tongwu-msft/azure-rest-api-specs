@@ -30,7 +30,7 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Capabilities](xref:management.azure.com.sqldatabase.capabilities)| Get the supported SQL Database capabilities available for a given region.| 
 |[Database Blob Auditing Policies](xref:management.azure.com.sqldatabase.databaseblobauditingpolicies)| Create or update a database's blob auditing policy.|
 |[Database Threat Detection Policies](xref:management.azure.com.sqldatabase.databasethreatdetectionpolicies)| Create or update a database's threat detection policy.|
-|[Databases - Import Export](~/docs-ref-autogen/sql/databases%20-%20import%20export.yml)|Import and Export databases (bacpac files).|
+|[Databases - Import Export](xref:management.azure.com.sqldatabase.databases-importexport)|Import and Export databases (bacpac files).|
 |[Recoverable Databases](xref:management.azure.com.sqldatabase.recoverabledatabases)|Get a recoverable database, or list all recoverable databases for a server.|
 |[Restorable Dropped Databases](xref:management.azure.com.sqldatabase.restorabledroppeddatabases)| Get a deleted database or list of databases that can be restored.|
 |[Restore Points](xref:management.azure.com.sqldatabase.restorepoints)|Get a list of database restore points.|

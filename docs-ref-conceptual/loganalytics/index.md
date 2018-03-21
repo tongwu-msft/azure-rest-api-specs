@@ -25,7 +25,7 @@ The Log Analytics REST API provides operations for working with the following re
 | [Saved searches](xref:management.azure.com.loganalytics.savedsearches) | Create or update saved searches. |
 | [Storage insights](xref:management.azure.com.loganalytics.storageinsights) | Create or update storage insights. |
 | [Workspaces](xref:management.azure.com.loganalytics.workspaces) | Create or update a workspace. |
-| [Workspace schemas](~/docs-ref-autogen/loganalytics/workspaces%202015-03-20.yml) | Get the schema for a workspace. |
+| [Workspace schemas](xref:management.azure.com.loganalytics.workspaces2015-03-20) | Get the schema for a workspace. |
 
 ## See Also
 

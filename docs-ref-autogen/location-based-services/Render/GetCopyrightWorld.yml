@@ -10,38 +10,38 @@ produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/map/copyright/world/{format}?api-version=1.0&subscription-key={subscription-key}
-- content: GET https://atlas.microsoft.com/map/copyright/world/{format}?api-version=1.0&subscription-key={subscription-key}&text={text}
+- content: GET https://atlas.microsoft.com/map/copyright/world/{format}?subscription-key={subscription-key}&api-version=1.0
+- content: GET https://atlas.microsoft.com/map/copyright/world/{format}?subscription-key={subscription-key}&api-version=1.0&text={text}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response
-  types:
-  - uid: string
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version number of Azure LBS API.  Current version is 1.0
+  description: Desired format of the response. Possible values are json & xml.
   types:
   - uid: string
 - name: subscription-key
   in: query
   isRequired: true
-  description: Azure LBS subscription key
+  description: Azure Location Based Services subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Location Based Services API.  Current version is 1.0
   types:
   - uid: string
 - name: text
   in: query
-  description: True or False string to exclude textual data from response. Only images and country names will be in response.
+  description: Boolean to exclude textual data from response. Only images and country names will be in response.
   types:
-  - uid: string
+  - uid: boolean
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: copyrightworld200
+  - uid: CopyrightWorldResult
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -64,7 +64,7 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: copyrightworld200
+- name: CopyrightWorldResult
   description: This object is returned from a successful Copyright World call
   kind: object
   properties:
@@ -83,7 +83,7 @@ definitions:
     isReadyOnly: true
     description: Regions array
     types:
-    - uid: Regions
+    - uid: Region
       isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
@@ -99,8 +99,7 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
-- name: Regions
-  description: Regions array
+- name: Region
   kind: object
   properties:
   - name: copyrights
@@ -115,17 +114,16 @@ definitions:
     types:
     - uid: Country
 - name: Country
-  description: Country property
   kind: object
   properties:
-  - name: ISO3
+  - name: Name
     isReadyOnly: true
-    description: ISO3 property
+    description: Country Name
     types:
     - uid: string
-  - name: label
+  - name: Code
     isReadyOnly: true
-    description: Label property
+    description: Country Code
     types:
     - uid: string
 examples:
@@ -138,14 +136,14 @@ examples:
       {
         "formatVersion": "0.0.1",
         "generalCopyrights": [
-          "� 1992 � 2016 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection, database right protection and other intellectual property rights owned by TomTom or its suppliers. The use of this material is subject to the terms of a license agreement. Any unauthorized copying or disclosure of this material will lead to criminal and civil liabilities.",
-          "Data Source � 2016 TomTom",
+          "© 1992 – 2016 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection, database right protection and other intellectual property rights owned by TomTom or its suppliers. The use of this material is subject to the terms of a license agreement. Any unauthorized copying or disclosure of this material will lead to criminal and civil liabilities.",
+          "Data Source © 2016 TomTom",
           "based on"
         ],
         "regions": [
           {
             "copyrights": [
-              "� BEV, GZ 1368/2016."
+              "© BEV, GZ 1368/2016."
             ],
             "country": {
               "ISO3": "AUT",
@@ -154,7 +152,7 @@ examples:
           },
           {
             "copyrights": [
-              "Business Information by Truvo Belgium Comm. V. � 2016. All rights reserved"
+              "Business Information by Truvo Belgium Comm. V. © 2016. All rights reserved"
             ],
             "country": {
               "ISO3": "BEL",
@@ -163,16 +161,16 @@ examples:
           },
           {
             "copyrights": [
-              "� 2006 � 2016 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection and other intellectual property rights owned or licensed to TomTom. The product includes information copied with permission from Canadian authorities, including � Canada Post Corporation and Department of Natural Resources Canada, All rights reserved. The use of this material is subject to the terms of a License Agreement. You will be held liable for any unauthorized copying or disclosure of this material. Adapted from Statistics Canada: Boundary Files, 2011 Census; Road Network File, 2014; and Census Population and Dwelling Count Highlight Tables, 2011 Census. This does not constitute an endorsement by Statistics Canada of this product.",
-              "� 2006 � 2016 TomTom. All rights reserved. Portions of the POI database contained in Premium Points of Interest North America have been provided by Neustar Localeze.",
-              "� 2001 � 2016 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection and other intellectual property rights owned or licensed to TomTom. The product includes information copied with permission from Canadian authorities, including � Canada Post Corporation, All rights reserved. The use of this material is subject to the terms of a License Agreement. You will be held liable for any unauthorized copying or disclosure of this material. Adapted from Statistics Canada, Road Network File, 2014. This does not constitute an endorsement by Statistics Canada of this product.",
-              "� 2006 � 2016 TomTom. Truck Attribute Data � 2004 - 2016 ProMiles Software Development Corporation. All rights reserved. This material is proprietary and the subject of copyright protection and other intellectual property rights owned or licensed to TomTom. The product includes information copied with permission from Canadian authorities, including � Canada Post Corporation and Department of Natural Resources Canada, All rights reserved. The use of this material is subject to the terms of a License Agreement. You will be held liable for any unauthorized copying or disclosure of this material. Adapted from Statistics Canada: Boundary Files, 2011 Census; and Census Population and Dwelling Count Highlight Tables, 2011. This does not constitute an endorsement by Statistics Canada of this product.",
-              "� 2006 � 2016 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection and other intellectual property rights owned or licensed to TomTom. The product includes information copied with permission from Canadian authorities, including � Canada Post Corporation, All rights reserved. The use of this material is subject to the terms of a License Agreement. You will be held liable for any unauthorized copying or disclosure of this material.",
-              "� 2006 � 2016 TomTom. All rights reserved. Adapted from Statistics Canada: Boundary Files, 2011 Census: Census Population and Dwelling Count Highlight Tables, 2011. This does not constitute an endorsement by Statistics Canada of this product.",
-              "� 2016 Pitney Bowes. All rights reserved.",
+              "© 2006 – 2016 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection and other intellectual property rights owned or licensed to TomTom. The product includes information copied with permission from Canadian authorities, including © Canada Post Corporation and Department of Natural Resources Canada, All rights reserved. The use of this material is subject to the terms of a License Agreement. You will be held liable for any unauthorized copying or disclosure of this material. Adapted from Statistics Canada: Boundary Files, 2011 Census; Road Network File, 2014; and Census Population and Dwelling Count Highlight Tables, 2011 Census. This does not constitute an endorsement by Statistics Canada of this product.",
+              "© 2006 – 2016 TomTom. All rights reserved. Portions of the POI database contained in Premium Points of Interest North America have been provided by Neustar Localeze.",
+              "© 2001 – 2016 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection and other intellectual property rights owned or licensed to TomTom. The product includes information copied with permission from Canadian authorities, including © Canada Post Corporation, All rights reserved. The use of this material is subject to the terms of a License Agreement. You will be held liable for any unauthorized copying or disclosure of this material. Adapted from Statistics Canada, Road Network File, 2014. This does not constitute an endorsement by Statistics Canada of this product.",
+              "© 2006 – 2016 TomTom. Truck Attribute Data © 2004 - 2016 ProMiles Software Development Corporation. All rights reserved. This material is proprietary and the subject of copyright protection and other intellectual property rights owned or licensed to TomTom. The product includes information copied with permission from Canadian authorities, including © Canada Post Corporation and Department of Natural Resources Canada, All rights reserved. The use of this material is subject to the terms of a License Agreement. You will be held liable for any unauthorized copying or disclosure of this material. Adapted from Statistics Canada: Boundary Files, 2011 Census; and Census Population and Dwelling Count Highlight Tables, 2011. This does not constitute an endorsement by Statistics Canada of this product.",
+              "© 2006 – 2016 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection and other intellectual property rights owned or licensed to TomTom. The product includes information copied with permission from Canadian authorities, including © Canada Post Corporation, All rights reserved. The use of this material is subject to the terms of a License Agreement. You will be held liable for any unauthorized copying or disclosure of this material.",
+              "© 2006 – 2016 TomTom. All rights reserved. Adapted from Statistics Canada: Boundary Files, 2011 Census: Census Population and Dwelling Count Highlight Tables, 2011. This does not constitute an endorsement by Statistics Canada of this product.",
+              "© 2016 Pitney Bowes. All rights reserved.",
               "This product contains information and/or data of Telcordia Technologies, Inc. (Telcordia) licensed to be included herein.",
-              "Portions of the data have been provided by Total Traffic & Weather Network, a division of iHeartMedia + Entertainment, Inc. � 2016. Total Traffic & Weather Network, a division of iHeartMedia + Entertainment, Inc. All rights reserved.",
-              "� United States Postal Service 2016"
+              "Portions of the data have been provided by Total Traffic & Weather Network, a division of iHeartMedia + Entertainment, Inc. © 2016. Total Traffic & Weather Network, a division of iHeartMedia + Entertainment, Inc. All rights reserved.",
+              "© United States Postal Service 2016"
             ],
             "country": {
               "ISO3": "CAN",
@@ -181,7 +179,7 @@ examples:
           },
           {
             "copyrights": [
-              "� Swisstopo."
+              "© Swisstopo."
             ],
             "country": {
               "ISO3": "CHE",
@@ -191,7 +189,7 @@ examples:
           {
             "copyrights": [
               "GeoBasis-DE/Geobasis NRW 2016.",
-              "Business Information by Gelbe Seiten Marketing GmbH �2016. All rights reserved"
+              "Business Information by Gelbe Seiten Marketing GmbH ©2016. All rights reserved"
             ],
             "country": {
               "ISO3": "DEU",
@@ -200,8 +198,8 @@ examples:
           },
           {
             "copyrights": [
-              "� DAV, violation of these copyrights shall cause legal proceedings.",
-              "Business Information by De Gule Sider AS � 2016. All rights reserved"
+              "© DAV, violation of these copyrights shall cause legal proceedings.",
+              "Business Information by De Gule Sider AS © 2016. All rights reserved"
             ],
             "country": {
               "ISO3": "DNK",
@@ -210,7 +208,7 @@ examples:
           },
           {
             "copyrights": [
-              "� 2013-2016 TomTom-Nomago"
+              "© 2013-2016 TomTom-Nomago"
             ],
             "country": {
               "ISO3": "DZA",
@@ -219,7 +217,7 @@ examples:
           },
           {
             "copyrights": [
-              "Business Information by Yell Publicidad SAU � 2016. All rights reserved"
+              "Business Information by Yell Publicidad SAU © 2016. All rights reserved"
             ],
             "country": {
               "ISO3": "ESP",
@@ -228,7 +226,7 @@ examples:
           },
           {
             "copyrights": [
-              "Michelin data � Michelin 2016."
+              "Michelin data © Michelin 2016."
             ],
             "country": {
               "ISO3": "FRA",
@@ -237,9 +235,9 @@ examples:
           },
           {
             "copyrights": [
-              "Contains Ordnance Survey data � Crown copyright and database right 2016.",
-              "Contains Royal Mail data � Royal Mail copyright and database right 2016.",
-              "Contains National Statistics data � Crown copyright and database right 2016."
+              "Contains Ordnance Survey data © Crown copyright and database right 2016.",
+              "Contains Royal Mail data © Royal Mail copyright and database right 2016.",
+              "Contains National Statistics data © Crown copyright and database right 2016."
             ],
             "country": {
               "ISO3": "GBR",
@@ -248,7 +246,7 @@ examples:
           },
           {
             "copyrights": [
-              "� Base data Bakosurtanal"
+              "© Base data Bakosurtanal"
             ],
             "country": {
               "ISO3": "IDN",
@@ -258,7 +256,7 @@ examples:
           {
             "copyrights": [
               "Ordnance Survey of Northern Ireland.",
-              "Business Information by Truvo Belgium Comm. V. � 2016. All rights reserved"
+              "Business Information by Truvo Belgium Comm. V. © 2016. All rights reserved"
             ],
             "country": {
               "ISO3": "IRL",
@@ -267,7 +265,7 @@ examples:
           },
           {
             "copyrights": [
-              "� Royal Jordanian Geographic center"
+              "© Royal Jordanian Geographic center"
             ],
             "country": {
               "ISO3": "JOR",
@@ -276,7 +274,7 @@ examples:
           },
           {
             "copyrights": [
-              "� Shobunsha Publications, Inc. � Shobunsha"
+              "© Shobunsha Publications, Inc. © Shobunsha"
             ],
             "country": {
               "ISO3": "JPN",
@@ -285,7 +283,7 @@ examples:
           },
           {
             "copyrights": [
-              "Based upon electronic data � Mappers Co., Ltd. All rights reserved."
+              "Based upon electronic data © Mappers Co., Ltd. All rights reserved."
             ],
             "country": {
               "ISO3": "KOR",
@@ -294,8 +292,8 @@ examples:
           },
           {
             "copyrights": [
-              "� FICHIER DE BASE DES ADRESSES GEOCODEES : ADM. DU CADASTRE ET DE LA TOPOGRAPHIE (2016)",
-              "� File taken from the database of geocoded addresses: Land Registry and Topography Administration (2016)"
+              "© FICHIER DE BASE DES ADRESSES GEOCODEES : ADM. DU CADASTRE ET DE LA TOPOGRAPHIE (2016)",
+              "© File taken from the database of geocoded addresses: Land Registry and Topography Administration (2016)"
             ],
             "country": {
               "ISO3": "LUX",
@@ -304,7 +302,7 @@ examples:
           },
           {
             "copyrights": [
-              "Macao Special Administrative Region Government � Cartography and Cadastre Bureau"
+              "Macao Special Administrative Region Government – Cartography and Cadastre Bureau"
             ],
             "country": {
               "ISO3": "MAC",
@@ -313,8 +311,8 @@ examples:
           },
           {
             "copyrights": [
-              "Portions of the data have been provided by Total Traffic & Weather Network, a division of iHeartMedia + Entertainment, Inc. � 2016. Total Traffic & Weather Network, a division of iHeartMedia + Entertainment, Inc. All rights reserved.",
-              "� United States Postal Service 2016"
+              "Portions of the data have been provided by Total Traffic & Weather Network, a division of iHeartMedia + Entertainment, Inc. © 2016. Total Traffic & Weather Network, a division of iHeartMedia + Entertainment, Inc. All rights reserved.",
+              "© United States Postal Service 2016"
             ],
             "country": {
               "ISO3": "MEX",
@@ -324,7 +322,7 @@ examples:
           {
             "copyrights": [
               "This product includes data from Mapping Unit, Malta Environment and Planning Authority and licensed on behalf of them",
-              "� Mapping Unit, Malta Environment and Planning Authority."
+              "© Mapping Unit, Malta Environment and Planning Authority."
             ],
             "country": {
               "ISO3": "MLT",
@@ -333,7 +331,7 @@ examples:
           },
           {
             "copyrights": [
-              "Topografische onderground Copyright � dienst voor het kadaster en de openbare registers, Apeldoorn 2016."
+              "Topografische onderground Copyright © dienst voor het kadaster en de openbare registers, Apeldoorn 2016."
             ],
             "country": {
               "ISO3": "NLD",
@@ -342,7 +340,7 @@ examples:
           },
           {
             "copyrights": [
-              "Business Information by Truvo Belgium Comm. V. � 2016. All rights reserved"
+              "Business Information by Truvo Belgium Comm. V. © 2016. All rights reserved"
             ],
             "country": {
               "ISO3": "PRT",
@@ -351,7 +349,7 @@ examples:
           },
           {
             "copyrights": [
-              "� ROSREESTR"
+              "© ROSREESTR"
             ],
             "country": {
               "ISO3": "RUS",
@@ -360,7 +358,7 @@ examples:
           },
           {
             "copyrights": [
-              "Business Information by Lokaldelen i Sverige AB � 2016. All rights reserved"
+              "Business Information by Lokaldelen i Sverige AB © 2016. All rights reserved"
             ],
             "country": {
               "ISO3": "SWE",
@@ -369,12 +367,12 @@ examples:
           },
           {
             "copyrights": [
-              "� 2006 � 2016 TomTom. All rights reserved. Portions of the POI database contained in Premium Points of Interest North America have been provided by Neustar Localeze.",
-              "� 2006 � 2016 TomTom. Truck Attribute Data � 2004 - 2016 ProMiles Software Development Corporation. All rights reserved. This material is proprietary and the subject of copyright protection and other intellectual property rights owned or licensed to TomTom. The product includes information copied with permission from Canadian authorities, including � Canada Post Corporation and Department of Natural Resources Canada, All rights reserved. The use of this material is subject to the terms of a License Agreement. You will be held liable for any unauthorized copying or disclosure of this material. Adapted from Statistics Canada: Boundary Files, 2011 Census; and Census Population and Dwelling Count Highlight Tables, 2011. This does not constitute an endorsement by Statistics Canada of this product.",
-              "� 2016 Pitney Bowes. All rights reserved.",
+              "© 2006 – 2016 TomTom. All rights reserved. Portions of the POI database contained in Premium Points of Interest North America have been provided by Neustar Localeze.",
+              "© 2006 – 2016 TomTom. Truck Attribute Data © 2004 - 2016 ProMiles Software Development Corporation. All rights reserved. This material is proprietary and the subject of copyright protection and other intellectual property rights owned or licensed to TomTom. The product includes information copied with permission from Canadian authorities, including © Canada Post Corporation and Department of Natural Resources Canada, All rights reserved. The use of this material is subject to the terms of a License Agreement. You will be held liable for any unauthorized copying or disclosure of this material. Adapted from Statistics Canada: Boundary Files, 2011 Census; and Census Population and Dwelling Count Highlight Tables, 2011. This does not constitute an endorsement by Statistics Canada of this product.",
+              "© 2016 Pitney Bowes. All rights reserved.",
               "This product contains information and/or data of Telcordia Technologies, Inc. (Telcordia) licensed to be included herein.",
-              "Portions of the data have been provided by Total Traffic & Weather Network, a division of iHeartMedia + Entertainment, Inc. � 2016. Total Traffic & Weather Network, a division of iHeartMedia + Entertainment, Inc. All rights reserved.",
-              "� United States Postal Service 2016"
+              "Portions of the data have been provided by Total Traffic & Weather Network, a division of iHeartMedia + Entertainment, Inc. © 2016. Total Traffic & Weather Network, a division of iHeartMedia + Entertainment, Inc. All rights reserved.",
+              "© United States Postal Service 2016"
             ],
             "country": {
               "ISO3": "USA",
