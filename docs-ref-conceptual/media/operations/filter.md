@@ -70,7 +70,7 @@ translation.priority.mt:
  Request headers  
   
 ```  
-POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Filters HTTP/1.1  
+POST https://<accountname>.restv2.<location>.media.azure.net/api/Filters HTTP/1.1  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Content-Type: application/json  
@@ -141,7 +141,7 @@ HTTP/1.1 201 Created
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Filters HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/Filters HTTP/1.1  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Accept: application/json  
@@ -224,7 +224,7 @@ Host: media.windows.net
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-DELETE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Filters('Mobile') HTTP/1.1  
+DELETE https://<accountname>.restv2.<location>.media.azure.net/api/Filters('Mobile') HTTP/1.1  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Accept: application/json  

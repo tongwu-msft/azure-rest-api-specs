@@ -10,26 +10,26 @@ produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?api-version=1.0&subscription-key={subscription-key}&query={query}
-- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?api-version=1.0&subscription-key={subscription-key}&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&minFuzzyLevel={minFuzzyLevel}&maxFuzzyLevel={maxFuzzyLevel}&idxSet={idxSet}
+- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&minFuzzyLevel={minFuzzyLevel}&maxFuzzyLevel={maxFuzzyLevel}&idxSet={idxSet}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response
-  types:
-  - uid: string
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version number of Azure LBS API.  Current version is 1.0
+  description: Desired format of the response. Possible values are json & xml.
   types:
   - uid: string
 - name: subscription-key
   in: query
   isRequired: true
-  description: Azure LBS subscription key
+  description: Azure Location Based Services subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Location Based Services API.  Current version is 1.0
   types:
   - uid: string
 - name: query
@@ -40,39 +40,39 @@ uriParameters:
   - uid: string
 - name: typeahead
   in: query
-  description: true or false.  If the typeahead flag is set, the query will be interpreted as a partial input and the search will enter�predictive�mode
+  description: Boolean.  If the typeahead flag is set, the query will be interpreted as a partial input and the search will enter predictive mode
   types:
-  - uid: string
+  - uid: boolean
 - name: limit
   in: query
-  description: Maximum number of responses that will be returned.  Max value is 100
+  description: Maximum number of responses that will be returned.
   types:
-  - uid: string
+  - uid: integer
 - name: ofs
   in: query
-  description: Starting offset of the returned results within the full result set.  Max value is 1900
+  description: Starting offset of the returned results within the full result set.
   types:
-  - uid: string
+  - uid: integer
 - name: countrySet
   in: query
   description: Comma separated string of country codes, e.g. FR, ES. This will limit the search to the specified countries
   types:
-  - uid: string
+  - uid: array
 - name: lat
   in: query
   description: Latitude where results should be biased.  E.g. 37.337
   types:
-  - uid: string
+  - uid: number
 - name: lon
   in: query
   description: Longitude where results should be biased.  E.g. -121.89
   types:
-  - uid: string
+  - uid: number
 - name: radius
   in: query
   description: The radius in meters to for the results to be constrained to the defined area
   types:
-  - uid: string
+  - uid: number
 - name: topLeft
   in: query
   description: Top left position of the bounding box.  E.g. 37.553,-122.453
@@ -95,14 +95,14 @@ uriParameters:
   - uid: string
 - name: minFuzzyLevel
   in: query
-  description: Minimum fuzzyness level to be used.  E.g. 1 - 4
+  description: Minimum fuzzyness level to be used.
   types:
-  - uid: string
+  - uid: integer
 - name: maxFuzzyLevel
   in: query
-  description: Maximum fuzzyness level to be used E.g. 2 - 4
+  description: Maximum fuzzyness level to be used.
   types:
-  - uid: string
+  - uid: integer
 - name: idxSet
   in: query
   description: 'A comma separated list of indexes which should be utilized for the search. Item order does not matter. Available indexes are: Addr = Address range interpolation, Geo = Geographies, PAD = Point Addresses, POI = Points of interest, Str = Streets, Xstr = Cross Streets (intersections)'
@@ -112,7 +112,7 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: searchfuzzy200
+  - uid: SearchFuzzyResult
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -135,7 +135,7 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: searchfuzzy200
+- name: SearchFuzzyResult
   description: This object is returned from a successful Search Fuzzy call
   kind: object
   properties:
@@ -148,7 +148,7 @@ definitions:
     isReadyOnly: true
     description: Results array
     types:
-    - uid: Results
+    - uid: SearchFuzzyResultArray
       isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
@@ -203,8 +203,7 @@ definitions:
     description: FuzzyLevel property
     types:
     - uid: integer
-- name: Results
-  description: Results array
+- name: SearchFuzzyResultArray
   kind: object
   properties:
   - name: type
@@ -235,24 +234,29 @@ definitions:
   - name: poi
     description: POI property
     types:
-    - uid: poi
+    - uid: Poi
   - name: address
     description: The address of the result
     types:
-    - uid: address
+    - uid: Address
   - name: position
     description: Coordinates of the result
     types:
-    - uid: position
+    - uid: Position
   - name: viewport
     description: The viewport that covers the result
     types:
-    - uid: viewport
+    - uid: Viewport
   - name: boundingBox
     description: Bounding box of the result
     types:
     - uid: BoundingBox
-- name: poi
+  - name: entryPoints
+    description: Entry Points array
+    types:
+    - uid: EntityPoint
+      isArray: true
+- name: Poi
   description: POI property
   kind: object
   properties:
@@ -281,9 +285,9 @@ definitions:
     isReadyOnly: true
     description: Classification array
     types:
-    - uid: Classifications
+    - uid: Classification
       isArray: true
-- name: address
+- name: Address
   description: The address of the result
   kind: object
   properties:
@@ -381,7 +385,7 @@ definitions:
     description: Bounding Box for the address
     types:
     - uid: BoundingBox
-- name: position
+- name: Position
   description: Coordinates of the result
   kind: object
   properties:
@@ -395,7 +399,7 @@ definitions:
     description: Longitude property
     types:
     - uid: number
-- name: viewport
+- name: Viewport
   description: The viewport that covers the result
   kind: object
   properties:
@@ -421,8 +425,20 @@ definitions:
     description: The South West coordinates for the Bounding Box
     types:
     - uid: string
-- name: Classifications
-  description: Classification array
+- name: EntityPoint
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: Name Locale property
+    types:
+    - uid: string
+  - name: position
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: Position
+- name: Classification
   kind: object
   properties:
   - name: code
@@ -434,7 +450,7 @@ definitions:
     isReadyOnly: true
     description: Names array
     types:
-    - uid: Names
+    - uid: ClassificationName
       isArray: true
 - name: TopLeftPoint
   description: Top left of the viewport
@@ -464,8 +480,7 @@ definitions:
     description: Longitude
     types:
     - uid: number
-- name: Names
-  description: Names array
+- name: ClassificationName
   kind: object
   properties:
   - name: nameLocale
