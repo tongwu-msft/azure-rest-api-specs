@@ -1,0 +1,312 @@
+### YamlMime:RESTOperation
+uid: batch.core.windows.net.batchservice.account.listpoolnodecounts
+name: List Pool Node Counts
+service: Batch Service
+groupName: Account
+apiVersion: 2018-03-01.6.1
+summary: Gets the number of nodes in each state, grouped by pool.
+consumes:
+- application/json; odata=minimalmetadata
+produces:
+- application/json
+paths:
+- content: GET https://batch.core.windows.net/nodecounts?api-version=2018-03-01.6.1
+- content: GET https://batch.core.windows.net/nodecounts?$filter={$filter}&maxresults={maxresults}&timeout={timeout}&api-version=2018-03-01.6.1
+  isOptional: true
+uriParameters:
+- name: $filter
+  in: query
+  description: An OData $filter clause.
+  types:
+  - uid: string
+- name: maxresults
+  in: query
+  description: The maximum number of items to return in the response.
+  types:
+  - uid: integer
+  format: int32
+- name: timeout
+  in: query
+  description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: client-request-id
+    value: string
+  - name: request-id
+    value: string
+  description: The response contains the number of nodes in each node state, grouped by pool.
+  types:
+  - uid: PoolNodeCountsListResult
+- name: Other Status Codes
+  description: The error from the Batch service.
+  types:
+  - uid: BatchError
+requestHeader:
+- name: client-request-id
+  in: header
+  description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+  types:
+  - uid: string
+  format: uuid
+- name: return-client-request-id
+  in: header
+  description: Whether the server should return the client-request-id in the response.
+  types:
+  - uid: boolean
+- name: ocp-date
+  in: header
+  description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+definitions:
+- name: PoolNodeCountsListResult
+  description: The result of listing the node counts in the account.
+  kind: object
+  properties:
+  - name: value
+    description: The number of nodes in each state for a pool.
+    types:
+    - uid: PoolNodeCounts
+      isArray: true
+  - name: odata.nextLink
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+  - name: values
+    description: An item of additional information included in an Azure Batch error response.
+    types:
+    - uid: BatchErrorDetail
+      isArray: true
+- name: PoolNodeCounts
+  description: The number of nodes in each state for a pool.
+  kind: object
+  properties:
+  - name: poolId
+    description: The ID of the pool.
+    types:
+    - uid: string
+  - name: dedicated
+    description: The number of dedicated nodes in each state.
+    types:
+    - uid: NodeCounts
+  - name: lowPriority
+    description: The number of low priority nodes in each state.
+    types:
+    - uid: NodeCounts
+- name: ErrorMessage
+  description: An error message received in an Azure Batch error response.
+  kind: object
+  properties:
+  - name: lang
+    description: The language code of the error message
+    types:
+    - uid: string
+  - name: value
+    description: The text of the message.
+    types:
+    - uid: string
+- name: BatchErrorDetail
+  description: An item of additional information included in an Azure Batch error response.
+  kind: object
+  properties:
+  - name: key
+    description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+  - name: value
+    description: The additional information included with the error response.
+    types:
+    - uid: string
+- name: NodeCounts
+  description: The number of nodes in each node state.
+  kind: object
+  properties:
+  - name: creating
+    description: The number of nodes in the creating state.
+    types:
+    - uid: integer
+  - name: idle
+    description: The number of nodes in the idle state.
+    types:
+    - uid: integer
+  - name: offline
+    description: The number of nodes in the offline state.
+    types:
+    - uid: integer
+  - name: preempted
+    description: The number of nodes in the preempted state.
+    types:
+    - uid: integer
+  - name: rebooting
+    description: The count of nodes in the rebooting state.
+    types:
+    - uid: integer
+  - name: reimaging
+    description: The number of nodes in the reimaging state.
+    types:
+    - uid: integer
+  - name: running
+    description: The number of nodes in the running state.
+    types:
+    - uid: integer
+  - name: starting
+    description: The number of nodes in the starting state.
+    types:
+    - uid: integer
+  - name: startTaskFailed
+    description: The number of nodes in the startTaskFailed state.
+    types:
+    - uid: integer
+  - name: unknown
+    description: The number of nodes in the unknown state.
+    types:
+    - uid: integer
+  - name: unusable
+    description: The number of nodes in the unusable state.
+    types:
+    - uid: integer
+  - name: waitingForStartTask
+    description: The number of nodes in the waitingForStartTask state.
+    types:
+    - uid: integer
+  - name: total
+    description: The total number of nodes.
+    types:
+    - uid: integer
+examples:
+- name: NodeCountsPayload
+  request:
+    uri: GET https://batch.core.windows.net/nodecounts?api-version=2018-03-01.6.1
+    headers:
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "poolId": "pool1",
+            "dedicated": {
+              "creating": 0,
+              "idle": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unknown": 0,
+              "unusable": 0,
+              "waitingForStartTask": 0,
+              "total": 0
+            },
+            "lowPriority": {
+              "creating": 0,
+              "idle": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 2,
+              "starting": 1,
+              "startTaskFailed": 0,
+              "unknown": 0,
+              "unusable": 0,
+              "waitingForStartTask": 0,
+              "total": 3
+            }
+          },
+          {
+            "poolId": "pool2",
+            "dedicated": {
+              "creating": 0,
+              "idle": 1,
+              "offline": 3,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unknown": 0,
+              "unusable": 0,
+              "waitingForStartTask": 0,
+              "total": 4
+            },
+            "lowPriority": {
+              "creating": 0,
+              "idle": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unknown": 0,
+              "unusable": 0,
+              "waitingForStartTask": 0,
+              "total": 0
+            }
+          },
+          {
+            "poolId": "pool3",
+            "dedicated": {
+              "creating": 0,
+              "idle": 5,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 4,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unknown": 0,
+              "unusable": 0,
+              "waitingForStartTask": 0,
+              "total": 9
+            },
+            "lowPriority": {
+              "creating": 7,
+              "idle": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 4,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unknown": 0,
+              "unusable": 0,
+              "waitingForStartTask": 0,
+              "total": 11
+            }
+          }
+        ]
+      }
+security: []

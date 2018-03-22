@@ -3,15 +3,15 @@ uid: batch.core.windows.net.batchservice.job.listfromjobschedule
 name: List From Job Schedule
 service: Batch Service
 groupName: Job
-apiVersion: 2017-09-01.6.0
+apiVersion: 2018-03-01.6.1
 summary: Lists the jobs that have been created under the specified job schedule.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET https://batch.core.windows.net/jobschedules/{jobScheduleId}/jobs?api-version=2017-09-01.6.0
-- content: GET https://batch.core.windows.net/jobschedules/{jobScheduleId}/jobs?$filter={$filter}&$select={$select}&$expand={$expand}&maxresults={maxresults}&timeout={timeout}&api-version=2017-09-01.6.0
+- content: GET https://batch.core.windows.net/jobschedules/{jobScheduleId}/jobs?api-version=2018-03-01.6.1
+- content: GET https://batch.core.windows.net/jobschedules/{jobScheduleId}/jobs?$filter={$filter}&$select={$select}&$expand={$expand}&maxresults={maxresults}&timeout={timeout}&api-version=2018-03-01.6.1
   isOptional: true
 uriParameters:
 - name: jobScheduleId
@@ -753,7 +753,7 @@ definitions:
     types:
     - uid: AutoUserScope
   - name: elevationLevel
-    description: "The elevation level of the auto user.  \nnonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin."
+    description: "The elevation level of the auto user.  \nThe default value is nonAdmin."
     types:
     - uid: ElevationLevel
 - name: PoolLifetimeOption
@@ -1314,5 +1314,44 @@ definitions:
     description: Deny access.
     types:
     - uid: string
-examples: []
+examples:
+- name: List Job Under Job Schedule
+  request:
+    uri: GET https://batch.core.windows.net/jobschedules/jobScheduleId/jobs?api-version=2018-03-01.6.1
+    headers:
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "jobId",
+            "url": "https://account.region.batch.azure.com/jobs/jobId",
+            "eTag": "0x8D4100FC46D5BF4",
+            "lastModified": "2016-11-19T00:05:27.2137716Z",
+            "creationTime": "2016-11-19T00:05:25.311915Z",
+            "state": "active",
+            "stateTransitionTime": "2016-11-19T00:05:27.2137716Z",
+            "previousState": "disabled",
+            "previousStateTransitionTime": "2016-11-19T00:05:26.88777Z",
+            "priority": 0,
+            "usesTaskDependencies": false,
+            "constraints": {
+              "maxWallClockTime": "P10675199DT2H48M5.4775807S",
+              "maxTaskRetryCount": 0
+            },
+            "poolInfo": {
+              "poolId": "poolId"
+            },
+            "executionInfo": {
+              "startTime": "2016-11-19T00:05:25.3309105Z",
+              "poolId": "poolId"
+            },
+            "onAllTasksComplete": "noaction",
+            "onTaskFailure": "noaction"
+          }
+        ]
+      }
 security: []
