@@ -59,7 +59,7 @@ The endpoint to which the notifications about the job state are sent.
  NotificationEndPoint can be creating using HTTP POST request.  
   
 ```  
-POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints HTTP/1.1  
+POST https://<accountname>.restv2.<location>.media.azure.net/api/NotificationEndPoints HTTP/1.1  
 User-Agent: Microsoft ADO.NET Data Services  
 DataServiceVersion: 1.0  
 MaxDataServiceVersion: 3.0  
@@ -103,7 +103,7 @@ Date: Sun, 21 Apr 2013 21:44:17 GMT
  NotificationEndPoint can be updated using HTTP POST request.  
   
 ```  
-MERGE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A64bb03ea-bb6a-4d3c-b6e9-4a0f3e346638') HTTP/1.1  
+MERGE https://<accountname>.restv2.<location>.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A64bb03ea-bb6a-4d3c-b6e9-4a0f3e346638') HTTP/1.1  
 User-Agent: Microsoft ADO.NET Data Services  
 DataServiceVersion: 1.0  
 MaxDataServiceVersion: 3.0  
@@ -139,10 +139,10 @@ Date: Sun, 21 Apr 2013 21:56:16 GMT
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
- The following request gets a specified notification point. To get all the notification points call `NotificationEndPoints` without a parameter: `GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints`.  
+ The following request gets a specified notification point. To get all the notification points call `NotificationEndPoints` without a parameter: `GET https://<accountname>.restv2.<location>.media.azure.net/api/NotificationEndPoints`.  
   
 ```  
-GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A6286704e-e69f-454e-80e0-7fda53ce7dba') HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A6286704e-e69f-454e-80e0-7fda53ce7dba') HTTP/1.1  
 DataServiceVersion: 1.0;NetFx  
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/atom+xml,application/xml  
@@ -177,7 +177,7 @@ Date: Fri, 02 Aug 2013 06:25:33 GMT
  NotificationEndPoint can be deleted using HTTP POST request.  
   
 ```  
-DELETE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A64bb03ea-bb6a-4d3c-b6e9-4a0f3e346638') HTTP/1.1  
+DELETE https://<accountname>.restv2.<location>.media.azure.net/api/NotificationEndPoints('nb%3Anepid%3AUUID%3A64bb03ea-bb6a-4d3c-b6e9-4a0f3e346638') HTTP/1.1  
 User-Agent: Microsoft ADO.NET Data Services  
 DataServiceVersion: 1.0  
 MaxDataServiceVersion: 3.0  

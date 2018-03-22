@@ -72,7 +72,7 @@ You can try out the following example in the [Fiddler](http://www.telerik.com/do
  Request headers  
   
 ```  
-POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/AssetFilters HTTP/1.1  
+POST https://<accountname>.restv2.<location>.media.azure.net/api/AssetFilters HTTP/1.1  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Content-Type: application/json  
@@ -150,7 +150,7 @@ HTTP/1.1 201 Created
  Get all AssetFilters associated with an asset.  
   
 ```  
-GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets('nb%3Acid%3AUUID%3A536e555d-1500-80c3-92dc-f1e4fdc6c592')/AssetFilters HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/Assets('nb%3Acid%3AUUID%3A536e555d-1500-80c3-92dc-f1e4fdc6c592')/AssetFilters HTTP/1.1  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Accept: application/json  
@@ -165,7 +165,7 @@ Host: media.windows.net
  Get an AssetFilter based on its ID.  
   
 ```  
-GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/AssetFilters('nb%3Acid%3AUUID%3A536e555d-1500-80c3-92dc-f1e4fdc6c592__%23%23%23__TestFilter') HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/AssetFilters('nb%3Acid%3AUUID%3A536e555d-1500-80c3-92dc-f1e4fdc6c592__%23%23%23__TestFilter') HTTP/1.1  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Accept: application/json  
@@ -196,7 +196,7 @@ To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure
  Request headers:  
   
 ```  
-MERGE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/AssetFilters('nb%3Acid%3AUUID%3A536e555d-1500-80c3-92dc-f1e4fdc6c592__%23%23%23__TestFilter')  HTTP/1.1  
+MERGE https://<accountname>.restv2.<location>.media.azure.net/api/AssetFilters('nb%3Acid%3AUUID%3A536e555d-1500-80c3-92dc-f1e4fdc6c592__%23%23%23__TestFilter')  HTTP/1.1  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Content-Type: application/json  
@@ -248,7 +248,7 @@ Host: media.windows.net
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-DELETE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/AssetFilters('nb%3Acid%3AUUID%3A536e555d-1500-80c3-92dc-f1e4fdc6c592__%23%23%23__TestFilter') HTTP/1.1  
+DELETE https://<accountname>.restv2.<location>.media.azure.net/api/AssetFilters('nb%3Acid%3AUUID%3A536e555d-1500-80c3-92dc-f1e4fdc6c592__%23%23%23__TestFilter') HTTP/1.1  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Accept: application/json  

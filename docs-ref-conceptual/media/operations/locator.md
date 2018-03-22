@@ -90,7 +90,7 @@ translation.priority.mt:
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-POST https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Locators HTTP/1.1  
+POST https://<accountname>.restv2.<location>.media.azure.net/api/Locators HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -111,7 +111,7 @@ Expect: 100-continue
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Locators|HTTP/1.1|  
+|GET|GET https://<accountname>.restv2.<location>.media.azure.net/api/Locators|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
@@ -126,7 +126,7 @@ Expect: 100-continue
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Locators('nb:lid:UUID:627cbafb-3d81-4623-97c2-2194282b6d16') HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/Locators('nb:lid:UUID:627cbafb-3d81-4623-97c2-2194282b6d16') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -148,7 +148,7 @@ Host: media.windows.net
 To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-MERGE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Locators('nb:lid:UUID:5bfcb65d-843d-4d5e-bf71-9306ecb08203') HTTP/1.1  
+MERGE https://<accountname>.restv2.<location>.media.azure.net/api/Locators('nb:lid:UUID:5bfcb65d-843d-4d5e-bf71-9306ecb08203') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
@@ -174,7 +174,7 @@ Expect: 100-continue
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-DELETE https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Locators('nb:lid:UUID:9f0e0cee-8ea5-46c4-b985-5a7cd30e7623') HTTP/1.1  
+DELETE https://<accountname>.restv2.<location>.media.azure.net/api/Locators('nb:lid:UUID:9f0e0cee-8ea5-46c4-b985-5a7cd30e7623') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
