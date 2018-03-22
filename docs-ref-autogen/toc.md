@@ -1108,6 +1108,7 @@
 ## Reference
 ### [Account](batchservice/Account.yml)
 #### [List Node Agent Skus](batchservice/Account/ListNodeAgentSkus.yml)
+#### [List Pool Node Counts](batchservice/Account/ListPoolNodeCounts.yml)
 ### [Application](batchservice/Application.yml)
 #### [Get](batchservice/Application/Get.yml)
 #### [List](batchservice/Application/List.yml)
@@ -1129,6 +1130,7 @@
 #### [Reboot](batchservice/ComputeNode/Reboot.yml)
 #### [Reimage](batchservice/ComputeNode/Reimage.yml)
 #### [Update User](batchservice/ComputeNode/UpdateUser.yml)
+#### [Upload Batch Service Logs](batchservice/ComputeNode/UploadBatchServiceLogs.yml)
 ### [File](batchservice/File.yml)
 #### [Delete From Compute Node](batchservice/File/DeleteFromComputeNode.yml)
 #### [Delete From Task](batchservice/File/DeleteFromTask.yml)
