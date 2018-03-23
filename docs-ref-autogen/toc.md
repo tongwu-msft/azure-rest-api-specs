@@ -1457,6 +1457,8 @@
 ## [Price Sheet](consumption/PriceSheet.yml)
 ### [Get](consumption/PriceSheet/Get.yml)
 ### [Get By Billing Period](consumption/PriceSheet/GetByBillingPeriod.yml)
+## [Reservation Recommendations](consumption/ReservationRecommendations.yml)
+### [List](consumption/ReservationRecommendations/List.yml)
 ## [Reservations Details](consumption/ReservationsDetails.yml)
 ### [List By Reservation Order](consumption/ReservationsDetails/ListByReservationOrder.yml)
 ### [List By Reservation Order And Reservation](consumption/ReservationsDetails/ListByReservationOrderAndReservation.yml)
