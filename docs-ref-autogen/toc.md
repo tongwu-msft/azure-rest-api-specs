@@ -925,6 +925,7 @@
 ### [Get](automation/DscConfiguration/Get.yml)
 ### [Get Content](automation/DscConfiguration/GetContent.yml)
 ### [List By Automation Account](automation/DscConfiguration/ListByAutomationAccount.yml)
+### [Update](automation/DscConfiguration/Update.yml)
 ## [Dsc Node](automation/DscNode.yml)
 ### [Delete](automation/DscNode/Delete.yml)
 ### [Get](automation/DscNode/Get.yml)
