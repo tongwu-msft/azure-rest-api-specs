@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.dns.zones.createorupdate
-name: Create Or Update
+uid: management.azure.com.dns.zones.update
+name: Update
 service: DNS
 groupName: Zones
 apiVersion: 2018-03-01-preview
-summary: Creates or updates a DNS zone. Does not modify DNS records within the zone.
+summary: Updates a DNS zone. Does not modify DNS records within the zone.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}?api-version=2018-03-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}?api-version=2018-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,44 +41,12 @@ responses:
   description: The DNS zone has been updated.
   types:
   - uid: Zone
-- name: 201 Created
-  description: The DNS zone has been created.
-  types:
-  - uid: Zone
 - name: Other Status Codes
   description: Default response. It will be deserialized as per the Error definition.
   types:
   - uid: CloudError
 requestBody:
 - parameters:
-  - name: etag
-    in: body
-    description: The etag of the zone.
-    types:
-    - uid: string
-  - name: properties.zoneType
-    in: body
-    description: The type of this DNS zone (Public or Private).
-    types:
-    - uid: ZoneType
-  - name: properties.registrationVirtualNetworks
-    in: body
-    description: A reference to a another resource
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.resolutionVirtualNetworks
-    in: body
-    description: A reference to a another resource
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: location
-    in: body
-    isRequired: true
-    description: Resource location.
-    types:
-    - uid: string
   - name: tags
     in: body
     description: Resource tags.
@@ -94,20 +62,7 @@ requestHeader:
   description: The etag of the DNS zone. Omit this value to always overwrite the current zone. Specify the last-seen etag value to prevent accidentally overwritting any concurrent changes.
   types:
   - uid: string
-- name: If-None-Match
-  in: header
-  description: Set to '*' to allow a new DNS zone to be created, but to prevent updating an existing zone. Other values will be ignored.
-  types:
-  - uid: string
 definitions:
-- name: SubResource
-  description: A reference to a another resource
-  kind: object
-  properties:
-  - name: id
-    description: Resource Id.
-    types:
-    - uid: string
 - name: Zone
   description: Describes a DNS zone.
   kind: object
@@ -181,6 +136,18 @@ definitions:
     description: The error message body
     types:
     - uid: CloudErrorBody
+- name: ZoneUpdate
+  description: Describes a request to update a DNS zone.
+  kind: object
+  properties:
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ZoneType
   description: The type of this DNS zone (Public or Private).
   kind: enum
@@ -189,6 +156,14 @@ definitions:
     types:
     - uid: string
   - name: Private
+    types:
+    - uid: string
+- name: SubResource
+  description: A reference to a another resource
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id.
     types:
     - uid: string
 - name: CloudErrorBody
@@ -213,14 +188,13 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: Create zone
+- name: Patch zone
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1?api-version=2018-03-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1?api-version=2018-03-01-preview
     body: >-
       {
-        "location": "Global",
         "tags": {
-          "key1": "value1"
+          "key2": "value2"
         }
       }
   responses:
@@ -240,34 +214,10 @@ examples:
             "ns2-01.azure-dns.net",
             "ns3-01.azure-dns.org",
             "ns4-01.azure-dns.info"
-          ],
-          "zoneType": "Public"
+          ]
         },
         "tags": {
-          "key1": "value1"
-        }
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1",
-        "etag": "00000000-0000-0000-0000-000000000000",
-        "location": "global",
-        "name": "zone1",
-        "type": "Microsoft.Network/dnsZones",
-        "properties": {
-          "maxNumberOfRecordSets": 5000,
-          "numberOfRecordSets": 2,
-          "nameServers": [
-            "ns1-01.azure-dns.com",
-            "ns2-01.azure-dns.net",
-            "ns3-01.azure-dns.org",
-            "ns4-01.azure-dns.info"
-          ],
-          "zoneType": "Public"
-        },
-        "tags": {
-          "key1": "value1"
+          "key2": "value2"
         }
       }
 security: []

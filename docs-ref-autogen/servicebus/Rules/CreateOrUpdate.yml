@@ -109,6 +109,14 @@ definitions:
   description: Represents the correlation filter expression.
   kind: object
   properties:
+  - name: properties
+    description: dictionary object for custom filters
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: correlationId
     description: Identifier of the correlation.
     types:
@@ -222,36 +230,80 @@ definitions:
 examples:
 - name: RulesCreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules/sdk-Rules-6571?api-version=2017-04-01
+    uri: PUT https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules/sdk-Rules-6571?api-version=2017-04-01
+    body: '{}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules/sdk-Rules-6571",
+        "name": "sdk-Rules-6571",
+        "type": "Microsoft.ServiceBus/Namespaces/Topics/Subscriptions/Rules",
+        "properties": {
+          "action": {},
+          "filterType": "SqlFilter",
+          "sqlFilter": {
+            "sqlExpression": "1=1",
+            "compatibilityLevel": 20
+          }
+        }
+      }
+- name: RulesCreateSQLFilter
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules/sdk-Rules-6571?api-version=2017-04-01
     body: >-
       {
         "properties": {
-          "action": {
-            "sqlExpression": "myproperty='test'"
-          },
           "filterType": "SqlFilter",
           "sqlFilter": {
-            "sqlExpression": "myproperty='test'"
-          },
-          "correlationFilter": {}
+            "sqlExpression": "myproperty=test"
+          }
         }
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules/sdk-Rules-6571",
+        "id": "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules/sdk-Rules-6571",
         "name": "sdk-Rules-6571",
         "type": "Microsoft.ServiceBus/Namespaces/Topics/Subscriptions/Rules",
         "properties": {
-          "action": {
-            "sqlExpression": "myproperty='test'",
-            "compatibilityLevel": 20
-          },
+          "action": {},
           "filterType": "SqlFilter",
           "sqlFilter": {
-            "sqlExpression": "myproperty='test'",
+            "sqlExpression": "myproperty=test",
             "compatibilityLevel": 20
+          }
+        }
+      }
+- name: RulesCreateCorelationFilter
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules/sdk-Rules-6571?api-version=2017-04-01
+    body: >-
+      {
+        "properties": {
+          "filterType": "CorrelationFilter",
+          "correlationFilter": {
+            "properties": {
+              "topicHint": "Crop"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1319/topics/sdk-Topics-2081/subscriptions/sdk-Subscriptions-8691/rules/sdk-Rules-6571",
+        "name": "sdk-Rules-6571",
+        "type": "Microsoft.ServiceBus/Namespaces/Topics/Subscriptions/Rules",
+        "properties": {
+          "action": {},
+          "filterType": "CorrelationFilter",
+          "correlationFilter": {
+            "properties": {
+              "queueHint": "Crop"
+            }
           }
         }
       }

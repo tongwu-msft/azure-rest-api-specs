@@ -3,15 +3,15 @@ uid: management.azure.com.dns.zones.list
 name: List
 service: DNS
 groupName: Zones
-apiVersion: 2017-09-01
+apiVersion: 2018-03-01-preview
 summary: Lists the DNS zones in all resource groups in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/dnszones?api-version=2017-09-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/dnszones?$top={$top}&api-version=2017-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/dnszones?api-version=2018-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/dnszones?$top={$top}&api-version=2018-03-01-preview
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -89,6 +89,20 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.zoneType
+    description: The type of this DNS zone (Public or Private).
+    types:
+    - uid: ZoneType
+  - name: properties.registrationVirtualNetworks
+    description: A reference to a another resource
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.resolutionVirtualNetworks
+    description: A reference to a another resource
+    types:
+    - uid: SubResource
+      isArray: true
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -137,15 +151,33 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: ZoneType
+  description: The type of this DNS zone (Public or Private).
+  kind: enum
+  properties:
+  - name: Public
+    types:
+    - uid: string
+  - name: Private
+    types:
+    - uid: string
+- name: SubResource
+  description: A reference to a another resource
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id.
+    types:
+    - uid: string
 examples:
 - name: List zones by subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/dnszones?api-version=2017-09-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/dnszones?api-version=2018-03-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "nextLink": "https://servicehost/subscriptions/subid/providers/Microsoft.Network/dnsZones?api-version=2017-09-01&$skipToken=skipToken",
+        "nextLink": "https://servicehost/subscriptions/subid/providers/Microsoft.Network/dnsZones?api-version=2018-03-01-preview&$skipToken=skipToken",
         "value": [
           {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1",
