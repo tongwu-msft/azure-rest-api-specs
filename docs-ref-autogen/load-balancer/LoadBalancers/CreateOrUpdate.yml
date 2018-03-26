@@ -3,7 +3,7 @@ uid: management.azure.com.loadbalancer.loadbalancers.createorupdate
 name: Create Or Update
 service: Load balancer
 groupName: Load Balancers
-apiVersion: 2017-10-01
+apiVersion: 2018-01-01
 summary: Creates or updates a load balancer.
 consumes:
 - application/json
@@ -12,7 +12,7 @@ produces:
 - application/json
 - text/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2017-10-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -113,6 +113,7 @@ requestBody:
     - uid: string
   - name: location
     in: body
+    isRequired: true
     description: Resource location.
     types:
     - uid: string
@@ -429,6 +430,14 @@ definitions:
     description: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
     types:
     - uid: integer
+  - name: properties.idleTimeoutInMinutes
+    description: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
+    types:
+    - uid: integer
+  - name: properties.enableFloatingIP
+    description: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.
+    types:
+    - uid: boolean
   - name: properties.provisioningState
     description: "Gets the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
@@ -621,7 +630,7 @@ definitions:
 examples:
 - name: Create load balancer
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2017-10-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2018-01-01
     body: >-
       {
         "properties": {
@@ -944,6 +953,166 @@ examples:
           ],
           "outboundNatRules": [],
           "inboundNatPools": []
+        }
+      }
+- name: Create load balancer with inbound nat pool
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2018-01-01
+    body: >-
+      {
+        "properties": {
+          "frontendIPConfigurations": [
+            {
+              "properties": {
+                "privateIPAllocationMethod": "Dynamic",
+                "subnet": {
+                  "properties": {
+                    "serviceEndpoints": [],
+                    "resourceNavigationLinks": []
+                  },
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/lbvnet/subnets/lbsubnet"
+                }
+              },
+              "name": "test",
+              "zones": [],
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test"
+            }
+          ],
+          "backendAddressPools": [],
+          "loadBalancingRules": [],
+          "probes": [],
+          "inboundNatRules": [],
+          "inboundNatPools": [
+            {
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test"
+                },
+                "protocol": "Tcp",
+                "frontendPortRangeStart": 8080,
+                "frontendPortRangeEnd": 8085,
+                "backendPort": 8888,
+                "idleTimeoutInMinutes": 10,
+                "enableFloatingIP": true
+              },
+              "name": "test",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatPools/test"
+            }
+          ],
+          "outboundNatRules": []
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "lb",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
+        "type": "Microsoft.Network/loadBalancers",
+        "location": "westus",
+        "sku": {
+          "name": "Basic"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "frontendIPConfigurations": [
+            {
+              "name": "test",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateIPAddress": "10.0.1.4",
+                "privateIPAllocationMethod": "Dynamic",
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/lbvnet/subnets/lbsubnet"
+                },
+                "inboundNatPools": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatPools/test"
+                  }
+                ]
+              }
+            }
+          ],
+          "backendAddressPools": [],
+          "loadBalancingRules": [],
+          "probes": [],
+          "inboundNatRules": [],
+          "outboundNatRules": [],
+          "inboundNatPools": [
+            {
+              "name": "test",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatPools/test",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "frontendPortRangeStart": 8080,
+                "frontendPortRangeEnd": 8085,
+                "backendPort": 8888,
+                "idleTimeoutInMinutes": 10,
+                "enableFloatingIP": true,
+                "protocol": "Tcp",
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test"
+                }
+              }
+            }
+          ]
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "lb",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
+        "type": "Microsoft.Network/loadBalancers",
+        "location": "westus",
+        "sku": {
+          "name": "Basic"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "frontendIPConfigurations": [
+            {
+              "name": "test",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateIPAddress": "10.0.1.4",
+                "privateIPAllocationMethod": "Dynamic",
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/lbvnet/subnets/lbsubnet"
+                },
+                "inboundNatPools": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatPools/test"
+                  }
+                ]
+              }
+            }
+          ],
+          "backendAddressPools": [],
+          "loadBalancingRules": [],
+          "probes": [],
+          "inboundNatRules": [],
+          "outboundNatRules": [],
+          "inboundNatPools": [
+            {
+              "name": "test",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatPools/test",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "frontendPortRangeStart": 8080,
+                "frontendPortRangeEnd": 8085,
+                "backendPort": 8888,
+                "idleTimeoutInMinutes": 10,
+                "enableFloatingIP": true,
+                "protocol": "Tcp",
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test"
+                }
+              }
+            }
+          ]
         }
       }
 security:

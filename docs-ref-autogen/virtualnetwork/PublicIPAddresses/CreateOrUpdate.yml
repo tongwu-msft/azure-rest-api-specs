@@ -3,7 +3,7 @@ uid: management.azure.com.virtualnetworks.publicipaddresses.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Public IP Addresses
-apiVersion: 2017-10-01
+apiVersion: 2018-01-01
 summary: Creates or updates a static or dynamic public IP address.
 consumes:
 - application/json
@@ -12,7 +12,7 @@ produces:
 - application/json
 - text/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2017-10-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -67,6 +67,7 @@ requestBody:
       isArray: true
   - name: properties.publicIPAllocationMethod
     in: body
+    isRequired: true
     description: "The public IP allocation method. Possible values are: 'Static' and 'Dynamic'."
     types:
     - uid: IPAllocationMethod
@@ -80,6 +81,12 @@ requestBody:
     description: The FQDN of the DNS record associated with the public IP address.
     types:
     - uid: PublicIPAddressDnsSettings
+  - name: properties.ipTags
+    in: body
+    description: Contains the IpTag associated with the public IP address
+    types:
+    - uid: IpTag
+      isArray: true
   - name: properties.ipAddress
     in: body
     description: The IP address associated with the public IP address resource.
@@ -102,6 +109,7 @@ requestBody:
     - uid: string
   - name: location
     in: body
+    isRequired: true
     description: Resource location.
     types:
     - uid: string
@@ -148,6 +156,18 @@ definitions:
     description: 'Gets or Sets the Reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN. '
     types:
     - uid: string
+- name: IpTag
+  description: Contains the IpTag associated with the public IP address
+  kind: object
+  properties:
+  - name: ipTagType
+    description: 'Gets or sets the ipTag type: Example FirstPartyUsage.'
+    types:
+    - uid: string
+  - name: tag
+    description: Gets or sets value of the IpTag associated with the public IP. Example SQL, Storage etc
+    types:
+    - uid: string
 - name: PublicIPAddress
   description: Public IP address resource.
   kind: object
@@ -182,6 +202,11 @@ definitions:
     description: The FQDN of the DNS record associated with the public IP address.
     types:
     - uid: PublicIPAddressDnsSettings
+  - name: properties.ipTags
+    description: Contains the IpTag associated with the public IP address
+    types:
+    - uid: IpTag
+      isArray: true
   - name: properties.ipAddress
     description: The IP address associated with the public IP address resource.
     types:
@@ -258,7 +283,7 @@ definitions:
 examples:
 - name: Create public IP address defaults
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2017-10-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2018-01-01
     body: '{}'
   responses:
   - statusCode: "200"
@@ -303,7 +328,7 @@ examples:
       }
 - name: Create public IP address allocation method
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2017-10-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2018-01-01
     body: >-
       {
         "properties": {
@@ -364,7 +389,7 @@ examples:
       }
 - name: Create public IP address DNS
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2017-10-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2018-01-01
     body: >-
       {
         "properties": {
