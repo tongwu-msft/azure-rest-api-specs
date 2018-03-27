@@ -3,14 +3,14 @@ uid: management.azure.com.dns.zones.createorupdate
 name: Create Or Update
 service: DNS
 groupName: Zones
-apiVersion: 2017-09-01
+apiVersion: 2018-03-01-preview
 summary: Creates or updates a DNS zone. Does not modify DNS records within the zone.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}?api-version=2017-09-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}?api-version=2018-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -56,6 +56,23 @@ requestBody:
     description: The etag of the zone.
     types:
     - uid: string
+  - name: properties.zoneType
+    in: body
+    description: The type of this DNS zone (Public or Private).
+    types:
+    - uid: ZoneType
+  - name: properties.registrationVirtualNetworks
+    in: body
+    description: A reference to a another resource
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.resolutionVirtualNetworks
+    in: body
+    description: A reference to a another resource
+    types:
+    - uid: SubResource
+      isArray: true
   - name: location
     in: body
     isRequired: true
@@ -83,6 +100,14 @@ requestHeader:
   types:
   - uid: string
 definitions:
+- name: SubResource
+  description: A reference to a another resource
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id.
+    types:
+    - uid: string
 - name: Zone
   description: Describes a DNS zone.
   kind: object
@@ -106,6 +131,20 @@ definitions:
     description: The name servers for this DNS zone. This is a read-only property and any attempt to set this value will be ignored.
     types:
     - uid: string
+      isArray: true
+  - name: properties.zoneType
+    description: The type of this DNS zone (Public or Private).
+    types:
+    - uid: ZoneType
+  - name: properties.registrationVirtualNetworks
+    description: A reference to a another resource
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.resolutionVirtualNetworks
+    description: A reference to a another resource
+    types:
+    - uid: SubResource
       isArray: true
   - name: id
     isReadyOnly: true
@@ -142,6 +181,16 @@ definitions:
     description: The error message body
     types:
     - uid: CloudErrorBody
+- name: ZoneType
+  description: The type of this DNS zone (Public or Private).
+  kind: enum
+  properties:
+  - name: Public
+    types:
+    - uid: string
+  - name: Private
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: The body of an error message
   kind: object
@@ -166,7 +215,7 @@ definitions:
 examples:
 - name: Create zone
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1?api-version=2017-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1?api-version=2018-03-01-preview
     body: >-
       {
         "location": "Global",
@@ -191,7 +240,8 @@ examples:
             "ns2-01.azure-dns.net",
             "ns3-01.azure-dns.org",
             "ns4-01.azure-dns.info"
-          ]
+          ],
+          "zoneType": "Public"
         },
         "tags": {
           "key1": "value1"
@@ -213,7 +263,8 @@ examples:
             "ns2-01.azure-dns.net",
             "ns3-01.azure-dns.org",
             "ns4-01.azure-dns.info"
-          ]
+          ],
+          "zoneType": "Public"
         },
         "tags": {
           "key1": "value1"

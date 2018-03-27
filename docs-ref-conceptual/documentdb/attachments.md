@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Attachments
-[Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, cassandra, and table data models. The content in this section is for managing attachment [resources](/azure/cosmos-db/sql-api-resources) using the [SQL API](/azure/cosmos-db/sql-api-introduction) via REST.  
+[Azure Cosmos DB](/azure/cosmos-db/introduction) is a globally distributed multi-model databases that supports the document, graph, cassandra, and table data models. The content in this section is for managing attachment [resources](/azure/cosmos-db/sql-api-resources) using the [SQL API](/azure/cosmos-db/sql-api-introduction) via REST.  
 
  Attachments are special documents that contain references and associated metadata with an external blob or media file.  
   
