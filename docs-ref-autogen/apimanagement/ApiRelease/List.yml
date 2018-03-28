@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.apirelease.list
 name: List
 service: API Management
 groupName: Api Release
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Lists all releases of an API. An API release is created when making an API Revision current. Releases are also used to rollback to previous revisions. Results will be paged and can be constrained by the $top and $skip parameters.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases?api-version=2017-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases?api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases?api-version=2018-01-01&$filter={$filter}&$top={$top}&$skip={$skip}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -39,7 +39,13 @@ uriParameters:
   description: API identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
 - name: $filter
   in: query
   description: >-
@@ -64,12 +70,6 @@ uriParameters:
   types:
   - uid: integer
   format: int32
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version of the API to be used with the client request.
-  types:
-  - uid: string
 responses:
 - name: 200 OK
   description: The operation returns a list of API Releases.
@@ -86,12 +86,12 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: "  \nApi Release details."
+    description: Api Release details.
     types:
     - uid: ApiReleaseContract
       isArray: true
   - name: nextLink
-    description: "  \nNext page link if any."
+    description: Next page link if any.
     types:
     - uid: string
 - name: ErrorResponse
@@ -99,53 +99,53 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: "  \nService-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
   - name: message
-    description: "  \nHuman-readable representation of the error."
+    description: Human-readable representation of the error.
     types:
     - uid: string
   - name: details
-    description: "  \nError Field contract."
+    description: Error Field contract.
     types:
     - uid: ErrorFieldContract
       isArray: true
 - name: ApiReleaseContract
-  description: Page values.
+  description: Api Release details.
   kind: object
   properties:
   - name: properties.apiId
-    description: "  \nIdentifier of the API the release belongs to."
+    description: Identifier of the API the release belongs to.
     types:
     - uid: string
-  - name: properties.createdDate
+  - name: properties.createdDateTime
     isReadyOnly: true
-    description: "  \nThe time the API was released. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard."
+    description: 'The time the API was released. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.'
     types:
     - uid: string
-  - name: properties.updatedDate
+  - name: properties.updatedDateTime
     isReadyOnly: true
-    description: "  \nThe time the API release was updated."
+    description: The time the API release was updated.
     types:
     - uid: string
   - name: properties.notes
-    description: "  \nRelease Notes"
+    description: Release Notes
     types:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: "  \nResource ID."
+    description: Resource ID.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: "  \nResource name."
+    description: Resource name.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: "  \nResource type for API Management resource."
+    description: Resource type for API Management resource.
     types:
     - uid: string
 - name: ErrorFieldContract
@@ -153,35 +153,38 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: "  \nProperty level error code."
+    description: Property level error code.
     types:
     - uid: string
   - name: message
-    description: "  \nHuman-readable representation of property-level error."
+    description: Human-readable representation of property-level error.
     types:
     - uid: string
   - name: target
-    description: "  \nProperty name."
+    description: Property name.
     types:
     - uid: string
 examples:
 - name: ApiManagementListApiReleases
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d2ef278aa04f0888cba3f3/releases?api-version=2017-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/a1/releases?api-version=2018-01-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5a5fcc09124a7fa9b89f2f1d/releases/5a610b3175c67153d14c6489",
-            "createdDateTime": "2018-01-18T16:01:38.83Z",
-            "updatedDateTime": "2018-01-18T16:01:38.83Z",
-            "notes": "This is the latest release"
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/a1/releases/5a7cb545298324c53224a799",
+            "type": "Microsoft.ApiManagement/service/apis/releases",
+            "name": "5a7cb545298324c53224a799",
+            "properties": {
+              "createdDateTime": "2018-02-08T20:38:29.173Z",
+              "updatedDateTime": "2018-02-08T20:38:29.173Z",
+              "notes": "yahoo"
+            }
           }
         ],
-        "count": 1,
-        "nextLink": null
+        "nextLink": ""
       }
 security:
 - type: oauth2

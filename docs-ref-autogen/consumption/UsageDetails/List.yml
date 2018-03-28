@@ -3,21 +3,21 @@ uid: management.azure.com.consumption.usagedetails.list
 name: List
 service: Consumption
 groupName: Usage Details
-apiVersion: 2017-11-30
+apiVersion: 2018-03-31
 summary: Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2017-11-30
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&api-version=2017-11-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/usageDetails?api-version=2018-03-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&$apply={$apply}&api-version=2018-03-31
   isOptional: true
 uriParameters:
-- name: scope
+- name: subscriptionId
   in: path
   isRequired: true
-  description: The scope of the usage details. The scope can be '/subscriptions/{subscriptionId}' for a subscription, or '/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}' for a billing perdiod.
+  description: Azure Subscription ID.
   types:
   - uid: string
 - name: $expand
@@ -27,7 +27,7 @@ uriParameters:
   - uid: string
 - name: $filter
   in: query
-  description: May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
+  description: May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName, properties/instanceId or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:).
   types:
   - uid: string
 - name: $skiptoken
@@ -40,10 +40,15 @@ uriParameters:
   description: May be used to limit the number of results to the most recent N usageDetails.
   types:
   - uid: integer
+- name: $apply
+  in: query
+  description: OData apply expression to aggregatie usageDetails by tags or (tags and properties/usageStart)
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2017-11-30.
+  description: Version of the API to be used with the client request. The current version is 2018-03-31.
   types:
   - uid: string
 responses:
@@ -63,13 +68,13 @@ definitions:
   properties:
   - name: value
     isReadyOnly: true
-    description: "  \nAn usage detail resource."
+    description: An usage detail resource.
     types:
     - uid: UsageDetail
       isArray: true
   - name: nextLink
     isReadyOnly: true
-    description: "  \nThe link (url) to the next page of results."
+    description: The link (url) to the next page of results.
     types:
     - uid: string
 - name: ErrorResponse
@@ -77,7 +82,7 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: "  \nThe details of the error."
+    description: The details of the error.
     types:
     - uid: ErrorDetails
 - name: UsageDetail
@@ -86,132 +91,132 @@ definitions:
   properties:
   - name: properties.billingPeriodId
     isReadyOnly: true
-    description: "  \nThe id of the billing period resource that the usage belongs to."
+    description: The id of the billing period resource that the usage belongs to.
     types:
     - uid: string
   - name: properties.invoiceId
     isReadyOnly: true
-    description: "  \nThe id of the invoice resource that the usage belongs to."
+    description: The id of the invoice resource that the usage belongs to.
     types:
     - uid: string
   - name: properties.usageStart
     isReadyOnly: true
-    description: "  \nThe start of the date time range covered by the usage detail."
+    description: The start of the date time range covered by the usage detail.
     types:
     - uid: string
   - name: properties.usageEnd
     isReadyOnly: true
-    description: "  \nThe end of the date time range covered by the usage detail."
+    description: The end of the date time range covered by the usage detail.
     types:
     - uid: string
   - name: properties.instanceName
     isReadyOnly: true
-    description: "  \nThe name of the resource instance that the usage is about."
+    description: The name of the resource instance that the usage is about.
     types:
     - uid: string
   - name: properties.instanceId
     isReadyOnly: true
-    description: "  \nThe uri of the resource instance that the usage is about."
+    description: The uri of the resource instance that the usage is about.
     types:
     - uid: string
   - name: properties.instanceLocation
     isReadyOnly: true
-    description: "  \nThe location of the resource instance that the usage is about."
+    description: The location of the resource instance that the usage is about.
     types:
     - uid: string
   - name: properties.currency
     isReadyOnly: true
-    description: "  \nThe ISO currency in which the meter is charged, for example, USD."
+    description: The ISO currency in which the meter is charged, for example, USD.
     types:
     - uid: string
   - name: properties.usageQuantity
     isReadyOnly: true
-    description: "  \nThe quantity of usage."
+    description: The quantity of usage.
     types:
     - uid: number
   - name: properties.billableQuantity
     isReadyOnly: true
-    description: "  \nThe billable usage quantity."
+    description: The billable usage quantity.
     types:
     - uid: number
   - name: properties.pretaxCost
     isReadyOnly: true
-    description: "  \nThe amount of cost before tax."
+    description: The amount of cost before tax.
     types:
     - uid: number
   - name: properties.isEstimated
     isReadyOnly: true
-    description: "  \nThe estimated usage is subject to change."
+    description: The estimated usage is subject to change.
     types:
     - uid: boolean
   - name: properties.meterId
     isReadyOnly: true
-    description: "  \nThe meter id."
+    description: The meter id (GUID).
     types:
     - uid: string
   - name: properties.meterDetails
     isReadyOnly: true
-    description: "  \nThe details about the meter. By default this is not populated, unless it's specified in $expand."
+    description: The details about the meter. By default this is not populated, unless it's specified in $expand.
     types:
     - uid: MeterDetails
   - name: properties.subscriptionGuid
     isReadyOnly: true
-    description: "  \nSubscription guid."
+    description: Subscription guid.
     types:
     - uid: string
   - name: properties.subscriptionName
     isReadyOnly: true
-    description: "  \nSubscription name."
+    description: Subscription name.
     types:
     - uid: string
   - name: properties.accountName
     isReadyOnly: true
-    description: "  \nAccount name."
+    description: Account name.
     types:
     - uid: string
   - name: properties.departmentName
     isReadyOnly: true
-    description: "  \nDepartment name."
+    description: Department name.
     types:
     - uid: string
   - name: properties.product
     isReadyOnly: true
-    description: "  \nProduct name."
+    description: Product name.
     types:
     - uid: string
   - name: properties.consumedService
     isReadyOnly: true
-    description: "  \nConsumed service name."
+    description: Consumed service name.
     types:
     - uid: string
   - name: properties.costCenter
     isReadyOnly: true
-    description: "  \nThe cost center of this department if it is a department and a costcenter exists"
+    description: The cost center of this department if it is a department and a costcenter exists
     types:
     - uid: string
   - name: properties.additionalProperties
     isReadyOnly: true
-    description: "  \nAdditional details of this usage item. By default this is not populated, unless it's specified in $expand."
+    description: Additional details of this usage item. By default this is not populated, unless it's specified in $expand.
     types:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: "  \nResource Id."
+    description: Resource Id.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: "  \nResource name."
+    description: Resource name.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: "  \nResource type."
+    description: Resource type.
     types:
     - uid: string
   - name: tags
     isReadyOnly: true
-    description: "  \nResource tags."
+    description: Resource tags.
     types:
     - uid: object
       isDictionary: true
@@ -224,12 +229,12 @@ definitions:
   properties:
   - name: code
     isReadyOnly: true
-    description: "  \nError code."
+    description: Error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: "  \nError message indicating why the operation failed."
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
 - name: MeterDetails
@@ -238,84 +243,50 @@ definitions:
   properties:
   - name: meterName
     isReadyOnly: true
-    description: "  \nThe name of the meter, within the given meter category"
+    description: The name of the meter, within the given meter category
     types:
     - uid: string
   - name: meterCategory
     isReadyOnly: true
-    description: "  \nThe category of the meter, for example, 'Cloud services', 'Networking', etc.."
+    description: The category of the meter, for example, 'Cloud services', 'Networking', etc..
     types:
     - uid: string
   - name: meterSubCategory
     isReadyOnly: true
-    description: "  \nThe subcategory of the meter, for example, 'A6 Cloud services', 'ExpressRoute (IXP)', etc.."
+    description: The subcategory of the meter, for example, 'A6 Cloud services', 'ExpressRoute (IXP)', etc..
     types:
     - uid: string
   - name: unit
     isReadyOnly: true
-    description: "  \nThe unit in which the meter consumption is charged, for example, 'Hours', 'GB', etc."
+    description: The unit in which the meter consumption is charged, for example, 'Hours', 'GB', etc.
     types:
     - uid: string
   - name: meterLocation
     isReadyOnly: true
-    description: "  \nThe location in which the Azure service is available."
+    description: The location in which the Azure service is available.
     types:
     - uid: string
   - name: totalIncludedQuantity
     isReadyOnly: true
-    description: "  \nThe total included quantity associated with the offer."
+    description: The total included quantity associated with the offer.
     types:
     - uid: number
   - name: pretaxStandardRate
     isReadyOnly: true
-    description: "  \nThe pretax listing price."
+    description: The pretax listing price.
     types:
     - uid: number
 examples:
-- name: UsageDetailsListForBillingPeriod
-  request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails?api-version=2017-11-30
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "value": [
-          {
-            "id": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
-            "type": "Microsoft.Consumption/usageDetails",
-            "tags": {
-              "env": "newcrp",
-              "dev": "tools"
-            },
-            "properties": {
-              "billingPeriodId": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/subscriptions/subid/providers/Microsoft.Billing/invoices/201703-123456789",
-              "usageStart": "2017-02-13T00:00:00Z",
-              "usageEnd": "2017-02-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/subid/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
-              "meterId": "fe167397-a38d-43c3-9bb3-8e2907e56a41"
-            }
-          }
-        ]
-      }
 - name: UsageDetailsList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Consumption/usageDetails?api-version=2017-11-30
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2018-03-31
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/subid/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
             "name": "usageDetailsId1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
@@ -323,69 +294,94 @@ examples:
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/subscriptions/subid/providers/Microsoft.Billing/invoices/201703-123456789",
+              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702",
+              "invoiceId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/invoices/201703-123456789",
               "usageStart": "2017-02-13T00:00:00Z",
               "usageEnd": "2017-02-13T23:59:59Z",
               "instanceName": "shared1",
-              "instanceId": "/subscriptions/subid/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
               "instanceLocation": "eastasia",
               "currency": "USD",
               "usageQuantity": 0.00328,
               "billableQuantity": 0.00328,
               "pretaxCost": 0.67,
               "isEstimated": false,
-              "meterId": "fe167397-a38d-43c3-9bb3-8e2907e56a41"
+              "meterId": "00000000-0000-0000-0000-000000000000"
             }
           }
         ]
       }
-- name: UsageDetailsExpand
+- name: UsageDetailsListFilterByTag
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails?$expand=meterDetails,additionalProperties&$filter=usageEnd le 2017-02-14T00:00:00Z&$top=1&api-version=2017-11-30
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?$filter=tags eq 'dev:tools'&api-version=2018-03-31
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
             "name": "usageDetailsId1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
-              "env": "newcrp",
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/subscriptions/subid/providers/Microsoft.Billing/invoices/201703-123456789",
+              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702",
+              "invoiceId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/invoices/201703-123456789",
               "usageStart": "2017-02-13T00:00:00Z",
               "usageEnd": "2017-02-13T23:59:59Z",
               "instanceName": "shared1",
-              "instanceId": "/subscriptions/subid/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
               "instanceLocation": "eastasia",
               "currency": "USD",
               "usageQuantity": 0.00328,
               "billableQuantity": 0.00328,
               "pretaxCost": 0.67,
               "isEstimated": false,
-              "meterId": "fe167397-a38d-43c3-9bb3-8e2907e56a41",
-              "meterDetails": {
-                "meterName": "Data Transfer Out (GB)",
-                "meterCategory": "Networking",
-                "unit": "GB",
-                "meterLocation": "Zone 2",
-                "totalIncludedQuantity": 0,
-                "pretaxStandardRate": 0.138
-              },
-              "subscriptionGuid": "fe167397-a38d-43c3-9bb3-8e2907e56a41",
-              "subscriptionName": "Dummy subscription",
-              "accountName": "My account name",
-              "departmentName": "My department name",
-              "product": "My product name",
-              "consumedService": "My consumed service",
-              "costCenter": "Cost center 1",
-              "additionalProperties": "{\"MyType\":\"\",\"ServiceType\":\"\",\"VMName\":\"\",\"UsageType\":\"MyUsage\"}"
+              "meterId": "00000000-0000-0000-0000-000000000000"
+            }
+          }
+        ]
+      }
+- name: UsageDetailsListGroupByTagDate
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?$apply=groupby((tags,properties/usageStart))&api-version=2018-03-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "description": "Azure VCAP STA - RDS Server"
+            },
+            "properties": {
+              "billingPeriodId": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301",
+              "usageStart": "2018-03-01T00:00:00Z",
+              "usageEnd": "2018-03-01T23:59:59Z",
+              "usageQuantity": 11.11111,
+              "pretaxCost": 0,
+              "currency": "USD"
+            }
+          },
+          {
+            "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "description": "Azure VCAP STA - RDS Server"
+            },
+            "properties": {
+              "billingPeriodId": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301",
+              "usageStart": "2018-03-02T00:00:00Z",
+              "usageEnd": "2018-03-02T23:59:59Z",
+              "usageQuantity": 1.11111111111,
+              "pretaxCost": 0,
+              "currency": "USD"
             }
           }
         ]

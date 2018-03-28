@@ -2,7 +2,7 @@
 title: Azure Container Instances REST API reference
 author: mmacy
 ms.author: marsma
-ms.date: 11/20/2017
+ms.date: 02/12/2018
 ms.topic: reference
 ms.service: container-instances
 ms.devlang: rest-api
@@ -18,9 +18,10 @@ The Container Instances REST API provides operations for working with the follow
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-|[Container Groups](~/docs-ref-autogen/container-instances/containergroups.yml)| Create, read, update, and delete [container groups](/azure/container-instances/container-instances-container-groups), the top-level resource in Azure Container Instances. |
-|[Container Logs](~/docs-ref-autogen/container-instances/containerlogs.yml)| Get container instance logs. |
-|[Operations](~/docs-ref-autogen/container-instances/operations.yml)| Get information about Azure Container Instances REST API operations. |
+|[Container Group Usage](xref:management.azure.com.containerinstances.containergroupusage)| Get usage information for the container groups in a subscription. |
+|[Container Groups](xref:management.azure.com.containerinstances.containergroups)| Create, read, update, and delete [container groups](/azure/container-instances/container-instances-container-groups), the top-level resource in Azure Container Instances. |
+|[Container Logs](xref:management.azure.com.containerinstances.containerlogs)| Get container instance logs. |
+|[Operations](xref:management.azure.com.containerinstances.operations)| Get information about Azure Container Instances REST API operations. |
 
 ## See also
 

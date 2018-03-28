@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.backend.get
 name: Get
 service: API Management
 groupName: Backend
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Gets the details of the backend specified by its identifier.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendid}?api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendid}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: Identifier of the Backend entity. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -59,58 +59,58 @@ responses:
 requestHeader: []
 definitions:
 - name: BackendContract
-  description: Backend values.
+  description: Backend details.
   kind: object
   properties:
   - name: properties.url
-    description: "  \nRuntime Url of the Backend."
+    description: Runtime Url of the Backend.
     types:
     - uid: string
   - name: properties.protocol
-    description: "  \nBackend communication protocol."
+    description: Backend communication protocol.
     types:
     - uid: BackendProtocol
   - name: id
     isReadyOnly: true
-    description: "  \nResource ID."
+    description: Resource ID.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: "  \nResource name."
+    description: Resource name.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: "  \nResource type for API Management resource."
+    description: Resource type for API Management resource.
     types:
     - uid: string
   - name: properties.title
-    description: "  \nBackend Title."
+    description: Backend Title.
     types:
     - uid: string
   - name: properties.description
-    description: "  \nBackend Description."
+    description: Backend Description.
     types:
     - uid: string
   - name: properties.resourceId
-    description: "  \nManagement Uri of the Resource in External System. This url can be the Arm Resource Id of Logic Apps, Function Apps or Api Apps."
+    description: Management Uri of the Resource in External System. This url can be the Arm Resource Id of Logic Apps, Function Apps or Api Apps.
     types:
     - uid: string
   - name: properties.properties
-    description: "  \nBackend Properties contract"
+    description: Backend Properties contract
     types:
     - uid: BackendProperties
   - name: properties.credentials
-    description: "  \nBackend Credentials Contract Properties"
+    description: Backend Credentials Contract Properties
     types:
     - uid: BackendCredentialsContract
   - name: properties.proxy
-    description: "  \nBackend Proxy Contract Properties"
+    description: Backend Proxy Contract Properties
     types:
     - uid: BackendProxyContract
   - name: properties.tls
-    description: "  \nBackend TLS Properties"
+    description: Backend TLS Properties
     types:
     - uid: BackendTlsProperties
 - name: ErrorResponse
@@ -118,15 +118,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: "  \nService-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
   - name: message
-    description: "  \nHuman-readable representation of the error."
+    description: Human-readable representation of the error.
     types:
     - uid: string
   - name: details
-    description: "  \nError Field contract."
+    description: Error Field contract.
     types:
     - uid: ErrorFieldContract
       isArray: true
@@ -143,24 +143,24 @@ definitions:
     types:
     - uid: string
 - name: BackendProperties
-  description: Backend Properties contract
+  description: Properties specific to the Backend Type.
   kind: object
   properties:
   - name: serviceFabricCluster
-    description: "  \nBackend Service Fabric Cluster Properties"
+    description: Backend Service Fabric Cluster Properties
     types:
     - uid: BackendServiceFabricClusterProperties
 - name: BackendCredentialsContract
-  description: Backend Credentials Contract Properties
+  description: Details of the Credentials used to connect to Backend.
   kind: object
   properties:
   - name: certificate
-    description: "  "
+    description: List of Client Certificate Thumbprint.
     types:
     - uid: string
       isArray: true
   - name: query
-    description: "  \nQuery Parameter description."
+    description: Query Parameter description.
     types:
     - uid: object
       isDictionary: true
@@ -168,7 +168,7 @@ definitions:
       - uid: string
       - uid: array
   - name: header
-    description: "  \nHeader Parameter description."
+    description: Header Parameter description.
     types:
     - uid: object
       isDictionary: true
@@ -176,35 +176,35 @@ definitions:
       - uid: string
       - uid: array
   - name: authorization
-    description: "  \nAuthorization header authentication"
+    description: Authorization header authentication
     types:
     - uid: BackendAuthorizationHeaderCredentials
 - name: BackendProxyContract
-  description: Backend Proxy Contract Properties
+  description: Details of the Backend WebProxy Server to use in the Request to Backend.
   kind: object
   properties:
   - name: url
-    description: "  \nWebProxy Server AbsoluteUri property which includes the entire URI stored in the Uri instance, including all fragments and query strings."
+    description: WebProxy Server AbsoluteUri property which includes the entire URI stored in the Uri instance, including all fragments and query strings.
     types:
     - uid: string
   - name: username
-    description: "  \nUsername to connect to the WebProxy server"
+    description: Username to connect to the WebProxy server
     types:
     - uid: string
   - name: password
-    description: "  \nPassword to connect to the WebProxy Server"
+    description: Password to connect to the WebProxy Server
     types:
     - uid: string
 - name: BackendTlsProperties
-  description: Backend TLS Properties
+  description: Properties controlling TLS Certificate Validation.
   kind: object
   properties:
   - name: validateCertificateChain
-    description: "  \nFlag indicating whether SSL certificate chain validation should be done when using self-signed certificates for this backend host."
+    description: Flag indicating whether SSL certificate chain validation should be done when using self-signed certificates for this backend host.
     types:
     - uid: boolean
   - name: validateCertificateName
-    description: "  \nFlag indicating whether SSL certificate name validation should be done when using self-signed certificates for this backend host."
+    description: Flag indicating whether SSL certificate name validation should be done when using self-signed certificates for this backend host.
     types:
     - uid: boolean
 - name: ErrorFieldContract
@@ -212,41 +212,41 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: "  \nProperty level error code."
+    description: Property level error code.
     types:
     - uid: string
   - name: message
-    description: "  \nHuman-readable representation of property-level error."
+    description: Human-readable representation of property-level error.
     types:
     - uid: string
   - name: target
-    description: "  \nProperty name."
+    description: Property name.
     types:
     - uid: string
 - name: BackendServiceFabricClusterProperties
-  description: Backend Service Fabric Cluster Properties
+  description: Properties of the Service Fabric Type Backend.
   kind: object
   properties:
   - name: clientCertificatethumbprint
-    description: "  \nThe client certificate thumbprint for the management endpoint."
+    description: The client certificate thumbprint for the management endpoint.
     types:
     - uid: string
   - name: maxPartitionResolutionRetries
-    description: "  \nMaximum number of retries while attempting resolve the parition."
+    description: Maximum number of retries while attempting resolve the parition.
     types:
     - uid: integer
   - name: managementEndpoints
-    description: "  "
+    description: The cluster management endpoint.
     types:
     - uid: string
       isArray: true
   - name: serverCertificateThumbprints
-    description: "  "
+    description: Thumbprints of certificates cluster management service uses for tls communication
     types:
     - uid: string
       isArray: true
   - name: serverX509Names
-    description: "  \nProperties of server X509Names."
+    description: Properties of server X509Names.
     types:
     - uid: X509CertificateName
       isArray: true
@@ -255,29 +255,29 @@ definitions:
   kind: object
   properties:
   - name: scheme
-    description: "  \nAuthentication Scheme name."
+    description: Authentication Scheme name.
     types:
     - uid: string
   - name: parameter
-    description: "  \nAuthentication Parameter value."
+    description: Authentication Parameter value.
     types:
     - uid: string
 - name: X509CertificateName
-  description: Server X509 Certificate Names Collection
+  description: Properties of server X509Names.
   kind: object
   properties:
   - name: name
-    description: "  \nCommon Name of the Certificate."
+    description: Common Name of the Certificate.
     types:
     - uid: string
   - name: issuerCertificateThumbprint
-    description: "  \nThumbprint for the Issuer of the Certificate."
+    description: Thumbprint for the Issuer of the Certificate.
     types:
     - uid: string
 examples:
 - name: ApiManagementGetBackend
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/sfbackend?api-version=2017-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/sfbackend?api-version=2018-01-01
   responses:
   - statusCode: "200"
     body: >-

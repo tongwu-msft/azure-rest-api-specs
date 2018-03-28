@@ -3,15 +3,15 @@ uid: batch.core.windows.net.batchservice.pool.upgradeos
 name: Upgrade OS
 service: Batch Service
 groupName: Pool
-apiVersion: 2017-09-01.6.0
+apiVersion: 2018-03-01.6.1
 summary: Upgrades the operating system of the specified pool. During an upgrade, the Batch service upgrades each compute node in the pool. When a compute node is chosen for upgrade, any tasks running on that node are removed from the node and returned to the queue to be rerun later (or on a different compute node). The node will be unavailable until the upgrade is complete. This operation results in temporarily reduced pool capacity as nodes are taken out of service to be upgraded. Although the Batch service tries to avoid upgrading all compute nodes at the same time, it does not guarantee to do this (particularly on small pools); therefore, the pool may be temporarily unavailable to run tasks. When this operation runs, the pool state changes to upgrading. When all compute nodes have finished upgrading, the pool state returns to active. While the upgrade is in progress, the pool's currentOSVersion reflects the OS version that nodes are upgrading from, and targetOSVersion reflects the OS version that nodes are upgrading to. Once the upgrade is complete, currentOSVersion is updated to reflect the OS version now running on all nodes. This operation can only be invoked on pools created with the cloudServiceConfiguration property.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: POST https://batch.core.windows.net/pools/{poolId}/upgradeos?api-version=2017-09-01.6.0
-- content: POST https://batch.core.windows.net/pools/{poolId}/upgradeos?timeout={timeout}&api-version=2017-09-01.6.0
+- content: POST https://batch.core.windows.net/pools/{poolId}/upgradeos?api-version=2018-03-01.6.1
+- content: POST https://batch.core.windows.net/pools/{poolId}/upgradeos?timeout={timeout}&api-version=2018-03-01.6.1
   isOptional: true
 uriParameters:
 - name: poolId
@@ -55,7 +55,7 @@ requestBody:
   - name: targetOSVersion
     in: body
     isRequired: true
-    description: 'The Azure Guest OS version to be installed on the virtual machines in the pool.  '
+    description: The Azure Guest OS version to be installed on the virtual machines in the pool.
     types:
     - uid: string
 requestHeader:
@@ -100,19 +100,19 @@ requestHeader:
   format: date-time-rfc1123
 definitions:
 - name: BatchError
-  description: The error encountered while attempting to add the task.
+  description: An error response received from the Azure Batch service.
   kind: object
   properties:
   - name: code
-    description: 'An identifier for the error. Codes are invariant and are intended to be consumed programmatically.  '
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
   - name: message
-    description: 'A message describing the error, intended to be suitable for display in a user interface.  '
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: ErrorMessage
   - name: values
-    description: 'An item of additional information included in an Azure Batch error response.  '
+    description: An item of additional information included in an Azure Batch error response.
     types:
     - uid: BatchErrorDetail
       isArray: true
@@ -121,32 +121,45 @@ definitions:
   kind: object
   properties:
   - name: targetOSVersion
-    description: 'The Azure Guest OS version to be installed on the virtual machines in the pool.  '
+    description: The Azure Guest OS version to be installed on the virtual machines in the pool.
     types:
     - uid: string
 - name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
+  description: An error message received in an Azure Batch error response.
   kind: object
   properties:
   - name: lang
-    description: 'The language code of the error message  '
+    description: The language code of the error message
     types:
     - uid: string
   - name: value
-    description: 'The text of the message.  '
+    description: The text of the message.
     types:
     - uid: string
 - name: BatchErrorDetail
-  description: A collection of key-value pairs containing additional details about the error.
+  description: An item of additional information included in an Azure Batch error response.
   kind: object
   properties:
   - name: key
-    description: 'An identifier specifying the meaning of the Value property.  '
+    description: An identifier specifying the meaning of the Value property.
     types:
     - uid: string
   - name: value
-    description: 'The additional information included with the error response.  '
+    description: The additional information included with the error response.
     types:
     - uid: string
-examples: []
+examples:
+- name: Upgrade OS of the pool
+  request:
+    uri: POST https://batch.core.windows.net/pools/resizePool/upgradeos?api-version=2018-03-01.6.1
+    body: >-
+      {
+        "targetOSVersion": "5"
+      }
+    headers:
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
+  responses:
+  - statusCode: "202"
+    body: "\"\""
 security: []

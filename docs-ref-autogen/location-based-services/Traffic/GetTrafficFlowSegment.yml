@@ -4,32 +4,32 @@ name: Get Traffic Flow Segment
 service: Location Based Services Functional API
 groupName: Traffic
 apiVersion: "1.0"
-summary: Get the traffic flow segment for a given coordinates
+summary: Get the traffic flow segment for the given coordinates
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/traffic/flow/segment/{format}?api-version=1.0&subscription-key={subscription-key}&style={style}&zoom={zoom}&query={query}
-- content: GET https://atlas.microsoft.com/traffic/flow/segment/{format}?api-version=1.0&subscription-key={subscription-key}&style={style}&zoom={zoom}&query={query}&unit={unit}&thickness={thickness}&openLr={openLr}
+- content: GET https://atlas.microsoft.com/traffic/flow/segment/{format}?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&query={query}
+- content: GET https://atlas.microsoft.com/traffic/flow/segment/{format}?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&query={query}&unit={unit}&thickness={thickness}&openLr={openLr}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response
-  types:
-  - uid: string
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version number of Azure LBS API.  Current version is 1.0
+  description: Desired format of the response. Possible values are json & xml.
   types:
   - uid: string
 - name: subscription-key
   in: query
   isRequired: true
-  description: Azure LBS subscription key
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API.  Current version is 1.0
   types:
   - uid: string
 - name: style
@@ -37,39 +37,39 @@ uriParameters:
   isRequired: true
   description: The style to be used to render the tile.  Valid values are absolute which returns colors reflecting the absolute speed measured, relative which returns the speed relative to free-flow, Relative-delay which displays relative speeds only where they are different from the freeflow speeds
   types:
-  - uid: string
+  - uid: TrafficFlowSegmentStyle
 - name: zoom
   in: query
   isRequired: true
-  description: Zoom level for desired tile.  0 to 18 for raster tiles, 0 through 20 for vector tiles
+  description: Zoom level for desired tile.
   types:
-  - uid: string
+  - uid: integer
 - name: query
   in: query
   isRequired: true
-  description: The applicable query string and/or coordinates
+  description: Coordinates of the point close to the road segment. They have to be comma-separated and calculated using EPSG4326 projection.
   types:
   - uid: string
 - name: unit
   in: query
   description: Unit of speed in KMPH or MPH
   types:
-  - uid: string
+  - uid: unit
 - name: thickness
   in: query
-  description: The segment width multiplier.  Valid values are from 1 to 20
+  description: The segment width multiplier.
   types:
-  - uid: string
+  - uid: integer
 - name: openLr
   in: query
-  description: true or false string on whether the response should include OpenLR code
+  description: Boolean on whether the response should include OpenLR code
   types:
-  - uid: string
+  - uid: boolean
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: trafficflowsegment200
+  - uid: TrafficFlowSegmentResult
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -92,13 +92,38 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: trafficflowsegment200
+- name: TrafficFlowSegmentStyle
+  description: The style to be used to render the tile.  Valid values are absolute which returns colors reflecting the absolute speed measured, relative which returns the speed relative to free-flow, Relative-delay which displays relative speeds only where they are different from the freeflow speeds
+  kind: enum
+  properties:
+  - name: absolute
+    types:
+    - uid: string
+  - name: relative
+    types:
+    - uid: string
+  - name: relative-delay
+    types:
+    - uid: string
+- name: unit
+  description: Unit of speed in KMPH or MPH
+  kind: enum
+  properties:
+  - name: KMPH
+    description: Kilometers Per Hour
+    types:
+    - uid: string
+  - name: MPH
+    description: Miles Per Hour
+    types:
+    - uid: string
+- name: TrafficFlowSegmentResult
   description: This object is returned from a successful Traffic Flow Segment call
   kind: object
   properties:
   - name: flowSegmentData
     isReadyOnly: true
-    description: "  \nFlow Segment Data property"
+    description: Flow Segment Data property
     types:
     - uid: FlowSegmentData
 - name: Error
@@ -107,12 +132,12 @@ definitions:
   properties:
   - name: statuscode
     isReadyOnly: true
-    description: "  \nError code."
+    description: Error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: "  \nIf available, a human readable description of the error."
+    description: If available, a human readable description of the error.
     types:
     - uid: string
 - name: FlowSegmentData
@@ -121,41 +146,41 @@ definitions:
   properties:
   - name: frc
     isReadyOnly: true
-    description: "  \nFRC property"
+    description: FRC property
     types:
     - uid: string
   - name: currentSpeed
     isReadyOnly: true
-    description: "  \nCurrent Speed property"
+    description: Current Speed property
     types:
     - uid: integer
   - name: freeFlowSpeed
     isReadyOnly: true
-    description: "  \nFree Flow Speed property"
+    description: Free Flow Speed property
     types:
     - uid: integer
   - name: currentTravelTime
     isReadyOnly: true
-    description: "  \nCurrent Travel Time property"
+    description: Current Travel Time property
     types:
     - uid: integer
   - name: freeFlowTravelTime
     isReadyOnly: true
-    description: "  \nFree Flow Travel Time property"
+    description: Free Flow Travel Time property
     types:
     - uid: integer
   - name: confidence
     isReadyOnly: true
-    description: "  \nConfidence property"
+    description: Confidence property
     types:
     - uid: number
   - name: coordinates
-    description: "  \nCoordinates of the result"
+    description: Coordinates of the result
     types:
     - uid: Coordinates
   - name: '@version'
     isReadyOnly: true
-    description: "  \n@Version property"
+    description: '@Version property'
     types:
     - uid: string
 - name: Coordinates
@@ -164,22 +189,21 @@ definitions:
   properties:
   - name: coordinate
     isReadyOnly: true
-    description: "  "
+    description: Coordinate array
     types:
     - uid: Coordinate
       isArray: true
 - name: Coordinate
-  description: Coordinate array
   kind: object
   properties:
   - name: latitude
     isReadyOnly: true
-    description: "  \nLatitude property"
+    description: Latitude property
     types:
     - uid: number
-  - name: Longitude
+  - name: longitude
     isReadyOnly: true
-    description: "  \nLongitude property"
+    description: Longitude property
     types:
     - uid: number
 examples:
@@ -191,26 +215,26 @@ examples:
     body: >-
       {
         "flowSegmentData": {
-          "frc": "FRC2",
+          "frc": "FRC3",
           "currentSpeed": 79,
           "freeFlowSpeed": 79,
           "currentTravelTime": 33,
           "freeFlowTravelTime": 33,
-          "confidence": 0.86,
+          "confidence": 0.5,
           "coordinates": {
             "coordinate": [
               {
-                "latitude": 52.404766,
-                "longitude": 4.844382
+                "latitude": 52.404648,
+                "longitude": 4.8442388
               },
               {
-                "latitude": 52.408566,
-                "longitude": 4.8358717
+                "latitude": 52.408447,
+                "longitude": 4.8357286
               }
             ]
           },
           "openlr": null,
-          "@version": "1.0.50-mascoma"
+          "@version": "1.0.53-mascoma"
         }
       }
   - statusCode: "400"

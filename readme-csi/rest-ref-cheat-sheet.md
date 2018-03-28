@@ -20,29 +20,22 @@ Being a collection of guidance assembled throughout the migration of REST API do
 
 ## Linking
 
-To link from [ref conceptual](#definitions) to content within the same repo (such as specific REST operations, or other ref conceptual topics), use either of the following two formats:
+To link from [ref conceptual](#definitions) to REST operation or operation group, use either of the following two formats:
 
-* `[text](../../docs-ref-autogen/<service>/<file>.yml#<anchor>`
-* `[text](~/docs-ref-autogen/<service>/<file>.yml#<anchor>`
-
-or
-
-reference with the uid, uid could be found in the yml.
-* `<xref:uid>`
+* `[text](xref:uid)`
 * `@uid`
 
 Examples:
-* `[Resource group operations](../../docs-ref-autogen/resources/resourcegroups.yml)`
-* `[Create a resource group](../../docs-ref-autogen/resources/resourcegroups.yml#ResourceGroups_CreateOrUpdate)`
-* `[Resource group operations](~/docs-ref-autogen/resources/resourcegroups.yml)`
-* `[Create a resource group](~/docs-ref-autogen/resources/resourcegroups.yml#ResourceGroups_CreateOrUpdate)`
-
-or
-
-* `<xref:management.azure.com.advisor.operations.list>`
+* `[List Operations](xref:management.azure.com.advisor.operations.list)`
 * `@management.azure.com.advisor.operations.list`
 
-To link to the top-level node of a REST API, replace `docs-ref-autogen` with `docs-ref-conceptual`.
+`uid` is defined in yaml:
+```yaml
+### YamlMime:RESTOperationGroup
+uid: management.azure.com.batchmanagement.application
+```
+
+To link to the top-level node of a REST API, reference the `index.md` under `docs-ref-conceptual`.
 
 Example:
 * `[Azure Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md)`

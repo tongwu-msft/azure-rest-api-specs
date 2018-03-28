@@ -3,15 +3,15 @@ uid: batch.core.windows.net.batchservice.task.addcollection
 name: Add Collection
 service: Batch Service
 groupName: Task
-apiVersion: 2017-09-01.6.0
+apiVersion: 2018-03-01.6.1
 summary: Adds a collection of tasks to the specified job. Note that each task must have a unique ID. The Batch service may not return the results for each task in the same order the tasks were submitted in this request. If the server times out or the connection is closed during the request, the request may have been partially or fully processed, or not at all. In such cases, the user should re-issue the request. Note that it is up to the user to correctly handle failures when re-issuing a request. For example, you should use the same task IDs during a retry so that if the prior operation succeeded, the retry will not create extra tasks unexpectedly. If the response contains any tasks which failed to add, a client can retry the request. In a retry, it is most efficient to resubmit only tasks that failed to add, and to omit tasks that were successfully added on the first attempt. The maximum lifetime of a task from addition to completion is 7 days. If a task has not completed within 7 days of being added it will be terminated by the Batch service and left in whatever state it was in at that time.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: POST https://batch.core.windows.net/jobs/{jobId}/addtaskcollection?api-version=2017-09-01.6.0
-- content: POST https://batch.core.windows.net/jobs/{jobId}/addtaskcollection?timeout={timeout}&api-version=2017-09-01.6.0
+- content: POST https://batch.core.windows.net/jobs/{jobId}/addtaskcollection?api-version=2018-03-01.6.1
+- content: POST https://batch.core.windows.net/jobs/{jobId}/addtaskcollection?timeout={timeout}&api-version=2018-03-01.6.1
   isOptional: true
 uriParameters:
 - name: jobId
@@ -51,7 +51,7 @@ requestBody:
   - name: value
     in: body
     isRequired: true
-    description: 'An Azure Batch task to add.  '
+    description: An Azure Batch task to add.
     types:
     - uid: TaskAddParameter
       isArray: true
@@ -99,22 +99,22 @@ definitions:
     types:
     - uid: ExitConditions
   - name: resourceFiles
-    description: 'A file to be downloaded from Azure blob storage to a compute node.  '
+    description: A file to be downloaded from Azure blob storage to a compute node.
     types:
     - uid: ResourceFile
       isArray: true
   - name: outputFiles
-    description: 'A specification for uploading files from an Azure Batch node to another location after the Batch service has finished executing the task process.  '
+    description: A specification for uploading files from an Azure Batch node to another location after the Batch service has finished executing the task process.
     types:
     - uid: OutputFile
       isArray: true
   - name: environmentSettings
-    description: 'An environment variable to be set on a task process.  '
+    description: An environment variable to be set on a task process.
     types:
     - uid: EnvironmentSetting
       isArray: true
   - name: affinityInfo
-    description: 'A locality hint that can be used by the Batch service to select a compute node on which to start the new task.  '
+    description: A locality hint that can be used by the Batch service to select a compute node on which to start the new task.
     types:
     - uid: AffinityInformation
   - name: constraints
@@ -134,7 +134,7 @@ definitions:
     types:
     - uid: TaskDependencies
   - name: applicationPackageReferences
-    description: 'A reference to an application package to be deployed to compute nodes.  '
+    description: A reference to an application package to be deployed to compute nodes.
     types:
     - uid: ApplicationPackageReference
       isArray: true
@@ -147,24 +147,24 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: 'Result for a single task added as part of an add task collection operation.  '
+    description: Result for a single task added as part of an add task collection operation.
     types:
     - uid: TaskAddResult
       isArray: true
 - name: BatchError
-  description: The error encountered while attempting to add the task.
+  description: An error response received from the Azure Batch service.
   kind: object
   properties:
   - name: code
-    description: 'An identifier for the error. Codes are invariant and are intended to be consumed programmatically.  '
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
   - name: message
-    description: 'A message describing the error, intended to be suitable for display in a user interface.  '
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: ErrorMessage
   - name: values
-    description: 'An item of additional information included in an Azure Batch error response.  '
+    description: An item of additional information included in an Azure Batch error response.
     types:
     - uid: BatchErrorDetail
       isArray: true
@@ -173,7 +173,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: 'An Azure Batch task to add.  '
+    description: An Azure Batch task to add.
     types:
     - uid: TaskAddParameter
       isArray: true
@@ -198,17 +198,17 @@ definitions:
   kind: object
   properties:
   - name: exitCodes
-    description: 'How the Batch service should respond if a task exits with a particular exit code.  '
+    description: How the Batch service should respond if a task exits with a particular exit code.
     types:
     - uid: ExitCodeMapping
       isArray: true
   - name: exitCodeRanges
-    description: 'A range of exit codes and how the Batch service should respond to exit codes within that range.  '
+    description: A range of exit codes and how the Batch service should respond to exit codes within that range.
     types:
     - uid: ExitCodeRangeMapping
       isArray: true
   - name: preProcessingError
-    description: 'How the Batch service should respond if the task fails to start due to an error.  '
+    description: How the Batch service should respond if the task fails to start due to an error.
     types:
     - uid: ExitOptions
   - name: fileUploadError
@@ -228,7 +228,7 @@ definitions:
     types:
     - uid: string
   - name: filePath
-    description: "The location on the compute node to which to download the file, relative to the task's working directory.  "
+    description: The location on the compute node to which to download the file, relative to the task's working directory.
     types:
     - uid: string
   - name: fileMode
@@ -236,7 +236,7 @@ definitions:
     types:
     - uid: string
 - name: OutputFile
-  description: A list of files that the Batch service will upload from the compute node after running the command line.
+  description: A specification for uploading files from an Azure Batch node to another location after the Batch service has finished executing the task process.
   kind: object
   properties:
   - name: filePattern
@@ -244,11 +244,11 @@ definitions:
     types:
     - uid: string
   - name: destination
-    description: 'The destination for the output file(s).  '
+    description: The destination for the output file(s).
     types:
     - uid: OutputFileDestination
   - name: uploadOptions
-    description: 'Additional options for the upload operation, including under what conditions to perform the upload.  '
+    description: Additional options for the upload operation, including under what conditions to perform the upload.
     types:
     - uid: OutputFileUploadOptions
 - name: EnvironmentSetting
@@ -256,11 +256,11 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: 'The name of the environment variable.  '
+    description: The name of the environment variable.
     types:
     - uid: string
   - name: value
-    description: 'The value of the environment variable.  '
+    description: The value of the environment variable.
     types:
     - uid: string
 - name: AffinityInformation
@@ -312,7 +312,7 @@ definitions:
     types:
     - uid: string
   - name: commonResourceFiles
-    description: 'A file to be downloaded from Azure blob storage to a compute node.  '
+    description: A file to be downloaded from Azure blob storage to a compute node.
     types:
     - uid: ResourceFile
       isArray: true
@@ -321,7 +321,7 @@ definitions:
   kind: object
   properties:
   - name: taskIds
-    description: "  "
+    description: "The list of task IDs that this task depends on. All tasks in this list must complete successfully before the dependent task can be scheduled.  \nThe taskIds collection is limited to 64000 characters total (i.e. the combined length of all task IDs). If the taskIds collection exceeds the maximum length, the Add Task request fails with error code TaskDependencyListTooLong. In this case consider using task ID ranges instead."
     types:
     - uid: string
       isArray: true
@@ -335,7 +335,7 @@ definitions:
   kind: object
   properties:
   - name: applicationId
-    description: 'The ID of the application to deploy.  '
+    description: The ID of the application to deploy.
     types:
     - uid: string
   - name: version
@@ -347,7 +347,7 @@ definitions:
   kind: object
   properties:
   - name: access
-    description: "  "
+    description: "The Batch resources to which the token grants access.  \nThe authentication token grants access to a limited set of Batch service operations. Currently the only supported value for the access property is 'job', which grants access to all operations related to the job which contains the task."
     types:
     - uid: string
       isArray: true
@@ -356,11 +356,11 @@ definitions:
   kind: object
   properties:
   - name: status
-    description: 'The status of the add task request.  '
+    description: The status of the add task request.
     types:
     - uid: TaskAddStatus
   - name: taskId
-    description: 'The ID of the task for which this is the result.  '
+    description: The ID of the task for which this is the result.
     types:
     - uid: string
   - name: eTag
@@ -368,43 +368,43 @@ definitions:
     types:
     - uid: string
   - name: lastModified
-    description: 'The last modified time of the task.  '
+    description: The last modified time of the task.
     types:
     - uid: string
   - name: location
-    description: 'The URL of the task, if the task was successfully added.  '
+    description: The URL of the task, if the task was successfully added.
     types:
     - uid: string
   - name: error
-    description: 'The error encountered while attempting to add the task.  '
+    description: The error encountered while attempting to add the task.
     types:
     - uid: BatchError
 - name: ErrorMessage
-  description: A message describing the error, intended to be suitable for display in a user interface.
+  description: An error message received in an Azure Batch error response.
   kind: object
   properties:
   - name: lang
-    description: 'The language code of the error message  '
+    description: The language code of the error message
     types:
     - uid: string
   - name: value
-    description: 'The text of the message.  '
+    description: The text of the message.
     types:
     - uid: string
 - name: BatchErrorDetail
-  description: A collection of key-value pairs containing additional details about the error.
+  description: An item of additional information included in an Azure Batch error response.
   kind: object
   properties:
   - name: key
-    description: 'An identifier specifying the meaning of the Value property.  '
+    description: An identifier specifying the meaning of the Value property.
     types:
     - uid: string
   - name: value
-    description: 'The additional information included with the error response.  '
+    description: The additional information included with the error response.
     types:
     - uid: string
 - name: ContainerRegistry
-  description: The private registry which contains the container image.
+  description: A private container registry.
   kind: object
   properties:
   - name: registryServer
@@ -412,43 +412,43 @@ definitions:
     types:
     - uid: string
   - name: username
-    description: 'The user name to log into the registry server.  '
+    description: The user name to log into the registry server.
     types:
     - uid: string
   - name: password
-    description: 'The password to log into the registry server.  '
+    description: The password to log into the registry server.
     types:
     - uid: string
 - name: ExitCodeMapping
-  description: A list of individual task exit codes and how the Batch service should respond to them.
+  description: How the Batch service should respond if a task exits with a particular exit code.
   kind: object
   properties:
   - name: code
-    description: 'A process exit code.  '
+    description: A process exit code.
     types:
     - uid: integer
   - name: exitOptions
-    description: 'How the Batch service should respond if the task exits with this exit code.  '
+    description: How the Batch service should respond if the task exits with this exit code.
     types:
     - uid: ExitOptions
 - name: ExitCodeRangeMapping
-  description: A list of task exit code ranges and how the Batch service should respond to them.
+  description: A range of exit codes and how the Batch service should respond to exit codes within that range.
   kind: object
   properties:
   - name: start
-    description: 'The first exit code in the range.  '
+    description: The first exit code in the range.
     types:
     - uid: integer
   - name: end
-    description: 'The last exit code in the range.  '
+    description: The last exit code in the range.
     types:
     - uid: integer
   - name: exitOptions
-    description: 'How the Batch service should respond if the task exits with an exit code in the range start to end (inclusive).  '
+    description: How the Batch service should respond if the task exits with an exit code in the range start to end (inclusive).
     types:
     - uid: ExitOptions
 - name: ExitOptions
-  description: How the Batch service should respond if the task exits with this exit code.
+  description: Specifies how the Batch service responds to a particular exit condition.
   kind: object
   properties:
   - name: jobAction
@@ -460,15 +460,15 @@ definitions:
     types:
     - uid: DependencyAction
 - name: OutputFileDestination
-  description: The destination for the output file(s).
+  description: The destination to which a file should be uploaded.
   kind: object
   properties:
   - name: container
-    description: 'A location in Azure blob storage to which files are uploaded.  '
+    description: A location in Azure blob storage to which files are uploaded.
     types:
     - uid: OutputFileBlobContainerDestination
 - name: OutputFileUploadOptions
-  description: Additional options for the upload operation, including under what conditions to perform the upload.
+  description: Details about an output file upload operation, including under what conditions to perform the upload.
   kind: object
   properties:
   - name: uploadCondition
@@ -484,19 +484,19 @@ definitions:
     types:
     - uid: AutoUserScope
   - name: elevationLevel
-    description: "The elevation level of the auto user.  \nnonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin."
+    description: "The elevation level of the auto user.  \nThe default value is nonAdmin."
     types:
     - uid: ElevationLevel
 - name: TaskIdRange
-  description: The list of task ID ranges that this task depends on. All tasks in all ranges must complete successfully before the dependent task can be scheduled.
+  description: A range of task IDs that a task can depend on. All tasks with IDs in the range must complete successfully before the dependent task can be scheduled.
   kind: object
   properties:
   - name: start
-    description: 'The first task ID in the range.  '
+    description: The first task ID in the range.
     types:
     - uid: integer
   - name: end
-    description: 'The last task ID in the range.  '
+    description: The last task ID in the range.
     types:
     - uid: integer
 - name: TaskAddStatus
@@ -544,7 +544,7 @@ definitions:
     types:
     - uid: string
 - name: OutputFileBlobContainerDestination
-  description: A location in Azure blob storage to which files are uploaded.
+  description: Specifies a file upload destination within an Azure blob storage container.
   kind: object
   properties:
   - name: path
@@ -556,7 +556,7 @@ definitions:
     types:
     - uid: string
 - name: OutputFileUploadCondition
-  description: The conditions under which the task output file or set of files should be uploaded.
+  description: The conditions under which a task output file or set of files should be uploaded.
   kind: enum
   properties:
   - name: tasksuccess
@@ -584,7 +584,7 @@ definitions:
     types:
     - uid: string
 - name: ElevationLevel
-  description: The elevation level of the auto user.
+  description: The elevation level of the user.
   kind: enum
   properties:
   - name: nonadmin
@@ -598,7 +598,7 @@ definitions:
 examples:
 - name: Add a basic collection of tasks
   request:
-    uri: POST https://batch.core.windows.net/jobs/jobId/addtaskcollection?api-version=2017-09-01.6.0
+    uri: POST https://batch.core.windows.net/jobs/jobId/addtaskcollection?api-version=2018-03-01.6.1
     body: >-
       {
         "value": [
@@ -638,7 +638,7 @@ examples:
       }
 - name: Add a complex collection of tasks
   request:
-    uri: POST https://batch.core.windows.net/jobs/jobId/addtaskcollection?api-version=2017-09-01.6.0
+    uri: POST https://batch.core.windows.net/jobs/jobId/addtaskcollection?api-version=2018-03-01.6.1
     body: >-
       {
         "value": [

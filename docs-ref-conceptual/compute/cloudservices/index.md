@@ -1,8 +1,8 @@
 ---
 title: "Cloud Services REST APIs"
-ms.date: "2017-10-04"
+ms.date: "10/04/2017"
 ms.prod: "azure"
-ms.service: "cloud-services"
+
 ms.topic: "reference"
 applies_to: 
   - "Azure"

@@ -3,7 +3,7 @@ uid: management.azure.com.resourcemanagement.policyassignments.list
 name: List
 service: Resource Management
 groupName: Policy Assignments
-apiVersion: 2016-12-01
+apiVersion: 2017-06-01-preview
 summary: Gets all the policy assignments for a subscription.
 consumes:
 - application/json
@@ -12,8 +12,8 @@ produces:
 - application/json
 - text/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments?api-version=2016-12-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&api-version=2016-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments?api-version=2017-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&api-version=2017-06-01-preview
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -38,6 +38,10 @@ responses:
   description: OK - Returns an array of policy assignments.
   types:
   - uid: PolicyAssignmentListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: PolicyAssignmentListResult
@@ -45,12 +49,28 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: "  \nThe policy assignment."
+    description: The policy assignment.
     types:
     - uid: PolicyAssignment
       isArray: true
   - name: nextLink
-    description: "  \nThe URL to use for getting the next set of results."
+    description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error reponse indicates ARM is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: httpStatus
+    description: Http status code.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
 - name: PolicyAssignment
@@ -59,38 +79,116 @@ definitions:
   properties:
   - name: id
     isReadyOnly: true
-    description: "  \nThe ID of the policy assignment."
+    description: The ID of the policy assignment.
     types:
     - uid: string
   - name: type
-    description: "  \nThe type of the policy assignment."
+    isReadyOnly: true
+    description: The type of the policy assignment.
     types:
     - uid: string
   - name: name
-    description: "  \nThe name of the policy assignment."
+    isReadyOnly: true
+    description: The name of the policy assignment.
     types:
     - uid: string
+  - name: sku
+    description: The policy sku.
+    types:
+    - uid: PolicySku
   - name: properties.displayName
-    description: "  \nThe display name of the policy assignment."
+    description: The display name of the policy assignment.
     types:
     - uid: string
   - name: properties.policyDefinitionId
-    description: "  \nThe ID of the policy definition."
+    description: The ID of the policy definition.
     types:
     - uid: string
   - name: properties.scope
-    description: "  \nThe scope for the policy assignment."
+    description: The scope for the policy assignment.
     types:
     - uid: string
+  - name: properties.notScopes
+    description: The policy's excluded scopes.
+    types:
+    - uid: string
+      isArray: true
   - name: properties.parameters
-    description: "  \nRequired if a parameter is used in policy rule."
+    description: Required if a parameter is used in policy rule.
     types:
     - uid: object
   - name: properties.description
-    description: "  \nThis message will be part of response in case of policy violation."
+    description: This message will be part of response in case of policy violation.
     types:
     - uid: string
-examples: []
+  - name: properties.metadata
+    description: The policy assignment metadata.
+    types:
+    - uid: object
+- name: PolicySku
+  description: The policy sku.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the policy sku. Possible values are A0 and A1.
+    types:
+    - uid: string
+  - name: tier
+    description: The policy sku tier. Possible values are Free and Standard.
+    types:
+    - uid: string
+examples:
+- name: List policy assignments
+  request:
+    uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Authorization/policyAssignments?$filter=atScope()&api-version=2017-06-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subId/providers/Microsoft.Authorization/policyAssignments/costManagement",
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "costManagement",
+            "properties": {
+              "displayName": "Storage Cost Management",
+              "description": "Policies required to minimize the risk of accidental cost overruns",
+              "metadata": {
+                "category": "Cost Management"
+              },
+              "policyDefinitionId": "/subscriptions/subId/providers/Microsoft.Authorization/policyDefinitions/storageSkus",
+              "parameters": {
+                "allowedSkus": {
+                  "type": "Array"
+                }
+              },
+              "notScopes": [
+                "/subscriptions/subId/resourcegroups/testingResourceGroup"
+              ],
+              "scope": "/subscriptions/subId"
+            },
+            "sku": {
+              "name": "A0",
+              "tier": "Free"
+            }
+          },
+          {
+            "id": "/subscriptions/subId/providers/Microsoft.Authorization/policyAssignments/tagEnforcement",
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "tagEnforcement",
+            "properties": {
+              "displayName": "Enforces a tag key and value",
+              "description": "Policy that ensures a given tag key and value are present on all resources",
+              "policyDefinitionId": "/subscriptions/subId/providers/Microsoft.Authorization/policyDefinitions/tagKeyValue",
+              "scope": "/subscriptions/subId"
+            },
+            "sku": {
+              "name": "A0",
+              "tier": "Free"
+            }
+          }
+        ]
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

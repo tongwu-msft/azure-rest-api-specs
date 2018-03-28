@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.groupuser.list
 name: List
 service: API Management
 groupName: Group User
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Lists a collection of the members of the group, specified by its identifier.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users?api-version=2017-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users?api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -39,7 +39,7 @@ uriParameters:
   description: Group identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: $filter
   in: query
   description: >-
@@ -96,12 +96,12 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: "  \nUser details."
+    description: User details.
     types:
     - uid: UserContract
       isArray: true
   - name: nextLink
-    description: "  \nNext page link if any."
+    description: Next page link if any.
     types:
     - uid: string
 - name: ErrorResponse
@@ -109,15 +109,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: "  \nService-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
   - name: message
-    description: "  \nHuman-readable representation of the error."
+    description: Human-readable representation of the error.
     types:
     - uid: string
   - name: details
-    description: "  \nError Field contract."
+    description: Error Field contract.
     types:
     - uid: ErrorFieldContract
       isArray: true
@@ -126,53 +126,53 @@ definitions:
   kind: object
   properties:
   - name: properties.firstName
-    description: "  \nFirst name."
+    description: First name.
     types:
     - uid: string
   - name: properties.lastName
-    description: "  \nLast name."
+    description: Last name.
     types:
     - uid: string
   - name: properties.email
-    description: "  \nEmail address."
+    description: Email address.
     types:
     - uid: string
   - name: properties.registrationDate
-    description: "  \nDate of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard."
+    description: 'Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
     types:
     - uid: string
   - name: properties.groups
     isReadyOnly: true
-    description: "  \nContract details."
+    description: Group contract Properties.
     types:
-    - uid: GroupContract
+    - uid: GroupContractProperties
       isArray: true
   - name: id
     isReadyOnly: true
-    description: "  \nResource ID."
+    description: Resource ID.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: "  \nResource name."
+    description: Resource name.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: "  \nResource type for API Management resource."
+    description: Resource type for API Management resource.
     types:
     - uid: string
   - name: properties.state
-    description: "  \nAccount state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active."
+    description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
     types:
     - uid: UserState
   - name: properties.note
-    description: "  \nOptional note about a user set by the administrator."
+    description: Optional note about a user set by the administrator.
     types:
     - uid: string
   - name: properties.identities
     isReadyOnly: true
-    description: "  \nUser identity details."
+    description: User identity details.
     types:
     - uid: UserIdentityContract
       isArray: true
@@ -181,55 +181,40 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: "  \nProperty level error code."
+    description: Property level error code.
     types:
     - uid: string
   - name: message
-    description: "  \nHuman-readable representation of property-level error."
+    description: Human-readable representation of property-level error.
     types:
     - uid: string
   - name: target
-    description: "  \nProperty name."
+    description: Property name.
     types:
     - uid: string
-- name: GroupContract
-  description: Page values.
+- name: GroupContractProperties
+  description: Group contract Properties.
   kind: object
   properties:
-  - name: properties.displayName
-    description: "  \nGroup name."
+  - name: displayName
+    description: Group name.
     types:
     - uid: string
-  - name: properties.description
-    description: "  \nGroup description. Can contain HTML formatting tags."
+  - name: description
+    description: Group description. Can contain HTML formatting tags.
     types:
     - uid: string
-  - name: properties.builtIn
+  - name: builtIn
     isReadyOnly: true
-    description: "  \ntrue if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false."
+    description: true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
     types:
     - uid: boolean
-  - name: properties.type
-    description: "  \nGroup type."
+  - name: type
+    description: Group type.
     types:
     - uid: GroupType
-  - name: properties.externalId
-    description: "  \nFor external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null."
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: "  \nResource ID."
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: "  \nResource name."
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: "  \nResource type for API Management resource."
+  - name: externalId
+    description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
     types:
     - uid: string
 - name: UserState
@@ -257,11 +242,11 @@ definitions:
   kind: object
   properties:
   - name: provider
-    description: "  \nIdentity provider name."
+    description: Identity provider name.
     types:
     - uid: string
   - name: id
-    description: "  \nIdentifier value within provider."
+    description: Identifier value within provider.
     types:
     - uid: string
 - name: GroupType
@@ -280,7 +265,7 @@ definitions:
 examples:
 - name: ApiManagementListGroupUsers
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/57d2ef278aa04f0888cba3f3/users?api-version=2017-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/57d2ef278aa04f0888cba3f3/users?api-version=2018-01-01
   responses:
   - statusCode: "200"
     body: >-

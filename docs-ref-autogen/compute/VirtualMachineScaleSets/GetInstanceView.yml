@@ -1,0 +1,150 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.virtualmachinescalesets.getinstanceview
+name: Get Instance View
+service: Compute
+groupName: Virtual Machine Scale Sets
+apiVersion: 2017-12-01
+summary: Gets the status of a VM scale set instance.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/instanceView?api-version=2017-12-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: vmScaleSetName
+  in: path
+  isRequired: true
+  description: The name of the VM scale set.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: VirtualMachineScaleSetInstanceView
+requestHeader: []
+definitions:
+- name: VirtualMachineScaleSetInstanceView
+  description: The instance view of a virtual machine scale set.
+  kind: object
+  properties:
+  - name: virtualMachine
+    isReadyOnly: true
+    description: The instance view status summary for the virtual machine scale set.
+    types:
+    - uid: VirtualMachineScaleSetInstanceViewStatusesSummary
+  - name: extensions
+    isReadyOnly: true
+    description: Extensions summary for virtual machines of a virtual machine scale set.
+    types:
+    - uid: VirtualMachineScaleSetVMExtensionsSummary
+      isArray: true
+  - name: statuses
+    description: Instance view status.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+- name: VirtualMachineScaleSetInstanceViewStatusesSummary
+  description: Instance view statuses summary for virtual machines of a virtual machine scale set.
+  kind: object
+  properties:
+  - name: statusesSummary
+    isReadyOnly: true
+    description: The status code and count of the virtual machine scale set instance view status summary.
+    types:
+    - uid: VirtualMachineStatusCodeCount
+      isArray: true
+- name: VirtualMachineScaleSetVMExtensionsSummary
+  description: Extensions summary for virtual machines of a virtual machine scale set.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The extension name.
+    types:
+    - uid: string
+  - name: statusesSummary
+    isReadyOnly: true
+    description: The status code and count of the virtual machine scale set instance view status summary.
+    types:
+    - uid: VirtualMachineStatusCodeCount
+      isArray: true
+- name: InstanceViewStatus
+  description: Instance view status.
+  kind: object
+  properties:
+  - name: code
+    description: The status code.
+    types:
+    - uid: string
+  - name: level
+    description: The level code.
+    types:
+    - uid: StatusLevelTypes
+  - name: displayStatus
+    description: The short localizable label for the status.
+    types:
+    - uid: string
+  - name: message
+    description: The detailed status message, including for alerts and error messages.
+    types:
+    - uid: string
+  - name: time
+    description: The time of the status.
+    types:
+    - uid: string
+- name: VirtualMachineStatusCodeCount
+  description: The status code and count of the virtual machine scale set instance view status summary.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The instance view status code.
+    types:
+    - uid: string
+  - name: count
+    isReadyOnly: true
+    description: The number of instances having a particular status code.
+    types:
+    - uid: integer
+- name: StatusLevelTypes
+  description: The level code.
+  kind: enum
+  properties:
+  - name: Info
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

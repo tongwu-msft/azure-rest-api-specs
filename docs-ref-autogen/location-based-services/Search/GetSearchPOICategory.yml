@@ -10,26 +10,26 @@ produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/search/poi/category/{format}?api-version=1.0&subscription-key={subscription-key}&query={query}
-- content: GET https://atlas.microsoft.com/search/poi/category/{format}?api-version=1.0&subscription-key={subscription-key}&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}
+- content: GET https://atlas.microsoft.com/search/poi/category/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/search/poi/category/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&typeahead={typeahead}&limit={limit}&multiplier={multiplier}&routingTimeout={routingTimeout}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response
-  types:
-  - uid: string
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version number of Azure LBS API.  Current version is 1.0
+  description: Desired format of the response. Possible values are json & xml.
   types:
   - uid: string
 - name: subscription-key
   in: query
   isRequired: true
-  description: Azure LBS subscription key
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API.  Current version is 1.0
   types:
   - uid: string
 - name: query
@@ -40,39 +40,44 @@ uriParameters:
   - uid: string
 - name: typeahead
   in: query
-  description: true or false.  If the typeahead flag is set, the query will be interpreted as a partial input and the search will enter�predictive�mode
+  description: Boolean.  If the typeahead flag is set, the query will be interpreted as a partial input and the search will enter predictive mode
   types:
-  - uid: string
+  - uid: boolean
 - name: limit
   in: query
-  description: Maximum number of responses that will be returned.  Max value is 100
+  description: Maximum number of responses that will be returned.
   types:
-  - uid: string
-- name: ofs
+  - uid: integer
+- name: multiplier
   in: query
-  description: Starting offset of the returned results within the full result set.  Max value is 1900
+  description: Multiplies the limit by this value to gather more candidate POIs, which will then be sorted by drive distance, returning only the top candidates according to the limit.
   types:
-  - uid: string
+  - uid: integer
+- name: routingTimeout
+  in: query
+  description: Number of milliseconds routing engine can take to give the results.
+  types:
+  - uid: integer
 - name: countrySet
   in: query
   description: Comma separated string of country codes, e.g. FR, ES. This will limit the search to the specified countries
   types:
-  - uid: string
+  - uid: array
 - name: lat
   in: query
   description: Latitude where results should be biased.  E.g. 37.337
   types:
-  - uid: string
+  - uid: number
 - name: lon
   in: query
   description: Longitude where results should be biased.  E.g. -121.89
   types:
-  - uid: string
+  - uid: number
 - name: radius
   in: query
   description: The radius in meters to for the results to be constrained to the defined area
   types:
-  - uid: string
+  - uid: number
 - name: topLeft
   in: query
   description: Top left position of the bounding box.  E.g. 37.553,-122.453
@@ -97,7 +102,7 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: searchpoicategory200
+  - uid: SearchPoiCategoryResult
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -120,20 +125,20 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: searchpoicategory200
+- name: SearchPoiCategoryResult
   description: This object is returned from a successful Search POI Category call
   kind: object
   properties:
   - name: summary
     isReadyOnly: true
-    description: "  \nSummary object"
+    description: Summary object
     types:
     - uid: Summary
   - name: results
     isReadyOnly: true
-    description: "  "
+    description: Results array
     types:
-    - uid: Results
+    - uid: SearchPoiCategoryResultArray
       isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
@@ -141,12 +146,12 @@ definitions:
   properties:
   - name: statuscode
     isReadyOnly: true
-    description: "  \nError code."
+    description: Error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: "  \nIf available, a human readable description of the error."
+    description: If available, a human readable description of the error.
     types:
     - uid: string
 - name: Summary
@@ -155,284 +160,302 @@ definitions:
   properties:
   - name: query
     isReadyOnly: true
-    description: "  \nQuery property"
+    description: Query property
     types:
     - uid: string
   - name: queryType
     isReadyOnly: true
-    description: "  \nQueryType property"
+    description: QueryType property
     types:
     - uid: string
   - name: queryTime
     isReadyOnly: true
-    description: "  \nQueryTime property"
+    description: QueryTime property
     types:
     - uid: integer
   - name: numResults
     isReadyOnly: true
-    description: "  \nNumResults property"
+    description: NumResults property
     types:
     - uid: integer
   - name: offset
     isReadyOnly: true
-    description: "  \nOffset property"
+    description: Offset property
     types:
     - uid: integer
   - name: totalResults
     isReadyOnly: true
-    description: "  \nTotalResults property"
+    description: TotalResults property
     types:
     - uid: integer
   - name: fuzzyLevel
     isReadyOnly: true
-    description: "  \nFuzzyLevel property"
+    description: FuzzyLevel property
     types:
     - uid: integer
-- name: Results
-  description: Results array
+- name: SearchPoiCategoryResultArray
   kind: object
   properties:
   - name: type
     isReadyOnly: true
-    description: "  \nType property"
+    description: Type property
     types:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: "  \nId property"
+    description: Id property
     types:
     - uid: string
   - name: score
     isReadyOnly: true
-    description: "  \nScore property"
+    description: Score property
     types:
     - uid: number
   - name: info
     isReadyOnly: true
-    description: "  \nInfo property"
+    description: Info property
     types:
     - uid: string
   - name: entityType
     isReadyOnly: true
-    description: "  \nEntity Type property"
+    description: Entity Type property
     types:
     - uid: string
   - name: poi
-    description: "  \nPOI property"
+    description: POI property
     types:
-    - uid: poi
+    - uid: Poi
   - name: address
-    description: "  \nThe address of the result"
+    description: The address of the result
     types:
-    - uid: address
+    - uid: Address
   - name: position
-    description: "  \nCoordinates of the result"
+    description: Coordinates of the result
     types:
-    - uid: position
+    - uid: Position
   - name: viewport
-    description: "  \nThe viewport that covers the result"
+    description: The viewport that covers the result
     types:
-    - uid: viewport
-  - name: boundingBox
-    description: "  \nBounding box of the result"
+    - uid: Viewport
+  - name: entryPoints
+    description: Entry Points array
     types:
-    - uid: BoundingBox
-- name: poi
+    - uid: EntityPoint
+      isArray: true
+- name: Poi
   description: POI property
   kind: object
   properties:
   - name: name
     isReadyOnly: true
-    description: "  \nName property"
+    description: Name property
     types:
     - uid: string
   - name: phone
     isReadyOnly: true
-    description: "  \nPhone property"
+    description: Phone property
     types:
     - uid: string
   - name: url
     isReadyOnly: true
-    description: "  \nURL property"
+    description: URL property
     types:
     - uid: string
   - name: categories
     isReadyOnly: true
-    description: "  "
+    description: Categories array
     types:
     - uid: string
       isArray: true
   - name: classifications
     isReadyOnly: true
-    description: "  "
+    description: Classification array
     types:
-    - uid: Classifications
+    - uid: Classification
       isArray: true
-- name: address
+- name: Address
   description: The address of the result
   kind: object
   properties:
   - name: buildingNumber
     isReadyOnly: true
-    description: "  \nBuilding Number property"
+    description: Building Number property
     types:
     - uid: string
   - name: street
     isReadyOnly: true
-    description: "  \nStreet property"
+    description: Street property
     types:
     - uid: string
   - name: crossStreet
     isReadyOnly: true
-    description: "  \nCross Street property"
+    description: Cross Street property
     types:
     - uid: string
   - name: streetNumber
     isReadyOnly: true
-    description: "  \nStreet Number property"
+    description: Street Number property
     types:
     - uid: string
+  - name: routeNumbers
+    isReadyOnly: true
+    description: number of routes
+    types:
+    - uid: integer
+      isArray: true
   - name: streetName
     isReadyOnly: true
-    description: "  \nStreet Name property"
+    description: Street Name property
     types:
     - uid: string
   - name: streetNameAndNumber
     isReadyOnly: true
-    description: "  \nStreet Name and Number property"
+    description: Street Name and Number property
     types:
     - uid: string
   - name: municipality
     isReadyOnly: true
-    description: "  \nMunicipality property"
+    description: Municipality property
     types:
     - uid: string
   - name: municipalitySubdivision
     isReadyOnly: true
-    description: "  \nMunicipality Subdivision property"
+    description: Municipality Subdivision property
     types:
     - uid: string
   - name: countryTertiarySubdivision
     isReadyOnly: true
-    description: "  \nCountry Tertiary Subdivision property"
+    description: Country Tertiary Subdivision property
     types:
     - uid: string
   - name: countrySecondarySubdivision
     isReadyOnly: true
-    description: "  \nCountry Secondary Subdivision property"
+    description: Country Secondary Subdivision property
     types:
     - uid: string
   - name: countrySubdivision
     isReadyOnly: true
-    description: "  \nCountry Subdivision property"
+    description: Country Subdivision property
     types:
     - uid: string
   - name: postalCode
     isReadyOnly: true
-    description: "  \nPostal Code property"
+    description: Postal Code property
     types:
     - uid: string
   - name: extendedPostalCode
     isReadyOnly: true
-    description: "  \nExtended Postal Code property"
+    description: Extended Postal Code property
     types:
     - uid: string
   - name: countryCode
     isReadyOnly: true
-    description: "  \nCountry Code property"
+    description: Country Code property
     types:
     - uid: string
   - name: country
     isReadyOnly: true
-    description: "  \nCountry property"
+    description: Country property
     types:
     - uid: string
   - name: countryCodeISO3
     isReadyOnly: true
-    description: "  \nCountry Code ISO3 property"
+    description: Country Code ISO3 property
     types:
     - uid: string
   - name: freeformAddress
     isReadyOnly: true
-    description: "  \nFree form Address property"
+    description: Free form Address property
     types:
     - uid: string
   - name: countrySubdivisionName
     isReadyOnly: true
-    description: "  \nCountry Subdividion Name property"
+    description: Country Subdividion Name property
     types:
     - uid: string
   - name: boundingBox
-    description: "  \nBounding Box for the address"
+    description: Bounding Box for the address
     types:
     - uid: BoundingBox
-- name: position
+- name: Position
   description: Coordinates of the result
   kind: object
   properties:
   - name: lat
     isReadyOnly: true
-    description: "  \nLatitude property"
+    description: Latitude property
     types:
     - uid: number
   - name: lon
     isReadyOnly: true
-    description: "  \nLongitude property"
+    description: Longitude property
     types:
     - uid: number
-- name: viewport
+- name: Viewport
   description: The viewport that covers the result
   kind: object
   properties:
   - name: topLeftPoint
-    description: "  \nTop left of the viewport"
+    description: Top left of the viewport
     types:
     - uid: TopLeftPoint
   - name: btmRightPoint
-    description: "  \nBottom right of the viewport"
+    description: Bottom right of the viewport
     types:
     - uid: BtmRightPoint
+- name: EntityPoint
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: Name Locale property
+    types:
+    - uid: string
+  - name: position
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: Position
+- name: Classification
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Code property
+    types:
+    - uid: string
+  - name: names
+    isReadyOnly: true
+    description: Names array
+    types:
+    - uid: ClassificationName
+      isArray: true
 - name: BoundingBox
   description: Bounding Box for the address
   kind: object
   properties:
   - name: northEast
     isReadyOnly: true
-    description: "  \nThe North East coordinates for the Bounding Box"
+    description: The North East coordinates for the Bounding Box
     types:
     - uid: string
   - name: southWest
     isReadyOnly: true
-    description: "  \nThe South West coordinates for the Bounding Box"
+    description: The South West coordinates for the Bounding Box
     types:
     - uid: string
-- name: Classifications
-  description: Classification array
-  kind: object
-  properties:
-  - name: code
-    isReadyOnly: true
-    description: "  \nCode property"
-    types:
-    - uid: string
-  - name: names
-    isReadyOnly: true
-    description: "  "
-    types:
-    - uid: Names
-      isArray: true
 - name: TopLeftPoint
   description: Top left of the viewport
   kind: object
   properties:
   - name: lat
     isReadyOnly: true
-    description: "  \nLatitude"
+    description: Latitude
     types:
     - uid: number
   - name: lon
     isReadyOnly: true
-    description: "  \nLongitude"
+    description: Longitude
     types:
     - uid: number
 - name: BtmRightPoint
@@ -441,26 +464,25 @@ definitions:
   properties:
   - name: lat
     isReadyOnly: true
-    description: "  \nLatitude"
+    description: Latitude
     types:
     - uid: number
   - name: lon
     isReadyOnly: true
-    description: "  \nLongitude"
+    description: Longitude
     types:
     - uid: number
-- name: Names
-  description: Names array
+- name: ClassificationName
   kind: object
   properties:
   - name: nameLocale
     isReadyOnly: true
-    description: "  \nName Locale property"
+    description: Name Locale property
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: "  \nName property"
+    description: Name property
     types:
     - uid: string
 examples:
@@ -474,484 +496,355 @@ examples:
         "summary": {
           "query": "atm",
           "queryType": "NON_NEAR",
-          "queryTime": 124,
+          "queryTime": 8,
           "numResults": 10,
           "offset": 0,
-          "totalResults": 1767962,
+          "totalResults": 2075123,
           "fuzzyLevel": 1
         },
         "results": [
           {
             "type": "POI",
-            "id": "AD/POI/p0/1934",
+            "id": "AD/POI/p0/90",
             "score": 4,
-            "info": "search:decarta:ta:020009000005661-AD",
+            "info": "search:ta:020009000000893-AD",
             "poi": {
-              "name": "Vall Banc Sau",
-              "phone": "+(376)-(750)-700",
+              "name": "Banca Internacional Banca Mora",
               "categories": [
-                "bank"
+                "cash dispenser"
               ],
               "classifications": [
                 {
-                  "code": "BANK",
+                  "code": "CASH_DISPENSER",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "bank"
+                      "name": "cash dispenser"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "119",
-              "streetName": "Avinguda Carlemany",
-              "municipalitySubdivision": "Escaldes-Engordany",
-              "municipality": "Escaldes-Engordany",
-              "postalCode": "AD700",
+              "streetName": "Avinguda de Sant Antoni",
+              "municipalitySubdivision": "la Massana",
+              "municipality": "La Massana",
+              "postalCode": "AD400",
               "countryCode": "AD",
               "country": "Andorra",
               "countryCodeISO3": "AND",
-              "freeformAddress": "Avinguda Carlemany 119, Escaldes-Engordany, AD700"
+              "freeformAddress": "Avinguda de Sant Antoni, la Massana, AD400"
             },
             "position": {
-              "lat": 42.50841,
-              "lon": 1.53443
+              "lat": 42.54405,
+              "lon": 1.51609
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 42.50931,
-                "lon": 1.53321
+                "lat": 42.54495,
+                "lon": 1.51487
               },
               "btmRightPoint": {
-                "lat": 42.50751,
-                "lon": 1.53565
+                "lat": 42.54315,
+                "lon": 1.51731
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 42.50852,
-                  "lon": 1.53442
+                  "lat": 42.54404,
+                  "lon": 1.51607
                 }
               }
             ]
           },
           {
             "type": "POI",
-            "id": "AD/POI/p0/1935",
+            "id": "AD/POI/p0/116",
             "score": 4,
-            "info": "search:decarta:ta:020009000002372-AD",
+            "info": "search:ta:020009000008063-AD",
             "poi": {
-              "name": "Sociedad Financiera Pyrenees Sau",
-              "phone": "+(376)-(880)-000",
+              "name": "BancSabadell d'Andorra",
               "categories": [
-                "bank"
+                "cash dispenser"
               ],
               "classifications": [
                 {
-                  "code": "BANK",
+                  "code": "CASH_DISPENSER",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "bank"
+                      "name": "cash dispenser"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "11",
-              "streetName": "Carrer de la Plana",
-              "municipalitySubdivision": "Santa Coloma",
-              "municipality": "Andorra la Vella",
-              "postalCode": "AD500",
+              "streetName": "Avinguda de Sant Antoni",
+              "municipality": "La Massana",
+              "postalCode": "AD400",
               "countryCode": "AD",
               "country": "Andorra",
               "countryCodeISO3": "AND",
-              "freeformAddress": "Carrer de la Plana 11, Andorra la Vella, AD500"
+              "freeformAddress": "Avinguda de Sant Antoni, la Massana, AD400"
             },
             "position": {
-              "lat": 42.49629,
-              "lon": 1.50216
+              "lat": 42.53713,
+              "lon": 1.52009
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 42.49719,
-                "lon": 1.50094
+                "lat": 42.53803,
+                "lon": 1.51887
               },
               "btmRightPoint": {
-                "lat": 42.49539,
-                "lon": 1.50338
+                "lat": 42.53623,
+                "lon": 1.52131
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 42.49627,
-                  "lon": 1.50207
+                  "lat": 42.53713,
+                  "lon": 1.52009
                 }
               }
             ]
           },
           {
             "type": "POI",
-            "id": "AD/POI/p0/1936",
+            "id": "AD/POI/p0/119",
             "score": 4,
-            "info": "search:decarta:ta:020009000002535-AD",
+            "info": "search:ta:020009000000845-AD",
             "poi": {
-              "name": "Banc Agricol I Comercial D'andorra",
-              "phone": "+(376)-(873)-000",
+              "name": "Banca Pública d'Andorra",
               "categories": [
-                "bank"
+                "cash dispenser"
               ],
               "classifications": [
                 {
-                  "code": "BANK",
+                  "code": "CASH_DISPENSER",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "bank"
+                      "name": "cash dispenser"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "6",
-              "streetName": "Carrer de Moss�n Cinto Verdaguer",
+              "streetName": "Carrer del Prat de la Creu",
               "municipalitySubdivision": "Andorra la Vella",
               "municipality": "Andorra la Vella",
               "postalCode": "AD500",
               "countryCode": "AD",
               "country": "Andorra",
               "countryCodeISO3": "AND",
-              "freeformAddress": "Carrer de Moss�n Cinto Verdaguer 6, Andorra la Vella, AD500"
+              "freeformAddress": "Carrer del Prat de la Creu, Andorra la Vella, AD500"
             },
             "position": {
-              "lat": 42.50844,
-              "lon": 1.52201
+              "lat": 42.50555,
+              "lon": 1.51942
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 42.50934,
-                "lon": 1.52079
+                "lat": 42.50645,
+                "lon": 1.5182
               },
               "btmRightPoint": {
-                "lat": 42.50754,
-                "lon": 1.52323
+                "lat": 42.50465,
+                "lon": 1.52064
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 42.5084,
-                  "lon": 1.52203
+                  "lat": 42.50555,
+                  "lon": 1.51942
                 }
               }
             ]
           },
           {
             "type": "POI",
-            "id": "AD/POI/p0/1937",
+            "id": "AD/POI/p0/123",
             "score": 4,
-            "info": "search:decarta:ta:020009000002429-AD",
+            "info": "search:ta:020009000000945-AD",
             "poi": {
-              "name": "Credit Andorra",
-              "phone": "+(376)-(888)-000",
+              "name": "Crèdit Andorrà",
               "categories": [
-                "bank"
+                "cash dispenser"
               ],
               "classifications": [
                 {
-                  "code": "BANK",
+                  "code": "CASH_DISPENSER",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "bank"
+                      "name": "cash dispenser"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "80",
-              "streetName": "Avinguda Meritxell",
+              "streetName": "Avinguda Príncep Benlloch",
               "municipalitySubdivision": "Andorra la Vella",
               "municipality": "Andorra la Vella",
               "postalCode": "AD500",
               "countryCode": "AD",
               "country": "Andorra",
               "countryCodeISO3": "AND",
-              "freeformAddress": "Avinguda Meritxell 80, Andorra la Vella, AD500"
+              "freeformAddress": "Avinguda Príncep Benlloch, Andorra la Vella, AD500"
             },
             "position": {
-              "lat": 42.50862,
-              "lon": 1.52938
+              "lat": 42.5073,
+              "lon": 1.51958
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 42.50952,
-                "lon": 1.52816
+                "lat": 42.5082,
+                "lon": 1.51836
               },
               "btmRightPoint": {
-                "lat": 42.50772,
-                "lon": 1.5306
+                "lat": 42.5064,
+                "lon": 1.5208
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 42.50873,
-                  "lon": 1.52943
+                  "lat": 42.5073,
+                  "lon": 1.51958
                 }
               }
             ]
           },
           {
             "type": "POI",
-            "id": "AD/POI/p0/1938",
+            "id": "AD/POI/p0/159",
             "score": 4,
-            "info": "search:decarta:ta:020009000002156-AD",
+            "info": "search:ta:020009000000822-AD",
+            "poi": {
+              "name": "Banca Internacional Banca Mora",
+              "categories": [
+                "cash dispenser"
+              ],
+              "classifications": [
+                {
+                  "code": "CASH_DISPENSER",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "cash dispenser"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetName": "Avinguda de Santa Coloma",
+              "municipalitySubdivision": "Andorra la Vella",
+              "municipality": "Andorra la Vella",
+              "postalCode": "AD500",
+              "countryCode": "AD",
+              "country": "Andorra",
+              "countryCodeISO3": "AND",
+              "freeformAddress": "Avinguda de Santa Coloma, Andorra la Vella, AD500"
+            },
+            "position": {
+              "lat": 42.50386,
+              "lon": 1.51415
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 42.50476,
+                "lon": 1.51293
+              },
+              "btmRightPoint": {
+                "lat": 42.50296,
+                "lon": 1.51537
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 42.50386,
+                  "lon": 1.51415
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "AD/POI/p0/203",
+            "score": 4,
+            "info": "search:ta:020009000000788-AD",
+            "poi": {
+              "name": "Bancaixa",
+              "categories": [
+                "cash dispenser"
+              ],
+              "classifications": [
+                {
+                  "code": "CASH_DISPENSER",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "cash dispenser"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetName": "Avinguda Príncep Benlloch",
+              "municipalitySubdivision": "Andorra la Vella",
+              "municipality": "Andorra la Vella",
+              "postalCode": "AD500",
+              "countryCode": "AD",
+              "country": "Andorra",
+              "countryCodeISO3": "AND",
+              "freeformAddress": "Avinguda Príncep Benlloch, Andorra la Vella, AD500"
+            },
+            "position": {
+              "lat": 42.50507,
+              "lon": 1.51507
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 42.50597,
+                "lon": 1.51385
+              },
+              "btmRightPoint": {
+                "lat": 42.50417,
+                "lon": 1.51629
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 42.50507,
+                  "lon": 1.51507
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "AD/POI/p0/210",
+            "score": 4,
+            "info": "search:ta:020009000010255-AD",
             "poi": {
               "name": "MORABANC",
-              "phone": "+(376)-(884)-884",
-              "categories": [
-                "bank"
-              ],
-              "classifications": [
-                {
-                  "code": "BANK",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "bank"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "96",
-              "streetName": "Avinguda Meritxell",
-              "municipalitySubdivision": "Andorra la Vella",
-              "municipality": "Andorra la Vella",
-              "postalCode": "AD500",
-              "countryCode": "AD",
-              "country": "Andorra",
-              "countryCodeISO3": "AND",
-              "freeformAddress": "Avinguda Meritxell 96, Andorra la Vella, AD500"
-            },
-            "position": {
-              "lat": 42.50813,
-              "lon": 1.53092
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 42.50903,
-                "lon": 1.5297
-              },
-              "btmRightPoint": {
-                "lat": 42.50723,
-                "lon": 1.53214
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 42.50824,
-                  "lon": 1.53092
-                }
-              }
-            ]
-          },
-          {
-            "type": "POI",
-            "id": "AD/POI/p0/1939",
-            "score": 4,
-            "info": "search:decarta:ta:020009000001878-AD",
-            "poi": {
-              "name": "Andorra Banc Agricol Reig",
-              "phone": "+(376)-(873)-330",
-              "categories": [
-                "bank"
-              ],
-              "classifications": [
-                {
-                  "code": "BANK",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "bank"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "4",
-              "streetName": "Avinguda de Fiter i Rossell",
-              "municipalitySubdivision": "Escaldes-Engordany",
-              "municipality": "Escaldes-Engordany",
-              "postalCode": "AD700",
-              "countryCode": "AD",
-              "country": "Andorra",
-              "countryCodeISO3": "AND",
-              "freeformAddress": "Avinguda de Fiter i Rossell 4, Escaldes-Engordany, AD700"
-            },
-            "position": {
-              "lat": 42.51079,
-              "lon": 1.53372
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 42.51169,
-                "lon": 1.5325
-              },
-              "btmRightPoint": {
-                "lat": 42.50989,
-                "lon": 1.53494
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 42.51081,
-                  "lon": 1.53367
-                }
-              }
-            ]
-          },
-          {
-            "type": "POI",
-            "id": "AD/POI/p0/1940",
-            "score": 4,
-            "info": "search:decarta:ta:020009000001723-AD",
-            "poi": {
-              "name": "Bsa",
-              "phone": "+(376)-(735)-600",
-              "categories": [
-                "bank"
-              ],
-              "classifications": [
-                {
-                  "code": "BANK",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "bank"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "7",
-              "streetName": "Avinguda del Fener",
-              "municipalitySubdivision": "Escaldes-Engordany",
-              "municipality": "Escaldes-Engordany",
-              "postalCode": "AD500",
-              "countryCode": "AD",
-              "country": "Andorra",
-              "countryCodeISO3": "AND",
-              "freeformAddress": "Avinguda del Fener 7, Andorra la Vella, AD500"
-            },
-            "position": {
-              "lat": 42.50718,
-              "lon": 1.53429
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 42.50808,
-                "lon": 1.53307
-              },
-              "btmRightPoint": {
-                "lat": 42.50628,
-                "lon": 1.53551
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 42.50718,
-                  "lon": 1.53429
-                }
-              }
-            ]
-          },
-          {
-            "type": "POI",
-            "id": "AD/POI/p0/1941",
-            "score": 4,
-            "info": "search:decarta:ta:020009000001735-AD",
-            "poi": {
-              "name": "Bpa",
-              "phone": "+(376)-(873)-501",
-              "categories": [
-                "bank"
-              ],
-              "classifications": [
-                {
-                  "code": "BANK",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "bank"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "119",
-              "streetName": "Avinguda Carlemany",
-              "municipalitySubdivision": "Escaldes-Engordany",
-              "municipality": "Escaldes-Engordany",
-              "postalCode": "AD700",
-              "countryCode": "AD",
-              "country": "Andorra",
-              "countryCodeISO3": "AND",
-              "freeformAddress": "Avinguda Carlemany 119, Escaldes-Engordany, AD700"
-            },
-            "position": {
-              "lat": 42.50847,
-              "lon": 1.5344
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 42.50937,
-                "lon": 1.53318
-              },
-              "btmRightPoint": {
-                "lat": 42.50757,
-                "lon": 1.53562
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 42.50852,
-                  "lon": 1.53439
-                }
-              }
-            ]
-          },
-          {
-            "type": "POI",
-            "id": "AD/POI/p0/1942",
-            "score": 4,
-            "info": "search:decarta:ta:020009000005257-AD",
-            "poi": {
-              "name": "BANCA MORA",
               "categories": [
                 "cash dispenser"
               ],
@@ -968,47 +861,45 @@ examples:
               ]
             },
             "address": {
-              "streetNumber": "34",
-              "streetName": "Avinguda d'Enclar",
-              "municipalitySubdivision": "Santa Coloma",
-              "municipality": "Andorra la Vella",
-              "postalCode": "AD500",
+              "streetName": "Avinguda del Travos",
+              "municipality": "La Massana",
+              "postalCode": "AD400",
               "countryCode": "AD",
               "country": "Andorra",
               "countryCodeISO3": "AND",
-              "freeformAddress": "Avinguda d'Enclar 34, Andorra la Vella, AD500"
+              "freeformAddress": "Avinguda del Travos, la Massana, AD400"
             },
             "position": {
-              "lat": 42.4974,
-              "lon": 1.50253
+              "lat": 42.54597,
+              "lon": 1.52067
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 42.4983,
-                "lon": 1.50131
+                "lat": 42.54687,
+                "lon": 1.51945
               },
               "btmRightPoint": {
-                "lat": 42.4965,
-                "lon": 1.50375
+                "lat": 42.54507,
+                "lon": 1.52189
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 42.49731,
-                  "lon": 1.50258
+                  "lat": 42.54597,
+                  "lon": 1.52067
                 }
               }
             ]
           },
           {
             "type": "POI",
-            "id": "AD/POI/p0/1943",
+            "id": "AD/POI/p0/222",
             "score": 4,
-            "info": "search:decarta:ta:020009000005019-AD",
+            "info": "search:ta:020009000001047-AD",
             "poi": {
-              "name": "CREDIT ANDORRA",
+              "name": "Crèdit Andorrà",
               "categories": [
                 "cash dispenser"
               ],
@@ -1025,35 +916,147 @@ examples:
               ]
             },
             "address": {
-              "streetName": "Carretera General",
-              "municipalitySubdivision": "Pas de la Casa",
-              "municipality": "Encamp",
-              "postalCode": "AD200",
+              "streetName": "Avinguda de Sant Antoni",
+              "municipalitySubdivision": "la Massana",
+              "municipality": "La Massana",
+              "postalCode": "AD400",
               "countryCode": "AD",
               "country": "Andorra",
               "countryCodeISO3": "AND",
-              "freeformAddress": "Carretera General, Encamp, AD200"
+              "freeformAddress": "Avinguda de Sant Antoni, la Massana, AD400"
             },
             "position": {
-              "lat": 42.53814,
-              "lon": 1.72826
+              "lat": 42.54425,
+              "lon": 1.51589
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 42.53904,
-                "lon": 1.72704
+                "lat": 42.54515,
+                "lon": 1.51467
               },
               "btmRightPoint": {
-                "lat": 42.53724,
-                "lon": 1.72948
+                "lat": 42.54335,
+                "lon": 1.51711
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 42.53814,
-                  "lon": 1.72826
+                  "lat": 42.54423,
+                  "lon": 1.51587
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "AD/POI/p0/234",
+            "score": 4,
+            "info": "search:ta:020009000000767-AD",
+            "poi": {
+              "name": "Bancaixa",
+              "categories": [
+                "cash dispenser"
+              ],
+              "classifications": [
+                {
+                  "code": "CASH_DISPENSER",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "cash dispenser"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetName": "Avinguda de Sant Antoni",
+              "municipalitySubdivision": "la Massana",
+              "municipality": "La Massana",
+              "postalCode": "AD400",
+              "countryCode": "AD",
+              "country": "Andorra",
+              "countryCodeISO3": "AND",
+              "freeformAddress": "Avinguda de Sant Antoni, la Massana, AD400"
+            },
+            "position": {
+              "lat": 42.54568,
+              "lon": 1.51469
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 42.54658,
+                "lon": 1.51347
+              },
+              "btmRightPoint": {
+                "lat": 42.54478,
+                "lon": 1.51591
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 42.54568,
+                  "lon": 1.51469
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "AD/POI/p0/246",
+            "score": 4,
+            "info": "search:ta:020009000000990-AD",
+            "poi": {
+              "name": "Andbanc Grup Agricol Reig",
+              "categories": [
+                "cash dispenser"
+              ],
+              "classifications": [
+                {
+                  "code": "CASH_DISPENSER",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "cash dispenser"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetName": "Avinguda de Sant Antoni",
+              "municipalitySubdivision": "la Massana",
+              "municipality": "La Massana",
+              "postalCode": "AD400",
+              "countryCode": "AD",
+              "country": "Andorra",
+              "countryCodeISO3": "AND",
+              "freeformAddress": "Avinguda de Sant Antoni, la Massana, AD400"
+            },
+            "position": {
+              "lat": 42.5455,
+              "lon": 1.51502
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 42.5464,
+                "lon": 1.5138
+              },
+              "btmRightPoint": {
+                "lat": 42.5446,
+                "lon": 1.51624
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 42.5455,
+                  "lon": 1.51502
                 }
               }
             ]

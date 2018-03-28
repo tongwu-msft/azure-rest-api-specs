@@ -10,26 +10,26 @@ produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?api-version=1.0&subscription-key={subscription-key}&query={query}
-- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?api-version=1.0&subscription-key={subscription-key}&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&minFuzzyLevel={minFuzzyLevel}&maxFuzzyLevel={maxFuzzyLevel}&idxSet={idxSet}
+- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&minFuzzyLevel={minFuzzyLevel}&maxFuzzyLevel={maxFuzzyLevel}&idxSet={idxSet}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response
-  types:
-  - uid: string
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version number of Azure LBS API.  Current version is 1.0
+  description: Desired format of the response. Possible values are json & xml.
   types:
   - uid: string
 - name: subscription-key
   in: query
   isRequired: true
-  description: Azure LBS subscription key
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API.  Current version is 1.0
   types:
   - uid: string
 - name: query
@@ -40,39 +40,39 @@ uriParameters:
   - uid: string
 - name: typeahead
   in: query
-  description: true or false.  If the typeahead flag is set, the query will be interpreted as a partial input and the search will enter�predictive�mode
+  description: Boolean.  If the typeahead flag is set, the query will be interpreted as a partial input and the search will enter predictive mode
   types:
-  - uid: string
+  - uid: boolean
 - name: limit
   in: query
-  description: Maximum number of responses that will be returned.  Max value is 100
+  description: Maximum number of responses that will be returned.
   types:
-  - uid: string
+  - uid: integer
 - name: ofs
   in: query
-  description: Starting offset of the returned results within the full result set.  Max value is 1900
+  description: Starting offset of the returned results within the full result set.
   types:
-  - uid: string
+  - uid: integer
 - name: countrySet
   in: query
   description: Comma separated string of country codes, e.g. FR, ES. This will limit the search to the specified countries
   types:
-  - uid: string
+  - uid: array
 - name: lat
   in: query
   description: Latitude where results should be biased.  E.g. 37.337
   types:
-  - uid: string
+  - uid: number
 - name: lon
   in: query
   description: Longitude where results should be biased.  E.g. -121.89
   types:
-  - uid: string
+  - uid: number
 - name: radius
   in: query
   description: The radius in meters to for the results to be constrained to the defined area
   types:
-  - uid: string
+  - uid: number
 - name: topLeft
   in: query
   description: Top left position of the bounding box.  E.g. 37.553,-122.453
@@ -95,24 +95,24 @@ uriParameters:
   - uid: string
 - name: minFuzzyLevel
   in: query
-  description: Minimum fuzzyness level to be used.  E.g. 1 - 4
+  description: Minimum fuzzyness level to be used.
   types:
-  - uid: string
+  - uid: integer
 - name: maxFuzzyLevel
   in: query
-  description: Maximum fuzzyness level to be used E.g. 2 - 4
+  description: Maximum fuzzyness level to be used.
   types:
-  - uid: string
+  - uid: integer
 - name: idxSet
   in: query
   description: 'A comma separated list of indexes which should be utilized for the search. Item order does not matter. Available indexes are: Addr = Address range interpolation, Geo = Geographies, PAD = Point Addresses, POI = Points of interest, Str = Streets, Xstr = Cross Streets (intersections)'
   types:
-  - uid: string
+  - uid: array
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: searchfuzzy200
+  - uid: SearchFuzzyResult
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -135,20 +135,20 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: searchfuzzy200
+- name: SearchFuzzyResult
   description: This object is returned from a successful Search Fuzzy call
   kind: object
   properties:
   - name: summary
     isReadyOnly: true
-    description: "  \nSummary object"
+    description: Summary object
     types:
     - uid: Summary
   - name: results
     isReadyOnly: true
-    description: "  "
+    description: Results array
     types:
-    - uid: Results
+    - uid: SearchFuzzyResultArray
       isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
@@ -156,12 +156,12 @@ definitions:
   properties:
   - name: statuscode
     isReadyOnly: true
-    description: "  \nError code."
+    description: Error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: "  \nIf available, a human readable description of the error."
+    description: If available, a human readable description of the error.
     types:
     - uid: string
 - name: Summary
@@ -170,241 +170,251 @@ definitions:
   properties:
   - name: query
     isReadyOnly: true
-    description: "  \nQuery property"
+    description: Query property
     types:
     - uid: string
   - name: queryType
     isReadyOnly: true
-    description: "  \nQueryType property"
+    description: QueryType property
     types:
     - uid: string
   - name: queryTime
     isReadyOnly: true
-    description: "  \nQueryTime property"
+    description: QueryTime property
     types:
     - uid: integer
   - name: numResults
     isReadyOnly: true
-    description: "  \nNumResults property"
+    description: NumResults property
     types:
     - uid: integer
   - name: offset
     isReadyOnly: true
-    description: "  \nOffset property"
+    description: Offset property
     types:
     - uid: integer
   - name: totalResults
     isReadyOnly: true
-    description: "  \nTotalResults property"
+    description: TotalResults property
     types:
     - uid: integer
   - name: fuzzyLevel
     isReadyOnly: true
-    description: "  \nFuzzyLevel property"
+    description: FuzzyLevel property
     types:
     - uid: integer
-- name: Results
-  description: Results array
+- name: SearchFuzzyResultArray
   kind: object
   properties:
   - name: type
     isReadyOnly: true
-    description: "  \nType property"
+    description: Type property
     types:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: "  \nId property"
+    description: Id property
     types:
     - uid: string
   - name: score
     isReadyOnly: true
-    description: "  \nScore property"
+    description: Score property
     types:
     - uid: number
   - name: info
     isReadyOnly: true
-    description: "  \nInfo property"
+    description: Info property
     types:
     - uid: string
   - name: entityType
     isReadyOnly: true
-    description: "  \nEntity Type property"
+    description: Entity Type property
     types:
     - uid: string
   - name: poi
-    description: "  \nPOI property"
+    description: POI property
     types:
-    - uid: poi
+    - uid: Poi
   - name: address
-    description: "  \nThe address of the result"
+    description: The address of the result
     types:
-    - uid: address
+    - uid: Address
   - name: position
-    description: "  \nCoordinates of the result"
+    description: Coordinates of the result
     types:
-    - uid: position
+    - uid: Position
   - name: viewport
-    description: "  \nThe viewport that covers the result"
+    description: The viewport that covers the result
     types:
-    - uid: viewport
+    - uid: Viewport
   - name: boundingBox
-    description: "  \nBounding box of the result"
+    description: Bounding box of the result
     types:
     - uid: BoundingBox
-- name: poi
+  - name: entryPoints
+    description: Entry Points array
+    types:
+    - uid: EntityPoint
+      isArray: true
+- name: Poi
   description: POI property
   kind: object
   properties:
   - name: name
     isReadyOnly: true
-    description: "  \nName property"
+    description: Name property
     types:
     - uid: string
   - name: phone
     isReadyOnly: true
-    description: "  \nPhone property"
+    description: Phone property
     types:
     - uid: string
   - name: url
     isReadyOnly: true
-    description: "  \nURL property"
+    description: URL property
     types:
     - uid: string
   - name: categories
     isReadyOnly: true
-    description: "  "
+    description: Categories array
     types:
     - uid: string
       isArray: true
   - name: classifications
     isReadyOnly: true
-    description: "  "
+    description: Classification array
     types:
-    - uid: Classifications
+    - uid: Classification
       isArray: true
-- name: address
+- name: Address
   description: The address of the result
   kind: object
   properties:
   - name: buildingNumber
     isReadyOnly: true
-    description: "  \nBuilding Number property"
+    description: Building Number property
     types:
     - uid: string
   - name: street
     isReadyOnly: true
-    description: "  \nStreet property"
+    description: Street property
     types:
     - uid: string
   - name: crossStreet
     isReadyOnly: true
-    description: "  \nCross Street property"
+    description: Cross Street property
     types:
     - uid: string
   - name: streetNumber
     isReadyOnly: true
-    description: "  \nStreet Number property"
+    description: Street Number property
     types:
     - uid: string
+  - name: routeNumbers
+    isReadyOnly: true
+    description: number of routes
+    types:
+    - uid: integer
+      isArray: true
   - name: streetName
     isReadyOnly: true
-    description: "  \nStreet Name property"
+    description: Street Name property
     types:
     - uid: string
   - name: streetNameAndNumber
     isReadyOnly: true
-    description: "  \nStreet Name and Number property"
+    description: Street Name and Number property
     types:
     - uid: string
   - name: municipality
     isReadyOnly: true
-    description: "  \nMunicipality property"
+    description: Municipality property
     types:
     - uid: string
   - name: municipalitySubdivision
     isReadyOnly: true
-    description: "  \nMunicipality Subdivision property"
+    description: Municipality Subdivision property
     types:
     - uid: string
   - name: countryTertiarySubdivision
     isReadyOnly: true
-    description: "  \nCountry Tertiary Subdivision property"
+    description: Country Tertiary Subdivision property
     types:
     - uid: string
   - name: countrySecondarySubdivision
     isReadyOnly: true
-    description: "  \nCountry Secondary Subdivision property"
+    description: Country Secondary Subdivision property
     types:
     - uid: string
   - name: countrySubdivision
     isReadyOnly: true
-    description: "  \nCountry Subdivision property"
+    description: Country Subdivision property
     types:
     - uid: string
   - name: postalCode
     isReadyOnly: true
-    description: "  \nPostal Code property"
+    description: Postal Code property
     types:
     - uid: string
   - name: extendedPostalCode
     isReadyOnly: true
-    description: "  \nExtended Postal Code property"
+    description: Extended Postal Code property
     types:
     - uid: string
   - name: countryCode
     isReadyOnly: true
-    description: "  \nCountry Code property"
+    description: Country Code property
     types:
     - uid: string
   - name: country
     isReadyOnly: true
-    description: "  \nCountry property"
+    description: Country property
     types:
     - uid: string
   - name: countryCodeISO3
     isReadyOnly: true
-    description: "  \nCountry Code ISO3 property"
+    description: Country Code ISO3 property
     types:
     - uid: string
   - name: freeformAddress
     isReadyOnly: true
-    description: "  \nFree form Address property"
+    description: Free form Address property
     types:
     - uid: string
   - name: countrySubdivisionName
     isReadyOnly: true
-    description: "  \nCountry Subdividion Name property"
+    description: Country Subdividion Name property
     types:
     - uid: string
   - name: boundingBox
-    description: "  \nBounding Box for the address"
+    description: Bounding Box for the address
     types:
     - uid: BoundingBox
-- name: position
+- name: Position
   description: Coordinates of the result
   kind: object
   properties:
   - name: lat
     isReadyOnly: true
-    description: "  \nLatitude property"
+    description: Latitude property
     types:
     - uid: number
   - name: lon
     isReadyOnly: true
-    description: "  \nLongitude property"
+    description: Longitude property
     types:
     - uid: number
-- name: viewport
+- name: Viewport
   description: The viewport that covers the result
   kind: object
   properties:
   - name: topLeftPoint
-    description: "  \nTop left of the viewport"
+    description: Top left of the viewport
     types:
     - uid: TopLeftPoint
   - name: btmRightPoint
-    description: "  \nBottom right of the viewport"
+    description: Bottom right of the viewport
     types:
     - uid: BtmRightPoint
 - name: BoundingBox
@@ -413,28 +423,40 @@ definitions:
   properties:
   - name: northEast
     isReadyOnly: true
-    description: "  \nThe North East coordinates for the Bounding Box"
+    description: The North East coordinates for the Bounding Box
     types:
     - uid: string
   - name: southWest
     isReadyOnly: true
-    description: "  \nThe South West coordinates for the Bounding Box"
+    description: The South West coordinates for the Bounding Box
     types:
     - uid: string
-- name: Classifications
-  description: Classification array
+- name: EntityPoint
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: Name Locale property
+    types:
+    - uid: string
+  - name: position
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: Position
+- name: Classification
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: "  \nCode property"
+    description: Code property
     types:
     - uid: string
   - name: names
     isReadyOnly: true
-    description: "  "
+    description: Names array
     types:
-    - uid: Names
+    - uid: ClassificationName
       isArray: true
 - name: TopLeftPoint
   description: Top left of the viewport
@@ -442,12 +464,12 @@ definitions:
   properties:
   - name: lat
     isReadyOnly: true
-    description: "  \nLatitude"
+    description: Latitude
     types:
     - uid: number
   - name: lon
     isReadyOnly: true
-    description: "  \nLongitude"
+    description: Longitude
     types:
     - uid: number
 - name: BtmRightPoint
@@ -456,26 +478,25 @@ definitions:
   properties:
   - name: lat
     isReadyOnly: true
-    description: "  \nLatitude"
+    description: Latitude
     types:
     - uid: number
   - name: lon
     isReadyOnly: true
-    description: "  \nLongitude"
+    description: Longitude
     types:
     - uid: number
-- name: Names
-  description: Names array
+- name: ClassificationName
   kind: object
   properties:
   - name: nameLocale
     isReadyOnly: true
-    description: "  \nName Locale property"
+    description: Name Locale property
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: "  \nName property"
+    description: Name property
     types:
     - uid: string
 examples:
@@ -489,18 +510,18 @@ examples:
         "summary": {
           "query": "seattle",
           "queryType": "NON_NEAR",
-          "queryTime": 65,
-          "numResults": 4,
+          "queryTime": 72,
+          "numResults": 5,
           "offset": 0,
-          "totalResults": 4794,
+          "totalResults": 5150,
           "fuzzyLevel": 1
         },
         "results": [
           {
             "type": "Geography",
-            "id": "US/GEO/p0/15902",
-            "score": 6.128,
-            "info": "search:decarta:ta:840533000005461-US",
+            "id": "US/GEO/p0/174752",
+            "score": 6.134,
+            "info": "search:ta:840533000005461-US",
             "entityType": "Municipality",
             "address": {
               "municipality": "Seattle",
@@ -518,33 +539,34 @@ examples:
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.7932,
-                "lon": -122.59381
+                "lat": 47.80472,
+                "lon": -122.60233
               },
               "btmRightPoint": {
-                "lat": 47.31553,
-                "lon": -122.13216
+                "lat": 47.30606,
+                "lon": -122.12291
               }
             },
             "boundingBox": {
               "topLeftPoint": {
-                "lat": 47.7932,
-                "lon": -122.59381
+                "lat": 47.80472,
+                "lon": -122.60233
               },
               "btmRightPoint": {
-                "lat": 47.31553,
-                "lon": -122.13216
+                "lat": 47.30606,
+                "lon": -122.12291
               }
             }
           },
           {
             "type": "Geography",
-            "id": "MX/GEO/p0/2591",
+            "id": "MX/GEO/p0/55857",
             "score": 4.5,
+            "info": "search:ta:00004d30-3300-2800-0000-0000502b582a-MX",
             "entityType": "MunicipalitySubdivision",
             "address": {
               "municipalitySubdivision": "Seattle",
-              "municipality": "Zapopan",
+              "municipality": "Zapopan, Guadalajara",
               "countrySubdivision": "Jalisco",
               "countryCode": "MX",
               "country": "Mexico",
@@ -552,8 +574,8 @@ examples:
               "freeformAddress": "Zapopan"
             },
             "position": {
-              "lat": 20.71992,
-              "lon": -103.37244
+              "lat": 20.72069,
+              "lon": -103.37434
             },
             "viewport": {
               "topLeftPoint": {
@@ -578,9 +600,9 @@ examples:
           },
           {
             "type": "POI",
-            "id": "US/POI/p0/3101761",
+            "id": "US/POI/p1/8288014",
             "score": 4.457,
-            "info": "search:decarta:ta:840539000615260-US",
+            "info": "search:ta:840539000615260-US",
             "poi": {
               "name": "Seattle Great Wheel",
               "phone": "+(1)-(206)-6238607",
@@ -613,7 +635,7 @@ examples:
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "1301 Alaskan Way, Seattle, WA 981012057",
+              "freeformAddress": "1301 Alaskan Way, Seattle, WA 98101",
               "countrySubdivisionName": "Washington"
             },
             "position": {
@@ -642,7 +664,7 @@ examples:
           },
           {
             "type": "Geography",
-            "id": "US/GEO/p0/34530",
+            "id": "US/GEO/p0/123969",
             "score": 4.267,
             "entityType": "CountryTertiarySubdivision",
             "address": {
@@ -677,6 +699,49 @@ examples:
               "btmRightPoint": {
                 "lat": 47.42285,
                 "lon": -121.91824
+              }
+            }
+          },
+          {
+            "type": "Geography",
+            "id": "US/GEO/p0/175836",
+            "score": 4.267,
+            "info": "search:ta:840533000011722-US",
+            "entityType": "MunicipalitySubdivision",
+            "address": {
+              "municipalitySubdivision": "Seattle Heights",
+              "municipality": "Brier, Lynnwood",
+              "countrySecondarySubdivision": "Snohomish",
+              "countryTertiarySubdivision": "Edmonds",
+              "countrySubdivision": "WA",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "Brier, WA",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.80679,
+              "lon": -122.32191
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.80861,
+                "lon": -122.3233
+              },
+              "btmRightPoint": {
+                "lat": 47.80497,
+                "lon": -122.32191
+              }
+            },
+            "boundingBox": {
+              "topLeftPoint": {
+                "lat": 47.80861,
+                "lon": -122.3233
+              },
+              "btmRightPoint": {
+                "lat": 47.80497,
+                "lon": -122.32191
               }
             }
           }

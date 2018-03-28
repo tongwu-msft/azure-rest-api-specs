@@ -3,15 +3,15 @@ uid: management.azure.com.monitor.metrics.list
 name: List
 service: Monitor
 groupName: Metrics
-apiVersion: 2017-05-01-preview
+apiVersion: 2018-01-01
 summary: '**Lists the metric values for a resource**.'
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{resourceUri}/providers/microsoft.insights/metrics?api-version=2017-05-01-preview
-- content: GET https://management.azure.com/{resourceUri}/providers/microsoft.insights/metrics?timespan={timespan}&interval={interval}&metric={metric}&aggregation={aggregation}&$top={$top}&$orderby={$orderby}&$filter={$filter}&resultType={resultType}&api-version=2017-05-01-preview
+- content: GET https://management.azure.com/{resourceUri}/providers/microsoft.insights/metrics?api-version=2018-01-01
+- content: GET https://management.azure.com/{resourceUri}/providers/microsoft.insights/metrics?timespan={timespan}&interval={interval}&metricnames={metricnames}&aggregation={aggregation}&top={top}&orderby={orderby}&$filter={$filter}&resultType={resultType}&api-version=2018-01-01&metricnamespace={metricnamespace}
   isOptional: true
 uriParameters:
 - name: resourceUri
@@ -31,9 +31,9 @@ uriParameters:
   types:
   - uid: string
   format: duration
-- name: metric
+- name: metricnames
   in: query
-  description: The name of the metric to retrieve.
+  description: The names of the metrics (comma separated) to retrieve.
   types:
   - uid: string
 - name: aggregation
@@ -41,7 +41,7 @@ uriParameters:
   description: The list of aggregation types (comma separated) to retrieve.
   types:
   - uid: string
-- name: $top
+- name: top
   in: query
   description: >-
     The maximum number of records to retrieve.
@@ -50,9 +50,9 @@ uriParameters:
 
     Defaults to 10.
   types:
-  - uid: number
+  - uid: integer
   format: int32
-- name: $orderby
+- name: orderby
   in: query
   description: >-
     The aggregation to use for sorting results and the direction of the sort.
@@ -76,6 +76,11 @@ uriParameters:
   in: query
   isRequired: true
   description: Client Api Version.
+  types:
+  - uid: string
+- name: metricnamespace
+  in: query
+  description: Metric namespace to query metric definitions for.
   types:
   - uid: string
 responses:
@@ -104,11 +109,11 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: "  \nError code"
+    description: Error code
     types:
     - uid: string
   - name: message
-    description: "  \nError message indicating why the operation failed."
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
 - name: Response
@@ -116,44 +121,52 @@ definitions:
   kind: object
   properties:
   - name: cost
-    description: "  \nThe integer value representing the cost of the query, for data case."
+    description: The integer value representing the cost of the query, for data case.
     types:
     - uid: number
   - name: timespan
-    description: "  \nThe timespan for which the data was retrieved. Its value consists of two datatimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested."
+    description: The timespan for which the data was retrieved. Its value consists of two datatimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested.
     types:
     - uid: string
   - name: interval
-    description: "  \nThe interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made."
+    description: The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made.
+    types:
+    - uid: string
+  - name: namespace
+    description: The namespace of the metrics been queried
+    types:
+    - uid: string
+  - name: resourceregion
+    description: The region of the resource been queried for metrics.
     types:
     - uid: string
   - name: value
-    description: "  \nThe result data of a query."
+    description: The result data of a query.
     types:
     - uid: Metric
       isArray: true
 - name: Metric
-  description: the value of the collection.
+  description: The result data of a query.
   kind: object
   properties:
   - name: id
-    description: "  \nthe metric Id."
+    description: the metric Id.
     types:
     - uid: string
   - name: type
-    description: "  \nthe resource type of the metric resource."
+    description: the resource type of the metric resource.
     types:
     - uid: string
   - name: name
-    description: "  \nthe name and the display name of the metric, i.e. it is localizable string."
+    description: the name and the display name of the metric, i.e. it is localizable string.
     types:
     - uid: LocalizableString
   - name: unit
-    description: "  \nthe unit of the metric."
+    description: the unit of the metric.
     types:
     - uid: Unit
   - name: timeseries
-    description: "  \nA time series result type. The discriminator value is always TimeSeries in this case."
+    description: A time series result type. The discriminator value is always TimeSeries in this case.
     types:
     - uid: TimeSeriesElement
       isArray: true
@@ -162,11 +175,11 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: "  \nthe invariant value."
+    description: the invariant value.
     types:
     - uid: string
   - name: localizedValue
-    description: "  \nthe locale specific value."
+    description: the locale specific value.
     types:
     - uid: string
 - name: Unit
@@ -201,16 +214,16 @@ definitions:
     types:
     - uid: string
 - name: TimeSeriesElement
-  description: the time series returned when a data query is performed.
+  description: A time series result type. The discriminator value is always TimeSeries in this case.
   kind: object
   properties:
   - name: metadatavalues
-    description: "  \nRepresents a metric metadata value."
+    description: Represents a metric metadata value.
     types:
     - uid: MetadataValue
       isArray: true
   - name: data
-    description: "  \nRepresents a metric value."
+    description: Represents a metric value.
     types:
     - uid: MetricValue
       isArray: true
@@ -219,11 +232,11 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: "  \nthe name of the metadata."
+    description: the name of the metadata.
     types:
     - uid: LocalizableString
   - name: value
-    description: "  \nthe value of the metadata."
+    description: the value of the metadata.
     types:
     - uid: string
 - name: MetricValue
@@ -231,33 +244,33 @@ definitions:
   kind: object
   properties:
   - name: timeStamp
-    description: "  \nthe timestamp for the metric value in ISO 8601 format."
+    description: the timestamp for the metric value in ISO 8601 format.
     types:
     - uid: string
   - name: average
-    description: "  \nthe average value in the time range."
+    description: the average value in the time range.
     types:
     - uid: number
   - name: minimum
-    description: "  \nthe least value in the time range."
+    description: the least value in the time range.
     types:
     - uid: number
   - name: maximum
-    description: "  \nthe greatest value in the time range."
+    description: the greatest value in the time range.
     types:
     - uid: number
   - name: total
-    description: "  \nthe sum of all of the values in the time range."
+    description: the sum of all of the values in the time range.
     types:
     - uid: number
   - name: count
-    description: "  \nthe number of samples in the time range. Can be used to determine the number of values that contributed to the average value."
+    description: the number of samples in the time range. Can be used to determine the number of values that contributed to the average value.
     types:
     - uid: integer
 examples:
 - name: Get Metric for data
   request:
-    uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/microsoft.insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&metric=BlobCapacity&aggregation=Average,count&$filter=BlobType eq '*'&api-version=2017-05-01-preview
+    uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/microsoft.insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&aggregation=Average,count&top=3&orderby=Average asc&$filter=BlobType eq '*'&api-version=2018-01-01&metricnamespace=Microsoft.Storage/storageAccounts/blobServices
   responses:
   - statusCode: "200"
     body: >-
@@ -265,6 +278,8 @@ examples:
         "cost": 0,
         "timespan": "2017-04-14T02:20:00Z/2017-04-14T04:20:00Z",
         "interval": "PT1M",
+        "namespace": "Microsoft.Storage/storageAccounts/blobServices",
+        "resourceregion": "eastus2",
         "value": [
           {
             "id": "/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/Microsoft.Insights/metrics/BlobCapacity",
@@ -341,12 +356,14 @@ examples:
       }
 - name: Get Metric for metadata
   request:
-    uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/microsoft.insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&metric=BlobCapacity&aggregation=Average,count&$filter=BlobType eq '*'&api-version=2017-05-01-preview
+    uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/microsoft.insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&aggregation=Average,count&top=3&orderby=Average asc&$filter=BlobType eq '*'&api-version=2018-01-01&metricnamespace=Microsoft.Storage/storageAccounts/blobServices
   responses:
   - statusCode: "200"
     body: >-
       {
         "timespan": "2017-04-14T02:20:00Z/2017-04-14T04:20:00Z",
+        "namespace": "Microsoft.Storage/storageAccounts/blobServices",
+        "resourceregion": "eastus2",
         "value": [
           {
             "id": "/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/Microsoft.Insights/metrics/BlobCapacity",

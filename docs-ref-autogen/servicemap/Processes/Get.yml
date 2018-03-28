@@ -74,83 +74,95 @@ definitions:
   kind: object
   properties:
   - name: properties.timestamp
-    description: "  \nUTC date and time when this process resource was updated in the system"
+    description: UTC date and time when this process resource was updated in the system
     types:
     - uid: string
   - name: properties.monitoringState
-    description: "  \nSpecifies whether the process is actively monitored or discovered."
+    description: Specifies whether the process is actively monitored or discovered.
     types:
     - uid: MonitoringState
   - name: properties.machine
-    description: "  \nMachine hosting this process."
+    description: Machine hosting this process.
     types:
     - uid: MachineReference
     - uid: ProcessReference
     - uid: PortReference
     - uid: MachineReferenceWithHints
+    - uid: ClientGroupReference
     typesTitle: ResourceReference
   - name: properties.executableName
-    description: "  \nThe name of the process executable"
+    description: The name of the process executable
     types:
     - uid: string
   - name: properties.displayName
-    description: "  \nName to use for display purposes"
+    description: Name to use for display purposes
     types:
     - uid: string
   - name: properties.startTime
-    description: "  \nUTC date and time when the process started"
+    description: UTC date and time when the process started
     types:
     - uid: string
   - name: properties.role
-    description: "  \nThe inferred role of this process based on its name, command line, etc."
+    description: The inferred role of this process based on its name, command line, etc.
     types:
     - uid: ProcessRole
+  - name: properties.group
+    description: The name of the product or suite of the process. The group is determined by its executable name, command line, etc.
+    types:
+    - uid: string
   - name: properties.details
-    description: "  \nProcess metadata (command line, product name, etc.)."
+    description: Process metadata (command line, product name, etc.).
     types:
     - uid: ProcessDetails
   - name: properties.user
-    description: "  \nInformation about the account under which the process is executing."
+    description: Information about the account under which the process is executing.
     types:
     - uid: ProcessUser
   - name: properties.clientOf
-    description: "  \nPresent only for a discovered process acting as a client of a monitored process/machine/port. References the monitored process/machine/port that this process is a client of."
+    description: Present only for a discovered process acting as a client of a monitored process/machine/port. References the monitored process/machine/port that this process is a client of.
     types:
     - uid: MachineReference
     - uid: ProcessReference
     - uid: PortReference
     - uid: MachineReferenceWithHints
+    - uid: ClientGroupReference
     typesTitle: ResourceReference
   - name: properties.acceptorOf
-    description: "  \nPresent only for a discovered process acting as a server. References the port on which the discovered process is accepting."
+    description: Present only for a discovered process acting as a server. References the port on which the discovered process is accepting.
     types:
     - uid: MachineReference
     - uid: ProcessReference
     - uid: PortReference
     - uid: MachineReferenceWithHints
+    - uid: ClientGroupReference
     typesTitle: ResourceReference
+  - name: properties.hosting
+    description: Information about the hosting environment
+    types:
+    - uid: AzureProcessHostingConfiguration
+    typesTitle: ProcessHostingConfiguration
   - name: etag
-    description: "  \nResource ETAG."
+    description: Resource ETAG.
     types:
     - uid: string
   - name: kind
-    description: "  \nAdditional resource type qualifier."
+    description: Additional resource type qualifier.
     types:
     - uid: process
     typesTitle: string
   - name: id
     isReadyOnly: true
-    description: "  \nResource identifier."
+    description: Resource identifier.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: "  \nResource type."
+    description: Resource type.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: "  \nResource name."
+    description: Resource name.
     types:
     - uid: string
 - name: ErrorResponse
@@ -158,11 +170,11 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: "  \nError information."
+    description: Error information.
     types:
     - uid: Error
 - name: MonitoringState
-  description: Specifies whether the machine is actively monitored or discovered.
+  description: Used to specify if a resources is monitored or discovered.
   kind: enum
   properties:
   - name: monitored
@@ -191,79 +203,88 @@ definitions:
     types:
     - uid: string
 - name: ProcessDetails
-  description: Process metadata (command line, product name, etc.).
+  description: Describes process metadata.
   kind: object
   properties:
   - name: persistentKey
-    description: "  \nA unique indentifier for a process, generally resilient to process restart, computed by Service Map."
+    description: A unique indentifier for a process, generally resilient to process restart, computed by Service Map.
     types:
     - uid: string
   - name: poolId
-    description: "  \nRepresents the identity of the process pool assigned to the process by Dependency Agent. "
+    description: Represents the identity of the process pool assigned to the process by Dependency Agent.
     types:
     - uid: integer
   - name: firstPid
-    description: "  \nThe Operating System Process Idendifier (PID) of the first process in this process pool."
+    description: The Operating System Process Idendifier (PID) of the first process in this process pool.
     types:
     - uid: integer
   - name: description
-    description: "  \nProcess description."
+    description: Process description.
     types:
     - uid: string
   - name: companyName
-    description: "  \nName of company that created the process executable."
+    description: Name of company that created the process executable.
     types:
     - uid: string
   - name: internalName
-    description: "  \nInternal process name."
+    description: Internal process name.
     types:
     - uid: string
   - name: productName
-    description: "  \nProduct name."
+    description: Product name.
     types:
     - uid: string
   - name: productVersion
-    description: "  \nProduct version."
+    description: Product version.
     types:
     - uid: string
   - name: fileVersion
-    description: "  \nFile version."
+    description: File version.
     types:
     - uid: string
   - name: commandLine
-    description: "  \nProcess command line."
+    description: Process command line.
     types:
     - uid: string
   - name: executablePath
-    description: "  \nProcess executable path."
+    description: Process executable path.
     types:
     - uid: string
   - name: workingDirectory
-    description: "  \nProcess workingDirectory."
+    description: Process workingDirectory.
+    types:
+    - uid: string
+  - name: services
+    description: A service hosted by a process.
+    types:
+    - uid: ProcessHostedService
+      isArray: true
+  - name: zoneName
+    description: Process zone name (Linux only).
     types:
     - uid: string
 - name: ProcessUser
-  description: Information about the account under which the process is executing.
+  description: Describes the user under which a process is running.
   kind: object
   properties:
   - name: userName
-    description: "  \nUser name under which the process is running."
+    description: User name under which the process is running.
     types:
     - uid: string
   - name: userDomain
-    description: "  \nDomain name for the user."
+    description: Domain name for the user.
     types:
     - uid: string
 - name: Error
-  description: Error information.
+  description: Error details.
   kind: object
   properties:
   - name: code
-    description: "  \nError code identifying the specific error."
+    description: Error code identifying the specific error.
     types:
     - uid: string
   - name: message
-    description: "  \nError message in the caller's locale."
+    description: Error message in the caller's locale.
     types:
     - uid: string
 - name: MachineReference
@@ -271,21 +292,21 @@ definitions:
   kind: object
   properties:
   - name: id
-    description: "  \nResource URI."
+    description: Resource URI.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: "  \nResource type qualifier."
+    description: Resource type qualifier.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: "  \nResource name."
+    description: Resource name.
     types:
     - uid: string
   - name: kind
-    description: "  \nSpecifies the sub-class of the reference."
+    description: Specifies the sub-class of the reference.
     types:
     - uid: ref:machine
     typesTitle: string
@@ -295,25 +316,25 @@ definitions:
   properties:
   - name: properties.machine
     isReadyOnly: true
-    description: "  \nMachine hosting the process."
+    description: Machine hosting the process.
     types:
     - uid: MachineReference
   - name: id
-    description: "  \nResource URI."
+    description: Resource URI.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: "  \nResource type qualifier."
+    description: Resource type qualifier.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: "  \nResource name."
+    description: Resource name.
     types:
     - uid: string
   - name: kind
-    description: "  \nSpecifies the sub-class of the reference."
+    description: Specifies the sub-class of the reference.
     types:
     - uid: ref:process
     typesTitle: string
@@ -323,34 +344,34 @@ definitions:
   properties:
   - name: properties.machine
     isReadyOnly: true
-    description: "  \nMachine hosting the port."
+    description: Machine hosting the port.
     types:
     - uid: MachineReference
   - name: properties.ipAddress
     isReadyOnly: true
-    description: "  \nIP address of the port."
+    description: IP address of the port.
     types:
     - uid: string
   - name: properties.portNumber
-    description: "  \nPort number."
+    description: Port number.
     types:
     - uid: integer
   - name: id
-    description: "  \nResource URI."
+    description: Resource URI.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: "  \nResource type qualifier."
+    description: Resource type qualifier.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: "  \nResource name."
+    description: Resource name.
     types:
     - uid: string
   - name: kind
-    description: "  \nSpecifies the sub-class of the reference."
+    description: Specifies the sub-class of the reference.
     types:
     - uid: ref:port
     typesTitle: string
@@ -360,35 +381,88 @@ definitions:
   properties:
   - name: properties.displayNameHint
     isReadyOnly: true
-    description: "  \nLast known display name."
+    description: Last known display name.
     types:
     - uid: string
   - name: properties.osFamilyHint
     isReadyOnly: true
-    description: "  \nLast known operating system family."
+    description: Last known operating system family.
     types:
     - uid: OperatingSystemFamily
   - name: id
-    description: "  \nResource URI."
+    description: Resource URI.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: "  \nResource type qualifier."
+    description: Resource type qualifier.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: "  \nResource name."
+    description: Resource name.
     types:
     - uid: string
   - name: kind
-    description: "  \nSpecifies the sub-class of the reference."
+    description: Specifies the sub-class of the reference.
     types:
     - uid: ref:machinewithhints
     typesTitle: string
+- name: ClientGroupReference
+  description: Reference to a client group.
+  kind: object
+  properties:
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:clientgroup
+    typesTitle: string
+- name: ProcessHostedService
+  description: A service hosted by a process.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the service.
+    types:
+    - uid: string
+  - name: displayName
+    description: The service's display name.
+    types:
+    - uid: string
+- name: AzureProcessHostingConfiguration
+  description: Describes the hosting configuration of a process when hosted on azure
+  kind: object
+  properties:
+  - name: cloudService
+    description: Contains information about the cloud service the process belongs to
+    types:
+    - uid: AzureCloudServiceConfiguration
+  - name: provider
+    description: The hosting provider of the VM.
+    types:
+    - uid: azure
+    typesTitle: enum
+  - name: kind
+    description: Additional hostring configuration type qualifier.
+    types:
+    - uid: provider:azure
+    typesTitle: string
 - name: OperatingSystemFamily
-  description: Last known operating system family.
+  description: Specifies the operating system family, e.g., Linux, Windows, etc.
   kind: enum
   properties:
   - name: unknown
@@ -406,7 +480,100 @@ definitions:
   - name: aix
     types:
     - uid: string
-examples: []
+- name: AzureCloudServiceConfiguration
+  description: Describes an Azure Cloud Service
+  kind: object
+  properties:
+  - name: name
+    description: Cloud Service name
+    types:
+    - uid: string
+  - name: instanceId
+    description: Cloud Service instance identifier
+    types:
+    - uid: string
+  - name: deployment
+    description: Cloud Service deployment identifier
+    types:
+    - uid: string
+  - name: roleName
+    description: Cloud Service role name
+    types:
+    - uid: string
+  - name: roleType
+    description: Used to specify type of an Azure Cloud Service role
+    types:
+    - uid: AzureCloudServiceRoleType
+- name: AzureCloudServiceRoleType
+  description: Used to specify type of an Azure Cloud Service role
+  kind: enum
+  properties:
+  - name: unknown
+    types:
+    - uid: string
+  - name: worker
+    types:
+    - uid: string
+  - name: web
+    types:
+    - uid: string
+examples:
+- name: SMMachinesProcessesGetGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/features/serviceMap/machines/m-36b83664-0822-4fb3-99a3-8332754f3eae/processes/p-bbf99526b8fc5e7ee4f75568958a040d08489160?api-version=2015-11-01-preview&timestamp=1/10/2018 10:45:45 PM
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "kind": "process",
+        "properties": {
+          "monitoringState": "monitored",
+          "machine": {
+            "kind": "ref:machine",
+            "id": "/subscriptions/A9C800F7-342E-45B7-8EB4-6C9A6F7FE466/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/features/serviceMap/machines/m-36b83664-0822-4fb3-99a3-8332754f3eae",
+            "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+            "name": "m-36b83664-0822-4fb3-99a3-8332754f3eae"
+          },
+          "executableName": "foo-bar",
+          "displayName": "foo-bar",
+          "startTime": "2018-01-10T21:04:56.8518962Z",
+          "role": "webServer",
+          "group": "Foo-bar Suite",
+          "details": {
+            "persistentKey": "77228e39-7348-4fac-8ce5-b83c7bcc52bc",
+            "poolId": 345,
+            "firstPid": 456,
+            "description": "A special process",
+            "companyName": "Microsoft",
+            "internalName": "foo-bar-internal",
+            "productName": "Foo-bar Suite",
+            "productVersion": "3.0.0.10",
+            "fileVersion": "1.2.3.4",
+            "commandLine": "foo-bar.exe -f -g -h do something",
+            "executablePath": "c:\\Program Files\\foobar\\bin\\boo-bar.exe",
+            "workingDirectory": "c:\\temp",
+            "zoneName": "zone name"
+          },
+          "user": {
+            "userName": "SecretUser",
+            "userDomain": "REDMOND"
+          },
+          "hosting": {
+            "kind": "provider:azure",
+            "cloudService": {
+              "name": "MyCloudService",
+              "instanceId": "Instance#1",
+              "deployment": "f4849088-01a2-420e-9709-d0b48ae31d87",
+              "roleName": "MyRoleName",
+              "roleType": "web"
+            },
+            "provider": "azure"
+          }
+        },
+        "id": "/subscriptions/A9C800F7-342E-45B7-8EB4-6C9A6F7FE466/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/features/serviceMap/machines/m-36b83664-0822-4fb3-99a3-8332754f3eae/processes/p-bbf99526b8fc5e7ee4f75568958a040d08489160",
+        "type": "Microsoft.OperationalInsights/workspaces/features/machines/processes",
+        "name": "p-bbf99526b8fc5e7ee4f75568958a040d08489160"
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

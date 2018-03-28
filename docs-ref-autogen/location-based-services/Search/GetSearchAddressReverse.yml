@@ -10,26 +10,26 @@ produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/search/address/reverse/{format}?api-version=1.0&subscription-key={subscription-key}&query={query}
-- content: GET https://atlas.microsoft.com/search/address/reverse/{format}?api-version=1.0&subscription-key={subscription-key}&query={query}&spatialKeys={spatialKeys}&returnSpeedLimit={returnSpeedLimit}&heading={heading}&radius={radius}&number={number}&returnRoadUse={returnRoadUse}&roadUse={roadUse}
+- content: GET https://atlas.microsoft.com/search/address/reverse/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/search/address/reverse/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&spatialKeys={spatialKeys}&returnSpeedLimit={returnSpeedLimit}&heading={heading}&radius={radius}&number={number}&returnRoadUse={returnRoadUse}&roadUse={roadUse}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response
-  types:
-  - uid: string
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version number of Azure LBS API.  Current version is 1.0
+  description: Desired format of the response. Possible values are json & xml.
   types:
   - uid: string
 - name: subscription-key
   in: query
   isRequired: true
-  description: Azure LBS subscription key
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API.  Current version is 1.0
   types:
   - uid: string
 - name: query
@@ -40,24 +40,24 @@ uriParameters:
   - uid: string
 - name: spatialKeys
   in: query
-  description: true or false string.  If the spatialKeys flag is set, the response will also contain the deCarta proprietary geo-spatial key information for a specified location
+  description: Boolean.  If the spatialKeys flag is set, the response will also contain the deCarta proprietary geo-spatial key information for a specified location
   types:
-  - uid: string
+  - uid: boolean
 - name: returnSpeedLimit
   in: query
-  description: true or false string.  To enable return of the posted speedlimit
+  description: Boolean.  To enable return of the posted speedlimit
   types:
-  - uid: string
+  - uid: boolean
 - name: heading
   in: query
   description: The directional heading of the vehicle in degrees, for travel along a segment of roadway. 0 is North, 90 is East and so on, values range from -360 to 360. The precision can include upto one decimal place
   types:
-  - uid: string
+  - uid: number
 - name: radius
   in: query
-  description: The maximum distance in meters from the specified position for the reversegeocode to consider.  E.g. 10000 (10km)
+  description: The radius in meters to for the results to be constrained to the defined area
   types:
-  - uid: string
+  - uid: number
 - name: number
   in: query
   description: If a number is sent in along with the request, the response may include the side of the street (Left/Right) and also an offset position for that number
@@ -65,9 +65,9 @@ uriParameters:
   - uid: string
 - name: returnRoadUse
   in: query
-  description: true or false string.  To enable return of the road use array for reversegeocodes at street level
+  description: Boolean.  To enable return of the road use array for reversegeocodes at street level
   types:
-  - uid: string
+  - uid: boolean
 - name: roadUse
   in: query
   description: To restrict reversegeocodes to a certain type of roaduse. The road use array for reversegeocodes can be one or more of LimitedAccess, Arterial, Terminal, Ramp, Rotary, LocalStreet
@@ -77,7 +77,7 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: searchaddressreverse200
+  - uid: SearchAddressReverseResult
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -100,20 +100,20 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: searchaddressreverse200
+- name: SearchAddressReverseResult
   description: This object is returned from a successful Search Address Reverse call
   kind: object
   properties:
   - name: summary
     isReadyOnly: true
-    description: "  \nSummary object"
+    description: Summary object
     types:
     - uid: Summary
   - name: addresses
     isReadyOnly: true
-    description: "  "
+    description: Addresses array
     types:
-    - uid: Addresses
+    - uid: AddressResult
       isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
@@ -121,12 +121,12 @@ definitions:
   properties:
   - name: statuscode
     isReadyOnly: true
-    description: "  \nError code."
+    description: Error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: "  \nIf available, a human readable description of the error."
+    description: If available, a human readable description of the error.
     types:
     - uid: string
 - name: Summary
@@ -135,148 +135,153 @@ definitions:
   properties:
   - name: query
     isReadyOnly: true
-    description: "  \nQuery property"
+    description: Query property
     types:
     - uid: string
   - name: queryType
     isReadyOnly: true
-    description: "  \nQueryType property"
+    description: QueryType property
     types:
     - uid: string
   - name: queryTime
     isReadyOnly: true
-    description: "  \nQueryTime property"
+    description: QueryTime property
     types:
     - uid: integer
   - name: numResults
     isReadyOnly: true
-    description: "  \nNumResults property"
+    description: NumResults property
     types:
     - uid: integer
   - name: offset
     isReadyOnly: true
-    description: "  \nOffset property"
+    description: Offset property
     types:
     - uid: integer
   - name: totalResults
     isReadyOnly: true
-    description: "  \nTotalResults property"
+    description: TotalResults property
     types:
     - uid: integer
   - name: fuzzyLevel
     isReadyOnly: true
-    description: "  \nFuzzyLevel property"
+    description: FuzzyLevel property
     types:
     - uid: integer
-- name: Addresses
-  description: Addresses array
+- name: AddressResult
   kind: object
   properties:
   - name: address
-    description: "  \nThe address of the result"
+    description: The address of the result
     types:
-    - uid: address
+    - uid: Address
   - name: position
     isReadyOnly: true
-    description: "  \nPosition property"
+    description: Position property
     types:
     - uid: string
-- name: address
+- name: Address
   description: The address of the result
   kind: object
   properties:
   - name: buildingNumber
     isReadyOnly: true
-    description: "  \nBuilding Number property"
+    description: Building Number property
     types:
     - uid: string
   - name: street
     isReadyOnly: true
-    description: "  \nStreet property"
+    description: Street property
     types:
     - uid: string
   - name: crossStreet
     isReadyOnly: true
-    description: "  \nCross Street property"
+    description: Cross Street property
     types:
     - uid: string
   - name: streetNumber
     isReadyOnly: true
-    description: "  \nStreet Number property"
+    description: Street Number property
     types:
     - uid: string
+  - name: routeNumbers
+    isReadyOnly: true
+    description: number of routes
+    types:
+    - uid: integer
+      isArray: true
   - name: streetName
     isReadyOnly: true
-    description: "  \nStreet Name property"
+    description: Street Name property
     types:
     - uid: string
   - name: streetNameAndNumber
     isReadyOnly: true
-    description: "  \nStreet Name and Number property"
+    description: Street Name and Number property
     types:
     - uid: string
   - name: municipality
     isReadyOnly: true
-    description: "  \nMunicipality property"
+    description: Municipality property
     types:
     - uid: string
   - name: municipalitySubdivision
     isReadyOnly: true
-    description: "  \nMunicipality Subdivision property"
+    description: Municipality Subdivision property
     types:
     - uid: string
   - name: countryTertiarySubdivision
     isReadyOnly: true
-    description: "  \nCountry Tertiary Subdivision property"
+    description: Country Tertiary Subdivision property
     types:
     - uid: string
   - name: countrySecondarySubdivision
     isReadyOnly: true
-    description: "  \nCountry Secondary Subdivision property"
+    description: Country Secondary Subdivision property
     types:
     - uid: string
   - name: countrySubdivision
     isReadyOnly: true
-    description: "  \nCountry Subdivision property"
+    description: Country Subdivision property
     types:
     - uid: string
   - name: postalCode
     isReadyOnly: true
-    description: "  \nPostal Code property"
+    description: Postal Code property
     types:
     - uid: string
   - name: extendedPostalCode
     isReadyOnly: true
-    description: "  \nExtended Postal Code property"
+    description: Extended Postal Code property
     types:
     - uid: string
   - name: countryCode
     isReadyOnly: true
-    description: "  \nCountry Code property"
+    description: Country Code property
     types:
     - uid: string
   - name: country
     isReadyOnly: true
-    description: "  \nCountry property"
+    description: Country property
     types:
     - uid: string
   - name: countryCodeISO3
     isReadyOnly: true
-    description: "  \nCountry Code ISO3 property"
+    description: Country Code ISO3 property
     types:
     - uid: string
   - name: freeformAddress
     isReadyOnly: true
-    description: "  \nFree form Address property"
+    description: Free form Address property
     types:
     - uid: string
   - name: countrySubdivisionName
     isReadyOnly: true
-    description: "  \nCountry Subdividion Name property"
+    description: Country Subdividion Name property
     types:
     - uid: string
   - name: boundingBox
-    description: "  \nBounding Box for the address"
+    description: Bounding Box for the address
     types:
     - uid: BoundingBox
 - name: BoundingBox
@@ -285,12 +290,12 @@ definitions:
   properties:
   - name: northEast
     isReadyOnly: true
-    description: "  \nThe North East coordinates for the Bounding Box"
+    description: The North East coordinates for the Bounding Box
     types:
     - uid: string
   - name: southWest
     isReadyOnly: true
-    description: "  \nThe South West coordinates for the Bounding Box"
+    description: The South West coordinates for the Bounding Box
     types:
     - uid: string
 examples:
@@ -310,6 +315,7 @@ examples:
             "address": {
               "buildingNumber": "31",
               "streetNumber": "31",
+              "routeNumbers": [],
               "street": "N 2nd St",
               "streetName": "N 2nd St",
               "streetNameAndNumber": "31 N 2nd St",

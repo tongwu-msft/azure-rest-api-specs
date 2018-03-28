@@ -3,7 +3,7 @@ uid: management.azure.com.virtualnetworks.publicipaddresses.listall
 name: List All
 service: Virtual Networks
 groupName: Public IP Addresses
-apiVersion: 2017-10-01
+apiVersion: 2018-01-01
 summary: Gets all the public IP addresses in a subscription.
 consumes:
 - application/json
@@ -12,7 +12,7 @@ produces:
 - application/json
 - text/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses?api-version=2017-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,12 +38,12 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: "  \nPublic IP address resource."
+    description: Public IP address resource.
     types:
     - uid: PublicIPAddress
       isArray: true
   - name: nextLink
-    description: "  \nThe URL to get the next set of results."
+    description: The URL to get the next set of results.
     types:
     - uid: string
 - name: PublicIPAddress
@@ -51,72 +51,77 @@ definitions:
   kind: object
   properties:
   - name: sku
-    description: "  \nThe public IP address SKU."
+    description: The public IP address SKU.
     types:
     - uid: PublicIPAddressSku
   - name: etag
-    description: "  \nA unique read-only string that changes whenever the resource is updated."
+    description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
   - name: zones
-    description: "  "
+    description: A list of availability zones denoting the IP allocated for the resource needs to come from.
     types:
     - uid: string
       isArray: true
   - name: properties.publicIPAllocationMethod
-    description: "  \nThe public IP allocation method. Possible values are: 'Static' and 'Dynamic'."
+    description: "The public IP allocation method. Possible values are: 'Static' and 'Dynamic'."
     types:
     - uid: IPAllocationMethod
   - name: properties.publicIPAddressVersion
-    description: "  \nThe public IP address version. Possible values are: 'IPv4' and 'IPv6'."
+    description: "The public IP address version. Possible values are: 'IPv4' and 'IPv6'."
     types:
     - uid: IPVersion
   - name: properties.ipConfiguration
     isReadyOnly: true
-    description: "  \nThe IP configuration associated with the public IP address."
+    description: The IP configuration associated with the public IP address.
     types:
     - uid: SubResource
   - name: properties.dnsSettings
-    description: "  \nThe FQDN of the DNS record associated with the public IP address."
+    description: The FQDN of the DNS record associated with the public IP address.
     types:
     - uid: PublicIPAddressDnsSettings
+  - name: properties.ipTags
+    description: Contains the IpTag associated with the public IP address
+    types:
+    - uid: IpTag
+      isArray: true
   - name: properties.ipAddress
-    description: "  \nThe IP address associated with the public IP address resource."
+    description: The IP address associated with the public IP address resource.
     types:
     - uid: string
   - name: properties.idleTimeoutInMinutes
-    description: "  \nThe idle timeout of the public IP address."
+    description: The idle timeout of the public IP address.
     types:
     - uid: integer
   - name: properties.resourceGuid
-    description: "  \nThe resource GUID property of the public IP resource."
+    description: The resource GUID property of the public IP resource.
     types:
     - uid: string
   - name: properties.provisioningState
-    description: "  \nThe provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    description: "The provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: "  \nResource ID."
+    description: Resource ID.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: "  \nResource name."
+    description: Resource name.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: "  \nResource type."
+    description: Resource type.
     types:
     - uid: string
   - name: location
-    description: "  \nResource location."
+    description: Resource location.
     types:
     - uid: string
   - name: tags
-    description: "  \nResource tags."
+    description: Resource tags.
     types:
     - uid: object
       isDictionary: true
@@ -128,7 +133,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: "  \nName of a public IP address SKU."
+    description: Name of a public IP address SKU.
     types:
     - uid: PublicIPAddressSkuName
 - name: IPAllocationMethod
@@ -152,27 +157,39 @@ definitions:
     types:
     - uid: string
 - name: SubResource
-  description: The IP configuration associated with the public IP address.
+  description: Reference to another subresource.
   kind: object
   properties:
   - name: id
-    description: "  \nResource ID."
+    description: Resource ID.
     types:
     - uid: string
 - name: PublicIPAddressDnsSettings
-  description: The FQDN of the DNS record associated with the public IP address.
+  description: Contains FQDN of the DNS record associated with the public IP address
   kind: object
   properties:
   - name: domainNameLabel
-    description: "  \nGets or sets the Domain name label.The concatenation of the domain name label and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system."
+    description: Gets or sets the Domain name label.The concatenation of the domain name label and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system.
     types:
     - uid: string
   - name: fqdn
-    description: "  \nGets the FQDN, Fully qualified domain name of the A DNS record associated with the public IP. This is the concatenation of the domainNameLabel and the regionalized DNS zone."
+    description: Gets the FQDN, Fully qualified domain name of the A DNS record associated with the public IP. This is the concatenation of the domainNameLabel and the regionalized DNS zone.
     types:
     - uid: string
   - name: reverseFqdn
-    description: "  \nGets or Sets the Reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN. "
+    description: 'Gets or Sets the Reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN. '
+    types:
+    - uid: string
+- name: IpTag
+  description: Contains the IpTag associated with the public IP address
+  kind: object
+  properties:
+  - name: ipTagType
+    description: 'Gets or sets the ipTag type: Example FirstPartyUsage.'
+    types:
+    - uid: string
+  - name: tag
+    description: Gets or sets value of the IpTag associated with the public IP. Example SQL, Storage etc
     types:
     - uid: string
 - name: PublicIPAddressSkuName
@@ -188,7 +205,7 @@ definitions:
 examples:
 - name: List all public IP addresses
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/publicIPAddresses?api-version=2017-10-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/publicIPAddresses?api-version=2018-01-01
   responses:
   - statusCode: "200"
     body: >-

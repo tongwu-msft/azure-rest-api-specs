@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.user.createorupdate
 name: Create Or Update
 service: API Management
 groupName: User
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Creates or Updates a user.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: User identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -62,107 +62,112 @@ requestBody:
   - name: properties.email
     in: body
     isRequired: true
-    description: "  \nEmail address. Must not be empty and must be unique within the service instance."
+    description: Email address. Must not be empty and must be unique within the service instance.
     types:
     - uid: string
   - name: properties.firstName
     in: body
     isRequired: true
-    description: "  \nFirst name."
+    description: First name.
     types:
     - uid: string
   - name: properties.lastName
     in: body
     isRequired: true
-    description: "  \nLast name."
+    description: Last name.
     types:
     - uid: string
   - name: properties.password
     in: body
-    description: "  \nUser Password. If no value is provided, a default password is generated."
+    description: User Password. If no value is provided, a default password is generated.
     types:
     - uid: string
   - name: properties.confirmation
     in: body
-    description: "  \nDetermines the type of confirmation e-mail that will be sent to the newly created user."
+    description: Determines the type of confirmation e-mail that will be sent to the newly created user.
     types:
     - uid: Confirmation
   - name: properties.state
     in: body
-    description: "  \nAccount state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active."
+    description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
     types:
     - uid: UserState
   - name: properties.note
     in: body
-    description: "  \nOptional note about a user set by the administrator."
+    description: Optional note about a user set by the administrator.
     types:
     - uid: string
-requestHeader: []
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the Entity. Not required when creating an entity, but required when updating an entity.
+  types:
+  - uid: string
 definitions:
 - name: UserIdentityContract
-  description: Collection of user identities.
+  description: User identity details.
   kind: object
   properties:
   - name: provider
-    description: "  \nIdentity provider name."
+    description: Identity provider name.
     types:
     - uid: string
   - name: id
-    description: "  \nIdentifier value within provider."
+    description: Identifier value within provider.
     types:
     - uid: string
 - name: UserContract
-  description: Page values.
+  description: User details.
   kind: object
   properties:
   - name: properties.firstName
-    description: "  \nFirst name."
+    description: First name.
     types:
     - uid: string
   - name: properties.lastName
-    description: "  \nLast name."
+    description: Last name.
     types:
     - uid: string
   - name: properties.email
-    description: "  \nEmail address."
+    description: Email address.
     types:
     - uid: string
   - name: properties.registrationDate
-    description: "  \nDate of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard."
+    description: 'Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
     types:
     - uid: string
   - name: properties.groups
     isReadyOnly: true
-    description: "  \nContract details."
+    description: Group contract Properties.
     types:
-    - uid: GroupContract
+    - uid: GroupContractProperties
       isArray: true
   - name: id
     isReadyOnly: true
-    description: "  \nResource ID."
+    description: Resource ID.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: "  \nResource name."
+    description: Resource name.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: "  \nResource type for API Management resource."
+    description: Resource type for API Management resource.
     types:
     - uid: string
   - name: properties.state
-    description: "  \nAccount state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active."
+    description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
     types:
     - uid: UserState
   - name: properties.note
-    description: "  \nOptional note about a user set by the administrator."
+    description: Optional note about a user set by the administrator.
     types:
     - uid: string
   - name: properties.identities
     isReadyOnly: true
-    description: "  \nUser identity details."
+    description: User identity details.
     types:
     - uid: UserIdentityContract
       isArray: true
@@ -171,15 +176,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: "  \nService-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
   - name: message
-    description: "  \nHuman-readable representation of the error."
+    description: Human-readable representation of the error.
     types:
     - uid: string
   - name: details
-    description: "  \nError Field contract."
+    description: Error Field contract.
     types:
     - uid: ErrorFieldContract
       isArray: true
@@ -188,77 +193,62 @@ definitions:
   kind: object
   properties:
   - name: properties.email
-    description: "  \nEmail address. Must not be empty and must be unique within the service instance."
+    description: Email address. Must not be empty and must be unique within the service instance.
     types:
     - uid: string
   - name: properties.firstName
-    description: "  \nFirst name."
+    description: First name.
     types:
     - uid: string
   - name: properties.lastName
-    description: "  \nLast name."
+    description: Last name.
     types:
     - uid: string
   - name: properties.password
-    description: "  \nUser Password. If no value is provided, a default password is generated."
+    description: User Password. If no value is provided, a default password is generated.
     types:
     - uid: string
   - name: properties.confirmation
-    description: "  \nDetermines the type of confirmation e-mail that will be sent to the newly created user."
+    description: Determines the type of confirmation e-mail that will be sent to the newly created user.
     types:
     - uid: Confirmation
   - name: properties.state
-    description: "  \nAccount state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active."
+    description: Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.
     types:
     - uid: UserState
   - name: properties.note
-    description: "  \nOptional note about a user set by the administrator."
+    description: Optional note about a user set by the administrator.
     types:
     - uid: string
   - name: properties.identities
     isReadyOnly: true
-    description: "  \nUser identity details."
+    description: User identity details.
     types:
     - uid: UserIdentityContract
       isArray: true
-- name: GroupContract
-  description: Collection of groups user is part of.
+- name: GroupContractProperties
+  description: Group contract Properties.
   kind: object
   properties:
-  - name: properties.displayName
-    description: "  \nGroup name."
+  - name: displayName
+    description: Group name.
     types:
     - uid: string
-  - name: properties.description
-    description: "  \nGroup description. Can contain HTML formatting tags."
+  - name: description
+    description: Group description. Can contain HTML formatting tags.
     types:
     - uid: string
-  - name: properties.builtIn
+  - name: builtIn
     isReadyOnly: true
-    description: "  \ntrue if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false."
+    description: true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
     types:
     - uid: boolean
-  - name: properties.type
-    description: "  \nGroup type."
+  - name: type
+    description: Group type.
     types:
     - uid: GroupType
-  - name: properties.externalId
-    description: "  \nFor external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null."
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: "  \nResource ID."
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: "  \nResource name."
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: "  \nResource type for API Management resource."
+  - name: externalId
+    description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
     types:
     - uid: string
 - name: UserState
@@ -286,15 +276,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: "  \nProperty level error code."
+    description: Property level error code.
     types:
     - uid: string
   - name: message
-    description: "  \nHuman-readable representation of property-level error."
+    description: Human-readable representation of property-level error.
     types:
     - uid: string
   - name: target
-    description: "  \nProperty name."
+    description: Property name.
     types:
     - uid: string
 - name: Confirmation
@@ -325,7 +315,7 @@ definitions:
 examples:
 - name: ApiManagementCreateUserBasic
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/5931a75ae4bbd512288c680b?api-version=2018-01-01
     body: >-
       {
         "properties": {

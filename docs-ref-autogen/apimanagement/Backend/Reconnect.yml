@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.backend.reconnect
 name: Reconnect
 service: API Management
 groupName: Backend
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Notifies the APIM proxy to create a new connection to the backend after the specified timeout. If no timeout was specified, timeout of 2 minutes is used.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendid}/reconnect?api-version=2017-03-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendid}/reconnect?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: Identifier of the Backend entity. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -55,7 +55,7 @@ requestBody:
 - parameters:
   - name: properties.after
     in: body
-    description: "  \nDuration in ISO8601 format after which reconnect will be initiated."
+    description: Duration in ISO8601 format after which reconnect will be initiated. Minimum duration of the Reconect is PT2M.
     types:
     - uid: string
 requestHeader: []
@@ -65,15 +65,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: "  \nService-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
   - name: message
-    description: "  \nHuman-readable representation of the error."
+    description: Human-readable representation of the error.
     types:
     - uid: string
   - name: details
-    description: "  \nError Field contract."
+    description: Error Field contract.
     types:
     - uid: ErrorFieldContract
       isArray: true
@@ -82,22 +82,22 @@ definitions:
   kind: object
   properties:
   - name: properties.after
-    description: "  \nDuration in ISO8601 format after which reconnect will be initiated."
+    description: Duration in ISO8601 format after which reconnect will be initiated. Minimum duration of the Reconect is PT2M.
     types:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: "  \nResource ID."
+    description: Resource ID.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: "  \nResource name."
+    description: Resource name.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: "  \nResource type for API Management resource."
+    description: Resource type for API Management resource.
     types:
     - uid: string
 - name: ErrorFieldContract
@@ -105,21 +105,21 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: "  \nProperty level error code."
+    description: Property level error code.
     types:
     - uid: string
   - name: message
-    description: "  \nHuman-readable representation of property-level error."
+    description: Human-readable representation of property-level error.
     types:
     - uid: string
   - name: target
-    description: "  \nProperty name."
+    description: Property name.
     types:
     - uid: string
 examples:
 - name: ApiManagementBackendReconnect
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/proxybackend/reconnect?api-version=2017-03-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/proxybackend/reconnect?api-version=2018-01-01
     body: >-
       {
         "properties": {
