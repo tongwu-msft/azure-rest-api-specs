@@ -61,6 +61,7 @@ requestBody:
     types:
     - uid: ServerPropertiesForDefaultCreate
     - uid: ServerPropertiesForRestore
+    - uid: ServerPropertiesForGeoRestore
     typesTitle: ServerPropertiesForCreate
   - name: location
     in: body
@@ -179,6 +180,7 @@ definitions:
     types:
     - uid: ServerPropertiesForDefaultCreate
     - uid: ServerPropertiesForRestore
+    - uid: ServerPropertiesForGeoRestore
     typesTitle: ServerPropertiesForCreate
   - name: location
     description: The location the resource resides in.
@@ -235,7 +237,7 @@ definitions:
     - uid: Default
     typesTitle: string
 - name: ServerPropertiesForRestore
-  description: The properties to a new server by restoring from a backup.
+  description: The properties used to create a new server by restoring from a backup.
   kind: object
   properties:
   - name: sourceServerId
@@ -262,6 +264,31 @@ definitions:
     description: The mode to create a new server.
     types:
     - uid: PointInTimeRestore
+    typesTitle: string
+- name: ServerPropertiesForGeoRestore
+  description: The properties used to create a new server by restoring to a different region from a geo replicated backup.
+  kind: object
+  properties:
+  - name: sourceServerId
+    description: The source server id to restore from.
+    types:
+    - uid: string
+  - name: version
+    description: Server version.
+    types:
+    - uid: ServerVersion
+  - name: sslEnforcement
+    description: Enable ssl enforcement or not when connect to server.
+    types:
+    - uid: SslEnforcementEnum
+  - name: storageProfile
+    description: Storage profile of a server.
+    types:
+    - uid: StorageProfile
+  - name: createMode
+    description: The mode to create a new server.
+    types:
+    - uid: GeoRestore
     typesTitle: string
 - name: ServerVersion
   description: The version of a server.
@@ -323,7 +350,7 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ServerCreate
+- name: Create a new server
   request:
     uri: PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/servers/mysqltestsvc4?api-version=2017-12-01
     body: >-
@@ -408,6 +435,171 @@ examples:
           "sslEnforcement": "Enabled",
           "userVisibleState": "Ready",
           "fullyQualifiedDomainName": "mysqltestsvc4.mysql.database.azure.com",
+          "earliestRestoreDate": "2018-03-14T18:02:41.577+00:00"
+        }
+      }
+  - statusCode: "202"
+- name: Create a database as a point in time restore
+  request:
+    uri: PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TargetResourceGroup/providers/Microsoft.DBforMySQL/servers/targetserver?api-version=2017-12-01
+    body: >-
+      {
+        "location": "brazilsouth",
+        "properties": {
+          "restorePointInTime": "2017-12-14T00:00:37.467Z",
+          "createMode": "PointInTimeRestore",
+          "sourceServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/SourceResourceGroup/providers/Microsoft.DBforMySQL/servers/sourceserver"
+        },
+        "sku": {
+          "name": "GP_Gen4_2",
+          "tier": "GeneralPurpose",
+          "family": "Gen4",
+          "capacity": 2
+        },
+        "tags": {
+          "ElasticServer": "1"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "name": "GP_Gen4_2",
+          "tier": "GeneralPurpose",
+          "family": "Gen4",
+          "capacity": 2
+        },
+        "properties": {
+          "administratorLogin": "cloudsa",
+          "storageProfile": {
+            "storageMB": 128000,
+            "backupRetentionDays": 7,
+            "geoRedundantBackup": "Enabled"
+          },
+          "version": "5.7",
+          "sslEnforcement": "Enabled",
+          "userVisibleState": "Ready",
+          "fullyQualifiedDomainName": "targetserver.mysql.database.azure.com",
+          "earliestRestoreDate": "2018-03-14T18:02:41.577+00:00"
+        },
+        "location": "brazilsouth",
+        "tags": {
+          "ElasticServer": "1"
+        },
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/servers/targetserver",
+        "name": "targetserver",
+        "type": "Microsoft.DBforMySQL/servers"
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/servers/targetserver",
+        "name": "targetserver",
+        "type": "Microsoft.DBforMySQL/servers",
+        "location": "brazilsouth",
+        "sku": {
+          "name": "GP_Gen4_2",
+          "tier": "GeneralPurpose",
+          "family": "Gen4",
+          "capacity": 2
+        },
+        "tags": {
+          "elasticServer": "1"
+        },
+        "properties": {
+          "administratorLogin": "cloudsa",
+          "storageProfile": {
+            "storageMB": 128000,
+            "backupRetentionDays": 7,
+            "geoRedundantBackup": "Enabled"
+          },
+          "version": "5.7",
+          "sslEnforcement": "Enabled",
+          "userVisibleState": "Ready",
+          "fullyQualifiedDomainName": "targetserver.mysql.database.azure.com",
+          "earliestRestoreDate": "2018-03-14T18:02:41.577+00:00"
+        }
+      }
+  - statusCode: "202"
+- name: 'Create a server as a geo restore '
+  request:
+    uri: PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TargetResourceGroup/providers/Microsoft.DBforMySQL/servers/targetserver?api-version=2017-12-01
+    body: >-
+      {
+        "location": "westus",
+        "properties": {
+          "createMode": "GeoRestore",
+          "sourceServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/SourceResourceGroup/providers/Microsoft.DBforMySQL/servers/sourceserver"
+        },
+        "sku": {
+          "name": "GP_Gen4_2",
+          "tier": "GeneralPurpose",
+          "family": "Gen4",
+          "capacity": 2
+        },
+        "tags": {
+          "ElasticServer": "1"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "name": "GP_Gen4_2",
+          "tier": "GeneralPurpose",
+          "family": "Gen4",
+          "capacity": 2
+        },
+        "properties": {
+          "administratorLogin": "cloudsa",
+          "storageProfile": {
+            "storageMB": 128000,
+            "backupRetentionDays": 14,
+            "geoRedundantBackup": "Enabled"
+          },
+          "version": "5.7",
+          "sslEnforcement": "Enabled",
+          "userVisibleState": "Ready",
+          "fullyQualifiedDomainName": "targetserver.mysql.database.azure.com",
+          "earliestRestoreDate": "2018-03-14T18:02:41.577+00:00"
+        },
+        "location": "westus",
+        "tags": {
+          "ElasticServer": "1"
+        },
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/servers/targetserver",
+        "name": "targetserver",
+        "type": "Microsoft.DBforMySQL/servers"
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/servers/targetserver",
+        "name": "targetserver",
+        "type": "Microsoft.DBforMySQL/servers",
+        "location": "westus",
+        "sku": {
+          "name": "GP_Gen4_2",
+          "tier": "GeneralPurpose",
+          "family": "Gen4",
+          "capacity": 2
+        },
+        "tags": {
+          "elasticServer": "1"
+        },
+        "properties": {
+          "administratorLogin": "cloudsa",
+          "storageProfile": {
+            "storageMB": 128000,
+            "backupRetentionDays": 14,
+            "geoRedundantBackup": "Enabled"
+          },
+          "version": "5.7",
+          "sslEnforcement": "Enabled",
+          "userVisibleState": "Ready",
+          "fullyQualifiedDomainName": "targetserver.mysql.database.azure.com",
           "earliestRestoreDate": "2018-03-14T18:02:41.577+00:00"
         }
       }
