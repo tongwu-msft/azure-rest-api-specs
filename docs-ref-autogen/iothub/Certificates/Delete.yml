@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.iothub.iothubresource.deleteeventhubconsumergroup
-name: Delete Event Hub Consumer Group
+uid: management.azure.com.iothub.certificates.delete
+name: Delete
 service: IoT Hub
-groupName: Iot Hub Resource
+groupName: Certificates
 apiVersion: 2018-04-01
-summary: Delete a consumer group from an Event Hub-compatible endpoint in an IoT hub.
+summary: Delete an X509 certificate. Deletes an existing X509 certificate or does nothing if it does not exist.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/eventHubEndpoints/{eventHubEndpointName}/ConsumerGroups/{name}?api-version=2018-04-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,18 +30,13 @@ uriParameters:
   description: The name of the IoT hub.
   types:
   - uid: string
-- name: eventHubEndpointName
+- name: certificateName
   in: path
   isRequired: true
-  description: The name of the Event Hub-compatible endpoint in the IoT hub.
+  description: The name of the certificate
   types:
   - uid: string
-- name: name
-  in: path
-  isRequired: true
-  description: The name of the consumer group to delete.
-  types:
-  - uid: string
+  pattern: ^[A-Za-z0-9-._]{1,64}$
 - name: api-version
   in: query
   isRequired: true
@@ -50,12 +45,20 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: This is a synchronous operation.
+  description: Certificate has been deleted.
+- name: 204 No Content
+  description: Certificate does not exist.
 - name: Other Status Codes
   description: DefaultErrorResponse
   types:
   - uid: ErrorDetails
-requestHeader: []
+requestHeader:
+- name: If-Match
+  in: header
+  isRequired: true
+  description: ETag of the Certificate.
+  types:
+  - uid: string
 definitions:
 - name: ErrorDetails
   description: Error details.
@@ -82,11 +85,15 @@ definitions:
     types:
     - uid: string
 examples:
-- name: IotHubResource_DeleteEventHubConsumerGroup
+- name: Certificates_Delete
   request:
-    uri: DELETE https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/testHub/eventHubEndpoints/events/ConsumerGroups/test?api-version=2018-04-01
+    uri: DELETE https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/myhub/certificates/cert?api-version=2018-04-01
+    headers:
+    - name: If-Match
+      value: AAAAAAAADGk=
   responses:
   - statusCode: "200"
+  - statusCode: "204"
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
