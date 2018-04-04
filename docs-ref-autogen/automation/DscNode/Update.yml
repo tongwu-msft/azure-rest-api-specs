@@ -3,14 +3,15 @@ uid: management.azure.com.automation.dscnode.update
 name: Update
 service: Automation
 groupName: Dsc Node
-apiVersion: 2015-10-31
+apiVersion: 2018-01-15
 summary: Update the dsc node.
 consumes:
 - application/json
 produces:
 - application/json
+- text/plain
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}?api-version=2015-10-31
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}?api-version=2018-01-15
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,14 +22,14 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The resource group name.
+  description: Name of an Azure Resource group.
   types:
   - uid: string
   pattern: ^[-\w\._]+$
 - name: automationAccountName
   in: path
   isRequired: true
-  description: The automation account name.
+  description: The name of the automation account.
   types:
   - uid: string
 - name: nodeId
@@ -59,75 +60,73 @@ requestBody:
     description: Gets or sets the id of the dsc node.
     types:
     - uid: string
-  - name: nodeConfiguration
+  - name: properties
     in: body
-    description: Gets or sets the configuration of the node.
     types:
-    - uid: DscNodeConfigurationAssociationProperty
+    - uid: Properties
 requestHeader: []
 definitions:
-- name: DscNodeConfigurationAssociationProperty
-  description: The dsc nodeconfiguration property associated with the entity.
+- name: Properties
   kind: object
   properties:
-  - name: name
+  - name: nodeConfiguration.name
     description: Gets or sets the name of the dsc nodeconfiguration.
     types:
     - uid: string
 - name: DscNode
-  description: Definition of the dsc node type.
+  description: Definition of a DscNode
   kind: object
   properties:
-  - name: lastSeen
+  - name: properties.lastSeen
     description: Gets or sets the last seen time of the node.
     types:
     - uid: string
-  - name: registrationTime
+  - name: properties.registrationTime
     description: Gets or sets the registration time of the node.
     types:
     - uid: string
-  - name: ip
+  - name: properties.ip
     description: Gets or sets the ip of the node.
     types:
     - uid: string
-  - name: accountId
+  - name: properties.accountId
     description: Gets or sets the account id of the node.
     types:
     - uid: string
-  - name: nodeConfiguration
-    description: Gets or sets the configuration of the node.
-    types:
-    - uid: DscNodeConfigurationAssociationProperty
-  - name: status
+  - name: properties.status
     description: Gets or sets the status of the node.
     types:
     - uid: string
-  - name: nodeId
+  - name: properties.nodeId
     description: Gets or sets the node id.
     types:
     - uid: string
-  - name: etag
+  - name: properties.etag
     description: Gets or sets the etag of the resource.
     types:
     - uid: string
-  - name: extensionHandler
+  - name: properties.extensionHandler
     description: The dsc extensionHandler property associated with the node
     types:
     - uid: DscNodeExtensionHandlerAssociationProperty
       isArray: true
+  - name: properties.nodeConfiguration.name
+    description: Gets or sets the name of the dsc nodeconfiguration.
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
-    description: Resource Id
+    description: Fully qualified resource Id for the resource
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type
+    description: The type of the resource.
     types:
     - uid: string
 - name: ErrorResponse
@@ -150,10 +149,9 @@ definitions:
     description: Gets or sets the id of the dsc node.
     types:
     - uid: string
-  - name: nodeConfiguration
-    description: Gets or sets the configuration of the node.
+  - name: properties
     types:
-    - uid: DscNodeConfigurationAssociationProperty
+    - uid: Properties
 - name: DscNodeExtensionHandlerAssociationProperty
   description: The dsc extensionHandler property associated with the node
   kind: object
@@ -169,12 +167,14 @@ definitions:
 examples:
 - name: Update a node
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/nodeId?api-version=2015-10-31
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/nodeId?api-version=2018-01-15
     body: >-
       {
         "nodeId": "nodeId",
-        "nodeConfiguration": {
-          "name": "SetupServer.localhost"
+        "properties": {
+          "nodeConfiguration": {
+            "name": "SetupServer.localhost"
+          }
         }
       }
   responses:
@@ -182,14 +182,23 @@ examples:
     body: >-
       {
         "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/nodeId",
-        "lastSeen": "2017-03-28T23:16:30.3192468+00:00",
-        "registrationTime": "2017-03-28T20:19:24.7915026+00:00",
         "name": "DSCCOMP",
-        "ip": "172.16.2.5;127.0.0.1;fe80::4c51:9518:aa3c:256a%5;::2000:0:0:0;::1;::2000:0:0:0;2001:0:9d38:78cf:106b:130a:53ef:fdfa;fe80::106b:1",
-        "nodeId": "nodeId",
-        "status": null,
-        "nodeConfiguration": {
-          "name": "SetupServer.localhost"
+        "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+        "properties": {
+          "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+          "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+          "ip": "ip",
+          "nodeId": "nodeId",
+          "status": "Pending",
+          "nodeConfiguration": {
+            "name": "SetupServer.localhost"
+          },
+          "extensionHandler": [
+            {
+              "name": "Microsoft.Powershell.DSC",
+              "version": "2.75.0.0"
+            }
+          ]
         }
       }
 security:

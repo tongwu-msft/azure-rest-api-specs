@@ -148,6 +148,14 @@ definitions:
     description: The policy XML document is hosted on a http endpoint accessible from the API Management service.
     types:
     - uid: string
+  - name: rawxml
+    description: The contents are inline and Content type is a non XML encoded policy document.
+    types:
+    - uid: string
+  - name: rawxml-link
+    description: The policy document is not Xml encoded and is hosted on a http endpoint accessible from the API Management service.
+    types:
+    - uid: string
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -197,6 +205,40 @@ examples:
         "name": "policy",
         "properties": {
           "policyContent": "<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"
+        }
+      }
+- name: ApiManagementCreateApiPolicyNonXmlEncoded
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5600b57e7e8880006a040001/policies/policy?api-version=2018-01-01
+    body: >-
+      {
+        "properties": {
+          "policyContent": "<policies>\r\n     <inbound>\r\n     <base />\r\n  <set-header name=\"newvalue\" exists-action=\"override\">\r\n   <value>\"@(context.Request.Headers.FirstOrDefault(h => h.Ke==\"Via\"))\" </value>\r\n    </set-header>\r\n  </inbound>\r\n      </policies>",
+          "contentFormat": "rawxml"
+        }
+      }
+    headers:
+    - name: If-Match
+      value: '*'
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/4c1a3bc6-89f9-46fe-a175-5d8984b25095/resourcegroups/Api-DF-West-US/providers/Microsoft.ApiManagement/service/samirmsiservice2/apis/echo-api/operations/create-resource/policies/policy",
+        "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+        "name": "policy",
+        "properties": {
+          "policyContent": "<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"newvalue\" exists-action=\"override\">\r\n      <value>\"@(context.Request.Headers.FirstOrDefault(h =&gt; h.Ke==\"Via\"))\" </value>\r\n    </set-header>\r\n  </inbound>\r\n</policies>"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/4c1a3bc6-89f9-46fe-a175-5d8984b25095/resourcegroups/Api-DF-West-US/providers/Microsoft.ApiManagement/service/samirmsiservice2/apis/echo-api/operations/create-resource/policies/policy",
+        "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+        "name": "policy",
+        "properties": {
+          "policyContent": "<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"newvalue\" exists-action=\"override\">\r\n      <value>\"@(context.Request.Headers.FirstOrDefault(h =&gt; h.Ke==\"Via\"))\" </value>\r\n    </set-header>\r\n  </inbound>\r\n</policies>"
         }
       }
 security:
