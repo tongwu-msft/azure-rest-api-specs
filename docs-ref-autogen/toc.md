@@ -2041,8 +2041,6 @@
 #### [List By Namespace](EventHub/EventHubs/ListByNamespace.yml)
 #### [List Keys](EventHub/EventHubs/ListKeys.yml)
 #### [Regenerate Keys](EventHub/EventHubs/RegenerateKeys.yml)
-### [Messaging Plan](EventHub/MessagingPlan.yml)
-#### [Get](EventHub/MessagingPlan/Get.yml)
 ### [Namespaces](EventHub/Namespaces.yml)
 #### [Check Name Availability](EventHub/Namespaces/CheckNameAvailability.yml)
 #### [Create Or Update](EventHub/Namespaces/CreateOrUpdate.yml)
