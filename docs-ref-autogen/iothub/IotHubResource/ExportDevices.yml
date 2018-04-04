@@ -3,14 +3,14 @@ uid: management.azure.com.iothub.iothubresource.exportdevices
 name: Export Devices
 service: IoT Hub
 groupName: Iot Hub Resource
-apiVersion: 2017-01-19
+apiVersion: 2018-04-01
 summary: 'Exports all the device identities in the IoT hub identity registry to an Azure Storage blob container. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities.'
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/exportDevices?api-version=2017-01-19
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/exportDevices?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,13 +47,13 @@ responses:
   - uid: ErrorDetails
 requestBody:
 - parameters:
-  - name: ExportBlobContainerUri
+  - name: exportBlobContainerUri
     in: body
     isRequired: true
     description: The export blob container URI.
     types:
     - uid: string
-  - name: ExcludeKeys
+  - name: excludeKeys
     in: body
     isRequired: true
     description: The value indicating whether keys should be excluded during export.
@@ -109,22 +109,22 @@ definitions:
   description: Error details.
   kind: object
   properties:
-  - name: Code
+  - name: code
     isReadyOnly: true
     description: The error code.
     types:
     - uid: string
-  - name: HttpStatusCode
+  - name: httpStatusCode
     isReadyOnly: true
     description: The HTTP status code.
     types:
     - uid: string
-  - name: Message
+  - name: message
     isReadyOnly: true
     description: The error message.
     types:
     - uid: string
-  - name: Details
+  - name: details
     isReadyOnly: true
     description: The error details.
     types:
@@ -133,11 +133,11 @@ definitions:
   description: Use to provide parameters when requesting an export of all devices in the IoT hub.
   kind: object
   properties:
-  - name: ExportBlobContainerUri
+  - name: exportBlobContainerUri
     description: The export blob container URI.
     types:
     - uid: string
-  - name: ExcludeKeys
+  - name: excludeKeys
     description: The value indicating whether keys should be excluded during export.
     types:
     - uid: boolean
@@ -197,5 +197,30 @@ definitions:
   - name: cancelled
     types:
     - uid: string
-examples: []
-security: []
+examples:
+- name: IotHubResource_ExportDevices
+  request:
+    uri: POST https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/testHub/exportDevices?api-version=2018-04-01
+    body: >-
+      {
+        "exportBlobContainerUri": "testBlob",
+        "excludeKeys": true
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "jobId": "test",
+        "startTimeUtc": "Thu, 15 Jun 2017 19:20:58 GMT",
+        "endTimeUtc": "Thu, 15 Jun 2017 19:20:58 GMT",
+        "type": "unknown",
+        "status": "unknown"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

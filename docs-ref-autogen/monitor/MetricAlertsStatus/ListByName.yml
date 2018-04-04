@@ -1,0 +1,146 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.monitor.metricalertsstatus.listbyname
+name: List By Name
+service: Monitor
+groupName: Metric Alerts Status
+apiVersion: 2018-03-01
+summary: Retrieve an alert rule status.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}/status/{statusName}?api-version=2018-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: ruleName
+  in: path
+  isRequired: true
+  description: The name of the rule.
+  types:
+  - uid: string
+- name: statusName
+  in: path
+  isRequired: true
+  description: The name of the status.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successful request for a list of metric alerts
+  types:
+  - uid: MetricAlertStatusCollection
+- name: Other Status Codes
+  description: BadRequest
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: MetricAlertStatusCollection
+  description: Represents a collection of alert rule resources.
+  kind: object
+  properties:
+  - name: value
+    description: An alert status.
+    types:
+    - uid: MetricAlertStatus
+      isArray: true
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: MetricAlertStatus
+  description: An alert status.
+  kind: object
+  properties:
+  - name: name
+    description: The status name.
+    types:
+    - uid: string
+  - name: id
+    description: The alert rule arm id.
+    types:
+    - uid: string
+  - name: type
+    description: The extended resource type name.
+    types:
+    - uid: string
+  - name: properties
+    description: The alert status properties of the metric alert status.
+    types:
+    - uid: MetricAlertStatusProperties
+- name: MetricAlertStatusProperties
+  description: An alert status properties.
+  kind: object
+  properties:
+  - name: dimensions
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: status
+    description: status value
+    types:
+    - uid: string
+  - name: timestamp
+    description: UTC time when the status was checked.
+    types:
+    - uid: string
+examples:
+- name: Get an alert rule status
+  request:
+    uri: GET https://management.azure.com/subscriptions/009f6022-67ec-423e-9aa7-691182870588/resourceGroups/EastUs/providers/Microsoft.Insights/metricAlerts/custom1/status/cmVzb3VyY2VJZD0vc3Vic2NyaXB0aW9ucy8xNGRkZjBjNS03N2M1LTRiNTMtODRmNi1lMWZhNDNhZDY4ZjcvcmVzb3VyY2VHcm91cHMvZ2lndGVzdC9wcm92aWRlcnMvTWljcm9zb2Z0LkNvbXB1dGUvdmlydHVhbE1hY2hpbmVzL2dpZ3dhZG1l?api-version=2018-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/009f6022-67ec-423e-9aa7-691182870588/resourceGroups/EastUs/providers/microsoft.insights/metricAlerts/custom1",
+            "name": "cmVzb3VyY2VJZD0vc3Vic2NyaXB0aW9ucy8xNGRkZjBjNS03N2M1LTRiNTMtODRmNi1lMWZhNDNhZDY4ZjcvcmVzb3VyY2VHcm91cHMvZ2lndGVzdC9wcm92aWRlcnMvTWljcm9zb2Z0LkNvbXB1dGUvdmlydHVhbE1hY2hpbmVzL2dpZ3dhZG1l",
+            "type": "Microsoft.Insights/metricAlerts/status",
+            "properties": {
+              "dimensions": {
+                "resourceId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme"
+              },
+              "status": "Healthy",
+              "timestamp": "2018-01-17T20:17:25.6293237Z"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
