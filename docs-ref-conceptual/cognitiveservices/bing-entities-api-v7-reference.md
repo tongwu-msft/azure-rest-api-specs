@@ -274,20 +274,20 @@ Defines the query context that Bing used for the request.
 |askUserForLocation|A Boolean value that indicates whether Bing requires the user's location to provide accurate results. If you specified the user's location by using the [X-MSEdge-ClientIP](#clientip) and [X-Search-Location](#location) headers, you can ignore this field.<br /><br /> For location aware queries, such as "today's weather" or "restaurants near me" that need the user's location to provide accurate results, this field is set to **true**.<br /><br /> For location aware queries that include the location (for example, "Seattle weather"), this field is set to **false**. This field is also set to **false** for queries that are not location aware, such as "best sellers".|Boolean|  
 |originalQuery|The query string as specified in the request.|String|  
 
-<a name="identifiable">
+<a name="identifiable"></a>  
 ### Identifiable
 |Name|Value|Type|  
 |-------------|-----------------|----------|
 |id|A resource identifier|String|
  
-<a name="rankinggroup">
+<a name="rankinggroup"></a>  
 ### RankingGroup
 Defines a search results group, such as mainline.
 |Name|Value|Type|  
 |-------------|-----------------|----------|
 |items|A list of search results to display in the group.|RankingItem|
 
-<a name="rankingitem">
+<a name="rankingitem"></a>  
 ### RankingItem
 Defines a search result item to display.
 |Name|Value|Type|  
