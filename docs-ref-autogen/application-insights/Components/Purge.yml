@@ -41,6 +41,10 @@ responses:
   description: Accepted request for purging an Application Insights component.
   types:
   - uid: ComponentPurgeResponse
+- name: 200 OK
+  description: 'Returns status of purge operation in body of response. e.g.:  running, completed.'
+  types:
+  - uid: ComponentPurgeStatusResponse
 requestBody:
 - parameters:
   - name: table
@@ -66,10 +70,14 @@ definitions:
     description: The column of the table over which the given query should run
     types:
     - uid: string
-  - name: filter
-    description: A query to to run over the provided table and column to purge the corresponding data.
+  - name: operator
+    description: A query operator to evaluate over the provided column and value(s).
     types:
     - uid: string
+  - name: value
+    description: the value for the operator to function over. This can be a number (e.g., > 100), a string (timestamp >= '2017-09-01') or array of values.
+    types:
+    - {}
 - name: ComponentPurgeResponse
   description: Response containing operationId for a specific purge action.
   kind: object
@@ -78,6 +86,14 @@ definitions:
     description: Id to use when querying for status for a particular purge operation.
     types:
     - uid: string
+- name: ComponentPurgeStatusResponse
+  description: Response containing status for a specific purge operation.
+  kind: object
+  properties:
+  - name: status
+    description: Status of the operation represented by the requested Id.
+    types:
+    - uid: PurgeState
 - name: ComponentPurgeBody
   description: Describes the body of a purge request for an App Insights component
   kind: object
@@ -91,6 +107,16 @@ definitions:
     types:
     - uid: ComponentPurgeBodyFilters
       isArray: true
+- name: PurgeState
+  description: Status of the operation represented by the requested Id.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
 examples:
 - name: ComponentPurge
   request:
@@ -101,15 +127,21 @@ examples:
         "filters": [
           {
             "column": "duration",
-            "filter": ">1000"
+            "operator": ">",
+            "value": 1000
           },
           {
             "column": "timestamp",
-            "filter": ">= datetime(2017-09-01T00:00:00.000Z)"
+            "operator": ">=",
+            "value": "2017-09-01T00:00:00"
           },
           {
             "column": "application_Version",
-            "filter": "in ('Draft_master_20171018.2', 'Draft_master_2017024.1')"
+            "operator": "in",
+            "value": [
+              "Draft_master_20171018.2",
+              "Draft_master_2017024.1"
+            ]
           }
         ]
       }
@@ -118,6 +150,11 @@ examples:
     body: >-
       {
         "operationId": "7d7cf277-9113-4ab3-8359-d0364b74d01d"
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "Completed"
       }
 security:
 - type: oauth2
