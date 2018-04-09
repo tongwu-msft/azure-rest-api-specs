@@ -18,7 +18,6 @@ ms.author: scottwhi
 The Entity Search API lets you send a search query to Bing and get back search results that include entities and places. Place results include restaurants, hotel, or other local businesses. For places, the query can specify the name of the local business or it can ask for a list (for example, restaurants near me). Entity results include persons, places, or things. Place in this context is tourist attractions, states, countries, etc.  
 
 
-
 This section provides technical details about the response objects, and the query parameters and headers that affect the search results. For examples that show how to make requests, see [Search the web for entities and places](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/search-the-web). 
   
 For information about headers that requests should include, see [Headers](#headers).  
@@ -28,7 +27,6 @@ For information about query parameters that requests should include, see [Query 
 For information about the JSON objects that the response includes, see [Response objects](#response-objects).
 
 For information about permitted use and display of results, see [Use and display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/use-display-requirements).
-
 
 
   
@@ -274,20 +272,20 @@ Defines the query context that Bing used for the request.
 |askUserForLocation|A Boolean value that indicates whether Bing requires the user's location to provide accurate results. If you specified the user's location by using the [X-MSEdge-ClientIP](#clientip) and [X-Search-Location](#location) headers, you can ignore this field.<br /><br /> For location aware queries, such as "today's weather" or "restaurants near me" that need the user's location to provide accurate results, this field is set to **true**.<br /><br /> For location aware queries that include the location (for example, "Seattle weather"), this field is set to **false**. This field is also set to **false** for queries that are not location aware, such as "best sellers".|Boolean|  
 |originalQuery|The query string as specified in the request.|String|  
 
-<a name="identifiable">
+<a name="identifiable"></a>  
 ### Identifiable
 |Name|Value|Type|  
 |-------------|-----------------|----------|
 |id|A resource identifier|String|
  
-<a name="rankinggroup">
+<a name="rankinggroup"></a>  
 ### RankingGroup
 Defines a search results group, such as mainline.
 |Name|Value|Type|  
 |-------------|-----------------|----------|
 |items|A list of search results to display in the group.|RankingItem|
 
-<a name="rankingitem">
+<a name="rankingitem"></a>  
 ### RankingItem
 Defines a search result item to display.
 |Name|Value|Type|  
