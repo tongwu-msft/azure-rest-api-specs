@@ -1,7 +1,7 @@
 ---
-title: "Event Hubs Runtime REST"
+title: "Event Hubs service REST"
 ms.custom: ""
-ms.date: "2016-12-01"
+ms.date: "2017-04-27"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -14,8 +14,9 @@ author: "sethmanheim"
 ms.author: "sethm"
 manager: "timlt"
 ---
-# Event Hubs Runtime REST
-These APIs enable you to perform runtime operations on Event Hubs.  
+
+# Event Hubs service REST
+These APIs enable you to access the Event Hubs service to perform operations on event hubs.  
   
 ##  <a name="bk_common"></a> Common parameters and headers  
  The following information is common to all tasks that you might do related to Event Hubs publisher policy:  
@@ -36,7 +37,7 @@ These APIs enable you to perform runtime operations on Event Hubs.
   
 -   (Optional) Set the x-ms-retrypolicy header to `NoRetry`, to disable automatic retry on send operations in the case of transient errors.  
   
--   Set the optional {BrokerProperties} header to a JSON-encoded list of `BrokerProperties`. For example, to target a specific partition via `PartitionKey`, use the following example:  
+-   Set the optional [**{BrokerProperties}**](/rest/api/servicebus/message-headers-and-properties) header to a JSON-encoded list of `BrokerProperties`. For example, to target a specific partition via `PartitionKey`, use the following example:  
   
     ```  
     POST https://your-namespace.servicebus.windows.net/your-event-hub/messages?timeout=60&api-version=2014-01 HTTP/1.1  

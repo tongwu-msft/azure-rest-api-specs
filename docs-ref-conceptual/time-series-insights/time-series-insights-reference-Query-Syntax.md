@@ -1,43 +1,63 @@
-# Azure Time Series Insights Query Syntax
+---
+title: Azure Time Series Insights query syntax | Microsoft Docs
+description: This topic describes the Azure Time Series Insights query syntax
+keywords:
+services: time-series-insights
+documentationcenter:
+author: MarkMcGeeAtAquent
+manager: almineev
+editor: cgronlun
 
-This document describes query request format for query API. Query requests must be in JSON format. The request JSON payload should be created using JSON-based domain-specific strongly typed query language.
+ms.assetid:
+ms.service: time-series-insights
+ms.devlang: na
+ms.topic: data-acesss-api
+ms.tgt_pltfrm: na
+ms.workload: big-data
+ms.date: 11/27/2017
+ms.author: v-mamcge
+---
+# Azure Time Series Insights query syntax
+
+This document describes the request format for Time Series Insights REST query API. Query requests must be in JSON format. The request JSON payload should be created using our JSON format guidelines found below. 
 
 The language is subdivided into the following elements:
+
 - Scalar expressions, which produce scalar values.
+- Scalar functions, which produce scalar values.
 - Aggregate expressions, used to partition collections of events and compute measures over the partitions.
 - Clauses, which form constituent components of input JSON query and also can be a part of expressions.
 
+## Getting Started
+
+To get started, see [Azure Time Series Insights query API](time-series-insights-reference-QueryAPI.md) and [Create the request ](https://docs.microsoft.com/en-us/rest/api/#create-the-request) section from the Azure REST API reference. These topics step you through the REST API request/response pair, how to register your client application with Azure Active Directory to secure REST requests, and how to create and send REST requests, handle responses, and parse query results.
+
 ## Data Model
 
-Query API operates on data stored as individual **events** within an environment.
-Each event is a set of property name and value pairs.
+The Time Series Insights query API operates on data stored as individual **events** within an environment. Each event is a set of property name and value pairs.
 
-Event properties can be of one of the following primitive types: `Boolean`, `DateTime`, `Double` or `String`.
+Event properties can be of one of the following primitive types: `Bool`, `DateTime`, `Double`, or `String`.
 Original event source formats may support a larger set of value types, in which case Time Series Insights ingress maps them to the closest primitive types.
 All primitive types are nullable.
 
 All events have the following built-in properties with predefined name and type:
+
 | Property name | Property type | Definition |
 |-|-|-|
 | $ts | DateTime | Event timestamp |
 | $esn | String | Event source name |
 
-By default, event timestamp value is provided by the event source: for example, events coming from an IoT Hub would have their enqueued time as a timestamp.
-However, this behavior can be changed in event source configuration by specifying one of the event properties to be used as a timestamp.
+By default, event timestamp value is provided by the event source: for example, events coming from an IoT Hub would have their enqueued time as a timestamp. However, this behavior can be changed in event source configuration by specifying one of the event properties to be used as a timestamp. For more information, see [Create a Time Series Insights event source](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-add-event-source).
 
-Event source name is the display name of the event source from which Time Series Insights has received the event.
-It is associated with a particular event at the ingress time of the event and stays unchanged for the life-time of the event.
-When the name is changed in the event source configuration, already processed events carry the old name and new events carry the new name.
+Event source name is the display name of the event source from which Time Series Insights has received the event. It is associated with a particular event at the ingress time of the event and stays unchanged for the lifetime of the event. When the name is changed in the event source configuration, already processed events carry the old name, and new events carry the new name.
 
-Custom event properties are uniquely identified and referenced in query expressions by name and type.
-An event can have more than one property with the same name and different types.
-Properties with the same name but different types might result from ingress type splitting. An event property value of string type can be stored as a property with a different type in the following cases:
+Custom event properties are uniquely identified and referenced in query expressions by name and type. An event can have more than one property with the same name and different types. Properties with the same name but different types might result from ingress type splitting. An event property value of string type can be stored as a property with a different type in the following cases:
 * If String value is a valid Double value, then it is stored both as Double and String.
 * If String value is a valid DateTime value, then it is stored as DateTime only.
 
-Time Series Insights has limited support for the following values within the Double type: `Double.NaN`, `Double.PositiveInfinity` and `Double.NegativeInfinity`.
+Time Series Insights has limited support for the following values within the Double type: `Double.NaN`, `Double.PositiveInfinity`, and `Double.NegativeInfinity`.
 These values are converted to `null` during ingress, but if query evaluation produces one of these values, the value is evaluated and serialized as a `String` in response.
-User can pass these values as strings for ingress, so in query expressions these values should be also passed as strings.
+You can pass these values as strings for ingress, so in query expressions these values should be also passed as strings.
 Query API converts empty string literals to nulls in the output.
 
 **Event schema** describes properties of an event.
@@ -50,10 +70,11 @@ Schema contains the name of the event source and ordered set of properties for t
 
 | Primitive Type | JSON Representation | JSON Example | Notes |
 |-|-|-|-|
-| Boolean | JSON Boolean | `true`, `false`|  |
+| Bool | JSON boolean | `true`, `false`|  |
 | DateTime | Nested object with single "dateTime" property in ISO 8601 format `yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK`. | `{"dateTime":"2016-08-01T00:00:00.000Z"}`|  |
 | Double | JSON number cast to Double range. | `1.23e45`, `123`| Overflow of Double results in error. |
 | String | JSON String | `"abc"`|  |
+| TimeSpan | Nested object with single "timeSpan" property in ISO 8601 format P[n]Y[n]M[n]DT[n]H[n]M[n]S. | `{"timeSpan":"P1Y2M3DT4M5.67S"}`|  |
 
 Null literal is typed in JSON and is represented as a nested object with type property.
 
@@ -63,21 +84,38 @@ JSON example:
 {"double": null}
 {"bool": null}
 {"dateTime": null}
+{"timeSpan": null}
 ```
 
-**Property reference expression** is used to access values of non-built-in properties of an event.
+A **Property reference expression** is used to access values of non-built-in properties of an event.
 Result type of a property reference expression is the primitive type of the property.
 Properties in the event schema are uniquely identified by name and type and the reference expression requires both to be specified.
 
 JSON example:
 ```json
-"property": {
-    "name": "p1",
+{
+    "property": "p1",
+    "type": "Bool"
+}
+{
+    "property": "p1",
+    "type": "DateTime"
+}
+{
+    "property": "p1",
+    "type": "Double"
+}
+{
+    "property": "p1",
     "type": "String"
+}
+{
+    "property": "p1",
+    "type": "TimeSpan"
 }
 ```
 
-**Built-in Property reference expression** is used to access built-in properties of an event.
+A **Built-in Property reference expression** is used to access built-in properties of an event.
 Result type of a built-in property reference expression is the primitive type of the property.
 Built-in properties are referenced by name only; therefore, no type is needed in the reference expression.
 
@@ -97,17 +135,15 @@ Time Series Insights supports the following **boolean comparison expressions**:
 | `"gt"` | greater than |
 | `"gte"` | greater than or equal |
 
-All comparison expressions take left and right arguments of primitive types and return a Boolean value representing result of the comparison.
+All comparison expressions take left and right arguments of primitive types and return a boolean value representing the result of the comparison.
 All types implicitly cast only to themselves and explicit casts are not supported, therefore types of left and right arguments should match.
 
 JSON example:
 ```json
 "eq": {
     "left": {
-        "property": {
-            "name": "p1",
-            "type": "String"
-        }
+        "property": "p1",
+        "type": "String"
     },
     "right": "abc"
 }
@@ -116,10 +152,11 @@ JSON example:
 The following table shows supported types of arguments for each of the comparison expressions:
 | Argument Type | Supported comparison operation |
 |-|-|
-| Boolean | `eq`, `in` |
+| Bool | `eq`, `in` |
 | DateTime | `eq`, `in`, `lt`, `lte`, `gt`, `gte` |
 | Double | `eq`, `in`, `lt`, `lte`, `gt`, `gte` |
 | String | `eq`, `in`, `phrase` |
+| TimeSpan | `eq`, `in`, `lt`, `lte`, `gt`, `gte` |
 
 Null literal can only be used in the following expressions: `eq`, `in`.
 The `eq` operation results in `true` if both sides are null values and `false` otherwise.
@@ -136,24 +173,22 @@ Time Series Insights supports the following **boolean logical expressions**:
 
 JSON example:
 ```json
-"and": [{
+"and": [
+    {
 		"eq": {
 			"left": {
-				"property": {
-					"name": "p1",
-					"type": "String"
-				}
+				"property": "p1",
+				"type": "String"
 			},
 			"right": "abc"
 		}
-	}, {
+	},
+    {
 		"not": {
 			"lt": {
 				"left": {
-					"property": {
-						"name": "p1",
-						"type": "Double"
-					}
+					"property": "p1",
+					"type": "Double"
 				},
 				"right": 1.0
 			}
@@ -161,6 +196,43 @@ JSON example:
 	}
 ]
 ```
+
+Time Series Insights supports the following **arithmetic expressions**:
+
+| Property Name in JSON | Description |
+|-|-|
+| `"add"` | Addition. |
+| `"sub"` | Subtraction. |
+| `"mult"` | Multiplication. |
+| `"div"` | Division. |
+
+All arithmetic expressions take left and right arguments of primitive types and return a value representing result of the operation.
+All types implicitly cast only to themselves and explicit casts are not supported.
+
+JSON example:
+```json
+"add": {
+    "left": {
+        "property": "p1",
+        "type": "Double"
+    },
+    "right": 1.0
+}
+```
+
+The following table shows supported types of arguments for each of the comparison expressions:
+| Operation | Left type | Right type | Result type |
+|-|-|-|-|
+| `add` | Double | Double | Double |
+| `add` | TimeSpan | TimeSpan | TimeSpan |
+| `add` | DateTime | TimeSpan | DateTime |
+| `add` | TimeSpan | DateTime | DateTime |
+| `sub` | Double | Double | Double |
+| `sub` | TimeSpan | TimeSpan | TimeSpan |
+| `sub` | DateTime | DateTime | TimeSpan |
+| `sub` | DateTime | TimeSpan | DateTime |
+| `mul` | Double | Double | Double |
+| `div` | Double | Double | Double |
 
 **Boolean predicate string expression** contains boolean predicate represented as a human-readable expression called Predicate String.
 
@@ -182,32 +254,40 @@ JSON example:
 
 ### Predicate String
 
-Expression in predicate string is evaluated into JSON boolean expression. It should comply with the following grammar (simplified):
+The expression in the predicate string is evaluated into a JSON boolean expression. It should comply with the following grammar (simplified):
 
 ```bnf
 parse: orPredicate EOF | EOF;
 
-orPredicate: andPredicate ('OR' andPredicate)*;
-andPredicate: notPredicate ('AND' notPredicate)*;
-notPredicate: ('NOT')* predicate;
+orPredicate: andPredicate (Or andPredicate)*;
+andPredicate: notPredicate (And notPredicate)*;
+notPredicate: (Not)* predicate;
 
-predicate: parenExpression | propertyPredicate | hasPredicate | inPredicate;
+predicate: parenPredicate | comparisonPredicateExtended | hasPredicate | inPredicate;
 
-parenExpression: '(' orPredicate ')';
+parenPredicate: OpenParen orPredicate CloseParen;
 
-propertyPredicate: (ComparisonOp literal) | (unaryPredicate ComparisonOp unaryPredicate);
+parenExpression: OpenParen additiveExpression CloseParen;
 
-hasPredicate: (identifier? 'HAS')? StringLiteral;
+comparisonPredicateExtended: (ComparisonOp literal) | comparisonPredicate;
 
-inPredicate: identifier? 'IN (' literal (',' literal)* ')';
+comparisonPredicate: additiveExpression ComparisonOp additiveExpression;
 
-unaryPredicate: identifier | literal;
+additiveExpression: multiplicativeExpression ((Plus | Minus) multiplicativeExpression)*;
 
-literal: StringLiteral | NumericLiteral | BooleanLiteral | DateTimeLiteral | NullLiteral;
+multiplicativeExpression: unaryExpression (MultiplicativeOp unaryExpression)*;
 
-identifier: (BuiltinIdentifier | QuotedOrUnquotedIdentifier) (Sep QuotedOrUnquotedIdentifier)?;
+functionCallExpression: identifier OpenParen CloseParen;
 
-ComparisonOp: '=' | '!=' | '<>' | '>' | '>=' | '<' | '<=';
+unaryExpression: identifier | literal | functionCallExpression | parenPredicate | parenExpression;
+
+hasPredicate: (identifier? Has)? StringLiteral;
+
+inPredicate: identifier? In OpenParen literal (Comma literal)* CloseParen;
+
+literal: StringLiteral | ((Minus)? NumericLiteral) | BooleanLiteral | DateTimeLiteral | TimeSpanLiteral | NullLiteral;
+
+identifier: BuiltinIdentifier | (QuotedOrUnquotedIdentifier (Sep QuotedOrUnquotedIdentifier)?);
 ```
 
 The same set of Time Series Insights types is supported for predicate string.
@@ -216,21 +296,28 @@ Unlike the JSON property reference expressions, a type for property can be omitt
 Supported literals:
 | Primitive Type | Literals |
 |--|--|
-| Boolean  | TRUE, FALSE |
+| Bool  | TRUE, FALSE |
 | DateTime | dt'2016-10-08T03:22:55.3031599Z' |
 | Double   | 1.23, 1 |
 | String   | 'abc' |
+| TimeSpan | ts'P1Y2M3DT4M5.67S' |
 |  | NULL |
 
 Supported operand types:
 | Operation | Supported Types | Notes |
 |--|--|--|--|
-| <, >, <=, >= | Double, DateTime | |
-| =, !=, <> | String, Bool, Double, DateTime, NULL | <> is equivalent for != |
-| IN | String, Bool, Double, DateTime, NULL | All operands should be of the same type or be NULL constant. Multiple NULLs are equivalent to a single NULL. |
+| <, >, <=, >= | Double, DateTime, TimeSpan | |
+| =, !=, <> | String, Bool, Double, DateTime, TimeSpan, NULL | <> is equivalent for != |
+| +, -, *, / | Double, DateTime, TimeSpan | |
+| IN | String, Bool, Double, DateTime, TimeSpan, NULL | All operands should be of the same type or be NULL constant. Multiple NULLs are equivalent to a single NULL. |
 | HAS | String | Only constant string literals are allowed at right-hand side. Empty string and NULL are not allowed. |
 
-Right-hand side constant literal of `HAS` operator is parsed to Bool, Double, or DateTime value. For each successfully parsed value, predicate with `=` operator is created. These predicates and the original `HAS` predicate are joined into an `OR` predicate.
+Supported scalar functions:
+| Function name | Return value | Arguments | Example | Notes |
+|--|--|--|--|--|
+| utcNow | DateTime | None | utcNow() | Returns current time in UTC format. Function name is case-sensitive. |
+
+Right-hand side constant literal of `HAS` operator is parsed to Bool, Double, DateTime or TimeSpan value. For each successfully parsed value, predicate with `=` operator is created. These predicates and the original `HAS` predicate are joined into an `OR` predicate.
 For example, predicate string `p1 HAS '1.0'` is equivalent to `p1.String HAS '1.0' OR p1.Double = 1.0` if "p1" properties with String and Double types exist.
 
 For comparison predicates (`<`, `>`, `<=`, `>=`, `=`, `!=`) and `IN` predicate, operand can be `NULL` or have a single type.
@@ -296,6 +383,15 @@ Here are examples given properties "p1" of type String and Double and properties
 
 4. If operator is omitted together with property name, the `HAS` operation is assumed.
 
+## Scalar Functions
+
+**UTC now** function returns DateTime value, which contains current time in UTC format. It does not accept any arguments.
+
+JSON example:
+```json
+"utcNow": {}
+```
+
 ## Aggregate Expressions
 
 **Dimension expressions** are used inside *aggregates clause* to partition a set of events and assign a scalar key to each partition.
@@ -305,7 +401,14 @@ Dimension expression types:
 |-|-|-|
 | `"uniqueValues"` | Dimension values in the result are exact values of a given property. |  |
 | `"dateHistogram"` | Dimension values in the result are ranges of time of a given property. | Date histogram of timestamp may result in 10 1-hour ranges for a 10-hour search span. |
-| `"numericalHistogram"` | Dimension values in the result are ranges of values in a given property. | Numerical histogram of temperature may result in 10 degrees ranges returned. |
+| `"numericHistogram"` | Dimension values in the result are ranges of values in a given property. | Numeric histogram of temperature may result in 10 degrees ranges returned. |
+
+Time Series Insights restricts the maximum cardinality (max lattice size) of an input aggregate query to 150,000 cells.  To calculate the cardinality of an aggregate query, you multiply the size of all dimensions in the query together.  As long as the product is less than 150,000 the query is accepted for execution, otherwise, the query is rejected.  
+
+The maximum size of a dimension produced by `uniqueValues` and `numericHistogram`s the size of the dimension is specified using the `take` clause.  In `dateHistogram`, the size is calculated by the dividing the search span by the size of the dateHistorgram interval, which is specified using the break clause. 
+
+For example, an aggregate query has the search pan set from 2017-11-15T16:00:00.000Z to 2017-11-15T19:00:00.000Z = 3hours.  If the query includes `dateHistogram` with the interval (`break` clause), set to 1 minute (dimension 1) and `uniqueValues` over property XYZ, then the `dateHistogram` dimension size is 3x60=180, which means `uniqueValues` can take up to 150,000/180 = 833 items total.  
+
 
 **Unique values expression** is used to group a set of events by values of the specified event property.
 
@@ -379,7 +482,7 @@ JSON example:
 Supported dimension and measure expressions depending on property type:
 | Property Type | Supported Dimension Expressions | Supported Measure Expressions |
 |-|-|-|-|
-| Boolean | `"uniqueValues"` | - |
+| Bool | `"uniqueValues"` | - |
 | DateTime | `"uniqueValues"`, `"dateHistogram"` | `"min"`, `"max"` |
 | Double | `"uniqueValues"`, `"numericHistogram"` | `"sum"`, `"avg"`, `"min"`, `"max"` |
 | String | `"uniqueValues"` | - |
@@ -391,10 +494,11 @@ Supported dimension and measure expressions depending on property type:
 JSON example:
 ```json
 "searchSpan": {
-    "from": "2016-08-01T00:00:00.000Z",
-    "to": "2016-08-31T00:00:00.000Z"
+    "from": {"dateTime":"2016-08-01T00:00:00.000Z"},
+    "to": {"dateTime":"2016-08-31T00:00:00.000Z"}
 }
 ```
+`from` and `to` properties in search span clause should be valid expressions of DateTime resulted type. These expressions are evaluated prior to query execution, which means they should not contain any property references.
 
 **Predicate clause** is used to filter events satisfying the predicate. It should be resolved into boolean expression.
 
@@ -403,10 +507,8 @@ JSON example:
 "predicate": {
     "eq": {
         "left": {
-            "property": {
-                "name": "p1",
-                "type": "String"
-            }
+            "property": "p1",
+            "type": "String"
         },
         "right": "abc"
     }
@@ -416,7 +518,7 @@ Filtering of events means running a predicate represented by a boolean expressio
 Execution of an expression on an event returns `true` if event must be included in further operation or `false` if event must be omitted from further processing.
 In addition to predicate expression, events are always filtered by search span.
 
-**Limit top clause** is used to get a given number of values in a given order.
+**Limit top clause** is used to get a given number of values in either ascending or descending order.  The number of values is limited as per the count specified.
 
 JSON example:
 ```json
@@ -431,22 +533,23 @@ JSON example:
 "count": 10
 ```
 
-**Limit take clause** is used to get a given number of values fast in any order.
+**Limit take clause** is used as a quick way to get a set of values not in any particular order. The number of values returned are limited by the input specified.
 
 JSON example:
 ```json
 "take": 10
 ```
 
-**Limit sample clause** is used to get a statistically representative given number of values.
+**Limit sample clause** is used to get a statistically representative sample from a set of values. The number of values returned are limited by the input specified.
 
 JSON example:
 ```json
 "sample": 10
 ```
 
-**Breaks clause** is used in histogram expressions to specify how a range analyzed should be divided.
-* For date histogram one should specify a size of datetime interval, and interval boundaries unless a histogram is based on built-in Timestamp property where boundaries are determined based on search span.
+**Breaks clause** is used in histogram expressions to specify how a range should be divided.
+* For date histogram one should specify the size of datetime interval, and interval boundaries unless a histogram is based on built-in Timestamp property where boundaries are determined based on search span.
+  - Interval boundaries are optional and can be used. For example, "where boundaries are determined based on search span if interval boundaries are omitted".
 * For numeric histogram one should specify number of breaks. Interval boundaries are determined based on minimum and maximum values of a property.
 
 JSON example:
@@ -492,7 +595,8 @@ JSON example:
                 "max": {
                     "input": { "property": "temperature", "type": "Double" }
                 }
-            }]
+            }
+        ]
     }
 ]
 ```
@@ -540,7 +644,7 @@ JSON example:
 
 An aggregation definition may include a nested aggregation, which allows specifying a multi-dimensional lattice.
 
-This JSON expression computes average temperature per sensor id, per minute:
+This JSON expression computes average temperature per sensor ID, per minute:
 
 JSON example:
 ```json

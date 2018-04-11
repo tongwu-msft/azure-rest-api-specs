@@ -47,7 +47,7 @@ api-key: [admin key]
 |--------------------|-----------------|  
 |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **List Indexes** request must include an `api-key` set to an admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body  
  None.  
@@ -96,6 +96,6 @@ GET /indexes?api-version=2014-07-31-Preview&$select=name
 
  This is a useful technique to save bandwidth if you have a lot of indexes in your Search service.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)  

@@ -33,7 +33,7 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`HEAD`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`|HTTP/1.1|  
-  
+|`HEAD`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sharesnapshot=<DateTime>`|HTTP/1.1|  
  Replace the path components shown in the request URI with your own, as follows:  
   
 |Path Component|Description|  
@@ -50,6 +50,7 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
   
 |Parameter|Description|  
 |---------------|-----------------|  
+|`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query for the file properties.|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md)|  
   
 ### Request Headers  
@@ -97,6 +98,7 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
 |`x-ms-copy-progress: <bytes copied/bytes total>`|Version 2015-02-21 and newer. Contains the number of bytes copied and the total bytes in the source in the last attempted **Copy File** operation where this file was the destination file. Can show between 0 and `Content-Length` bytes copied. This header does not appear if this file has never been the destination in a **Copy File** operation, or if this file has been modified after a concluded **Copy File** operation using **Set File Properties** or **Create File**.|  
 |`x-ms-copy-source: url`|Version 2015-02-21 and newer. URL up to 2KB in length that specifies the source file used in the last attempted **Copy File** operation where this file was the destination file. This header does not appear if this file has never been the destination in a **Copy File** operation or if this file has been modified after a concluded **Copy File** operation using **Set File Properties** or **Create File**.|  
 |`x-ms-copy-status: <pending &#124; success &#124; aborted &#124; failed>`|Version 2015-02-21 and newer. State of the copy operation identified by `x-ms-copy-id`, with these values:<br /><br /> -   *success:* Copy completed successfully.<br />-   *pending:* Copy is in progress. Check `x-ms-copy-status-description` if intermittent, non-fatal errors impede copy progress but don't cause failure.<br />-   *aborted:* Copy was ended by **Abort Copy File**.<br />-   *failed:* Copy failed. See `x-ms-copy-status-description` for failure details.<br /><br /> This header does not appear if this file has never been the destination in a **Copy File** operation, or if this file has been modified after a completed **Copy File** operation using **Set File Properties** or **Create File**.|  
+|`x-ms-server-encrypted: true/false`|Version 2017-04-17 or newer. The value of this header is set to `true` if the file data and application metadata are completely encrypted using the specified algorithm. Otherwise, the value is set to `false` (when the file is unencrypted, or if only parts of the file/application metadata are encrypted).|  
   
 ### Response Body  
  None.  

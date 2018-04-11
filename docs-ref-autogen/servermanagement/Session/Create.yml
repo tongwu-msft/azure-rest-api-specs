@@ -1,0 +1,202 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servermanagement.session.create
+name: Create
+service: Server Management
+groupName: Session
+apiVersion: 2016-07-01-preview
+summary: Creates a session for a node.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServerManagement/nodes/{nodeName}/sessions/{session}?api-version=2016-07-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name uniquely identifies the resource group within the user subscriptionId.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9]+'
+- name: nodeName
+  in: path
+  isRequired: true
+  description: The node name (256 characters maximum).
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]*$
+- name: session
+  in: path
+  isRequired: true
+  description: The sessionId from the user.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: SessionResource
+- name: 201 Created
+  description: 'Created: the session was created.'
+  types:
+  - uid: SessionResource
+- name: 202 Accepted
+  description: 'Accepted: Location header contains the URL where the status of the long running operation can be checked.'
+- name: Other Status Codes
+  description: Default Response. It will be deserialized as per the error definition specified in the schema, and an exception will be thrown.
+  types:
+  - uid: Error
+requestBody:
+- parameters:
+  - name: properties.userName
+    in: body
+    description: Encrypted User name to be used to connect to node.
+    types:
+    - uid: string
+  - name: properties.password
+    in: body
+    description: Encrypted Password associated with user name.
+    types:
+    - uid: string
+  - name: properties.retentionPeriod
+    in: body
+    description: Session retention period.
+    types:
+    - uid: retentionPeriod
+  - name: properties.credentialDataFormat
+    in: body
+    description: Credential data format.
+    types:
+    - uid: credentialDataFormat
+  - name: properties.EncryptionCertificateThumbprint
+    in: body
+    description: Encryption certificate thumbprint.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: SessionResource
+  description: The session object.
+  kind: object
+  properties:
+  - name: properties.userName
+    description: The username connecting to the session.
+    types:
+    - uid: string
+  - name: properties.created
+    description: UTC date and time when node was first added to management service.
+    types:
+    - uid: string
+  - name: properties.updated
+    description: UTC date and time when node was last updated.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Manager Resource ID.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource Manager Resource Type.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Manager Resource Name.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Resource Manager Resource Location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource Manager Resource Tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: etag
+    types:
+    - uid: string
+- name: Error
+  description: Error message.
+  kind: object
+  properties:
+  - name: code
+    types:
+    - uid: integer
+  - name: message
+    types:
+    - uid: string
+  - name: fields
+    types:
+    - uid: string
+- name: SessionParameters
+  description: Parameter collection for creation and other operations on sessions.
+  kind: object
+  properties:
+  - name: properties.userName
+    description: Encrypted User name to be used to connect to node.
+    types:
+    - uid: string
+  - name: properties.password
+    description: Encrypted Password associated with user name.
+    types:
+    - uid: string
+  - name: properties.retentionPeriod
+    description: Session retention period.
+    types:
+    - uid: retentionPeriod
+  - name: properties.credentialDataFormat
+    description: Credential data format.
+    types:
+    - uid: credentialDataFormat
+  - name: properties.EncryptionCertificateThumbprint
+    description: Encryption certificate thumbprint.
+    types:
+    - uid: string
+- name: retentionPeriod
+  description: Session retention period.
+  kind: enum
+  properties:
+  - name: Session
+    types:
+    - uid: string
+  - name: Persistent
+    types:
+    - uid: string
+- name: credentialDataFormat
+  description: Credential data format.
+  kind: enum
+  properties:
+  - name: RsaEncrypted
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

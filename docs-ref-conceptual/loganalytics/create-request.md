@@ -45,7 +45,7 @@ The format for the Authorization header is as follows:
 
 *WorkspaceID* is the unique identifer for the Log Analytics workspace, and *Signature* is a Hash-based Message Authentication Code (HMAC) constructed from the request and computed by using the SHA256 algorithm, and then encoded using Base64 encoding.
 
-### Constructing the signature sstring
+### Constructing the signature string
 To encode the Shared Key signature string, use the following format: 
 
 	StringToSign = VERB + "\n" +
@@ -100,4 +100,4 @@ There are some constraints around the data posted to the Log Analytics Data coll
 - Recommended maximum number of fields for a given type is 50. This is a practical limit from a usability and search experience perspective.
 
 ## See also
-- [Log Analytics HTTP Data Collector API](http://azure.microsoft.com/documentation/articles/log-analytics-data-collector-api/)
+- [Log Analytics HTTP Data Collector API](https://azure.microsoft.com/documentation/articles/log-analytics-data-collector-api/)

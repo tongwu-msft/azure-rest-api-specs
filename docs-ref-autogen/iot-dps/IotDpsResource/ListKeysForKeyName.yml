@@ -1,0 +1,142 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothubdeviceprovisioningservice.iotdpsresource.listkeysforkeyname
+name: List Keys For Key Name
+service: IoT Hub Device Provisioning Service
+groupName: Iot Dps Resource
+apiVersion: 2017-11-15
+summary: Get a shared access policy by name from a provisioning service. List primary and secondary keys for a specific key name
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/keys/{keyName}/listkeys?api-version=2017-11-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the provisioning service.
+  types:
+  - uid: string
+- name: provisioningServiceName
+  in: path
+  isRequired: true
+  description: Name of the provisioning service.
+  types:
+  - uid: string
+- name: keyName
+  in: path
+  isRequired: true
+  description: Logical key name to get key-values for.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: This is a synchronous operation. The body contains a JSON-serialized shared access policy, including keys, that you can use to access one or more provisioning service endpoints.
+  types:
+  - uid: SharedAccessSignatureAuthorizationRule[AccessRightsDescription]
+- name: Other Status Codes
+  description: Default error response.
+  types:
+  - uid: ErrorDetails
+requestHeader: []
+definitions:
+- name: SharedAccessSignatureAuthorizationRule[AccessRightsDescription]
+  description: Description of the shared access key.
+  kind: object
+  properties:
+  - name: keyName
+    description: Name of the key.
+    types:
+    - uid: string
+  - name: primaryKey
+    description: Primary SAS key value.
+    types:
+    - uid: string
+  - name: secondaryKey
+    description: Secondary SAS key value.
+    types:
+    - uid: string
+  - name: rights
+    description: Rights that this key has.
+    types:
+    - uid: AccessRightsDescription
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: Code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: HttpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: Message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: Details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+- name: AccessRightsDescription
+  description: Rights that this key has.
+  kind: enum
+  properties:
+  - name: ServiceConfig
+    types:
+    - uid: string
+  - name: EnrollmentRead
+    types:
+    - uid: string
+  - name: EnrollmentWrite
+    types:
+    - uid: string
+  - name: DeviceConnect
+    types:
+    - uid: string
+  - name: RegistrationStatusRead
+    types:
+    - uid: string
+  - name: RegistrationStatusWrite
+    types:
+    - uid: string
+examples:
+- name: DPSGetKey
+  request:
+    uri: POST https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/provisioningServices/myFirstProvisioningService/keys/testKey/listkeys?api-version=2017-11-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "keyName": "testKey",
+        "primaryKey": "##################################",
+        "secondaryKey": "################################",
+        "rights": "RegistrationStatusWrite"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

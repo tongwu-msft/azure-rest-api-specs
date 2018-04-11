@@ -1,0 +1,182 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.dscnodeconfiguration.listbyautomationaccount
+name: List By Automation Account
+service: Automation
+groupName: Dsc Node Configuration
+apiVersion: 2018-01-15
+summary: Retrieve a list of dsc node configurations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations?api-version=2018-01-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations?api-version=2018-01-15&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure Resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The name of the automation account.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: DscNodeConfigurationListResult
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: DscNodeConfigurationListResult
+  description: The response model for the list job operation.
+  kind: object
+  properties:
+  - name: value
+    description: Definition of the dsc node configuration.
+    types:
+    - uid: DscNodeConfiguration
+      isArray: true
+  - name: nextLink
+    description: Gets or sets the next link.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: DscNodeConfiguration
+  description: Definition of the dsc node configuration.
+  kind: object
+  properties:
+  - name: properties.lastModifiedTime
+    description: Gets or sets the last modified time.
+    types:
+    - uid: string
+  - name: properties.creationTime
+    description: Gets or sets creation time.
+    types:
+    - uid: string
+  - name: properties.configuration
+    description: Gets or sets the configuration of the node.
+    types:
+    - uid: DscConfigurationAssociationProperty
+  - name: properties.source
+    description: Source of node configuration.
+    types:
+    - uid: string
+  - name: properties.nodeCount
+    description: Number of nodes with this nodeconfiguration assigned
+    types:
+    - uid: integer
+  - name: properties.incrementNodeConfigurationBuild
+    description: If a new build version of NodeConfiguration is required.
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: DscConfigurationAssociationProperty
+  description: The Dsc configuration property associated with the entity.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the Dsc configuration.
+    types:
+    - uid: string
+examples:
+- name: List DSC node configurations by Automation Account
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations?api-version=2018-01-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations/SetupServer.localhost",
+            "type": "Microsoft.Automation/AutomationAccounts/nodeConfigurations",
+            "name": "SetupServer.localhost",
+            "properties": {
+              "configuration": {
+                "name": "SetupServer"
+              },
+              "creationTime": "2017-03-28T23:17:06.8901968+00:00",
+              "lastModifiedTime": "2017-03-28T23:17:06.8901968+00:00",
+              "source": null,
+              "nodeCount": 0,
+              "incrementNodeConfigurationBuild": false
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations/SetupServer.localhost",
+            "type": "Microsoft.Automation/AutomationAccounts/nodeConfigurations",
+            "name": "SetupServer.localhost",
+            "properties": {
+              "configuration": {
+                "name": "SetupServer"
+              },
+              "creationTime": "2017-03-28T23:17:06.8901968+00:00",
+              "lastModifiedTime": "2017-03-28T23:17:06.8901968+00:00",
+              "source": null,
+              "nodeCount": 0,
+              "incrementNodeConfigurationBuild": false
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

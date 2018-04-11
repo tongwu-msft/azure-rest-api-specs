@@ -1,0 +1,353 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.monitor.actiongroups.listbyresourcegroup
+name: List By Resource Group
+service: Monitor
+groupName: Action Groups
+apiVersion: 2017-04-01
+summary: Get a list of all action groups in a resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups?api-version=2017-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request succeeded.
+  types:
+  - uid: ActionGroupList
+- name: Other Status Codes
+  description: An error occurred and the list of action groups could not be retrieved.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ActionGroupList
+  description: A list of action groups.
+  kind: object
+  properties:
+  - name: value
+    description: An action group resource.
+    types:
+    - uid: ActionGroupResource
+      isArray: true
+  - name: nextLink
+    description: Provides the link to retrieve the next set of elements.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ActionGroupResource
+  description: An action group resource.
+  kind: object
+  properties:
+  - name: properties.groupShortName
+    description: The short name of the action group. This will be used in SMS messages.
+    types:
+    - uid: string
+  - name: properties.enabled
+    description: Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications.
+    types:
+    - uid: boolean
+  - name: properties.emailReceivers
+    description: An email receiver.
+    types:
+    - uid: EmailReceiver
+      isArray: true
+  - name: properties.smsReceivers
+    description: An SMS receiver.
+    types:
+    - uid: SmsReceiver
+      isArray: true
+  - name: properties.webhookReceivers
+    description: A webhook receiver.
+    types:
+    - uid: WebhookReceiver
+      isArray: true
+  - name: properties.itsmReceivers
+    description: An Itsm receiver.
+    types:
+    - uid: ItsmReceiver
+      isArray: true
+  - name: properties.azureAppPushReceivers
+    description: The Azure mobile App push notification receiver.
+    types:
+    - uid: AzureAppPushReceiver
+      isArray: true
+  - name: properties.automationRunbookReceivers
+    description: The Azure Automation Runbook notification receiver.
+    types:
+    - uid: AutomationRunbookReceiver
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Azure resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Azure resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: EmailReceiver
+  description: An email receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the email receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: emailAddress
+    description: The email address of this receiver.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: The receiver status of the e-mail.
+    types:
+    - uid: ReceiverStatus
+- name: SmsReceiver
+  description: An SMS receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SMS receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: countryCode
+    description: The country code of the SMS receiver.
+    types:
+    - uid: string
+  - name: phoneNumber
+    description: The phone number of the SMS receiver.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: The status of the receiver.
+    types:
+    - uid: ReceiverStatus
+- name: WebhookReceiver
+  description: A webhook receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the webhook receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: serviceUri
+    description: The URI where webhooks should be sent.
+    types:
+    - uid: string
+- name: ItsmReceiver
+  description: An Itsm receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the Itsm receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: workspaceId
+    description: OMS LA instance identifier.
+    types:
+    - uid: string
+  - name: connectionId
+    description: Unique identification of ITSM connection among multiple defined in above workspace.
+    types:
+    - uid: string
+  - name: ticketConfiguration
+    description: JSON blob for the configurations of the ITSM action. CreateMultipleWorkItems option will be part of this blob as well.
+    types:
+    - uid: string
+  - name: region
+    description: Region in which workspace resides. Supported values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'
+    types:
+    - uid: string
+- name: AzureAppPushReceiver
+  description: The Azure mobile App push notification receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the Azure mobile app push receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: emailAddress
+    description: The email address registered for the Azure mobile app.
+    types:
+    - uid: string
+- name: AutomationRunbookReceiver
+  description: The Azure Automation Runbook notification receiver.
+  kind: object
+  properties:
+  - name: automationAccountId
+    description: The Azure automation account Id which holds this runbook and authenticate to Azure resource.
+    types:
+    - uid: string
+  - name: runbookName
+    description: The name for this runbook.
+    types:
+    - uid: string
+  - name: webhookResourceId
+    description: The resource id for webhook linked to this runbook.
+    types:
+    - uid: string
+  - name: isGlobalRunbook
+    description: Indicates whether this instance is global runbook.
+    types:
+    - uid: boolean
+  - name: name
+    description: Indicates name of the webhook.
+    types:
+    - uid: string
+  - name: serviceUri
+    description: The URI where webhooks should be sent.
+    types:
+    - uid: string
+- name: ReceiverStatus
+  description: Indicates the status of the receiver. Receivers that are not Enabled will not receive any communications.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+examples:
+- name: List action groups
+  request:
+    uri: GET https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/microsoft.insights/actionGroups?api-version=2017-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/microsoft.insights/actionGroups/SampleActionGroup",
+            "type": "Microsoft.Insights/ActionGroups",
+            "name": "SampleActionGroup",
+            "location": "Global",
+            "tags": {},
+            "properties": {
+              "groupShortName": "sample",
+              "enabled": true,
+              "emailReceivers": [
+                {
+                  "name": "John Doe's email",
+                  "emailAddress": "johndoe@email.com",
+                  "status": "Enabled"
+                },
+                {
+                  "name": "Jane Smith's email",
+                  "emailAddress": "janesmith@email.com",
+                  "status": "Disabled"
+                }
+              ],
+              "smsReceivers": [
+                {
+                  "name": "John Doe's mobile",
+                  "countryCode": "1",
+                  "phoneNumber": "1234567890",
+                  "status": "Disabled"
+                },
+                {
+                  "name": "Jane Smith's mobile",
+                  "countryCode": "1",
+                  "phoneNumber": "0987654321",
+                  "status": "Enabled"
+                }
+              ],
+              "webhookReceivers": [
+                {
+                  "name": "Sample webhook",
+                  "serviceUri": "http://www.example.com/webhook"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/microsoft.insights/actionGroups/SampleActionGroup2",
+            "type": "Microsoft.Insights/ActionGroups",
+            "name": "SampleActionGroup2",
+            "location": "Global",
+            "tags": {},
+            "properties": {
+              "groupShortName": "sample2",
+              "enabled": false,
+              "emailReceivers": [
+                {
+                  "name": "John Doe's email",
+                  "emailAddress": "johndoe@email.com",
+                  "status": "Enabled"
+                }
+              ],
+              "smsReceivers": [
+                {
+                  "name": "Jane Smith's mobile",
+                  "countryCode": "1",
+                  "phoneNumber": "0987654321",
+                  "status": "Enabled"
+                }
+              ],
+              "webhookReceivers": []
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

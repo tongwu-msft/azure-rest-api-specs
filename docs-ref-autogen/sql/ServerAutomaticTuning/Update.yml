@@ -1,0 +1,309 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sqldatabase.serverautomatictuning.update
+name: Update
+service: SQL Database
+groupName: Server Automatic Tuning
+apiVersion: 2017-03-01-preview
+summary: Update automatic tuning options on server.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/automaticTuning/current?api-version=2017-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully updated the server-level automatic tuning options.
+  types:
+  - uid: ServerAutomaticTuning
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.
+
+     * 400 InvalidAutomaticTuningUpsertRequest - The update automatic tuning request body does not exist or has no properties object.
+
+     * 400 InvalidAdvisorAutoExecuteStatus - Specified auto-execute status for the advisor is not allowed.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 DatabaseDoesNotExist - The requested database was not found
+
+     * 404 SubscriptionDoesNotHaveElasticPool - The requested elastic pool was not found
+
+     * 404 OperationIdNotFound - The operation with Id does not exist.
+
+     * 405 NotSupported - This functionality is not supported.
+
+     * 409 Conflict - Request could not be processed because of conflict in the request.
+
+     * 409 OperationCancelled - The operation has been cancelled by user.
+
+     * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.
+
+     * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation.
+
+     * 503 ServiceTemporarilyUnavailable - Feature temporarily unavailable.
+requestBody:
+- parameters:
+  - name: properties.desiredState
+    in: body
+    description: Automatic tuning desired state.
+    types:
+    - uid: AutomaticTuningServerMode
+  - name: properties.options
+    in: body
+    description: Automatic tuning options definition.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AutomaticTuningServerOptions
+requestHeader: []
+definitions:
+- name: Options
+  description: Automatic tuning options definition.
+  kind: object
+  properties:
+  - name: ''
+    description: Automatic tuning properties for individual advisors.
+    types:
+    - uid: AutomaticTuningServerOptions
+- name: ServerAutomaticTuning
+  description: Server-level Automatic Tuning.
+  kind: object
+  properties:
+  - name: properties.desiredState
+    description: Automatic tuning desired state.
+    types:
+    - uid: AutomaticTuningServerMode
+  - name: properties.actualState
+    isReadyOnly: true
+    description: Automatic tuning actual state.
+    types:
+    - uid: AutomaticTuningServerMode
+  - name: properties.options
+    description: Automatic tuning options definition.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AutomaticTuningServerOptions
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: AutomaticTuningServerOptions
+  description: Automatic tuning properties for individual advisors.
+  kind: object
+  properties:
+  - name: desiredState
+    description: Automatic tuning option desired state.
+    types:
+    - uid: AutomaticTuningOptionModeDesired
+  - name: actualState
+    isReadyOnly: true
+    description: Automatic tuning option actual state.
+    types:
+    - uid: AutomaticTuningOptionModeActual
+  - name: reasonCode
+    isReadyOnly: true
+    description: Reason code if desired and actual state are different.
+    types:
+    - uid: integer
+  - name: reasonDesc
+    isReadyOnly: true
+    description: Reason description if desired and actual state are different.
+    types:
+    - uid: AutomaticTuningServerReason
+- name: AutomaticTuningServerMode
+  description: Automatic tuning desired state.
+  kind: enum
+  properties:
+  - name: Custom
+    types:
+    - uid: string
+  - name: Auto
+    types:
+    - uid: string
+  - name: Unspecified
+    types:
+    - uid: string
+- name: AutomaticTuningOptionModeDesired
+  description: Automatic tuning option desired state.
+  kind: enum
+  properties:
+  - name: Off
+    types:
+    - uid: string
+  - name: On
+    types:
+    - uid: string
+  - name: Default
+    types:
+    - uid: string
+- name: AutomaticTuningOptionModeActual
+  description: Automatic tuning option actual state.
+  kind: enum
+  properties:
+  - name: Off
+    types:
+    - uid: string
+  - name: On
+    types:
+    - uid: string
+- name: AutomaticTuningServerReason
+  description: Reason description if desired and actual state are different.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: AutoConfigured
+    types:
+    - uid: string
+examples:
+- name: Updates server automatic tuning settings with minimal properties
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/c3aa9078-0000-0000-0000-e36f151182d7/resourceGroups/default-sql-onebox/providers/Microsoft.Sql/servers/testsvr11/automaticTuning/current?api-version=2017-03-01-preview
+    body: >-
+      {
+        "properties": {
+          "desiredState": "Auto"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/c3aa9078-0000-0000-0000-e36f151182d7/resourceGroups/default-sql-onebox/providers/Microsoft.Sql/servers/testsvr11/automaticTuning/current",
+        "name": "current",
+        "type": "Microsoft.Sql/servers/automaticTuning",
+        "properties": {
+          "desiredState": "Auto",
+          "actualState": "Auto",
+          "options": {
+            "createIndex": {
+              "desiredState": "Default",
+              "actualState": "On",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            },
+            "dropIndex": {
+              "desiredState": "Default",
+              "actualState": "Off",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            },
+            "forceLastGoodPlan": {
+              "desiredState": "Default",
+              "actualState": "On",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            },
+            "maintainIndex": {
+              "desiredState": "Default",
+              "actualState": "Off",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            }
+          }
+        }
+      }
+- name: Updates server automatic tuning settings with all properties
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/c3aa9078-0000-0000-0000-e36f151182d7/resourceGroups/default-sql-onebox/providers/Microsoft.Sql/servers/testsvr11/automaticTuning/current?api-version=2017-03-01-preview
+    body: >-
+      {
+        "properties": {
+          "desiredState": "Auto",
+          "options": {
+            "createIndex": {
+              "desiredState": "Off"
+            },
+            "dropIndex": {
+              "desiredState": "On"
+            },
+            "forceLastGoodPlan": {
+              "desiredState": "Default"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/c3aa9078-0000-0000-0000-e36f151182d7/resourceGroups/default-sql-onebox/providers/Microsoft.Sql/servers/testsvr11/automaticTuning/current",
+        "name": "current",
+        "type": "Microsoft.Sql/servers/automaticTuning",
+        "properties": {
+          "desiredState": "Auto",
+          "actualState": "Auto",
+          "options": {
+            "createIndex": {
+              "desiredState": "Off",
+              "actualState": "Off"
+            },
+            "dropIndex": {
+              "desiredState": "On",
+              "actualState": "On"
+            },
+            "forceLastGoodPlan": {
+              "desiredState": "Default",
+              "actualState": "On",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            },
+            "maintainIndex": {
+              "desiredState": "Default",
+              "actualState": "Off",
+              "reasonCode": 2,
+              "reasonDesc": "AutoConfigured"
+            }
+          }
+        }
+      }
+security: []

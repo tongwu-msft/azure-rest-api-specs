@@ -1,0 +1,239 @@
+### YamlMime:RESTOperation
+uid: batch.core.windows.net.batchservice.certificate.get
+name: Get
+service: Batch Service
+groupName: Certificate
+apiVersion: 2018-03-01.6.1
+summary: Gets information about the specified certificate.
+consumes:
+- application/json; odata=minimalmetadata
+produces:
+- application/json
+paths:
+- content: GET https://batch.core.windows.net/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})?api-version=2018-03-01.6.1
+- content: GET https://batch.core.windows.net/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})?$select={$select}&timeout={timeout}&api-version=2018-03-01.6.1
+  isOptional: true
+uriParameters:
+- name: thumbprintAlgorithm
+  in: path
+  isRequired: true
+  description: The algorithm used to derive the thumbprint parameter. This must be sha1.
+  types:
+  - uid: string
+- name: thumbprint
+  in: path
+  isRequired: true
+  description: The thumbprint of the certificate to get.
+  types:
+  - uid: string
+- name: $select
+  in: query
+  description: An OData $select clause.
+  types:
+  - uid: string
+- name: timeout
+  in: query
+  description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: client-request-id
+    value: string
+  - name: request-id
+    value: string
+  - name: ETag
+    value: string
+  - name: Last-Modified
+    value: string
+  description: A response containing the certificate.
+  types:
+  - uid: Certificate
+- name: Other Status Codes
+  description: The error from the Batch service.
+  types:
+  - uid: BatchError
+requestHeader:
+- name: client-request-id
+  in: header
+  description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+  types:
+  - uid: string
+  format: uuid
+- name: return-client-request-id
+  in: header
+  description: Whether the server should return the client-request-id in the response.
+  types:
+  - uid: boolean
+- name: ocp-date
+  in: header
+  description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+definitions:
+- name: Certificate
+  description: A certificate that can be installed on compute nodes and can be used to authenticate operations on the machine.
+  kind: object
+  properties:
+  - name: thumbprint
+    description: The X.509 thumbprint of the certificate. This is a sequence of up to 40 hex digits.
+    types:
+    - uid: string
+  - name: thumbprintAlgorithm
+    description: The algorithm used to derive the thumbprint.
+    types:
+    - uid: string
+  - name: url
+    description: The URL of the certificate.
+    types:
+    - uid: string
+  - name: state
+    description: The current state of the certificate.
+    types:
+    - uid: CertificateState
+  - name: stateTransitionTime
+    description: The time at which the certificate entered its current state.
+    types:
+    - uid: string
+  - name: previousState
+    description: "The previous state of the certificate.  \nThis property is not set if the certificate is in its initial active state."
+    types:
+    - uid: CertificateState
+  - name: previousStateTransitionTime
+    description: "The time at which the certificate entered its previous state.  \nThis property is not set if the certificate is in its initial Active state."
+    types:
+    - uid: string
+  - name: publicData
+    description: The public part of the certificate as a base-64 encoded .cer file.
+    types:
+    - uid: string
+  - name: deleteCertificateError
+    description: "The error that occurred on the last attempt to delete this certificate.  \nThis property is set only if the certificate is in the DeleteFailed state."
+    types:
+    - uid: DeleteCertificateError
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+  - name: values
+    description: An item of additional information included in an Azure Batch error response.
+    types:
+    - uid: BatchErrorDetail
+      isArray: true
+- name: CertificateState
+  description: The state of the certificate.
+  kind: enum
+  properties:
+  - name: active
+    description: The certificate is available for use in pools.
+    types:
+    - uid: string
+  - name: deleting
+    description: The user has requested that the certificate be deleted, but the delete operation has not yet completed. You may not reference the certificate when creating or updating pools.
+    types:
+    - uid: string
+  - name: deletefailed
+    description: The user requested that the certificate be deleted, but there are pools that still have references to the certificate, or it is still installed on one or more compute nodes. (The latter can occur if the certificate has been removed from the pool, but the node has not yet restarted. Nodes refresh their certificates only when they restart.) You may use the cancel certificate delete operation to cancel the delete, or the delete certificate operation to retry the delete.
+    types:
+    - uid: string
+- name: DeleteCertificateError
+  description: An error encountered by the Batch service when deleting a certificate.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the certificate deletion error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the certificate deletion error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: values
+    description: Represents a name-value pair.
+    types:
+    - uid: NameValuePair
+      isArray: true
+- name: ErrorMessage
+  description: An error message received in an Azure Batch error response.
+  kind: object
+  properties:
+  - name: lang
+    description: The language code of the error message
+    types:
+    - uid: string
+  - name: value
+    description: The text of the message.
+    types:
+    - uid: string
+- name: BatchErrorDetail
+  description: An item of additional information included in an Azure Batch error response.
+  kind: object
+  properties:
+  - name: key
+    description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+  - name: value
+    description: The additional information included with the error response.
+    types:
+    - uid: string
+- name: NameValuePair
+  description: Represents a name-value pair.
+  kind: object
+  properties:
+  - name: name
+    description: The name in the name-value pair.
+    types:
+    - uid: string
+  - name: value
+    description: The value in the name-value pair.
+    types:
+    - uid: string
+examples:
+- name: Certificate get
+  request:
+    uri: GET https://batch.core.windows.net/certificates(thumbprintAlgorithm=sha1,thumbprint=0123456789abcdef0123456789abcdef01234567)?api-version=2018-03-01.6.1
+    headers:
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "thumbprint": "0123456789abcdef0123456789abcdef01234567",
+        "thumbprintAlgorithm": "sha1",
+        "url": "https://account.region.batch.azure.com/certificates(thumbprintAlgorithm=sha1,thumbprint=0123456789abcdef0123456789abcdef01234567)",
+        "state": "deletefailed",
+        "stateTransitionTime": "2014-07-31T21:12:58.236Z",
+        "previousState": "deleting",
+        "previousStateTransitionTime": "2014-07-31T21:11:58.236Z",
+        "publicData": "#####...",
+        "deleteCertificateError": {
+          "code": "PoolsReferencingCertificate",
+          "message": "The specified certificate is being used by the below mentioned pool(s)",
+          "values": [
+            {
+              "name": "Pools",
+              "value": "mypool1"
+            }
+          ]
+        }
+      }
+security: []

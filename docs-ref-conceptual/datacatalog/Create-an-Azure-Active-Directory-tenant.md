@@ -1,7 +1,7 @@
 ---
 title: "Create an Azure Active Directory tenant"
 ms.custom: na
-ms.date: 2016-07-21
+ms.date: 2017-11-09
 ms.prod: azure
 ms.reviewer: na
 ms.service: data-catalog
@@ -34,15 +34,15 @@ Using the Data Catalog REST API, you can create a Data Catalog app in any platfo
   
 ## Create an Azure Active Directory tenant for a Data Catalog app  
   
-Data Catalog apps are integrated with **Azure Active Directory** (Azure AD) to provide secure sign in and authorization for your app. To integrate a Data Catalog app with Azure AD, you register the details about your application with Azure AD by using the Azure Management Portal. Before you can register an app, you need to create an Azure AD tenant.  
+Data Catalog apps are integrated with **Azure Active Directory** (Azure AD) to provide secure sign-in and authorization for your app. To integrate a Data Catalog app with Azure AD, you register the details about your application with Azure AD by using the Azure portal. Before you can register an app, you need to create an Azure AD tenant.  
   
 <a name="setup"></a>  
 ### Create an Azure Active Directory tenant  
 To create a Data Catalog app, you need an Azure Active Directory (Azure AD) tenant.   
   
-**Note** If you have an Office 365 account, you already have an Azure AD .  
+**Note** If you have an Office 365 account, you already have an Azure AD.  
   
-Here's how to setup **Azure Active Directory**:  
+Here's how to set up **Azure Active Directory**:  
   
  1. Navigate to https://manage.windowsazure.com and log in with the account that has an Azure subscription.  
  2. Click **ACTIVE DIRECTORY** management icon in the left pane.  
@@ -51,7 +51,7 @@ Here's how to setup **Azure Active Directory**:
   
     ![New AD](media/NewAD.png)  
       
- 5. In the **Add directory** page, enter a name and domain name. For country or region choose United States or the country were Data Catalog is available.   
+ 5. In the **Add directory** page, enter a name and domain name. For country or region, choose United States or the country where Data Catalog is available.   
   
     ![Add directory](media/NewDir.png)  
   
@@ -69,7 +69,7 @@ You need a user from your Azure AD to register an Azure AD app. Here's how to ad
    
  3. In the **Tell us about this user page**:  
     
-    1. For **TYPE OF USER**, choose **New user in you organization**.  
+    1. For **TYPE OF USER**, choose **New user in your organization**.  
     2. Enter your **USER NAME**.  
     3. Click **Next**.  
       
@@ -80,13 +80,13 @@ You need a user from your Azure AD to register an Azure AD app. Here's how to ad
     ![User Profile](media/UserProfile.png)  
   
  5. Click **Next**. For **ROLE**, you can use **User**.   
- 6. Click **Create** to create a temporary password. The new user is assigned a temporary password that must be changed on first sign in.  
- 7. In the **Get temporary password** page, copy the temporary password, and click **Complete** icon. You use the temporary password when you first login to your AAD.  
+ 6. Click **Create** to create a temporary password. The new user is assigned a temporary password that must be changed on first sign-in.  
+ 7. In the **Get temporary password** page, copy the temporary password, and click **Complete** icon. You use the temporary password when you log in to your AAD for the first time.  
  8. After you click the **Complete** icon, a new Azure AD user is created.  
       
-To complete the next step the new AAD user will need access to an Azure Subscription.  You can either make the new user a co-admin on the existing subscription or you can create a new subscription for the new AAD user.  
+To complete the next step, the new AAD user will need access to an Azure Subscription.  You can either make the new user a co-admin on the existing subscription or you can create a new subscription for the new AAD user.  
   
-Once you have an **Azure Active Directory** tenant you can [Register your app](Register-a-client-app.md).   
+Once you have an **Azure Active Directory** tenant, you can [Register your app](Register-a-client-app.md).   
   
 ## See Also  
 - [What is an Azure AD directory?](https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx)  

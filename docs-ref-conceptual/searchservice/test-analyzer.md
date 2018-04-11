@@ -49,17 +49,17 @@ The following list describes the required and optional request headers.
 |--------------------|-----------------|  
 |*api-key:*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Analyze API** request must include an `api-key` set to an admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body
-```   
+```json
 {
   "text": "Text to analyze",
   "analyzer": "analyzer_name"
 }
 ```  
 or
-```  
+```json
 {
   "text": "Text to analyze",
   "tokenizer": "tokenizer_name",
@@ -75,7 +75,7 @@ The `analyzer_name`, `tokenizer_name`, `token_filter_name` and `char_filter_name
 Status Code: 200 OK is returned for a successful response.
 
 The response body is in the following format:
-```
+```json
     {
       "tokens": [
         {
@@ -92,14 +92,14 @@ The response body is in the following format:
 ## Analyze API example
 
  **Request**
-```
+```json
      {
        "text": "Text to analyze",
        "analyzer": "standard"
      }
 ```
  **Response**
-```
+```json
      {
        "tokens": [
          {
@@ -124,7 +124,10 @@ The response body is in the following format:
      }
 ```
 
-## See Also  
+ > [!Tip]
+ > The [Search Analyzer Demo](http://alice.unearth.ai/) provides side-by-side comparison of results produced by the standard Lucene analyzer, Lucene's English language analyzer, and Microsoft's English natural language processor. For each search input you provide, results from each analyzer are displayed in adjacent panes.
+ 
+## See also  
  [Azure Search Service REST](index.md)  
  [Custom analyzers in Azure Search](custom-analyzers-in-azure-search.md)  
  [Language support](language-support.md)  

@@ -1,0 +1,380 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.trafficmanager.profiles.get
+name: Get
+service: Traffic Manager
+groupName: Profiles
+apiVersion: 2017-05-01
+summary: Gets a Traffic Manager profile.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}?api-version=2017-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group containing the Traffic Manager profile.
+  types:
+  - uid: string
+- name: profileName
+  in: path
+  isRequired: true
+  description: The name of the Traffic Manager profile.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The Traffic Manager profile.
+  types:
+  - uid: Profile
+- name: Other Status Codes
+  description: Default response. It will be deserialized as per the Error definition.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: Profile
+  description: Class representing a Traffic Manager profile.
+  kind: object
+  properties:
+  - name: properties.profileStatus
+    description: The status of the Traffic Manager profile.
+    types:
+    - uid: ProfileStatus
+  - name: properties.trafficRoutingMethod
+    description: The traffic routing method of the Traffic Manager profile.
+    types:
+    - uid: TrafficRoutingMethod
+  - name: properties.dnsConfig
+    description: The DNS settings of the Traffic Manager profile.
+    types:
+    - uid: DnsConfig
+  - name: properties.monitorConfig
+    description: The endpoint monitoring settings of the Traffic Manager profile.
+    types:
+    - uid: MonitorConfig
+  - name: properties.endpoints
+    description: Class representing a Traffic Manager endpoint.
+    types:
+    - uid: Endpoint
+      isArray: true
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The Azure Region where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Network/trafficmanagerProfiles.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error returned by the Azure Resource Manager
+  kind: object
+  properties:
+  - name: error
+    description: The content of the error.
+    types:
+    - uid: CloudErrorBody
+- name: ProfileStatus
+  description: The status of the Traffic Manager profile.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: TrafficRoutingMethod
+  description: The traffic routing method of the Traffic Manager profile.
+  kind: enum
+  properties:
+  - name: Performance
+    types:
+    - uid: string
+  - name: Priority
+    types:
+    - uid: string
+  - name: Weighted
+    types:
+    - uid: string
+  - name: Geographic
+    types:
+    - uid: string
+- name: DnsConfig
+  description: Class containing DNS settings in a Traffic Manager profile.
+  kind: object
+  properties:
+  - name: relativeName
+    description: The relative DNS name provided by this Traffic Manager profile. This value is combined with the DNS domain name used by Azure Traffic Manager to form the fully-qualified domain name (FQDN) of the profile.
+    types:
+    - uid: string
+  - name: fqdn
+    isReadyOnly: true
+    description: The fully-qualified domain name (FQDN) of the Traffic Manager profile. This is formed from the concatenation of the RelativeName with the DNS domain used by Azure Traffic Manager.
+    types:
+    - uid: string
+  - name: ttl
+    description: The DNS Time-To-Live (TTL), in seconds. This informs the local DNS resolvers and DNS clients how long to cache DNS responses provided by this Traffic Manager profile.
+    types:
+    - uid: integer
+- name: MonitorConfig
+  description: Class containing endpoint monitoring settings in a Traffic Manager profile.
+  kind: object
+  properties:
+  - name: profileMonitorStatus
+    description: The profile-level monitoring status of the Traffic Manager profile.
+    types:
+    - uid: ProfileMonitorStatus
+  - name: protocol
+    description: The protocol (HTTP, HTTPS or TCP) used to probe for endpoint health.
+    types:
+    - uid: MonitorProtocol
+  - name: port
+    description: The TCP port used to probe for endpoint health.
+    types:
+    - uid: integer
+  - name: path
+    description: The path relative to the endpoint domain name used to probe for endpoint health.
+    types:
+    - uid: string
+  - name: intervalInSeconds
+    description: The monitor interval for endpoints in this profile. This is the interval at which Traffic Manager will check the health of each endpoint in this profile.
+    types:
+    - uid: integer
+  - name: timeoutInSeconds
+    description: The monitor timeout for endpoints in this profile. This is the time that Traffic Manager allows endpoints in this profile to response to the health check.
+    types:
+    - uid: integer
+  - name: toleratedNumberOfFailures
+    description: The number of consecutive failed health check that Traffic Manager tolerates before declaring an endpoint in this profile Degraded after the next failed health check.
+    types:
+    - uid: integer
+- name: Endpoint
+  description: Class representing a Traffic Manager endpoint.
+  kind: object
+  properties:
+  - name: properties.targetResourceId
+    description: The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type 'ExternalEndpoints'.
+    types:
+    - uid: string
+  - name: properties.target
+    description: The fully-qualified DNS name of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
+    types:
+    - uid: string
+  - name: properties.endpointStatus
+    description: The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.
+    types:
+    - uid: EndpointStatus
+  - name: properties.weight
+    description: The weight of this endpoint when using the 'Weighted' traffic routing method. Possible values are from 1 to 1000.
+    types:
+    - uid: integer
+  - name: properties.priority
+    description: The priority of this endpoint when using the ‘Priority’ traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
+    types:
+    - uid: integer
+  - name: properties.endpointLocation
+    description: Specifies the location of the external or nested endpoints when using the ‘Performance’ traffic routing method.
+    types:
+    - uid: string
+  - name: properties.endpointMonitorStatus
+    description: The monitoring status of the endpoint.
+    types:
+    - uid: EndpointMonitorStatus
+  - name: properties.minChildEndpoints
+    description: The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type 'NestedEndpoints'.
+    types:
+    - uid: integer
+  - name: properties.geoMapping
+    description: The list of countries/regions mapped to this endpoint when using the ‘Geographic’ traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Network/trafficmanagerProfiles.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: The content of an error returned by the Azure Resource Manager
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: target
+    description: Error target
+    types:
+    - uid: string
+  - name: details
+    description: The content of an error returned by the Azure Resource Manager
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: ProfileMonitorStatus
+  description: The profile-level monitoring status of the Traffic Manager profile.
+  kind: enum
+  properties:
+  - name: CheckingEndpoints
+    types:
+    - uid: string
+  - name: Online
+    types:
+    - uid: string
+  - name: Degraded
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Inactive
+    types:
+    - uid: string
+- name: MonitorProtocol
+  description: The protocol (HTTP, HTTPS or TCP) used to probe for endpoint health.
+  kind: enum
+  properties:
+  - name: HTTP
+    types:
+    - uid: string
+  - name: HTTPS
+    types:
+    - uid: string
+  - name: TCP
+    types:
+    - uid: string
+- name: EndpointStatus
+  description: The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: EndpointMonitorStatus
+  description: The monitoring status of the endpoint.
+  kind: enum
+  properties:
+  - name: CheckingEndpoint
+    types:
+    - uid: string
+  - name: Online
+    types:
+    - uid: string
+  - name: Degraded
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Inactive
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
+examples:
+- name: Profile-GET-WithEndpoints
+  request:
+    uri: GET https://management.azure.com/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager1323/providers/Microsoft.Network/trafficmanagerprofiles/azuresdkfornetautoresttrafficmanager3880?api-version=2017-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager1323/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager3880",
+        "name": "azuresdkfornetautoresttrafficmanager3880",
+        "type": "Microsoft.Network/trafficManagerProfiles",
+        "location": "global",
+        "tags": {},
+        "properties": {
+          "profileStatus": "Enabled",
+          "trafficRoutingMethod": "Performance",
+          "dnsConfig": {
+            "relativeName": "azuresdkfornetautoresttrafficmanager3880",
+            "fqdn": "azuresdkfornetautoresttrafficmanager3880.tmpreview.watmtest.azure-test.net",
+            "ttl": 35
+          },
+          "monitorConfig": {
+            "profileMonitorStatus": "CheckingEndpoints",
+            "protocol": "HTTP",
+            "port": 80,
+            "path": "/testpath.aspx",
+            "intervalInSeconds": 30,
+            "toleratedNumberOfFailures": 3,
+            "timeoutInSeconds": 10
+          },
+          "endpoints": [
+            {
+              "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager1323/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager3880/externalEndpoints/My external endpoint",
+              "name": "My external endpoint",
+              "type": "Microsoft.Network/trafficManagerProfiles/externalEndpoints",
+              "properties": {
+                "endpointStatus": "Enabled",
+                "endpointMonitorStatus": "CheckingEndpoint",
+                "target": "foobar.contoso.com",
+                "weight": 1,
+                "priority": 1,
+                "endpointLocation": "North Europe"
+              }
+            }
+          ]
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

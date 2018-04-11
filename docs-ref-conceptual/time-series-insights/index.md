@@ -5,19 +5,18 @@ ms.service: time-series
 author: jeffstokes72
 ms.author: jeffstok
 ms.manager: jhubbard
+service_description: To be added
 ---
 
 
 # Azure Time Series Insights API
 
-Azure Time Series Insights is a fully managed cloud service with storage, analytics, and visualization components that make it incredibly easy to ingest, store, explore, and analyze billions of events simultaneously.
+Azure Time Series Insights is a fully managed analytics, storage, and visualization service that makes it simple to explore and analyze billions of IoT events simultaneously.  It gives you a global view of your data, letting you quickly validate your IoT solution and avoid costly downtime to mission-critical devices by helping you discover hidden trends, spot anomalies, and conduct root-cause analyses in near real-time.  
 
-Azure Time Series Insights operate on containers that are called environments.
-Time Series Insights environment is an Azure resource with ingress and storage capacity.
+Azure Time Series Insights stores and manages events in containers called environments. A Time Series Insights environment is an Azure resource with ingress and storage capacity.
 
-Customers provision and manage environments via the Azure portal and Azure Management APIs. To get started and create an environment, see [Create an environment](/azure/time-series-insights/time-series-insights-get-started).
+Customers can provision and manage environments via the Azure portal, Azure Resource Manager, and Azure Management APIs. To get started and create an environment, see [Create an environment](/azure/time-series-insights/time-series-insights-get-started).  To use Azure Resource Manager, see [Manage resources with Azure Resource Manager](/azure/time-series-insights/time-series-insights-manage-resources-using-azure-resource-manager).  If you already have created an environment, see [Azure Time Series Insights Query API](https://docs.microsoft.com/rest/api/time-series-insights/time-series-insights-reference-queryapi) to get started building on top of Time Series Insights with our REST API.  
 
-To query and view the data in the environments, customers use [Time Series Insights Portal](http://insights.timeseries.azure.com) or create custom applications using [Query API](time-series-insights-reference-QueryAPI.md).
+For more information about Time Series Insights query syntax, JSON format (shapes) for requests, and reference data configuration, see [Azure Time Series Insights Query Syntax](https://docs.microsoft.com/rest/api/time-series-insights/time-series-insights-reference-query-syntax). 
 
-Query operations are described in [Query API](time-series-insights-reference-QueryAPI.md).
-Supported query constructs and input format are described in [Query Syntax](time-series-insights-reference-Query-Syntax.md).
+

@@ -1,0 +1,169 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothub.iothubresource.getkeysforkeyname
+name: Get Keys For Key Name
+service: IoT Hub
+groupName: Iot Hub Resource
+apiVersion: 2018-04-01
+summary: 'Get a shared access policy by name from an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security.'
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/IotHubKeys/{keyName}/listkeys?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the IoT hub.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the IoT hub.
+  types:
+  - uid: string
+- name: keyName
+  in: path
+  isRequired: true
+  description: The name of the shared access policy.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: This is a synchronous operation. The body contains a JSON-serialized shared access policy, including keys, that you can use to access one or more IoT hub endpoints.
+  types:
+  - uid: SharedAccessSignatureAuthorizationRule
+- name: Other Status Codes
+  description: DefaultErrorResponse
+  types:
+  - uid: ErrorDetails
+requestHeader: []
+definitions:
+- name: SharedAccessSignatureAuthorizationRule
+  description: The properties of an IoT hub shared access policy.
+  kind: object
+  properties:
+  - name: keyName
+    description: The name of the shared access policy.
+    types:
+    - uid: string
+  - name: primaryKey
+    description: The primary key.
+    types:
+    - uid: string
+  - name: secondaryKey
+    description: The secondary key.
+    types:
+    - uid: string
+  - name: rights
+    description: The permissions assigned to the shared access policy.
+    types:
+    - uid: AccessRights
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: httpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+- name: AccessRights
+  description: The permissions assigned to the shared access policy.
+  kind: enum
+  properties:
+  - name: RegistryRead
+    types:
+    - uid: string
+  - name: RegistryWrite
+    types:
+    - uid: string
+  - name: ServiceConnect
+    types:
+    - uid: string
+  - name: DeviceConnect
+    types:
+    - uid: string
+  - name: RegistryRead, RegistryWrite
+    types:
+    - uid: string
+  - name: RegistryRead, ServiceConnect
+    types:
+    - uid: string
+  - name: RegistryRead, DeviceConnect
+    types:
+    - uid: string
+  - name: RegistryWrite, ServiceConnect
+    types:
+    - uid: string
+  - name: RegistryWrite, DeviceConnect
+    types:
+    - uid: string
+  - name: ServiceConnect, DeviceConnect
+    types:
+    - uid: string
+  - name: RegistryRead, RegistryWrite, ServiceConnect
+    types:
+    - uid: string
+  - name: RegistryRead, RegistryWrite, DeviceConnect
+    types:
+    - uid: string
+  - name: RegistryRead, ServiceConnect, DeviceConnect
+    types:
+    - uid: string
+  - name: RegistryWrite, ServiceConnect, DeviceConnect
+    types:
+    - uid: string
+  - name: RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect
+    types:
+    - uid: string
+examples:
+- name: IotHubResource_GetKeysForKeyName
+  request:
+    uri: POST https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/testHub/IotHubKeys/iothubowner/listkeys?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "keyName": "iothubowner",
+        "primaryKey": "2aWPrKloLLdcug12ZHNpA0e07yJmRRmYMXDLpEOTd/Y=",
+        "secondaryKey": "DLyFnDTGMDK0BU2QjT5TCkNBQ4h08mi20vOqWMC7TxU=",
+        "rights": "RegistryWrite, ServiceConnect, DeviceConnect"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

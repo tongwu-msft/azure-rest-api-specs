@@ -1,0 +1,637 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.activity.get
+name: Get
+service: Automation
+groupName: Activity
+apiVersion: 2015-10-31
+summary: Retrieve the activity in the module identified by module name and activity name.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/activities/{activityName}?api-version=2015-10-31
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure Resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The automation account name.
+  types:
+  - uid: string
+- name: moduleName
+  in: path
+  isRequired: true
+  description: The name of module.
+  types:
+  - uid: string
+- name: activityName
+  in: path
+  isRequired: true
+  description: The name of activity.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Activity
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: Activity
+  description: Definition of the activity.
+  kind: object
+  properties:
+  - name: id
+    description: Gets or sets the id of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Gets the name of the activity.
+    types:
+    - uid: string
+  - name: properties.definition
+    description: Gets or sets the user name of the activity.
+    types:
+    - uid: string
+  - name: properties.parameterSets
+    description: Definition of the activity parameter set.
+    types:
+    - uid: ActivityParameterSet
+      isArray: true
+  - name: properties.outputTypes
+    description: Definition of the activity output type.
+    types:
+    - uid: ActivityOutputType
+      isArray: true
+  - name: properties.creationTime
+    description: Gets or sets the creation time.
+    types:
+    - uid: string
+  - name: properties.lastModifiedTime
+    description: Gets or sets the last modified time.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Gets or sets the description.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ActivityParameterSet
+  description: Definition of the activity parameter set.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the activity parameter set.
+    types:
+    - uid: string
+  - name: parameters
+    description: Definition of the activity parameter.
+    types:
+    - uid: ActivityParameter
+      isArray: true
+- name: ActivityOutputType
+  description: Definition of the activity output type.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the activity output type.
+    types:
+    - uid: string
+  - name: type
+    description: Gets or sets the type of the activity output type.
+    types:
+    - uid: string
+- name: ActivityParameter
+  description: Definition of the activity parameter.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the activity parameter.
+    types:
+    - uid: string
+  - name: type
+    description: Gets or sets the type of the activity parameter.
+    types:
+    - uid: string
+  - name: isMandatory
+    description: Gets or sets a Boolean value that indicates true if the parameter is required. If the value is false, the parameter is optional.
+    types:
+    - uid: boolean
+  - name: isDynamic
+    description: Gets or sets a Boolean value that indicates true if the parameter is dynamic.
+    types:
+    - uid: boolean
+  - name: position
+    description: Gets or sets the position of the activity parameter.
+    types:
+    - uid: boolean
+  - name: valueFromPipeline
+    description: Gets or sets a Boolean value that indicates true if the parameter can take values from the incoming pipeline objects. This setting is used if the cmdlet must access the complete input object. false indicates that the parameter cannot take values from the complete input object.
+    types:
+    - uid: boolean
+  - name: valueFromPipelineByPropertyName
+    description: 'Gets or sets a Boolean value that indicates true if the parameter can be filled from a property of the incoming pipeline object that has the same name as this parameter. false indicates that the parameter cannot be filled from the incoming pipeline object property with the same name. '
+    types:
+    - uid: boolean
+  - name: valueFromRemainingArguments
+    description: Gets or sets a Boolean value that indicates true if the cmdlet parameter accepts all the remaining command-line arguments that are associated with this parameter in the form of an array. false if the cmdlet parameter does not accept all the remaining argument values.
+    types:
+    - uid: boolean
+examples:
+- name: Get Activity in a module
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/modules/OmsCompositeResources/activities/Add-AzureRmAccount?api-version=2015-10-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/modules/AzureRM.Profile/activities/Add-AzureRmAccount",
+        "name": "Add-AzureRmAccount",
+        "properties": {
+          "definition": "",
+          "description": "The Add-AzureRmAcccount cmdlet adds an authenticated Azure account to use for Azure Resource Manager cmdlet requests.\n\nYou can use this authenticated account only with Azure Resource Manager cmdlets. To add an authenticated account for use with Service Management cmdlets, use the Add-AzureAccount or the Import-AzurePublishSettingsFile cmdlet.",
+          "parameterSets": [
+            {
+              "name": "SubscriptionId",
+              "parameters": [
+                {
+                  "name": "AccessToken",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "AccountId",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "ApplicationId",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "CertificateThumbprint",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "Credential",
+                  "type": "System.Management.Automation.PSCredential",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "Environment",
+                  "type": "Microsoft.Azure.Common.Authentication.Models.AzureEnvironment",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "EnvironmentName",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "SubscriptionId",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": true,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "TenantId",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                }
+              ]
+            },
+            {
+              "name": "ServicePrincipal",
+              "parameters": [
+                {
+                  "name": "Credential",
+                  "type": "System.Management.Automation.PSCredential",
+                  "isMandatory": true,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "Environment",
+                  "type": "Microsoft.Azure.Common.Authentication.Models.AzureEnvironment",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "EnvironmentName",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "ServicePrincipal",
+                  "type": "System.Management.Automation.SwitchParameter",
+                  "isMandatory": true,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "SubscriptionId",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": true,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "SubscriptionName",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": true,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "TenantId",
+                  "type": "System.String",
+                  "isMandatory": true,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                }
+              ]
+            },
+            {
+              "name": "SubscriptionName",
+              "parameters": [
+                {
+                  "name": "AccessToken",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "AccountId",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "ApplicationId",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "CertificateThumbprint",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "Credential",
+                  "type": "System.Management.Automation.PSCredential",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "Environment",
+                  "type": "Microsoft.Azure.Common.Authentication.Models.AzureEnvironment",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "EnvironmentName",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "SubscriptionName",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": true,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "TenantId",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                }
+              ]
+            },
+            {
+              "name": "User",
+              "parameters": [
+                {
+                  "name": "Credential",
+                  "type": "System.Management.Automation.PSCredential",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "Environment",
+                  "type": "Microsoft.Azure.Common.Authentication.Models.AzureEnvironment",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "EnvironmentName",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "TenantId",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                }
+              ]
+            },
+            {
+              "name": "AccessToken",
+              "parameters": [
+                {
+                  "name": "AccessToken",
+                  "type": "System.String",
+                  "isMandatory": true,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "AccountId",
+                  "type": "System.String",
+                  "isMandatory": true,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "Environment",
+                  "type": "Microsoft.Azure.Common.Authentication.Models.AzureEnvironment",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "EnvironmentName",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "TenantId",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                }
+              ]
+            },
+            {
+              "name": "ServicePrincipalCertificate",
+              "parameters": [
+                {
+                  "name": "ApplicationId",
+                  "type": "System.String",
+                  "isMandatory": true,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "CertificateThumbprint",
+                  "type": "System.String",
+                  "isMandatory": true,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "Environment",
+                  "type": "Microsoft.Azure.Common.Authentication.Models.AzureEnvironment",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "EnvironmentName",
+                  "type": "System.String",
+                  "isMandatory": false,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "ServicePrincipal",
+                  "type": "System.Management.Automation.SwitchParameter",
+                  "isMandatory": true,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                },
+                {
+                  "name": "TenantId",
+                  "type": "System.String",
+                  "isMandatory": true,
+                  "isDynamic": false,
+                  "position": -2147483648,
+                  "valueFromPipeline": false,
+                  "valueFromPipelineByPropertyName": false,
+                  "valueFromRemainingArguments": false
+                }
+              ]
+            }
+          ],
+          "outputTypes": [
+            {
+              "name": "Microsoft.Azure.Commands.Profile.Models.PSAzureProfile",
+              "type": "Microsoft.Azure.Commands.Profile.Models.PSAzureProfile"
+            }
+          ],
+          "creationTime": "2017-03-17T17:05:21.697+00:00",
+          "lastModifiedTime": "2017-03-17T17:05:21.697+00:00"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

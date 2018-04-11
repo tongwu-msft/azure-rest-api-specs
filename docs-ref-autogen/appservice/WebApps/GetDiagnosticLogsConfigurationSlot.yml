@@ -1,0 +1,243 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.webapps.getdiagnosticlogsconfigurationslot
+name: Get Diagnostic Logs Configuration Slot
+service: App Service
+groupName: Web Apps
+apiVersion: 2016-08-01
+summary: Gets the logging configuration of an app.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/logs?api-version=2016-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the app.
+  types:
+  - uid: string
+- name: slot
+  in: path
+  isRequired: true
+  description: Name of the deployment slot. If a slot is not specified, the API will get the logging configuration for the production slot.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SiteLogsConfig
+requestHeader: []
+definitions:
+- name: SiteLogsConfig
+  description: Configuration of App Service site logs.
+  kind: object
+  properties:
+  - name: properties.applicationLogs
+    description: Application logs configuration.
+    types:
+    - uid: ApplicationLogsConfig
+  - name: properties.httpLogs
+    description: HTTP logs configuration.
+    types:
+    - uid: HttpLogsConfig
+  - name: properties.failedRequestsTracing
+    description: Failed requests tracing configuration.
+    types:
+    - uid: EnabledConfig
+  - name: properties.detailedErrorMessages
+    description: Detailed error messages configuration.
+    types:
+    - uid: EnabledConfig
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ApplicationLogsConfig
+  description: Application logs configuration.
+  kind: object
+  properties:
+  - name: fileSystem
+    description: Application logs to file system configuration.
+    types:
+    - uid: FileSystemApplicationLogsConfig
+  - name: azureTableStorage
+    description: Application logs to azure table storage configuration.
+    types:
+    - uid: AzureTableStorageApplicationLogsConfig
+  - name: azureBlobStorage
+    description: Application logs to blob storage configuration.
+    types:
+    - uid: AzureBlobStorageApplicationLogsConfig
+- name: HttpLogsConfig
+  description: Http logs configuration.
+  kind: object
+  properties:
+  - name: fileSystem
+    description: Http logs to file system configuration.
+    types:
+    - uid: FileSystemHttpLogsConfig
+  - name: azureBlobStorage
+    description: Http logs to azure blob storage configuration.
+    types:
+    - uid: AzureBlobStorageHttpLogsConfig
+- name: EnabledConfig
+  description: Enabled configuration.
+  kind: object
+  properties:
+  - name: enabled
+    description: True if configuration is enabled, false if it is disabled and null if configuration is not set.
+    types:
+    - uid: boolean
+- name: FileSystemApplicationLogsConfig
+  description: Application logs to file system configuration.
+  kind: object
+  properties:
+  - name: level
+    description: Log level.
+    types:
+    - uid: LogLevel
+- name: AzureTableStorageApplicationLogsConfig
+  description: Application logs to Azure table storage configuration.
+  kind: object
+  properties:
+  - name: level
+    description: Log level.
+    types:
+    - uid: LogLevel
+  - name: sasUrl
+    description: SAS URL to an Azure table with add/query/delete permissions.
+    types:
+    - uid: string
+- name: AzureBlobStorageApplicationLogsConfig
+  description: Application logs azure blob storage configuration.
+  kind: object
+  properties:
+  - name: level
+    description: Log level.
+    types:
+    - uid: LogLevel
+  - name: sasUrl
+    description: SAS url to a azure blob container with read/write/list/delete permissions.
+    types:
+    - uid: string
+  - name: retentionInDays
+    description: >-
+      Retention in days.
+
+      Remove blobs older than X days.
+
+      0 or lower means no retention.
+    types:
+    - uid: integer
+- name: FileSystemHttpLogsConfig
+  description: Http logs to file system configuration.
+  kind: object
+  properties:
+  - name: retentionInMb
+    description: >-
+      Maximum size in megabytes that http log files can use.
+
+      When reached old log files will be removed to make space for new ones.
+
+      Value can range between 25 and 100.
+    types:
+    - uid: integer
+  - name: retentionInDays
+    description: >-
+      Retention in days.
+
+      Remove files older than X days.
+
+      0 or lower means no retention.
+    types:
+    - uid: integer
+  - name: enabled
+    description: True if configuration is enabled, false if it is disabled and null if configuration is not set.
+    types:
+    - uid: boolean
+- name: AzureBlobStorageHttpLogsConfig
+  description: Http logs to azure blob storage configuration.
+  kind: object
+  properties:
+  - name: sasUrl
+    description: SAS url to a azure blob container with read/write/list/delete permissions.
+    types:
+    - uid: string
+  - name: retentionInDays
+    description: >-
+      Retention in days.
+
+      Remove blobs older than X days.
+
+      0 or lower means no retention.
+    types:
+    - uid: integer
+  - name: enabled
+    description: True if configuration is enabled, false if it is disabled and null if configuration is not set.
+    types:
+    - uid: boolean
+- name: LogLevel
+  description: Log level.
+  kind: enum
+  properties:
+  - name: Off
+    types:
+    - uid: string
+  - name: Verbose
+    types:
+    - uid: string
+  - name: Information
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

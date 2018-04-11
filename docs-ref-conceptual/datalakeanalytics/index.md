@@ -6,7 +6,7 @@ ms.service: data-lake-analytics
 author: nitinme
 ms.author: nitinme
 ms.manager: jhubbard
-
+service_description: To be added
 ---
 
 # Azure Data Lake Analytics REST API
@@ -17,11 +17,11 @@ Use the Azure Data Lake Analytics REST APIs to create and manage Data Lake Analy
 
 | Operation Group | Description |
 |-----------------|-------------|
-|[Account](~/docs-ref-autogen/datalakeanalytics/Account.json)| Provides operations to manage Data Lake Analytics account and storage linked to Data Lake Analytics account. |
+|[Account](xref:management.azure.com.datalakeanalytics.accounts)| Provides operations to manage Data Lake Analytics account and storage linked to Data Lake Analytics account. |
 |[Catalog](catalog-management-apis.md) | Provides operations to manage catalogs for the Data Lake Analytics account. |
 |[Job](job-management-apis.md) | Provides operations to manage jobs in the Data Lake Analytics account. |
-|[Firewall rules](~/docs-ref-autogen/datalakeanalytics/FirewallRules.json) | Provides operations to manage firewall rules for Data Lake Analytics account. |
-|[Storage accounts](~/docs-ref-autogen/datalakeanalytics/StorageAccounts.json) | Provides operations to manage Azure Storage accounts associated with a Data Lake Analytics account. |
+|[Firewall rules](xref:management.azure.com.datalakeanalytics.firewallrules) | Provides operations to manage firewall rules for Data Lake Analytics account. |
+|[Storage accounts](xref:management.azure.com.datalakeanalytics.storageaccounts) | Provides operations to manage Azure Storage accounts associated with a Data Lake Analytics account. |
 
 ##Common parameters and headers
 
@@ -29,7 +29,7 @@ The following information is common to all tasks that you might do related to Da
 
 * Replace `{api-version}` with **2016-11-01**.
 * Replace `{subscription-id}` in the URI with your Azure subscription identifier.
-* Replace `{resource-group-name}` with the resource group. For more information, see [Using Resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
+* Replace `{resource-group-name}` with the resource group. For more information, see [Using Resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
 Replace `{account-name}` in the URI with your Data Lake Analytics account name.
 * Set the **Content-Type** header to **application/json**.
 Set the **Authorization** header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).

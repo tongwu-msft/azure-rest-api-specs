@@ -1,0 +1,179 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.render.getmapstaticimage
+name: Get Map Static Image
+service: Location Based Services Functional API
+groupName: Render
+apiVersion: "1.0"
+summary: Returns a raster map image
+consumes: []
+produces:
+- image/png
+- application/json
+paths:
+- content: GET https://atlas.microsoft.com/map/static/png?subscription-key={subscription-key}&api-version=1.0&bbox={bbox}
+- content: GET https://atlas.microsoft.com/map/static/png?subscription-key={subscription-key}&api-version=1.0&layer={layer}&style=main&zoom={zoom}&center={center}&bbox={bbox}&height={height}&width={width}
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: 'Desired format of the response. Possible value: png.'
+  types:
+  - uid: format
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API.  Current version is 1.0
+  types:
+  - uid: string
+- name: layer
+  in: query
+  description: Map layer requested. If layer is set to labels or hybrid, the format should be png.
+  types:
+  - uid: layer
+- name: style
+  in: query
+  description: Map style to be returned.  Currently, only style available is main.
+  types:
+  - uid: string
+- name: zoom
+  in: query
+  description: 'Zoom level of the map desired. Note: bbox may not be used in conjunction with center, height or width.'
+  types:
+  - uid: integer
+- name: center
+  in: query
+  description: "Coordinates of the center point. center and bbox shouldn't be used together. Format: 'lon,lat'. Projection used - EPSG:3857. Longitude range: -180 to 180. Latitude range: -85 to 85. Note: bbox may not be used in conjunction with center, height or width."
+  types:
+  - uid: string
+- name: bbox
+  in: query
+  isRequired: true
+  description: "Bounding box in the projection stated in center.  Format : 'minLon, minLat, maxLon, maxLat'. Note: bbox may not be used in conjunction with center, height or width."
+  types:
+  - uid: string
+- name: height
+  in: query
+  description: 'Height of the resulting image, in pixels. Note: bbox may not be used in conjunction with center, height or width.'
+  types:
+  - uid: integer
+- name: width
+  in: query
+  description: 'Width of the resulting image, in pixels.   Range is 1 to 8192. Default is 512. Note: bbox may not be used in conjunction with zoom, center, height or width.'
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: string
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: 'Unauthorized: Access is denied due to invalid credentials.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: format
+  description: 'Desired format of the response. Possible value: png.'
+  kind: enum
+  properties:
+  - name: png
+    description: An image in the png format. Supports zoom levels 0 through 18.
+    types:
+    - uid: string
+- name: layer
+  description: Map layer requested. If layer is set to labels or hybrid, the format should be png.
+  kind: enum
+  properties:
+  - name: basic
+    description: Returns an image containing all map features including polygons, borders, roads and labels.
+    types:
+    - uid: string
+  - name: hybrid
+    description: Returns an image containing borders, roads, and labels, and can be overlaid on other tiles (such as satellite imagery) to produce hybrid tiles.
+    types:
+    - uid: string
+  - name: labels
+    description: Returns an image of just the map's label information.
+    types:
+    - uid: string
+- name: Error
+  description: This object is returned when an error occurs in the Location Based Service API
+  kind: object
+  properties:
+  - name: statuscode
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+examples:
+- name: GetMapStaticImage
+  request:
+    uri: GET https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=2&bbox=1.355233,42.982261,24.980233,56.526017
+  responses:
+  - statusCode: "200"
+    body: "\"binary string image\""
+  - statusCode: "400"
+    body: >-
+      {
+        "statuscode": "400",
+        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "statuscode": "401",
+        "message": "Unauthorized: Access is denied due to invalid credentials."
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "statuscode": "403",
+        "message": "Permission, capacity, or authentication issues."
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "statuscode": "404",
+        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "statuscode": "500",
+        "message": "An error occurred while processing the request. Please try again later."
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: subscription-key
+  type: apiKey
+  in: query

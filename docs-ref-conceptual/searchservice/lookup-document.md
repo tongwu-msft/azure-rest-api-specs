@@ -64,7 +64,7 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
 |--------------------|-----------------|  
 |*api-key*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Lookup Document** request can specify either an admin key or query key for the `api-key`.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body  
  None.  
@@ -91,7 +91,7 @@ GET /indexes/hotels/docs/2?api-version=2016-09-01
 GET /indexes/hotels/docs('3')?api-version=2016-09-01  
 ```  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [Document operations &#40;Azure Search Service REST API&#41;](document-operations.md)   
  [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   

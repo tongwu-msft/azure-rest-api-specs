@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Using Blob Service Operations with Azure Premium Storage
-Azure Premium Storage offers a world-class cloud storage solution for Azure Virtual Machine workloads requiring high performance and low latency. To learn about Azure Premium Storage, see [Premium Storage: High-Performance Storage for Azure Virtual Machine Workloads](http://go.microsoft.com/fwlink/?LinkId=521898). To sign up for the Azure Premium Storage preview, visit the [Azure Preview page](http://azure.microsoft.com/services/preview/).  
+Azure Premium Storage offers a world-class cloud storage solution for Azure Virtual Machine workloads requiring high performance and low latency. To learn about Azure Premium Storage, see [Premium Storage: High-Performance Storage for Azure Virtual Machine Workloads](http://go.microsoft.com/fwlink/?LinkId=521898). 
   
  Premium Storage is currently available only for storing data on disks used by Azure Virtual Machines. These disks are backed by page blobs in Azure Storage. This topic provides information about performing REST operations against page blobs in Premium Storage accounts using the Azure Storage Services REST API.  
   
@@ -50,7 +50,7 @@ Azure Premium Storage offers a world-class cloud storage solution for Azure Virt
   
 -   A snapshot of a page blob in a Premium Storage account may be taken once every ten minutes. If that rate is exceeded, the `Snapshot Blob` operation returns error code 409 (SnaphotOperationRateExceeded).  
   
--   Public access to a container containing page blobs in Premium Storage is not permitted. Calling [Set Container ACL](Set-Container-ACL.md) with the `x-ms-blob-public-access` header returns error code 400 (UnsupportedHeader).  
+-   Public access to a container containing page blobs in Premium Storage is not permitted. Calling [Set Container ACL](Set-Container-ACL.md) with the `x-ms-blob-public-access` header returns error code 400 (UnsupportedHeader). You can, however, obtain public access for Premium Storage by creating a [SAS URI](/azure/storage/storage-dotnet-shared-access-signature-part-1) with the right permissions and an infinite expiration time.
   
  For additional error information, see [Blob Service Error Codes](Blob-Service-Error-Codes.md).  
   

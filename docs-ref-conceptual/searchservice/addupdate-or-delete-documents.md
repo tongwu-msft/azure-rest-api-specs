@@ -56,7 +56,7 @@ api-key: [admin key]
 |*Content-Type:*|Required. Set this to `application/json`|  
 |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Add Documents** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body  
  The body of the request contains one or more documents to be indexed. Documents are identified by a unique key. Each document is associated with an action: upload, merge, mergeOrupload, or delete. Upload requests must include the document data as a set of key/value pairs.  
@@ -180,7 +180,7 @@ Successful indexing is indicated by the `status` property being set to true for 
 > [!NOTE]
 > When you upload `DateTimeOffset` values with time zone information to your index, Azure Search normalizes these values to UTC. For example, `2017-01-13T14:03:00-08:00` will be stored as `2017-01-13T22:03:00Z`. If you need to store time zone information, you will need to add an extra column to your index.
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)   

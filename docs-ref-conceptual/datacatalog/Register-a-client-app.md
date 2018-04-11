@@ -1,7 +1,7 @@
 ---
 title: "Register a client app"
 ms.custom: na
-ms.date: 2016-07-21
+ms.date: 2017-11-09
 ms.prod: azure
 ms.reviewer: na
 ms.service: data-catalog
@@ -26,25 +26,25 @@ translation.priority.mt:
 ---
 # Register a client app
 ---  
-This article shows you how to register a Data Catalog client app in Azure Active Directory (Azure AD). To allow your application access to the Data Catalog REST API, you need to register your application with **Azure Active Directory**. This will allow you to establish an identity for your application and specify permissions to Data Catalog REST resources.  
+This article shows you how to register a Data Catalog client app in Azure Active Directory (Azure AD). To allow your application access to the Data Catalog REST API, you need to register your application with **Azure Active Directory**. This action allows you to establish an identity for your application and specify permissions to Data Catalog REST resources.  
   
 **Important** Before you register a Data Catalog app you need an [Azure Active Directory tenant and an organizational user](Create-an-Azure-Active-Directory-tenant.md).   
   
 ### In this article  
   
 - [Register a client app](#client)  
-- [How to get a client id ](#clientID)  
+- [How to get a client ID ](#clientID)  
   
 <a name="client"></a>  
 ## Register a client app  
-You need to register your client app in **Azure Active Directory** to establish an identity for your application and specify permissions to **Data Catalog** REST resources. When you register a client app, such as a console app, you receive a **Client ID**.  The **Client ID** is used by the application to identify themselves to the users that they are requesting permissions from.  
+Register your client app in **Azure Active Directory** to establish an identity for your application and specify permissions to **Data Catalog** REST resources. When you register a client app, such as a console app, you receive a **Client ID**. The **Client ID** is used by the application to identify themselves to the users that they are requesting permissions from.  
   
 To learn how to authenticate a client app using an Azure AD **Client ID**, see [Authenticate a client app](Authenticate-a-client-app.md).  
   
 ### Register a client app  
   
 Here's how to register a client app:  
-1. Review the [Microsoft Azure Service Agreement & Terms](http://azure.microsoft.com/en-us/support/legal).  
+1. Review the [Microsoft Azure Service Agreement & Terms](https://azure.microsoft.com/en-us/support/legal).  
 2. Sign into your Microsoft Azure subscription at https://manage.windowsazure.com using your AAD user name.  
 3. In the left service panel, choose **ACTIVE DIRECTORY**.  
 4. Click the active directory that you belong to.  
@@ -63,14 +63,14 @@ Here's how to register a client app:
    
      ![WhatToDo](media/What-do-you-want-to-do.png)  
      
-8. In **Tell us about your application**, enter a **NAME**, and choose **NATIVE CLIENT APPLICATION** for the type, and click **Next** icon..  
+8. In **Tell us about your application**, enter a **NAME**, and choose **NATIVE CLIENT APPLICATION** for the type, and click **Next** icon.  
   
     ![step 6](media/Register-app-6.png)  
    
-9. In **Application information**, enter a **REDIRECT URI**. For a client app, a redirect uri gives AAD more details on the specific application that it will authenticate. For a client app, you can use this Uri: https://login.live.com/oauth20_desktop.srf.  
+9. In **Application information**, enter a **REDIRECT URI**. For a client app, a redirect uri gives AAD more details on the specific application that it authenticates. For a client app, you can use this Uri: https://login.live.com/oauth20_desktop.srf.  
   
 10. Click the **Complete** icon.  
-11. In the application page, choose **CONFIGURE**. You will see your **CLIENT ID**.   
+11. In the application page, choose **CONFIGURE**. You see your **CLIENT ID**.   
 12. In the **CONFIGURATION** page, under **permissions to other applications**, click **Add Application**.  
   
     ![step 11](media/Register-app-11.png)  
@@ -87,14 +87,14 @@ Here's how to register a client app:
 16. Click **Save**.  
   
 <a name="clientID"></a>  
-## How to get a client app id  
+## How to get a client app ID  
 When you register a client app, such as a console app, you receive a **Client ID**.  The **Client ID** is used by the application to identify themselves to the users that they are requesting permissions from.  
   
-Here's how to get a client id:  
+Here's how to get a client ID:  
   
 1. Sign into your Microsoft Azure subscription at https://manage.windowsazure.com.  
 2. In the left service panel, choose **ACTIVE DIRECTORY**.  
-3. Click the active directory that you belong to..  
+3. Click the active directory that you belong to.  
 4. Click **APPLICATIONS**.  
 5. Choose an application.  
 6. In the application page, choose **CONFIGURE**.  

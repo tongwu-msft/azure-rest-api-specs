@@ -5,6 +5,7 @@ ms.service: cdn
 author: mmacy
 ms.author: marsma
 ms.manager: erikre
+service_description: To be added
 ---
 
 # Azure CDN REST API
@@ -17,14 +18,14 @@ The CDN REST API provides operations for working with the following resources.
 
 | Operation group               | Description |
 |-------------------------------|-------------|
-| [Check Name Availability](~/docs-ref-autogen/cdn/checknameavailability.json) | Verify the uniqueness of resource names. |
-| [Check Resource Usage](~/docs-ref-autogen/cdn/checkresourceusage.json) | Discover quotas and usage of CDN profiles. |
-| [Custom Domains](~/docs-ref-autogen/cdn/customdomains.json) | Provides operations for working with CDN custom domains. |
-| [Edge Nodes](~/docs-ref-autogen/cdn/edgenodes.json) | Obtain information about CDN edge nodes. |
-| [Endpoints](~/docs-ref-autogen/cdn/endpoints.json) | Create, validate, start, stop, and delete CDN endpoints. Pre-load and purge cached endpoint content. |
-| [List Operations](~/docs-ref-autogen/cdn/listoperations.json) | Provides information about CDN REST API operations. |
-| [Origins](~/docs-ref-autogen/cdn/origins.json) | Manage origins within an endpoint. |
-| [Profiles](~/docs-ref-autogen/cdn/profiles.json) | Operations for managing CDN profiles. A CDN profile is a collection of CDN endpoints. |
+| [Check Name Availability](xref:management.azure.com.cdn.checknameavailability) | Verify the uniqueness of resource names. |
+| [Check Resource Usage](xref:management.azure.com.cdn.listresourceusage) | Discover quotas and usage of CDN profiles. |
+| [Custom Domains](xref:management.azure.com.cdn.customdomains) | Provides operations for working with CDN custom domains. |
+| [Edge Nodes](xref:management.azure.com.cdn.edgenodes) | Obtain information about CDN edge nodes. |
+| [Endpoints](xref:management.azure.com.cdn.endpoints) | Create, validate, start, stop, and delete CDN endpoints. Pre-load and purge cached endpoint content. |
+| [List Operations](xref:management.azure.com.cdn.listoperations) | Provides information about CDN REST API operations. |
+| [Origins](xref:management.azure.com.cdn.origins) | Manage origins within an endpoint. |
+| [Profiles](xref:management.azure.com.cdn.profiles) | Operations for managing CDN profiles. A CDN profile is a collection of CDN endpoints. |
 
 ## See also
 

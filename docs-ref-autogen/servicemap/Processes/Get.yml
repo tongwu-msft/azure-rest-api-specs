@@ -1,0 +1,584 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicemap.processes.get
+name: Get
+service: Service Map
+groupName: Processes
+apiVersion: 2015-11-01-preview
+summary: Returns the specified process.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machines/{machineName}/processes/{processName}?api-version=2015-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machines/{machineName}/processes/{processName}?api-version=2015-11-01-preview&timestamp={timestamp}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name within the specified subscriptionId.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9_-]+'
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: OMS workspace containing the resources of interest.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9_][a-zA-Z0-9_-]+[a-zA-Z0-9_]'
+- name: machineName
+  in: path
+  isRequired: true
+  description: Machine resource name.
+  types:
+  - uid: string
+- name: processName
+  in: path
+  isRequired: true
+  description: Process resource name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version.
+  types:
+  - uid: string
+- name: timestamp
+  in: query
+  description: UTC date and time specifying a time instance relative to which to evaluate a resource. When not specified, the service uses DateTime.UtcNow.
+  types:
+  - uid: string
+  format: date-time
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: Process
+- name: Other Status Codes
+  description: An error occurred while processing the request. See the error.code parameter to identify the specific error.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: Process
+  description: A process resource represents a process running on a machine. The process may be actively *monitored*, i.e., a Dependency Agent is running on its machine, or *discovered*, i.e., its existence was inferred by observing the data stream from monitored machines. A process resource represents a pool of actual operating system resources that share command lines and metadata. As the process pool evolves over time, prior versions of the process resource are preserved and available for access. A process is live during an interval of time, if that process is executing during (parts) of that interval
+  kind: object
+  properties:
+  - name: properties.timestamp
+    description: UTC date and time when this process resource was updated in the system
+    types:
+    - uid: string
+  - name: properties.monitoringState
+    description: Specifies whether the process is actively monitored or discovered.
+    types:
+    - uid: MonitoringState
+  - name: properties.machine
+    description: Machine hosting this process.
+    types:
+    - uid: MachineReference
+    - uid: ProcessReference
+    - uid: PortReference
+    - uid: MachineReferenceWithHints
+    - uid: ClientGroupReference
+    typesTitle: ResourceReference
+  - name: properties.executableName
+    description: The name of the process executable
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: Name to use for display purposes
+    types:
+    - uid: string
+  - name: properties.startTime
+    description: UTC date and time when the process started
+    types:
+    - uid: string
+  - name: properties.role
+    description: The inferred role of this process based on its name, command line, etc.
+    types:
+    - uid: ProcessRole
+  - name: properties.group
+    description: The name of the product or suite of the process. The group is determined by its executable name, command line, etc.
+    types:
+    - uid: string
+  - name: properties.details
+    description: Process metadata (command line, product name, etc.).
+    types:
+    - uid: ProcessDetails
+  - name: properties.user
+    description: Information about the account under which the process is executing.
+    types:
+    - uid: ProcessUser
+  - name: properties.clientOf
+    description: Present only for a discovered process acting as a client of a monitored process/machine/port. References the monitored process/machine/port that this process is a client of.
+    types:
+    - uid: MachineReference
+    - uid: ProcessReference
+    - uid: PortReference
+    - uid: MachineReferenceWithHints
+    - uid: ClientGroupReference
+    typesTitle: ResourceReference
+  - name: properties.acceptorOf
+    description: Present only for a discovered process acting as a server. References the port on which the discovered process is accepting.
+    types:
+    - uid: MachineReference
+    - uid: ProcessReference
+    - uid: PortReference
+    - uid: MachineReferenceWithHints
+    - uid: ClientGroupReference
+    typesTitle: ResourceReference
+  - name: properties.hosting
+    description: Information about the hosting environment
+    types:
+    - uid: AzureProcessHostingConfiguration
+    typesTitle: ProcessHostingConfiguration
+  - name: etag
+    description: Resource ETAG.
+    types:
+    - uid: string
+  - name: kind
+    description: Additional resource type qualifier.
+    types:
+    - uid: process
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Resource identifier.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: An error response from the API.
+  kind: object
+  properties:
+  - name: error
+    description: Error information.
+    types:
+    - uid: Error
+- name: MonitoringState
+  description: Used to specify if a resources is monitored or discovered.
+  kind: enum
+  properties:
+  - name: monitored
+    types:
+    - uid: string
+  - name: discovered
+    types:
+    - uid: string
+- name: ProcessRole
+  description: The inferred role of this process based on its name, command line, etc.
+  kind: enum
+  properties:
+  - name: webServer
+    types:
+    - uid: string
+  - name: appServer
+    types:
+    - uid: string
+  - name: databaseServer
+    types:
+    - uid: string
+  - name: ldapServer
+    types:
+    - uid: string
+  - name: smbServer
+    types:
+    - uid: string
+- name: ProcessDetails
+  description: Describes process metadata.
+  kind: object
+  properties:
+  - name: persistentKey
+    description: A unique indentifier for a process, generally resilient to process restart, computed by Service Map.
+    types:
+    - uid: string
+  - name: poolId
+    description: Represents the identity of the process pool assigned to the process by Dependency Agent.
+    types:
+    - uid: integer
+  - name: firstPid
+    description: The Operating System Process Idendifier (PID) of the first process in this process pool.
+    types:
+    - uid: integer
+  - name: description
+    description: Process description.
+    types:
+    - uid: string
+  - name: companyName
+    description: Name of company that created the process executable.
+    types:
+    - uid: string
+  - name: internalName
+    description: Internal process name.
+    types:
+    - uid: string
+  - name: productName
+    description: Product name.
+    types:
+    - uid: string
+  - name: productVersion
+    description: Product version.
+    types:
+    - uid: string
+  - name: fileVersion
+    description: File version.
+    types:
+    - uid: string
+  - name: commandLine
+    description: Process command line.
+    types:
+    - uid: string
+  - name: executablePath
+    description: Process executable path.
+    types:
+    - uid: string
+  - name: workingDirectory
+    description: Process workingDirectory.
+    types:
+    - uid: string
+  - name: services
+    description: A service hosted by a process.
+    types:
+    - uid: ProcessHostedService
+      isArray: true
+  - name: zoneName
+    description: Process zone name (Linux only).
+    types:
+    - uid: string
+- name: ProcessUser
+  description: Describes the user under which a process is running.
+  kind: object
+  properties:
+  - name: userName
+    description: User name under which the process is running.
+    types:
+    - uid: string
+  - name: userDomain
+    description: Domain name for the user.
+    types:
+    - uid: string
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Error code identifying the specific error.
+    types:
+    - uid: string
+  - name: message
+    description: Error message in the caller's locale.
+    types:
+    - uid: string
+- name: MachineReference
+  description: Reference to a machine.
+  kind: object
+  properties:
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:machine
+    typesTitle: string
+- name: ProcessReference
+  description: Reference to a process.
+  kind: object
+  properties:
+  - name: properties.machine
+    isReadyOnly: true
+    description: Machine hosting the process.
+    types:
+    - uid: MachineReference
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:process
+    typesTitle: string
+- name: PortReference
+  description: Reference to a port.
+  kind: object
+  properties:
+  - name: properties.machine
+    isReadyOnly: true
+    description: Machine hosting the port.
+    types:
+    - uid: MachineReference
+  - name: properties.ipAddress
+    isReadyOnly: true
+    description: IP address of the port.
+    types:
+    - uid: string
+  - name: properties.portNumber
+    description: Port number.
+    types:
+    - uid: integer
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:port
+    typesTitle: string
+- name: MachineReferenceWithHints
+  description: A machine reference with a hint of the machine's name and operating system.
+  kind: object
+  properties:
+  - name: properties.displayNameHint
+    isReadyOnly: true
+    description: Last known display name.
+    types:
+    - uid: string
+  - name: properties.osFamilyHint
+    isReadyOnly: true
+    description: Last known operating system family.
+    types:
+    - uid: OperatingSystemFamily
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:machinewithhints
+    typesTitle: string
+- name: ClientGroupReference
+  description: Reference to a client group.
+  kind: object
+  properties:
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:clientgroup
+    typesTitle: string
+- name: ProcessHostedService
+  description: A service hosted by a process.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the service.
+    types:
+    - uid: string
+  - name: displayName
+    description: The service's display name.
+    types:
+    - uid: string
+- name: AzureProcessHostingConfiguration
+  description: Describes the hosting configuration of a process when hosted on azure
+  kind: object
+  properties:
+  - name: cloudService
+    description: Contains information about the cloud service the process belongs to
+    types:
+    - uid: AzureCloudServiceConfiguration
+  - name: provider
+    description: The hosting provider of the VM.
+    types:
+    - uid: azure
+    typesTitle: enum
+  - name: kind
+    description: Additional hostring configuration type qualifier.
+    types:
+    - uid: provider:azure
+    typesTitle: string
+- name: OperatingSystemFamily
+  description: Specifies the operating system family, e.g., Linux, Windows, etc.
+  kind: enum
+  properties:
+  - name: unknown
+    types:
+    - uid: string
+  - name: windows
+    types:
+    - uid: string
+  - name: linux
+    types:
+    - uid: string
+  - name: solaris
+    types:
+    - uid: string
+  - name: aix
+    types:
+    - uid: string
+- name: AzureCloudServiceConfiguration
+  description: Describes an Azure Cloud Service
+  kind: object
+  properties:
+  - name: name
+    description: Cloud Service name
+    types:
+    - uid: string
+  - name: instanceId
+    description: Cloud Service instance identifier
+    types:
+    - uid: string
+  - name: deployment
+    description: Cloud Service deployment identifier
+    types:
+    - uid: string
+  - name: roleName
+    description: Cloud Service role name
+    types:
+    - uid: string
+  - name: roleType
+    description: Used to specify type of an Azure Cloud Service role
+    types:
+    - uid: AzureCloudServiceRoleType
+- name: AzureCloudServiceRoleType
+  description: Used to specify type of an Azure Cloud Service role
+  kind: enum
+  properties:
+  - name: unknown
+    types:
+    - uid: string
+  - name: worker
+    types:
+    - uid: string
+  - name: web
+    types:
+    - uid: string
+examples:
+- name: SMMachinesProcessesGetGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/features/serviceMap/machines/m-36b83664-0822-4fb3-99a3-8332754f3eae/processes/p-bbf99526b8fc5e7ee4f75568958a040d08489160?api-version=2015-11-01-preview&timestamp=1/10/2018 10:45:45 PM
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "kind": "process",
+        "properties": {
+          "monitoringState": "monitored",
+          "machine": {
+            "kind": "ref:machine",
+            "id": "/subscriptions/A9C800F7-342E-45B7-8EB4-6C9A6F7FE466/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/features/serviceMap/machines/m-36b83664-0822-4fb3-99a3-8332754f3eae",
+            "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+            "name": "m-36b83664-0822-4fb3-99a3-8332754f3eae"
+          },
+          "executableName": "foo-bar",
+          "displayName": "foo-bar",
+          "startTime": "2018-01-10T21:04:56.8518962Z",
+          "role": "webServer",
+          "group": "Foo-bar Suite",
+          "details": {
+            "persistentKey": "77228e39-7348-4fac-8ce5-b83c7bcc52bc",
+            "poolId": 345,
+            "firstPid": 456,
+            "description": "A special process",
+            "companyName": "Microsoft",
+            "internalName": "foo-bar-internal",
+            "productName": "Foo-bar Suite",
+            "productVersion": "3.0.0.10",
+            "fileVersion": "1.2.3.4",
+            "commandLine": "foo-bar.exe -f -g -h do something",
+            "executablePath": "c:\\Program Files\\foobar\\bin\\boo-bar.exe",
+            "workingDirectory": "c:\\temp",
+            "zoneName": "zone name"
+          },
+          "user": {
+            "userName": "SecretUser",
+            "userDomain": "REDMOND"
+          },
+          "hosting": {
+            "kind": "provider:azure",
+            "cloudService": {
+              "name": "MyCloudService",
+              "instanceId": "Instance#1",
+              "deployment": "f4849088-01a2-420e-9709-d0b48ae31d87",
+              "roleName": "MyRoleName",
+              "roleType": "web"
+            },
+            "provider": "azure"
+          }
+        },
+        "id": "/subscriptions/A9C800F7-342E-45B7-8EB4-6C9A6F7FE466/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/features/serviceMap/machines/m-36b83664-0822-4fb3-99a3-8332754f3eae/processes/p-bbf99526b8fc5e7ee4f75568958a040d08489160",
+        "type": "Microsoft.OperationalInsights/workspaces/features/machines/processes",
+        "name": "p-bbf99526b8fc5e7ee4f75568958a040d08489160"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

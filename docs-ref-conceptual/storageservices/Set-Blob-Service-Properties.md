@@ -25,10 +25,12 @@ translation.priority.mt:
   - zh-tw
 ---
 # Set Blob Service Properties
-The `Set Blob Service Properties` operation sets properties for a storage account’s Blob service endpoint, including properties for [Storage Analytics](Storage-Analytics.md) and CORS (Cross-Origin Resource Sharing) rules. See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for more information on CORS rules.  
-  
- You can also use this operation to set the default request version for all incoming requests to the Blob service that do not have a version specified.  
-  
+The `Set Blob Service Properties` operation sets properties for a storage account’s Blob service endpoint, including properties for [Storage Analytics](Storage-Analytics.md), CORS (Cross-Origin Resource Sharing) rules and soft delete settings. The Soft Delete feature is currently in preview.
+
+You can also use this operation to set the default request version for all incoming requests to the Blob service that do not have a version specified.
+
+See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for more information on CORS rules.
+
 ## Request  
  The `Set Blob Service Properties` request may be specified as follows. HTTPS is recommended. Replace `<account-name>` with the name of your storage account:  
   
@@ -130,6 +132,56 @@ The `Set Blob Service Properties` operation sets properties for a storage accoun
     <!-- The DefaultServiceVersion element can only be set for the Blob service and the request must be made using version 2011-08-18 or later -->  
     <DefaultServiceVersion>default-service-version-string</DefaultServiceVersion>  
 </StorageServiceProperties>  
+```
+
+ For version 2017-07-29 and later, the format of the request body is as follows:  
+
+```  
+<?xml version="1.0" encoding="utf-8"?>  
+<StorageServiceProperties>  
+    <Logging>  
+        <Version>version-number</Version>  
+        <Delete>true|false</Delete>  
+        <Read>true|false</Read>  
+        <Write>true|false</Write>  
+        <RetentionPolicy>  
+            <Enabled>true|false</Enabled>  
+            <Days>number-of-days</Days>  
+        </RetentionPolicy>  
+    </Logging>  
+    <HourMetrics>  
+        <Version>version-number</Version>  
+        <Enabled>true|false</Enabled>  
+        <IncludeAPIs>true|false</IncludeAPIs>  
+        <RetentionPolicy>  
+            <Enabled>true|false</Enabled>  
+            <Days>number-of-days</Days>  
+        </RetentionPolicy>  
+    </HourMetrics>  
+    <MinuteMetrics>  
+        <Version>version-number</Version>  
+        <Enabled>true|false</Enabled>  
+        <IncludeAPIs>true|false</IncludeAPIs>  
+        <RetentionPolicy>  
+            <Enabled>true|false</Enabled>  
+            <Days>number-of-days</Days>  
+        </RetentionPolicy>  
+    </MinuteMetrics>  
+    <Cors>  
+        <CorsRule>  
+            <AllowedOrigins>comma-separated-list-of-allowed-origins</AllowedOrigins>  
+            <AllowedMethods>comma-separated-list-of-HTTP-verb</AllowedMethods>  
+            <MaxAgeInSeconds>max-caching-age-in-seconds</MaxAgeInSeconds>  
+            <ExposedHeaders>comma-seperated-list-of-response-headers</ExposedHeaders>  
+            <AllowedHeaders> comma-seperated-list-of-request-headers </AllowedHeaders>  
+        </CorsRule>  
+    </Cors>    
+    <DefaultServiceVersion>default-service-version-string</DefaultServiceVersion>
+    <DeleteRetentionPolicy>
+        <Enabled>true|false</Enabled>
+        <Days>number-of-days</Days>
+    </DeleteRetentionPolicy>   
+</StorageServiceProperties>  
 ```  
   
  Beginning with version 2013-08-15, you can call `Set Blob Service Properties` with one or more root elements specified in the request body. The root elements include:  
@@ -142,7 +194,10 @@ The `Set Blob Service Properties` operation sets properties for a storage accoun
   
 -   **Cors**  
   
--   **DefaultServiceVersion**  
+-   **DefaultServiceVersion**
+  
+-   **DeleteRetentionPolicy** – For version 2017-07-29 or newer.
+
   
  It is no longer necessary to specify every root element on the request. If you omit a root element, the existing settings for the service for that functionality are preserved. However, if you do specify a given root element, you must specify every child element for that element.  
   
@@ -169,7 +224,10 @@ The `Set Blob Service Properties` operation sets properties for a storage accoun
 |**ExposedHeaders**|Required if **CorsRule** element is present. A comma-separated list of response headers to expose to CORS clients. Limited to 64 defined headers and two prefixed headers. Each header can be up to 256 characters.|  
 |**MaxAgeInSeconds**|Required if **CorsRule** element is present. The number of seconds that the client/browser should cache a preflight response.|  
 |**AllowedHeaders**|Required if **CorsRule** element exists. A comma-separated list of headers allowed to be part of the cross-origin request. Limited to 64 defined headers and 2 prefixed headers. Each header can be up to 256 characters.|  
-|**AllowedMethods**|Required if **CorsRule** element exists. A comma-separated list of HTTP methods that are allowed to be executed by the origin. For Azure Storage, permitted methods are DELETE, GET, HEAD, MERGE, POST, OPTIONS or PUT.|  
+|**AllowedMethods**|Required if **CorsRule** element exists. A comma-separated list of HTTP methods that are allowed to be executed by the origin. For Azure Storage, permitted methods are DELETE, GET, HEAD, MERGE, POST, OPTIONS or PUT.|
+|**DeleteRetentionPolicy**|Optional. To set **DeleteRetentionPolicy**, you must call `Set Blob Service Properties` using version 2017-07-29  or later. Groups the Soft Delete settings. Applies only to the Blob service.|
+|**DeleteRetentionPolicy/Enabled**|Required. Indicates whether deleted blob or snapshot is retained or immediately removed by delete operation.| 
+|**DeleteRetentionPolicy/Days**|Required only if **DeleteRetentionPolicy/Enabled** is true. Indicates the number of days that deleted blob be retained. All data older than this value will be permanently deleted. The minimum value you can specify is `1`; the largest value is `365`.|
   
 ## Response  
  The response includes an HTTP status code and a set of response headers.  
@@ -230,10 +288,9 @@ PUT https://myaccount.blob.core.windows.net/?restype=service&comp=properties HTT
  The request is sent with the following headers:  
   
 ```  
-x-ms-version: 2013-08-15  
-x-ms-date: Mon, 21 Oct 2013 04:28:19 GMT  
-Authorization: SharedKey  
-myaccount:Z1lTLDwtq5o1UYQluucdsXk6/iB7YxEu0m6VofAEkUE=  
+x-ms-version: 2017-07-29
+x-ms-date: Tue, 12 Sep 2017 23:38:35 GMT 
+Authorization: SharedKey myaccount:Z1lTLDwtq5o1UYQluucdsXk6/iB7YxEu0m6VofAEkUE=  
 Host: myaccount.blob.core.windows.net  
 ```  
   
@@ -278,21 +335,24 @@ Host: myaccount.blob.core.windows.net
             <ExposedHeaders>x-ms-meta-data*,x-ms-meta-customheader</ExposedHeaders>  
             <AllowedHeaders>x-ms-meta-target*,x-ms-meta-customheader</AllowedHeaders>  
         </CorsRule>  
-    </Cors>  
-    <DefaultServiceVersion>2013-08-15</DefaultServiceVersion>  
+    </Cors>
+    <DeleteRetentionPolicy>
+        <Enabled>true</Enabled>
+        <Days>5</Days>
+    </DeleteRetentionPolicy>  
+    <DefaultServiceVersion>2017-07-29</DefaultServiceVersion>  
 </StorageServiceProperties>  
 ```  
   
  After the request has been sent, the following response is returned:  
   
-```  
-HTTP/1.1 202 Accepted  
-Connection: Keep-Alive  
-Transfer-Encoding: chunked  
-Date: Mon, 21 Oct 2013 04:28:21 GMT  
-Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0  
-x-ms-request-id: cb939a31-0cc6-49bb-9fe5-3327691f2a30  
-x-ms-version: 2013-08-15  
+```
+HTTP/1.1 202 Accepted
+Transfer-Encoding: chunked
+Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
+x-ms-request-id: cb939a31-0cc6-49bb-9fe5-3327691f2a30 
+x-ms-version: 2017-07-29
+Date: Tue, 12 Sep 2017 23:38:35 GMT
   
 ```  
   

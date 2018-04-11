@@ -1,20 +1,22 @@
 ---
 title: "Simple query syntax in Azure Search"
-ms.custom: ""
-ms.date: "2016-11-09"
-ms.prod: "azure"
-ms.reviewer: ""
+description: "Reference for the simple query syntax used in Azure Search"
+services: "search"
+author: "brjohnstmsft"
+manager: "jhubbard"
 ms.service: "search"
-ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
+ms.date: "10/04/2017"
+ms.author: "brjohnst"
+ms.custom: ""
+ms.prod: "azure"
+ms.reviewer: ""
+ms.suite: ""
 applies_to:
   - "Azure"
 ms.assetid: 1d656013-e580-4762-9ea1-8aa5d0e96ac2
 caps.latest.revision: 22
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
-manager: "jhubbard"
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -31,7 +33,7 @@ translation.priority.mt:
   Azure Search implements two Lucene-based query languages: [Simple Query Parser](https://lucene.apache.org/core/4_7_0/queryparser/org/apache/lucene/queryparser/simple/SimpleQueryParser.html) and the [Lucene Query Parser](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html). In Azure Search, the simple query syntax excludes the fuzzy/slop options.  
 
 > [!NOTE]  
->  Azure Search provides the [Lucene Query Syntax](lucene-query-syntax-in-azure-search.md) for cases that require fine-grained control.  
+>  Azure Search provides the [Lucene Query Syntax](lucene-query-syntax-in-azure-search.md) for cases that require fine-grained control. To learn more about how queries are processed, see [How full text search works in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture).
 
 ## How the simple parser works with your application  
  As noted, any text with one or more terms is considered a valid starting point for query execution. Azure Search will match documents containing any or all of the terms, including any variations found during analysis of the text.  
@@ -59,7 +61,7 @@ The OR operator is a vertical bar or pipe character. For example, `wifi | luxury
 The NOT operator is a minus sign. For example, `wifi –luxury` will search for documents that have the `wifi` term and/or do not have `luxury` (and/or is controlled by `searchMode`).
 
 > [!NOTE]  
->  The `searchMode` option controls whether a term with the NOT operator is ANDed or ORed with the other terms in the query in the absence of a `+` or `|` operator. Recall that `searchMode` can be set to either `any` (default) or `all`. If you use `any`, it will increase the recall of queries by including more results, and by default `-*` will be interpreted as "OR NOT". For example, `wifi –luxury` will match documents that either contain the term `wifi` or those that do not contain the term `luxury`. If you use `all`, it will increase the precision of queries by including fewer results, and by default - will be interpreted as "AND NOT". For example, `wifi –luxury` will match documents that contain the term `wifi` and do not contain the term "luxury". This is arguably a more intuitive behavior for the `-` operator. Therefore, you should consider using `searchMode=all` instead of `searchMode=any` if You want to optimize searches for precision instead of recall, *and* Your users frequently use the `-` operator in searches.
+>  The `searchMode` option controls whether a term with the NOT operator is ANDed or ORed with the other terms in the query in the absence of a `+` or `|` operator. Recall that `searchMode` can be set to either `any` (default) or `all`. If you use `any`, it will increase the recall of queries by including more results, and by default `-` will be interpreted as "OR NOT". For example, `wifi -luxury` will match documents that either contain the term `wifi` or those that do not contain the term `luxury`. If you use `all`, it will increase the precision of queries by including fewer results, and by default - will be interpreted as "AND NOT". For example, `wifi -luxury` will match documents that contain the term `wifi` and do not contain the term "luxury". This is arguably a more intuitive behavior for the `-` operator. Therefore, you should consider using `searchMode=all` instead of `searchMode=any` if You want to optimize searches for precision instead of recall, *and* Your users frequently use the `-` operator in searches.
 
 #### Suffix operator `*`
 
@@ -83,5 +85,5 @@ The precedence operator encloses the string in parentheses. For example, `motel+
 > [!NOTE]  
 >  Although escaping keeps tokens together, text analysis may split them up, depending on the analysis mode. See [Language support &#40;Azure Search Service REST API&#41;](language-support.md) for details.  
 
-## See Also  
+## See also  
  [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md)  

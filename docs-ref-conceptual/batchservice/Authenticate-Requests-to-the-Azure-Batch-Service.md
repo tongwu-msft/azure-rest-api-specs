@@ -173,7 +173,7 @@ Signature=Base64(HMAC-SHA256(UTF8(StringToSign)))
 Azure AD is Microsoft’s multi-tenant cloud based directory and identity management service. The Batch service supports authentication with Azure AD.
 
 > [!NOTE] 
-> Authentication with Azure AD is required only if your Batch account is set up to allocate pools in a user subscription. The pool allocation option is available when you create a new Batch account. If your account is set up to allocate pools in a subscription managed by Batch, then using Azure AD for authentication is optional. For more information, see [Batch – VNET and Custom Image Support for Virtual Machine Pools](https://blogs.technet.microsoft.com/windowshpc/2017/03/17/azure-batch-vnet-and-custom-image-support-for-virtual-machine-pools/).
+> Authentication with Azure AD is required only if your Batch account is set up to allocate pools in a user subscription. The pool allocation option is available when you create a new Batch account. If your account is set up to allocate pools in a subscription managed by Batch, then using Azure AD for authentication is optional. For more information, see [Batch – VNet and Custom Image Support for Virtual Machine Pools](https://blogs.technet.microsoft.com/windowshpc/2017/03/17/azure-batch-vnet-and-custom-image-support-for-virtual-machine-pools/).
 
 For general information on authenticating a request with Azure AD, see [Azure REST API Reference](https://docs.microsoft.com/rest/api/). To use Azure AD with the Batch service, you'll need the following endpoints.
 

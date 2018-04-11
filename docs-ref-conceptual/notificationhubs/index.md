@@ -6,6 +6,7 @@ ms.service: NotificationHubs
 author: davidmu1
 ms.author: davidmu
 ms.manager: timt
+service_description: To be added
 ---
 
 # Notification Hubs
@@ -16,5 +17,5 @@ Provides operations to manage and create notification hubs and their associated 
 
 | Operation Group | Description |
 |-----------------|-------------|
-| Namespaces | Use these operations to create and manage namespaces. |
-| Notification Hubs | Use these operations to create and manage notification hubs. |
+| [Namespaces](xref:management.azure.com.notificationhubs.namespaces) | Use these operations to create and manage namespaces. |
+| [Notification Hubs](xref:management.azure.com.notificationhubs.notificationhubs) | Use these operations to create and manage notification hubs. |

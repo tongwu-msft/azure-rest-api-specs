@@ -1,0 +1,349 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cdn.endpoints.create
+name: Create
+service: CDN
+groupName: Endpoints
+apiVersion: 2016-10-02
+summary: Creates a new CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}?api-version=2016-10-02
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: profileName
+  in: path
+  isRequired: true
+  description: Name of the CDN profile which is unique within the resource group.
+  types:
+  - uid: string
+- name: endpointName
+  in: path
+  isRequired: true
+  description: Name of the endpoint under the profile which is unique globally.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2016-10-02.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: Endpoint
+- name: 201 Created
+  description: Created. The request has been fulfilled and a new endpoint has been created.
+  types:
+  - uid: Endpoint
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+  types:
+  - uid: Endpoint
+- name: Other Status Codes
+  description: CDN error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: properties.origins
+    in: body
+    isRequired: true
+    description: Origin to be added when creating a CDN endpoint.
+    types:
+    - uid: DeepCreatedOrigin
+      isArray: true
+  - name: location
+    in: body
+    isRequired: true
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.originHostHeader
+    in: body
+    description: The host header CDN sends along with content requests to origin. The default value is the host name of the origin.
+    types:
+    - uid: string
+  - name: properties.originPath
+    in: body
+    description: The path used when CDN sends request to origin.
+    types:
+    - uid: string
+  - name: properties.contentTypesToCompress
+    in: body
+    description: List of content types on which compression applies. The value should be a valid MIME type.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.isCompressionEnabled
+    in: body
+    description: Indicates whether content compression is enabled on CDN. Default value is false. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on CDN when requested content is smaller than 1 byte or larger than 1 MB.
+    types:
+    - uid: boolean
+  - name: properties.isHttpAllowed
+    in: body
+    description: Indicates whether HTTP traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed.
+    types:
+    - uid: boolean
+  - name: properties.isHttpsAllowed
+    in: body
+    description: Indicates whether HTTPS traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed.
+    types:
+    - uid: boolean
+  - name: properties.queryStringCachingBehavior
+    in: body
+    description: Defines the query string caching behavior
+    types:
+    - uid: QueryStringCachingBehavior
+  - name: properties.optimizationType
+    in: body
+    description: Customer can specify what scenario they want this CDN endpoint to optimize, e.g. Download, Media services. With this information we can apply scenario driven optimization.
+    types:
+    - uid: OptimizationType
+  - name: properties.geoFilters
+    in: body
+    description: Rules defining user geo access within a CDN endpoint.
+    types:
+    - uid: GeoFilter
+      isArray: true
+requestHeader: []
+definitions:
+- name: DeepCreatedOrigin
+  description: Origin to be added when creating a CDN endpoint.
+  kind: object
+  properties:
+  - name: name
+    description: Origin name
+    types:
+    - uid: string
+  - name: properties.hostName
+    description: The address of the origin. It can be a domain names, IPv4 address, or IPv6 address.
+    types:
+    - uid: string
+  - name: properties.httpPort
+    description: The value of the HTTP port. Must be between 1 and 65535
+    types:
+    - uid: integer
+  - name: properties.httpsPort
+    description: The value of the HTTPS port. Must be between 1 and 65535
+    types:
+    - uid: integer
+- name: GeoFilter
+  description: Rules defining user geo access within a CDN endpoint.
+  kind: object
+  properties:
+  - name: relativePath
+    description: Relative path applicable to geo filter. (e.g. '/mypictures', '/mypicture/kitty.jpg', and etc.)
+    types:
+    - uid: string
+  - name: action
+    description: Action of the geo filter, i.e. allow or block access.
+    types:
+    - uid: GeoFilterActions
+  - name: countryCodes
+    description: Two letter country codes defining user country access in a geo filter, e.g. AU, MX, US.
+    types:
+    - uid: string
+      isArray: true
+- name: Endpoint
+  description: CDN endpoint is the entity within a CDN profile containing configuration information such as origin, protocol, content caching and delivery behavior. The CDN endpoint uses the URL format <endpointname>.azureedge.net.
+  kind: object
+  properties:
+  - name: properties.hostName
+    isReadyOnly: true
+    description: The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. consoto.azureedge.net
+    types:
+    - uid: string
+  - name: properties.origins
+    description: Origin to be added when creating a CDN endpoint.
+    types:
+    - uid: DeepCreatedOrigin
+      isArray: true
+  - name: properties.resourceState
+    isReadyOnly: true
+    description: Resource status of the endpoint.
+    types:
+    - uid: EndpointResourceState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning status of the endpoint.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.originHostHeader
+    description: The host header CDN sends along with content requests to origin. The default value is the host name of the origin.
+    types:
+    - uid: string
+  - name: properties.originPath
+    description: The path used when CDN sends request to origin.
+    types:
+    - uid: string
+  - name: properties.contentTypesToCompress
+    description: List of content types on which compression applies. The value should be a valid MIME type.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.isCompressionEnabled
+    description: Indicates whether content compression is enabled on CDN. Default value is false. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on CDN when requested content is smaller than 1 byte or larger than 1 MB.
+    types:
+    - uid: boolean
+  - name: properties.isHttpAllowed
+    description: Indicates whether HTTP traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed.
+    types:
+    - uid: boolean
+  - name: properties.isHttpsAllowed
+    description: Indicates whether HTTPS traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed.
+    types:
+    - uid: boolean
+  - name: properties.queryStringCachingBehavior
+    description: Defines the query string caching behavior
+    types:
+    - uid: QueryStringCachingBehavior
+  - name: properties.optimizationType
+    description: Customer can specify what scenario they want this CDN endpoint to optimize, e.g. Download, Media services. With this information we can apply scenario driven optimization.
+    types:
+    - uid: OptimizationType
+  - name: properties.geoFilters
+    description: Rules defining user geo access within a CDN endpoint.
+    types:
+    - uid: GeoFilter
+      isArray: true
+- name: ErrorResponse
+  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: GeoFilterActions
+  description: Action of the geo filter, i.e. allow or block access.
+  kind: enum
+  properties:
+  - name: Block
+    types:
+    - uid: string
+  - name: Allow
+    types:
+    - uid: string
+- name: EndpointResourceState
+  description: Resource status of the endpoint.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Starting
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
+  - name: Stopping
+    types:
+    - uid: string
+- name: QueryStringCachingBehavior
+  description: Defines the query string caching behavior.
+  kind: enum
+  properties:
+  - name: IgnoreQueryString
+    types:
+    - uid: string
+  - name: BypassCaching
+    types:
+    - uid: string
+  - name: UseQueryString
+    types:
+    - uid: string
+  - name: NotSet
+    types:
+    - uid: string
+- name: OptimizationType
+  description: Customer can specify what scenario they want this CDN endpoint to optimize, e.g. Download, Media services. With this information we can apply scenario driven optimization.
+  kind: enum
+  properties:
+  - name: GeneralWebDelivery
+    types:
+    - uid: string
+  - name: GeneralMediaStreaming
+    types:
+    - uid: string
+  - name: VideoOnDemandMediaStreaming
+    types:
+    - uid: string
+  - name: LargeFileDownload
+    types:
+    - uid: string
+  - name: DynamicSiteAcceleration
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

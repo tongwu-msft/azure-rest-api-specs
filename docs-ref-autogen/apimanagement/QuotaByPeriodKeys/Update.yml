@@ -1,0 +1,136 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.quotabyperiodkeys.update
+name: Update
+service: API Management
+groupName: Quota By Period Keys
+apiVersion: 2018-01-01
+summary: Updates an existing quota counter value in the specified service instance.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}/periods/{quotaPeriodKey}?api-version=2018-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: quotaCounterKey
+  in: path
+  isRequired: true
+  description: Quota counter key identifier.This is the result of expression defined in counter-key attribute of the quota-by-key policy.For Example, if you specify counter-key="boo" in the policy, then it’s accessible by "boo" counter key. But if it’s defined as counter-key="@("b"+"a")" then it will be accessible by "ba" key
+  types:
+  - uid: string
+- name: quotaPeriodKey
+  in: path
+  isRequired: true
+  description: Quota period key identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: The quota counter value was successfully updated.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: callsCount
+    in: body
+    description: Number of times Counter was called.
+    types:
+    - uid: integer
+  - name: kbTransferred
+    in: body
+    description: Data Transferred in KiloBytes.
+    types:
+    - uid: number
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Error Field contract.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: QuotaCounterValueContractProperties
+  description: Quota counter value details.
+  kind: object
+  properties:
+  - name: callsCount
+    description: Number of times Counter was called.
+    types:
+    - uid: integer
+  - name: kbTransferred
+    description: Data Transferred in KiloBytes.
+    types:
+    - uid: number
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementUpdateQuotaCounterKeyByQuotaPeriod
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/quotas/ba/periods/0_P3Y6M4DT12H30M5S?api-version=2018-01-01
+    body: >-
+      {
+        "callsCount": 0,
+        "kbTransferred": 0
+      }
+  responses:
+  - statusCode: "204"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

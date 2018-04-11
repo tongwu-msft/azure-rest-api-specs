@@ -1,0 +1,149 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.integrationruntimes.regenerateauthkey
+name: Regenerate Auth Key
+service: Data Factory
+groupName: Integration Runtimes
+apiVersion: 2017-09-01-preview
+summary: Regenerates the authentication key for an integration runtime.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/regenerateAuthKey?api-version=2017-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: integrationRuntimeName
+  in: path
+  isRequired: true
+  description: The integration runtime name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: IntegrationRuntimeAuthKeys
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: keyName
+    in: body
+    description: The name of the authentication key to regenerate.
+    types:
+    - uid: IntegrationRuntimeAuthKeyName
+requestHeader: []
+definitions:
+- name: IntegrationRuntimeAuthKeys
+  description: The integration runtime authentication keys.
+  kind: object
+  properties:
+  - name: authKey1
+    description: The primary integration runtime authentication key.
+    types:
+    - uid: string
+  - name: authKey2
+    description: The secondary integration runtime authentication key.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: details
+    description: The object that defines the structure of an Azure Data Factory response.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+- name: IntegrationRuntimeRegenerateKeyParameters
+  description: Parameters to regenerate the authentication key.
+  kind: object
+  properties:
+  - name: keyName
+    description: The name of the authentication key to regenerate.
+    types:
+    - uid: IntegrationRuntimeAuthKeyName
+- name: IntegrationRuntimeAuthKeyName
+  description: The name of the authentication key to regenerate.
+  kind: enum
+  properties:
+  - name: authKey1
+    types:
+    - uid: string
+  - name: authKey2
+    types:
+    - uid: string
+examples:
+- name: IntegrationRuntimes_RegenerateAuthKey
+  request:
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/regenerateAuthKey?api-version=2017-09-01-preview
+    body: >-
+      {
+        "keyName": "authKey2"
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2017 17:55:52 GMT
+    - name: x-ms-request-id
+      value: 706b5711-16e1-455b-808a-30cc120a061c
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1188"
+    - name: x-ms-correlation-request-id
+      value: 46ee8708-affc-403d-ab9f-53824b169fdf
+    body: >-
+      {
+        "authKey2": "IR@1baad24d-93e5-4074-8eeb-cd93fbb83b42@exampleFactoryName@eu@IYLMSMWzzjQswOJHrTJNZc2SGwWla/SQ3QraZs3wqbw="
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

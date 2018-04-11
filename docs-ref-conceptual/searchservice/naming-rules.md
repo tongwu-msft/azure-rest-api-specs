@@ -44,7 +44,7 @@ translation.priority.mt:
 |Data source|1 - 128|Lower|Letters, numbers, dashes ("-")|First and last character must be a letter or number.|docdbds-onlinecatalog-20150228|  
 |Indexer|1 -128|Lower|Letters, numbers, dashes ("-")|First and last character must be a letter or number.|docbindxr-onlinecatalog-20150228|  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md)   
  [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md)   

@@ -1,60 +1,47 @@
 ---
 ms.assetid: 45dc6cfc-8ce9-4728-b2a2-66c9cbda3a3d
-title: Key operations | Microsoft Docs
+title: Azure Key Vault key operations | Microsoft Docs
 ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
+ms.date: 06/14/2017
 ---
-# Key operations
+# Azure Key Vault key operations
 
 The Azure Key Vault REST API supports the following operations for key objects.
 
-- [Create a key](../../docs-ref-autogen/keyvault/CreateKey.json)
+- [Create a key](xref:keyvault.createkey)
+- [Update a key](xref:keyvault.updatekey)
+- [Delete a key](xref:keyvault.deletekey)
+- [Get information about a key](xref:keyvault.getkey)
+- [Get the keys in a vault](xref:keyvault.getkeys)
+- [Get the versions of a key](xref:keyvault.getkeyversions)
+- [Import a key into a vault](xref:keyvault.importkey)
+- [Backup a key](xref:keyvault.backupkey)
+- [Restore a key](xref:keyvault.restorekey)
 
+## Cryptographic operations
 
-- [Update a key](../../docs-ref-autogen/keyvault/UpdateKey.json)
+- [Encrypt with a key](xref:keyvault.encrypt)
+- [Decrypt with a key](xref:keyvault.decrypt)
+- [Sign with a key](xref:keyvault.sign)
+- [Verify with a key](xref:keyvault.verify)
+- [Wrap a key](xref:keyvault.wrapkey)
+- [Unwrap a key](xref:keyvault.unwrapkey)
 
+## Soft-delete operations
 
-- [Delete a key](../../docs-ref-autogen/keyvault/DeleteKey.json)
+The soft-delete feature suppports these operations for deleted keys
 
-- [Get information about a key](../../docs-ref-autogen/keyvault/GetKey.json)
+- [Get deleted key](xref:keyvault.getdeletedkey)
+- [Get deleted keys](xref:keyvault.getdeletedkeys)
+- [Purge deleted key](xref:keyvault.purgedeletedkey)
+- [Recover deleted key](xref:keyvault.recoverdeletedkey)
 
-
-- [Get the keys in a vault](../../docs-ref-autogen/keyvault/GetKeys.json)
-
-
-- [Get the versions of a key](../../docs-ref-autogen/keyvault/GetKeyVersions.json)
-
-
-- [Import a key into a vault](../../docs-ref-autogen/keyvault/ImportKey.json)
-
-
-- [Backup a key](../../docs-ref-autogen/keyvault/BackupKey.json)
-
-
-- [Restore a key](../../docs-ref-autogen/keyvault/RestoreKey.json)
-
-
-- [Encrypt with a key](../../docs-ref-autogen/keyvault/encrypt.json)
-
-
-- [Decrypt with a key](../../docs-ref-autogen/keyvault/decrypt.json)
-
-
-- [Sign with a key](../../docs-ref-autogen/keyvault/sign.json)
-
-
-- [Verify with a key](../../docs-ref-autogen/keyvault/verify.json)
-
-
-- [Wrap a key](../../docs-ref-autogen/keyvault/wrapKey.json)
-
-
-- [Unwrap a key](../../docs-ref-autogen/keyvault/unwrapKey.json)
-
-
+For more information on Key Vault's soft-delete feature, see [Azure Key Vault soft-delete feature overview](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete).
 
 ## See Also
+
 - [Common parameters and headers](common-parameters-and-headers.md)
 - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)

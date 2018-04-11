@@ -50,7 +50,7 @@ api-key: [admin key]
  |*Content-Type:*|Required. Set this to `application/json`|  
  |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Update Synonym Map** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
-  You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+  You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body
  The request body syntax is the same as for [Create Synonym Map &#40;Azure Search Service REST API&#41;](create-synonym-map.md).  
@@ -60,7 +60,7 @@ api-key: [admin key]
 
  By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the synonym map that was updated or created. In this case, the success status code will be "201 Created" if a new synonym map was created and "200 OK" if an existing synonym map was updated.    
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Synonym map operations &#40;Azure Search Service REST API&#41;](synonym-map-operations.md)   

@@ -1,7 +1,7 @@
 ---
 title: "Authenticate a client app"
 ms.custom: na
-ms.date: 2016-07-21
+ms.date: 2017-11-09
 ms.prod: azure
 ms.reviewer: na
 ms.service: data-catalog
@@ -42,20 +42,20 @@ Data Catalog REST API calls are made on behalf of an authenticated user by passi
 To authenticate a Data Catalog client app and perform a REST web request, you need to:  
   
 1. **Register your client app** - To register a Data Catalog client app, see [Register a client app](Register-a-client-app.md). When you register a client app in **Azure Active Directory**, you give your app access to the Data Catalog APIs.  
-2. **Assign the client id for your app** - To get the client id for your app, see [How to get a client app id](Register-a-client-app.md#clientID). The Client ID is used by the application to identify themselves to the users that they are requesting permissions from.   
-    - In your client app code, assign the **clientID** variable to the client id of your Azure application.  
-3. **Assign the redirect Uri** - For a client app, a redirect uri gives AAD more details about the specific application it will authenticate. A uniform resource identifier (URI) is a value to identify a name of a resource.  
+2. **Assign the client ID for your app** - To get the client ID for your app, see [How to get a client app ID](Register-a-client-app.md#clientID). The client ID is used by the application to identify themselves to the users that they are requesting permissions from.   
+    - In your client app code, assign the **clientID** variable to the clientID of your Azure application.  
+3. **Assign the redirect Uri** - For a client app, a redirect uri gives AAD more details about the specific application it authenticates. A uniform resource identifier (URI) is a value to identify a name of a resource.  
     - In your client app code, assign the **redirectUri** to https://login.live.com/oauth20_desktop.srf. Since a client app does not have an external service to redirect to, this URI is the standard placeholder for client apps.  
               
 4. **Assign the resource Uri for Data Catalog API** - The resource Uri identifies the Data Catalog API resource.  
-    - In your client app code, assign the **resourceUri** to "https://datacatalog.azure.com".  
+    - In your client app code, assign the **resourceUri** to `https://datacatalog.azure.com`.  
 5. **Assign the OAuth2 authority uri** - The authority Uri identifies the OAuth2 authority resource.  
-    - In your client app code, assign an authority Uri to "https://login.windows.net/common/oauth2/authorize".    
+    - In your client app code, assign an authority Uri to `https://login.windows.net/common/oauth2/authorize`.    
   
-To make a data request to the Data Catalog REST service, you need to supply an access token. In a .NET client app, you use the [Windows Azure Authentication Library (ADAL)](https://msdn.microsoft.com/library/azure/jj573266.aspx) to get an access token. Here’s the process. Below is an example **AccessToken()** method.  
+To make a data request to the Data Catalog REST service, you need to supply an access token. In a .NET client app, you use the [Windows Azure Authentication Library (ADAL)](https://msdn.microsoft.com/library/azure/jj573266.aspx) to get an access token. 
   
 >[!IMPORTANT] 
->To authenticate a client app, you must add a reference to **Microsoft.IdentityModel.Clients.ActiveDirectory**, which is included in the Windows Azure Authentication Library (ADAL). The sample code in this article works only with the version 2.19.208020213 of Microsoft.IdentityModel.Clients.ActiveDirectory.  Run the following command from NuGet Package Manager Console.
+>To authenticate a client app, you must add a reference to `Microsoft.IdentityModel.Clients.ActiveDirectory`, which is included in the Windows Azure Authentication Library (ADAL). The sample code in this article works only with the version `2.19.208020213` of `Microsoft.IdentityModel.Clients.ActiveDirectory`.  Run the following command from NuGet Package Manager Console.
 
    ```  
   Install-Package Microsoft.IdentityModel.Clients.ActiveDirectory Version 2.19.208020213 
@@ -78,7 +78,7 @@ To make a data request to the Data Catalog REST service, you need to supply an a
       AuthenticationResult token = authContext.AcquireToken(resourceUri, clientId, new Uri(redirectUri), PromptBehavior.RefreshSession);  
     ```  
   
-      You can get the token with **authResult.AccessToken** or **authResult.CreateAuthorizationHeader()**. CreateAuthorizationHeader returns a fully qualified **Bearer** header such as the following:  
+      You can get the token with **authResult.AccessToken** or **authResult.CreateAuthorizationHeader()**. CreateAuthorizationHeader returns a fully qualified **Bearer** header such as the following token:  
   
       ```  
       Bearer eyJ0eXAiOiJKV1QiLCJhbGciO...  
@@ -89,7 +89,7 @@ For more information about what **AuthenticationContext** does to get a token, s
 ### C# example - Get access token  
  
 >[!IMPORTANT] 
-> The sample code in this article works only with the version **2.19.208020213** of **Microsoft.IdentityModel.Clients.ActiveDirectory**.  Run the following command from NuGet Package Manager Console (Tools -> NuGet Package Manager -> Package Manager Console).
+> The sample code in this article works only with the version `2.19.208020213` of `Microsoft.IdentityModel.Clients.ActiveDirectory`.  Run the following command from NuGet Package Manager Console (Tools -> NuGet Package Manager -> Package Manager Console).
 
    ```  
   Install-Package Microsoft.IdentityModel.Clients.ActiveDirectory Version 2.19.208020213 
@@ -154,7 +154,7 @@ To learn more about Azure Active Directory (Azure AD) authorization flow, see [A
   
 ## Related topics  
 - [Azure AD Authentication Library for .NET](https://msdn.microsoft.com/library/azure/jj573266.aspx)  
-- [Active Directory Authentication Library (ADAL) v1 for .NET](http://www.cloudidentity.com/blog/2013/09/12/active-directory-authentication-library-adal-v1-for-net-general-availability/)  
+- [Active Directory Authentication Library (ADAL) version 1 for .NET](http://www.cloudidentity.com/blog/2013/09/12/active-directory-authentication-library-adal-v1-for-net-general-availability/)  
 - [OAuth 2.0 in Azure AD](https://msdn.microsoft.com/library/azure/dn645545.aspx)  
 - [Authorization Code Grant Flow](https://msdn.microsoft.com/library/azure/dn645542.aspx)  
 - [Authentication Scenarios for Azure AD](https://msdn.microsoft.com/library/azure/dn499820.aspx)  

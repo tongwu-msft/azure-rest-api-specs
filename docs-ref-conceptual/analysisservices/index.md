@@ -5,6 +5,7 @@ ms.service: analysis-services
 author: mmacy
 ms.author: marsma
 ms.manager: timlt
+service_description: To be added
 ---
 
 # Azure Analysis Services REST API
@@ -17,4 +18,4 @@ The Analysis Services REST API provides operations for working with the followin
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
-| [Servers](~/docs-ref-autogen/analysisservices/servers.json) | Provides operations for provisioning and managing Analysis Services servers. |
+| [Servers](xref:management.azure.com.analysisservices.servers) | Provides operations for provisioning and managing Analysis Services servers. |

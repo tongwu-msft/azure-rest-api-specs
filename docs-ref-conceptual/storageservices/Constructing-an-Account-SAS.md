@@ -126,7 +126,7 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Get Container Properties|Blob (b)|Container (c)|Read (r)|  
 |Get Container Metadata|Blob (b)|Container (c)|Read (r)|  
 |Set Container Metadata|Blob (b)|Container (c)|Write (w)|  
-|Lease Container|Blob (b)|Container (c)|Write (w)|  
+|Lease Container|Blob (b)|Container (c)|Write (w) or Delete (d)<Sup>1</Sup>|  
 |Delete Container|Blob (b)|Container (c)|Delete (d)|  
 |List Blobs|Blob (b)|Container (c)|List (l)|  
 |Put Blob (create new block blob)|Blob (b)|Object (o)|Create (c) or Write (w)|  
@@ -139,7 +139,7 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Get Blob Metadata|Blob (b)|Object (o)|Read (r)|  
 |Set Blob Metadata|Blob (b)|Object (o)|Write (w)|  
 |Delete Blob|Blob (b)|Object (o)|Delete (d)|  
-|Lease Blob|Blob (b)|Object (o)|Write (w)|  
+|Lease Blob|Blob (b)|Object (o)|Write (w) or Delete (d)<Sup>1</Sup>|  
 |Snapshot Blob|Blob (b)|Object (o)|Create (c)  or Write (w)|  
 |Copy Blob (destination is new blob)|Blob (b)|Object (o)|Create (c)  or Write (w)|  
 |Copy Blob (destination is an existing blob)|Blob (b)|Object (o)|Write (w)|  
@@ -153,6 +153,9 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Get Page Ranges|Blob (b)|Object (o)|Read (r)|  
 |Append Block|Blob (b)|Object (o)|Add (a) or Write (w)|  
 |Clear Page|Blob (b)|Object (o)|Write (w)|  
+  
+>  [!NOTE]
+>  1. The `Delete` permission allows breaking a lease on a blob or container with version 2017-07-29 and later.  
   
 ### Queue Service  
  The following table lists Queue service operations and indicates which signed resource type and signed permissions to specify to delegate access to those operations.  
@@ -182,7 +185,7 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Get Table Service Properties|Table (t)|Service (s)|Read (r)|  
 |Set Table Service Properties|Table (t)|Service (s)|Write (w)|  
 |Get Table Service Stats|Table (t)|Service (s)|Read (r)|  
-|Query Tables|Table (t)|Container (c)|List (l)|  
+|Query Tables|Table (t)|Service (s)|List (l)|  
 |Create Table|Table (t)|Container (c)|Create (c) or Write (w)|  
 |Delete  Table|Table (t)|Container (c)|Delete (d)|  
 |Query Entities|Table (t)|Object (o)|Read (r)|  
@@ -205,6 +208,7 @@ https://storagesample.blob.core.windows.net/sample-container?restype=container&c
 |Set File Service Properties|File (f)|Service (s)|Write (w)|  
 |Get Share Stats|File (f)|Container (c)|Read (r)|  
 |Create Share|File (f)|Container (c)|Create (c) or Write (w)|  
+|Snapshot Share|File (f)|Container (c)|Create (c) or Write (w)|  
 |Get Share Properties|File (f)|Container (c)|Read (r)|  
 |Set Share Properties|File (f)|Container (c)|Write (w)|  
 |Get Share Metadata|File (f)|Container (c)|Read (r)|  

@@ -5,13 +5,14 @@ ms.service: key-vault
 author: BrucePerlerMS
 ms.author: bruceper
 manager: mbaldwin
+ms.date: 04/28/2017
 ---
 # Monitor and manage certificate creation
 Applies To: Azure  
 
-The following scenarios demonstrate a range of options for creating, monitoring, and interacting with the certificate creation process with Key Vault.
+The following scenarios demonstrate a range of options for creating, monitoring, and interacting with the certificate creation process with Key Vault (KV).
 
-The scenarios listed here are:
+The scenarios / operations outlined in this article are:
 
 - Request a KV Certificate with a supported issuer
 - Get pending request - request status is "inProgress"
@@ -35,7 +36,7 @@ The following examples require an object named "mydigicert" to already be availa
 
 ### Request  
 
-```  
+```json
 {  
   "policy": {  
     "x509_props": {  
@@ -221,7 +222,7 @@ Note that deleting a pending object may or may not cancel the x509 certificate r
 
 ### Request  
 
-```  
+```json
 {  
   "policy": {  
     "x509_props": {  
@@ -260,8 +261,7 @@ StatusCode: 409, ReasonPhrase: 'Conflict'
 
 ### Request  
 
-```  
-{  
+```json
 {  
   "x5c": [  "MIICxTCCAbi………………………trimmed for brevitiy……………………………………………EPAQj8="  
   ]  
@@ -271,7 +271,7 @@ StatusCode: 409, ReasonPhrase: 'Conflict'
 
 ### Response  
 
-```  
+```json
 StatusCode: 403, ReasonPhrase: 'Forbidden'  
 {  
   "error":  
@@ -297,7 +297,7 @@ StatusCode: 403, ReasonPhrase: 'Forbidden'
 
  PATCH `“https://mykeyvault.vault.azure.net/certificates/mycert1/pending?api-version={api-version}"`  
 
-```  
+```json
 {  
   "cancellation_requested": true  
 }  
@@ -361,7 +361,7 @@ StatusCode: 200, ReasonPhrase: 'OK'
 
 ### Request  
 
-```  
+```json
 {  
   "policy": {  
     "x509_props": {  
@@ -401,8 +401,7 @@ Location: “https://mykeyvault.vault.azure.net/certificates/mycert1/pending?api
 
 ### Request  
 
-```  
-{  
+```json
 {  
   "x5c": [  "MIICxTCCAbi………………………trimmed for brevitiy……………………………………………EPAQj8="  
   ]  

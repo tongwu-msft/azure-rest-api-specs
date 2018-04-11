@@ -1,7 +1,7 @@
 ---
 title: "Create Indexer (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2017-02-23"
+ms.date: "2017-04-27"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -28,7 +28,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Indexer (Azure Search Service REST API)
-  You can create a new indexer within an Azure Search service using an HTTP POST request.  
+  You can create a new indexer within an Azure Search service using an HTTP POST request. For data-platform-specific guidance on creating indexers, start with [Indexers overview](https://docs.microsoft.com/azure/search/search-indexer-overview), which includes the complete list of [related articles](https://docs.microsoft.com/azure/search/search-indexer-overview#next-steps).
 
 ```  
 POST https://[service name].search.windows.net/indexers?api-version=[api-version]  
@@ -47,32 +47,32 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
 
  The **api-version** is required. The current version is `2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](http://azure.microsoft.com/ocumentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+ The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
 
 ## Request  
  The body of the request contains an indexer definition, which specifies the data source and the target index for indexing, as well as optional indexing schedule and parameters.  
 
  The syntax for structuring the request payload is as follows. A sample request is provided further on in this topic.  
 
-```  
-    {   
-        "name" : "Required for POST, optional for PUT. The name of the indexer",  
-        "description" : "Optional. Anything you want, or null",  
-        "dataSourceName" : "Required. The name of an existing data source",  
-        "targetIndexName" : "Required. The name of an existing index",  
-        "schedule" : { Optional. See Indexing Schedule below. },  
-        "parameters" : { Optional. See Indexing Parameters below. },  
-        "fieldMappings" : { Optional. See Field Mappings below. },
-        "disabled" : Optional boolean value indicating whether the indexer is disabled. False by default.
-    }  
-```  
+```
+{   
+    "name" : "Required for POST, optional for PUT. The name of the indexer",  
+    "description" : "Optional. Anything you want, or null",  
+    "dataSourceName" : "Required. The name of an existing data source",  
+    "targetIndexName" : "Required. The name of an existing index",  
+    "schedule" : { Optional. See Indexing Schedule below. },  
+    "parameters" : { Optional. See Indexing Parameters below. },  
+    "fieldMappings" : { Optional. See Field Mappings below. },
+    "disabled" : Optional boolean value indicating whether the indexer is disabled. False by default.
+}  
+```
 
 ### Indexer schedule  
  An indexer can optionally specify a schedule. If a schedule is present, the indexer will run periodically as per schedule. The scheduler is built-in; you cannot use an external scheduler. **Schedule** has the following attributes:  
 
 -   **interval**: Required. A duration value that specifies an interval or period for indexer runs. The smallest allowed interval is 5 minutes; the longest is one day. It must be formatted as an XSD "dayTimeDuration" value (a restricted subset of an [ISO 8601 duration](http://www.w3.org/TR/xmlschema11-2/#dayTimeDuration) value). The pattern for this is: `"P[nD][T[nH][nM]]".` Examples:  `PT15M` for every 15 minutes, `PT2H` for every 2 hours.  
 
--   **startTime**: Required. A UTC datetime when the indexer should start running.  
+-   **startTime**: Optional. A UTC datetime when the indexer should start running.  
 
 ### Indexer parameters  
  An indexer can optionally specify several parameters that affect its behavior. All of the parameters are optional.  
@@ -81,20 +81,24 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
 
 -   **maxFailedItemsPerBatch**: The number of items that can fail to be indexed in each batch before an indexer run is considered a failure. Default is 0.  
 
--   **batchSize:** Specifies the number of items that are read from the data source and indexed as a single batch in order to improve performance. The default depends on the data source type: it is 1000 for Azure SQL and DocumentDB, and 10 for Azure Blob Storage.
+-   **batchSize:** Specifies the number of items that are read from the data source and indexed as a single batch in order to improve performance. The default depends on the data source type: it is 1000 for Azure SQL and Azure Cosmos DB, and 10 for Azure Blob Storage.
 
 **Field Mappings**
 
 You can use field mappings to map a field name in the data source to a different field name in the target index. For example, consider a source table with a field `_id`. Azure Search doesn't allow a field name starting with an underscore, so the field must be renamed. This can be done using the `fieldMappings` property of the indexer as follows:
 
-	"fieldMappings" : [ { "sourceFieldName" : "_id", "targetFieldName" : "id" } ]
+```
+"fieldMappings" : [ { "sourceFieldName" : "_id", "targetFieldName" : "id" } ]
+```
 
 You can specify multiple field mappings:
 
-	"fieldMappings" : [
-		{ "sourceFieldName" : "_id", "targetFieldName" : "id" },
-        { "sourceFieldName" : "_timestamp", "targetFieldName" : "timestamp" },
-	 ]
+```
+"fieldMappings" : [
+    { "sourceFieldName" : "_id", "targetFieldName" : "id" },
+    { "sourceFieldName" : "_timestamp", "targetFieldName" : "timestamp" }
+]
+```
 
 Both source and target field names are case-insensitive.
 
@@ -110,21 +114,21 @@ To learn more about when and how to use field mapping functions, see [Field Mapp
 ### Request body examples  
  The following example creates an indexer that copies data from the table referenced by the `ordersds` data source to the `orders` index on a schedule that starts on Jan 1, 2015 UTC and runs hourly. Each indexer invocation will be successful if no more than 5 items fail to be indexed in each batch, and no more than 10 items fail to be indexed in total.  
 
-```  
-    {  
-        "name" : "myindexer",  
-        "description" : "a cool indexer",  
-        "dataSourceName" : "ordersds",  
-        "targetIndexName" : "orders",  
-        "schedule" : { "interval" : "PT1H", "startTime" : "2015-01-01T00:00:00Z" },  
-        "parameters" : { "maxFailedItems" : 10, "maxFailedItemsPerBatch" : 5 }  
-    }  
-```  
+```
+{
+    "name" : "myindexer",  
+    "description" : "a cool indexer",  
+    "dataSourceName" : "ordersds",  
+    "targetIndexName" : "orders",  
+    "schedule" : { "interval" : "PT1H", "startTime" : "2015-01-01T00:00:00Z" },  
+    "parameters" : { "maxFailedItems" : 10, "maxFailedItemsPerBatch" : 5 }  
+}
+```
 
 ## Response  
  201 Created for a successful request.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   

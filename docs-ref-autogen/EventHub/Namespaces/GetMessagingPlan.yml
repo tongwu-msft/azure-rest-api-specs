@@ -1,0 +1,140 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.eventhubs.namespaces.getmessagingplan
+name: Get Messaging Plan
+service: Event Hubs
+groupName: Namespaces
+apiVersion: 2017-04-01
+summary: Gets messaging plan for specified namespace.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/messagingplan?api-version=2017-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group within the azure subscription.
+  types:
+  - uid: string
+- name: namespaceName
+  in: path
+  isRequired: true
+  description: The Namespace name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Messaging Plan successfully returned.
+  types:
+  - uid: MessagingPlan
+- name: Other Status Codes
+  description: Eventhub error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: MessagingPlan
+  description: Messaging Plan for the namespace
+  kind: object
+  properties:
+  - name: properties.sku
+    isReadyOnly: true
+    description: Sku type
+    types:
+    - uid: integer
+  - name: properties.selectedEventHubUnit
+    isReadyOnly: true
+    description: Selected event hub unit
+    types:
+    - uid: integer
+  - name: properties.updatedAt
+    isReadyOnly: true
+    description: The exact time the messaging plan was updated.
+    types:
+    - uid: string
+  - name: properties.revision
+    isReadyOnly: true
+    description: revision number
+    types:
+    - uid: integer
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error reponse indicates EventHub service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: GetNamespaceMessagingPlan
+  request:
+    uri: GET https://management.azure.com/subscriptions/subscriptionid/resourceGroups/ResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-5849/messagingplan?api-version=2017-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subscriptionid/resourceGroups/ResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-5849/messagingplan",
+        "name": "2",
+        "type": "Microsoft.EventHub/MessagingSKUPlan",
+        "location": null,
+        "tags": null,
+        "properties": {
+          "sku": 2,
+          "selectedEventHubUnit": 1,
+          "updatedAt": "2018-04-10T17:55:54.4048325Z",
+          "revision": 1
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

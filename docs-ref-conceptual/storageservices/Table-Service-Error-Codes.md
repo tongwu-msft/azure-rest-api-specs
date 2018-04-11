@@ -1,7 +1,7 @@
 ---
 title: "Table Service Error Codes"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 2017-04-27
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -10,8 +10,8 @@ ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: a34b70ea-3b69-406e-9b1e-660358d997a3
 caps.latest.revision: 27
-author: tamram
-manager: carolz
+author: robinsh
+manager: timlt
 translation.priority.mt: 
   - de-de
   - es-es

@@ -60,7 +60,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 |*Content-Type:*|Required. Set this to `application/json`|  
 |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Create Data Source** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the [Azure portal](https://portal.azure.com). See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the [Azure portal](https://portal.azure.com). See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body Syntax  
  The body of the request contains a data source definition, which includes type of the data source, credentials to read the data, as well as an optional data change detection and data deletion detection policies that are used to efficiently identify changed or deleted data in the data source when used with a periodically scheduled indexer  
@@ -86,9 +86,9 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 |--------------|-----------------|  
 |`name`|Required. The name of the data source. A data source name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
 |`description`|An optional description.|  
-|`type`|Required. Must be one of the supported data source types:<br /><br /> 1. `azuresql` for Azure SQL Database<br />2. `documentdb` for DocumentDB<br />3. `azureblob` - Azure Blob Storage <br />4. `azuretable` - Azure Table Storage|
-|`credentials`|The required **connectionString** property specifies the connection string for the data source. The format of the connection string depends on the data source type:<br /><br /> -   For Azure SQL Database, this is the usual SQL Server connection string. If you're using Azure portal to retrieve the connection string, use the `ADO.NET connection string` option.<br />-   For DocumentDB, the connection string must be in the following format: `"AccountEndpoint=https://[your account name].documents.azure.com;AccountKey=[your account key];Database=[your database id]"`. All of the values are required. You can find them in the [Azure portal](https://portal.azure.com).|  
-|`container`|Required. Specifies the data to index using the `name` and `query` properties: <br /><br />`name`, required:<br />- Azure SQL: specifies the table or view. You can use schema-qualified names, such as `[dbo].[mytable]`.<br />- DocumentDB: specifies the collection. <br />- Azure Blob Storage: specifies the storage container.<br />- Azure Table Storage: specifies the name of the table. <br /><br />`query`, optional:<br />- DocumentDB: allows you to specify a query that flattens an arbitrary JSON document layout into a flat schema that Azure Search can index.<br />- Azure Blob Storage: allows you to specify a virtual folder within the blob container. For example, for blob path `mycontainer/documents/blob.pdf`, `documents` can be used as the virtual folder.<br />- Azure Table Storage: allows you to specify a query that filters the set of rows to be imported.<br />- Azure SQL: query is not supported. If you need this functionality, please vote for [this suggestion](https://feedback.azure.com/forums/263029-azure-search/suggestions/9893490-support-user-provided-query-in-sql-indexer) |  
+|`type`|Required. Must be one of the supported data source types:<br /><br /> 1. `azuresql` for Azure SQL Database<br />2. `documentdb` for the Azure Cosmos DB SQL API<br />3. `azureblob` - Azure Blob Storage <br />4. `azuretable` - Azure Table Storage|
+|`credentials`|The required **connectionString** property specifies the connection string for the data source. The format of the connection string depends on the data source type:<br /><br /> -   For Azure SQL Database, this is the usual SQL Server connection string. If you're using Azure portal to retrieve the connection string, use the `ADO.NET connection string` option.<br />-   For Azure Cosmos DB, the connection string must be in the following format: `"AccountEndpoint=https://[your account name].documents.azure.com;AccountKey=[your account key];Database=[your database id]"`. All of the values are required. You can find them in the [Azure portal](https://portal.azure.com).|  
+|`container`|Required. Specifies the data to index using the `name` and `query` properties: <br /><br />`name`, required:<br />- Azure SQL: specifies the table or view. You can use schema-qualified names, such as `[dbo].[mytable]`.<br />- Azure Cosmos DB: specifies the SQL API collection. <br />- Azure Blob Storage: specifies the storage container.<br />- Azure Table Storage: specifies the name of the table. <br /><br />`query`, optional:<br />- Azure Cosmos DB: allows you to specify a query that flattens an arbitrary JSON document layout into a flat schema that Azure Search can index.<br />- Azure Blob Storage: allows you to specify a virtual folder within the blob container. For example, for blob path `mycontainer/documents/blob.pdf`, `documents` can be used as the virtual folder.<br />- Azure Table Storage: allows you to specify a query that filters the set of rows to be imported.<br />- Azure SQL: query is not supported. If you need this functionality, please vote for [this suggestion](https://feedback.azure.com/forums/263029-azure-search/suggestions/9893490-support-user-provided-query-in-sql-indexer) |  
 
  The optional **dataChangeDetectionPolicy** and **dataDeletionDetectionPolicy** are described below.  
 
@@ -121,7 +121,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 }  
 
 ```  
-When using DocumentDB data sources, you must use the `_ts` property provided by DocumentDB.
+When using Azure Cosmos DB data sources, you must use the `_ts` property provided by Azure Cosmos DB.
 
 When using Azure Blob data sources, Azure Search automatically uses a high watermark change detection policy based on a blob's last-modified timestamp; you don't need to specify such a policy yourself.   
 
@@ -193,7 +193,7 @@ When using Azure Blob data sources, Azure Search automatically uses a high water
 ## Response  
  For a successful request: 201 Created.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   

@@ -1,7 +1,7 @@
 ---
 title: "Update Index (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "2018-02-09"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -65,7 +65,7 @@ Note that this operation will put your index offline for at least a few seconds,
 |*Content-Type:*|Required. Set this to `application/json`|  
 |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Update Index** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/en-us/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/en-us/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body Syntax  
  When updating an existing index, the body must include the original schema definition, plus the new fields you are adding, as well as the modified scoring profiles and CORS options, if any. If you are not modifying the scoring profiles and CORS options, you must include the original values from when the index was created. In general, the best pattern to use for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT.  
@@ -133,11 +133,11 @@ Note that this operation will put your index offline for at least a few seconds,
         "sum (default) | average | minimum | maximum | firstMatching"  
     }  
   ],  
-"analyzers":(optional)[ ... ],
-"charFilters":(optional)[ ... ],
-"tokenizers":(optional)[ ... ],
-"tokenFilters":(optional)[ ... ],
-"defaultScoringProfile": (optional) "...",  
+  "analyzers":(optional)[ ... ],
+  "charFilters":(optional)[ ... ],
+  "tokenizers":(optional)[ ... ],
+  "tokenFilters":(optional)[ ... ],
+  "defaultScoringProfile": (optional) "...",  
   "corsOptions": (optional) {  
     "allowedOrigins": ["*"] | ["origin_1", "origin_2", ...],  
     "maxAgeInSeconds": (optional) max_age_in_seconds (non-negative integer)  
@@ -150,7 +150,7 @@ Note that this operation will put your index offline for at least a few seconds,
 
  By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the index definition that was updated. In this case, the success status code will be "200 OK.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
  [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   

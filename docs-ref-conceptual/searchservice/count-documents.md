@@ -51,7 +51,7 @@ api-key: [admin key]
 |*Accept:*|This value must be set to text/plain.|  
 |*api-key:*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Count Documents** request can specify either an admin key or query key for the `api-key`.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure classic portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure classic portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body  
  None.  
@@ -61,7 +61,7 @@ api-key: [admin key]
 
  The response body contains the count value as an integer formatted in plain text.  
 
-## See Also  
+## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   

@@ -51,7 +51,7 @@ The `Update Entity` operation updates an existing entity in a table. The `Update
 
 |Parameter|Description|
 |---------|-----------|
-|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Queue Service Operations](Setting-Timeouts-for-Queue-Service-Operations.md).|  
+|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Table Service Operations](Setting-Timeouts-for-Table-Service-Operations.md).|  
   
 ### Request Headers  
  The following table describes required and optional request headers.  
@@ -202,10 +202,10 @@ Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0
   
  If the `If-Match` header is missing from the request in versions 2011-08-18 and later, then the service performs an [Insert Or Replace Entity](Insert-Or-Replace-Entity.md) (upsert) operation. In versions prior to 2011-08-18, the service returns status code 400 (Bad Request).  
   
- If the request specifies a property with a `null` value, that property is ignored, the update proceeds, and the existing entity is replaced.  
+ The Table service does not persist `null` values for properties. Specifying a property with a `null` value is equivalent to omitting that property in the request.  
   
 > [!NOTE]
->  You can take advantage of this behavior to remove a property from an entity.  
+>  You can take advantage of either behavior to remove a property from an entity.  
   
  To explicitly type a property, specify the appropriate OData data type by setting the `m:type` attribute within the property definition in the Atom feed. For more information about typing properties, see [Inserting and Updating Entities](Inserting-and-Updating-Entities.md).  
   

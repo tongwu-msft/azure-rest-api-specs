@@ -1,0 +1,3572 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.pipelines.get
+name: Get
+service: Data Factory
+groupName: Pipelines
+apiVersion: 2017-09-01-preview
+summary: Gets a pipeline.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}?api-version=2017-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: pipelineName
+  in: path
+  isRequired: true
+  description: The pipeline name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9_][^<>*#.%&:\\+?/]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: PipelineResource
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PipelineResource
+  description: Pipeline resource type.
+  kind: object
+  properties:
+  - name: properties.description
+    description: The description of the pipeline.
+    types:
+    - uid: string
+  - name: properties.activities
+    description: A pipeline activity.
+    types:
+    - uid: ExecutionActivity
+      isArray: true
+    - uid: ControlActivity
+      isArray: true
+    typesTitle: Activity[]
+  - name: properties.parameters
+    description: List of parameters for pipeline.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: properties.concurrency
+    description: The max number of concurrent runs for the pipeline.
+    types:
+    - uid: integer
+  - name: properties.annotations
+    description: List of tags that can be used for describing the Pipeline.
+    types:
+    - uid: object
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Etag identifies change in the resource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: details
+    description: The object that defines the structure of an Azure Data Factory response.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+- name: ParameterDefinitionSpecification
+  description: Definition of all parameters for an entity.
+  kind: object
+  properties:
+  - name: ''
+    description: Definition of a single parameter for an entity.
+    types:
+    - uid: ParameterSpecification
+- name: ParameterSpecification
+  description: Definition of a single parameter for an entity.
+  kind: object
+  properties:
+  - name: type
+    description: Parameter type.
+    types:
+    - uid: ParameterType
+  - name: defaultValue
+    description: Default value of parameter.
+    types:
+    - uid: object
+- name: DatabricksNotebookActivity
+  description: DatabricksNotebook activity.
+  kind: object
+  properties:
+  - name: typeProperties.notebookPath
+    description: 'The absolute path of the notebook to be run in the Databricks Workspace. This path must begin with a slash. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.baseParameters
+    description: Base parameters to be used for each run of this job.If the notebook takes a parameter that is not specified, the default value from the notebook will be used.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: DataLakeAnalyticsUSQLActivity
+  description: Data Lake Analytics U-SQL activity.
+  kind: object
+  properties:
+  - name: typeProperties.scriptPath
+    description: 'Case-sensitive path to folder that contains the U-SQL script. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.scriptLinkedService
+    description: Script linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: typeProperties.degreeOfParallelism
+    description: 'The maximum number of nodes simultaneously used to run the job. Default value is 1. Type: integer (or Expression with resultType integer), minimum: 1.'
+    types:
+    - uid: object
+  - name: typeProperties.priority
+    description: 'Determines which jobs out of all that are queued should be selected to run first. The lower the number, the higher the priority. Default value is 1000. Type: integer (or Expression with resultType integer), minimum: 1.'
+    types:
+    - uid: object
+  - name: typeProperties.parameters
+    description: Parameters for U-SQL job request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.runtimeVersion
+    description: 'Runtime version of the U-SQL engine to use. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.compilationMode
+    description: 'Compilation mode of U-SQL. Must be one of these values : Semantic, Full and SingleBox. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: AzureMLUpdateResourceActivity
+  description: Azure ML Update Resource management activity.
+  kind: object
+  properties:
+  - name: typeProperties.trainedModelName
+    description: 'Name of the Trained Model module in the Web Service experiment to be updated. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.trainedModelLinkedServiceName
+    description: Name of Azure Storage linked service holding the .ilearner file that will be uploaded by the update operation.
+    types:
+    - uid: LinkedServiceReference
+  - name: typeProperties.trainedModelFilePath
+    description: 'The relative file path in trainedModelLinkedService to represent the .ilearner file that will be uploaded by the update operation.  Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: AzureMLBatchExecutionActivity
+  description: Azure ML Batch Execution activity.
+  kind: object
+  properties:
+  - name: typeProperties.globalParameters
+    description: Key,Value pairs to be passed to the Azure ML Batch Execution Service endpoint. Keys must match the names of web service parameters defined in the published Azure ML web service. Values will be passed in the GlobalParameters property of the Azure ML batch execution request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.webServiceOutputs
+    description: Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Outputs to AzureMLWebServiceFile objects specifying the output Blob locations. This information will be passed in the WebServiceOutputs property of the Azure ML batch execution request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AzureMLWebServiceFile
+  - name: typeProperties.webServiceInputs
+    description: Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Inputs to AzureMLWebServiceFile objects specifying the input Blob locations.. This information will be passed in the WebServiceInputs property of the Azure ML batch execution request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AzureMLWebServiceFile
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: GetMetadataActivity
+  description: Activity to get metadata of dataset
+  kind: object
+  properties:
+  - name: typeProperties.dataset
+    description: GetMetadata activity dataset reference.
+    types:
+    - uid: DatasetReference
+  - name: typeProperties.fieldList
+    description: 'Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+      isArray: true
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: WebActivity
+  description: Web activity.
+  kind: object
+  properties:
+  - name: typeProperties.method
+    description: Rest API method for target endpoint.
+    types:
+    - uid: WebActivityMethod
+  - name: typeProperties.url
+    description: 'Web activity target endpoint and path. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.headers
+    description: 'Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.body
+    description: 'Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.authentication
+    description: Authentication method used for calling the endpoint.
+    types:
+    - uid: WebActivityAuthentication
+  - name: typeProperties.datasets
+    description: Dataset reference type.
+    types:
+    - uid: DatasetReference
+      isArray: true
+  - name: typeProperties.linkedServices
+    description: Linked service reference type.
+    types:
+    - uid: LinkedServiceReference
+      isArray: true
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: LookupActivity
+  description: Lookup activity.
+  kind: object
+  properties:
+  - name: typeProperties.source
+    description: Dataset-specific source properties, same as copy activity source.
+    types:
+    - uid: AmazonRedshiftSource
+    - uid: ResponsysSource
+    - uid: SalesforceMarketingCloudSource
+    - uid: VerticaSource
+    - uid: NetezzaSource
+    - uid: ZohoSource
+    - uid: XeroSource
+    - uid: SquareSource
+    - uid: SparkSource
+    - uid: ShopifySource
+    - uid: ServiceNowSource
+    - uid: QuickBooksSource
+    - uid: PrestoSource
+    - uid: PhoenixSource
+    - uid: PaypalSource
+    - uid: MarketoSource
+    - uid: MariaDBSource
+    - uid: MagentoSource
+    - uid: JiraSource
+    - uid: ImpalaSource
+    - uid: HubspotSource
+    - uid: HiveSource
+    - uid: HBaseSource
+    - uid: GreenplumSource
+    - uid: GoogleBigQuerySource
+    - uid: EloquaSource
+    - uid: DrillSource
+    - uid: CouchbaseSource
+    - uid: ConcurSource
+    - uid: AzurePostgreSqlSource
+    - uid: AmazonMWSSource
+    - uid: HttpSource
+    - uid: AzureDataLakeStoreSource
+    - uid: MongoDbSource
+    - uid: CassandraSource
+    - uid: WebSource
+    - uid: OracleSource
+    - uid: AzureMySqlSource
+    - uid: HdfsSource
+    - uid: FileSystemSource
+    - uid: SqlDWSource
+    - uid: SqlSource
+    - uid: SapEccSource
+    - uid: SapCloudForCustomerSource
+    - uid: SalesforceSource
+    - uid: RelationalSource
+    - uid: DynamicsSource
+    - uid: DocumentDbCollectionSource
+    - uid: BlobSource
+    - uid: AzureTableSource
+    typesTitle: CopySource
+  - name: typeProperties.dataset
+    description: Lookup activity dataset reference.
+    types:
+    - uid: DatasetReference
+  - name: typeProperties.firstRowOnly
+    description: 'Whether to return first row or all rows. Default value is true. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: SqlServerStoredProcedureActivity
+  description: SQL stored procedure activity type.
+  kind: object
+  properties:
+  - name: typeProperties.storedProcedureName
+    description: 'Stored procedure name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.storedProcedureParameters
+    description: 'Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}".'
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: StoredProcedureParameter
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: CustomActivity
+  description: Custom activity type.
+  kind: object
+  properties:
+  - name: typeProperties.command
+    description: 'Command for custom activity Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.resourceLinkedService
+    description: Resource linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: typeProperties.folderPath
+    description: 'Folder path for resource files Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.referenceObjects
+    description: Reference objects
+    types:
+    - uid: CustomActivityReferenceObject
+  - name: typeProperties.extendedProperties
+    description: User defined property bag. There is no restriction on the keys or values that can be used. The user specified custom activity has the full responsibility to consume and interpret the content defined.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: ExecuteSSISPackageActivity
+  description: Execute SSIS package activity.
+  kind: object
+  properties:
+  - name: typeProperties.packageLocation
+    description: SSIS package location.
+    types:
+    - uid: SSISPackageLocation
+  - name: typeProperties.runtime
+    description: Specifies the runtime to execute SSIS package.
+    types:
+    - uid: SSISExecutionRuntime
+  - name: typeProperties.loggingLevel
+    description: The logging level of SSIS package execution.
+    types:
+    - uid: string
+  - name: typeProperties.environmentPath
+    description: The environment path to execute the SSIS package.
+    types:
+    - uid: string
+  - name: typeProperties.connectVia
+    description: The integration runtime reference.
+    types:
+    - uid: IntegrationRuntimeReference
+  - name: typeProperties.projectParameters
+    description: The project level parameters to execute the SSIS package.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: SSISExecutionParameter
+  - name: typeProperties.packageParameters
+    description: The package level parameters to execute the SSIS package.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: SSISExecutionParameter
+  - name: typeProperties.projectConnectionManagers
+    description: The project level connection managers to execute the SSIS package.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.packageConnectionManagers
+    description: The package level connection managers to execute the SSIS package.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.propertyOverrides
+    description: The property overrides to execute the SSIS package.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: SSISPropertyOverride
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: HDInsightSparkActivity
+  description: HDInsight Spark activity.
+  kind: object
+  properties:
+  - name: typeProperties.rootPath
+    description: "The root path in 'sparkJobLinkedService' for all the job’s files. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
+  - name: typeProperties.entryFilePath
+    description: 'The relative path to the root folder of the code/package to be executed. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.arguments
+    description: 'Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.getDebugInfo
+    description: Debug info option.
+    types:
+    - uid: HDInsightActivityDebugInfoOption
+  - name: typeProperties.sparkJobLinkedService
+    description: The storage linked service for uploading the entry file and dependencies, and for receiving logs.
+    types:
+    - uid: LinkedServiceReference
+  - name: typeProperties.className
+    description: The application's Java/Spark main class.
+    types:
+    - uid: string
+  - name: typeProperties.proxyUser
+    description: 'The user to impersonate that will execute the job. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.sparkConfig
+    description: Spark configuration property.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: HDInsightStreamingActivity
+  description: HDInsight streaming activity type.
+  kind: object
+  properties:
+  - name: typeProperties.storageLinkedServices
+    description: Linked service reference type.
+    types:
+    - uid: LinkedServiceReference
+      isArray: true
+  - name: typeProperties.arguments
+    description: 'Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.getDebugInfo
+    description: Debug info option.
+    types:
+    - uid: HDInsightActivityDebugInfoOption
+  - name: typeProperties.mapper
+    description: 'Mapper executable name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.reducer
+    description: 'Reducer executable name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.input
+    description: 'Input blob path. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.output
+    description: 'Output blob path. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.filePaths
+    description: 'Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.fileLinkedService
+    description: Linked service reference where the files are located.
+    types:
+    - uid: LinkedServiceReference
+  - name: typeProperties.combiner
+    description: 'Combiner executable name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.commandEnvironment
+    description: 'Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.defines
+    description: Allows user to specify defines for streaming job request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: HDInsightMapReduceActivity
+  description: HDInsight MapReduce activity type.
+  kind: object
+  properties:
+  - name: typeProperties.storageLinkedServices
+    description: Linked service reference type.
+    types:
+    - uid: LinkedServiceReference
+      isArray: true
+  - name: typeProperties.arguments
+    description: 'Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.getDebugInfo
+    description: Debug info option.
+    types:
+    - uid: HDInsightActivityDebugInfoOption
+  - name: typeProperties.className
+    description: 'Class name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.jarFilePath
+    description: 'Jar path. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.jarLinkedService
+    description: Jar linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: typeProperties.jarLibs
+    description: 'Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.defines
+    description: Allows user to specify defines for the MapReduce job request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: HDInsightPigActivity
+  description: HDInsight Pig activity type.
+  kind: object
+  properties:
+  - name: typeProperties.storageLinkedServices
+    description: Linked service reference type.
+    types:
+    - uid: LinkedServiceReference
+      isArray: true
+  - name: typeProperties.arguments
+    description: 'Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.getDebugInfo
+    description: Debug info option.
+    types:
+    - uid: HDInsightActivityDebugInfoOption
+  - name: typeProperties.scriptPath
+    description: 'Script path. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.scriptLinkedService
+    description: Script linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: typeProperties.defines
+    description: Allows user to specify defines for Pig job request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: HDInsightHiveActivity
+  description: HDInsight Hive activity type.
+  kind: object
+  properties:
+  - name: typeProperties.storageLinkedServices
+    description: Linked service reference type.
+    types:
+    - uid: LinkedServiceReference
+      isArray: true
+  - name: typeProperties.arguments
+    description: 'Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.getDebugInfo
+    description: Debug info option.
+    types:
+    - uid: HDInsightActivityDebugInfoOption
+  - name: typeProperties.scriptPath
+    description: 'Script path. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.scriptLinkedService
+    description: Script linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: typeProperties.defines
+    description: Allows user to specify defines for Hive job request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: CopyActivity
+  description: Copy activity.
+  kind: object
+  properties:
+  - name: inputs
+    description: Dataset reference type.
+    types:
+    - uid: DatasetReference
+      isArray: true
+  - name: outputs
+    description: Dataset reference type.
+    types:
+    - uid: DatasetReference
+      isArray: true
+  - name: typeProperties.source
+    description: Copy activity source.
+    types:
+    - uid: AmazonRedshiftSource
+    - uid: ResponsysSource
+    - uid: SalesforceMarketingCloudSource
+    - uid: VerticaSource
+    - uid: NetezzaSource
+    - uid: ZohoSource
+    - uid: XeroSource
+    - uid: SquareSource
+    - uid: SparkSource
+    - uid: ShopifySource
+    - uid: ServiceNowSource
+    - uid: QuickBooksSource
+    - uid: PrestoSource
+    - uid: PhoenixSource
+    - uid: PaypalSource
+    - uid: MarketoSource
+    - uid: MariaDBSource
+    - uid: MagentoSource
+    - uid: JiraSource
+    - uid: ImpalaSource
+    - uid: HubspotSource
+    - uid: HiveSource
+    - uid: HBaseSource
+    - uid: GreenplumSource
+    - uid: GoogleBigQuerySource
+    - uid: EloquaSource
+    - uid: DrillSource
+    - uid: CouchbaseSource
+    - uid: ConcurSource
+    - uid: AzurePostgreSqlSource
+    - uid: AmazonMWSSource
+    - uid: HttpSource
+    - uid: AzureDataLakeStoreSource
+    - uid: MongoDbSource
+    - uid: CassandraSource
+    - uid: WebSource
+    - uid: OracleSource
+    - uid: AzureMySqlSource
+    - uid: HdfsSource
+    - uid: FileSystemSource
+    - uid: SqlDWSource
+    - uid: SqlSource
+    - uid: SapEccSource
+    - uid: SapCloudForCustomerSource
+    - uid: SalesforceSource
+    - uid: RelationalSource
+    - uid: DynamicsSource
+    - uid: DocumentDbCollectionSource
+    - uid: BlobSource
+    - uid: AzureTableSource
+    typesTitle: CopySource
+  - name: typeProperties.sink
+    description: Copy activity sink.
+    types:
+    - uid: SalesforceSink
+    - uid: DynamicsSink
+    - uid: OdbcSink
+    - uid: AzureSearchIndexSink
+    - uid: AzureDataLakeStoreSink
+    - uid: OracleSink
+    - uid: SqlDWSink
+    - uid: SqlSink
+    - uid: DocumentDbCollectionSink
+    - uid: FileSystemSink
+    - uid: BlobSink
+    - uid: AzureTableSink
+    - uid: AzureQueueSink
+    - uid: SapCloudForCustomerSink
+    typesTitle: CopySink
+  - name: typeProperties.translator
+    description: Copy activity translator. If not specificed, tabular translator is used.
+    types:
+    - uid: TabularTranslator
+    typesTitle: CopyTranslator
+  - name: typeProperties.enableStaging
+    description: 'Specifies whether to copy data via an interim staging. Default value is false. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: typeProperties.stagingSettings
+    description: Specifies interim staging settings when EnableStaging is true.
+    types:
+    - uid: StagingSettings
+  - name: typeProperties.parallelCopies
+    description: 'Maximum number of concurrent sessions opened on the source or sink to avoid overloading the data store. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: typeProperties.cloudDataMovementUnits
+    description: 'Maximum number of cloud data movement units that can be used to perform this data movement. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: typeProperties.enableSkipIncompatibleRow
+    description: 'Whether to skip incompatible row. Default value is false. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: typeProperties.redirectIncompatibleRowSettings
+    description: Redirect incompatible row settings when EnableSkipIncompatibleRow is true.
+    types:
+    - uid: RedirectIncompatibleRowSettings
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: FilterActivity
+  description: Filter and return results from input array based on the conditions.
+  kind: object
+  properties:
+  - name: typeProperties.items
+    description: Input array on which filter should be applied.
+    types:
+    - uid: Expression
+  - name: typeProperties.condition
+    description: Condition to be used for filtering the input.
+    types:
+    - uid: Expression
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Container
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: UntilActivity
+  description: This activity executes inner activities until the specified boolean expression results to true or timeout is reached, whichever is earlier.
+  kind: object
+  properties:
+  - name: typeProperties.expression
+    description: An expression that would evaluate to Boolean. The loop will continue until this expression evaluates to true
+    types:
+    - uid: Expression
+  - name: typeProperties.timeout
+    description: 'Specifies the timeout for the activity to run. If there is no value specified, it takes the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: typeProperties.activities
+    description: A pipeline activity.
+    types:
+    - uid: ExecutionActivity
+      isArray: true
+    - uid: ControlActivity
+      isArray: true
+    typesTitle: Activity[]
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Container
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: WaitActivity
+  description: This activity suspends pipeline execution for the specified interval.
+  kind: object
+  properties:
+  - name: typeProperties.waitTimeInSeconds
+    description: Duration in seconds.
+    types:
+    - uid: integer
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Container
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: ForEachActivity
+  description: This activity is used for iterating over a collection and execute given activities.
+  kind: object
+  properties:
+  - name: typeProperties.isSequential
+    description: Should the loop be executed in sequence or in parallel (max 50)
+    types:
+    - uid: boolean
+  - name: typeProperties.batchCount
+    description: Batch count to be used for controlling the number of parallel execution (when isSequential is set to false).
+    types:
+    - uid: integer
+  - name: typeProperties.items
+    description: Collection to iterate.
+    types:
+    - uid: Expression
+  - name: typeProperties.activities
+    description: A pipeline activity.
+    types:
+    - uid: ExecutionActivity
+      isArray: true
+    - uid: ControlActivity
+      isArray: true
+    typesTitle: Activity[]
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Container
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: IfConditionActivity
+  description: This activity evaluates a boolean expression and executes either the activities under the ifTrueActivities property or the ifFalseActivities property depending on the result of the expression.
+  kind: object
+  properties:
+  - name: typeProperties.expression
+    description: An expression that would evaluate to Boolean. This is used to determine the block of activities (ifTrueActivities or ifFalseActivities) that will be executed.
+    types:
+    - uid: Expression
+  - name: typeProperties.ifTrueActivities
+    description: A pipeline activity.
+    types:
+    - uid: ExecutionActivity
+      isArray: true
+    - uid: ControlActivity
+      isArray: true
+    typesTitle: Activity[]
+  - name: typeProperties.ifFalseActivities
+    description: A pipeline activity.
+    types:
+    - uid: ExecutionActivity
+      isArray: true
+    - uid: ControlActivity
+      isArray: true
+    typesTitle: Activity[]
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Container
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: ExecutePipelineActivity
+  description: Execute pipeline activity.
+  kind: object
+  properties:
+  - name: typeProperties.pipeline
+    description: Pipeline reference.
+    types:
+    - uid: PipelineReference
+  - name: typeProperties.parameters
+    description: Pipeline parameters.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.waitOnCompletion
+    description: Defines whether activity execution will wait for the dependent pipeline execution to finish. Default is false.
+    types:
+    - uid: boolean
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Container
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity dependency information.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+- name: ParameterType
+  description: Parameter type.
+  kind: enum
+  properties:
+  - name: Object
+    types:
+    - uid: string
+  - name: String
+    types:
+    - uid: string
+  - name: Int
+    types:
+    - uid: string
+  - name: Float
+    types:
+    - uid: string
+  - name: Bool
+    types:
+    - uid: string
+  - name: Array
+    types:
+    - uid: string
+  - name: SecureString
+    types:
+    - uid: string
+- name: LinkedServiceReference
+  description: Linked service reference type.
+  kind: object
+  properties:
+  - name: type
+    description: Linked service reference type.
+    types:
+    - uid: LinkedServiceReference
+    typesTitle: enum
+  - name: referenceName
+    description: Reference LinkedService name.
+    types:
+    - uid: string
+  - name: parameters
+    description: Arguments for LinkedService.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: ActivityPolicy
+  description: Execution policy for an activity.
+  kind: object
+  properties:
+  - name: timeout
+    description: 'Specifies the timeout for the activity to run. The default timeout is 7 days. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: retry
+    description: 'Maximum ordinary retry attempts. Default is 0. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: retryIntervalInSeconds
+    description: Interval between each retry attempt (in seconds). The default is 30 sec.
+    types:
+    - uid: integer
+  - name: secureOutput
+    description: When set to true, Output from activity is considered as secure and will not be logged to monitoring.
+    types:
+    - uid: boolean
+- name: ActivityDependency
+  description: Activity dependency information.
+  kind: object
+  properties:
+  - name: activity
+    description: Activity name.
+    types:
+    - uid: string
+  - name: dependencyConditions
+    description: Match-Condition for the dependency.
+    types:
+    - uid: string
+      isArray: true
+- name: WebServiceOutputs
+  description: Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Outputs to AzureMLWebServiceFile objects specifying the output Blob locations. This information will be passed in the WebServiceOutputs property of the Azure ML batch execution request.
+  kind: object
+  properties:
+  - name: ''
+    description: Azure ML WebService Input/Output file
+    types:
+    - uid: AzureMLWebServiceFile
+- name: WebServiceInputs
+  description: Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Inputs to AzureMLWebServiceFile objects specifying the input Blob locations.. This information will be passed in the WebServiceInputs property of the Azure ML batch execution request.
+  kind: object
+  properties:
+  - name: ''
+    description: Azure ML WebService Input/Output file
+    types:
+    - uid: AzureMLWebServiceFile
+- name: DatasetReference
+  description: Dataset reference type.
+  kind: object
+  properties:
+  - name: type
+    description: Dataset reference type.
+    types:
+    - uid: DatasetReference
+    typesTitle: enum
+  - name: referenceName
+    description: Reference dataset name.
+    types:
+    - uid: string
+  - name: parameters
+    description: Arguments for dataset.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: WebActivityMethod
+  description: The list of HTTP methods supported by a WebActivity.
+  kind: enum
+  properties:
+  - name: GET
+    types:
+    - uid: string
+  - name: POST
+    types:
+    - uid: string
+  - name: PUT
+    types:
+    - uid: string
+  - name: DELETE
+    types:
+    - uid: string
+- name: WebActivityAuthentication
+  description: Web activity authentication properties.
+  kind: object
+  properties:
+  - name: type
+    description: Web activity authentication (Basic/ClientCertificate/MSI)
+    types:
+    - uid: string
+  - name: pfx
+    description: Base64-encoded contents of a PFX file.
+    types:
+    - uid: SecureString
+  - name: username
+    description: Web activity authentication user name for basic authentication.
+    types:
+    - uid: string
+  - name: password
+    description: Password for the PFX file or basic authentication.
+    types:
+    - uid: SecureString
+  - name: resource
+    description: Resource for which Azure Auth token will be requested when using MSI Authentication.
+    types:
+    - uid: string
+- name: StoredProcedureParameters
+  description: 'Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}".'
+  kind: object
+  properties:
+  - name: ''
+    description: SQL stored procedure parameter.
+    types:
+    - uid: StoredProcedureParameter
+- name: CustomActivityReferenceObject
+  description: Reference objects for custom activity
+  kind: object
+  properties:
+  - name: linkedServices
+    description: Linked service reference type.
+    types:
+    - uid: LinkedServiceReference
+      isArray: true
+  - name: datasets
+    description: Dataset reference type.
+    types:
+    - uid: DatasetReference
+      isArray: true
+- name: SSISPackageLocation
+  description: SSIS package location.
+  kind: object
+  properties:
+  - name: packagePath
+    description: The SSIS package path.
+    types:
+    - uid: string
+- name: SSISExecutionRuntime
+  description: Specifies the runtime to execute SSIS package.
+  kind: enum
+  properties:
+  - name: x64
+    types:
+    - uid: string
+  - name: x86
+    types:
+    - uid: string
+- name: IntegrationRuntimeReference
+  description: Integration runtime reference type.
+  kind: object
+  properties:
+  - name: type
+    description: Type of integration runtime.
+    types:
+    - uid: IntegrationRuntimeReference
+    typesTitle: enum
+  - name: referenceName
+    description: Reference integration runtime name.
+    types:
+    - uid: string
+  - name: parameters
+    description: Arguments for integration runtime.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: ProjectParameters
+  description: The project level parameters to execute the SSIS package.
+  kind: object
+  properties:
+  - name: ''
+    description: SSIS execution parameter.
+    types:
+    - uid: SSISExecutionParameter
+- name: PackageParameters
+  description: The package level parameters to execute the SSIS package.
+  kind: object
+  properties:
+  - name: ''
+    description: SSIS execution parameter.
+    types:
+    - uid: SSISExecutionParameter
+- name: PropertyOverrides
+  description: The property overrides to execute the SSIS package.
+  kind: object
+  properties:
+  - name: ''
+    description: SSIS property override.
+    types:
+    - uid: SSISPropertyOverride
+- name: HDInsightActivityDebugInfoOption
+  description: The HDInsightActivityDebugInfoOption settings to use.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Always
+    types:
+    - uid: string
+  - name: Failure
+    types:
+    - uid: string
+- name: StagingSettings
+  description: Staging settings.
+  kind: object
+  properties:
+  - name: linkedServiceName
+    description: Staging linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: path
+    description: 'The path to storage for storing the interim data. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: enableCompression
+    description: 'Specifies whether to use compression when copying data via an interim staging. Default value is false. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+- name: RedirectIncompatibleRowSettings
+  description: Redirect incompatible row settings
+  kind: object
+  properties:
+  - name: linkedServiceName
+    description: 'Name of the Azure Storage, Storage SAS, or Azure Data Lake Store linked service used for redirecting incompatible row. Must be specified if redirectIncompatibleRowSettings is specified. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: path
+    description: 'The path for storing the redirect incompatible row data. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+- name: Expression
+  description: Azure Data Factory expression definition.
+  kind: object
+  properties:
+  - name: type
+    description: Expression type.
+    types:
+    - uid: Expression
+    typesTitle: enum
+  - name: value
+    description: Expression value.
+    types:
+    - uid: string
+- name: PipelineReference
+  description: Pipeline reference type.
+  kind: object
+  properties:
+  - name: type
+    description: Pipeline reference type.
+    types:
+    - uid: PipelineReference
+    typesTitle: enum
+  - name: referenceName
+    description: Reference pipeline name.
+    types:
+    - uid: string
+  - name: name
+    description: Reference name.
+    types:
+    - uid: string
+- name: AzureMLWebServiceFile
+  description: Azure ML WebService Input/Output file
+  kind: object
+  properties:
+  - name: filePath
+    description: 'The relative file path, including container name, in the Azure Blob Storage specified by the LinkedService. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Reference to an Azure Storage LinkedService, where Azure ML WebService Input/Output file located.
+    types:
+    - uid: LinkedServiceReference
+- name: SecureString
+  description: Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls.
+  kind: object
+  properties:
+  - name: value
+    description: Value of secure string.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the secret.
+    types:
+    - uid: SecureString
+    typesTitle: string
+- name: AmazonRedshiftSource
+  description: A copy activity source for Amazon Redshift Source.
+  kind: object
+  properties:
+  - name: query
+    description: 'Database query. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: redshiftUnloadSettings
+    description: The Amazon S3 settings needed for the interim Amazon S3 when copying from Amazon Redshift with unload. With this, data from Amazon Redshift source will be unloaded into S3 first and then copied into the targeted sink from the interim S3.
+    types:
+    - uid: RedshiftUnloadSettings
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: ResponsysSource
+  description: A copy activity Responsys source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: SalesforceMarketingCloudSource
+  description: A copy activity Salesforce Marketing Cloud source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: VerticaSource
+  description: A copy activity Vertica source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: NetezzaSource
+  description: A copy activity Netezza source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: ZohoSource
+  description: A copy activity Zoho server source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: XeroSource
+  description: A copy activity Xero Serivce source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: SquareSource
+  description: A copy activity Square Serivce source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: SparkSource
+  description: A copy activity Spark Server source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: ShopifySource
+  description: A copy activity Shopify Serivce source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: ServiceNowSource
+  description: A copy activity ServiceNow server source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: QuickBooksSource
+  description: A copy activity QuickBooks server source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: PrestoSource
+  description: A copy activity Presto server source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: PhoenixSource
+  description: A copy activity Phoenix server source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: PaypalSource
+  description: A copy activity Paypal Serivce source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: MarketoSource
+  description: A copy activity Marketo server source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: MariaDBSource
+  description: A copy activity MariaDB server source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: MagentoSource
+  description: A copy activity Magento server source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: JiraSource
+  description: A copy activity Jira Serivce source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: ImpalaSource
+  description: A copy activity Impala server source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: HubspotSource
+  description: A copy activity Hubspot Serivce source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: HiveSource
+  description: A copy activity Hive Server source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: HBaseSource
+  description: A copy activity HBase server source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: GreenplumSource
+  description: A copy activity Greenplum Database source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: GoogleBigQuerySource
+  description: A copy activity Google BigQuery service source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: EloquaSource
+  description: A copy activity Eloqua server source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: DrillSource
+  description: A copy activity Drill server source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: CouchbaseSource
+  description: A copy activity Couchbase server source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: ConcurSource
+  description: A copy activity Concur Serivce source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: AzurePostgreSqlSource
+  description: A copy activity Azure PostgreSQL source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: AmazonMWSSource
+  description: A copy activity Amazon Marketplace Web Service source.
+  kind: object
+  properties:
+  - name: query
+    description: 'A query to retrieve data from source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: HttpSource
+  description: A copy activity source for an HTTP file.
+  kind: object
+  properties:
+  - name: httpRequestTimeout
+    description: 'Specifies the timeout for a HTTP client to get HTTP response from HTTP server. The default value is equivalent to System.Net.HttpWebRequest.Timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: AzureDataLakeStoreSource
+  description: A copy activity Azure Data Lake source.
+  kind: object
+  properties:
+  - name: recursive
+    description: 'If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: MongoDbSource
+  description: A copy activity source for a MongoDB database.
+  kind: object
+  properties:
+  - name: query
+    description: 'Database query. Should be a SQL-92 query expression. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: CassandraSource
+  description: A copy activity source for a Cassandra database.
+  kind: object
+  properties:
+  - name: query
+    description: 'Database query. Should be a SQL-92 query expression or Cassandra Query Language (CQL) command. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: consistencyLevel
+    description: The consistency level specifies how many Cassandra servers must respond to a read request before returning data to the client application. Cassandra checks the specified number of Cassandra servers for data to satisfy the read request. Must be one of cassandraSourceReadConsistencyLevels. The default value is 'ONE'. It is case-insensitive.
+    types:
+    - uid: CassandraSourceReadConsistencyLevels
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: WebSource
+  description: A copy activity source for web page table.
+  kind: object
+  properties:
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: OracleSource
+  description: A copy activity Oracle source.
+  kind: object
+  properties:
+  - name: oracleReaderQuery
+    description: 'Oracle reader query. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: queryTimeout
+    description: 'Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: AzureMySqlSource
+  description: A copy activity Azure MySQL source.
+  kind: object
+  properties:
+  - name: query
+    description: 'Database query. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: HdfsSource
+  description: A copy activity HDFS source.
+  kind: object
+  properties:
+  - name: recursive
+    description: 'If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: distcpSettings
+    description: Specifies Distcp-related settings.
+    types:
+    - uid: DistcpSettings
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: FileSystemSource
+  description: A copy activity file system source.
+  kind: object
+  properties:
+  - name: recursive
+    description: 'If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: SqlDWSource
+  description: A copy activity SQL Data Warehouse source.
+  kind: object
+  properties:
+  - name: sqlReaderQuery
+    description: 'SQL Data Warehouse reader query. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: sqlReaderStoredProcedureName
+    description: 'Name of the stored procedure for a SQL Data Warehouse source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: storedProcedureParameters
+    description: 'Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". Type: object (or Expression with resultType object), itemType: StoredProcedureParameter.'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: SqlSource
+  description: A copy activity SQL source.
+  kind: object
+  properties:
+  - name: sqlReaderQuery
+    description: 'SQL reader query. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: sqlReaderStoredProcedureName
+    description: 'Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: storedProcedureParameters
+    description: 'Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}".'
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: StoredProcedureParameter
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: SapEccSource
+  description: A copy activity source for SAP ECC source.
+  kind: object
+  properties:
+  - name: query
+    description: 'SAP ECC OData query. For example, "$top=1". Type: string (or Expression with resultType string).'
+    types:
+    - uid: string
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: SapCloudForCustomerSource
+  description: A copy activity source for SAP Cloud for Customer source.
+  kind: object
+  properties:
+  - name: query
+    description: 'SAP Cloud for Customer OData query. For example, "$top=1". Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: SalesforceSource
+  description: A copy activity Salesforce source.
+  kind: object
+  properties:
+  - name: query
+    description: 'Database query. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: readBehavior
+    description: The read behavior for the operation. Default is Query.
+    types:
+    - uid: SalesforceSourceReadBehavior
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: RelationalSource
+  description: A copy activity source for various relational databases.
+  kind: object
+  properties:
+  - name: query
+    description: 'Database query. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: DynamicsSource
+  description: A copy activity Dynamics source.
+  kind: object
+  properties:
+  - name: query
+    description: 'FetchXML is a proprietary query language that is used in Microsoft Dynamics (online & on-premises). Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: DocumentDbCollectionSource
+  description: A copy activity Document Database Collection source.
+  kind: object
+  properties:
+  - name: query
+    description: 'Documents query. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: nestingSeparator
+    description: 'Nested properties separator. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: BlobSource
+  description: A copy activity Azure Blob source.
+  kind: object
+  properties:
+  - name: treatEmptyAsNull
+    description: 'Treat empty as null. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: skipHeaderLineCount
+    description: 'Number of header lines to skip from each blob. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: recursive
+    description: 'If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: AzureTableSource
+  description: A copy activity Azure Table source.
+  kind: object
+  properties:
+  - name: azureTableSourceQuery
+    description: 'Azure Table source query. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: azureTableSourceIgnoreTableNotFound
+    description: 'Azure Table source ignore table not found. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy source type.
+    types:
+    - uid: string
+  - name: sourceRetryCount
+    description: 'Source retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sourceRetryWait
+    description: 'Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: StoredProcedureParameter
+  description: SQL stored procedure parameter.
+  kind: object
+  properties:
+  - name: value
+    description: 'Stored procedure parameter value. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Stored procedure parameter type.
+    types:
+    - uid: StoredProcedureParameterType
+- name: SSISExecutionParameter
+  description: SSIS execution parameter.
+  kind: object
+  properties:
+  - name: value
+    description: 'SSIS package execution parameter value. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+- name: SSISPropertyOverride
+  description: SSIS property override.
+  kind: object
+  properties:
+  - name: value
+    description: 'SSIS package property override value. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: isSensitive
+    description: Whether SSIS package property override value is sensitive data. Value will be encrypted in SSISDB if it is true
+    types:
+    - uid: boolean
+- name: SalesforceSink
+  description: A copy activity Salesforce sink.
+  kind: object
+  properties:
+  - name: writeBehavior
+    description: The write behavior for the operation. Default is Insert.
+    types:
+    - uid: SalesforceSinkWriteBehavior
+  - name: externalIdFieldName
+    description: "The name of the external ID field for upsert operation. Default value is 'Id' column. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
+  - name: ignoreNullValues
+    description: 'The flag indicating whether or not to ignore null values from input dataset (except key fields) during write operation. Default value is false. If set it to true, it means ADF will leave the data in the destination object unchanged when doing upsert/update operation and insert defined default value when doing insert operation, versus ADF will update the data in the destination object to NULL when doing upsert/update operation and insert NULL value when doing insert operation. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy sink type.
+    types:
+    - uid: string
+  - name: writeBatchSize
+    description: 'Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: writeBatchTimeout
+    description: 'Write batch timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: sinkRetryCount
+    description: 'Sink retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sinkRetryWait
+    description: 'Sink retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: DynamicsSink
+  description: A copy activity Dynamics sink.
+  kind: object
+  properties:
+  - name: writeBehavior
+    description: The write behavior for the operation.
+    types:
+    - uid: DynamicsSinkWriteBehavior
+  - name: ignoreNullValues
+    description: 'The flag indicating whether ignore null values from input dataset (except key fields) during write operation. Default is false. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy sink type.
+    types:
+    - uid: string
+  - name: writeBatchSize
+    description: 'Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: writeBatchTimeout
+    description: 'Write batch timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: sinkRetryCount
+    description: 'Sink retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sinkRetryWait
+    description: 'Sink retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: OdbcSink
+  description: A copy activity ODBC sink.
+  kind: object
+  properties:
+  - name: preCopyScript
+    description: 'A query to execute before starting the copy. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy sink type.
+    types:
+    - uid: string
+  - name: writeBatchSize
+    description: 'Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: writeBatchTimeout
+    description: 'Write batch timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: sinkRetryCount
+    description: 'Sink retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sinkRetryWait
+    description: 'Sink retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: AzureSearchIndexSink
+  description: A copy activity Azure Search Index sink.
+  kind: object
+  properties:
+  - name: writeBehavior
+    description: Specify the write behavior when upserting documents into Azure Search Index.
+    types:
+    - uid: AzureSearchIndexWriteBehaviorType
+  - name: type
+    description: Copy sink type.
+    types:
+    - uid: string
+  - name: writeBatchSize
+    description: 'Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: writeBatchTimeout
+    description: 'Write batch timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: sinkRetryCount
+    description: 'Sink retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sinkRetryWait
+    description: 'Sink retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: AzureDataLakeStoreSink
+  description: A copy activity Azure Data Lake Store sink.
+  kind: object
+  properties:
+  - name: copyBehavior
+    description: The type of copy behavior for copy sink.
+    types:
+    - uid: CopyBehaviorType
+  - name: type
+    description: Copy sink type.
+    types:
+    - uid: string
+  - name: writeBatchSize
+    description: 'Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: writeBatchTimeout
+    description: 'Write batch timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: sinkRetryCount
+    description: 'Sink retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sinkRetryWait
+    description: 'Sink retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: OracleSink
+  description: A copy activity Oracle sink.
+  kind: object
+  properties:
+  - name: preCopyScript
+    description: 'SQL pre-copy script. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy sink type.
+    types:
+    - uid: string
+  - name: writeBatchSize
+    description: 'Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: writeBatchTimeout
+    description: 'Write batch timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: sinkRetryCount
+    description: 'Sink retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sinkRetryWait
+    description: 'Sink retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: SqlDWSink
+  description: A copy activity SQL Data Warehouse sink.
+  kind: object
+  properties:
+  - name: preCopyScript
+    description: 'SQL pre-copy script. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: allowPolyBase
+    description: 'Indicates to use PolyBase to copy data into SQL Data Warehouse when applicable. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: polyBaseSettings
+    description: Specifies PolyBase-related settings when allowPolyBase is true.
+    types:
+    - uid: PolybaseSettings
+  - name: type
+    description: Copy sink type.
+    types:
+    - uid: string
+  - name: writeBatchSize
+    description: 'Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: writeBatchTimeout
+    description: 'Write batch timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: sinkRetryCount
+    description: 'Sink retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sinkRetryWait
+    description: 'Sink retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: SqlSink
+  description: A copy activity SQL sink.
+  kind: object
+  properties:
+  - name: sqlWriterStoredProcedureName
+    description: 'SQL writer stored procedure name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: sqlWriterTableType
+    description: 'SQL writer table type. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: preCopyScript
+    description: 'SQL pre-copy script. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: storedProcedureParameters
+    description: SQL stored procedure parameters.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: StoredProcedureParameter
+  - name: type
+    description: Copy sink type.
+    types:
+    - uid: string
+  - name: writeBatchSize
+    description: 'Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: writeBatchTimeout
+    description: 'Write batch timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: sinkRetryCount
+    description: 'Sink retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sinkRetryWait
+    description: 'Sink retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: DocumentDbCollectionSink
+  description: A copy activity Document Database Collection sink.
+  kind: object
+  properties:
+  - name: nestingSeparator
+    description: 'Nested properties separator. Default is . (dot). Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy sink type.
+    types:
+    - uid: string
+  - name: writeBatchSize
+    description: 'Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: writeBatchTimeout
+    description: 'Write batch timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: sinkRetryCount
+    description: 'Sink retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sinkRetryWait
+    description: 'Sink retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: FileSystemSink
+  description: A copy activity file system sink.
+  kind: object
+  properties:
+  - name: copyBehavior
+    description: The type of copy behavior for copy sink.
+    types:
+    - uid: CopyBehaviorType
+  - name: type
+    description: Copy sink type.
+    types:
+    - uid: string
+  - name: writeBatchSize
+    description: 'Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: writeBatchTimeout
+    description: 'Write batch timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: sinkRetryCount
+    description: 'Sink retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sinkRetryWait
+    description: 'Sink retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: BlobSink
+  description: A copy activity Azure Blob sink.
+  kind: object
+  properties:
+  - name: blobWriterOverwriteFiles
+    description: 'Blob writer overwrite files. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: blobWriterDateTimeFormat
+    description: 'Blob writer date time format. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: blobWriterAddHeader
+    description: 'Blob writer add header. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: copyBehavior
+    description: The type of copy behavior for copy sink.
+    types:
+    - uid: CopyBehaviorType
+  - name: type
+    description: Copy sink type.
+    types:
+    - uid: string
+  - name: writeBatchSize
+    description: 'Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: writeBatchTimeout
+    description: 'Write batch timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: sinkRetryCount
+    description: 'Sink retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sinkRetryWait
+    description: 'Sink retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: AzureTableSink
+  description: A copy activity Azure Table sink.
+  kind: object
+  properties:
+  - name: azureTableDefaultPartitionKeyValue
+    description: 'Azure Table default partition key value. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: azureTablePartitionKeyName
+    description: 'Azure Table partition key name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: azureTableRowKeyName
+    description: 'Azure Table row key name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: azureTableInsertType
+    description: 'Azure Table insert type. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy sink type.
+    types:
+    - uid: string
+  - name: writeBatchSize
+    description: 'Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: writeBatchTimeout
+    description: 'Write batch timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: sinkRetryCount
+    description: 'Sink retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sinkRetryWait
+    description: 'Sink retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: AzureQueueSink
+  description: A copy activity Azure Queue sink.
+  kind: object
+  properties:
+  - name: type
+    description: Copy sink type.
+    types:
+    - uid: string
+  - name: writeBatchSize
+    description: 'Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: writeBatchTimeout
+    description: 'Write batch timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: sinkRetryCount
+    description: 'Sink retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sinkRetryWait
+    description: 'Sink retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: SapCloudForCustomerSink
+  description: A copy activity SAP Cloud for Customer sink.
+  kind: object
+  properties:
+  - name: writeBehavior
+    description: The write behavior for the operation. Default is 'Insert'.
+    types:
+    - uid: SapCloudForCustomerSinkWriteBehavior
+  - name: type
+    description: Copy sink type.
+    types:
+    - uid: string
+  - name: writeBatchSize
+    description: 'Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: writeBatchTimeout
+    description: 'Write batch timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: sinkRetryCount
+    description: 'Sink retry count. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: sinkRetryWait
+    description: 'Sink retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+- name: TabularTranslator
+  description: A copy activity tabular translator.
+  kind: object
+  properties:
+  - name: columnMappings
+    description: 'Column mappings. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Copy translator type.
+    types:
+    - uid: string
+- name: RedshiftUnloadSettings
+  description: The Amazon S3 settings needed for the interim Amazon S3 when copying from Amazon Redshift with unload. With this, data from Amazon Redshift source will be unloaded into S3 first and then copied into the targeted sink from the interim S3.
+  kind: object
+  properties:
+  - name: s3LinkedServiceName
+    description: The name of the Amazon S3 linked service which will be used for the unload operation when copying from the Amazon Redshift source.
+    types:
+    - uid: LinkedServiceReference
+  - name: bucketName
+    description: 'The bucket of the interim Amazon S3 which will be used to store the unloaded data from Amazon Redshift source. The bucket must be in the same region as the Amazon Redshift source. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+- name: CassandraSourceReadConsistencyLevels
+  description: The consistency level specifies how many Cassandra servers must respond to a read request before returning data to the client application. Cassandra checks the specified number of Cassandra servers for data to satisfy the read request. Must be one of cassandraSourceReadConsistencyLevels. The default value is 'ONE'. It is case-insensitive.
+  kind: enum
+  properties:
+  - name: ALL
+    types:
+    - uid: string
+  - name: EACH_QUORUM
+    types:
+    - uid: string
+  - name: QUORUM
+    types:
+    - uid: string
+  - name: LOCAL_QUORUM
+    types:
+    - uid: string
+  - name: ONE
+    types:
+    - uid: string
+  - name: TWO
+    types:
+    - uid: string
+  - name: THREE
+    types:
+    - uid: string
+  - name: LOCAL_ONE
+    types:
+    - uid: string
+  - name: SERIAL
+    types:
+    - uid: string
+  - name: LOCAL_SERIAL
+    types:
+    - uid: string
+- name: DistcpSettings
+  description: Distcp settings.
+  kind: object
+  properties:
+  - name: resourceManagerEndpoint
+    description: 'Specifies the Yarn ResourceManager endpoint. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: tempScriptPath
+    description: 'Specifies an existing folder path which will be used to store temp Distcp command script. The script file is generated by ADF and will be removed after Copy job finished. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: distcpOptions
+    description: 'Specifies the Distcp options. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+- name: SalesforceSourceReadBehavior
+  description: The read behavior for the operation. Default is Query.
+  kind: enum
+  properties:
+  - name: Query
+    types:
+    - uid: string
+  - name: QueryAll
+    types:
+    - uid: string
+- name: StoredProcedureParameterType
+  description: Stored procedure parameter type.
+  kind: enum
+  properties:
+  - name: String
+    types:
+    - uid: string
+  - name: Int
+    types:
+    - uid: string
+  - name: Decimal
+    types:
+    - uid: string
+  - name: Guid
+    types:
+    - uid: string
+  - name: Boolean
+    types:
+    - uid: string
+  - name: Date
+    types:
+    - uid: string
+- name: SalesforceSinkWriteBehavior
+  description: The write behavior for the operation. Default is Insert.
+  kind: enum
+  properties:
+  - name: Insert
+    types:
+    - uid: string
+  - name: Upsert
+    types:
+    - uid: string
+- name: DynamicsSinkWriteBehavior
+  description: The write behavior for the operation.
+  kind: enum
+  properties:
+  - name: Upsert
+    types:
+    - uid: string
+- name: AzureSearchIndexWriteBehaviorType
+  description: Specify the write behavior when upserting documents into Azure Search Index.
+  kind: enum
+  properties:
+  - name: Merge
+    types:
+    - uid: string
+  - name: Upload
+    types:
+    - uid: string
+- name: CopyBehaviorType
+  description: All available types of copy behavior.
+  kind: enum
+  properties:
+  - name: PreserveHierarchy
+    types:
+    - uid: string
+  - name: FlattenHierarchy
+    types:
+    - uid: string
+  - name: MergeFiles
+    types:
+    - uid: string
+- name: PolybaseSettings
+  description: PolyBase settings.
+  kind: object
+  properties:
+  - name: rejectType
+    description: Reject type.
+    types:
+    - uid: PolybaseSettingsRejectType
+  - name: rejectValue
+    description: 'Specifies the value or the percentage of rows that can be rejected before the query fails. Type: number (or Expression with resultType number), minimum: 0.'
+    types:
+    - uid: object
+  - name: rejectSampleValue
+    description: 'Determines the number of rows to attempt to retrieve before the PolyBase recalculates the percentage of rejected rows. Type: integer (or Expression with resultType integer), minimum: 0.'
+    types:
+    - uid: object
+  - name: useTypeDefault
+    description: 'Specifies how to handle missing values in delimited text files when PolyBase retrieves data from the text file. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+- name: SapCloudForCustomerSinkWriteBehavior
+  description: The write behavior for the operation. Default is 'Insert'.
+  kind: enum
+  properties:
+  - name: Insert
+    types:
+    - uid: string
+  - name: Update
+    types:
+    - uid: string
+- name: PolybaseSettingsRejectType
+  description: Indicates whether the RejectValue property is specified as a literal value or a percentage.
+  kind: enum
+  properties:
+  - name: value
+    types:
+    - uid: string
+  - name: percentage
+    types:
+    - uid: string
+examples:
+- name: Pipelines_Get
+  request:
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline?api-version=2017-09-01-preview
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2017 17:55:56 GMT
+    - name: x-ms-request-id
+      value: f43d67bd-6702-4113-9b00-6ce0390f07ea
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-reads
+      value: "14910"
+    - name: x-ms-correlation-request-id
+      value: 80f036bf-e6a7-4248-8ea4-fba427e19c79
+    body: >-
+      {
+        "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline",
+        "name": "examplePipeline",
+        "properties": {
+          "description": "Example description",
+          "activities": [
+            {
+              "type": "ForEach",
+              "typeProperties": {
+                "isSequential": true,
+                "items": {
+                  "value": "@pipeline().parameters.OutputBlobNameList",
+                  "type": "Expression"
+                },
+                "activities": [
+                  {
+                    "type": "Copy",
+                    "typeProperties": {
+                      "source": {
+                        "type": "BlobSource"
+                      },
+                      "sink": {
+                        "type": "BlobSink"
+                      }
+                    },
+                    "inputs": [
+                      {
+                        "referenceName": "exampleDataset",
+                        "parameters": {
+                          "MyFolderPath": "examplecontainer",
+                          "MyFileName": "examplecontainer.csv"
+                        },
+                        "type": "DatasetReference"
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "referenceName": "exampleDataset",
+                        "parameters": {
+                          "MyFolderPath": "examplecontainer",
+                          "MyFileName": {
+                            "value": "@item()",
+                            "type": "Expression"
+                          }
+                        },
+                        "type": "DatasetReference"
+                      }
+                    ],
+                    "name": "ExampleCopyActivity"
+                  }
+                ]
+              },
+              "name": "ExampleForeachActivity"
+            }
+          ],
+          "parameters": {
+            "OutputBlobNameList": {
+              "type": "Array"
+            }
+          }
+        },
+        "etag": "280324a7-0000-0000-0000-59b9712b0000"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

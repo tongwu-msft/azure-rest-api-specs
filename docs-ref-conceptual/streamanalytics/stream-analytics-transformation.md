@@ -1,3 +1,12 @@
+---
+ms.assetid: 
+ms.title: Transformation | Microsoft Docs
+ms.service: stream-analytics
+author: SnehaGunda
+ms.author: sngun
+ms.manager: kfile
+---
+
 # Transformation
 
 ## Create
@@ -14,7 +23,7 @@ Creates a new transformation within a Stream Analytics job.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that the job belongs to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that the job belongs to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job.  
   
@@ -75,7 +84,7 @@ Deletes a transformation from a Stream Analytics job in Microsoft Azure.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this transformation belongs to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this transformation belongs to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that you are deleting.  
   
@@ -103,7 +112,7 @@ Gets information about a specific transformation.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that your output will be associated with.  
   
@@ -143,7 +152,7 @@ Updates the properties that are assigned to a transformation.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/en-us/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that you are updating.  
   
@@ -165,7 +174,7 @@ Updates the properties that are assigned to a transformation.
   
  Any one or more of the input properties may be specified in the request body, setting/replacing any existing value for each property specified.  
   
- For more information about input properties, see [Create Transformation &#40;Azure Stream Analytics&#41;](Create-Transformation--Azure-Stream-Analytics-.md).  
+ For more information about input properties, see [Create Transformation &#40;Azure Stream Analytics&#41;](#create).  
   
 ### Response  
  Status code: 201  

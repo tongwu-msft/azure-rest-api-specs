@@ -1,3 +1,12 @@
+---
+ms.assetid: 
+ms.title: Output | Microsoft Docs
+ms.service: stream-analytics
+author: SnehaGunda
+ms.author: sngun
+ms.manager: kfile
+---
+
 # Output
 
 ## Create
@@ -14,7 +23,7 @@ Creates a new output within a Stream Analytics job.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job.  
   
@@ -132,14 +141,14 @@ Azure Data Lake Stores are discussed in the [Azure Data Lake output article](htt
 |**topicName**|Yes|This element is associated with the datasource element. This is the name of your topic.|
 |**propertyColumns**|Optional|A string array of the names of output columns to be attached to Service Bus messages as custom properties.|    
   
-#### **Data Source – DocumentDB**  
+#### **Data Source – Azure Cosmos DB**  
   
 |Element name|Required|Notes|  
 |------------------|--------------|-----------|  
-|**type**|Yes|This element is associated with the datasource element. It indicates the type of data source that data will be written to. The value for a DocumentDB should be Microsoft.Storage/DocumentDB.|  
-|**accountId**|Yes|The DocumentDB account name or ID.  This can also be fully qualified domain name endpoint for the account.|  
-|**accountKey**|Yes|The shared access key for the DocumentDB account.|  
-|**database**|Yes|The DocumentDB database name.|  
+|**type**|Yes|This element is associated with the datasource element. It indicates the type of data source that data will be written to. The value for Azure Cosmos DB should be Microsoft.Storage/DocumentDB.|  
+|**accountId**|Yes|The Azure Cosmos DB account name or ID.  This can also be fully qualified domain name endpoint for the account.|  
+|**accountKey**|Yes|The shared access key for the Azure Cosmos DB account.|  
+|**database**|Yes|The Azure Cosmos DB database name.|  
 |**collectionNamePattern**|Yes|The collection name pattern for the collections to be used. The collection name format can be constructed using the optional {partition} token, where partitions start from 0.<br /><br /> For example the following are valid inputs:<br /><br /> ·         MyCollection{partition}<br /><br /> ·         MyCollection<br /><br /> Note that collections must exist before the Stream Analytics job is started and will not be created automatically.|  
 |**partitionKey**|Yes|The name of the field in output events used to specify the key for partitioning output across collections.|  
 |**documentId**|No|The name of the field in output events used to specify the primary key which insert or update operations are based on.|  
@@ -185,7 +194,7 @@ Deletes an output from a Stream Analytics job in Microsoft Azure.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that you are deleting.  
   
@@ -210,7 +219,7 @@ Gets information about a specific output.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that your output will be associated with.  
   
@@ -262,7 +271,7 @@ Lists all of the inputs that are defined in a Stream Analytics job.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/)  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/)  
   
  Replace {job-name} with the name of the Stream Analytics job.  
   
@@ -322,7 +331,7 @@ Updates the properties that are assigned to an output.
   
  Replace {subscription-id} with your subscription ID.  
   
- Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](http://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
+ Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
   
  Replace {job-name} with the name of the Stream Analytics job that you are updating.  
   
@@ -347,7 +356,7 @@ Updates the properties that are assigned to an output.
   
  Any one or more of the input properties may be specified in the request body, setting/replacing any existing value for each property specified.  
   
- For more information about input properties, see [Create Input &#40;Azure Stream Analytics&#41;](Create-Input--Azure-Stream-Analytics-.md).  
+ For more information about input properties, see [Create Input &#40;Azure Stream Analytics&#41;](stream-analytics-input.md#create).  
   
 ### Response  
  Status code: 201  

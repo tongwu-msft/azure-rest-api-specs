@@ -1,0 +1,157 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devtestlabs.policysets.evaluatepolicies
+name: Evaluate Policies
+service: Dev Test Labs
+groupName: Policy Sets
+apiVersion: 2016-05-15
+summary: Evaluates lab policy.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{name}/evaluatePolicies?api-version=2016-05-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: labName
+  in: path
+  isRequired: true
+  description: The name of the lab.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the policy set.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: EvaluatePoliciesResponse
+- name: Other Status Codes
+  description: BadRequest
+  types:
+  - uid: CloudError
+requestBody:
+- parameters:
+  - name: policies
+    in: body
+    description: Properties for evaluating a policy set.
+    types:
+    - uid: EvaluatePoliciesProperties
+      isArray: true
+requestHeader: []
+definitions:
+- name: EvaluatePoliciesProperties
+  description: Properties for evaluating a policy set.
+  kind: object
+  properties:
+  - name: factName
+    description: The fact name.
+    types:
+    - uid: string
+  - name: factData
+    description: The fact data.
+    types:
+    - uid: string
+  - name: valueOffset
+    description: The value offset.
+    types:
+    - uid: string
+- name: EvaluatePoliciesResponse
+  description: Response body for evaluating a policy set.
+  kind: object
+  properties:
+  - name: results
+    description: Result of a policy set evaluation.
+    types:
+    - uid: PolicySetResult
+      isArray: true
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - name: error
+    description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+- name: EvaluatePoliciesRequest
+  description: Request body for evaluating a policy set.
+  kind: object
+  properties:
+  - name: policies
+    description: Properties for evaluating a policy set.
+    types:
+    - uid: EvaluatePoliciesProperties
+      isArray: true
+- name: PolicySetResult
+  description: Result of a policy set evaluation.
+  kind: object
+  properties:
+  - name: hasError
+    description: A value indicating whether this policy set evaluation has discovered violations.
+    types:
+    - uid: boolean
+  - name: policyViolations
+    description: Policy violation.
+    types:
+    - uid: PolicyViolation
+      isArray: true
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - name: code
+    types:
+    - uid: string
+  - name: message
+    types:
+    - uid: string
+  - name: target
+    types:
+    - uid: string
+  - name: details
+    description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: PolicyViolation
+  description: Policy violation.
+  kind: object
+  properties:
+  - name: code
+    description: The code of the policy violation.
+    types:
+    - uid: string
+  - name: message
+    description: The message of the policy violation.
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: OAuth2 Implicit Grant
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Access Microsoft Azure
