@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.eventhubs.disasterrecoveryconfigs.getauthorizationrule
-name: Get Authorization Rule
+uid: management.azure.com.eventhubs.namespaces.getmessagingplan
+name: Get Messaging Plan
 service: Event Hubs
-groupName: Disaster Recovery Configs
+groupName: Namespaces
 apiVersion: 2017-04-01
-summary: Gets an AuthorizationRule for a Namespace by rule name.
+summary: Gets messaging plan for specified namespace.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/AuthorizationRules/{authorizationRuleName}?api-version=2017-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/messagingplan?api-version=2017-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,18 +30,6 @@ uriParameters:
   description: The Namespace name
   types:
   - uid: string
-- name: alias
-  in: path
-  isRequired: true
-  description: The Disaster Recovery configuration name
-  types:
-  - uid: string
-- name: authorizationRuleName
-  in: path
-  isRequired: true
-  description: The authorization rule name.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -50,24 +38,51 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Alias Namespace AuthorizationRule returned successfully.
+  description: Messaging Plan successfully returned.
   types:
-  - uid: AuthorizationRule
+  - uid: MessagingPlan
 - name: Other Status Codes
   description: Eventhub error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: AuthorizationRule
-  description: Single item in a List or Get AuthorizationRule operation
+- name: MessagingPlan
+  description: Messaging Plan for the namespace
   kind: object
   properties:
-  - name: properties.rights
-    description: The rights associated with the rule.
+  - name: properties.sku
+    isReadyOnly: true
+    description: Sku type
+    types:
+    - uid: integer
+  - name: properties.selectedEventHubUnit
+    isReadyOnly: true
+    description: Selected event hub unit
+    types:
+    - uid: integer
+  - name: properties.updatedAt
+    isReadyOnly: true
+    description: The exact time the messaging plan was updated.
     types:
     - uid: string
-      isArray: true
+  - name: properties.revision
+    isReadyOnly: true
+    description: revision number
+    types:
+    - uid: integer
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -96,21 +111,23 @@ definitions:
     types:
     - uid: string
 examples:
-- name: NameSpaceAutorizationRuleGet
+- name: GetNamespaceMessagingPlan
   request:
-    uri: GET https://management.azure.com/subscriptions/exampleSubscriptionId/resourceGroups/exampleResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-9080/disasterRecoveryConfigs/sdk-DisasterRecovery-4879/AuthorizationRules/sdk-Authrules-4879?api-version=2017-04-01
+    uri: GET https://management.azure.com/subscriptions/subscriptionid/resourceGroups/ResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-5849/messagingplan?api-version=2017-04-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/exampleSubscriptionId/resourceGroups/exampleResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-9080/disasterRecoveryConfigs/sdk-DisasterRecovery-4047/AuthorizationRules/sdk-Authrules-4879",
-        "name": "sdk-Authrules-4879",
-        "type": "Microsoft.EventHub/Namespaces/AuthorizationRules",
+        "id": "/subscriptions/subscriptionid/resourceGroups/ResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-5849/messagingplan",
+        "name": "2",
+        "type": "Microsoft.EventHub/MessagingSKUPlan",
+        "location": null,
+        "tags": null,
         "properties": {
-          "rights": [
-            "Listen",
-            "Send"
-          ]
+          "sku": 2,
+          "selectedEventHubUnit": 1,
+          "updatedAt": "2018-04-10T17:55:54.4048325Z",
+          "revision": 1
         }
       }
 security:
