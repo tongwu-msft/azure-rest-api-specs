@@ -2051,6 +2051,7 @@
 #### [Delete Authorization Rule](EventHub/Namespaces/DeleteAuthorizationRule.yml)
 #### [Get](EventHub/Namespaces/Get.yml)
 #### [Get Authorization Rule](EventHub/Namespaces/GetAuthorizationRule.yml)
+#### [Get Messaging Plan](EventHub/Namespaces/GetMessagingPlan.yml)
 #### [List](EventHub/Namespaces/List.yml)
 #### [List Authorization Rules](EventHub/Namespaces/ListAuthorizationRules.yml)
 #### [List By Resource Group](EventHub/Namespaces/ListByResourceGroup.yml)
