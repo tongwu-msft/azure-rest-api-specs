@@ -1408,6 +1408,7 @@
 #### [Force Recovery Service Fabric Platform Update Domain Walk](compute/VirtualMachineScaleSets/ForceRecoveryServiceFabricPlatformUpdateDomainWalk.yml)
 #### [Get](compute/VirtualMachineScaleSets/Get.yml)
 #### [Get Instance View](compute/VirtualMachineScaleSets/GetInstanceView.yml)
+#### [Get OS Upgrade History](compute/VirtualMachineScaleSets/GetOSUpgradeHistory.yml)
 #### [List](compute/VirtualMachineScaleSets/List.yml)
 #### [List All](compute/VirtualMachineScaleSets/ListAll.yml)
 #### [List Skus](compute/VirtualMachineScaleSets/ListSkus.yml)
