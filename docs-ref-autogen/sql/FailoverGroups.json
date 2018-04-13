@@ -1,0 +1,348 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2015-05-01-preview",
+    "title": "SqlManagementClient",
+    "description": "The Azure SQL Database management API provides a RESTful set of web APIs that interact with Azure SQL Database services to manage your databases. The API enables users to create, retrieve, update, and delete databases, servers, and other entities."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "paths": {},
+  "definitions": {
+    "FailoverGroupProperties": {
+      "description": "Properties of a failover group.",
+      "required": [
+        "readWriteEndpoint",
+        "partnerServers"
+      ],
+      "type": "object",
+      "properties": {
+        "readWriteEndpoint": {
+          "$ref": "#/definitions/FailoverGroupReadWriteEndpoint",
+          "description": "Read-write endpoint of the failover group instance."
+        },
+        "readOnlyEndpoint": {
+          "$ref": "#/definitions/FailoverGroupReadOnlyEndpoint",
+          "description": "Read-only endpoint of the failover group instance."
+        },
+        "replicationRole": {
+          "description": "Local replication role of the failover group instance.",
+          "enum": [
+            "Primary",
+            "Secondary"
+          ],
+          "type": "string",
+          "readOnly": true,
+          "x-ms-enum": {
+            "name": "FailoverGroupReplicationRole",
+            "modelAsString": true
+          }
+        },
+        "replicationState": {
+          "description": "Replication state of the failover group instance.",
+          "type": "string",
+          "readOnly": true
+        },
+        "partnerServers": {
+          "description": "List of partner server information for the failover group.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PartnerInfo"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "databases": {
+          "description": "List of databases in the failover group.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "FailoverGroupReadWriteEndpoint": {
+      "description": "Read-write endpoint of the failover group instance.",
+      "required": [
+        "failoverPolicy"
+      ],
+      "type": "object",
+      "properties": {
+        "failoverPolicy": {
+          "description": "Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.",
+          "enum": [
+            "Manual",
+            "Automatic"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ReadWriteEndpointFailoverPolicy",
+            "modelAsString": true
+          }
+        },
+        "failoverWithDataLossGracePeriodMinutes": {
+          "format": "int32",
+          "description": "Grace period before failover with data loss is attempted for the read-write endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.",
+          "type": "integer"
+        }
+      }
+    },
+    "FailoverGroupReadOnlyEndpoint": {
+      "description": "Read-only endpoint of the failover group instance.",
+      "type": "object",
+      "properties": {
+        "failoverPolicy": {
+          "description": "Failover policy of the read-only endpoint for the failover group.",
+          "enum": [
+            "Disabled",
+            "Enabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ReadOnlyEndpointFailoverPolicy",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "PartnerInfo": {
+      "description": "Partner server information for the failover group.",
+      "required": [
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Resource identifier of the partner server.",
+          "type": "string"
+        },
+        "location": {
+          "description": "Geo location of the partner server.",
+          "type": "string",
+          "readOnly": true
+        },
+        "replicationRole": {
+          "description": "Replication role of the partner server.",
+          "enum": [
+            "Primary",
+            "Secondary"
+          ],
+          "type": "string",
+          "readOnly": true,
+          "x-ms-enum": {
+            "name": "FailoverGroupReplicationRole",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "Resource": {
+      "description": "ARM resource.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Resource ID.",
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "description": "Resource name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "Resource type.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "ProxyResource": {
+      "description": "ARM proxy resource.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "properties": {}
+    },
+    "FailoverGroup": {
+      "description": "A failover group.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "location": {
+          "description": "Resource location.",
+          "type": "string",
+          "readOnly": true
+        },
+        "tags": {
+          "description": "Resource tags.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "$ref": "#/definitions/FailoverGroupProperties",
+          "description": "Resource properties.",
+          "x-ms-client-flatten": true
+        }
+      }
+    },
+    "FailoverGroupUpdate": {
+      "description": "A failover group update request.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/FailoverGroupUpdateProperties",
+          "description": "Resource properties.",
+          "x-ms-client-flatten": true
+        },
+        "tags": {
+          "description": "Resource tags.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "FailoverGroupUpdateProperties": {
+      "description": "Properties of a failover group update.",
+      "type": "object",
+      "properties": {
+        "readWriteEndpoint": {
+          "$ref": "#/definitions/FailoverGroupReadWriteEndpoint",
+          "description": "Read-write endpoint of the failover group instance."
+        },
+        "readOnlyEndpoint": {
+          "$ref": "#/definitions/FailoverGroupReadOnlyEndpoint",
+          "description": "Read-only endpoint of the failover group instance."
+        },
+        "databases": {
+          "description": "List of databases in the failover group.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "FailoverGroupListResult": {
+      "description": "A list of failover groups.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Array of results.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FailoverGroup"
+          },
+          "readOnly": true
+        },
+        "nextLink": {
+          "description": "Link to retrieve next page of results.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "The subscription ID that identifies an Azure subscription.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "client"
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "description": "The API version to use for the request.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "client"
+    },
+    "ResourceGroupParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "description": "The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "ServerNameParameter": {
+      "name": "serverName",
+      "in": "path",
+      "description": "The name of the server.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "DatabaseNameParameter": {
+      "name": "databaseName",
+      "in": "path",
+      "description": "The name of the database.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "x-internal-service-name": "SQL Database",
+  "x-internal-toc-name": "Failover Groups",
+  "x-internal-split-members": [
+    {
+      "displayName": "Create Or Update",
+      "relativePath": "FailoverGroups/CreateOrUpdate"
+    },
+    {
+      "displayName": "Delete",
+      "relativePath": "FailoverGroups/Delete"
+    },
+    {
+      "displayName": "Failover",
+      "relativePath": "FailoverGroups/Failover"
+    },
+    {
+      "displayName": "Force Failover Allow Data Loss",
+      "relativePath": "FailoverGroups/ForceFailoverAllowDataLoss"
+    },
+    {
+      "displayName": "Get",
+      "relativePath": "FailoverGroups/Get"
+    },
+    {
+      "displayName": "List By Server",
+      "relativePath": "FailoverGroups/ListByServer"
+    },
+    {
+      "displayName": "Update",
+      "relativePath": "FailoverGroups/Update"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
+}

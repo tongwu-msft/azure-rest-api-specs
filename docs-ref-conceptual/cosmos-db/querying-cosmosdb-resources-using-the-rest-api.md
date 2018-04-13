@@ -76,7 +76,7 @@ Content-Length: 50
 |**Authorization**|**Required**. The authentication type and signature token. Only the master key token is allowed for this operation. For more information, see [Access Control on Cosmos DB Resources](access-control-on-cosmosdb-resources.md).|  
 |**Content-Type**|**Required**. Must be set to application/query+json.|  
 |**Accept**|**Optional**. At the moment, Cosmos DB always returns the response payload in standard JSON format. The client must be able to accept the response body in standard JSON format.|  
-|**User-Agent**|**Optional**. The user agent performing the request. The recommended format is {user agent name}/{version}. For example, the DocumentDB .NET SDK sets the User-Agent string to Microsoft.Document.Client/1.0.0.0.|  
+|**User-Agent**|**Optional**. The user agent performing the request. The recommended format is {user agent name}/{version}. For example, the SQL API .NET SDK sets the User-Agent string to Microsoft.Document.Client/1.0.0.0.|  
   
 |**Custom Header**|**Description**|  
 |-|-|  

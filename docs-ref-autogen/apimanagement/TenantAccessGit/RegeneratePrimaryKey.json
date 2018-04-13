@@ -1,0 +1,369 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2018-01-01",
+    "title": "ApiManagementClient",
+    "description": "Use these REST APIs for performing operations on tenant entity associated with your Azure API Management deployment. Using this entity you can manage properties and configuration that apply to the entire API Management service instance."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/regeneratePrimaryKey": {
+      "post": {
+        "tags": [
+          "TenantAccessGit"
+        ],
+        "operationId": "TenantAccessGit_RegeneratePrimaryKey",
+        "description": "Regenerate primary access key for GIT.",
+        "x-ms-examples": {
+          "ApiManagementTenantAccessRegenerateKey": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2018-01-01",
+              "subscriptionId": "subid",
+              "accessName": "access"
+            },
+            "responses": {
+              "204": {}
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/AccessParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The primary key was successfully regenerated."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-toc-name": "Regenerate Primary Key"
+      }
+    }
+  },
+  "definitions": {
+    "AccessInformationContract": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identifier."
+        },
+        "primaryKey": {
+          "type": "string",
+          "description": "Primary access key."
+        },
+        "secondaryKey": {
+          "type": "string",
+          "description": "Secondary access key."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Tenant access information of the API Management service."
+        }
+      },
+      "description": "Tenant access information contract of the API Management service."
+    },
+    "AccessInformationUpdateParameters": {
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Tenant access information of the API Management service."
+        }
+      },
+      "description": "Tenant access information update parameters of the API Management service."
+    },
+    "DeployConfigurationParameters": {
+      "properties": {
+        "branch": {
+          "type": "string",
+          "description": "The name of the Git branch from which the configuration is to be deployed to the configuration database."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "The value enforcing deleting subscriptions to products that are deleted in this update."
+        }
+      },
+      "required": [
+        "branch"
+      ],
+      "description": "Parameters supplied to the Deploy Configuration operation."
+    },
+    "OperationResultContract": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Operation result identifier."
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of an async operation.",
+          "enum": [
+            "Started",
+            "InProgress",
+            "Succeeded",
+            "Failed"
+          ],
+          "x-ms-enum": {
+            "name": "AsyncOperationStatus",
+            "modelAsString": false
+          }
+        },
+        "started": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        },
+        "resultInfo": {
+          "type": "string",
+          "description": "Optional result info."
+        },
+        "error": {
+          "$ref": "#/definitions/ErrorResponse",
+          "description": "Error Body Contract"
+        },
+        "actionLog": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationResultLogItemContract"
+          },
+          "readOnly": true,
+          "description": "This property if only provided as part of the TenantConfiguration_Validate operation. It contains the log the entities which will be updated/created/deleted as part of the TenantConfiguration_Deploy operation."
+        }
+      },
+      "description": "Operation Result."
+    },
+    "OperationResultLogItemContract": {
+      "properties": {
+        "objectType": {
+          "type": "string",
+          "description": "The type of entity contract."
+        },
+        "action": {
+          "type": "string",
+          "description": "Action like create/update/delete."
+        },
+        "objectKey": {
+          "type": "string",
+          "description": "Identifier of the entity being created/updated/deleted."
+        }
+      },
+      "description": "Log of the entity being created, updated or deleted."
+    },
+    "SaveConfigurationParameter": {
+      "properties": {
+        "branch": {
+          "type": "string",
+          "description": "The name of the Git branch in which to commit the current configuration snapshot."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "The value if true, the current configuration database is committed to the Git repository, even if the Git repository has newer changes that would be overwritten."
+        }
+      },
+      "required": [
+        "branch"
+      ],
+      "description": "Parameters supplied to the Save Tenant Configuration operation."
+    },
+    "TenantConfigurationSyncStateContract": {
+      "properties": {
+        "branch": {
+          "type": "string",
+          "description": "The name of Git branch."
+        },
+        "commitId": {
+          "type": "string",
+          "description": "The latest commit Id."
+        },
+        "isExport": {
+          "type": "boolean",
+          "description": "value indicating if last sync was save (true) or deploy (false) operation."
+        },
+        "isSynced": {
+          "type": "boolean",
+          "description": "value indicating if last synchronization was later than the configuration change."
+        },
+        "isGitEnabled": {
+          "type": "boolean",
+          "description": "value indicating whether Git configuration access is enabled."
+        },
+        "syncDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date of the latest synchronization. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        },
+        "configurationChangeDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date of the latest configuration change. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.\n"
+        }
+      },
+      "description": "Tenant Configuration Synchronization State."
+    },
+    "ErrorFieldContract": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Property level error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of property-level error."
+        },
+        "target": {
+          "type": "string",
+          "description": "Property name."
+        }
+      },
+      "description": "Error Field contract."
+    },
+    "ErrorResponse": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of the error."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorFieldContract"
+          },
+          "description": "The list of invalid fields send in request, in case of validation error."
+        }
+      },
+      "description": "Error Body contract."
+    }
+  },
+  "parameters": {
+    "AccessParameter": {
+      "name": "accessName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "access"
+      ],
+      "x-ms-enum": {
+        "modelAsString": true,
+        "name": "AccessIdName"
+      },
+      "description": "The identifier of the Access configuration.",
+      "x-ms-parameter-location": "method"
+    },
+    "ConfigurationParameter": {
+      "name": "configurationName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "configuration"
+      ],
+      "x-ms-enum": {
+        "modelAsString": true,
+        "name": "configurationIdName"
+      },
+      "description": "The identifier of the Git Configuration Operation.",
+      "x-ms-parameter-location": "method"
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Version of the API to be used with the client request."
+    },
+    "ServiceNameParameter": {
+      "name": "serviceName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the API Management service.",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$",
+      "x-ms-parameter-location": "method"
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group.",
+      "x-ms-parameter-location": "method"
+    },
+    "IfMatchRequiredParameter": {
+      "name": "If-Match",
+      "in": "header",
+      "required": true,
+      "description": "ETag of the Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "x-internal-service-name": "API Management",
+  "x-internal-toc-name": "Tenant Access Git",
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-name": "Regenerate Primary Key"
+}

@@ -1,0 +1,764 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2017-11-15",
+    "x-ms-code-generation-settings": {
+      "host": "management.azure.com"
+    },
+    "title": "iotDpsClient",
+    "description": "API for using the Azure IoT Hub Device Provisioning Service features."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates": {
+      "get": {
+        "tags": [
+          "GET"
+        ],
+        "operationId": "DpsCertificate_List",
+        "description": "Get all the certificates tied to the provisioning service.",
+        "x-ms-examples": {
+          "DPSGetCertificates": {
+            "parameters": {
+              "provisioningServiceName": "myFirstProvisioningService",
+              "resourceGroupName": "myResourceGroup",
+              "api-version": "2017-11-15",
+              "subscriptionId": "91d12660-3dec-467a-be2a-213b5544ddc0"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "properties": {
+                        "subject": "CN=testdevice1",
+                        "expiry": "Sat, 31 Dec 2039 23:59:59 GMT",
+                        "thumbprint": "97388663832D0393C9246CAB4FBA2C8677185A25",
+                        "isVerified": false,
+                        "created": "Thu, 12 Oct 2017 19:23:50 GMT",
+                        "updated": "Thu, 12 Oct 2017 19:23:50 GMT"
+                      },
+                      "id": "/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/andbuc-hub/certificates/cert",
+                      "name": "cert",
+                      "type": "Microsoft.Devices/ProvisioningServices/Certificates",
+                      "etag": "AAAAAAExpNs="
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "consumes": [],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionId"
+          },
+          {
+            "name": "resourceGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Name of resource group."
+          },
+          {
+            "name": "provisioningServiceName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Name of provisioning service to retrieve certificates for."
+          },
+          {
+            "$ref": "#/parameters/api-version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of certificate descriptions in a JSON-serialized array.",
+            "schema": {
+              "$ref": "#/definitions/CertificateListDescription"
+            }
+          },
+          "default": {
+            "description": "Default error response.",
+            "schema": {
+              "$ref": "#/definitions/ErrorDetails"
+            }
+          }
+        },
+        "x-internal-toc-name": "List"
+      }
+    }
+  },
+  "definitions": {
+    "AsyncOperationResult": {
+      "type": "object",
+      "description": "Result of a long running operation.",
+      "properties": {
+        "status": {
+          "description": "current status of a long running operation.",
+          "type": "string"
+        },
+        "error": {
+          "description": "Error message containing code, description and details",
+          "$ref": "#/definitions/ErrorMesssage"
+        }
+      }
+    },
+    "ErrorMesssage": {
+      "description": "Error response containing message and code.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "standard error code",
+          "type": "string"
+        },
+        "message": {
+          "description": "standard error description",
+          "type": "string"
+        },
+        "details": {
+          "description": "detailed summary of error",
+          "type": "string"
+        }
+      }
+    },
+    "CertificateListDescription": {
+      "description": "The JSON-serialized array of Certificate objects.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "The array of Certificate objects.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CertificateResponse"
+          }
+        }
+      }
+    },
+    "CertificateBodyDescription": {
+      "description": "The JSON-serialized X509 Certificate.",
+      "type": "object",
+      "properties": {
+        "certificate": {
+          "description": "Base-64 representation of the X509 leaf certificate .cer file or just .pem file content.",
+          "type": "string"
+        }
+      }
+    },
+    "CertificateResponse": {
+      "description": "The X509 Certificate.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "description": "properties of a certificate",
+          "$ref": "#/definitions/CertificateProperties"
+        },
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource identifier."
+        },
+        "name": {
+          "description": "The name of the certificate.",
+          "type": "string",
+          "readOnly": true
+        },
+        "etag": {
+          "description": "The entity tag.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource type."
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "CertificateProperties": {
+      "description": "The description of an X509 CA Certificate.",
+      "type": "object",
+      "properties": {
+        "subject": {
+          "description": "The certificate's subject name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "expiry": {
+          "description": "The certificate's expiration date and time.",
+          "type": "string",
+          "format": "date-time-rfc1123",
+          "readOnly": true
+        },
+        "thumbprint": {
+          "description": "The certificate's thumbprint.",
+          "type": "string",
+          "readOnly": true
+        },
+        "isVerified": {
+          "description": "Determines whether certificate has been verified.",
+          "type": "boolean",
+          "readOnly": true
+        },
+        "created": {
+          "description": "The certificate's creation date and time.",
+          "type": "string",
+          "format": "date-time-rfc1123",
+          "readOnly": true
+        },
+        "updated": {
+          "description": "The certificate's last update date and time.",
+          "type": "string",
+          "format": "date-time-rfc1123",
+          "readOnly": true
+        }
+      }
+    },
+    "IotDpsSkuInfo": {
+      "type": "object",
+      "description": "List of possible provisoning service SKUs.",
+      "properties": {
+        "name": {
+          "description": "Sku name.",
+          "enum": [
+            "S1"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "IotDpsSku",
+            "modelAsString": true
+          }
+        },
+        "tier": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Pricing tier name of the provisioning service."
+        },
+        "capacity": {
+          "format": "int64",
+          "type": "integer",
+          "description": "The number of units to provision"
+        }
+      }
+    },
+    "ProvisioningServiceDescription": {
+      "description": "The description of the provisioning service.",
+      "type": "object",
+      "properties": {
+        "etag": {
+          "description": "The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention.",
+          "type": "string"
+        },
+        "properties": {
+          "description": "Service specific properties for a provisioning service",
+          "$ref": "#/definitions/IotDpsPropertiesDescription"
+        },
+        "sku": {
+          "description": "SKU info for a provisioning service.",
+          "$ref": "#/definitions/IotDpsSkuInfo"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "required": [
+        "sku",
+        "properties"
+      ]
+    },
+    "IotDpsPropertiesDescription": {
+      "description": "the service specific properties of a provisoning service, including keys, linked iot hubs, current state, and system generated properties such as hostname and idScope",
+      "type": "object",
+      "properties": {
+        "state": {
+          "description": "Current state of the provisioning service.",
+          "enum": [
+            "Activating",
+            "Active",
+            "Deleting",
+            "Deleted",
+            "ActivationFailed",
+            "DeletionFailed",
+            "Transitioning",
+            "Suspending",
+            "Suspended",
+            "Resuming",
+            "FailingOver",
+            "FailoverFailed"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "state",
+            "modelAsString": true
+          }
+        },
+        "provisioningState": {
+          "description": "The ARM provisioning state of the provisioning service.",
+          "type": "string"
+        },
+        "iotHubs": {
+          "type": "array",
+          "description": "List of IoT hubs assosciated with this provisioning service.",
+          "items": {
+            "$ref": "#/definitions/IotHubDefinitionDescription"
+          }
+        },
+        "allocationPolicy": {
+          "enum": [
+            "Hashed",
+            "GeoLatency",
+            "Static"
+          ],
+          "type": "string",
+          "description": "Allocation policy to be used by this provisioning service.",
+          "x-ms-enum": {
+            "name": "AllocationPolicy",
+            "modelAsString": true
+          }
+        },
+        "serviceOperationsHostName": {
+          "description": "Service endpoint for provisioning service.",
+          "type": "string",
+          "readOnly": true
+        },
+        "deviceProvisioningHostName": {
+          "type": "string",
+          "description": "Device endpoint for this provisioning service.",
+          "readOnly": true
+        },
+        "idScope": {
+          "type": "string",
+          "description": "Unique identifier of this provisioning service.",
+          "readOnly": true
+        },
+        "authorizationPolicies": {
+          "description": "List of authorization keys for a provisioning service.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SharedAccessSignatureAuthorizationRule[AccessRightsDescription]"
+          }
+        }
+      }
+    },
+    "IotHubDefinitionDescription": {
+      "type": "object",
+      "description": "Description of the IoT hub.",
+      "properties": {
+        "applyAllocationPolicy": {
+          "description": "Flag for applying allocationPolicy or not for a given IoT hub.",
+          "type": "boolean"
+        },
+        "allocationWeight": {
+          "description": "Weight to apply for a given IoT hub.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "name": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Host name of the IoT hub."
+        },
+        "connectionString": {
+          "type": "string",
+          "description": "Connection string of the IoT hub."
+        },
+        "location": {
+          "type": "string",
+          "description": "ARM region of the IoT hub."
+        }
+      },
+      "required": [
+        "connectionString",
+        "location"
+      ]
+    },
+    "SharedAccessSignatureAuthorizationRule[AccessRightsDescription]": {
+      "type": "object",
+      "description": "Description of the shared access key.",
+      "properties": {
+        "keyName": {
+          "type": "string",
+          "description": "Name of the key."
+        },
+        "primaryKey": {
+          "type": "string",
+          "description": "Primary SAS key value."
+        },
+        "secondaryKey": {
+          "type": "string",
+          "description": "Secondary SAS key value."
+        },
+        "rights": {
+          "description": "Rights that this key has.",
+          "enum": [
+            "ServiceConfig",
+            "EnrollmentRead",
+            "EnrollmentWrite",
+            "DeviceConnect",
+            "RegistrationStatusRead",
+            "RegistrationStatusWrite"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "AccessRightsDescription",
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "keyName",
+        "rights"
+      ]
+    },
+    "Resource": {
+      "description": "The common properties of an Azure resource.",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource identifier."
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource name.",
+          "pattern": "^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{2,49}[a-zA-Z0-9]$"
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource type."
+        },
+        "location": {
+          "type": "string",
+          "description": "The resource location."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "The resource tags."
+        }
+      },
+      "x-ms-azure-resource": true,
+      "required": [
+        "location"
+      ]
+    },
+    "OperationListResult": {
+      "description": "Result of the request to list IoT Hub operations. It contains a list of operations and a URL link to get the next set of results.",
+      "properties": {
+        "value": {
+          "description": "List of IoT Hub operations supported by the Microsoft.Devices resource provider.",
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/Operation"
+          }
+        },
+        "nextLink": {
+          "readOnly": true,
+          "type": "string",
+          "description": "URL to get the next set of operation list results if there are any."
+        }
+      }
+    },
+    "Operation": {
+      "description": "IoT Hub REST API operation.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Operation name: {provider}/{resource}/{read | write | action | delete}"
+        },
+        "display": {
+          "description": "The object that represents the operation.",
+          "properties": {
+            "provider": {
+              "readOnly": true,
+              "type": "string",
+              "description": "Service provider: Microsoft Devices."
+            },
+            "resource": {
+              "readOnly": true,
+              "type": "string",
+              "description": "Resource Type: ProvisioningServices."
+            },
+            "operation": {
+              "readOnly": true,
+              "type": "string",
+              "description": "Name of the operation."
+            }
+          }
+        }
+      }
+    },
+    "ErrorDetails": {
+      "description": "Error details.",
+      "type": "object",
+      "properties": {
+        "Code": {
+          "description": "The error code.",
+          "type": "string",
+          "readOnly": true
+        },
+        "HttpStatusCode": {
+          "description": "The HTTP status code.",
+          "type": "string",
+          "readOnly": true
+        },
+        "Message": {
+          "description": "The error message.",
+          "type": "string",
+          "readOnly": true
+        },
+        "Details": {
+          "description": "The error details.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "SharedAccessSignatureAuthorizationRuleListResult": {
+      "type": "object",
+      "description": "List of shared access keys.",
+      "properties": {
+        "value": {
+          "description": "The list of shared access policies.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SharedAccessSignatureAuthorizationRule[AccessRightsDescription]"
+          }
+        },
+        "nextLink": {
+          "description": "The next link.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "IotDpsSkuDefinitionListResult": {
+      "type": "object",
+      "description": "List of available SKUs.",
+      "properties": {
+        "value": {
+          "description": "The list of SKU's",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IotDpsSkuDefinition"
+          }
+        },
+        "nextLink": {
+          "description": "The next link.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "IotDpsSkuDefinition": {
+      "type": "object",
+      "description": "Available SKU's of tier and units.",
+      "properties": {
+        "name": {
+          "description": "SKU name.",
+          "enum": [
+            "S1"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "IotDpsSku",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "OperationInputs": {
+      "description": "Input values for operation results call.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the Provisioning Service to check.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "NameAvailabilityInfo": {
+      "type": "object",
+      "description": "Description of name availability.",
+      "properties": {
+        "nameAvailable": {
+          "description": "specifies if a name is available or not",
+          "type": "boolean"
+        },
+        "reason": {
+          "description": "specifies the reason a name is unavailable",
+          "enum": [
+            "Invalid",
+            "AlreadyExists"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "NameUnavailabilityReason",
+            "modelAsString": true
+          }
+        },
+        "message": {
+          "description": "message containing a etailed reason name is unavailable",
+          "type": "string"
+        }
+      }
+    },
+    "TagsResource": {
+      "properties": {
+        "tags": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags"
+        }
+      },
+      "description": "A container holding only the Tags for a resource, allowing the user to update the tags on a Provisioning Service instance."
+    },
+    "ProvisioningServiceDescriptionListResult": {
+      "type": "object",
+      "description": "List of provisioning service descriptions.",
+      "properties": {
+        "value": {
+          "description": "List of provisioning service descriptions.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProvisioningServiceDescription"
+          }
+        },
+        "nextLink": {
+          "description": "the next link",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "VerificationCodeResponse": {
+      "type": "object",
+      "description": "Description of the response of the verification code.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of certificate.",
+          "readOnly": true
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Request etag."
+        },
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource identifier."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource type."
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "verificationCode": {
+              "type": "string",
+              "description": "Verification code."
+            },
+            "subject": {
+              "type": "string",
+              "description": "Certificate subject."
+            },
+            "expiry": {
+              "type": "string",
+              "description": "Code expiry."
+            },
+            "thumbprint": {
+              "type": "string",
+              "description": "Certificate thumbprint."
+            },
+            "isVerified": {
+              "type": "boolean",
+              "description": "Indicate if the certificate is verified by owner of private key."
+            },
+            "created": {
+              "type": "string",
+              "description": "Certificate created time."
+            },
+            "updated": {
+              "type": "string",
+              "description": "Certificate updated time."
+            }
+          }
+        }
+      },
+      "x-ms-azure-resource": true
+    },
+    "VerificationCodeRequest": {
+      "type": "object",
+      "description": "The JSON-serialized leaf certificate",
+      "properties": {
+        "certificate": {
+          "description": "base-64 representation of X509 certificate .cer file or just .pem file content.",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "subscriptionId": {
+      "name": "subscriptionId",
+      "in": "path",
+      "description": "The subscription identifier.",
+      "required": true,
+      "type": "string"
+    },
+    "api-version": {
+      "name": "api-version",
+      "in": "query",
+      "description": "The version of the API.",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "x-internal-service-name": "IoT Hub Device Provisioning Service",
+  "x-internal-toc-name": "Dps Certificate",
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-name": "List"
+}
