@@ -1,0 +1,208 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.apiissuecomment.createorupdate
+name: Create Or Update
+service: API Management
+groupName: Api Issue Comment
+apiVersion: 2018-01-01
+summary: Creates a new Comment for the Issue in an API or updates an existing one.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/comments/{commentId}?api-version=2018-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: apiId
+  in: path
+  isRequired: true
+  description: API identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+- name: issueId
+  in: path
+  isRequired: true
+  description: Issue identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+- name: commentId
+  in: path
+  isRequired: true
+  description: Comment identifier within an Issue. Must be unique in the current Issue.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Issue Comment was successfully created.
+  types:
+  - uid: IssueCommentContract
+- name: 200 OK
+  description: Issue Comment was successfully updated.
+  types:
+  - uid: IssueCommentContract
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: properties.text
+    in: body
+    isRequired: true
+    description: Comment text.
+    types:
+    - uid: string
+  - name: properties.createdDate
+    in: body
+    description: Date and time when the comment was created.
+    types:
+    - uid: string
+  - name: properties.userId
+    in: body
+    isRequired: true
+    description: A resource identifier for the user who left the comment.
+    types:
+    - uid: string
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the Issue Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
+  types:
+  - uid: string
+definitions:
+- name: IssueCommentContract
+  description: Issue Comment Contract details.
+  kind: object
+  properties:
+  - name: properties.text
+    description: Comment text.
+    types:
+    - uid: string
+  - name: properties.createdDate
+    description: Date and time when the comment was created.
+    types:
+    - uid: string
+  - name: properties.userId
+    description: A resource identifier for the user who left the comment.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Error Field contract.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementCreateApiIssueComment
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues/57d2ef278aa04f0ad01d6cdc/comments/599e29ab193c3c0bd0b3e2fb?api-version=2018-01-01
+    body: >-
+      {
+        "properties": {
+          "text": "Issue comment.",
+          "createdDate": "2018-02-01T22:21:20.467Z",
+          "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/1"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues/57d2ef278aa04f0ad01d6cdc/comments/599e29ab193c3c0bd0b3e2fb",
+        "type": "Microsoft.ApiManagement/service/apis/issues/comments",
+        "name": "599e29ab193c3c0bd0b3e2fb",
+        "properties": {
+          "text": "Issue comment.",
+          "createdDate": "2018-02-01T22:21:20.467Z",
+          "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/1"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues/57d2ef278aa04f0ad01d6cdc/comments/599e29ab193c3c0bd0b3e2fb",
+        "type": "Microsoft.ApiManagement/service/apis/issues/comments",
+        "name": "599e29ab193c3c0bd0b3e2fb",
+        "properties": {
+          "text": "Issue comment.",
+          "createdDate": "2018-02-01T22:21:20.467Z",
+          "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/1"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

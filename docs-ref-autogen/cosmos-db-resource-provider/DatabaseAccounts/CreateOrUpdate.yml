@@ -72,6 +72,11 @@ requestBody:
     description: 'Cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma separated and must not contain any spaces.'
     types:
     - uid: string
+  - name: properties.isVirtualNetworkFilterEnabled
+    in: body
+    description: Flag to indicate whether to enable/disable Virtual Network ACL rules.
+    types:
+    - uid: boolean
   - name: properties.enableAutomaticFailover
     in: body
     description: Enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account.
@@ -82,6 +87,12 @@ requestBody:
     description: Cosmos DB capability object
     types:
     - uid: Capability
+      isArray: true
+  - name: properties.virtualNetworkRules
+    in: body
+    description: Virtual Network ACL Rule object
+    types:
+    - uid: VirtualNetworkRule
       isArray: true
   - name: location
     in: body
@@ -151,6 +162,14 @@ definitions:
     description: 'Name of the Cosmos DB capability. For example, "name": "EnableCassandra". Current values also include "EnableTable" and "EnableGremlin".'
     types:
     - uid: string
+- name: VirtualNetworkRule
+  description: Virtual Network ACL Rule object
+  kind: object
+  properties:
+  - name: id
+    description: 'Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.'
+    types:
+    - uid: string
 - name: DatabaseAccount
   description: An Azure Cosmos DB database account.
   kind: object
@@ -178,6 +197,10 @@ definitions:
     description: 'Cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma separated and must not contain any spaces.'
     types:
     - uid: string
+  - name: properties.isVirtualNetworkFilterEnabled
+    description: Flag to indicate whether to enable/disable Virtual Network ACL rules.
+    types:
+    - uid: boolean
   - name: properties.enableAutomaticFailover
     description: Enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account.
     types:
@@ -208,6 +231,11 @@ definitions:
     description: The failover policy for a given region of a database account.
     types:
     - uid: FailoverPolicy
+      isArray: true
+  - name: properties.virtualNetworkRules
+    description: Virtual Network ACL Rule object
+    types:
+    - uid: VirtualNetworkRule
       isArray: true
   - name: id
     isReadyOnly: true
@@ -261,6 +289,10 @@ definitions:
     description: 'Cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma separated and must not contain any spaces.'
     types:
     - uid: string
+  - name: properties.isVirtualNetworkFilterEnabled
+    description: Flag to indicate whether to enable/disable Virtual Network ACL rules.
+    types:
+    - uid: boolean
   - name: properties.enableAutomaticFailover
     description: Enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account.
     types:
@@ -269,6 +301,11 @@ definitions:
     description: Cosmos DB capability object
     types:
     - uid: Capability
+      isArray: true
+  - name: properties.virtualNetworkRules
+    description: Virtual Network ACL Rule object
+    types:
+    - uid: VirtualNetworkRule
       isArray: true
   - name: id
     isReadyOnly: true
@@ -425,6 +462,12 @@ examples:
         "properties": {
           "databaseAccountOfferType": "Standard",
           "ipRangeFilter": "10.10.10.10",
+          "isVirtualNetworkFilterEnabled": true,
+          "virtualNetworkRules": [
+            {
+              "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
+            }
+          ],
           "locations": [
             {
               "failoverPriority": 0,
@@ -455,6 +498,7 @@ examples:
         "properties": {
           "provisioningState": "Initializing",
           "ipRangeFilter": "10.10.10.10",
+          "isVirtualNetworkFilterEnabled": true,
           "databaseAccountOfferType": "Standard",
           "consistencyPolicy": {
             "defaultConsistencyLevel": "BoundedStaleness",
@@ -493,6 +537,11 @@ examples:
               "id": "ddb1-eastus",
               "locationName": "East US",
               "failoverPriority": 1
+            }
+          ],
+          "virtualNetworkRules": [
+            {
+              "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
             }
           ]
         }

@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.apimanagement.apirelease.list
-name: List
+uid: management.azure.com.apimanagement.apiissues.listbyservice
+name: List By Service
 service: API Management
-groupName: Api Release
+groupName: Api Issues
 apiVersion: 2018-01-01
-summary: Lists all releases of an API. An API release is created when making an API Revision current. Releases are also used to rollback to previous revisions. Results will be paged and can be constrained by the $top and $skip parameters.
+summary: Lists all issues assosiated with the specified API.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases?api-version=2018-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases?api-version=2018-01-01&$filter={$filter}&$top={$top}&$skip={$skip}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues?api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues?api-version=2018-01-01&$filter={$filter}&$top={$top}&$skip={$skip}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -49,13 +49,15 @@ uriParameters:
 - name: $filter
   in: query
   description: >-
-    | Field | Supported operators    | Supported functions                         |
+    | Field       | Supported operators    | Supported functions               |
 
-    |-------|------------------------|---------------------------------------------|
+    |-------------|------------------------|-----------------------------------|
 
-    | name  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+    | id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |
 
-    |notes|ge le eq ne gt lt|substringof contains startswith endswith|
+    | state        | eq                     |                                   |
+
+    | userId          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |
   types:
   - uid: string
 - name: $top
@@ -72,24 +74,24 @@ uriParameters:
   format: int32
 responses:
 - name: 200 OK
-  description: The operation returns a list of API Releases.
+  description: Paged Result reponse of issues for the API.
   types:
-  - uid: ApiReleaseCollection
+  - uid: IssueCollection
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: ApiReleaseCollection
-  description: Paged Api Revision list representation.
+- name: IssueCollection
+  description: Paged Issue list representation.
   kind: object
   properties:
   - name: value
     isReadyOnly: true
-    description: Api Release details.
+    description: Issue Contract details.
     types:
-    - uid: ApiReleaseContract
+    - uid: IssueContract
       isArray: true
   - name: nextLink
     isReadyOnly: true
@@ -113,26 +115,32 @@ definitions:
     types:
     - uid: ErrorFieldContract
       isArray: true
-- name: ApiReleaseContract
-  description: Api Release details.
+- name: IssueContract
+  description: Issue Contract details.
   kind: object
   properties:
+  - name: properties.title
+    description: The issue title.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Text describing the issue.
+    types:
+    - uid: string
+  - name: properties.createdDate
+    description: Date and time when the issue was created.
+    types:
+    - uid: string
+  - name: properties.state
+    description: Status of the issue.
+    types:
+    - uid: State
+  - name: properties.userId
+    description: A resource identifier for the user created the issue.
+    types:
+    - uid: string
   - name: properties.apiId
-    description: Identifier of the API the release belongs to.
-    types:
-    - uid: string
-  - name: properties.createdDateTime
-    isReadyOnly: true
-    description: 'The time the API was released. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.'
-    types:
-    - uid: string
-  - name: properties.updatedDateTime
-    isReadyOnly: true
-    description: The time the API release was updated.
-    types:
-    - uid: string
-  - name: properties.notes
-    description: Release Notes
+    description: A resource identifier for the API the issue was created for.
     types:
     - uid: string
   - name: id
@@ -166,23 +174,50 @@ definitions:
     description: Property name.
     types:
     - uid: string
+- name: State
+  description: Status of the issue.
+  kind: enum
+  properties:
+  - name: proposed
+    description: The issue is proposed.
+    types:
+    - uid: string
+  - name: open
+    description: The issue is opened.
+    types:
+    - uid: string
+  - name: removed
+    description: The issue was removed.
+    types:
+    - uid: string
+  - name: resolved
+    description: The issue is now resolved.
+    types:
+    - uid: string
+  - name: closed
+    description: The issue was closed.
+    types:
+    - uid: string
 examples:
-- name: ApiManagementListApiReleases
+- name: ApiManagementListApiIssues
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/a1/releases?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues?api-version=2018-01-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/a1/releases/5a7cb545298324c53224a799",
-            "type": "Microsoft.ApiManagement/service/apis/releases",
-            "name": "5a7cb545298324c53224a799",
+            "id": "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues/57d2ef278aa04f0ad01d6cdc",
+            "type": "Microsoft.ApiManagement/service/apis/issues",
+            "name": "57d2ef278aa04f0ad01d6cdc",
             "properties": {
-              "createdDateTime": "2018-02-08T20:38:29.173Z",
-              "updatedDateTime": "2018-02-08T20:38:29.173Z",
-              "notes": "yahoo"
+              "title": "New API issue",
+              "description": "New API issue description",
+              "createdDate": "2018-02-01T22:21:20.467Z",
+              "state": "open",
+              "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/1",
+              "apiId": "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a"
             }
           }
         ],
