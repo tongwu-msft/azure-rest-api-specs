@@ -1,18 +1,13 @@
 ---
-title: "Document operations (Azure Search Service REST API)"
-ms.custom: ""
+title: "Document operations (Azure Search Service REST API) | Microsoft Docs"
+description: Learn which REST API calls are used to populate and query an Azure Search index.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "language-reference"
-ms.assetid: 86722ded-daf6-4776-b984-b0dfd48218c0
-caps.latest.revision: 14
+ms.topic: conceptual
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

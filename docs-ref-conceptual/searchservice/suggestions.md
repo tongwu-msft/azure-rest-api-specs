@@ -1,20 +1,13 @@
 ---
-title: "Suggestions (Azure Search Service REST API)"
-ms.custom: ""
+title: "Suggestions (Azure Search Service REST API) | Microsoft Docs"
+description: A query request composed of partial query input, returning matching strings from documents in an Azure Search index. Type-ahead query suggestions can populate dropdown search bars or other UI experiences.
 ms.date: "2017-07-17"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: b3fed159-774d-42e0-8ded-ee453f6cd857
-caps.latest.revision: 32
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

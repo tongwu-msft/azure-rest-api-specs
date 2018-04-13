@@ -1,20 +1,13 @@
 ---
-title: "Lookup Document (Azure Search Service REST API)"
-ms.custom: ""
+title: "Lookup Document (Azure Search Service REST API) | Microsoft Docs"
+description: Return a specific document by ID from an Azure Search index.
 ms.date: "2017-03-28"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 74a67156-c579-4b5f-8f61-3c2e8b83070c
-caps.latest.revision: 27
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

@@ -1,18 +1,13 @@
 ---
-title: "Index operations (Azure Search Service REST API)"
-ms.custom: ""
+title: "Index operations (Azure Search Service REST API) | Microsoft Docs"
+description: Learn which REST APIs are used to create, delete, and update Azure Search index definitions.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "language-reference"
-ms.assetid: 028bc3ff-387f-4a42-a485-a32262508be9
-caps.latest.revision: 22
+ms.topic: conceptual
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

@@ -1,20 +1,15 @@
-<properties
-	pageTitle="How to use the Management REST API (Azure Search) | Microsoft Azure"
-	description="Administer your hosted cloud Azure Search service using a Management REST API"
-	services="search"
-	documentationCenter=""
-	authors="HeidiSteen"
-	manager="jhubbard"
-	editor=""/>
+---
+title: How to use search management REST APIs in Azure Search | Microsoft Docs
+description: Script or automate Azure Search service provisioning, key management, or resource configuration using REST APIs and Resource Manager APIs.
+ms.prod: azure
+ms.service: search
+ms.topic: conceptual
 
-<tags
-	ms.service="search"
-	ms.devlang="rest-api"
-	ms.workload="search"
-	ms.topic="article"
-	ms.tgt_pltfrm="na"
-	ms.date="04/11/2017"
-	ms.author="heidist"/>
+ms.date: 04/13/2018
+author: HeidiSteen
+ms.author: heidist
+ms.manager: cgronlun
+---
 
 # How to use the Management REST API (Azure Search)
 

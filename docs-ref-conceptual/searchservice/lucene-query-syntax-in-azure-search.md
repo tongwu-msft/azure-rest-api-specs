@@ -1,22 +1,14 @@
 ---
-title: "Lucene query syntax in Azure Search"
-description: "Reference for the full Lucene syntax as it is used with Azure Search"
-services: "search"
-author: "brjohnstmsft"
-manager: "jhubbard"
-ms.service: "search"
-ms.tgt_pltfrm: ""
-ms.topic: "language-reference"
-ms.date: "09/15/2017"
-ms.author: "brjohnst"
-ms.custom: ""
+title: "Lucene query syntax in Azure Search | Microsoft Docs"
+description: "Reference for the full Lucene syntax as it is used with Azure Search."
 ms.prod: "azure"
-ms.reviewer: ""
-ms.suite: ""
-applies_to:
-  - "Azure"
-ms.assetid: 1aeb47a4-21a9-45cd-80b6-3d5f79a7d0c3
-caps.latest.revision: 26
+ms.service: "search"
+ms.topic: conceptual
+ms.date: "09/15/2017"
+
+author: "brjohnstmsft"
+ms.author: "brjohnst"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
