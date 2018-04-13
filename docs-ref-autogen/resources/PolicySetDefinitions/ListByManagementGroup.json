@@ -1,0 +1,290 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2017-06-01-preview",
+    "title": "PolicyClient",
+    "description": "To manage and control access to your resources, you can define customized policies and assign them at a scope."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/providers/Microsoft.Management/managementgroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions": {
+      "get": {
+        "tags": [
+          "PolicySetDefinitions"
+        ],
+        "operationId": "PolicySetDefinitions_ListByManagementGroup",
+        "description": "Gets all the policy set definitions for a subscription at management group.",
+        "x-ms-examples": {
+          "List policy set definitions": {
+            "parameters": {
+              "subscriptionId": "subid",
+              "managementGroupId": "mgid",
+              "api-version": "2017-06-01-preview"
+            },
+            "responses": {
+              "200": {
+                "headers": {},
+                "body": {
+                  "value": [
+                    {
+                      "id": "/providers/Microsoft.Management/managementgroups/mgid/providers/Microsoft.Authorization/policySetDefinitions/costManagement",
+                      "type": "Microsoft.Authorization/policySetDefinitions",
+                      "name": "costManagement",
+                      "properties": {
+                        "displayName": "VM and Storage Cost Management",
+                        "description": "Policies required to minimize the risk of accidental cost overruns",
+                        "metadata": {
+                          "category": "Cost Management"
+                        },
+                        "parameters": {
+                          "allowedLocations": {
+                            "type": "array",
+                            "metadata": {
+                              "description": "Regions that resources can be deployed to",
+                              "displayName": "Valid Regions"
+                            }
+                          }
+                        },
+                        "policyDefinitions": [
+                          {
+                            "policyDefinitionId": "/subscriptions/subid/providers/Microsoft.Authorization/policyDefinitions/storageSkus",
+                            "parameters": {
+                              "locations": {
+                                "value": "[parameters('allowedLocations')]"
+                              }
+                            }
+                          }
+                        ],
+                        "policyType": "Custom"
+                      }
+                    },
+                    {
+                      "id": "/providers/Microsoft.Management/managementgroups/mgid/providers/Microsoft.Authorization/policySetDefinitions/skuManagement",
+                      "type": "Microsoft.Authorization/policySetDefinitions",
+                      "name": "skuManagement",
+                      "properties": {
+                        "displayName": "VM Sku Management",
+                        "description": "Policies required to minimize the risk of accidental cost overruns",
+                        "metadata": {
+                          "category": "Sku Management"
+                        },
+                        "policyDefinitions": [
+                          {
+                            "policyDefinitionId": "/subscriptions/subid/providers/Microsoft.Authorization/policyDefinitions/vmSkus"
+                          }
+                        ],
+                        "policyType": "Custom"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ManagementGroupIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Returns an array of policy set definitions.",
+            "schema": {
+              "$ref": "#/definitions/PolicySetDefinitionListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json"
+        ],
+        "x-internal-toc-name": "List By Management Group"
+      }
+    }
+  },
+  "definitions": {
+    "PolicySetDefinitionProperties": {
+      "properties": {
+        "policyType": {
+          "type": "string",
+          "description": "The type of policy definition. Possible values are NotSpecified, BuiltIn, and Custom.",
+          "enum": [
+            "NotSpecified",
+            "BuiltIn",
+            "Custom"
+          ],
+          "x-ms-enum": {
+            "name": "policyType",
+            "modelAsString": true
+          }
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The display name of the policy set definition."
+        },
+        "description": {
+          "type": "string",
+          "description": "The policy set definition description."
+        },
+        "metadata": {
+          "type": "object",
+          "description": "The policy set definition metadata."
+        },
+        "parameters": {
+          "type": "object",
+          "description": "The policy set definition parameters that can be used in policy definition references."
+        },
+        "policyDefinitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PolicyDefinitionReference"
+          },
+          "description": "An array of policy definition references."
+        }
+      },
+      "required": [
+        "policyDefinitions"
+      ],
+      "description": "The policy set definition properties."
+    },
+    "PolicyDefinitionReference": {
+      "properties": {
+        "policyDefinitionId": {
+          "type": "string",
+          "description": "The ID of the policy definition or policy set definition."
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Required if a parameter is used in policy rule."
+        }
+      },
+      "description": "The policy definition reference."
+    },
+    "PolicySetDefinition": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PolicySetDefinitionProperties",
+          "description": "The policy definition properties."
+        },
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The ID of the policy set definition."
+        },
+        "name": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The name of the policy set definition."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The type of the resource (Microsoft.Authorization/policySetDefinitions)."
+        }
+      },
+      "description": "The policy set definition.",
+      "x-ms-azure-resource": true
+    },
+    "PolicySetDefinitionListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PolicySetDefinition"
+          },
+          "description": "An array of policy set definitions."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The URL to use for getting the next set of results."
+        }
+      },
+      "description": "List of policy set definitions."
+    },
+    "ErrorResponse": {
+      "description": "Error reponse indicates ARM is not able to process the incoming request. The reason is provided in the error message.",
+      "type": "object",
+      "properties": {
+        "httpStatus": {
+          "description": "Http status code.",
+          "type": "string"
+        },
+        "errorCode": {
+          "description": "Error code.",
+          "type": "string"
+        },
+        "errorMessage": {
+          "description": "Error message indicating why the operation failed.",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The ID of the target subscription."
+    },
+    "ManagementGroupIdParameter": {
+      "name": "managementGroupId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The ID of the management group.",
+      "x-ms-parameter-location": "method"
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "The API version to use for the operation."
+    }
+  },
+  "x-internal-service-name": "Resource Management",
+  "x-internal-toc-name": "Policy Set Definitions",
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-name": "List By Management Group"
+}

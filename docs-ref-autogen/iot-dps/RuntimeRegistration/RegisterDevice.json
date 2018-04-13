@@ -1,0 +1,363 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2017-11-15",
+    "title": "DeviceProvisioningService_DeviceRuntimeClient",
+    "description": "API for device runtime operations with the Azure IotHub Device Provisioning Service"
+  },
+  "host": "localhost",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/{idScope}/registrations/{registrationId}/register": {
+      "put": {
+        "tags": [
+          "PUT"
+        ],
+        "summary": "Registers the devices.",
+        "operationId": "RuntimeRegistration_RegisterDevice",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "registrationId",
+            "in": "path",
+            "description": "Registration ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceRegistration",
+            "in": "body",
+            "description": "Device registration request.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeviceRegistration"
+            }
+          },
+          {
+            "name": "forceRegistration",
+            "in": "query",
+            "description": "Force the device to re-register. Setting this option may assign the device to a different IotHub.",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "idScope",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "required": true,
+            "$ref": "#/parameters/api-version"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "The body of the request is not valid; for example, it cannot be parsed, or the object cannot be validated."
+          },
+          "401": {
+            "description": "The authorization token cannot be validated; for example, it is expired or does not apply to the request’s URI. This error code is also returned to devices as part of the TPM attestation flow."
+          },
+          "404": {
+            "description": "The Device Provisioning Service instance, or a resource (e.g. an enrollment) does not exist."
+          },
+          "429": {
+            "description": "Operations are being throttled by the service. For specific service limits, see IoT Hub Device Provisioning Service limits."
+          },
+          "500": {
+            "description": "An internal error occurred."
+          },
+          "202": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/RegistrationOperationStatus"
+            },
+            "headers": {
+              "Location": {
+                "description": "The location of the resource.",
+                "type": "string"
+              }
+            }
+          },
+          "415": {
+            "description": "The request payload is in an unsupported format. The request's Content-Type header should be set to 'application/json'."
+          },
+          "default": {
+            "description": "Error response",
+            "schema": {
+              "$ref": "#/definitions/ProvisioningServiceErrorDetails"
+            }
+          }
+        },
+        "x-internal-toc-name": "Register Device"
+      }
+    }
+  },
+  "definitions": {
+    "RegistrationOperationStatus": {
+      "description": "Registration operation status.",
+      "required": [
+        "operationId"
+      ],
+      "type": "object",
+      "properties": {
+        "operationId": {
+          "description": "Operation ID.",
+          "type": "string"
+        },
+        "status": {
+          "description": "Device enrollment status.",
+          "enum": [
+            "unassigned",
+            "assigning",
+            "assigned",
+            "failed",
+            "disabled"
+          ],
+          "type": "string"
+        },
+        "registrationState": {
+          "$ref": "#/definitions/DeviceRegistrationResult",
+          "description": "Device registration status."
+        }
+      }
+    },
+    "DeviceRegistrationResult": {
+      "description": "Device registration result.",
+      "required": [
+        "registrationId",
+        "status"
+      ],
+      "type": "object",
+      "properties": {
+        "tpm": {
+          "$ref": "#/definitions/TpmRegistrationResult",
+          "description": "TPM registration result."
+        },
+        "x509": {
+          "$ref": "#/definitions/X509RegistrationResult",
+          "description": "X509 registration result."
+        },
+        "registrationId": {
+          "description": "Registration ID.",
+          "type": "string"
+        },
+        "createdDateTimeUtc": {
+          "format": "date-time",
+          "description": "Registration create date time (in UTC).",
+          "type": "string"
+        },
+        "assignedHub": {
+          "description": "Assigned Azure IoT Hub.",
+          "type": "string"
+        },
+        "deviceId": {
+          "description": "Device ID.",
+          "type": "string"
+        },
+        "status": {
+          "description": "Enrollment status.",
+          "enum": [
+            "unassigned",
+            "assigning",
+            "assigned",
+            "failed",
+            "disabled"
+          ],
+          "type": "string"
+        },
+        "errorCode": {
+          "format": "int32",
+          "description": "Error code.",
+          "type": "integer"
+        },
+        "errorMessage": {
+          "description": "Error message.",
+          "type": "string"
+        },
+        "lastUpdatedDateTimeUtc": {
+          "format": "date-time",
+          "description": "Last updated date time (in UTC).",
+          "type": "string"
+        },
+        "etag": {
+          "description": "The entity tag associated with the resource.",
+          "type": "string"
+        }
+      }
+    },
+    "TpmRegistrationResult": {
+      "description": "TPM registration result.",
+      "type": "object",
+      "properties": {
+        "authenticationKey": {
+          "type": "string"
+        }
+      }
+    },
+    "X509RegistrationResult": {
+      "description": "X509 registration result.",
+      "type": "object",
+      "properties": {
+        "certificateInfo": {
+          "$ref": "#/definitions/X509CertificateInfo"
+        },
+        "enrollmentGroupId": {
+          "type": "string"
+        },
+        "signingCertificateInfo": {
+          "$ref": "#/definitions/X509CertificateInfo"
+        }
+      }
+    },
+    "X509CertificateInfo": {
+      "description": "X509 certificate info.",
+      "required": [
+        "subjectName",
+        "sha1Thumbprint",
+        "sha256Thumbprint",
+        "issuerName",
+        "notBeforeUtc",
+        "notAfterUtc",
+        "serialNumber",
+        "version"
+      ],
+      "type": "object",
+      "properties": {
+        "subjectName": {
+          "type": "string"
+        },
+        "sha1Thumbprint": {
+          "type": "string"
+        },
+        "sha256Thumbprint": {
+          "type": "string"
+        },
+        "issuerName": {
+          "type": "string"
+        },
+        "notBeforeUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "notAfterUtc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "serialNumber": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "ProvisioningServiceErrorDetails": {
+      "type": "object",
+      "properties": {
+        "errorCode": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "trackingId": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "info": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "timestampUtc": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "DeviceRegistration": {
+      "description": "Device registration.",
+      "type": "object",
+      "properties": {
+        "registrationId": {
+          "type": "string"
+        },
+        "tpm": {
+          "$ref": "#/definitions/TpmAttestation"
+        }
+      }
+    },
+    "TpmAttestation": {
+      "description": "Attestation via TPM.",
+      "required": [
+        "endorsementKey"
+      ],
+      "type": "object",
+      "properties": {
+        "endorsementKey": {
+          "type": "string"
+        },
+        "storageRootKey": {
+          "type": "string"
+        }
+      }
+    },
+    "TwinCollection": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "metadata": {
+          "$ref": "#/definitions/Metadata"
+        }
+      },
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "Metadata": {
+      "type": "object",
+      "properties": {
+        "lastUpdated": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "lastUpdatedVersion": {
+          "format": "int64",
+          "description": "This SHOULD be null for Reported properties metadata and MUST not be null for Desired properties metadata.",
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "api-version": {
+      "name": "api-version",
+      "in": "query",
+      "description": "The API version to use for the request. Supported versions include: 2017-11-15",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "securityDefinitions": {},
+  "x-internal-service-name": "IoT Hub Device Provisioning Service",
+  "x-internal-toc-name": "Runtime Registration",
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-name": "Register Device"
+}

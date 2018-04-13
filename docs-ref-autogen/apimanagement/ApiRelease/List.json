@@ -1,0 +1,2052 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2018-01-01",
+    "title": "ApiManagementClient",
+    "description": "Use these REST APIs for performing operations on API entity and their Operations associated with your Azure API Management deployment."
+  },
+  "host": "management.azure.com",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases": {
+      "get": {
+        "tags": [
+          "Releases"
+        ],
+        "operationId": "ApiRelease_List",
+        "description": "Lists all releases of an API. An API release is created when making an API Revision current. Releases are also used to rollback to previous revisions. Results will be paged and can be constrained by the $top and $skip parameters.",
+        "x-ms-examples": {
+          "ApiManagementListApiReleases": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2018-01-01",
+              "subscriptionId": "subid",
+              "apiId": "a1"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "value": [
+                    {
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/a1/releases/5a7cb545298324c53224a799",
+                      "type": "Microsoft.ApiManagement/service/apis/releases",
+                      "name": "5a7cb545298324c53224a799",
+                      "properties": {
+                        "createdDateTime": "2018-02-08T20:38:29.173Z",
+                        "updatedDateTime": "2018-02-08T20:38:29.173Z",
+                        "notes": "yahoo"
+                      }
+                    }
+                  ],
+                  "nextLink": ""
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "| Field | Supported operators    | Supported functions                         |\n|-------|------------------------|---------------------------------------------|\n| name  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |\n|notes|ge le eq ne gt lt|substringof contains startswith endswith|"
+          },
+          {
+            "$ref": "#/parameters/TopQueryParameter"
+          },
+          {
+            "$ref": "#/parameters/SkipQueryParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation returns a list of API Releases.",
+            "schema": {
+              "$ref": "#/definitions/ApiReleaseCollection"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-odata": "#/definitions/ApiReleaseContract",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "x-internal-toc-name": "List"
+      }
+    }
+  },
+  "x-ms-paths": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?export=true": {
+      "get": {
+        "tags": [
+          "Apis"
+        ],
+        "operationId": "ApiExport_Get",
+        "description": "Gets the details of the API specified by its identifier in the format specified to the Storage Blob with SAS Key valid for 5 minutes.",
+        "x-ms-examples": {
+          "ApiManagementGetApiExportInOpenApi2dot0": {
+            "parameters": {
+              "serviceName": "apimService1",
+              "resourceGroupName": "rg1",
+              "api-version": "2018-01-01",
+              "subscriptionId": "subid",
+              "apiId": "echo-api",
+              "format": "swagger-link",
+              "export": "true"
+            },
+            "responses": {
+              "200": {
+                "body": {
+                  "link": "https://apimgmtstaobxxxxxxx.blob.core.windows.net/api-export/Echo API.json?sv=2015-07-08&sr=b&sig=xxxxxxxxxx%3D&se=2017-09-08T21:54:08Z&sp=r"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ServiceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiIdRevParameter"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "swagger-link",
+              "wadl-link",
+              "wsdl-link"
+            ],
+            "x-ms-enum": {
+              "name": "ExportFormat",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "swagger-link",
+                  "description": "Export the Api Definition in OpenApi Specification 2.0 format to the Storage Blob.",
+                  "name": "Swagger"
+                },
+                {
+                  "value": "wsdl-link",
+                  "description": "Export the Api Definition in WSDL Schema to Storage Blob. This is only supported for APIs of Type `soap`",
+                  "name": "Wsdl"
+                },
+                {
+                  "value": "wadl-link",
+                  "description": "Export the Api Definition in WADL Schema to Storage Blob.",
+                  "name": "Wadl"
+                }
+              ]
+            },
+            "description": "Format in which to export the Api Details to the Storage Blob with Sas Key valid for 5 minutes."
+          },
+          {
+            "name": "export",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "true"
+            ],
+            "x-ms-enum": {
+              "modelAsString": true,
+              "name": "ExportApi"
+            },
+            "description": "Query parameter required to export the API details."
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The response contains a stream with a full set of API metadata and includes API entity with an embedded array of operation entities.",
+            "schema": {
+              "$ref": "#/definitions/ApiExportResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ApiExportResult": {
+      "properties": {
+        "link": {
+          "type": "string",
+          "description": "Link to the Storage Blob containing the result of the export operation. The Blob Uri is only valid for 5 minutes."
+        }
+      },
+      "description": "API Export result Blob Uri."
+    },
+    "ApiCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiContract"
+          },
+          "description": "Page values.",
+          "readOnly": true
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any.",
+          "readOnly": true
+        }
+      },
+      "description": "Paged Api list representation."
+    },
+    "ApiContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ApiContractProperties",
+          "description": "Api entity contract properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "API details."
+    },
+    "ApiCreateOrUpdateParameter": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ApiCreateOrUpdateProperties",
+          "description": "Api entity create of update properties."
+        }
+      },
+      "description": "API Create or Update Parameters."
+    },
+    "ApiCreateOrUpdateProperties": {
+      "properties": {
+        "contentValue": {
+          "type": "string",
+          "description": "Content value when Importing an API."
+        },
+        "contentFormat": {
+          "type": "string",
+          "description": "Format of the Content in which the API is getting imported.",
+          "enum": [
+            "wadl-xml",
+            "wadl-link-json",
+            "swagger-json",
+            "swagger-link-json",
+            "wsdl",
+            "wsdl-link"
+          ],
+          "x-ms-enum": {
+            "name": "ContentFormat",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "wadl-xml",
+                "description": "The contents are inline and Content type is a WADL document."
+              },
+              {
+                "value": "wadl-link-json",
+                "description": "The WADL document is hosted on a publicly accessible internet address."
+              },
+              {
+                "value": "swagger-json",
+                "description": "The contents are inline and Content Type is a OpenApi 2.0 Document."
+              },
+              {
+                "value": "swagger-link-json",
+                "description": "The Open Api 2.0 document is hosted on a publicly accessible internet address."
+              },
+              {
+                "value": "wsdl",
+                "description": "The contents are inline and the document is a WSDL/Soap document."
+              },
+              {
+                "value": "wsdl-link",
+                "description": "The WSDL document is hosted on a publicly accessible internet address."
+              }
+            ]
+          }
+        },
+        "wsdlSelector": {
+          "type": "object",
+          "description": "Criteria to limit import of WSDL to a subset of the document.",
+          "properties": {
+            "wsdlServiceName": {
+              "type": "string",
+              "description": "Name of service to import from WSDL"
+            },
+            "wsdlEndpointName": {
+              "type": "string",
+              "description": "Name of endpoint(port) to import from WSDL"
+            }
+          }
+        },
+        "apiType": {
+          "type": "string",
+          "description": "Type of Api to create. \n * `http` creates a SOAP to REST API \n * `soap` creates a SOAP pass-through API .",
+          "enum": [
+            "http",
+            "soap"
+          ],
+          "x-ms-client-name": "SoapApiType",
+          "x-ms-enum": {
+            "name": "SoapApiType",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "http",
+                "description": "Imports a SOAP API having a RESTful front end.",
+                "name": "SoapToRest"
+              },
+              {
+                "value": "soap",
+                "description": "Imports the Soap API having a SOAP front end.",
+                "name": "SoapPassThrough"
+              }
+            ]
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ApiContractProperties"
+        }
+      ],
+      "description": "Api Create or Update Properties."
+    },
+    "ApiContractProperties": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "API name.",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "serviceUrl": {
+          "type": "string",
+          "description": "Absolute URL of the backend service implementing this API.",
+          "minLength": 0,
+          "maxLength": 2000
+        },
+        "path": {
+          "type": "string",
+          "description": "Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.",
+          "minLength": 0,
+          "maxLength": 400
+        },
+        "protocols": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "http",
+              "https"
+            ],
+            "x-ms-enum": {
+              "name": "Protocol",
+              "modelAsString": false
+            }
+          },
+          "description": "Describes on which protocols the operations in this API can be invoked."
+        },
+        "apiVersionSet": {
+          "$ref": "#/definitions/ApiVersionSetContractDetails"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ApiEntityBaseContract"
+        }
+      ],
+      "required": [
+        "path"
+      ],
+      "description": "Api Entity Properties"
+    },
+    "ApiUpdateContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ApiContractUpdateProperties",
+          "description": "Properties of the API entity that can be updated."
+        }
+      },
+      "description": "API update contract details."
+    },
+    "ApiContractUpdateProperties": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "API name.",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "serviceUrl": {
+          "type": "string",
+          "description": "Absolute URL of the backend service implementing this API.",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "path": {
+          "type": "string",
+          "description": "Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.",
+          "minLength": 0,
+          "maxLength": 400
+        },
+        "protocols": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "http",
+              "https"
+            ],
+            "x-ms-enum": {
+              "name": "Protocol",
+              "modelAsString": false
+            }
+          },
+          "description": "Describes on which protocols the operations in this API can be invoked."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ApiEntityBaseContract"
+        }
+      ],
+      "description": "API update contract properties."
+    },
+    "ApiEntityBaseContract": {
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Description of the API. May include HTML formatting tags."
+        },
+        "authenticationSettings": {
+          "$ref": "#/definitions/AuthenticationSettingsContract",
+          "description": "Collection of authentication settings included into this API."
+        },
+        "subscriptionKeyParameterNames": {
+          "$ref": "#/definitions/SubscriptionKeyParameterNamesContract",
+          "description": "Protocols over which API is made available."
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of API.",
+          "enum": [
+            "http",
+            "soap"
+          ],
+          "x-ms-client-name": "ApiType",
+          "x-ms-enum": {
+            "name": "ApiType",
+            "modelAsString": true
+          }
+        },
+        "apiRevision": {
+          "type": "string",
+          "description": "Describes the Revision of the Api. If no value is provided, default revision 1 is created",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "apiVersion": {
+          "type": "string",
+          "description": "Indicates the Version identifier of the API if the API is versioned",
+          "maxLength": 100
+        },
+        "isCurrent": {
+          "type": "boolean",
+          "description": "Indicates if API revision is current api revision.",
+          "readOnly": true
+        },
+        "isOnline": {
+          "type": "boolean",
+          "description": "Indicates if API revision is accessible via the gateway.",
+          "readOnly": true
+        },
+        "apiVersionSetId": {
+          "type": "string",
+          "description": "A resource identifier for the related ApiVersionSet."
+        }
+      },
+      "description": "API base contract details."
+    },
+    "ApiRevisionCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiRevisionContract"
+          },
+          "description": "Page values.",
+          "readOnly": true
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any.",
+          "readOnly": true
+        }
+      },
+      "description": "Paged Api Revision list representation."
+    },
+    "ApiRevisionContract": {
+      "properties": {
+        "apiId": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Identifier of the API Revision."
+        },
+        "apiRevision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "readOnly": true,
+          "description": "Revision number of API."
+        },
+        "createdDateTime": {
+          "type": "string",
+          "readOnly": true,
+          "format": "date-time",
+          "description": "The time the API Revision was created. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard."
+        },
+        "updatedDateTime": {
+          "type": "string",
+          "readOnly": true,
+          "format": "date-time",
+          "description": "The time the API Revision were updated. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard."
+        },
+        "description": {
+          "type": "string",
+          "readOnly": true,
+          "maxLength": 256,
+          "description": "Description of the API Revision."
+        },
+        "privateUrl": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Gateway URL for accessing the non-current API Revision."
+        },
+        "isOnline": {
+          "type": "boolean",
+          "readOnly": true,
+          "description": "Indicates if API revision is the current api revision."
+        },
+        "isCurrent": {
+          "type": "boolean",
+          "readOnly": true,
+          "description": "Indicates if API revision is accessible via the gateway."
+        }
+      },
+      "description": "Summary of revision metadata."
+    },
+    "ApiRevisionInfoContract": {
+      "description": "Object used to create an API Revision or Version based on an existing API Revision",
+      "properties": {
+        "sourceApiId": {
+          "type": "string",
+          "description": "Resource identifier of API to be used to create the revision from."
+        },
+        "apiVersionName": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Version identifier for the new API Version."
+        },
+        "apiRevisionDescription": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Description of new API Revision."
+        },
+        "apiVersionSet": {
+          "description": "Version set details",
+          "$ref": "#/definitions/ApiVersionSetContractDetails"
+        }
+      }
+    },
+    "ApiVersionSetContractDetails": {
+      "description": "An API Version Set contains the common configuration for a set of API Versions relating ",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identifier for existing API Version Set. Omit this value to create a new Version Set."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of API Version Set."
+        },
+        "versioningScheme": {
+          "type": "string",
+          "description": "An value that determines where the API Version identifer will be located in a HTTP request.",
+          "enum": [
+            "Segment",
+            "Query",
+            "Header"
+          ]
+        },
+        "versionQueryName": {
+          "type": "string",
+          "description": "Name of query parameter that indicates the API Version if versioningScheme is set to `query`."
+        },
+        "versionHeaderName": {
+          "type": "string",
+          "description": "Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`."
+        }
+      }
+    },
+    "ApiReleaseCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiReleaseContract"
+          },
+          "description": "Page values.",
+          "readOnly": true
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any.",
+          "readOnly": true
+        }
+      },
+      "description": "Paged Api Revision list representation."
+    },
+    "ApiReleaseContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ApiReleaseContractProperties",
+          "description": "Properties of the Api Release Contract."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Api Release details."
+    },
+    "ApiReleaseContractProperties": {
+      "description": "API Release details",
+      "properties": {
+        "apiId": {
+          "type": "string",
+          "description": "Identifier of the API the release belongs to."
+        },
+        "createdDateTime": {
+          "type": "string",
+          "readOnly": true,
+          "format": "date-time",
+          "description": "The time the API was released. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard."
+        },
+        "updatedDateTime": {
+          "type": "string",
+          "readOnly": true,
+          "format": "date-time",
+          "description": "The time the API release was updated."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Release Notes"
+        }
+      }
+    },
+    "AuthenticationSettingsContract": {
+      "properties": {
+        "oAuth2": {
+          "$ref": "#/definitions/OAuth2AuthenticationSettingsContract",
+          "description": "OAuth2 Authentication settings"
+        }
+      },
+      "description": "API Authentication Settings."
+    },
+    "OAuth2AuthenticationSettingsContract": {
+      "properties": {
+        "authorizationServerId": {
+          "type": "string",
+          "description": "OAuth authorization server identifier."
+        },
+        "scope": {
+          "type": "string",
+          "description": "operations scope."
+        }
+      },
+      "description": "API OAuth2 Authentication settings details."
+    },
+    "OperationCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationContract"
+          },
+          "description": "Page values.",
+          "readOnly": true
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any.",
+          "readOnly": true
+        }
+      },
+      "description": "Paged Operation list representation."
+    },
+    "OperationContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/OperationContractProperties",
+          "description": "Properties of the Operation Contract."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Api Operation details."
+    },
+    "OperationContractProperties": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Operation Name.",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "method": {
+          "type": "string",
+          "description": "A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.",
+          "externalDocs": {
+            "description": "As defined by RFC.",
+            "url": "http://www.rfc-editor.org/rfc/rfc7230.txt"
+          }
+        },
+        "urlTemplate": {
+          "type": "string",
+          "description": "Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date}",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/OperationEntityBaseContract"
+        }
+      ],
+      "required": [
+        "displayName",
+        "method",
+        "urlTemplate"
+      ],
+      "description": "Operation Contract Properties"
+    },
+    "OperationUpdateContractProperties": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Operation Name.",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "method": {
+          "type": "string",
+          "description": "A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.",
+          "externalDocs": {
+            "description": "As defined by RFC.",
+            "url": "http://www.rfc-editor.org/rfc/rfc7230.txt"
+          }
+        },
+        "urlTemplate": {
+          "type": "string",
+          "description": "Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date}",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/OperationEntityBaseContract"
+        }
+      ],
+      "description": "Operation Update Contract Properties."
+    },
+    "OperationEntityBaseContract": {
+      "properties": {
+        "templateParameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterContract"
+          },
+          "description": "Collection of URL template parameters."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the operation. May include HTML formatting tags.",
+          "maxLength": 1000
+        },
+        "request": {
+          "$ref": "#/definitions/RequestContract",
+          "description": "An entity containing request details."
+        },
+        "responses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResponseContract"
+          },
+          "description": "Array of Operation responses."
+        },
+        "policies": {
+          "type": "string",
+          "description": "Operation Policies"
+        }
+      },
+      "description": "Api Operation Entity Base Contract details."
+    },
+    "OperationUpdateContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/OperationUpdateContractProperties",
+          "description": "Properties of the API Operation entity that can be updated."
+        }
+      },
+      "description": "Api Operation Update Contract details."
+    },
+    "ParameterContract": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Parameter name."
+        },
+        "description": {
+          "type": "string",
+          "description": "Parameter description."
+        },
+        "type": {
+          "type": "string",
+          "description": "Parameter type."
+        },
+        "defaultValue": {
+          "type": "string",
+          "description": "Default parameter value."
+        },
+        "required": {
+          "type": "boolean",
+          "description": "whether parameter is required or not."
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Parameter values."
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "description": "Operation parameters details."
+    },
+    "RepresentationContract": {
+      "properties": {
+        "contentType": {
+          "type": "string",
+          "description": "Specifies a registered or custom content type for this representation, e.g. application/xml."
+        },
+        "sample": {
+          "type": "string",
+          "description": "An example of the representation."
+        },
+        "schemaId": {
+          "type": "string",
+          "description": "Schema identifier. Applicable only if 'contentType' value is neither 'application/x-www-form-urlencoded' nor 'multipart/form-data'."
+        },
+        "typeName": {
+          "type": "string",
+          "description": "Type name defined by the schema. Applicable only if 'contentType' value is neither 'application/x-www-form-urlencoded' nor 'multipart/form-data'."
+        },
+        "formParameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterContract"
+          },
+          "description": "Collection of form parameters. Required if 'contentType' value is either 'application/x-www-form-urlencoded' or 'multipart/form-data'.."
+        }
+      },
+      "required": [
+        "contentType"
+      ],
+      "description": "Operation request/response representation details."
+    },
+    "RequestContract": {
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Operation request description."
+        },
+        "queryParameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterContract"
+          },
+          "description": "Collection of operation request query parameters."
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterContract"
+          },
+          "description": "Collection of operation request headers."
+        },
+        "representations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RepresentationContract"
+          },
+          "description": "Collection of operation request representations."
+        }
+      },
+      "description": "Operation request details."
+    },
+    "ResponseContract": {
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Operation response HTTP status code."
+        },
+        "description": {
+          "type": "string",
+          "description": "Operation response description."
+        },
+        "representations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RepresentationContract"
+          },
+          "description": "Collection of operation response representations."
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterContract"
+          },
+          "description": "Collection of operation response headers."
+        }
+      },
+      "required": [
+        "statusCode"
+      ],
+      "description": "Operation response details."
+    },
+    "SubscriptionKeyParameterNamesContract": {
+      "properties": {
+        "header": {
+          "type": "string",
+          "description": "Subscription key header name."
+        },
+        "query": {
+          "type": "string",
+          "description": "Subscription key query string parameter name."
+        }
+      },
+      "description": "Subscription key parameter names details.",
+      "example": {
+        "subscriptionKeyParameterNames": {
+          "query": "customQueryParameterName",
+          "header": "customHeaderParameterName"
+        }
+      }
+    },
+    "SchemaCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SchemaContract"
+          },
+          "description": "Api Schema Contract value.",
+          "readOnly": true
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any.",
+          "readOnly": true
+        }
+      },
+      "description": "The response of the list schema operation."
+    },
+    "SchemaContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/SchemaContractProperties",
+          "description": "Properties of the Schema."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Schema Contract details."
+    },
+    "SchemaContractProperties": {
+      "properties": {
+        "contentType": {
+          "type": "string",
+          "description": "Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document (e.g. application/json, application/xml)."
+        },
+        "document": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/SchemaDocumentProperties",
+          "description": "Properties of the Schema Document."
+        }
+      },
+      "required": [
+        "contentType"
+      ],
+      "description": "Schema contract Properties."
+    },
+    "SchemaDocumentProperties": {
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "Json escaped string defining the document representing the Schema."
+        }
+      },
+      "description": "Schema Document Properties."
+    },
+    "IssueCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IssueContract"
+          },
+          "description": "Issue values.",
+          "readOnly": true
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any.",
+          "readOnly": true
+        }
+      },
+      "description": "Paged Issue list representation."
+    },
+    "IssueContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/IssueContractProperties",
+          "description": "Properties of the Issue."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Issue Contract details."
+    },
+    "IssueContractProperties": {
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The issue title."
+        },
+        "description": {
+          "type": "string",
+          "description": "Text describing the issue."
+        },
+        "createdDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date and time when the issue was created."
+        },
+        "state": {
+          "type": "string",
+          "description": "Status of the issue.",
+          "enum": [
+            "proposed",
+            "open",
+            "removed",
+            "resolved",
+            "closed"
+          ],
+          "x-ms-enum": {
+            "name": "State",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "proposed",
+                "description": "The issue is proposed."
+              },
+              {
+                "value": "open",
+                "description": "The issue is opened."
+              },
+              {
+                "value": "removed",
+                "description": "The issue was removed."
+              },
+              {
+                "value": "resolved",
+                "description": "The issue is now resolved."
+              },
+              {
+                "value": "closed",
+                "description": "The issue was closed."
+              }
+            ]
+          }
+        },
+        "userId": {
+          "type": "string",
+          "description": "A resource identifier for the user created the issue."
+        },
+        "apiId": {
+          "type": "string",
+          "description": "A resource identifier for the API the issue was created for."
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "userId"
+      ],
+      "description": "Issue contract Properties."
+    },
+    "IssueCommentCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IssueCommentContract"
+          },
+          "description": "Issue Comment values.",
+          "readOnly": true
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any.",
+          "readOnly": true
+        }
+      },
+      "description": "Paged Issue Comment list representation."
+    },
+    "IssueCommentContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/IssueCommentContractProperties",
+          "description": "Properties of the Issue Comment."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Issue Comment Contract details."
+    },
+    "IssueCommentContractProperties": {
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Comment text."
+        },
+        "createdDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date and time when the comment was created."
+        },
+        "userId": {
+          "type": "string",
+          "description": "A resource identifier for the user who left the comment."
+        }
+      },
+      "required": [
+        "text",
+        "userId"
+      ],
+      "description": "Issue Comment contract Properties."
+    },
+    "IssueAttachmentCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IssueAttachmentContract"
+          },
+          "description": "Issue Attachment values.",
+          "readOnly": true
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any.",
+          "readOnly": true
+        }
+      },
+      "description": "Paged Issue Attachment list representation."
+    },
+    "IssueAttachmentContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/IssueAttachmentContractProperties",
+          "description": "Properties of the Issue Attachment."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Issue Attachment Contract details."
+    },
+    "IssueAttachmentContractProperties": {
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Filename by which the binary data will be saved."
+        },
+        "contentFormat": {
+          "type": "string",
+          "description": "Either 'link' if content is provided via an HTTP link or the MIME type of the Base64-encoded binary data provided in the 'content' property."
+        },
+        "content": {
+          "type": "string",
+          "description": "An HTTP link or Base64-encoded binary data."
+        }
+      },
+      "required": [
+        "title",
+        "contentFormat",
+        "content"
+      ],
+      "description": "Issue Attachment contract Properties."
+    },
+    "PolicyContractProperties": {
+      "properties": {
+        "policyContent": {
+          "type": "string",
+          "description": "Json escaped Xml Encoded contents of the Policy."
+        },
+        "contentFormat": {
+          "type": "string",
+          "description": "Format of the policyContent.",
+          "enum": [
+            "xml",
+            "xml-link",
+            "rawxml",
+            "rawxml-link"
+          ],
+          "x-ms-enum": {
+            "name": "PolicyContentFormat",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "xml",
+                "description": "The contents are inline and Content type is an XML document."
+              },
+              {
+                "value": "xml-link",
+                "description": "The policy XML document is hosted on a http endpoint accessible from the API Management service."
+              },
+              {
+                "value": "rawxml",
+                "description": "The contents are inline and Content type is a non XML encoded policy document."
+              },
+              {
+                "value": "rawxml-link",
+                "description": "The policy document is not Xml encoded and is hosted on a http endpoint accessible from the API Management service."
+              }
+            ]
+          },
+          "default": "xml"
+        }
+      },
+      "required": [
+        "policyContent"
+      ],
+      "description": "Policy contract Properties."
+    },
+    "PolicyContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PolicyContractProperties",
+          "description": "Properties of the Policy."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Policy Contract details."
+    },
+    "Resource": {
+      "description": "The Resource definition.",
+      "x-ms-azure-resource": true,
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "Resource name.",
+          "readOnly": true
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Resource type for API Management resource."
+        }
+      }
+    },
+    "ErrorFieldContract": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Property level error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of property-level error."
+        },
+        "target": {
+          "type": "string",
+          "description": "Property name."
+        }
+      },
+      "description": "Error Field contract."
+    },
+    "ErrorResponse": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable representation of the error."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorFieldContract"
+          },
+          "description": "The list of invalid fields send in request, in case of validation error."
+        }
+      },
+      "description": "Error Body contract."
+    },
+    "LoggerContractProperties": {
+      "properties": {
+        "loggerType": {
+          "type": "string",
+          "description": "Logger type.",
+          "enum": [
+            "azureEventHub",
+            "applicationInsights"
+          ],
+          "x-ms-enum": {
+            "name": "LoggerType",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "azureEventHub",
+                "description": "Azure Event Hub as log destination."
+              },
+              {
+                "value": "applicationInsights",
+                "description": "Azure Application Insights as log destination."
+              }
+            ]
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "Logger description.",
+          "maxLength": 256
+        },
+        "credentials": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "The name and SendRule connection string of the event hub for azureEventHub logger.\nInstrumentation key for applicationInsights logger.",
+          "example": {
+            "name": "apim",
+            "connectionString": "Endpoint=sb://contoso-ns.servicebus.windows.net/;SharedAccessKeyName=Sender;SharedAccessKey=..."
+          }
+        },
+        "isBuffered": {
+          "type": "boolean",
+          "description": "Whether records are buffered in the logger before publishing. Default is assumed to be true."
+        }
+      },
+      "required": [
+        "loggerType",
+        "credentials"
+      ],
+      "description": "The Logger entity in API Management represents an event sink that you can use to log API Management events. Currently the Logger entity supports logging API Management events to Azure Event Hubs."
+    },
+    "LoggerContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/LoggerContractProperties",
+          "description": "Logger entity contract properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Logger details."
+    },
+    "LoggerCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LoggerContract"
+          },
+          "description": "Logger values."
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total record count number across all pages."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "Paged Logger list representation."
+    },
+    "DiagnosticContractProperties": {
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Indicates whether a diagnostic should receive data or not."
+        }
+      },
+      "required": [
+        "enabled"
+      ],
+      "description": "Diagnostic Entity Properties"
+    },
+    "DiagnosticContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/DiagnosticContractProperties",
+          "description": "Diagnostic entity contract properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Diagnostic details."
+    },
+    "DiagnosticCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DiagnosticContract"
+          },
+          "description": "Page values."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "Paged Diagnostic list representation."
+    },
+    "ProductUpdateProperties": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Product name.",
+          "maxLength": 300,
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProductEntityBaseParameters"
+        }
+      ],
+      "description": "Parameters supplied to the Update Product operation."
+    },
+    "ProductContractProperties": {
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Product name.",
+          "minLength": 1,
+          "maxLength": 300
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProductEntityBaseParameters"
+        }
+      ],
+      "required": [
+        "displayName"
+      ],
+      "description": "Product profile."
+    },
+    "ProductEntityBaseParameters": {
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Product description. May include HTML formatting tags.",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "terms": {
+          "type": "string",
+          "description": "Product terms of use. Developers trying to subscribe to the product will be presented and required to accept these terms before they can complete the subscription process."
+        },
+        "subscriptionRequired": {
+          "description": "Whether a product subscription is required for accessing APIs included in this product. If true, the product is referred to as \"protected\" and a valid subscription key is required for a request to an API included in the product to succeed. If false, the product is referred to as \"open\" and requests to an API included in the product can be made without a subscription key. If property is omitted when creating a new product it's value is assumed to be true.",
+          "type": "boolean"
+        },
+        "approvalRequired": {
+          "description": "whether subscription approval is required. If false, new subscriptions will be approved automatically enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually approve the subscription before the developer can any of the product’s APIs. Can be present only if subscriptionRequired property is present and has a value of false.",
+          "type": "boolean"
+        },
+        "subscriptionsLimit": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Whether the number of subscriptions a user can have to this product at the same time. Set to null or omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has a value of false."
+        },
+        "state": {
+          "type": "string",
+          "description": "whether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is notPublished.",
+          "enum": [
+            "notPublished",
+            "published"
+          ],
+          "x-ms-enum": {
+            "name": "ProductState",
+            "modelAsString": false
+          }
+        }
+      },
+      "description": "Product Entity Base Parameters"
+    },
+    "ProductTagResourceContractProperties": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identifier of the product in the form of /products/{productId}"
+        },
+        "name": {
+          "type": "string",
+          "description": "Product name.",
+          "minLength": 1,
+          "maxLength": 300
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProductEntityBaseParameters"
+        }
+      ],
+      "required": [
+        "name"
+      ],
+      "description": "Product profile."
+    },
+    "OperationTagResourceContractProperties": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identifier of the operation in form /operations/{operationId}."
+        },
+        "name": {
+          "type": "string",
+          "description": "Operation name.",
+          "readOnly": true
+        },
+        "apiName": {
+          "type": "string",
+          "description": "Api Name.",
+          "readOnly": true
+        },
+        "apiRevision": {
+          "type": "string",
+          "description": "Api Revision.",
+          "readOnly": true
+        },
+        "apiVersion": {
+          "type": "string",
+          "description": "Api Version.",
+          "readOnly": true
+        },
+        "description": {
+          "type": "string",
+          "description": "Operation Description.",
+          "readOnly": true
+        },
+        "method": {
+          "type": "string",
+          "description": "A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.",
+          "externalDocs": {
+            "description": "As defined by RFC.",
+            "url": "http://www.rfc-editor.org/rfc/rfc7230.txt"
+          },
+          "readOnly": true
+        },
+        "urlTemplate": {
+          "type": "string",
+          "description": "Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date}",
+          "readOnly": true
+        }
+      },
+      "description": "Operation Entity contract Properties."
+    },
+    "ApiTagResourceContractProperties": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "API identifier in the form /apis/{apiId}."
+        },
+        "name": {
+          "type": "string",
+          "description": "API name.",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "serviceUrl": {
+          "type": "string",
+          "description": "Absolute URL of the backend service implementing this API.",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "path": {
+          "type": "string",
+          "description": "Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.",
+          "minLength": 0,
+          "maxLength": 400
+        },
+        "protocols": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "http",
+              "https"
+            ],
+            "x-ms-enum": {
+              "name": "Protocol",
+              "modelAsString": false
+            }
+          },
+          "description": "Describes on which protocols the operations in this API can be invoked."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ApiEntityBaseContract"
+        }
+      ],
+      "description": "API contract properties for the Tag Resources."
+    },
+    "TagTagResourceContractProperties": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Tag identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Tag Name",
+          "minLength": 1,
+          "maxLength": 160
+        }
+      },
+      "description": "Contract defining the Tag property in the Tag Resource Contract"
+    },
+    "TagResourceContract": {
+      "properties": {
+        "tag": {
+          "$ref": "#/definitions/TagTagResourceContractProperties",
+          "description": "Tag associated with the resource."
+        },
+        "api": {
+          "$ref": "#/definitions/ApiTagResourceContractProperties",
+          "description": "Api associated with the tag."
+        },
+        "operation": {
+          "$ref": "#/definitions/OperationTagResourceContractProperties",
+          "description": "Operation associated with the tag."
+        },
+        "product": {
+          "$ref": "#/definitions/ProductTagResourceContractProperties",
+          "description": "Product associated with the tag."
+        }
+      },
+      "required": [
+        "tag"
+      ],
+      "description": "TagResource contract properties."
+    },
+    "TagResourceCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TagResourceContract"
+          },
+          "description": "Page values."
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total record count number across all pages."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "Paged Tag list representation."
+    },
+    "PolicyCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PolicyContract"
+          },
+          "description": "Policy Contract value."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "The response of the list policy operation."
+    },
+    "ProductContract": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ProductContractProperties",
+          "description": "Product entity contract properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Product details."
+    },
+    "ProductCollection": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProductContract"
+          },
+          "description": "Page values."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Next page link if any."
+        }
+      },
+      "description": "Paged Products list representation."
+    }
+  },
+  "parameters": {
+    "ApiIdParameter": {
+      "name": "apiId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "API identifier. Must be unique in the current API Management service instance.",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "(^[\\w]+$)|(^[\\w][\\w\\-]+[\\w]$)",
+      "x-ms-parameter-location": "method"
+    },
+    "ApiIdRevParameter": {
+      "name": "apiId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[^*#&+:<>?]+$",
+      "x-ms-parameter-location": "method"
+    },
+    "OperationIdParameter": {
+      "name": "operationId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Operation identifier within an API. Must be unique in the current API Management service instance.",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "(^[\\w]+$)|(^[\\w][\\w\\-]+[\\w]$)",
+      "x-ms-parameter-location": "method"
+    },
+    "SchemaIdParameter": {
+      "name": "schemaId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Schema identifier within an API. Must be unique in the current API Management service instance.",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "(^[\\w]+$)|(^[\\w][\\w\\-]+[\\w]$)",
+      "x-ms-parameter-location": "method"
+    },
+    "ReleaseIdParameter": {
+      "name": "releaseId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Release identifier within an API. Must be unique in the current API Management service instance.",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "(^[\\w]+$)|(^[\\w][\\w\\-]+[\\w]$)",
+      "x-ms-parameter-location": "method"
+    },
+    "IssueIdParameter": {
+      "name": "issueId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Issue identifier. Must be unique in the current API Management service instance.",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[^*#&+:<>?]+$",
+      "x-ms-parameter-location": "method"
+    },
+    "CommentIdParameter": {
+      "name": "commentId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Comment identifier within an Issue. Must be unique in the current Issue.",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[^*#&+:<>?]+$",
+      "x-ms-parameter-location": "method"
+    },
+    "AttachmentIdParameter": {
+      "name": "attachmentId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Attachment identifier within an Issue. Must be unique in the current Issue.",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[^*#&+:<>?]+$",
+      "x-ms-parameter-location": "method"
+    },
+    "SubscriptionIdParameter": {
+      "name": "subscriptionId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+    },
+    "ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Version of the API to be used with the client request."
+    },
+    "ServiceNameParameter": {
+      "name": "serviceName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the API Management service.",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$",
+      "x-ms-parameter-location": "method"
+    },
+    "ResourceGroupNameParameter": {
+      "name": "resourceGroupName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The name of the resource group.",
+      "x-ms-parameter-location": "method"
+    },
+    "SkipQueryParameter": {
+      "name": "$skip",
+      "in": "query",
+      "required": false,
+      "type": "integer",
+      "format": "int32",
+      "description": "Number of records to skip.",
+      "minimum": 0,
+      "x-ms-parameter-location": "method"
+    },
+    "TopQueryParameter": {
+      "name": "$top",
+      "in": "query",
+      "required": false,
+      "type": "integer",
+      "format": "int32",
+      "description": "Number of records to return.",
+      "minimum": 1,
+      "x-ms-parameter-location": "method"
+    },
+    "LoggerIdParameter": {
+      "name": "loggerid",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "maxLength": 80,
+      "pattern": "(^[\\w]+$)|(^[\\w][\\w\\-]+[\\w]$)",
+      "description": "Logger identifier. Must be unique in the API Management service instance.",
+      "x-ms-parameter-location": "method"
+    },
+    "DiagnosticIdParameter": {
+      "name": "diagnosticId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "Diagnostic identifier. Must be unique in the current API Management service instance.",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "(^[\\w]+$)|(^[\\w][\\w\\-]+[\\w]$)",
+      "x-ms-parameter-location": "method"
+    },
+    "IfMatchRequiredParameter": {
+      "name": "If-Match",
+      "in": "header",
+      "required": true,
+      "description": "ETag of the Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "IfMatchOptionalParameter": {
+      "name": "If-Match",
+      "in": "header",
+      "required": false,
+      "description": "ETag of the Entity. Not required when creating an entity, but required when updating an entity.",
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "PolicyIdParameter": {
+      "name": "policyId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "policy"
+      ],
+      "description": "The identifier of the Policy.",
+      "x-ms-enum": {
+        "modelAsString": true,
+        "name": "PolicyIdName"
+      },
+      "x-ms-parameter-location": "method"
+    }
+  },
+  "x-internal-service-name": "API Management",
+  "x-internal-toc-name": "Api Release",
+  "x-internal-split-type": "Operation",
+  "x-internal-operation-name": "List"
+}
