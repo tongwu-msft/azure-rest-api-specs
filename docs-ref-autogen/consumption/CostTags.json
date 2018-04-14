@@ -27,83 +27,7 @@
       }
     }
   },
-  "paths": {
-    "/providers/Microsoft.CostManagement/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/costAllocationTags": {
-      "get": {
-        "tags": [
-          "CostAllocationTags"
-        ],
-        "operationId": "CostAllocationTags_Get",
-        "description": "Get cost allocation tags for a billing account.",
-        "externalDocs": {
-          "url": "https://docs.microsoft.com/en-us/rest/api/consumption/"
-        },
-        "x-ms-examples": {
-          "CostAllocationTags_Get": {
-            "parameters": {
-              "api-version": "2018-03-31",
-              "billingAccountId": "12345"
-            },
-            "responses": {
-              "200": {
-                "body": {
-                  "id": "providers/Microsoft.CostManagement/billingAccounts/{billingaccount-id}/providers/Microsoft.Consumption/costAllocationTags/costAllocationTags1",
-                  "name": "costAllocationTags1",
-                  "type": "Microsoft.Consumption/costAllocationTags",
-                  "eTag": "\"1d34d012214157f\"",
-                  "properties": {
-                    "costAllocationTags": [
-                      {
-                        "key": "Department"
-                      },
-                      {
-                        "key": "CostCenter"
-                      },
-                      {
-                        "key": "Portal"
-                      },
-                      {
-                        "key": "OrgName"
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "$ref": "#/parameters/apiVersionParameter"
-          },
-          {
-            "$ref": "#/parameters/billingAccountIdParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK. The request has succeeded.",
-            "schema": {
-              "$ref": "#/definitions/CostAllocationTags"
-            }
-          },
-          "default": {
-            "description": "Error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "x-internal-toc-name": "Get"
-      }
-    }
-  },
+  "paths": {},
   "definitions": {
     "MeterDetails": {
       "description": "The properties of the meter detail.",
@@ -737,6 +661,43 @@
         }
       }
     },
+    "Tags": {
+      "description": "A resource listing all tags.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProxyResource"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/TagProperties",
+          "title": "Tag properties"
+        }
+      }
+    },
+    "TagProperties": {
+      "description": "The properties of the tag.",
+      "properties": {
+        "tags": {
+          "description": "A list of Tag.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Tag"
+          }
+        }
+      }
+    },
+    "Tag": {
+      "description": "The tag resource.",
+      "properties": {
+        "key": {
+          "description": "Tag key.",
+          "type": "string"
+        }
+      }
+    },
     "BudgetsListResult": {
       "description": "Result of listing budgets. It contains a list of available budgets in the scope provided.",
       "properties": {
@@ -972,8 +933,8 @@
         "contactEmails"
       ]
     },
-    "CostAllocationTags": {
-      "description": "A cost allocation tag resource.",
+    "CostTags": {
+      "description": "A cost tag resource.",
       "type": "object",
       "allOf": [
         {
@@ -983,28 +944,28 @@
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/CostAllocationTagProperties",
-          "title": "Cost allocation tag properties"
+          "$ref": "#/definitions/CostTagProperties",
+          "title": "Cost tag properties"
         }
       }
     },
-    "CostAllocationTagProperties": {
-      "description": "The properties of the cost allocation tag.",
+    "CostTagProperties": {
+      "description": "The properties of the cost tag.",
       "properties": {
-        "costAllocationTags": {
-          "description": "Cost allocation tags.",
+        "costTags": {
+          "description": "Cost tags.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/CostAllocationTag"
+            "$ref": "#/definitions/CostTag"
           }
         }
       }
     },
-    "CostAllocationTag": {
-      "description": "The cost allocation tag.",
+    "CostTag": {
+      "description": "The cost tag.",
       "properties": {
         "key": {
-          "description": "Cost allocation tag key.",
+          "description": "Cost tag key.",
           "type": "string"
         }
       }
@@ -1328,7 +1289,16 @@
     }
   },
   "x-internal-service-name": "Consumption",
-  "x-internal-toc-name": "Cost Allocation Tags",
-  "x-internal-split-type": "Operation",
-  "x-internal-operation-name": "Get"
+  "x-internal-toc-name": "Cost Tags",
+  "x-internal-split-members": [
+    {
+      "displayName": "Create Or Update",
+      "relativePath": "CostTags/CreateOrUpdate"
+    },
+    {
+      "displayName": "Get",
+      "relativePath": "CostTags/Get"
+    }
+  ],
+  "x-internal-split-type": "OperationGroup"
 }

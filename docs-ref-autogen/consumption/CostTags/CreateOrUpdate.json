@@ -28,83 +28,84 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/budgets/{budgetName}": {
-      "get": {
+    "/providers/Microsoft.CostManagement/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/costTags": {
+      "put": {
         "tags": [
-          "Budgets"
+          "CostTags"
         ],
-        "operationId": "Budgets_Get",
-        "description": "Gets the budget for a subscription by budget name.",
+        "operationId": "CostTags_CreateOrUpdate",
+        "description": "The operation to create or update cost tags assiciated with a billing account. Update operation requires latest eTag to be set in the request mandatorily. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.",
         "externalDocs": {
           "url": "https://docs.microsoft.com/en-us/rest/api/consumption/"
         },
         "x-ms-examples": {
-          "Budget": {
+          "CreateOrUpdateCostTags": {
             "parameters": {
               "api-version": "2018-03-31",
-              "subscriptionId": "00000000-0000-0000-0000-000000000000",
-              "resourceGroupName": "MYDEVTESTRG",
-              "budgetName": "TestBudget"
+              "billingAccountId": "12345",
+              "parameters": {
+                "costTags": [
+                  {
+                    "key": "Department"
+                  },
+                  {
+                    "key": "CostCenter"
+                  },
+                  {
+                    "key": "Portal"
+                  },
+                  {
+                    "key": "OrgName"
+                  }
+                ]
+              }
             },
             "responses": {
-              "200": {
+              "201": {
                 "body": {
-                  "id": "subscriptions/{subscription-id}/providers/Microsoft.Consumption/budgets/TestBudget",
-                  "name": "TestBudget",
-                  "type": "Microsoft.Consumption/budgets",
+                  "id": "providers/Microsoft.CostManagement/billingAccounts/{billingaccount-id}/providers/Microsoft.Consumption/costTags/costTags1",
+                  "name": "costTags1",
+                  "type": "Microsoft.Consumption/costTags",
                   "eTag": "\"1d34d012214157f\"",
                   "properties": {
-                    "category": "Cost",
-                    "amount": 100.65,
-                    "timeGrain": "Monthly",
-                    "timePeriod": {
-                      "startDate": "2017-10-01T00:00:00Z",
-                      "endDate": "2018-10-31T00:00:00Z"
-                    },
-                    "filters": {
-                      "resourceGroups": [
-                        "MPDEVTESTRG"
-                      ],
-                      "resources": [
-                        "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MSVM2",
-                        "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1"
-                      ],
-                      "meters": [
-                        "00000000-0000-0000-0000-000000000000"
-                      ],
-                      "tags": {
-                        "category": [
-                          "Dev",
-                          "Prod"
-                        ],
-                        "department": [
-                          "engineering",
-                          "sales"
-                        ]
+                    "costTags": [
+                      {
+                        "key": "Department"
+                      },
+                      {
+                        "key": "CostCenter"
+                      },
+                      {
+                        "key": "Portal"
+                      },
+                      {
+                        "key": "OrgName"
                       }
-                    },
-                    "currentSpend": {
-                      "amount": 80.89,
-                      "unit": "USD"
-                    },
-                    "notifications": {
-                      "Actual_GreaterThan_80_Percent": {
-                        "enabled": true,
-                        "operator": "GreaterThan",
-                        "threshold": 80,
-                        "contactEmails": [
-                          "johndoe@contoso.com",
-                          "janesmith@contoso.com"
-                        ],
-                        "contactRoles": [
-                          "Contributor",
-                          "Reader"
-                        ],
-                        "contactGroups": [
-                          "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup"
-                        ]
+                    ]
+                  }
+                }
+              },
+              "200": {
+                "body": {
+                  "id": "providers/Microsoft.CostManagement/billingAccounts/{billingaccount-id}/providers/Microsoft.Consumption/costTags/costTags1",
+                  "name": "costTags1",
+                  "type": "Microsoft.Consumption/costTags",
+                  "eTag": "\"1d34d012214157f\"",
+                  "properties": {
+                    "costTags": [
+                      {
+                        "key": "Department"
+                      },
+                      {
+                        "key": "CostCenter"
+                      },
+                      {
+                        "key": "Portal"
+                      },
+                      {
+                        "key": "OrgName"
                       }
-                    }
+                    ]
                   }
                 }
               }
@@ -116,17 +117,29 @@
             "$ref": "#/parameters/apiVersionParameter"
           },
           {
-            "$ref": "#/parameters/subscriptionIdParameter"
+            "$ref": "#/parameters/billingAccountIdParameter"
           },
           {
-            "$ref": "#/parameters/budgetNameParameter"
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CostTags"
+            },
+            "description": "Parameters supplied to the Create cost tags operation."
           }
         ],
         "responses": {
           "200": {
             "description": "OK. The request has succeeded.",
             "schema": {
-              "$ref": "#/definitions/Budget"
+              "$ref": "#/definitions/CostTags"
+            }
+          },
+          "201": {
+            "description": "Created.",
+            "schema": {
+              "$ref": "#/definitions/CostTags"
             }
           },
           "default": {
@@ -142,7 +155,7 @@
         "consumes": [
           "application/json"
         ],
-        "x-internal-toc-name": "Get"
+        "x-internal-toc-name": "Create Or Update"
       }
     }
   },
@@ -1407,7 +1420,7 @@
     }
   },
   "x-internal-service-name": "Consumption",
-  "x-internal-toc-name": "Budgets",
+  "x-internal-toc-name": "Cost Tags",
   "x-internal-split-type": "Operation",
-  "x-internal-operation-name": "Get"
+  "x-internal-operation-name": "Create Or Update"
 }
