@@ -1,0 +1,607 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.recoveryservices-backup.protectionpolicyoperationresults.get
+name: Get
+service: Recovery Services - Backup
+groupName: Protection Policy Operation Results
+apiVersion: 2016-12-01
+summary: Provides the result of an operation.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}/operationResults/{operationId}?api-version=2016-12-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: policyName
+  in: path
+  isRequired: true
+  description: Backup policy name whose operation's result needs to be fetched.
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: Operation ID which represents the operation whose result needs to be fetched.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ProtectionPolicyResource
+requestHeader: []
+definitions:
+- name: ProtectionPolicyResource
+  description: Base class for backup policy. Workload-specific backup policies are derived from this class.
+  kind: object
+  properties:
+  - name: properties
+    description: ProtectionPolicyResource properties
+    types:
+    - uid: AzureFileShareProtectionPolicy
+    - uid: AzureIaaSVMProtectionPolicy
+    - uid: AzureSqlProtectionPolicy
+    - uid: AzureVmWorkloadProtectionPolicy
+    - uid: GenericProtectionPolicy
+    - uid: MabProtectionPolicy
+    typesTitle: ProtectionPolicy
+  - name: id
+    isReadyOnly: true
+    description: Resource Id represents the complete path to the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name associated with the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    description: Optional ETag.
+    types:
+    - uid: string
+- name: AzureFileShareProtectionPolicy
+  description: AzureStorage backup policy.
+  kind: object
+  properties:
+  - name: workLoadType
+    description: Type of workload for the backup management
+    types:
+    - uid: string
+  - name: schedulePolicy
+    description: Backup schedule specified as part of backup policy.
+    types:
+    - uid: LogSchedulePolicy
+    - uid: LongTermSchedulePolicy
+    - uid: SimpleSchedulePolicy
+    typesTitle: SchedulePolicy
+  - name: retentionPolicy
+    description: Retention policy with the details on backup copy retention ranges.
+    types:
+    - uid: LongTermRetentionPolicy
+    - uid: SimpleRetentionPolicy
+    typesTitle: RetentionPolicy
+  - name: timeZone
+    description: 'TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time".'
+    types:
+    - uid: string
+  - name: protectedItemsCount
+    description: Number of items associated with this policy.
+    types:
+    - uid: integer
+  - name: backupManagementType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: AzureStorage
+    typesTitle: string
+- name: AzureIaaSVMProtectionPolicy
+  description: IaaS VM workload-specific backup policy.
+  kind: object
+  properties:
+  - name: schedulePolicy
+    description: Backup schedule specified as part of backup policy.
+    types:
+    - uid: LogSchedulePolicy
+    - uid: LongTermSchedulePolicy
+    - uid: SimpleSchedulePolicy
+    typesTitle: SchedulePolicy
+  - name: retentionPolicy
+    description: Retention policy with the details on backup copy retention ranges.
+    types:
+    - uid: LongTermRetentionPolicy
+    - uid: SimpleRetentionPolicy
+    typesTitle: RetentionPolicy
+  - name: timeZone
+    description: 'TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time".'
+    types:
+    - uid: string
+  - name: protectedItemsCount
+    description: Number of items associated with this policy.
+    types:
+    - uid: integer
+  - name: backupManagementType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: AzureIaasVM
+    typesTitle: string
+- name: AzureSqlProtectionPolicy
+  description: Azure SQL workload-specific backup policy.
+  kind: object
+  properties:
+  - name: retentionPolicy
+    description: Retention policy details.
+    types:
+    - uid: LongTermRetentionPolicy
+    - uid: SimpleRetentionPolicy
+    typesTitle: RetentionPolicy
+  - name: protectedItemsCount
+    description: Number of items associated with this policy.
+    types:
+    - uid: integer
+  - name: backupManagementType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: AzureSql
+    typesTitle: string
+- name: AzureVmWorkloadProtectionPolicy
+  description: Azure VM (Mercury) workload-specific backup policy.
+  kind: object
+  properties:
+  - name: workLoadType
+    description: Type of workload for the backup management
+    types:
+    - uid: string
+  - name: settings
+    description: Common settings for the backup management
+    types:
+    - uid: Settings
+  - name: subProtectionPolicy
+    description: List of sub-protection policies which includes schedule and retention
+    types:
+    - uid: SubProtectionPolicy
+      isArray: true
+  - name: protectedItemsCount
+    description: Number of items associated with this policy.
+    types:
+    - uid: integer
+  - name: backupManagementType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: AzureWorkload
+    typesTitle: string
+- name: GenericProtectionPolicy
+  description: Azure VM (Mercury) workload-specific backup policy.
+  kind: object
+  properties:
+  - name: subProtectionPolicy
+    description: List of sub-protection policies which includes schedule and retention
+    types:
+    - uid: SubProtectionPolicy
+      isArray: true
+  - name: timeZone
+    description: 'TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time".'
+    types:
+    - uid: string
+  - name: fabricName
+    description: Name of this policy's fabric.
+    types:
+    - uid: string
+  - name: protectedItemsCount
+    description: Number of items associated with this policy.
+    types:
+    - uid: integer
+  - name: backupManagementType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: GenericProtectionPolicy
+    typesTitle: string
+- name: MabProtectionPolicy
+  description: Mab container-specific backup policy.
+  kind: object
+  properties:
+  - name: schedulePolicy
+    description: Backup schedule of backup policy.
+    types:
+    - uid: LogSchedulePolicy
+    - uid: LongTermSchedulePolicy
+    - uid: SimpleSchedulePolicy
+    typesTitle: SchedulePolicy
+  - name: retentionPolicy
+    description: Retention policy details.
+    types:
+    - uid: LongTermRetentionPolicy
+    - uid: SimpleRetentionPolicy
+    typesTitle: RetentionPolicy
+  - name: protectedItemsCount
+    description: Number of items associated with this policy.
+    types:
+    - uid: integer
+  - name: backupManagementType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: MAB
+    typesTitle: string
+- name: Settings
+  description: Common settings field for backup management
+  kind: object
+  properties:
+  - name: timeZone
+    description: 'TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time".'
+    types:
+    - uid: string
+  - name: issqlcompression
+    description: SQL compression flag
+    types:
+    - uid: boolean
+- name: SubProtectionPolicy
+  description: Sub-protection policy which includes schedule and retention
+  kind: object
+  properties:
+  - name: policyType
+    description: Type of backup policy type
+    types:
+    - uid: string
+  - name: schedulePolicy
+    description: Backup schedule specified as part of backup policy.
+    types:
+    - uid: LogSchedulePolicy
+    - uid: LongTermSchedulePolicy
+    - uid: SimpleSchedulePolicy
+    typesTitle: SchedulePolicy
+  - name: retentionPolicy
+    description: Retention policy with the details on backup copy retention ranges.
+    types:
+    - uid: LongTermRetentionPolicy
+    - uid: SimpleRetentionPolicy
+    typesTitle: RetentionPolicy
+- name: LogSchedulePolicy
+  description: Log policy schedule.
+  kind: object
+  properties:
+  - name: scheduleFrequencyInMins
+    description: Frequency of the log schedule operation of this policy in minutes.
+    types:
+    - uid: integer
+  - name: schedulePolicyType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: LogSchedulePolicy
+    typesTitle: string
+- name: LongTermSchedulePolicy
+  description: Long term policy schedule.
+  kind: object
+  properties:
+  - name: schedulePolicyType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: string
+- name: SimpleSchedulePolicy
+  description: Simple policy schedule.
+  kind: object
+  properties:
+  - name: scheduleRunFrequency
+    description: Frequency of the schedule operation of this policy.
+    types:
+    - uid: ScheduleRunType
+  - name: scheduleRunDays
+    description: List of days of week this schedule has to be run.
+    types:
+    - uid: string
+      isArray: true
+  - name: scheduleRunTimes
+    description: List of times of day this schedule has to be run.
+    types:
+    - uid: string
+      isArray: true
+  - name: scheduleWeeklyFrequency
+    description: At every number weeks this schedule has to be run.
+    types:
+    - uid: integer
+  - name: schedulePolicyType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: SimpleSchedulePolicy
+    typesTitle: string
+- name: LongTermRetentionPolicy
+  description: Long term retention policy.
+  kind: object
+  properties:
+  - name: dailySchedule
+    description: Daily retention schedule of the protection policy.
+    types:
+    - uid: DailyRetentionSchedule
+  - name: weeklySchedule
+    description: Weekly retention schedule of the protection policy.
+    types:
+    - uid: WeeklyRetentionSchedule
+  - name: monthlySchedule
+    description: Monthly retention schedule of the protection policy.
+    types:
+    - uid: MonthlyRetentionSchedule
+  - name: yearlySchedule
+    description: Yearly retention schedule of the protection policy.
+    types:
+    - uid: YearlyRetentionSchedule
+  - name: retentionPolicyType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: LongTermRetentionPolicy
+    typesTitle: string
+- name: SimpleRetentionPolicy
+  description: Simple policy retention.
+  kind: object
+  properties:
+  - name: retentionDuration
+    description: Retention duration of the protection policy.
+    types:
+    - uid: RetentionDuration
+  - name: retentionPolicyType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: SimpleRetentionPolicy
+    typesTitle: string
+- name: ScheduleRunType
+  description: Frequency of the schedule operation of this policy.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Daily
+    types:
+    - uid: string
+  - name: Weekly
+    types:
+    - uid: string
+- name: DailyRetentionSchedule
+  description: Daily retention schedule.
+  kind: object
+  properties:
+  - name: retentionTimes
+    description: Retention times of retention policy.
+    types:
+    - uid: string
+      isArray: true
+  - name: retentionDuration
+    description: Retention duration of retention Policy.
+    types:
+    - uid: RetentionDuration
+- name: WeeklyRetentionSchedule
+  description: Weekly retention schedule.
+  kind: object
+  properties:
+  - name: daysOfTheWeek
+    description: List of days of week for weekly retention policy.
+    types:
+    - uid: string
+      isArray: true
+  - name: retentionTimes
+    description: Retention times of retention policy.
+    types:
+    - uid: string
+      isArray: true
+  - name: retentionDuration
+    description: Retention duration of retention Policy.
+    types:
+    - uid: RetentionDuration
+- name: MonthlyRetentionSchedule
+  description: Monthly retention schedule.
+  kind: object
+  properties:
+  - name: retentionScheduleFormatType
+    description: Retention schedule format type for monthly retention policy.
+    types:
+    - uid: RetentionScheduleFormat
+  - name: retentionScheduleDaily
+    description: Daily retention format for monthly retention policy.
+    types:
+    - uid: DailyRetentionFormat
+  - name: retentionScheduleWeekly
+    description: Weekly retention format for monthly retention policy.
+    types:
+    - uid: WeeklyRetentionFormat
+  - name: retentionTimes
+    description: Retention times of retention policy.
+    types:
+    - uid: string
+      isArray: true
+  - name: retentionDuration
+    description: Retention duration of retention Policy.
+    types:
+    - uid: RetentionDuration
+- name: YearlyRetentionSchedule
+  description: Yearly retention schedule.
+  kind: object
+  properties:
+  - name: retentionScheduleFormatType
+    description: Retention schedule format for yearly retention policy.
+    types:
+    - uid: RetentionScheduleFormat
+  - name: monthsOfYear
+    description: List of months of year of yearly retention policy.
+    types:
+    - uid: string
+      isArray: true
+  - name: retentionScheduleDaily
+    description: Daily retention format for yearly retention policy.
+    types:
+    - uid: DailyRetentionFormat
+  - name: retentionScheduleWeekly
+    description: Weekly retention format for yearly retention policy.
+    types:
+    - uid: WeeklyRetentionFormat
+  - name: retentionTimes
+    description: Retention times of retention policy.
+    types:
+    - uid: string
+      isArray: true
+  - name: retentionDuration
+    description: Retention duration of retention Policy.
+    types:
+    - uid: RetentionDuration
+- name: RetentionDuration
+  description: Retention duration.
+  kind: object
+  properties:
+  - name: count
+    description: >-
+      Count of duration types. Retention duration is obtained by the counting the duration type Count times.
+                  For example, when Count = 3 and DurationType = Weeks, retention duration will be three weeks.
+    types:
+    - uid: integer
+  - name: durationType
+    description: Retention duration type of retention policy.
+    types:
+    - uid: RetentionDurationType
+- name: RetentionScheduleFormat
+  description: Retention schedule format type for monthly retention policy.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Daily
+    types:
+    - uid: string
+  - name: Weekly
+    types:
+    - uid: string
+- name: DailyRetentionFormat
+  description: Daily retention format.
+  kind: object
+  properties:
+  - name: daysOfTheMonth
+    description: List of days of the month.
+    types:
+    - uid: Day
+      isArray: true
+- name: WeeklyRetentionFormat
+  description: Weekly retention format.
+  kind: object
+  properties:
+  - name: daysOfTheWeek
+    description: List of days of the week.
+    types:
+    - uid: string
+      isArray: true
+  - name: weeksOfTheMonth
+    description: List of weeks of month.
+    types:
+    - uid: string
+      isArray: true
+- name: RetentionDurationType
+  description: Retention duration type of retention policy.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Days
+    types:
+    - uid: string
+  - name: Weeks
+    types:
+    - uid: string
+  - name: Months
+    types:
+    - uid: string
+  - name: Years
+    types:
+    - uid: string
+- name: Day
+  description: Day of the week.
+  kind: object
+  properties:
+  - name: date
+    description: Date of the month
+    types:
+    - uid: integer
+  - name: isLast
+    description: Whether Date is last date of month
+    types:
+    - uid: boolean
+examples:
+- name: Get Protection Policy Operation Results
+  request:
+    uri: GET https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SwaggerTestRg/providers/Microsoft.RecoveryServices/vaults/NetSDKTestRsVault/backupPolicies/testPolicy1/operationResults/00000000-0000-0000-0000-000000000000?api-version=2016-12-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SwaggerTestRg/providers/Microsoft.RecoveryServices/vaults/NetSDKTestRsVault/backupPolicies/testPolicy1",
+        "name": "testPolicy1",
+        "type": "Microsoft.RecoveryServices/vaults/backupPolicies",
+        "properties": {
+          "backupManagementType": "AzureIaasVM",
+          "schedulePolicy": {
+            "schedulePolicyType": "SimpleSchedulePolicy",
+            "scheduleRunFrequency": "Daily",
+            "scheduleRunTimes": [
+              "2018-01-24T02:00:00Z"
+            ],
+            "scheduleWeeklyFrequency": 0
+          },
+          "retentionPolicy": {
+            "retentionPolicyType": "LongTermRetentionPolicy",
+            "dailySchedule": {
+              "retentionTimes": [
+                "2018-01-24T02:00:00Z"
+              ],
+              "retentionDuration": {
+                "count": 1,
+                "durationType": "Days"
+              }
+            }
+          },
+          "timeZone": "Pacific Standard Time",
+          "protectedItemsCount": 1
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.

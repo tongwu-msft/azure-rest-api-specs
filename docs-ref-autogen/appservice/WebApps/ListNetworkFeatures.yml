@@ -1,0 +1,340 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.webapps.listnetworkfeatures
+name: List Network Features
+service: App Service
+groupName: Web Apps
+apiVersion: 2016-08-01
+summary: Gets all network features used by the app (or deployment slot, if specified).
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkFeatures/{view}?api-version=2016-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the app.
+  types:
+  - uid: string
+- name: view
+  in: path
+  isRequired: true
+  description: The type of view. This can either be "summary" or "detailed".
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: NetworkFeatures
+- name: Other Status Codes
+  description: The requested view does not exist.
+requestHeader: []
+definitions:
+- name: NetworkFeatures
+  description: Full view of network features for an app (presently VNET integration and Hybrid Connections).
+  kind: object
+  properties:
+  - name: properties.virtualNetworkName
+    isReadyOnly: true
+    description: The Virtual Network name.
+    types:
+    - uid: string
+  - name: properties.virtualNetworkConnection
+    isReadyOnly: true
+    description: The Virtual Network summary view.
+    types:
+    - uid: VnetInfo
+  - name: properties.hybridConnections
+    isReadyOnly: true
+    description: The Hybrid Connections summary view.
+    types:
+    - uid: RelayServiceConnectionEntity
+      isArray: true
+  - name: properties.hybridConnectionsV2
+    isReadyOnly: true
+    description: The Hybrid Connection V2 (Service Bus) view.
+    types:
+    - uid: HybridConnection
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: VnetInfo
+  description: Virtual Network information contract.
+  kind: object
+  properties:
+  - name: properties.vnetResourceId
+    description: The Virtual Network's resource ID.
+    types:
+    - uid: string
+  - name: properties.certThumbprint
+    isReadyOnly: true
+    description: The client certificate thumbprint.
+    types:
+    - uid: string
+  - name: properties.certBlob
+    description: "A certificate file (.cer) blob containing the public key of the private key used to authenticate a \nPoint-To-Site VPN connection."
+    types:
+    - uid: string
+  - name: properties.routes
+    isReadyOnly: true
+    description: The routes that this Virtual Network connection uses.
+    types:
+    - uid: VnetRoute
+      isArray: true
+  - name: properties.resyncRequired
+    isReadyOnly: true
+    description: <code>true</code> if a resync is required; otherwise, <code>false</code>.
+    types:
+    - uid: boolean
+  - name: properties.dnsServers
+    description: DNS servers to be used by this Virtual Network. This should be a comma-separated list of IP addresses.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: RelayServiceConnectionEntity
+  description: Hybrid Connection for an App Service app.
+  kind: object
+  properties:
+  - name: properties.entityName
+    description: ''
+    types:
+    - uid: string
+  - name: properties.entityConnectionString
+    description: ''
+    types:
+    - uid: string
+  - name: properties.resourceType
+    description: ''
+    types:
+    - uid: string
+  - name: properties.resourceConnectionString
+    description: ''
+    types:
+    - uid: string
+  - name: properties.hostname
+    description: ''
+    types:
+    - uid: string
+  - name: properties.port
+    description: ''
+    types:
+    - uid: integer
+  - name: properties.biztalkUri
+    description: ''
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: HybridConnection
+  description: Hybrid Connection contract. This is used to configure a Hybrid Connection.
+  kind: object
+  properties:
+  - name: properties.serviceBusNamespace
+    description: The name of the Service Bus namespace.
+    types:
+    - uid: string
+  - name: properties.relayName
+    description: The name of the Service Bus relay.
+    types:
+    - uid: string
+  - name: properties.relayArmUri
+    description: The ARM URI to the Service Bus relay.
+    types:
+    - uid: string
+  - name: properties.hostname
+    description: The hostname of the endpoint.
+    types:
+    - uid: string
+  - name: properties.port
+    description: The port of the endpoint.
+    types:
+    - uid: integer
+  - name: properties.sendKeyName
+    description: The name of the Service Bus key which has Send permissions. This is used to authenticate to Service Bus.
+    types:
+    - uid: string
+  - name: properties.sendKeyValue
+    description: >-
+      The value of the Service Bus key. This is used to authenticate to Service Bus. In ARM this key will not be returned
+
+      normally, use the POST /listKeys API instead.
+    types:
+    - uid: string
+  - name: properties.serviceBusSuffix
+    description: The suffix for the service bus endpoint. By default this is .servicebus.windows.net
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: VnetRoute
+  description: Virtual Network route contract used to pass routing information for a Virtual Network.
+  kind: object
+  properties:
+  - name: properties.name
+    description: The name of this route. This is only returned by the server and does not need to be set by the client.
+    types:
+    - uid: string
+  - name: properties.startAddress
+    description: The starting address for this route. This may also include a CIDR notation, in which case the end address must not be specified.
+    types:
+    - uid: string
+  - name: properties.endAddress
+    description: The ending address for this route. If the start address is specified in CIDR notation, this must be omitted.
+    types:
+    - uid: string
+  - name: properties.routeType
+    description: >-
+      The type of route this is:
+
+      DEFAULT - By default, every app has routes to the local address ranges specified by RFC1918
+
+      INHERITED - Routes inherited from the real Virtual Network routes
+
+      STATIC - Static route set on the app only
+
+
+      These values will be used for syncing an app's routes with those from a Virtual Network.
+    types:
+    - uid: RouteType
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: RouteType
+  description: >-
+    The type of route this is:
+
+    DEFAULT - By default, every app has routes to the local address ranges specified by RFC1918
+
+    INHERITED - Routes inherited from the real Virtual Network routes
+
+    STATIC - Static route set on the app only
+
+
+    These values will be used for syncing an app's routes with those from a Virtual Network.
+  kind: enum
+  properties:
+  - name: DEFAULT
+    types:
+    - uid: string
+  - name: INHERITED
+    types:
+    - uid: string
+  - name: STATIC
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

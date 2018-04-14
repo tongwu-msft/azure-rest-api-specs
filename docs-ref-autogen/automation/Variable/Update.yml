@@ -1,0 +1,173 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.variable.update
+name: Update
+service: Automation
+groupName: Variable
+apiVersion: 2015-10-31
+summary: Update a variable.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}?api-version=2015-10-31
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure Resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The automation account name.
+  types:
+  - uid: string
+- name: variableName
+  in: path
+  isRequired: true
+  description: The variable name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Variable
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    description: Gets or sets the name of the variable.
+    types:
+    - uid: string
+  - name: properties.value
+    in: body
+    description: Gets or sets the value of the variable.
+    types:
+    - uid: string
+  - name: properties.description
+    in: body
+    description: Gets or sets the description of the variable.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: Variable
+  description: Definition of the varible.
+  kind: object
+  properties:
+  - name: properties.value
+    description: Gets or sets the value of the variable.
+    types:
+    - uid: string
+  - name: properties.isEncrypted
+    description: Gets or sets the encrypted flag of the variable.
+    types:
+    - uid: boolean
+  - name: properties.creationTime
+    description: Gets or sets the creation time.
+    types:
+    - uid: string
+  - name: properties.lastModifiedTime
+    description: Gets or sets the last modified time.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Gets or sets the description.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: VariableUpdateParameters
+  description: The parameters supplied to the update variable operation.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the variable.
+    types:
+    - uid: string
+  - name: properties.value
+    description: Gets or sets the value of the variable.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Gets or sets the description of the variable.
+    types:
+    - uid: string
+examples:
+- name: Update a variable
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/sampleAccount9/variables/sampleVariable?api-version=2015-10-31
+    body: >-
+      {
+        "name": "sampleVariable",
+        "properties": {
+          "value": "\"ComputerName3.domain.com\""
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/sampleAccount9/variables/sampleVariable",
+        "name": "sampleVariable",
+        "properties": {
+          "creationTime": "2017-03-28T23:00:53.363+00:00",
+          "lastModifiedTime": "2017-03-28T23:00:57.987+00:00",
+          "isEncrypted": false,
+          "value": "\"ComputerName3.domain.com\"",
+          "description": "my description"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

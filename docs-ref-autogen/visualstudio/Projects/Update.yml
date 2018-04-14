@@ -1,0 +1,407 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.visualstudio.projects.update
+name: Update
+service: Visual Studio
+groupName: Projects
+apiVersion: 2017-11-01-preview
+summary: "Projects_Update  \nUpdates the tags of the specified Team Services project."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.visualstudio/account/{rootResourceName}/project/{resourceName}?api-version=2017-11-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: rootResourceName
+  in: path
+  isRequired: true
+  description: Name of the Team Services account.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: Name of the Team Services project.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation succeeded. The response contains the details of the updated team project resource.
+  types:
+  - uid: ProjectResource
+requestBody:
+- parameters:
+  - name: tags
+    in: body
+    description: The custom tags to be set on the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: ProjectResource
+  description: A Visual Studio Team Services project resource.
+  kind: object
+  properties:
+  - name: kind
+    description: Kind of project resource
+    types:
+    - uid: ProjectResourceKind
+  - name: properties.processTemplateId
+    description: Process template to use in the project.
+    types:
+    - uid: ProcessTemplate
+  - name: properties.versionControlOption
+    description: Version control to use for the default repo created in the project.
+    types:
+    - uid: VersionControlOption
+  - name: properties.ownerUpn
+    description: Optional UPN of the owner, on-behalf-of whom the project is being created.
+    types:
+    - uid: string
+  - name: properties.tfsUniqueIdentifier
+    isReadyOnly: true
+    description: Unique identifier of the VSTS project.
+    types:
+    - uid: string
+  - name: properties.bootstrapPipelineTemplate
+    description: Template used to configure a bootstrap pipeline in the VSTS project.
+    types:
+    - uid: PipelineTemplate
+  - name: id
+    isReadyOnly: true
+    description: Unique identifier of the resource.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ProjectResourceUpdateParameters
+  description: The parameters to update a project resource.
+  kind: object
+  properties:
+  - name: tags
+    description: The custom tags to be set on the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ProjectResourceKind
+  description: Kind of project resource
+  kind: enum
+  properties:
+  - name: project
+    types:
+    - uid: string
+  - name: bootstrappedProject
+    types:
+    - uid: string
+- name: ProcessTemplate
+  description: Process template to use in the project.
+  kind: enum
+  properties:
+  - name: Scrum
+    types:
+    - uid: string
+  - name: Agile
+    types:
+    - uid: string
+  - name: Cmmi
+    types:
+    - uid: string
+- name: VersionControlOption
+  description: Version control to use for the default repo created in the project.
+  kind: enum
+  properties:
+  - name: Git
+    types:
+    - uid: string
+  - name: Tfvc
+    types:
+    - uid: string
+- name: PipelineTemplate
+  description: Defines a VSTS pipeline template.
+  kind: object
+  properties:
+  - name: applicationSource
+    description: Source application for the VSTS pipeline.
+    types:
+    - uid: CodeTemplateApplicationSource
+    - uid: CodeRepositoryApplicationSource
+    typesTitle: ApplicationSource
+  - name: applicationTarget
+    description: Target resources for the VSTS pipeline.
+    types:
+    - uid: ApplicationTarget
+  - name: authorizationDetails
+    description: Global dictionary of authorization details used by the pipeline, with a friendly name as key. Individual resource in the pipeline can reference to a specific authorization info using the friendly name.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: Authorization
+- name: ApplicationTarget
+  description: Defines the target resources for a VSTS pipeline.
+  kind: object
+  properties:
+  - name: targetType
+    description: Type of target.
+    types:
+    - uid: ApplicationTargetType
+  - name: resources
+    description: List of target resources.
+    types:
+    - uid: TargetResource
+      isArray: true
+- name: AuthorizationDetails
+  description: Global dictionary of authorization details used by the pipeline, with a friendly name as key. Individual resource in the pipeline can reference to a specific authorization info using the friendly name.
+  kind: object
+  properties:
+  - name: ''
+    description: Defines the authorization type and its parameters.
+    types:
+    - uid: Authorization
+- name: CodeTemplateApplicationSource
+  description: Defines the source application template.
+  kind: object
+  properties:
+  - name: sourceType
+    description: Type of application source.
+    types:
+    - uid: CodeTemplate
+    typesTitle: string
+  - name: applicationType
+    description: Type of application.
+    types:
+    - uid: ApplicationType
+  - name: applicationConfiguration
+    description: Application specific properties.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CodeRepositoryApplicationSource
+  description: Defines the source application, when it resides in a code repository.
+  kind: object
+  properties:
+  - name: repository
+    description: Code repository where the application source resides.
+    types:
+    - uid: CodeRepository
+  - name: sourceType
+    description: Type of application source.
+    types:
+    - uid: CodeRepository
+    typesTitle: string
+  - name: applicationType
+    description: Type of application.
+    types:
+    - uid: ApplicationType
+  - name: applicationConfiguration
+    description: Application specific properties.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ApplicationTargetType
+  description: Type of target.
+  kind: enum
+  properties:
+  - name: WindowsAppService
+    types:
+    - uid: string
+- name: TargetResource
+  description: Defines a single resource used as target for a VSTS pipeline.
+  kind: object
+  properties:
+  - name: id
+    description: Unique identifier of the target resource.
+    types:
+    - uid: string
+  - name: role
+    description: Role of the target resource.
+    types:
+    - uid: string
+  - name: authorizationReference
+    description: Reference to the authorization info used to access the target resource. This value is used as a key into the global authorization details dictionary.
+    types:
+    - uid: string
+- name: Authorization
+  description: Defines the authorization type and its parameters.
+  kind: object
+  properties:
+  - name: authorizationType
+    description: Type of authorization.
+    types:
+    - uid: AuthorizationType
+  - name: parameters
+    description: Authorization parameters corresponding to the authorization type.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ApplicationType
+  description: Type of application.
+  kind: enum
+  properties:
+  - name: AspDotNet
+    types:
+    - uid: string
+  - name: AspDotNetCore
+    types:
+    - uid: string
+  - name: NodeJs
+    types:
+    - uid: string
+- name: CodeRepository
+  description: Defines a code repository.
+  kind: object
+  properties:
+  - name: repositoryType
+    description: Type of code repository.
+    types:
+    - uid: CodeRepositoryType
+  - name: id
+    description: Unique identifier of the code repository.
+    types:
+    - uid: string
+  - name: defaultBranch
+    description: Default branch for which continuous integration should be configured in the VSTS pipeline.
+    types:
+    - uid: string
+  - name: authorizationReference
+    description: Reference to the authorization info used to access the code repository. This value is used as a key into the global authorization details dictionary.
+    types:
+    - uid: string
+  - name: properties
+    description: Repository-specific properties.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: AuthorizationType
+  description: Type of authorization.
+  kind: enum
+  properties:
+  - name: authorizationToken
+    types:
+    - uid: string
+  - name: personalAccessToken
+    types:
+    - uid: string
+- name: CodeRepositoryType
+  description: Type of code repository.
+  kind: enum
+  properties:
+  - name: gitHub
+    types:
+    - uid: string
+  - name: vstsGit
+    types:
+    - uid: string
+examples:
+- name: Update a project resource
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/0de7f055-dbea-498d-8e9e-da287eedca90/resourceGroups/VS-Example-Group/providers/microsoft.visualstudio/account/ExampleAccount/project/ExampleProject?api-version=2017-11-01-preview
+    body: >-
+      {
+        "tags": {
+          "NewTag": "NewTagValue"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/0de7f055-dbea-498d-8e9e-da287eedca90/resourceGroups/VS-Example-Group/providers/microsoft.visualstudio/account/ExampleAccount/project/ExampleProject",
+        "name": "ExampleProject",
+        "type": "microsoft.visualstudio/account/project",
+        "location": "North Central US",
+        "tags": {
+          "NewTag": "NewTagValue"
+        },
+        "kind": "bootstrappedProject",
+        "properties": {
+          "processTemplateId": "Scrum",
+          "versionControlOption": "Git",
+          "tfsUniqueIdentifier": "vstfs:///Classification/TeamProject/7a4e6ba5-35bf-4667-86a4-9b598a88fa25",
+          "bootstrapPipelineTemplate": {
+            "applicationSource": {
+              "sourceType": "CodeTemplate",
+              "applicationType": "NodeJs",
+              "applicationConfiguration": {
+                "nodeJsVersion": "8.5.0"
+              }
+            },
+            "applicationTarget": {
+              "targetType": "WindowsAppService",
+              "resources": [
+                {
+                  "id": "/subscriptions/ea99dfc9-1597-48ed-85f6-9bf922591395/resourceGroups/testrg/providers/Microsoft.Web/sites/MyWebSite",
+                  "role": "AppService"
+                }
+              ]
+            },
+            "authorizationDetails": {}
+          }
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

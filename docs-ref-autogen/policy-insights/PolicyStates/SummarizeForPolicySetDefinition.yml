@@ -1,0 +1,220 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.policyinsights.policystates.summarizeforpolicysetdefinition
+name: Summarize For Policy Set Definition
+service: Policy Insights
+groupName: Policy States
+apiVersion: 2017-12-12-preview
+summary: Summarizes policy states for the subscription level policy set definition.
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/latest/summarize?api-version=2017-12-12-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/latest/summarize?api-version=2017-12-12-preview&$top={$top}&$from={$from}&$to={$to}&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: authorizationNamespace
+  in: path
+  isRequired: true
+  description: The namespace for Microsoft Authorization resource provider; only "Microsoft.Authorization" is allowed.
+  types:
+  - uid: string
+- name: policySetDefinitionName
+  in: path
+  isRequired: true
+  description: Policy set definition name.
+  types:
+  - uid: string
+- name: policyStatesSummaryResource
+  in: path
+  isRequired: true
+  description: The virtual resource under PolicyStates resource type for summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the only allowed value.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version to use with the client requests.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: Maximum number of records to return.
+  types:
+  - uid: integer
+  format: int32
+- name: $from
+  in: query
+  description: ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day).
+  types:
+  - uid: string
+  format: date-time
+- name: $to
+  in: query
+  description: ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time.
+  types:
+  - uid: string
+  format: date-time
+- name: $filter
+  in: query
+  description: OData filter expression.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Summarize results.
+  types:
+  - uid: SummarizeResults
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: QueryFailure
+requestHeader: []
+definitions:
+- name: SummarizeResults
+  description: Summarize action results.
+  kind: object
+  properties:
+  - name: '@odata.context'
+    description: OData context string; used by OData clients to resolve type information based on metadata.
+    types:
+    - uid: string
+  - name: '@odata.count'
+    description: OData entity count; represents the number of summaries returned; always set to 1.
+    types:
+    - uid: integer
+  - name: value
+    description: Summarize action results.
+    types:
+    - uid: Summary
+      isArray: true
+- name: QueryFailure
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: Error definition.
+    types:
+    - uid: Error
+- name: Summary
+  description: Summary results.
+  kind: object
+  properties:
+  - name: '@odata.id'
+    description: OData entity ID; always set to null since summaries do not have an entity ID.
+    types:
+    - uid: string
+  - name: '@odata.context'
+    description: OData context string; used by OData clients to resolve type information based on metadata.
+    types:
+    - uid: string
+  - name: results
+    description: Non-compliance summary for all policy assignments.
+    types:
+    - uid: SummaryResults
+  - name: policyAssignments
+    description: Policy assignments summary.
+    types:
+    - uid: PolicyAssignmentSummary
+      isArray: true
+- name: Error
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    description: Description of the error.
+    types:
+    - uid: string
+- name: SummaryResults
+  description: Non-compliance summary on a particular summary level.
+  kind: object
+  properties:
+  - name: queryResultsUri
+    description: HTTP POST URI for queryResults action on Microsoft.PolicyInsights to retrieve raw results for the non-compliance summary.
+    types:
+    - uid: string
+  - name: nonCompliantResources
+    description: Number of non-compliant resources.
+    types:
+    - uid: integer
+  - name: nonCompliantPolicies
+    description: Number of non-compliant policies.
+    types:
+    - uid: integer
+- name: PolicyAssignmentSummary
+  description: Policy assignment summary.
+  kind: object
+  properties:
+  - name: policyAssignmentId
+    description: Policy assignment ID.
+    types:
+    - uid: string
+  - name: policySetDefinitionId
+    description: Policy set definition ID, if the policy assignment is for a policy set.
+    types:
+    - uid: string
+  - name: results
+    description: Non-compliance summary for the policy assignment.
+    types:
+    - uid: SummaryResults
+  - name: policyDefinitions
+    description: Policy definitions summary.
+    types:
+    - uid: PolicyDefinitionSummary
+      isArray: true
+- name: PolicyDefinitionSummary
+  description: Policy definition summary.
+  kind: object
+  properties:
+  - name: policyDefinitionId
+    description: Policy definition ID.
+    types:
+    - uid: string
+  - name: effect
+    description: Policy effect, i.e. policy definition action.
+    types:
+    - uid: string
+  - name: results
+    description: Non-compliance summary for the policy definition.
+    types:
+    - uid: SummaryResults
+examples:
+- name: Summarize at policy set definition scope
+  request:
+    uri: POST https://management.azure.com/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/providers/Microsoft.Authorization/policySetDefinitions/3e3807c1-65c9-49e0-a406-82d8ae3e338c/providers/Microsoft.PolicyInsights/policyStates/latest/summarize?api-version=2017-12-12-preview&$top=1&$from=2/5/2018 6:00:00 PM&$to=2/6/2018 6:00:00 PM&$filter=PolicyDefinitionAction eq 'deny'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@odata.context": "https://management.azure.com/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/providers/Microsoft.Authorization/policySetDefinitions/3e3807c1-65c9-49e0-a406-82d8ae3e338c/providers/Microsoft.PolicyInsights/policyStates/$metadata#summary",
+        "@odata.count": 1,
+        "value": [
+          {
+            "@odata.id": null,
+            "@odata.context": "https://management.azure.com/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/providers/Microsoft.Authorization/policySetDefinitions/3e3807c1-65c9-49e0-a406-82d8ae3e338c/providers/Microsoft.PolicyInsights/policyStates/$metadata#summary/$entity",
+            "results": {
+              "queryResultsUri": "https://management.azure.com/subscriptions/fffedd8f-ffff-fffd-fffd-fffed2f84852/providers/Microsoft.Authorization/policySetDefinitions/3e3807c1-65c9-49e0-a406-82d8ae3e338c/providers/Microsoft.PolicyInsights/policyStates/latest/queryResults?api-version=2017-12-12-preview&$from=2018-02-05 18:00:00Z&$to=2018-02-06 18:00:00Z&$filter=(PolicyDefinitionAction eq 'deny') and IsCompliant eq false",
+              "nonCompliantResources": 0,
+              "nonCompliantPolicies": 0
+            },
+            "policyAssignments": []
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

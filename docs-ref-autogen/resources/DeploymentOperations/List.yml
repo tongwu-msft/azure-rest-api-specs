@@ -1,0 +1,164 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resourcemanagement.deploymentoperations.list
+name: List
+service: Resource Management
+groupName: Deployment Operations
+apiVersion: 2017-05-10
+summary: Gets all deployments operations for a deployment.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/deployments/{deploymentName}/operations?api-version=2017-05-10
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/deployments/{deploymentName}/operations?$top={$top}&api-version=2017-05-10
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: deploymentName
+  in: path
+  isRequired: true
+  description: The name of the deployment with the operation to get.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: $top
+  in: query
+  description: The number of results to return.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Return an array of deployment operations.
+  types:
+  - uid: DeploymentOperationsListResult
+requestHeader: []
+definitions:
+- name: DeploymentOperationsListResult
+  description: List of deployment operations.
+  kind: object
+  properties:
+  - name: value
+    description: An array of deployment operations.
+    types:
+    - uid: DeploymentOperation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+- name: DeploymentOperation
+  description: Deployment operation information.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Full deployment operation ID.
+    types:
+    - uid: string
+  - name: operationId
+    isReadyOnly: true
+    description: Deployment operation ID.
+    types:
+    - uid: string
+  - name: properties
+    description: Deployment properties.
+    types:
+    - uid: DeploymentOperationProperties
+- name: DeploymentOperationProperties
+  description: Deployment operation properties.
+  kind: object
+  properties:
+  - name: provisioningState
+    isReadyOnly: true
+    description: The state of the provisioning.
+    types:
+    - uid: string
+  - name: timestamp
+    isReadyOnly: true
+    description: The date and time of the operation.
+    types:
+    - uid: string
+  - name: serviceRequestId
+    isReadyOnly: true
+    description: Deployment operation service request id.
+    types:
+    - uid: string
+  - name: statusCode
+    isReadyOnly: true
+    description: Operation status code.
+    types:
+    - uid: string
+  - name: statusMessage
+    isReadyOnly: true
+    description: Operation status message.
+    types:
+    - {}
+  - name: targetResource
+    isReadyOnly: true
+    description: The target resource.
+    types:
+    - uid: TargetResource
+  - name: request
+    isReadyOnly: true
+    description: The HTTP request message.
+    types:
+    - uid: HttpMessage
+  - name: response
+    isReadyOnly: true
+    description: The HTTP response message.
+    types:
+    - uid: HttpMessage
+- name: TargetResource
+  description: Target resource.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the resource.
+    types:
+    - uid: string
+  - name: resourceName
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: resourceType
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: HttpMessage
+  description: HTTP message.
+  kind: object
+  properties:
+  - name: content
+    description: HTTP message content.
+    types:
+    - uid: object
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

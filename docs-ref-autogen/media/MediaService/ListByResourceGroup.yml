@@ -1,0 +1,191 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.mediaservices.mediaservice.listbyresourcegroup
+name: List By Resource Group
+service: Media Services
+groupName: Media Service
+apiVersion: 2015-10-01
+summary: Lists all of the Media Services in a resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices?api-version=2015-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2015-10-01.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. Returns a list of all of the Media Services accounts in a resource group.
+  types:
+  - uid: MediaServiceCollection
+- name: Other Status Codes
+  description: List Media Services failed.
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: MediaServiceCollection
+  description: The collection of Media Service resources.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of Media Service resources.
+    types:
+    - uid: MediaService
+      isArray: true
+- name: ApiError
+  description: The error returned from a failed Media Services REST API call.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+- name: MediaService
+  description: The properties of a Media Service resource.
+  kind: object
+  properties:
+  - name: properties.apiEndpoints
+    isReadyOnly: true
+    description: Read-only property that lists the Media Services REST API endpoints for this resource. If supplied on a PUT or PATCH, the value will be ignored.
+    types:
+    - uid: ApiEndpoint
+      isArray: true
+  - name: properties.storageAccounts
+    description: The storage accounts for this resource.
+    types:
+    - uid: StorageAccount
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: The id of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource
+    types:
+    - uid: string
+  - name: location
+    description: The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth).
+    types:
+    - uid: string
+  - name: tags
+    description: Tags to help categorize the resource in the Azure portal.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ApiEndpoint
+  description: The properties for a Media Services REST API endpoint.
+  kind: object
+  properties:
+  - name: endpoint
+    description: The Media Services REST endpoint.
+    types:
+    - uid: string
+  - name: majorVersion
+    description: The version of Media Services REST API.
+    types:
+    - uid: string
+- name: StorageAccount
+  description: The properties of a storage account associated with this resource.
+  kind: object
+  properties:
+  - name: id
+    description: The id of the storage account resource. Media Services relies on tables and queues as well as blobs, so the primary storage account must be a Standard Storage account (either Microsoft.ClassicStorage or Microsoft.Storage). Blob only storage accounts can be added as secondary storage accounts (isPrimary false).
+    types:
+    - uid: string
+  - name: isPrimary
+    description: Is this storage account resource the primary storage account for the Media Service resource. Blob only storage must set this to false.
+    types:
+    - uid: boolean
+examples:
+- name: MediaServiceListByResourceGroup
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices?api-version=2015-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "contosmedia",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/contosoresources/providers/Microsoft.Media/mediaservices/contosmedia",
+            "type": "Microsoft.Media/mediaservices",
+            "tags": [],
+            "location": "East US",
+            "properties": {
+              "apiEndpoints": [
+                {
+                  "endpoint": "https://contosmedia.restv2.eastus.media.azure.net/api/",
+                  "majorVersion": "2"
+                }
+              ],
+              "storageAccounts": [
+                {
+                  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Storage/storageAccounts/contosostore",
+                  "isPrimary": true
+                }
+              ]
+            }
+          },
+          {
+            "name": "contosmedia2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/contosoresources/providers/Microsoft.Media/mediaservices/contosmedia2",
+            "type": "Microsoft.Media/mediaservices",
+            "tags": [],
+            "location": "West US",
+            "properties": {
+              "apiEndpoints": [
+                {
+                  "endpoint": "https://contosmedia2.restv2.westus.media.azure.net/api/",
+                  "majorVersion": "2"
+                }
+              ],
+              "storageAccounts": [
+                {
+                  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/microsoft.storage/storageAccounts/contosostore2",
+                  "isPrimary": true
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

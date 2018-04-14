@@ -1,0 +1,118 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.relay.wcfrelays.listauthorizationrules
+name: List Authorization Rules
+service: Relay
+groupName: WCF Relays
+apiVersion: 2017-04-01
+summary: Authorization rules for a WCF relay.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules?api-version=2017-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: namespaceName
+  in: path
+  isRequired: true
+  description: The namespace name
+  types:
+  - uid: string
+- name: relayName
+  in: path
+  isRequired: true
+  description: The relay name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Authorization rules successfully returned.
+  types:
+  - uid: AuthorizationRuleListResult
+requestHeader: []
+definitions:
+- name: AuthorizationRuleListResult
+  description: The response from the list namespace operation.
+  kind: object
+  properties:
+  - name: value
+    description: Result of the list authorization rules operation.
+    types:
+    - uid: AuthorizationRule
+      isArray: true
+  - name: nextLink
+    description: Link to the next set of results. Not empty if value contains incomplete list of authorization rules.
+    types:
+    - uid: string
+- name: AuthorizationRule
+  description: Description of a namespace authorization rule.
+  kind: object
+  properties:
+  - name: properties.rights
+    description: The rights associated with the rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: RelayAutorizationRuleListAll
+  request:
+    uri: GET https://management.azure.com/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01/wcfRelays/sdk-Relay-Wcf-01/authorizationRules?api-version=2017-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/8c246e6a-cbc6-4a87-aff1-d6a886f376ef/resourceGroups/RG-eg/providers/Microsoft.Relay/namespaces/sdk-RelayNamespace-01/WcfRelays/sdk-Relay-Wcf-01/AuthorizationRules/sdk-RelayAuthRules-01",
+            "name": "sdk-RelayAuthRules-01",
+            "type": "Microsoft.Relay/Namespaces/WcfRelay/AuthorizationRules",
+            "properties": {
+              "rights": [
+                "Listen",
+                "Send"
+              ]
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
