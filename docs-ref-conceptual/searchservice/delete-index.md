@@ -1,20 +1,13 @@
 ---
-title: "Delete Index (Azure Search Service REST API)"
-ms.custom: ""
+title: "Delete Index (Azure Search Service REST API) | Microsoft Docs"
+description: Permanently delete an index definition and all content from an Azure Search service.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 70456cdf-90b0-4519-89f7-2443420e7bac
-caps.latest.revision: 27
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

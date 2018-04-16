@@ -1,20 +1,13 @@
 ---
-title: "Get Index Statistics (Azure Search Service REST API)"
-ms.custom: ""
+title: "Get Index Statistics (Azure Search Service REST API) | Microsoft Docs"
+description: Return documents counts, index counts, and resource usage metrics for an Azure Search service.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: f664dab2-6568-4e64-aab1-47138d8e5dbb
-caps.latest.revision: 27
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

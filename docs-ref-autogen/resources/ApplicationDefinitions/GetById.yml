@@ -1,0 +1,249 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resourcemanagement.applicationdefinitions.getbyid
+name: Get By Id
+service: Resource Management
+groupName: Application Definitions
+apiVersion: 2017-09-01
+summary: Gets the managed application definition.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{applicationDefinitionId}?api-version=2017-09-01
+uriParameters:
+- name: applicationDefinitionId
+  in: path
+  isRequired: true
+  description: The fully qualified ID of the managed application definition, including the managed application name and the managed application definition resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applicationDefinitions/{applicationDefinition-name}
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns the managed application definition.
+  types:
+  - uid: ApplicationDefinition
+- name: Other Status Codes
+  description: Not Found
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ApplicationDefinition
+  description: Information about managed application definition.
+  kind: object
+  properties:
+  - name: properties.lockLevel
+    description: The managed application lock level.
+    types:
+    - uid: ApplicationLockLevel
+  - name: properties.displayName
+    description: The managed application definition display name.
+    types:
+    - uid: string
+  - name: properties.isEnabled
+    description: A value indicating whether the package is enabled or not.
+    types:
+    - uid: string
+  - name: properties.authorizations
+    description: The managed application provider authorizations.
+    types:
+    - uid: ApplicationProviderAuthorization
+      isArray: true
+  - name: properties.artifacts
+    description: The collection of managed application artifacts. The portal will use the files specified as artifacts to construct the user experience of creating a managed application from a managed application definition.
+    types:
+    - uid: ApplicationArtifact
+      isArray: true
+  - name: properties.description
+    description: The managed application definition description.
+    types:
+    - uid: string
+  - name: properties.packageFileUri
+    description: The managed application definition package file Uri. Use this element
+    types:
+    - uid: string
+  - name: properties.mainTemplate
+    description: The inline main template json which has resources to be provisioned. It can be a JObject or well-formed JSON string.
+    types:
+    - uid: object
+  - name: properties.createUiDefinition
+    description: The createUiDefinition json for the backing template with Microsoft.Solutions/applications resource. It can be a JObject or well-formed JSON string.
+    types:
+    - uid: object
+  - name: managedBy
+    description: ID of the resource that manages this resource.
+    types:
+    - uid: string
+  - name: sku
+    description: The SKU of the resource.
+    types:
+    - uid: Sku
+  - name: identity
+    description: The identity of the resource.
+    types:
+    - uid: Identity
+  - name: id
+    isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorResponse
+  description: Error reponse indicates managed application is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: httpStatus
+    description: Http status code.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ApplicationLockLevel
+  description: The managed application lock level.
+  kind: enum
+  properties:
+  - name: CanNotDelete
+    types:
+    - uid: string
+  - name: ReadOnly
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: ApplicationProviderAuthorization
+  description: The managed application provider authorization.
+  kind: object
+  properties:
+  - name: principalId
+    description: The provider's principal identifier. This is the identity that the provider will use to call ARM to manage the managed application resources.
+    types:
+    - uid: string
+  - name: roleDefinitionId
+    description: The provider's role definition identifier. This role will define all the permissions that the provider must have on the managed application's container resource group. This role definition cannot have permission to delete the resource group.
+    types:
+    - uid: string
+- name: ApplicationArtifact
+  description: Managed application artifact.
+  kind: object
+  properties:
+  - name: name
+    description: The managed application artifact name.
+    types:
+    - uid: string
+  - name: uri
+    description: The managed application artifact blob uri.
+    types:
+    - uid: string
+  - name: type
+    description: The managed application artifact type.
+    types:
+    - uid: ApplicationArtifactType
+- name: Sku
+  description: SKU for the resource.
+  kind: object
+  properties:
+  - name: name
+    description: The SKU name.
+    types:
+    - uid: string
+  - name: tier
+    description: The SKU tier.
+    types:
+    - uid: string
+  - name: size
+    description: The SKU size.
+    types:
+    - uid: string
+  - name: family
+    description: The SKU family.
+    types:
+    - uid: string
+  - name: model
+    description: The SKU model.
+    types:
+    - uid: string
+  - name: capacity
+    description: The SKU capacity.
+    types:
+    - uid: integer
+- name: Identity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: ResourceIdentityType
+- name: ApplicationArtifactType
+  description: The managed application artifact type.
+  kind: enum
+  properties:
+  - name: Template
+    types:
+    - uid: string
+  - name: Custom
+    types:
+    - uid: string
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

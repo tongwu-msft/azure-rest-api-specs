@@ -1,21 +1,13 @@
 ---
 title: "List Synonym Maps (Azure Search Service REST API) | Microsoft Docs"
 description: "A list of synonym maps can be retrieved using REST API in Azure Search."
-ms.custom: ""
 ms.date: "2017-03-13"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 3f3a33a1-7179-42a0-b4a7-4a5f6e24fd31
-caps.latest.revision: 10
 author: "mhko"
 ms.author: "nateko"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

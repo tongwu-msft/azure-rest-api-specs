@@ -4,7 +4,7 @@ name: Patch
 service: Batch Service
 groupName: Pool
 apiVersion: 2018-03-01.6.1
-summary: Updates the properties of the specified pool. This only replaces the pool properties specified in the request. For example, if the pool has a start task associated with it, and a request does not specify a start task element, then the pool keeps the existing start task.
+summary: "Updates the properties of the specified pool.  \nThis only replaces the pool properties specified in the request. For example, if the pool has a start task associated with it, and a request does not specify a start task element, then the pool keeps the existing start task."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
@@ -59,19 +59,19 @@ requestBody:
     - uid: StartTask
   - name: certificateReferences
     in: body
-    description: A reference to a certificate to be installed on compute nodes in a pool.
+    description: "A list of certificates to be installed on each compute node in the pool.  \nIf this element is present, it replaces any existing certificate references configured on the pool. If omitted, any existing certificate references are left unchanged. For Windows compute nodes, the Batch service installs the certificates to the specified certificate store and location. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory."
     types:
     - uid: CertificateReference
       isArray: true
   - name: applicationPackageReferences
     in: body
-    description: A reference to an application package to be deployed to compute nodes.
+    description: "A list of application packages to be installed on each compute node in the pool.  \nChanges to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. If this element is present, it replaces any existing application package references. If you specify an empty collection, then all application package references are removed from the pool. If omitted, any existing application package references are left unchanged."
     types:
     - uid: ApplicationPackageReference
       isArray: true
   - name: metadata
     in: body
-    description: "A name-value pair associated with a Batch service resource.  \nThe Batch service does not assign any meaning to this metadata; it is solely for the use of user code."
+    description: "A list of name-value pairs associated with the pool as metadata.  \nIf this element is present, it replaces any existing metadata configured on the pool. If you specify an empty collection, any metadata is removed from the pool. If omitted, any existing metadata is left unchanged."
     types:
     - uid: MetadataItem
       isArray: true
@@ -129,12 +129,12 @@ definitions:
     types:
     - uid: TaskContainerSettings
   - name: resourceFiles
-    description: A file to be downloaded from Azure blob storage to a compute node.
+    description: "A list of files that the Batch service will download to the compute node before running the command line.  \nFiles listed under this element are located in the task's working directory."
     types:
     - uid: ResourceFile
       isArray: true
   - name: environmentSettings
-    description: An environment variable to be set on a task process.
+    description: A list of environment variable settings for the start task.
     types:
     - uid: EnvironmentSetting
       isArray: true
@@ -212,7 +212,7 @@ definitions:
     types:
     - uid: ErrorMessage
   - name: values
-    description: An item of additional information included in an Azure Batch error response.
+    description: A collection of key-value pairs containing additional details about the error.
     types:
     - uid: BatchErrorDetail
       isArray: true
@@ -225,17 +225,17 @@ definitions:
     types:
     - uid: StartTask
   - name: certificateReferences
-    description: A reference to a certificate to be installed on compute nodes in a pool.
+    description: "A list of certificates to be installed on each compute node in the pool.  \nIf this element is present, it replaces any existing certificate references configured on the pool. If omitted, any existing certificate references are left unchanged. For Windows compute nodes, the Batch service installs the certificates to the specified certificate store and location. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory."
     types:
     - uid: CertificateReference
       isArray: true
   - name: applicationPackageReferences
-    description: A reference to an application package to be deployed to compute nodes.
+    description: "A list of application packages to be installed on each compute node in the pool.  \nChanges to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. If this element is present, it replaces any existing application package references. If you specify an empty collection, then all application package references are removed from the pool. If omitted, any existing application package references are left unchanged."
     types:
     - uid: ApplicationPackageReference
       isArray: true
   - name: metadata
-    description: "A name-value pair associated with a Batch service resource.  \nThe Batch service does not assign any meaning to this metadata; it is solely for the use of user code."
+    description: "A list of name-value pairs associated with the pool as metadata.  \nIf this element is present, it replaces any existing metadata configured on the pool. If you specify an empty collection, any metadata is removed from the pool. If omitted, any existing metadata is left unchanged."
     types:
     - uid: MetadataItem
       isArray: true

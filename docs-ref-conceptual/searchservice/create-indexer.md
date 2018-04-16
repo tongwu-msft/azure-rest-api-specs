@@ -1,20 +1,13 @@
 ---
-title: "Create Indexer (Azure Search Service REST API)"
-ms.custom: ""
+title: "Create Indexer (Azure Search Service REST API) | Microsoft Docs"
+description: Crawl external data sources for searchable content using an Azure Search indexer.
 ms.date: "2017-04-27"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: f9224fad-842f-46a4-86da-87b6a6736725
-caps.latest.revision: 13
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -52,7 +45,7 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
 ## Request  
  The body of the request contains an indexer definition, which specifies the data source and the target index for indexing, as well as optional indexing schedule and parameters.  
 
- The syntax for structuring the request payload is as follows. A sample request is provided further on in this topic.  
+ The syntax for structuring the request payload is as follows. A [sample request](#example-request) is provided in this article.  
 
 ```
 {   
@@ -68,7 +61,7 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
 ```
 
 ### Indexer schedule  
- An indexer can optionally specify a schedule. If a schedule is present, the indexer will run periodically as per schedule. The scheduler is built-in; you cannot use an external scheduler. **Schedule** has the following attributes:  
+ An indexer can optionally specify a schedule. If a schedule is present, the indexer will run periodically as per schedule. The scheduler is built in; you cannot use an external scheduler. **Schedule** has the following attributes:  
 
 -   **interval**: Required. A duration value that specifies an interval or period for indexer runs. The smallest allowed interval is 5 minutes; the longest is one day. It must be formatted as an XSD "dayTimeDuration" value (a restricted subset of an [ISO 8601 duration](http://www.w3.org/TR/xmlschema11-2/#dayTimeDuration) value). The pattern for this is: `"P[nD][T[nH][nM]]".` Examples:  `PT15M` for every 15 minutes, `PT2H` for every 2 hours.  
 
@@ -111,6 +104,9 @@ Field mappings can also be used to transform source field values using *field ma
 
 To learn more about when and how to use field mapping functions, see [Field Mapping Functions](https://docs.microsoft.com/azure/search/search-indexer-field-mappings#field-mapping-functions).
 
+
+<a name="example-request"></a>
+
 ### Request body examples  
  The following example creates an indexer that copies data from the table referenced by the `ordersds` data source to the `orders` index on a schedule that starts on Jan 1, 2015 UTC and runs hourly. Each indexer invocation will be successful if no more than 5 items fail to be indexed in each batch, and no more than 10 items fail to be indexed in total.  
 
@@ -129,7 +125,8 @@ To learn more about when and how to use field mapping functions, see [Field Mapp
  201 Created for a successful request.  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
- [Naming rules &#40;Azure Search&#41;](naming-rules.md)  
+
++ [Azure Search Service REST](index.md)   
++ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
++ [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
++ [Naming rules &#40;Azure Search&#41;](naming-rules.md)  

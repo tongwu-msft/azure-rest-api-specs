@@ -1,18 +1,13 @@
 ---
-title: "Azure Search Service REST"
-ms.custom: ""
+title: "Azure Search Service REST | Microsoft Docs"
+description: REST API reference for Azure Search, used for non-managed code such as Java, JavaScript, node.js, Python, and any programming language compatible with REST.
 ms.date: "01/04/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "language-reference"
-ms.assetid: b298ac63-7b92-48cd-afe2-828538c47ca9
-caps.latest.revision: 57
+ms.topic: overview
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

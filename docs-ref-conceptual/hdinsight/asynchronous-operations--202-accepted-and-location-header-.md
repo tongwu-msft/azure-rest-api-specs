@@ -12,7 +12,7 @@ ms.assetid: bdde467e-e09d-4ba4-813f-b5c274e50223
 caps.latest.revision: 5
 author: "nitinme"
 ms.author: "nitinme"
-manager: "jhubbard"
+manager: "Jhubbard"
 translation.priority.mt: 
   - "de-de"
   - "es-es"

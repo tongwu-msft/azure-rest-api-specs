@@ -71,6 +71,10 @@ definitions:
     description: 'Cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma separated and must not contain any spaces.'
     types:
     - uid: string
+  - name: properties.isVirtualNetworkFilterEnabled
+    description: Flag to indicate whether to enable/disable Virtual Network ACL rules.
+    types:
+    - uid: boolean
   - name: properties.enableAutomaticFailover
     description: Enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account.
     types:
@@ -80,27 +84,32 @@ definitions:
     types:
     - uid: ConsistencyPolicy
   - name: properties.capabilities
-    description: Cosmos DB capability object
+    description: List of Cosmos DB capabilities for the account
     types:
     - uid: Capability
       isArray: true
   - name: properties.writeLocations
     isReadyOnly: true
-    description: A region in which the Azure Cosmos DB database account is deployed.
+    description: An array that contains the write location for the Cosmos DB account.
     types:
     - uid: Location
       isArray: true
   - name: properties.readLocations
     isReadyOnly: true
-    description: A region in which the Azure Cosmos DB database account is deployed.
+    description: An array that contains of the read locations enabled for the Cosmos DB account.
     types:
     - uid: Location
       isArray: true
   - name: properties.failoverPolicies
     isReadyOnly: true
-    description: The failover policy for a given region of a database account.
+    description: An array that contains the regions ordered by their failover priorities.
     types:
     - uid: FailoverPolicy
+      isArray: true
+  - name: properties.virtualNetworkRules
+    description: List of Virtual Network ACL rules configured for the Cosmos DB account.
+    types:
+    - uid: VirtualNetworkRule
       isArray: true
   - name: id
     isReadyOnly: true
@@ -217,6 +226,14 @@ definitions:
     description: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists.
     types:
     - uid: integer
+- name: VirtualNetworkRule
+  description: Virtual Network ACL Rule object
+  kind: object
+  properties:
+  - name: id
+    description: 'Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.'
+    types:
+    - uid: string
 - name: DefaultConsistencyLevel
   description: The default consistency level and configuration settings of the Cosmos DB account.
   kind: enum
@@ -254,6 +271,8 @@ examples:
           "provisioningState": "Succeeded",
           "documentEndpoint": "https://ddb1.documents.azure.com:443/",
           "ipRangeFilter": "",
+          "isVirtualNetworkFilterEnabled": false,
+          "virtualNetworkRules": [],
           "databaseAccountOfferType": "Standard",
           "consistencyPolicy": {
             "defaultConsistencyLevel": "Session",

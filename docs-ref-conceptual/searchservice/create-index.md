@@ -1,20 +1,13 @@
 ---
-title: "Create Index (Azure Search Service REST API)"
-ms.custom: ""
+title: "Create Index (Azure Search Service REST API) | Microsoft Docs"
+description: Define an index schema for fields and other constructs in an Azure Search index.
 ms.date: "2018-02-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: ecafed05-c746-4d9e-ac8e-653066e909b5
-caps.latest.revision: 54
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

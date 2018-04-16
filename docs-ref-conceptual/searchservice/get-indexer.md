@@ -1,20 +1,13 @@
 ---
-title: "Get Indexer (Azure Search Service REST API)"
-ms.custom: ""
+title: "Get Indexer (Azure Search Service REST API) | Microsoft Docs"
+description: Returns an indexer definition from an Azure Search service.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 071f6791-d8b7-42fe-9f49-9b012034cb3b
-caps.latest.revision: 10
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

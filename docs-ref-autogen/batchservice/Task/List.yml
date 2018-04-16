@@ -4,7 +4,7 @@ name: List
 service: Batch Service
 groupName: Task
 apiVersion: 2018-03-01.6.1
-summary: Lists all of the tasks that are associated with the specified job. For multi-instance tasks, information such as affinityId, executionInfo and nodeInfo refer to the primary task. Use the list subtasks API to retrieve information about subtasks.
+summary: "Lists all of the tasks that are associated with the specified job.  \nFor multi-instance tasks, information such as affinityId, executionInfo and nodeInfo refer to the primary task. Use the list subtasks API to retrieve information about subtasks."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
@@ -95,7 +95,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: An Azure Batch task.
+    description: The list of tasks.
     types:
     - uid: CloudTask
       isArray: true
@@ -116,7 +116,7 @@ definitions:
     types:
     - uid: ErrorMessage
   - name: values
-    description: An item of additional information included in an Azure Batch error response.
+    description: A collection of key-value pairs containing additional details about the error.
     types:
     - uid: BatchErrorDetail
       isArray: true
@@ -177,17 +177,17 @@ definitions:
     types:
     - uid: TaskContainerSettings
   - name: resourceFiles
-    description: A file to be downloaded from Azure blob storage to a compute node.
+    description: "A list of files that the Batch service will download to the compute node before running the command line.  \nFor multi-instance tasks, the resource files will only be downloaded to the compute node on which the primary task is executed."
     types:
     - uid: ResourceFile
       isArray: true
   - name: outputFiles
-    description: A specification for uploading files from an Azure Batch node to another location after the Batch service has finished executing the task process.
+    description: "A list of files that the Batch service will upload from the compute node after running the command line.  \nFor multi-instance tasks, the files will only be uploaded from the compute node on which the primary task is executed."
     types:
     - uid: OutputFile
       isArray: true
   - name: environmentSettings
-    description: An environment variable to be set on a task process.
+    description: A list of environment variable settings for the task.
     types:
     - uid: EnvironmentSetting
       isArray: true
@@ -224,7 +224,7 @@ definitions:
     types:
     - uid: TaskDependencies
   - name: applicationPackageReferences
-    description: A reference to an application package to be deployed to compute nodes.
+    description: "A list of application packages that the Batch service will deploy to the compute node before running the command line.  \nApplication packages are downloaded and deployed to a shared directory, not the task working directory. Therefore, if a referenced package is already on the compute node, and is up to date, then it is not re-downloaded; the existing copy on the compute node is used. If a referenced application package cannot be installed, for example because the package has been deleted or because download failed, the task fails."
     types:
     - uid: ApplicationPackageReference
       isArray: true
@@ -261,12 +261,12 @@ definitions:
   kind: object
   properties:
   - name: exitCodes
-    description: How the Batch service should respond if a task exits with a particular exit code.
+    description: A list of individual task exit codes and how the Batch service should respond to them.
     types:
     - uid: ExitCodeMapping
       isArray: true
   - name: exitCodeRanges
-    description: A range of exit codes and how the Batch service should respond to exit codes within that range.
+    description: A list of task exit code ranges and how the Batch service should respond to them.
     types:
     - uid: ExitCodeRangeMapping
       isArray: true
@@ -483,7 +483,7 @@ definitions:
     types:
     - uid: string
   - name: commonResourceFiles
-    description: A file to be downloaded from Azure blob storage to a compute node.
+    description: "A list of files that the Batch service will download before running the coordination command line.  \nThe difference between common resource files and task resource files is that common resource files are downloaded for all subtasks including the primary, whereas task resource files are downloaded only for the primary. Also note that these resource files are not downloaded to the task working directory, but instead are downloaded to the task root directory (one directory above the working directory)."
     types:
     - uid: ResourceFile
       isArray: true
@@ -545,7 +545,7 @@ definitions:
     - uid: string
       isArray: true
   - name: taskIdRanges
-    description: "A range of task IDs that a task can depend on. All tasks with IDs in the range must complete successfully before the dependent task can be scheduled.  \nThe start and end of the range are inclusive. For example, if a range has start 9 and end 12, then it represents tasks '9', '10', '11' and '12'."
+    description: The list of task ID ranges that this task depends on. All tasks in all ranges must complete successfully before the dependent task can be scheduled.
     types:
     - uid: TaskIdRange
       isArray: true
@@ -687,7 +687,7 @@ definitions:
     types:
     - uid: string
   - name: details
-    description: Represents a name-value pair.
+    description: A list of additional details related to the error.
     types:
     - uid: NameValuePair
       isArray: true

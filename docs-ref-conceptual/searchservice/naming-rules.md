@@ -1,20 +1,13 @@
 ---
-title: "Naming rules (Azure Search)"
-ms.custom: ""
+title: "Naming rules (Azure Search) | Microsoft Docs"
+description: Name coventions for Azure Search services, indexes, indexers, and other resources.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 36a5b042-285b-46d1-8065-9558e328967c
-caps.latest.revision: 16
+ms.topic: conceptual
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -45,10 +38,11 @@ translation.priority.mt:
 |Indexer|1 -128|Lower|Letters, numbers, dashes ("-")|First and last character must be a letter or number.|docbindxr-onlinecatalog-20150228|  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md)   
- [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md)   
- [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)   
- [Add scoring profiles to a search index](add-scoring-profiles-to-a-search-index.md)   
- [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
- [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
+
++ [Azure Search Service REST](index.md)   
++ [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md)   
++ [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md)   
++ [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)   
++ [Add scoring profiles to a search index](add-scoring-profiles-to-a-search-index.md)   
++ [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
++ [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  

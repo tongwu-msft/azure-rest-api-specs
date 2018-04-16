@@ -1,20 +1,13 @@
 ---
-title: "Update Indexer (Azure Search Service REST API)"
-ms.custom: ""
+title: "Update Indexer (Azure Search Service REST API) | Microsoft Docs"
+description: Modify an Azure Search indexer used for crawling external data sources for searchable content.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: a4f55a3f-cf85-4fdb-822c-759310ca0bf1
-caps.latest.revision: 9
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

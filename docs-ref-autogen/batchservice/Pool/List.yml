@@ -89,7 +89,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: A pool in the Azure Batch service.
+    description: The list of pools.
     types:
     - uid: CloudPool
       isArray: true
@@ -110,7 +110,7 @@ definitions:
     types:
     - uid: ErrorMessage
   - name: values
-    description: An item of additional information included in an Azure Batch error response.
+    description: A collection of key-value pairs containing additional details about the error.
     types:
     - uid: BatchErrorDetail
       isArray: true
@@ -175,7 +175,7 @@ definitions:
     types:
     - uid: string
   - name: resizeErrors
-    description: An error that occurred when resizing a pool.
+    description: "A list of errors encountered while performing the last resize on the pool.  \nThis property is set only if one or more errors occurred during the last pool resize, and only when the pool allocationState is Steady."
     types:
     - uid: ResizeError
       isArray: true
@@ -224,12 +224,12 @@ definitions:
     types:
     - uid: StartTask
   - name: certificateReferences
-    description: A reference to a certificate to be installed on compute nodes in a pool.
+    description: "The list of certificates to be installed on each compute node in the pool.  \nFor Windows compute nodes, the Batch service installs the certificates to the specified certificate store and location. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory."
     types:
     - uid: CertificateReference
       isArray: true
   - name: applicationPackageReferences
-    description: A reference to an application package to be deployed to compute nodes.
+    description: The list of application packages to be installed on each compute node in the pool.
     types:
     - uid: ApplicationPackageReference
       isArray: true
@@ -247,12 +247,12 @@ definitions:
     types:
     - uid: TaskSchedulingPolicy
   - name: userAccounts
-    description: Properties used to create a user used to execute tasks on an Azure Batch node.
+    description: The list of user accounts to be created on each node in the pool.
     types:
     - uid: UserAccount
       isArray: true
   - name: metadata
-    description: "A name-value pair associated with a Batch service resource.  \nThe Batch service does not assign any meaning to this metadata; it is solely for the use of user code."
+    description: A list of name-value pairs associated with the pool as metadata.
     types:
     - uid: MetadataItem
       isArray: true
@@ -354,7 +354,7 @@ definitions:
     types:
     - uid: WindowsConfiguration
   - name: dataDisks
-    description: Settings which will be used by the data disks associated to compute nodes in the pool.
+    description: "The configuration for data disks attached to the comptue nodes in the pool.  \nThis property must be specified if the compute nodes in the pool need to have empty data disks attached to them. This cannot be updated. Each node gets its own disk (the disk is not a file share). Existing disks cannot be attached, each attached disk is empty. When the node is removed from the pool, the disk and all data associated with it is also deleted. The disk is not formatted after being attached, it must be formatted before use - for more information see https://docs.microsoft.com/en-us/azure/virtual-machines/linux/classic/attach-disk#initialize-a-new-data-disk-in-linux and https://docs.microsoft.com/en-us/azure/virtual-machines/windows/attach-disk-ps#add-an-empty-data-disk-to-a-virtual-machine."
     types:
     - uid: DataDisk
       isArray: true
@@ -379,7 +379,7 @@ definitions:
     types:
     - uid: string
   - name: values
-    description: Represents a name-value pair.
+    description: A list of additional error details related to the pool resize error.
     types:
     - uid: NameValuePair
       isArray: true
@@ -424,12 +424,12 @@ definitions:
     types:
     - uid: TaskContainerSettings
   - name: resourceFiles
-    description: A file to be downloaded from Azure blob storage to a compute node.
+    description: "A list of files that the Batch service will download to the compute node before running the command line.  \nFiles listed under this element are located in the task's working directory."
     types:
     - uid: ResourceFile
       isArray: true
   - name: environmentSettings
-    description: An environment variable to be set on a task process.
+    description: A list of environment variable settings for the start task.
     types:
     - uid: EnvironmentSetting
       isArray: true
@@ -620,7 +620,7 @@ definitions:
     - uid: string
       isArray: true
   - name: containerRegistries
-    description: A private container registry.
+    description: "Additional private registries from which containers can be pulled.  \nIf any images must be downloaded from a private registry which requires credentials, then those credentials must be provided here."
     types:
     - uid: ContainerRegistry
       isArray: true
@@ -649,7 +649,7 @@ definitions:
     types:
     - uid: string
   - name: values
-    description: Represents a name-value pair.
+    description: A list of additional error details related to the autoscale error.
     types:
     - uid: NameValuePair
       isArray: true
@@ -658,7 +658,7 @@ definitions:
   kind: object
   properties:
   - name: inboundNATPools
-    description: A inbound NAT pool that can be used to address specific ports on compute nodes in a Batch pool externally.
+    description: "A list of inbound NAT pools that can be used to address specific ports on an individual compute node externally.  \nThe maximum number of inbound NAT pools per Batch pool is 5. If the maximum number of inbound NAT pools is exceeded the request fails with HTTP status code 400."
     types:
     - uid: InboundNATPool
       isArray: true
@@ -919,7 +919,7 @@ definitions:
     types:
     - uid: integer
   - name: networkSecurityGroupRules
-    description: A network security group rule to apply to an inbound endpoint.
+    description: "A list of network security group rules that will be applied to the endpoint.  \nThe maximum number of rules that can be specified across all the endpoints on a Batch pool is 25. If no network security group rules are specified, a default rule will be created to allow inbound access to the specified backendPort. If the maximum number of network security group rules is exceeded the request fails with HTTP status code 400."
     types:
     - uid: NetworkSecurityGroupRule
       isArray: true

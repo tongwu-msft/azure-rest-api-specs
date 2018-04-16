@@ -1,20 +1,13 @@
 ---
-title: "Update Data Source (Azure Search Service REST API)"
-ms.custom: ""
+title: "Update Data Source (Azure Search Service REST API) | Microsoft Docs"
+description: Modify data source connection information used by Azure Search indexers when crawling external data sources for searchable content.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: f756cd01-c266-4fd2-a7d0-ba05d49b439a
-caps.latest.revision: 10
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
