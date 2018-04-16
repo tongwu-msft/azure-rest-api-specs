@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resourcemanagement.appliancedefinitions.createorupdate
+uid: management.azure.com.resourcemanagement.applicationdefinitions.createorupdate
 name: Create Or Update
 service: Resource Management
-groupName: Appliance Definitions
-apiVersion: 2016-09-01-preview
-summary: Creates a new appliance definition.
+groupName: Application Definitions
+apiVersion: 2017-09-01
+summary: Creates a new managed application definition.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applianceDefinitions/{applianceDefinitionName}?api-version=2016-09-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applicationDefinitions/{applicationDefinitionName}?api-version=2017-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -25,10 +25,10 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w\._\(\)]+$
-- name: applianceDefinitionName
+- name: applicationDefinitionName
   in: path
   isRequired: true
-  description: The name of the appliance definition.
+  description: The name of the managed application definition.
   types:
   - uid: string
 - name: api-version
@@ -39,13 +39,13 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns information about the appliance definition, including provisioning status.
+  description: OK - Returns information about the managed application definition, including provisioning status.
   types:
-  - uid: ApplianceDefinition
+  - uid: ApplicationDefinition
 - name: 201 Created
-  description: Created - Returns information about the appliance definition, including provisioning status.
+  description: Created - Returns information about the managed application definition, including provisioning status.
   types:
-  - uid: ApplianceDefinition
+  - uid: ApplicationDefinition
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -55,38 +55,52 @@ requestBody:
   - name: properties.lockLevel
     in: body
     isRequired: true
-    description: The appliance lock level.
+    description: The managed application lock level.
     types:
-    - uid: ApplianceLockLevel
+    - uid: ApplicationLockLevel
   - name: properties.displayName
     in: body
-    description: The appliance definition display name.
+    description: The managed application definition display name.
+    types:
+    - uid: string
+  - name: properties.isEnabled
+    in: body
+    description: A value indicating whether the package is enabled or not.
     types:
     - uid: string
   - name: properties.authorizations
     in: body
     isRequired: true
-    description: The appliance provider authorizations.
+    description: The managed application provider authorizations.
     types:
-    - uid: ApplianceProviderAuthorization
+    - uid: ApplicationProviderAuthorization
       isArray: true
   - name: properties.artifacts
     in: body
-    description: The collection of appliance artifacts. The portal will use the files specified as artifacts to construct the user experience of creating an appliance from an appliance definition.
+    description: The collection of managed application artifacts. The portal will use the files specified as artifacts to construct the user experience of creating a managed application from a managed application definition.
     types:
-    - uid: ApplianceArtifact
+    - uid: ApplicationArtifact
       isArray: true
   - name: properties.description
     in: body
-    description: The appliance definition description.
+    description: The managed application definition description.
     types:
     - uid: string
   - name: properties.packageFileUri
     in: body
-    isRequired: true
-    description: The appliance definition package file Uri.
+    description: The managed application definition package file Uri. Use this element
     types:
     - uid: string
+  - name: properties.mainTemplate
+    in: body
+    description: The inline main template json which has resources to be provisioned. It can be a JObject or well-formed JSON string.
+    types:
+    - uid: object
+  - name: properties.createUiDefinition
+    in: body
+    description: The createUiDefinition json for the backing template with Microsoft.Solutions/applications resource. It can be a JObject or well-formed JSON string.
+    types:
+    - uid: object
   - name: managedBy
     in: body
     description: ID of the resource that manages this resource.
@@ -118,34 +132,34 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: ApplianceProviderAuthorization
-  description: The appliance provider authorization.
+- name: ApplicationProviderAuthorization
+  description: The managed application provider authorization.
   kind: object
   properties:
   - name: principalId
-    description: The provider's principal identifier. This is the identity that the provider will use to call ARM to manage the appliance resources.
+    description: The provider's principal identifier. This is the identity that the provider will use to call ARM to manage the managed application resources.
     types:
     - uid: string
   - name: roleDefinitionId
-    description: The provider's role definition identifier. This role will define all the permissions that the provider must have on the appliance's container resource group. This role definition cannot have permission to delete the resource group.
+    description: The provider's role definition identifier. This role will define all the permissions that the provider must have on the managed application's container resource group. This role definition cannot have permission to delete the resource group.
     types:
     - uid: string
-- name: ApplianceArtifact
-  description: Appliance artifact.
+- name: ApplicationArtifact
+  description: Managed application artifact.
   kind: object
   properties:
   - name: name
-    description: The appliance artifact name.
+    description: The managed application artifact name.
     types:
     - uid: string
   - name: uri
-    description: The appliance artifact blob uri.
+    description: The managed application artifact blob uri.
     types:
     - uid: string
   - name: type
-    description: The the appliance artifact type.
+    description: The managed application artifact type.
     types:
-    - uid: ApplianceArtifactType
+    - uid: ApplicationArtifactType
 - name: Sku
   description: SKU for the resource.
   kind: object
@@ -192,36 +206,48 @@ definitions:
     description: The identity type.
     types:
     - uid: ResourceIdentityType
-- name: ApplianceDefinition
-  description: Information about appliance definition.
+- name: ApplicationDefinition
+  description: Information about managed application definition.
   kind: object
   properties:
   - name: properties.lockLevel
-    description: The appliance lock level.
+    description: The managed application lock level.
     types:
-    - uid: ApplianceLockLevel
+    - uid: ApplicationLockLevel
   - name: properties.displayName
-    description: The appliance definition display name.
+    description: The managed application definition display name.
+    types:
+    - uid: string
+  - name: properties.isEnabled
+    description: A value indicating whether the package is enabled or not.
     types:
     - uid: string
   - name: properties.authorizations
-    description: The appliance provider authorizations.
+    description: The managed application provider authorizations.
     types:
-    - uid: ApplianceProviderAuthorization
+    - uid: ApplicationProviderAuthorization
       isArray: true
   - name: properties.artifacts
-    description: The collection of appliance artifacts. The portal will use the files specified as artifacts to construct the user experience of creating an appliance from an appliance definition.
+    description: The collection of managed application artifacts. The portal will use the files specified as artifacts to construct the user experience of creating a managed application from a managed application definition.
     types:
-    - uid: ApplianceArtifact
+    - uid: ApplicationArtifact
       isArray: true
   - name: properties.description
-    description: The appliance definition description.
+    description: The managed application definition description.
     types:
     - uid: string
   - name: properties.packageFileUri
-    description: The appliance definition package file Uri.
+    description: The managed application definition package file Uri. Use this element
     types:
     - uid: string
+  - name: properties.mainTemplate
+    description: The inline main template json which has resources to be provisioned. It can be a JObject or well-formed JSON string.
+    types:
+    - uid: object
+  - name: properties.createUiDefinition
+    description: The createUiDefinition json for the backing template with Microsoft.Solutions/applications resource. It can be a JObject or well-formed JSON string.
+    types:
+    - uid: object
   - name: managedBy
     description: ID of the resource that manages this resource.
     types:
@@ -262,7 +288,7 @@ definitions:
       - uid: string
       - uid: string
 - name: ErrorResponse
-  description: Error reponse indicates ARM appliance is not able to process the incoming request. The reason is provided in the error message.
+  description: Error reponse indicates managed application is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
   - name: httpStatus
@@ -277,8 +303,8 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-- name: ApplianceArtifactType
-  description: The appliance artifact type.
+- name: ApplicationArtifactType
+  description: The managed application artifact type.
   kind: enum
   properties:
   - name: Template
@@ -294,8 +320,8 @@ definitions:
   - name: SystemAssigned
     types:
     - uid: string
-- name: ApplianceLockLevel
-  description: The appliance lock level.
+- name: ApplicationLockLevel
+  description: The managed application lock level.
   kind: enum
   properties:
   - name: CanNotDelete
@@ -308,15 +334,15 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Create or update appliance definition
+- name: Create or update managed application definition
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myApplianceDef?api-version=2016-09-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applicationDefinitions/{applicationDefinitionName}?api-version=2017-09-01
     body: >-
       {
         "properties": {
           "lockLevel": "None",
-          "displayName": "myApplianceDef",
-          "description": "myApplianceDef description",
+          "displayName": "myManagedApplicationDef",
+          "description": "myManagedApplicationDef description",
           "authorizations": [
             {
               "principalId": "validprincipalguid",
@@ -331,9 +357,9 @@ examples:
   - statusCode: "201"
     body: >-
       {
-        "name": "myApplianceDef",
-        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myApplianceDef",
-        "type": "Microsoft.Solutions/applianceDefinitions",
+        "name": "myManagedApplicationDef",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applicationDefinitions/myManagedApplicationDef",
+        "type": "Microsoft.Solutions/applicationDefinitions",
         "location": "East US 2",
         "managedBy": null,
         "resourceGroup": "rg",
@@ -345,10 +371,10 @@ examples:
             {
               "name": "CreateUiDefinition",
               "type": "Custom",
-              "uri": "https://path/to/applianceCreateUiDefinition.json"
+              "uri": "https://path/to/managedApplicationCreateUiDefinition.json"
             },
             {
-              "name": "ApplianceResourceTemplate",
+              "name": "ManagedApplicationResourceTemplate",
               "type": "Template",
               "uri": "https://path/to/mainTemplate.json"
             }
@@ -359,8 +385,8 @@ examples:
               "roleDefinitionId": "validroleguid"
             }
           ],
-          "description": "myApplianceDef description",
-          "displayName": "myApplianceDef",
+          "description": "myManagedApplicationDef description",
+          "displayName": "myManagedApplicationDef",
           "lockLevel": null,
           "packageFileUri": "https://path/to/packagezipfile"
         }
