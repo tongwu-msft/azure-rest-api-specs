@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.apimanagement.issues.listbyservice
+uid: management.azure.com.apimanagement.apiissuecomment.listbyservice
 name: List By Service
 service: API Management
-groupName: Issues
+groupName: Api Issue Comment
 apiVersion: 2018-01-01
-summary: Lists a collection of issues in the specified service instance.
+summary: Lists all comments for the Issue assosiated with the specified API.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/issues?api-version=2018-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/issues?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/comments?api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/comments?api-version=2018-01-01&$filter={$filter}&$top={$top}&$skip={$skip}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -33,6 +33,26 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: apiId
+  in: path
+  isRequired: true
+  description: API identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+- name: issueId
+  in: path
+  isRequired: true
+  description: Issue identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: ^[^*#&+:<>?]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
 - name: $filter
   in: query
   description: >-
@@ -41,8 +61,6 @@ uriParameters:
     |-------------|------------------------|-----------------------------------|
 
     | id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |
-
-    | state        | eq                     |                                   |
 
     | userId          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |
   types:
@@ -59,32 +77,26 @@ uriParameters:
   types:
   - uid: integer
   format: int32
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version of the API to be used with the client request.
-  types:
-  - uid: string
 responses:
 - name: 200 OK
-  description: Lists a collection of Issue entities.
+  description: Paged Result reponse of issue comments for the API.
   types:
-  - uid: IssueCollection
+  - uid: IssueCommentCollection
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: IssueCollection
-  description: Paged Issue list representation.
+- name: IssueCommentCollection
+  description: Paged Issue Comment list representation.
   kind: object
   properties:
   - name: value
     isReadyOnly: true
-    description: Issue values.
+    description: Issue Comment values.
     types:
-    - uid: IssueContract
+    - uid: IssueCommentContract
       isArray: true
   - name: nextLink
     isReadyOnly: true
@@ -108,32 +120,20 @@ definitions:
     types:
     - uid: ErrorFieldContract
       isArray: true
-- name: IssueContract
-  description: Issue Contract details.
+- name: IssueCommentContract
+  description: Issue Comment Contract details.
   kind: object
   properties:
-  - name: properties.title
-    description: The issue title.
-    types:
-    - uid: string
-  - name: properties.description
-    description: Text describing the issue.
+  - name: properties.text
+    description: Comment text.
     types:
     - uid: string
   - name: properties.createdDate
-    description: Date and time when the issue was created.
+    description: Date and time when the comment was created.
     types:
     - uid: string
-  - name: properties.state
-    description: Status of the issue.
-    types:
-    - uid: State
   - name: properties.userId
-    description: A resource identifier for the user created the issue.
-    types:
-    - uid: string
-  - name: properties.apiId
-    description: A resource identifier for the API the issue was created for.
+    description: A resource identifier for the user who left the comment.
     types:
     - uid: string
   - name: id
@@ -167,50 +167,23 @@ definitions:
     description: Property name.
     types:
     - uid: string
-- name: State
-  description: Status of the issue.
-  kind: enum
-  properties:
-  - name: proposed
-    description: The issue is proposed.
-    types:
-    - uid: string
-  - name: open
-    description: The issue is opened.
-    types:
-    - uid: string
-  - name: removed
-    description: The issue was removed.
-    types:
-    - uid: string
-  - name: resolved
-    description: The issue is now resolved.
-    types:
-    - uid: string
-  - name: closed
-    description: The issue was closed.
-    types:
-    - uid: string
 examples:
-- name: ApiManagementListLoggers
+- name: ApiManagementListApiIssueComments
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/issues?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues/57d2ef278aa04f0ad01d6cdc/comments?api-version=2018-01-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/issues/57d2ef278aa04f0ad01d6cdc",
-            "type": "Microsoft.ApiManagement/service/issues",
-            "name": "57d2ef278aa04f0ad01d6cdc",
+            "id": "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues/57d2ef278aa04f0ad01d6cdc/comments/599e29ab193c3c0bd0b3e2fb",
+            "type": "Microsoft.ApiManagement/service/apis/issues/comments",
+            "name": "599e29ab193c3c0bd0b3e2fb",
             "properties": {
-              "title": "New API issue",
-              "description": "New API issue description",
+              "text": "Issue comment.",
               "createdDate": "2018-02-01T22:21:20.467Z",
-              "state": "open",
-              "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/1",
-              "apiId": "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a"
+              "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/1"
             }
           }
         ],
