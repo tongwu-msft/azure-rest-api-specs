@@ -1,20 +1,13 @@
 ---
-title: "List Indexers (Azure Search Service REST API)"
-ms.custom: ""
+title: "List Indexers (Azure Search Service REST API)| Microsoft Docs"
+description: Return a list of Azure Search indexers used for crawling external data for searchable content.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 5f114b0f-80f2-43bb-9bdd-3c7550fa9808
-caps.latest.revision: 10
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -72,8 +65,9 @@ GET /indexers?api-version=2014-10-20-Preview&$select=name
  This is a useful technique to save bandwidth if you have a lot of indexers in your Search service.  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
- [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
- [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)
+
++ [Azure Search Service REST](index.md)   
++ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
++ [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
++ [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
++ [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)

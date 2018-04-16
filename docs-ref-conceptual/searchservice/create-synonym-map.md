@@ -2,21 +2,13 @@
 title: "Create Synonym Map (Azure Search Service REST API) | Microsoft Docs"
 description: "A synonym map to expand or rewrite a search query can be created using REST API in Azure Search."
 services: "Azure Search"
-ms.custom: ""
 ms.date: "2017-03-13"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 1c9399cf-e3f6-466f-8a00-73ea27ca18f8
-caps.latest.revision: 22
 author: "mhko"
 ms.author: "nateko"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -63,7 +55,7 @@ api-key: [admin key]
 ## Request  
  HTTPS is required for all service requests. The **Create Synonym Map** request can be constructed using either a POST or PUT method. When using POST, you must provide a synonym map name in the request body along with the synonym map definition. With PUT, the name is part of the URL. If the synonym map doesn't exist, it is created. If it already exists, it is updated to the new definition.  
 
- The synonym map name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the synonym map name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Search&#41;](naming-rules.md) for details.  
+ The synonym map name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. After starting the synonym map name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Search&#41;](naming-rules.md) for details.  
 
  The **api-version** is required. The current preview version is `2016-09-01-Preview`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
@@ -80,7 +72,7 @@ api-key: [admin key]
 ### Request Body Syntax  
  The body of the request contains a synonym map definition, which includes the format of the synonym map and the list of rules in the specified format.
 
- The syntax of the request payload is as follows. A sample request is provided further on in this topic.  
+ The syntax of the request payload is as follows. A [sample request](#example-request) is provided in this article.  
 
 ```json
 {   
@@ -109,11 +101,13 @@ api-key: [admin key]
   ```
   The rule expands the search to all equivalent terms. For example, the search query "USA" will be expanded to "USA" OR "United States" OR "United States of America".
 
-  2. Explicit mapping is denoted by an arrow "=>". When specified, a term sequence of a search query that matches the left hand side of "=>" will be replaced with the alternatives on the right hand side.
+  2. Explicit mapping is denoted by an arrow "=>". When specified, a term sequence of a search query that matches the left-hand side of "=>" will be replaced with the alternatives on the right-hand side.
   ```
   Washington, Wash., WA => WA
   ```
   Given the rule, the search queries "Washington", "Wash." or "WA" will all be rewritten to "WA". Explicit mapping only applies in the direction specified and does not rewrite the query "WA" to "Washington" in this case.
+
+<a name="example-request"></a>
 
 ### Request Body Examples  
 
@@ -131,7 +125,8 @@ api-key: [admin key]
  For a successful request: 201 Created.  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [Synonym map operations &#40;Azure Search Service REST API&#41;](synonym-map-operations.md)   
- [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
+
++ [Azure Search Service REST](index.md)   
++ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
++ [Synonym map operations &#40;Azure Search Service REST API&#41;](synonym-map-operations.md)   
++ [Naming rules &#40;Azure Search&#41;](naming-rules.md)   

@@ -1,20 +1,13 @@
 ---
-title: "Reset Indexer (Azure Search Service REST API)"
-ms.custom: ""
+title: "Reset Indexer (Azure Search Service REST API)  | Microsoft Docs"
+description: Rebuild an index created by an Azure Search indexer.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: e36fa72a-a924-4e19-b7da-cd8f132c8963
-caps.latest.revision: 10
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -43,7 +36,8 @@ translation.priority.mt:
  Status Code: 204 No Content for a successful response.  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
- [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
+
++ [Azure Search Service REST](index.md)   
++ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
++ [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
++ [Naming rules &#40;Azure Search&#41;](naming-rules.md)   

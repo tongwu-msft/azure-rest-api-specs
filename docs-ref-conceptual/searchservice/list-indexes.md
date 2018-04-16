@@ -1,20 +1,13 @@
 ---
-title: "List Indexes (Azure Search Service REST API)"
-ms.custom: ""
+title: "List Indexes (Azure Search Service REST API) | Microsoft Docs"
+description: Return a list of index names for indexes in the current Azure Search service.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 54c762c8-805d-4319-844d-d3669bb63521
-caps.latest.revision: 26
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
