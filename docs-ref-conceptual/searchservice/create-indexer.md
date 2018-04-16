@@ -105,7 +105,7 @@ Field mappings can also be used to transform source field values using *field ma
 To learn more about when and how to use field mapping functions, see [Field Mapping Functions](https://docs.microsoft.com/azure/search/search-indexer-field-mappings#field-mapping-functions).
 
 
-<a name='example-request"></a>
+<a name="example-request"></a>
 
 ### Request body examples  
  The following example creates an indexer that copies data from the table referenced by the `ordersds` data source to the `orders` index on a schedule that starts on Jan 1, 2015 UTC and runs hourly. Each indexer invocation will be successful if no more than 5 items fail to be indexed in each batch, and no more than 10 items fail to be indexed in total.  
