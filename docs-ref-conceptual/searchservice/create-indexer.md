@@ -1,20 +1,13 @@
 ---
-title: "Create Indexer (Azure Search Service REST API)"
-ms.custom: ""
+title: "Create Indexer (Azure Search Service REST API) | Microsoft Docs"
+description: Crawl external data sources for searchable content using an Azure Search indexer.
 ms.date: "2017-04-27"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: f9224fad-842f-46a4-86da-87b6a6736725
-caps.latest.revision: 13
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

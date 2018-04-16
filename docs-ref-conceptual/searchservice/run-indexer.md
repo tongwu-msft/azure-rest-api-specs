@@ -1,20 +1,13 @@
 ---
-title: "Run Indexer (Azure Search Service REST API)"
-ms.custom: ""
+title: "Run Indexer (Azure Search Service REST API)  | Microsoft Docs"
+description: Trigger Azure Search indexing when using an indexer to crawl external data for searchable content.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 6861f630-43d2-41dd-aa17-db881bffac20
-caps.latest.revision: 10
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

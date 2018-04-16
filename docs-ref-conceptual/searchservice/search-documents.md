@@ -1,20 +1,13 @@
 ---
-title: "Search Documents (Azure Search Service REST API)"
-ms.custom: ""
+title: "Search Documents (Azure Search Service REST API)  | Microsoft Docs"
+description: Query an Azure Search index and return search results.
 ms.date: "01/23/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 716ef056-adf4-4b16-85b8-2cb777bc8458
-caps.latest.revision: 69
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

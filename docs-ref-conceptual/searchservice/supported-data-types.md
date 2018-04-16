@@ -1,20 +1,13 @@
 ---
-title: "Supported data types (Azure Search)"
-ms.custom: ""
+title: "Supported data types (Azure Search) | Microsoft Docs"
+description: Allowed data types fro fields in an Azure Search index.
 ms.date: "2017-01-13"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: cc08c9f9-2aff-420f-b01a-bbde2e051c08
-caps.latest.revision: 30
+ms.topic: conceptual
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

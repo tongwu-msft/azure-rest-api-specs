@@ -2,21 +2,13 @@
 title: "Create Synonym Map (Azure Search Service REST API) | Microsoft Docs"
 description: "A synonym map to expand or rewrite a search query can be created using REST API in Azure Search."
 services: "Azure Search"
-ms.custom: ""
 ms.date: "2017-03-13"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 1c9399cf-e3f6-466f-8a00-73ea27ca18f8
-caps.latest.revision: 22
 author: "mhko"
 ms.author: "nateko"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

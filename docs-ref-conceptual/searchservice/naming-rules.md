@@ -1,20 +1,13 @@
 ---
-title: "Naming rules (Azure Search)"
-ms.custom: ""
+title: "Naming rules (Azure Search) | Microsoft Docs"
+description: Name coventions for Azure Search services, indexes, indexers, and other resources.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 36a5b042-285b-46d1-8065-9558e328967c
-caps.latest.revision: 16
+ms.topic: conceptual
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

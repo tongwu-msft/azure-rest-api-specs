@@ -1,20 +1,13 @@
 ---
 title: "Custom analyzers in Azure Search | Microsoft docs"
-ms.custom: ""
+description: Modify text tokenizers and character filters used in Azure Search full text search queries.
 ms.date: "2017-09-02"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: ac4f0c8f-1f7c-4fad-bc7d-58c86de98bf6
-caps.latest.revision: 96
 author: "Yahnoosh"
 ms.author: "jlembicz"
-manager: "pablocas"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

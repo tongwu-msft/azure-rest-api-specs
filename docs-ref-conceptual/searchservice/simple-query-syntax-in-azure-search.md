@@ -1,22 +1,14 @@
 ---
-title: "Simple query syntax in Azure Search"
-description: "Reference for the simple query syntax used in Azure Search"
-services: "search"
-author: "brjohnstmsft"
-manager: "jhubbard"
-ms.service: "search"
-ms.tgt_pltfrm: ""
-ms.topic: "language-reference"
-ms.date: "10/04/2017"
-ms.author: "brjohnst"
-ms.custom: ""
+title: "Simple query syntax in Azure Search  | Microsoft Docs"
+description: "Reference for the simple query syntax used for full text search queries in Azure Search"
 ms.prod: "azure"
-ms.reviewer: ""
-ms.suite: ""
-applies_to:
-  - "Azure"
-ms.assetid: 1d656013-e580-4762-9ea1-8aa5d0e96ac2
-caps.latest.revision: 22
+ms.service: "search"
+ms.topic: "conceptual"
+ms.date: "10/04/2017"
+
+author: "brjohnstmsft"
+ms.author: "brjohnst"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

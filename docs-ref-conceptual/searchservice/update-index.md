@@ -1,5 +1,5 @@
 ---
-title: "Update Index (Azure Search Service REST API)"
+title: "Update Index (Azure Search Service REST API) | Microsoft Docs"
 ms.custom: ""
 ms.date: "2018-02-09"
 ms.prod: "azure"
@@ -14,7 +14,7 @@ ms.assetid: f26a6d3c-823c-401e-a27e-0699aad8fd8c
 caps.latest.revision: 29
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
