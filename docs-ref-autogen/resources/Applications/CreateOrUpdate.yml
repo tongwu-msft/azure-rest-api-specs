@@ -1,21 +1,34 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resourcemanagement.appliances.createorupdatebyid
-name: Create Or Update By Id
+uid: management.azure.com.resourcemanagement.applications.createorupdate
+name: Create Or Update
 service: Resource Management
-groupName: Appliances
-apiVersion: 2016-09-01-preview
-summary: Creates a new appliance.
+groupName: Applications
+apiVersion: 2017-09-01
+summary: Creates a new managed application.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{applianceId}?api-version=2016-09-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}?api-version=2017-09-01
 uriParameters:
-- name: applianceId
+- name: subscriptionId
   in: path
   isRequired: true
-  description: The fully qualified ID of the appliance, including the appliance name and the appliance resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: applicationName
+  in: path
+  isRequired: true
+  description: The name of the managed application.
   types:
   - uid: string
 - name: api-version
@@ -26,13 +39,13 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Created - Returns information about the appliance, including provisioning status.
+  description: Created - Returns information about the managed application, including provisioning status.
   types:
-  - uid: Appliance
+  - uid: Application
 - name: 201 Created
-  description: Created - Returns information about the appliance, including provisioning status.
+  description: Created - Returns information about the managed application, including provisioning status.
   types:
-  - uid: Appliance
+  - uid: Application
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -47,7 +60,7 @@ requestBody:
   - name: kind
     in: body
     isRequired: true
-    description: The kind of the appliance. Allowed values are MarketPlace and ServiceCatalog.
+    description: The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog.
     types:
     - uid: string
   - name: properties.managedResourceGroupId
@@ -56,14 +69,14 @@ requestBody:
     description: The managed resource group Id.
     types:
     - uid: string
-  - name: properties.applianceDefinitionId
+  - name: properties.applicationDefinitionId
     in: body
-    description: The fully qualified path of appliance definition Id.
+    description: The fully qualified path of managed application definition Id.
     types:
     - uid: string
   - name: properties.parameters
     in: body
-    description: Name and value pairs that define the appliance parameters. It can be a JObject or a well formed JSON string.
+    description: Name and value pairs that define the managed application parameters. It can be a JObject or a well formed JSON string.
     types:
     - uid: object
   - name: properties.uiDefinitionUri
@@ -103,7 +116,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: Plan
-  description: Plan for the appliance.
+  description: Plan for the managed application.
   kind: object
   properties:
   - name: name
@@ -172,8 +185,8 @@ definitions:
     description: The identity type.
     types:
     - uid: ResourceIdentityType
-- name: Appliance
-  description: Information about appliance.
+- name: Application
+  description: Information about managed application.
   kind: object
   properties:
   - name: plan
@@ -181,29 +194,29 @@ definitions:
     types:
     - uid: Plan
   - name: kind
-    description: The kind of the appliance. Allowed values are MarketPlace and ServiceCatalog.
+    description: The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog.
     types:
     - uid: string
   - name: properties.managedResourceGroupId
     description: The managed resource group Id.
     types:
     - uid: string
-  - name: properties.applianceDefinitionId
-    description: The fully qualified path of appliance definition Id.
+  - name: properties.applicationDefinitionId
+    description: The fully qualified path of managed application definition Id.
     types:
     - uid: string
   - name: properties.parameters
-    description: Name and value pairs that define the appliance parameters. It can be a JObject or a well formed JSON string.
+    description: Name and value pairs that define the managed application parameters. It can be a JObject or a well formed JSON string.
     types:
     - uid: object
   - name: properties.outputs
     isReadyOnly: true
-    description: Name and value pairs that define the appliance outputs.
+    description: Name and value pairs that define the managed application outputs.
     types:
     - uid: object
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The appliance provisioning state.
+    description: The managed application provisioning state.
     types:
     - uid: ProvisioningState
   - name: properties.uiDefinitionUri
@@ -250,7 +263,7 @@ definitions:
       - uid: string
       - uid: string
 - name: ErrorResponse
-  description: Error reponse indicates ARM appliance is not able to process the incoming request. The reason is provided in the error message.
+  description: Error reponse indicates managed application is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
   - name: httpStatus
@@ -273,7 +286,7 @@ definitions:
     types:
     - uid: string
 - name: ProvisioningState
-  description: Provisioning status of the appliance.
+  description: Provisioning status of the managed application.
   kind: enum
   properties:
   - name: Accepted
@@ -309,7 +322,44 @@ definitions:
   - name: Updating
     types:
     - uid: string
-examples: []
+examples:
+- name: Create or update managed application
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applications/{applicationName}?api-version=2017-09-01
+    body: >-
+      {
+        "properties": {
+          "managedApplicationDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applicationDefinitions/myAppDef",
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG"
+        },
+        "name": "myManagedApplication",
+        "location": "East US 2",
+        "kind": "ServiceCatalog"
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "myManagedApplication",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applications/myManagedApplication",
+        "type": "Microsoft.Solutions/applications",
+        "location": "East US 2",
+        "managedBy": null,
+        "resourceGroup": "rg",
+        "tags": null,
+        "plan": null,
+        "identity": null,
+        "kind": "ServiceCatalog",
+        "sku": null,
+        "properties": {
+          "managedApplicationDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applicationDefinitions/myAppDef",
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "outputs": null,
+          "parameters": null,
+          "provisioningState": "Created",
+          "uiDefinitionUri": "https://path/to/managedApplicationCreateUiDefinition.json"
+        }
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

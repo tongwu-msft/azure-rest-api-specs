@@ -1,30 +1,23 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resourcemanagement.appliances.listbyresourcegroup
-name: List By Resource Group
+uid: management.azure.com.resourcemanagement.applications.getbyid
+name: Get By Id
 service: Resource Management
-groupName: Appliances
-apiVersion: 2016-09-01-preview
-summary: Gets all the appliances within a resource group.
+groupName: Applications
+apiVersion: 2017-09-01
+summary: Gets the managed application.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/appliances?api-version=2016-09-01-preview
+- content: GET https://management.azure.com/{applicationId}?api-version=2017-09-01
 uriParameters:
-- name: subscriptionId
+- name: applicationId
   in: path
   isRequired: true
-  description: The ID of the target subscription.
+  description: The fully qualified ID of the managed application, including the managed application name and the managed application resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name}
   types:
   - uid: string
-- name: resourceGroupName
-  in: path
-  isRequired: true
-  description: The name of the resource group. The name is case insensitive.
-  types:
-  - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: api-version
   in: query
   isRequired: true
@@ -33,46 +26,19 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns an array of appliances.
+  description: OK - Returns the managed application.
   types:
-  - uid: ApplianceListResult
+  - uid: Application
+- name: Other Status Codes
+  description: Not Found
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: ApplianceListResult
-  description: List of appliances.
-  kind: object
-  properties:
-  - name: value
-    description: The array of appliances.
-    types:
-    - uid: Appliance
-      isArray: true
-  - name: nextLink
-    description: The URL to use for getting the next set of results.
-    types:
-    - uid: string
-- name: ErrorResponse
-  description: Error reponse indicates ARM appliance is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - name: httpStatus
-    description: Http status code.
-    types:
-    - uid: string
-  - name: errorCode
-    description: Error code.
-    types:
-    - uid: string
-  - name: errorMessage
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-- name: Appliance
-  description: Information about appliance.
+- name: Application
+  description: Information about managed application.
   kind: object
   properties:
   - name: plan
@@ -80,29 +46,29 @@ definitions:
     types:
     - uid: Plan
   - name: kind
-    description: The kind of the appliance. Allowed values are MarketPlace and ServiceCatalog.
+    description: The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog.
     types:
     - uid: string
   - name: properties.managedResourceGroupId
     description: The managed resource group Id.
     types:
     - uid: string
-  - name: properties.applianceDefinitionId
-    description: The fully qualified path of appliance definition Id.
+  - name: properties.applicationDefinitionId
+    description: The fully qualified path of managed application definition Id.
     types:
     - uid: string
   - name: properties.parameters
-    description: Name and value pairs that define the appliance parameters. It can be a JObject or a well formed JSON string.
+    description: Name and value pairs that define the managed application parameters. It can be a JObject or a well formed JSON string.
     types:
     - uid: object
   - name: properties.outputs
     isReadyOnly: true
-    description: Name and value pairs that define the appliance outputs.
+    description: Name and value pairs that define the managed application outputs.
     types:
     - uid: object
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The appliance provisioning state.
+    description: The managed application provisioning state.
     types:
     - uid: ProvisioningState
   - name: properties.uiDefinitionUri
@@ -148,8 +114,24 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ErrorResponse
+  description: Error reponse indicates managed application is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: httpStatus
+    description: Http status code.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
 - name: Plan
-  description: Plan for the appliance.
+  description: Plan for the managed application.
   kind: object
   properties:
   - name: name
@@ -173,7 +155,7 @@ definitions:
     types:
     - uid: string
 - name: ProvisioningState
-  description: Provisioning status of the appliance.
+  description: Provisioning status of the managed application.
   kind: enum
   properties:
   - name: Accepted
@@ -262,59 +244,7 @@ definitions:
   - name: SystemAssigned
     types:
     - uid: string
-examples:
-- name: Lists appliances
-  request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances?api-version=2016-09-01-preview
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "value": [
-          {
-            "name": "myAppliance",
-            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance",
-            "type": "Microsoft.Solutions/appliances",
-            "location": "East US 2",
-            "managedBy": null,
-            "resourceGroup": "rg",
-            "tags": null,
-            "plan": null,
-            "identity": null,
-            "kind": "ServiceCatalog",
-            "sku": null,
-            "properties": {
-              "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef",
-              "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
-              "outputs": null,
-              "parameters": null,
-              "provisioningState": "Created",
-              "uiDefinitionUri": "https://path/to/applianceCreateUiDefinition.json"
-            }
-          },
-          {
-            "name": "myAppliance2",
-            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/appliances/myAppliance2",
-            "type": "Microsoft.Solutions/appliances",
-            "location": "West US",
-            "managedBy": null,
-            "resourceGroup": "rg",
-            "tags": null,
-            "plan": null,
-            "identity": null,
-            "kind": "ServiceCatalog",
-            "sku": null,
-            "properties": {
-              "applianceDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applianceDefinitions/myAppDef2",
-              "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
-              "outputs": null,
-              "parameters": null,
-              "provisioningState": "Created",
-              "uiDefinitionUri": "https://path/to/applianceCreateUiDefinition.json"
-            }
-          }
-        ]
-      }
+examples: []
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
