@@ -3,14 +3,14 @@ uid: management.azure.com.resourcemanagement.deployments.validate
 name: Validate
 service: Resource Management
 groupName: Deployments
-apiVersion: 2017-05-10
+apiVersion: 2018-02-01
 summary: Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/validate?api-version=2017-05-10
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/validate?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -85,6 +85,10 @@ definitions:
     description: The debug setting of the deployment.
     types:
     - uid: DebugSetting
+  - name: onErrorDeployment
+    description: The deployment on error behavior.
+    types:
+    - uid: OnErrorDeployment
 - name: DeploymentValidateResult
   description: Information from validate template deployment response.
   kind: object
@@ -144,6 +148,18 @@ definitions:
   properties:
   - name: detailLevel
     description: Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information you are passing in during deployment. By logging information about the request or response, you could potentially expose sensitive data that is retrieved through the deployment operations.
+    types:
+    - uid: string
+- name: OnErrorDeployment
+  description: Deployment on error behavior.
+  kind: object
+  properties:
+  - name: type
+    description: The deployment on error behavior type. Possible values are LastSuccessful and SpecificDeployment.
+    types:
+    - uid: OnErrorDeploymentType
+  - name: deploymentName
+    description: The deployment to be used on error case.
     types:
     - uid: string
 - name: ResourceManagementErrorWithDetails
@@ -228,6 +244,20 @@ definitions:
     description: The debug setting of the deployment.
     types:
     - uid: DebugSetting
+  - name: onErrorDeployment
+    description: The deployment on error behavior.
+    types:
+    - uid: OnErrorDeploymentExtended
+- name: OnErrorDeploymentType
+  description: The deployment on error behavior type. Possible values are LastSuccessful and SpecificDeployment.
+  kind: enum
+  properties:
+  - name: LastSuccessful
+    types:
+    - uid: string
+  - name: SpecificDeployment
+    types:
+    - uid: string
 - name: Provider
   description: Resource provider information.
   kind: object
@@ -271,6 +301,23 @@ definitions:
     - uid: string
   - name: resourceName
     description: The dependency resource name.
+    types:
+    - uid: string
+- name: OnErrorDeploymentExtended
+  description: Deployment on error behavior with additional details.
+  kind: object
+  properties:
+  - name: provisioningState
+    isReadyOnly: true
+    description: The state of the provisioning for the on error deployment.
+    types:
+    - uid: string
+  - name: type
+    description: The deployment on error behavior type. Possible values are LastSuccessful and SpecificDeployment.
+    types:
+    - uid: OnErrorDeploymentType
+  - name: deploymentName
+    description: The deployment to be used on error case.
     types:
     - uid: string
 - name: ProviderResourceType
