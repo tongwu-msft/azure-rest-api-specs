@@ -38,10 +38,11 @@ translation.priority.mt:
 |Indexer|1 -128|Lower|Letters, numbers, dashes ("-")|First and last character must be a letter or number.|docbindxr-onlinecatalog-20150228|  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md)   
- [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md)   
- [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)   
- [Add scoring profiles to a search index](add-scoring-profiles-to-a-search-index.md)   
- [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
- [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
+
++ [Azure Search Service REST](index.md)   
++ [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md)   
++ [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md)   
++ [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)   
++ [Add scoring profiles to a search index](add-scoring-profiles-to-a-search-index.md)   
++ [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
++ [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  

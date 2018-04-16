@@ -32,8 +32,7 @@ translation.priority.mt:
 
  As straightforward as this sounds, there is one aspect of query execution in Azure Search that *might* produce unexpected results, increasing rather than decreasing search results as more terms and operators are added to the input string.  
 
-Whether this expansion actually occurs depends on the inclusion of a NOT operator, combined with a `searchMode` parameter setting that determines how NOT is interpreted in terms of AND or OR behaviors.   
-Given the default, `searchMode=Any`, and a NOT operator, the operation is computed as an OR action, such that `"New York" NOT Seattle` returns all cities that are not Seattle.  
+Whether this expansion actually occurs depends on the inclusion of a NOT operator, combined with a `searchMode` parameter setting that determines how NOT is interpreted in terms of AND or OR behaviors. Given the default, `searchMode=Any`, and a NOT operator, the operation is computed as an OR action, such that `"New York" NOT Seattle` returns all cities that are not Seattle.  
 
  Typically, you're more likely to see these behaviors in user interaction patterns for applications that search over content, where users are more likely to include an operator in a query, as opposed to e-commerce sites that have more built-in navigation structures. See below for more detail about `searchMode.`  
 
@@ -61,7 +60,7 @@ The suffix operator is an asterisk. For example, `lux*` will search for document
 
 #### Phrase search operator `" "`
 
-The phrase operator encloses a phrase in quotation marks. For example, while `Roach Motel` (without quotes) would search for documents containing `Roach` and/or `Motel` anywhere in any order, `"Roach Motel"` (with quotes) will only match documents that contains that whole phrase together and in that order (text analysis still applies).
+The phrase operator encloses a phrase in quotation marks. For example, while `Roach Motel` (without quotes) would search for documents containing `Roach` and/or `Motel` anywhere in any order, `"Roach Motel"` (with quotes) will only match documents that contain that whole phrase together and in that order (text analysis still applies).
 
 #### Precedence operator `( )`
 
