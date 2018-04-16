@@ -1,0 +1,175 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sqldatabase.serversapi.list
+name: List
+service: SQL Database
+groupName: Servers API
+apiVersion: 2015-05-01-preview
+summary: Gets a list of all servers in the subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Sql/servers?api-version=2015-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of servers.
+  types:
+  - uid: ServerListResult
+- name: Other Status Codes
+  description: '*** Error Responses: ***'
+requestHeader: []
+definitions:
+- name: ServerListResult
+  description: A list of servers.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: Server
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: Server
+  description: An Azure SQL Database server.
+  kind: object
+  properties:
+  - name: identity
+    description: The Azure Active Directory identity of the server.
+    types:
+    - uid: ResourceIdentity
+  - name: kind
+    isReadyOnly: true
+    description: Kind of sql server. This is metadata used for the Azure portal experience.
+    types:
+    - uid: string
+  - name: properties.administratorLogin
+    description: Administrator username for the server. Once created it cannot be changed.
+    types:
+    - uid: string
+  - name: properties.administratorLoginPassword
+    description: The administrator login password (required for server creation).
+    types:
+    - uid: string
+  - name: properties.version
+    description: The version of the server.
+    types:
+    - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: The state of the server.
+    types:
+    - uid: string
+  - name: properties.fullyQualifiedDomainName
+    isReadyOnly: true
+    description: The fully qualified domain name of the server.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ResourceIdentity
+  description: Azure Active Directory identity configuration for a resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The Azure Active Directory principal id.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+    types:
+    - uid: IdentityType
+  - name: tenantId
+    isReadyOnly: true
+    description: The Azure Active Directory tenant id.
+    types:
+    - uid: string
+- name: IdentityType
+  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+examples:
+- name: List servers
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/servers?api-version=2015-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
+            "name": "sqlcrudtest-4645",
+            "type": "Microsoft.Sql/servers",
+            "location": "japaneast",
+            "kind": "v12.0",
+            "properties": {
+              "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+              "administratorLogin": "dummylogin",
+              "version": "12.0",
+              "state": "Ready"
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-6661",
+            "name": "sqlcrudtest-6661",
+            "type": "Microsoft.Sql/servers",
+            "location": "japaneast",
+            "kind": "v12.0",
+            "properties": {
+              "fullyQualifiedDomainName": "sqlcrudtest-6661.database.windows.net",
+              "administratorLogin": "dummylogin",
+              "version": "12.0",
+              "state": "Ready"
+            }
+          }
+        ]
+      }
+security: []

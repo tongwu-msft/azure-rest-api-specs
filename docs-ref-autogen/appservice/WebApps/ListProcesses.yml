@@ -1,0 +1,388 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.webapps.listprocesses
+name: List Processes
+service: App Service
+groupName: Web Apps
+apiVersion: 2016-08-01
+summary: Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/processes?api-version=2016-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Site name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Process terminated.
+  types:
+  - uid: ProcessInfoCollection
+- name: Other Status Codes
+  description: Process with the specified ID is not running.
+requestHeader: []
+definitions:
+- name: ProcessInfoCollection
+  description: Collection of Kudu process information elements.
+  kind: object
+  properties:
+  - name: value
+    description: Collection of resources.
+    types:
+    - uid: ProcessInfo
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to next page of resources.
+    types:
+    - uid: string
+- name: ProcessInfo
+  description: Process Information.
+  kind: object
+  properties:
+  - name: properties.id
+    description: ARM Identifier for deployment.
+    types:
+    - uid: integer
+  - name: properties.name
+    description: Deployment name.
+    types:
+    - uid: string
+  - name: properties.href
+    description: HRef URI.
+    types:
+    - uid: string
+  - name: properties.miniDump
+    description: Minidump URI.
+    types:
+    - uid: string
+  - name: properties.isProfileRunning
+    description: Is profile running?
+    types:
+    - uid: boolean
+  - name: properties.isIisProfileRunning
+    description: Is the IIS Profile running?
+    types:
+    - uid: boolean
+  - name: properties.iisProfileTimeoutInSeconds
+    description: IIS Profile timeout (seconds).
+    types:
+    - uid: number
+  - name: properties.parent
+    description: Parent process.
+    types:
+    - uid: string
+  - name: properties.children
+    description: Child process list.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.threads
+    description: Thread list.
+    types:
+    - uid: ProcessThreadInfo
+      isArray: true
+  - name: properties.openFileHandles
+    description: List of open files.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.modules
+    description: List of modules.
+    types:
+    - uid: ProcessModuleInfo
+      isArray: true
+  - name: properties.fileName
+    description: File name of this process.
+    types:
+    - uid: string
+  - name: properties.commandLine
+    description: Command line.
+    types:
+    - uid: string
+  - name: properties.userName
+    description: User name.
+    types:
+    - uid: string
+  - name: properties.handleCount
+    description: Handle count.
+    types:
+    - uid: integer
+  - name: properties.moduleCount
+    description: Module count.
+    types:
+    - uid: integer
+  - name: properties.threadCount
+    description: Thread count.
+    types:
+    - uid: integer
+  - name: properties.startTime
+    description: Start time.
+    types:
+    - uid: string
+  - name: properties.totalProcessorTime
+    description: Total CPU time.
+    types:
+    - uid: string
+  - name: properties.userProcessorTime
+    description: User CPU time.
+    types:
+    - uid: string
+  - name: properties.privilegedProcessorTime
+    description: Privileged CPU time.
+    types:
+    - uid: string
+  - name: properties.workingSet64
+    description: Working set.
+    types:
+    - uid: integer
+  - name: properties.peakWorkingSet64
+    description: Peak working set.
+    types:
+    - uid: integer
+  - name: properties.privateMemorySize64
+    description: Private memory size.
+    types:
+    - uid: integer
+  - name: properties.virtualMemorySize64
+    description: Virtual memory size.
+    types:
+    - uid: integer
+  - name: properties.peakVirtualMemorySize64
+    description: Peak virtual memory usage.
+    types:
+    - uid: integer
+  - name: properties.pagedSystemMemorySize64
+    description: Paged system memory.
+    types:
+    - uid: integer
+  - name: properties.nonpagedSystemMemorySize64
+    description: Non-paged system memory.
+    types:
+    - uid: integer
+  - name: properties.pagedMemorySize64
+    description: Paged memory.
+    types:
+    - uid: integer
+  - name: properties.peakPagedMemorySize64
+    description: Peak paged memory.
+    types:
+    - uid: integer
+  - name: properties.timeStamp
+    description: Time stamp.
+    types:
+    - uid: string
+  - name: properties.environmentVariables
+    description: List of environment variables.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.isScmSite
+    description: Is this the SCM site?
+    types:
+    - uid: boolean
+  - name: properties.isWebJob
+    description: Is this a Web Job?
+    types:
+    - uid: boolean
+  - name: properties.description
+    description: Description of process.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ProcessThreadInfo
+  description: Process Thread Information.
+  kind: object
+  properties:
+  - name: properties.id
+    description: ARM Identifier for deployment.
+    types:
+    - uid: integer
+  - name: properties.href
+    description: HRef URI.
+    types:
+    - uid: string
+  - name: properties.process
+    description: Process URI.
+    types:
+    - uid: string
+  - name: properties.startAddress
+    description: Start address.
+    types:
+    - uid: string
+  - name: properties.currentPriority
+    description: Current thread priority.
+    types:
+    - uid: integer
+  - name: properties.priorityLevel
+    description: Thread priority level.
+    types:
+    - uid: string
+  - name: properties.basePriority
+    description: Base priority.
+    types:
+    - uid: integer
+  - name: properties.startTime
+    description: Start time.
+    types:
+    - uid: string
+  - name: properties.totalProcessorTime
+    description: Total processor time.
+    types:
+    - uid: string
+  - name: properties.userProcessorTime
+    description: User processor time.
+    types:
+    - uid: string
+  - name: properties.priviledgedProcessorTime
+    description: Priviledged processor time.
+    types:
+    - uid: string
+  - name: properties.state
+    description: Thread state.
+    types:
+    - uid: string
+  - name: properties.waitReason
+    description: Wait reason.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ProcessModuleInfo
+  description: Process Module Information.
+  kind: object
+  properties:
+  - name: properties.baseAddress
+    description: Base address. Used as module identifier in ARM resource URI.
+    types:
+    - uid: string
+  - name: properties.fileName
+    description: File name.
+    types:
+    - uid: string
+  - name: properties.href
+    description: HRef URI.
+    types:
+    - uid: string
+  - name: properties.filePath
+    description: File path.
+    types:
+    - uid: string
+  - name: properties.moduleMemorySize
+    description: Module memory size.
+    types:
+    - uid: integer
+  - name: properties.fileVersion
+    description: File version.
+    types:
+    - uid: string
+  - name: properties.fileDescription
+    description: File description.
+    types:
+    - uid: string
+  - name: properties.product
+    description: Product name.
+    types:
+    - uid: string
+  - name: properties.productVersion
+    description: Product version.
+    types:
+    - uid: string
+  - name: properties.isDebug
+    description: Is debug?
+    types:
+    - uid: boolean
+  - name: properties.language
+    description: Module language (locale).
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

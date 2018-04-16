@@ -1,0 +1,223 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.dns.zones.update
+name: Update
+service: DNS
+groupName: Zones
+apiVersion: 2018-03-01-preview
+summary: Updates a DNS zone. Does not modify DNS records within the zone.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}?api-version=2018-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: zoneName
+  in: path
+  isRequired: true
+  description: The name of the DNS zone (without a terminating dot).
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Specifies the API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The DNS zone has been updated.
+  types:
+  - uid: Zone
+- name: Other Status Codes
+  description: Default response. It will be deserialized as per the Error definition.
+  types:
+  - uid: CloudError
+requestBody:
+- parameters:
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader:
+- name: If-Match
+  in: header
+  description: The etag of the DNS zone. Omit this value to always overwrite the current zone. Specify the last-seen etag value to prevent accidentally overwritting any concurrent changes.
+  types:
+  - uid: string
+definitions:
+- name: Zone
+  description: Describes a DNS zone.
+  kind: object
+  properties:
+  - name: etag
+    description: The etag of the zone.
+    types:
+    - uid: string
+  - name: properties.maxNumberOfRecordSets
+    isReadyOnly: true
+    description: The maximum number of record sets that can be created in this DNS zone.  This is a read-only property and any attempt to set this value will be ignored.
+    types:
+    - uid: integer
+  - name: properties.numberOfRecordSets
+    isReadyOnly: true
+    description: The current number of record sets in this DNS zone.  This is a read-only property and any attempt to set this value will be ignored.
+    types:
+    - uid: integer
+  - name: properties.nameServers
+    isReadyOnly: true
+    description: The name servers for this DNS zone. This is a read-only property and any attempt to set this value will be ignored.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.zoneType
+    description: The type of this DNS zone (Public or Private).
+    types:
+    - uid: ZoneType
+  - name: properties.registrationVirtualNetworks
+    description: A list of references to virtual networks that register hostnames in this DNS zone. This is a only when ZoneType is Private.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.resolutionVirtualNetworks
+    description: A list of references to virtual networks that resolve records in this DNS zone. This is a only when ZoneType is Private.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: An error message
+  kind: object
+  properties:
+  - name: error
+    description: The error message body
+    types:
+    - uid: CloudErrorBody
+- name: ZoneUpdate
+  description: Describes a request to update a DNS zone.
+  kind: object
+  properties:
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ZoneType
+  description: The type of this DNS zone (Public or Private).
+  kind: enum
+  properties:
+  - name: Public
+    types:
+    - uid: string
+  - name: Private
+    types:
+    - uid: string
+- name: SubResource
+  description: A reference to a another resource
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: The body of an error message
+  kind: object
+  properties:
+  - name: code
+    description: The error code
+    types:
+    - uid: string
+  - name: message
+    description: A description of what caused the error
+    types:
+    - uid: string
+  - name: target
+    description: The target resource of the error message
+    types:
+    - uid: string
+  - name: details
+    description: Extra error information
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Patch zone
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1?api-version=2018-03-01-preview
+    body: >-
+      {
+        "tags": {
+          "key2": "value2"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1",
+        "etag": "00000000-0000-0000-0000-000000000000",
+        "location": "global",
+        "name": "zone1",
+        "type": "Microsoft.Network/dnsZones",
+        "properties": {
+          "maxNumberOfRecordSets": 5000,
+          "numberOfRecordSets": 2,
+          "nameServers": [
+            "ns1-01.azure-dns.com",
+            "ns2-01.azure-dns.net",
+            "ns3-01.azure-dns.org",
+            "ns4-01.azure-dns.info"
+          ]
+        },
+        "tags": {
+          "key2": "value2"
+        }
+      }
+security: []

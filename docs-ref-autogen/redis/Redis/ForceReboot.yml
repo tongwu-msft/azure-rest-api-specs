@@ -1,0 +1,115 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.rediscache.redis.forcereboot
+name: Force Reboot
+service: Redis Cache
+groupName: Redis
+apiVersion: 2016-04-01
+summary: Reboot specified Redis node(s). This operation requires write permission to the cache resource. There can be potential data loss.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/forceReboot?api-version=2016-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the Redis cache.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Reboot operation successfully enqueued
+  types:
+  - uid: RedisForceRebootResponse
+requestBody:
+- parameters:
+  - name: rebootType
+    in: body
+    isRequired: true
+    description: Which Redis node(s) to reboot. Depending on this value data loss is possible.
+    types:
+    - uid: RebootType
+  - name: shardId
+    in: body
+    description: If clustering is enabled, the ID of the shard to be rebooted.
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: RedisForceRebootResponse
+  description: Response to force reboot for Redis cache.
+  kind: object
+  properties:
+  - name: Message
+    isReadyOnly: true
+    description: Status message
+    types:
+    - uid: string
+- name: RedisRebootParameters
+  description: Specifies which Redis node(s) to reboot.
+  kind: object
+  properties:
+  - name: rebootType
+    description: Which Redis node(s) to reboot. Depending on this value data loss is possible.
+    types:
+    - uid: RebootType
+  - name: shardId
+    description: If clustering is enabled, the ID of the shard to be rebooted.
+    types:
+    - uid: integer
+- name: RebootType
+  description: Which Redis node(s) to reboot. Depending on this value data loss is possible.
+  kind: enum
+  properties:
+  - name: PrimaryNode
+    types:
+    - uid: string
+  - name: SecondaryNode
+    types:
+    - uid: string
+  - name: AllNodes
+    types:
+    - uid: string
+examples:
+- name: RedisCacheForceReboot
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/forceReboot?api-version=2016-04-01
+    body: >-
+      {
+        "shardId": 0,
+        "rebootType": "AllNodes"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "Message": "reboot operation enqueued"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

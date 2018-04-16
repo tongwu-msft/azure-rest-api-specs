@@ -1,0 +1,205 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.locationbasedservicesfunctionalapi.traffic.gettrafficincidentviewport
+name: Get Traffic Incident Viewport
+service: Location Based Services Functional API
+groupName: Traffic
+apiVersion: "1.0"
+summary: Get the traffic incident viewport for a given boundingbox
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: GET https://atlas.microsoft.com/traffic/incident/viewport/{format}?subscription-key={subscription-key}&api-version=1.0&boundingbox={boundingbox}&boundingzoom={boundingzoom}&overviewbox={overviewbox}&overviewzoom={overviewzoom}&copyright={copyright}
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Possible values are json & xml.
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure LBS subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure LBS API.  Current version is 1.0
+  types:
+  - uid: string
+- name: boundingbox
+  in: query
+  isRequired: true
+  description: 'The maximum size of the bounding box that can be passed is dependent on the requested zoom level. The width and height cannot exceed 4092 pixels when rendered on the given zoom level. Bounding box overview map: http://docs.openlayers.org/library/spherical_mercator.html'
+  types:
+  - uid: string
+- name: boundingzoom
+  in: query
+  isRequired: true
+  description: Zoom level of the map viewport. Used to determine whether the view can be zoomed in.
+  types:
+  - uid: integer
+- name: overviewbox
+  in: query
+  isRequired: true
+  description: 'Used in case the overview box/mini map has different copyright data than the main map. If there is no mini map, the same coordinates as boundingBox is used. Bounding box overview map: http://docs.openlayers.org/library/spherical_mercator.html'
+  types:
+  - uid: string
+- name: overviewzoom
+  in: query
+  isRequired: true
+  description: Zoom level of the overview map. If there is no mini map, use the same zoom level as boundingZoom.
+  types:
+  - uid: integer
+- name: copyright
+  in: query
+  isRequired: true
+  description: Determines what copyright information to return. When true the copyright text is returned; when false only the copyright index is returned.
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: TrafficIncidentViewportResult
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: 'Unauthorized: Access is denied due to invalid credentials.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: Error
+- name: Other Status Codes
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: TrafficIncidentViewportResult
+  description: This object is returned from a successful Traffic Incident Viewport call
+  kind: object
+  properties:
+  - name: viewpResp
+    isReadyOnly: true
+    description: Viewport Response object
+    types:
+    - uid: ViewpResp
+- name: Error
+  description: This object is returned when an error occurs in the Location Based Service API
+  kind: object
+  properties:
+  - name: statuscode
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+- name: ViewpResp
+  description: Viewport Response object
+  kind: object
+  properties:
+  - name: trafficState
+    isReadyOnly: true
+    description: Traffic State array
+    types:
+    - uid: TrafficState
+  - name: copyrightIds
+    isReadyOnly: true
+    description: Copyright Ids property
+    types:
+    - uid: string
+  - name: '@version'
+    isReadyOnly: true
+    description: '@Version property'
+    types:
+    - uid: string
+  - name: '@maps'
+    isReadyOnly: true
+    description: '@maps property'
+    types:
+    - uid: string
+- name: TrafficState
+  description: Traffic State array
+  kind: object
+  properties:
+  - name: '@trafficAge'
+    isReadyOnly: true
+    description: '@Traffic Age property'
+    types:
+    - uid: integer
+  - name: '@trafficModelId'
+    isReadyOnly: true
+    description: '@Traffic Model Id property'
+    types:
+    - uid: string
+examples:
+- name: GetTrafficIncidentViewport
+  request:
+    uri: GET https://atlas.microsoft.com/traffic/incident/viewport/json?api-version=1.0&boundingbox=-939584.4813015489,-23954526.723651607,14675583.153020501,25043442.895825107&boundingzoom=2&overviewbox=-939584.4813018347,-23954526.723651607,14675583.153020501,25043442.8958229083&overviewzoom=2&copyright=True
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "viewpResp": {
+          "trafficState": {
+            "@trafficAge": 18895,
+            "@trafficModelId": "1504808593298"
+          },
+          "copyrightIds": "&copy; 2017 GeoSmart^&copy; 2017 TomTom^&copy; 2017 Whereis",
+          "@version": "1.0.51-mascoma",
+          "@maps": "europe,taiwan,latam,northamerica,israel,middleeast,iraq,guam,australia,newzealand,india,africa,world,southeastasia"
+        }
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "statuscode": "400",
+        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "statuscode": "401",
+        "message": "Unauthorized: Access is denied due to invalid credentials."
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "statuscode": "403",
+        "message": "Permission, capacity, or authentication issues."
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "statuscode": "404",
+        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "statuscode": "500",
+        "message": "An error occurred while processing the request. Please try again later."
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: subscription-key
+  type: apiKey
+  in: query

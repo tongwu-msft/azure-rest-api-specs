@@ -1,0 +1,161 @@
+### YamlMime:RESTOperation
+uid: keyvault.verify.verify
+name: verify
+service: Key Vault
+groupName: verify
+apiVersion: 2016-10-01
+summary: "Verifies a signature using a specified key.  \nThe VERIFY operation is applicable to symmetric keys stored in Azure Key Vault. VERIFY is not strictly necessary for asymmetric keys stored in Azure Key Vault since signature verification can be performed using the public portion of the key but this operation is supported as a convenience for callers that only have a key-reference and not the public portion of the key. This operation requires the keys/verify permission."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {vaultBaseUrl}/keys/{key-name}/{key-version}/verify?api-version=2016-10-01
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: key-name
+  in: path
+  isRequired: true
+  description: The name of the key.
+  types:
+  - uid: string
+- name: key-version
+  in: path
+  isRequired: true
+  description: The version of the key.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The verification result.
+  types:
+  - uid: KeyVerifyResult
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestBody:
+- parameters:
+  - name: alg
+    in: body
+    isRequired: true
+    description: The signing/verification algorithm. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
+    types:
+    - uid: JsonWebKeySignatureAlgorithm
+  - name: digest
+    in: body
+    isRequired: true
+    description: The digest used for signing.
+    types:
+    - uid: string
+  - name: value
+    in: body
+    isRequired: true
+    description: The signature to be verified.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: KeyVerifyResult
+  description: The key verify result.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: True if the signature is verified, otherwise false.
+    types:
+    - uid: boolean
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: KeyVerifyParameters
+  description: The key verify parameters.
+  kind: object
+  properties:
+  - name: alg
+    description: The signing/verification algorithm. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
+    types:
+    - uid: JsonWebKeySignatureAlgorithm
+  - name: digest
+    description: The digest used for signing.
+    types:
+    - uid: string
+  - name: value
+    description: The signature to be verified.
+    types:
+    - uid: string
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: JsonWebKeySignatureAlgorithm
+  description: The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm.
+  kind: enum
+  properties:
+  - name: PS256
+    types:
+    - uid: string
+  - name: PS384
+    types:
+    - uid: string
+  - name: PS512
+    types:
+    - uid: string
+  - name: RS256
+    types:
+    - uid: string
+  - name: RS384
+    types:
+    - uid: string
+  - name: RS512
+    types:
+    - uid: string
+  - name: RSNULL
+    types:
+    - uid: string
+  - name: ES256
+    types:
+    - uid: string
+  - name: ES384
+    types:
+    - uid: string
+  - name: ES512
+    types:
+    - uid: string
+  - name: ECDSA256
+    types:
+    - uid: string
+examples: []
+security: []

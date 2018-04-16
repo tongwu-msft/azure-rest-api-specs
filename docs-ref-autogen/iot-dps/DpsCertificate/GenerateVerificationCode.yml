@@ -1,0 +1,229 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothubdeviceprovisioningservice.dpscertificate.generateverificationcode
+name: Generate Verification Code
+service: IoT Hub Device Provisioning Service
+groupName: Dps Certificate
+apiVersion: 2017-11-15
+summary: Generate verification code for Proof of Possession.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}/generateVerificationCode?api-version=2017-11-15
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}/generateVerificationCode?certificate.name={certificate.name}&certificate.rawBytes={certificate.rawBytes}&certificate.isVerified={certificate.isVerified}&certificate.purpose={certificate.purpose}&certificate.created={certificate.created}&certificate.lastUpdated={certificate.lastUpdated}&certificate.hasPrivateKey={certificate.hasPrivateKey}&certificate.nonce={certificate.nonce}&api-version=2017-11-15
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: name of resource group.
+  types:
+  - uid: string
+- name: provisioningServiceName
+  in: path
+  isRequired: true
+  description: Name of provisioning service.
+  types:
+  - uid: string
+- name: certificateName
+  in: path
+  isRequired: true
+  description: The mandatory logical name of the certificate, that the provisioning service uses to access.
+  types:
+  - uid: string
+- name: certificate.name
+  in: query
+  description: Common Name for the certificate.
+  types:
+  - uid: string
+- name: certificate.rawBytes
+  in: query
+  description: Raw data of certificate.
+  types:
+  - uid: string
+  format: byte
+- name: certificate.isVerified
+  in: query
+  description: Indicates if the certificate has been verified by owner of the private key.
+  types:
+  - uid: boolean
+- name: certificate.purpose
+  in: query
+  description: Description mentioning the purpose of the certificate.
+  types:
+  - uid: CertificatePurpose
+- name: certificate.created
+  in: query
+  description: Certificate creation time.
+  types:
+  - uid: string
+  format: date-time
+- name: certificate.lastUpdated
+  in: query
+  description: Certificate last updated time.
+  types:
+  - uid: string
+  format: date-time
+- name: certificate.hasPrivateKey
+  in: query
+  description: Indicates if the certificate contains private key.
+  types:
+  - uid: boolean
+- name: certificate.nonce
+  in: query
+  description: Random number generated to indicate Proof of Possession.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Generated verification code for that certificate is returned.
+  types:
+  - uid: VerificationCodeResponse
+- name: Other Status Codes
+  description: Default error response.
+  types:
+  - uid: ErrorDetails
+requestHeader:
+- name: If-Match
+  in: header
+  isRequired: true
+  description: ETag of the certificate. This is required to update an existing certificate, and ignored while creating a brand new certificate.
+  types:
+  - uid: string
+definitions:
+- name: CertificatePurpose
+  description: Description mentioning the purpose of the certificate.
+  kind: enum
+  properties:
+  - name: clientAuthentication
+    types:
+    - uid: string
+  - name: serverAuthentication
+    types:
+    - uid: string
+- name: VerificationCodeResponse
+  description: Description of the response of the verification code.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of certificate.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Request etag.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: properties
+    description: ''
+    types:
+    - uid: Properties
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: Code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: HttpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: Message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: Details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+- name: Properties
+  kind: object
+  properties:
+  - name: verificationCode
+    description: Verification code.
+    types:
+    - uid: string
+  - name: subject
+    description: Certificate subject.
+    types:
+    - uid: string
+  - name: expiry
+    description: Code expiry.
+    types:
+    - uid: string
+  - name: thumbprint
+    description: Certificate thumbprint.
+    types:
+    - uid: string
+  - name: isVerified
+    description: Indicate if the certificate is verified by owner of private key.
+    types:
+    - uid: boolean
+  - name: created
+    description: Certificate created time.
+    types:
+    - uid: string
+  - name: updated
+    description: Certificate updated time.
+    types:
+    - uid: string
+examples:
+- name: DPSGenerateVerificationCode
+  request:
+    uri: POST https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/provisioningServices/myFirstProvisioningService/certificates/cert/generateVerificationCode?api-version=2017-11-15
+    headers:
+    - name: If-Match
+      value: AAAAAAAADGk=
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "cert",
+        "properties": {
+          "verificationCode": "##################################",
+          "subject": "CN=andbucdevice1",
+          "expiry": "Sat, 31 Dec 2039 23:59:59 GMT",
+          "thumbprint": "##############################",
+          "isVerified": false,
+          "created": "Thu, 12 Oct 2017 19:23:50 GMT",
+          "updated": "Thu, 12 Oct 2017 19:26:56 GMT"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

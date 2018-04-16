@@ -1,0 +1,72 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.apimanagementservice.getssotoken
+name: Get Sso Token
+service: API Management
+groupName: Api Management Service
+apiVersion: 2018-01-01
+summary: Gets the Single-Sign-On token for the API Management Service which is valid for 5 Minutes.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/getssotoken?api-version=2018-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK if successful with the SSO Redirect URI.
+  types:
+  - uid: ApiManagementServiceGetSsoTokenResult
+requestHeader: []
+definitions:
+- name: ApiManagementServiceGetSsoTokenResult
+  description: The response of the GetSsoToken operation.
+  kind: object
+  properties:
+  - name: redirectUri
+    description: Redirect URL to the Publisher Portal containing the SSO token.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementServiceGetSsoToken
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/getssotoken?api-version=2018-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "redirectUri": "https://apimService1.portal.azure-api.net:443/signin-sso?token=1%26201705301929%26eIkr3%2fnfaLs1GVJ0OVbzkJjAcwPFkEZAPM8VUXvXPf7cJ6lWsB9oUwsk2zln9x0KLkn21txCPJWWheSPq7SNeA%3d%3d"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

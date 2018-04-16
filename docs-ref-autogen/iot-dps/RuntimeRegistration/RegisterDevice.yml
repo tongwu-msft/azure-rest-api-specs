@@ -1,0 +1,263 @@
+### YamlMime:RESTOperation
+uid: localhost.iothubdeviceprovisioningservice.runtimeregistration.registerdevice
+name: Register Device
+service: IoT Hub Device Provisioning Service
+groupName: Runtime Registration
+apiVersion: 2017-11-15
+summary: Registers the devices.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://localhost/{idScope}/registrations/{registrationId}/register?api-version=2017-11-15
+- content: PUT https://localhost/{idScope}/registrations/{registrationId}/register?forceRegistration={forceRegistration}&api-version=2017-11-15
+  isOptional: true
+uriParameters:
+- name: idScope
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: registrationId
+  in: path
+  isRequired: true
+  description: Registration ID.
+  types:
+  - uid: string
+- name: forceRegistration
+  in: query
+  description: Force the device to re-register. Setting this option may assign the device to a different IotHub.
+  types:
+  - uid: boolean
+- name: api-version
+  in: query
+  isRequired: true
+  description: 'The API version to use for the request. Supported versions include: 2017-11-15'
+  types:
+  - uid: string
+responses:
+- name: 400 Bad Request
+  description: The body of the request is not valid; for example, it cannot be parsed, or the object cannot be validated.
+- name: Other Status Codes
+  description: The authorization token cannot be validated; for example, it is expired or does not apply to the request’s URI. This error code is also returned to devices as part of the TPM attestation flow.
+- name: Other Status Codes
+  description: The Device Provisioning Service instance, or a resource (e.g. an enrollment) does not exist.
+- name: Other Status Codes
+  description: Operations are being throttled by the service. For specific service limits, see IoT Hub Device Provisioning Service limits.
+- name: Other Status Codes
+  description: An internal error occurred.
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  description: Success
+  types:
+  - uid: RegistrationOperationStatus
+- name: Other Status Codes
+  description: The request payload is in an unsupported format. The request's Content-Type header should be set to 'application/json'.
+- name: Other Status Codes
+  description: Error response
+  types:
+  - uid: ProvisioningServiceErrorDetails
+requestBody:
+- parameters:
+  - name: registrationId
+    in: body
+    description: ''
+    types:
+    - uid: string
+  - name: tpm
+    in: body
+    description: Attestation via TPM.
+    types:
+    - uid: TpmAttestation
+requestHeader: []
+definitions:
+- name: TpmAttestation
+  description: Attestation via TPM.
+  kind: object
+  properties:
+  - name: endorsementKey
+    description: ''
+    types:
+    - uid: string
+  - name: storageRootKey
+    description: ''
+    types:
+    - uid: string
+- name: RegistrationOperationStatus
+  description: Registration operation status.
+  kind: object
+  properties:
+  - name: operationId
+    description: Operation ID.
+    types:
+    - uid: string
+  - name: status
+    description: Device enrollment status.
+    types:
+    - uid: unassigned
+    - uid: assigning
+    - uid: assigned
+    - uid: failed
+    - uid: disabled
+    typesTitle: enum
+  - name: registrationState
+    description: Device registration status.
+    types:
+    - uid: DeviceRegistrationResult
+- name: ProvisioningServiceErrorDetails
+  kind: object
+  properties:
+  - name: errorCode
+    description: ''
+    types:
+    - uid: integer
+  - name: trackingId
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: info
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: timestampUtc
+    description: ''
+    types:
+    - uid: string
+- name: DeviceRegistration
+  description: Device registration.
+  kind: object
+  properties:
+  - name: registrationId
+    description: ''
+    types:
+    - uid: string
+  - name: tpm
+    description: Attestation via TPM.
+    types:
+    - uid: TpmAttestation
+- name: DeviceRegistrationResult
+  description: Device registration result.
+  kind: object
+  properties:
+  - name: tpm
+    description: TPM registration result.
+    types:
+    - uid: TpmRegistrationResult
+  - name: x509
+    description: X509 registration result.
+    types:
+    - uid: X509RegistrationResult
+  - name: registrationId
+    description: Registration ID.
+    types:
+    - uid: string
+  - name: createdDateTimeUtc
+    description: Registration create date time (in UTC).
+    types:
+    - uid: string
+  - name: assignedHub
+    description: Assigned Azure IoT Hub.
+    types:
+    - uid: string
+  - name: deviceId
+    description: Device ID.
+    types:
+    - uid: string
+  - name: status
+    description: Enrollment status.
+    types:
+    - uid: unassigned
+    - uid: assigning
+    - uid: assigned
+    - uid: failed
+    - uid: disabled
+    typesTitle: enum
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: integer
+  - name: errorMessage
+    description: Error message.
+    types:
+    - uid: string
+  - name: lastUpdatedDateTimeUtc
+    description: Last updated date time (in UTC).
+    types:
+    - uid: string
+  - name: etag
+    description: The entity tag associated with the resource.
+    types:
+    - uid: string
+- name: TpmRegistrationResult
+  description: TPM registration result.
+  kind: object
+  properties:
+  - name: authenticationKey
+    description: ''
+    types:
+    - uid: string
+- name: X509RegistrationResult
+  description: X509 registration result.
+  kind: object
+  properties:
+  - name: certificateInfo
+    description: X509 certificate info.
+    types:
+    - uid: X509CertificateInfo
+  - name: enrollmentGroupId
+    description: ''
+    types:
+    - uid: string
+  - name: signingCertificateInfo
+    description: X509 certificate info.
+    types:
+    - uid: X509CertificateInfo
+- name: X509CertificateInfo
+  description: X509 certificate info.
+  kind: object
+  properties:
+  - name: subjectName
+    description: ''
+    types:
+    - uid: string
+  - name: sha1Thumbprint
+    description: ''
+    types:
+    - uid: string
+  - name: sha256Thumbprint
+    description: ''
+    types:
+    - uid: string
+  - name: issuerName
+    description: ''
+    types:
+    - uid: string
+  - name: notBeforeUtc
+    description: ''
+    types:
+    - uid: string
+  - name: notAfterUtc
+    description: ''
+    types:
+    - uid: string
+  - name: serialNumber
+    description: ''
+    types:
+    - uid: string
+  - name: version
+    description: ''
+    types:
+    - uid: integer
+examples: []
+security: []

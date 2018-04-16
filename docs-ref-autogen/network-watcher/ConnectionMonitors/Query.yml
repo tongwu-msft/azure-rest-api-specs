@@ -1,0 +1,242 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.networkwatcher.connectionmonitors.query
+name: Query
+service: Network Watcher
+groupName: Connection Monitors
+apiVersion: 2018-01-01
+summary: Query a snapshot of the most recent connection states.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query?api-version=2018-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group containing Network Watcher.
+  types:
+  - uid: string
+- name: networkWatcherName
+  in: path
+  isRequired: true
+  description: The name of the Network Watcher resource.
+  types:
+  - uid: string
+- name: connectionMonitorName
+  in: path
+  isRequired: true
+  description: The name given to the connection monitor.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successful query of connection states.
+  types:
+  - uid: ConnectionMonitorQueryResult
+- name: 202 Accepted
+  description: Accepted query of connection states.
+  types:
+  - uid: ConnectionMonitorQueryResult
+requestHeader: []
+definitions:
+- name: ConnectionMonitorQueryResult
+  description: List of connection states snaphots.
+  kind: object
+  properties:
+  - name: states
+    description: Information about connection states.
+    types:
+    - uid: ConnectionStateSnapshot
+      isArray: true
+- name: ConnectionStateSnapshot
+  description: Connection state snapshot.
+  kind: object
+  properties:
+  - name: connectionState
+    description: The connection state.
+    types:
+    - uid: ConnectionState
+  - name: startTime
+    description: The start time of the connection snapshot.
+    types:
+    - uid: string
+  - name: endTime
+    description: The end time of the connection snapshot.
+    types:
+    - uid: string
+  - name: evaluationState
+    description: Connectivity analysis evaluation state.
+    types:
+    - uid: EvaluationState
+  - name: hops
+    isReadyOnly: true
+    description: List of hops between the source and the destination.
+    types:
+    - uid: ConnectivityHop
+      isArray: true
+- name: ConnectionState
+  description: The connection state.
+  kind: enum
+  properties:
+  - name: Reachable
+    types:
+    - uid: string
+  - name: Unreachable
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+- name: EvaluationState
+  description: Connectivity analysis evaluation state.
+  kind: enum
+  properties:
+  - name: NotStarted
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+- name: ConnectivityHop
+  description: Information about a hop between the source and the destination.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of the hop.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The ID of the hop.
+    types:
+    - uid: string
+  - name: address
+    isReadyOnly: true
+    description: The IP address of the hop.
+    types:
+    - uid: string
+  - name: resourceId
+    isReadyOnly: true
+    description: The ID of the resource corresponding to this hop.
+    types:
+    - uid: string
+  - name: nextHopIds
+    isReadyOnly: true
+    description: List of next hop identifiers.
+    types:
+    - uid: string
+      isArray: true
+  - name: issues
+    isReadyOnly: true
+    description: List of issues.
+    types:
+    - uid: ConnectivityIssue
+      isArray: true
+- name: ConnectivityIssue
+  description: Information about an issue encountered in the process of checking for connectivity.
+  kind: object
+  properties:
+  - name: origin
+    isReadyOnly: true
+    description: The origin of the issue.
+    types:
+    - uid: Origin
+  - name: severity
+    isReadyOnly: true
+    description: The severity of the issue.
+    types:
+    - uid: Severity
+  - name: type
+    isReadyOnly: true
+    description: The type of issue.
+    types:
+    - uid: IssueType
+  - name: context
+    isReadyOnly: true
+    description: Provides additional context on the issue.
+    types:
+    - uid: object
+      isArray: true
+- name: Origin
+  description: The origin of the issue.
+  kind: enum
+  properties:
+  - name: Local
+    types:
+    - uid: string
+  - name: Inbound
+    types:
+    - uid: string
+  - name: Outbound
+    types:
+    - uid: string
+- name: Severity
+  description: The severity of the issue.
+  kind: enum
+  properties:
+  - name: Error
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+- name: IssueType
+  description: The type of issue.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: AgentStopped
+    types:
+    - uid: string
+  - name: GuestFirewall
+    types:
+    - uid: string
+  - name: DnsResolution
+    types:
+    - uid: string
+  - name: SocketBind
+    types:
+    - uid: string
+  - name: NetworkSecurityRule
+    types:
+    - uid: string
+  - name: UserDefinedRoute
+    types:
+    - uid: string
+  - name: PortThrottled
+    types:
+    - uid: string
+  - name: Platform
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
