@@ -221,6 +221,8 @@
 #### [Get Entity Tag](apimanagement/IdentityProvider/GetEntityTag.yml)
 #### [List By Service](apimanagement/IdentityProvider/ListByService.yml)
 #### [Update](apimanagement/IdentityProvider/Update.yml)
+### [Issues](apimanagement/Issues.yml)
+#### [List By Service](apimanagement/Issues/ListByService.yml)
 ### [Logger](apimanagement/Logger.yml)
 #### [Create Or Update](apimanagement/Logger/CreateOrUpdate.yml)
 #### [Delete](apimanagement/Logger/Delete.yml)
