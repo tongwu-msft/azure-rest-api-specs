@@ -121,17 +121,17 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
  Only the account owner may call this operation.  
   
 ## Remarks  
- Share snapshots provide read-only versions of shares. Once created, a share snapshot cannot be modified.  A share snapshot provides a convenient way to create a consistent backup of all files on a share.  
-  
- Each time you call the **Snapshot Share** operation, a new share snapshot is created, with a unique **DateTime** value that identifies the share snapshot relative to its base share. You can use this **DateTime** value to perform further operations on the share snapshot and its contents. You should treat this **DateTime** value as opaque.
-  
- The **DateTime** value identifies the share snapshot on the request URI. For example, a file on the base share and its snapshots have URIs similar to the following examples:
+Share snapshots provide read-only versions of shares. Once created, a share snapshot cannot be modified.  A share snapshot provides a convenient way to create a consistent backup of all files on a share.  
 
- - File on share: http://myaccount.file.core.windows.net/myshare/myfile
- - File on share snapshot: http://myaccount.file.core.windows.net/myshare/myfile?sharesnapshot=<DateTime>
-  
- A share can support creation of 200 share snapshots. Attempting to create more than 200 share snapshots fails with 409 (Conflict). 
+Each time you call the **Snapshot Share** operation, a new share snapshot is created, with a unique **DateTime** value that identifies the share snapshot relative to its base share. You can use this **DateTime** value to perform further operations on the share snapshot and its contents. You should treat this **DateTime** value as opaque.
 
- Attempting to create a share snapshot while a previous **Snapshot Share** operation is in progress fails with 409 (Conflict).
- 
- Existing share snapshots are never overwritten. They must be deleted explicitly by calling [Delete Share](Delete-Share.md) and setting `x-ms-include-snapshots` header along with the `sharesnapshot` query parameter to the appropriate value.
+The **DateTime** value identifies the share snapshot on the request URI. For example, a file on the base share and its snapshots have URIs similar to the following examples:
+
+- File on share: http://myaccount.file.core.windows.net/myshare/myfile
+- File on share snapshot: http://myaccount.file.core.windows.net/myshare/myfile?sharesnapshot=<DateTime>
+
+A share can support creation of 200 share snapshots. Attempting to create more than 200 share snapshots fails with 409 (Conflict). 
+
+Attempting to create a share snapshot while a previous **Snapshot Share** operation is in progress fails with 409 (Conflict).
+
+Existing share snapshots are never overwritten. They must be deleted explicitly by calling [Delete Share](Delete-Share.md) and setting `x-ms-include-snapshots` header along with the `sharesnapshot` query parameter to the appropriate value.
