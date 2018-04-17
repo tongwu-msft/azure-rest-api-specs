@@ -1,0 +1,237 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sqldatabase.datamaskingrules.listbydatabase
+name: List By Database
+service: SQL Database
+groupName: Data Masking Rules
+apiVersion: 2014-04-01
+summary: Gets a list of database data masking rules.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/Default/rules?api-version=2014-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: dataMaskingPolicyName
+  in: path
+  isRequired: true
+  description: The name of the database for which the data masking rule applies.
+  types:
+  - uid: DataMaskingPolicyName
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: DataMaskingRuleListResult
+requestHeader: []
+definitions:
+- name: DataMaskingPolicyName
+  description: The name of the database for which the data masking rule applies.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+- name: DataMaskingRuleListResult
+  description: The response to a list data masking rules request.
+  kind: object
+  properties:
+  - name: value
+    description: The list of database data masking rules.
+    types:
+    - uid: DataMaskingRule
+      isArray: true
+- name: DataMaskingRule
+  description: Represents a database data masking rule.
+  kind: object
+  properties:
+  - name: location
+    isReadyOnly: true
+    description: The location of the data masking rule.
+    types:
+    - uid: string
+  - name: kind
+    isReadyOnly: true
+    description: The kind of Data Masking Rule. Metadata, used for Azure portal.
+    types:
+    - uid: string
+  - name: properties.id
+    isReadyOnly: true
+    description: The rule Id.
+    types:
+    - uid: string
+  - name: properties.aliasName
+    description: The alias name. This is a legacy parameter and is no longer used.
+    types:
+    - uid: string
+  - name: properties.ruleState
+    description: The rule state. Used to delete a rule. To delete an existing rule, specify the schemaName, tableName, columnName, maskingFunction, and specify ruleState as disabled. However, if the rule doesn't already exist, the rule will be created with ruleState set to enabled, regardless of the provided value of ruleState.
+    types:
+    - uid: DataMaskingRuleState
+  - name: properties.schemaName
+    description: The schema name on which the data masking rule is applied.
+    types:
+    - uid: string
+  - name: properties.tableName
+    description: The table name on which the data masking rule is applied.
+    types:
+    - uid: string
+  - name: properties.columnName
+    description: The column name on which the data masking rule is applied.
+    types:
+    - uid: string
+  - name: properties.maskingFunction
+    description: The masking function that is used for the data masking rule.
+    types:
+    - uid: DataMaskingFunction
+  - name: properties.numberFrom
+    description: The numberFrom property of the masking rule. Required if maskingFunction is set to Number, otherwise this parameter will be ignored.
+    types:
+    - uid: string
+  - name: properties.numberTo
+    description: The numberTo property of the data masking rule. Required if maskingFunction is set to Number, otherwise this parameter will be ignored.
+    types:
+    - uid: string
+  - name: properties.prefixSize
+    description: If maskingFunction is set to Text, the number of characters to show unmasked in the beginning of the string. Otherwise, this parameter will be ignored.
+    types:
+    - uid: string
+  - name: properties.suffixSize
+    description: If maskingFunction is set to Text, the number of characters to show unmasked at the end of the string. Otherwise, this parameter will be ignored.
+    types:
+    - uid: string
+  - name: properties.replacementString
+    description: If maskingFunction is set to Text, the character to use for masking the unexposed part of the string. Otherwise, this parameter will be ignored.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: DataMaskingRuleState
+  description: The rule state. Used to delete a rule. To delete an existing rule, specify the schemaName, tableName, columnName, maskingFunction, and specify ruleState as disabled. However, if the rule doesn't already exist, the rule will be created with ruleState set to enabled, regardless of the provided value of ruleState.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+- name: DataMaskingFunction
+  description: The masking function that is used for the data masking rule.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: CCN
+    types:
+    - uid: string
+  - name: Email
+    types:
+    - uid: string
+  - name: Number
+    types:
+    - uid: string
+  - name: SSN
+    types:
+    - uid: string
+  - name: Text
+    types:
+    - uid: string
+examples:
+- name: List data masking rules
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Sql/servers/sqlcrudtest-2080/databases/sqlcrudtest-331/dataMaskingPolicies/Default/rules?api-version=2014-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Sql/servers/sqlcrudtest-6852/databases/sqlcrudtest-331/dataMaskingPolicies/Default/rules/",
+            "name": null,
+            "type": "Microsoft.Sql/servers/databases/dataMaskingPolicies/rules",
+            "location": "Central US",
+            "kind": null,
+            "properties": {
+              "id": "dbo_Table_1_test1",
+              "ruleState": "Enabled",
+              "schemaName": "dbo",
+              "tableName": "Table_1",
+              "columnName": "test1",
+              "aliasName": null,
+              "maskingFunction": "Text",
+              "numberFrom": null,
+              "numberTo": null,
+              "prefixSize": "1",
+              "suffixSize": "0",
+              "replacementString": "asdf"
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Sql/servers/sqlcrudtest-6852/databases/sqlcrudtest-331/dataMaskingPolicies/Default/rules/",
+            "name": null,
+            "type": "Microsoft.Sql/servers/databases/dataMaskingPolicies/rules",
+            "location": "Central US",
+            "kind": null,
+            "properties": {
+              "id": "dbo_Table_1_test1",
+              "ruleState": "Enabled",
+              "schemaName": "dbo",
+              "tableName": "Table_1",
+              "columnName": "test1",
+              "aliasName": null,
+              "maskingFunction": "Number",
+              "numberFrom": "0",
+              "numberTo": "2",
+              "prefixSize": null,
+              "suffixSize": null,
+              "replacementString": null
+            }
+          }
+        ]
+      }
+security: []
