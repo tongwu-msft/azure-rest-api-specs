@@ -126,12 +126,14 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
  When you create a share snapshot, the File service returns a DateTime value that uniquely identifies the share snapshot relative to its base share. You can use this value to perform further operations on the share snapshot and its contents. You should treat this DateTime value as opaque.
   
  The DateTime value identifies the share snapshot on the request URI. For example, a file on the base share and its snapshots have URIs similar to the following examples:
-<br />File on share: http://myaccount.file.core.windows.net/myshare/myfile
-<br />File on share snapshot: http://myaccount.file.core.windows.net/myshare/myfile?sharesnapshot=<DateTime>
-  
-A share can support creation of 100 share snapshots. 
 
-Each time you call the Snapshot Share operation, a new share snapshot is created, with a unique DateTime value. 
-<br / >An attempt to create more than 100 share snapshots fails with 409 (Conflict). 
-<br />An attempt to create a share snapshot while the previous create of a share snaphot is in progress fails with 409 (Conflict).
-<br />Existing share snapshots are never overwritten. They must be deleted explicitly by calling [Delete Share](Delete-Share.md) and setting `x-ms-include-snapshots` header along with the `sharesnapshot` query parameter to the appropriate value.
+ - File on share: http://myaccount.file.core.windows.net/myshare/myfile
+ - File on share snapshot: http://myaccount.file.core.windows.net/myshare/myfile?sharesnapshot=<DateTime>
+  
+ A share can support creation of 200 share snapshots. 
+
+ Each time you call the **Snapshot Share** operation, a new share snapshot is created, with a unique **DateTime** value. 
+
+ - An attempt to create more than 200 share snapshots fails with 409 (Conflict). 
+ - An attempt to create a share snapshot while the previous create of a share snaphot is in progress fails with 409 (Conflict).
+ - Existing share snapshots are never overwritten. They must be deleted explicitly by calling [Delete Share](Delete-Share.md) and setting `x-ms-include-snapshots` header along with the `sharesnapshot` query parameter to the appropriate value.
