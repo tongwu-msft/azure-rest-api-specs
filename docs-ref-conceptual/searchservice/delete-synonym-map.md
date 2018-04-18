@@ -21,8 +21,6 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Delete Synonym Map (Azure Search Service REST API)
-> [!NOTE]  
-> Synonyms is a preview feature and is not intended to be used in production code. Preview features are subject to change and are exempt from the service level agreement (SLA).
 
 ## Request  
   The **Delete Synonym Map** operation removes a synonym map from your Azure Search service.  

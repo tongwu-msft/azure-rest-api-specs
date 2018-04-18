@@ -21,8 +21,6 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Update synonym map (Azure Search Service REST API)
-> [!NOTE]  
-> Synonyms is a preview feature and is not intended to be used in production code. Preview features are subject to change and are exempt from the service level agreement (SLA).
 
 ## Request
   You can update an existing synonym map using an HTTP PUT request. You specify the name of the synonym map to update on the request URI:  

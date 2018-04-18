@@ -21,8 +21,6 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # List Synonym Maps (Azure Search Service REST API)
-> [!NOTE]  
-> Synonyms is a preview feature and is not intended to be used in production code. Preview features are subject to change and are exempt from the service level agreement (SLA).
 
 ## Request
   The **List Synonym Maps** operation returns a list of the synonym maps in your Azure Search service.  
