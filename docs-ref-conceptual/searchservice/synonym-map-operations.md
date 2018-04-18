@@ -24,10 +24,6 @@ translation.priority.mt:
 
   In Azure Search, developers can define custom rules to expand or rewrite a search query with equivalent terms. For example, in your application, the words "whirlpool", "jacuzzi" and "hot tub" may be equivalent and you want to have a rule that automatically expands the search when only one is searched for. The resource that contains the rules is called a synonym map. Synonym maps are service level resources and maintained independently from search indexes. Once a synonym map is uploaded, you can point any searchable field to the synonym map (one per field).
 
-## Availability
-
-  The synonyms feature is currently only available in the latest preview API version `2016-09-01-Preview`. You can use the preview REST API or [preview .NET SDK](https://aka.ms/search-sdk-preview) to evaluate synonyms.
-
 ## Workflow  
 
   Setting up synonyms in your search application is a two-step process:
@@ -38,7 +34,7 @@ translation.priority.mt:
 
   For example, the index definition below configures the 'name' field to use the synonym map 'mysynonymmap'.
   ```
-	POST https://[servicename].search.windows.net/indexes?api-version=2016-09-01-Preview
+	POST https://[servicename].search.windows.net/indexes?api-version=[api-version]
 	api-key: [admin key]
 
 	{

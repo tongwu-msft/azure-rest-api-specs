@@ -34,10 +34,10 @@ translation.priority.mt:
 
 ## Supportability
 
- Version 2016-09-01 of the Service REST API adds support for the Azure Blob and Azure Table indexers. Previously, these features were only available in the preview API.
+ Version 2017-11-11 of the Service REST API adds support for the Azure Blob and Azure Table indexers. Previously, these features were only available in the preview API.
 
  > [!NOTE]
- > Indexing of CSV blobs and blobs containing JSON arrays is still in preview and is therefore not supported in the 2016-09-01 API version.
+ > Indexing of CSV blobs and blobs containing JSON arrays is still in preview and is therefore not supported in the 2017-11-11 API version.
 
  A **data source** specifies what data needs to be indexed, credentials to access the data, and policies to enable Azure Search to efficiently identify changes in the data (such as modified or deleted rows in a database table). It's defined as an independent resource so that it can be used by multiple indexers.  
 

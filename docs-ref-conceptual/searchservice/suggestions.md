@@ -151,11 +151,11 @@ api-key: [admin or query key]
  Retrieve 5 suggestions where the partial search input is 'lux':  
 
 ```  
-GET /indexes/hotels/docs/suggest?search=lux&$top=5&suggesterName=sg&api-version=2016-09-01  
+GET /indexes/hotels/docs/suggest?search=lux&$top=5&suggesterName=sg&api-version=2017-11-11  
 ```  
 
 ```  
-POST /indexes/hotels/docs/suggest?api-version=2016-09-01  
+POST /indexes/hotels/docs/suggest?api-version=2017-11-11  
     {  
       "search": "lux",  
       "top": 5,  

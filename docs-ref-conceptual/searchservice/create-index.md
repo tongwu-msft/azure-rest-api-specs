@@ -47,7 +47,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
  The index name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
 
- The **api-version** parameter is required. The current version is `api-version=2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions. See [Language support &#40;Azure Search Service REST API&#41;](language-support.md) for details about language analyzers.  
+ The **api-version** parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions. See [Language support &#40;Azure Search Service REST API&#41;](language-support.md) for details about language analyzers.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  

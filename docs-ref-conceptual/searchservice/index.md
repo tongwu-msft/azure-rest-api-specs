@@ -25,14 +25,11 @@ service_description: To be added
 
 Azure Search is a fully managed cloud search service that provides a rich search experience to custom applications. One way to add search capability is through a REST API, with operations that create and manage indexes, load data, implement search features, execute queries, and handle results.
 
-Version 2016-09-01 is the second generally available release of the Azure Search Service REST API. New features in this API version include:
+Version 2017-11-11 is the most current generally available release of the Azure Search Service REST API. New features in this API version include:
 
-  - [Custom analyzers](https://aka.ms/customanalyzers), which allow you to take control over the process of converting text into indexable and searchable terms.
-  - [Azure Blob Storage](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-blob-storage) and [Azure Table Storage](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-tables) indexers, which allow you to easily import data from Azure storage into Azure Search on a schedule or on-demand.
-  - [Field mappings](https://docs.microsoft.com/azure/search/search-indexer-field-mappings), which allow you to customize how indexers import data into Azure Search.
-  - ETags, which allow you to update the definitions of indexes, indexers, and data sources in a concurrency-safe manner.
+  - [Synonyms](https://docs.microsoft.com/azure/search/search-synonyms), which allows you to define equivalent terms and expand the scope of the query.
 
-For details on how to upgrade to version 2016-09-01 from the previous GA version, see [Upgrading to the Azure Search Service REST API version 2016-09-01](https://docs.microsoft.com/azure/search/search-api-migration).
+For details on how to upgrade from a previous GA version, see [Upgrading Azure Search Service REST API version](https://docs.microsoft.com/azure/search/search-api-migration).
 
 ## Overview
 
@@ -58,7 +55,7 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
 
 -   All API requests must include the **api-version** in the URI. Its value must be set to the version of the current service release, shown in the following example:  
 
-     `GET https://[search service name].search.windows.net/indexes?api-version=2016-09-01`  
+     `GET https://[search service name].search.windows.net/indexes?api-version=2017-11-11`  
 
 -   All API requests can optionally set the Accept HTTP header. If the header is not set, the default is assumed to be `application/json`.  
 
@@ -66,7 +63,7 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
  The endpoint for service operations is the URL of the Azure Search service you provisioned: https://\<yourService>.search.windows.net.  
 
 ## Versions  
- `api-version=2016-09-01` is the general release version. This version operates under an Azure service level agreement (SLA).  
+ `api-version=2017-11-11` is the general release version. This version operates under an Azure service level agreement (SLA).  
 
  Preview versions of the REST API are used to collect community feedback on new features before  adding them to the general release. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
@@ -76,7 +73,7 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
 |Key|Description|Limits|  
 |---------|-----------------|------------|  
 |Admin|Admin keys grant full rights to all operations, including the ability to manage the service, create and delete **indexes**, **indexers**, and **data sources**.<br /><br /> Two admin **api-keys**, referred to as *primary* and *secondary* keys in the portal, are generated when the service is created and can be individually regenerated on demand. Having two keys allows you to roll over one key while using the second key for continued access to the service.<br /><br /> Admin keys are only specified in HTTP request headers. You cannot place an admin **api-key** in a URL.|Maximum of 2 per service|  
-|Query|Query keys grant read-only access to indexes and documents, and are typically distributed to client applications that issue search requests.<br /><br /> Query keys are created on demand. You can create them manually in the portal or programmatically via the [Management REST API](~/docs-ref-conceptual/searchmanagement/index.md).<br /><br /> Query keys can be specified  in an HTTP request header for search, suggestion, or lookup operation. Alternatively, you can pass a query key  as a parameter on a URL. Depending on how your client application formulates the request, it might be easier to pass the key as a query parameter:<br /><br /> `GET /indexes/hotels/docs?search=*&$orderby=lastRenovationDate desc&api-version=2016-09-01&api-key=A8DA81E03F809FE166ADDB183E9ED84D`|50 per service|  
+|Query|Query keys grant read-only access to indexes and documents, and are typically distributed to client applications that issue search requests.<br /><br /> Query keys are created on demand. You can create them manually in the portal or programmatically via the [Management REST API](~/docs-ref-conceptual/searchmanagement/index.md).<br /><br /> Query keys can be specified  in an HTTP request header for search, suggestion, or lookup operation. Alternatively, you can pass a query key  as a parameter on a URL. Depending on how your client application formulates the request, it might be easier to pass the key as a query parameter:<br /><br /> `GET /indexes/hotels/docs?search=*&$orderby=lastRenovationDate desc&api-version=2017-11-11&api-key=A8DA81E03F809FE166ADDB183E9ED84D`|50 per service|  
 
  Visually, there is no distinction between an admin key or query key. Both keys are strings composed of 32 randomly-generated alpha-numeric characters. If you lose track of what type of key is specified in your application, you can [check the key values in the portal](https://portal.azure.com) or use the [REST API](~/docs-ref-conceptual/searchmanagement/index.md) to return the value and key type.  
 
@@ -95,48 +92,48 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
 -   [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  
 
     ```  
-    POST /indexes?api-version=2016-09-01  
+    POST /indexes?api-version=2017-11-11  
     ```  
 
 -   [Update Index &#40;Azure Search Service REST API&#41;](update-index.md)  
 
     ```  
-    PUT /indexes/[index name]?api-version=2016-09-01  
+    PUT /indexes/[index name]?api-version=2017-11-11  
     ```  
 
 -   [Get Index &#40;Azure Search Service REST API&#41;](get-index.md)  
 
     ```  
-    GET /indexes/[index name]?api-version=2016-09-01  
+    GET /indexes/[index name]?api-version=2017-11-11  
     ```  
 
 -   [List Indexes &#40;Azure Search Service REST API&#41;](list-indexes.md)  
 
     ```  
-    GET /indexes?api-version=2016-09-01  
+    GET /indexes?api-version=2017-11-11  
     ```  
 
 -   [Get Index Statistics &#40;Azure Search Service REST API&#41;](get-index-statistics.md)  
 
     ```  
-    GET /indexes/[index name]/stats?api-version=2016-09-01  
+    GET /indexes/[index name]/stats?api-version=2017-11-11  
     ```  
 -  [Test Analyzer](test-analyzer.md)
 
     ```
-    POST /indexes/[index name]/analyze?api-version=2016-09-01
+    POST /indexes/[index name]/analyze?api-version=2017-11-11
     ```  
 
 -   [Delete Index &#40;Azure Search Service REST API&#41;](delete-index.md)  
 
     ```  
-    DELETE /indexes/[index name]?api-version=2016-09-01  
+    DELETE /indexes/[index name]?api-version=2017-11-11  
     ```  
 
 -   [Add, Update or Delete Documents &#40;Azure Search Service REST API&#41;](addupdate-or-delete-documents.md)  
 
     ```  
-    POST /indexes/[index name]/docs/index?api-version=2016-09-01  
+    POST /indexes/[index name]/docs/index?api-version=2017-11-11  
     ```  
 
 -   [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md)  
@@ -146,7 +143,7 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
     ```  
 
     ```  
-    POST /indexes/[index name]/docs/search?api-version=2016-09-01  
+    POST /indexes/[index name]/docs/search?api-version=2017-11-11  
     ```  
 
 -   [Lookup Document &#40;Azure Search Service REST API&#41;](lookup-document.md)  
@@ -158,7 +155,7 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
 -   [Count Documents &#40;Azure Search Service REST API&#41;](count-documents.md)  
 
     ```  
-    GET /indexes/[index name]/docs/$count?api-version=2016-09-01  
+    GET /indexes/[index name]/docs/$count?api-version=2017-11-11  
     ```  
 
 -   [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)  
@@ -168,7 +165,7 @@ For details on how to upgrade to version 2016-09-01 from the previous GA version
     ```  
 
     ```  
-    POST /indexes/[index name]/docs/suggest?api-version=2016-09-01  
+    POST /indexes/[index name]/docs/suggest?api-version=2017-11-11  
     ```  
 
 
