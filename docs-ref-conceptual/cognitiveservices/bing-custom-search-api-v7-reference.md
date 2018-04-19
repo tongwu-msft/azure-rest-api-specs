@@ -15,7 +15,7 @@ ms.author: v-brapel
 
 # Custom Search API v7 reference
 
-The Custom Search API lets you send a search query to Bing and get back web pages found in your custom view of the web. This section provides technical details about the response objects and the query parameters and headers that affect the search results. For examples that show how to define your custom view of the web and make requests, see [Search your custom view](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/search-your-custom-view). 
+The Custom Search API lets you send a search query to Bing and get back web pages found in your custom view of the web. This section provides technical details about the response objects and the query parameters and headers that affect the search results. For examples that show how to define your custom view of the web and make requests, see [Define a custom search instance](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/define-your-custom-view). 
   
 For information about headers that requests should include, see [Request Headers](#headers).  
   
