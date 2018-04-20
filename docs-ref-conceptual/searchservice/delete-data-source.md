@@ -1,7 +1,7 @@
 ---
 title: "Delete Data Source (Azure Search Service REST API) | Microsoft Docs"
 description: Delete data source connection information used by an Azure Search indexer.
-ms.date: "2016-11-09"
+ms.date: "2018-04-20"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"

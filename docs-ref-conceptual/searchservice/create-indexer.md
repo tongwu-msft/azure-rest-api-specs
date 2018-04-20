@@ -1,7 +1,7 @@
 ---
 title: "Create Indexer (Azure Search Service REST API) | Microsoft Docs"
 description: Crawl external data sources for searchable content using an Azure Search indexer.
-ms.date: "2017-04-27"
+ms.date: "2018-04-20"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"

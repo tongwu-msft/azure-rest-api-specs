@@ -1,7 +1,7 @@
 ---
 title: "Update Data Source (Azure Search Service REST API) | Microsoft Docs"
 description: Modify data source connection information used by Azure Search indexers when crawling external data sources for searchable content.
-ms.date: "2016-11-09"
+ms.date: "2018-04-20"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"

@@ -1,7 +1,7 @@
 ---
 title: "Search Documents (Azure Search Service REST API)  | Microsoft Docs"
 description: Query an Azure Search index and return search results.
-ms.date: "01/23/2018"
+ms.date: "04/20/2018"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"

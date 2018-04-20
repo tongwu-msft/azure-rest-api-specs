@@ -1,7 +1,7 @@
 ---
 title: "List Data Sources (Azure Search Service REST API) | Microsoft Docs"
 description: Return a list of data source connection objects used by an Azure Search indexer.
-ms.date: "2016-11-09"
+ms.date: "2018-04-20"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"
