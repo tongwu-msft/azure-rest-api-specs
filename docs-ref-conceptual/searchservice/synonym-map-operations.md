@@ -34,7 +34,7 @@ translation.priority.mt:
 
   For example, the index definition below configures the 'name' field to use the synonym map 'mysynonymmap'.
   ```
-	POST https://[servicename].search.windows.net/indexes?api-version=[api-version]
+	POST https://[service name].search.windows.net/indexes?api-version=2017-11-11
 	api-key: [admin key]
 
 	{
