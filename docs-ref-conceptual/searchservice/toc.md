@@ -46,4 +46,4 @@
 ## [Get Synonym Map](get-synonym-map.md)
 ## [Delete Synonym Map](delete-synonym-map.md)
 # [Service operations](service-operations.md)
-## [Get Service Statistics](service-limits.md)
+## [Get Service Statistics](get-service-statistics.md)

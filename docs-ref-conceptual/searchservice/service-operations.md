@@ -26,7 +26,7 @@ While most of the Azure Search Service REST APIs apply to a particular resource 
 
 ## Operations on services
 
--   [Get Service Statistics &#40;Azure Search Service REST API&#41;](service-limits.md)  
+-   [Get Service Statistics &#40;Azure Search Service REST API&#41;](get-service-statistics.md)  
 
 ## See also  
  [Azure Search Service REST](index.md)   
