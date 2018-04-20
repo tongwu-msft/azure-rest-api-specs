@@ -1,20 +1,13 @@
 ---
 title: "Service Statistics in Azure Search"
-ms.custom: ""
-ms.date: "2018-04-19"
+description: Get statistics about the usage of service-level resources in your Azure Search service
+ms.date: "2018-04-20"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid:
-caps.latest.revision: 29
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
-manager: "jhubbard"
+ms.topic: conceptual
+author: "ashmaka"
+ms.author: "ashmaka"
+ms.manager: eladz
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -28,7 +21,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Service Statistics in Azure Search
-The Service Statistics operation returns from Azure Search a the current usage and limits of the following properties:
+The Service Statistics operation returns from Azure Search the current usage and limits of the following properties:
 * Documents
 * Indexes
 * Indexers
@@ -40,7 +33,7 @@ The Service Statistics API also shows the per-service limits of these properties
 * Maximum fields per index
 
 ```  
-GET https://[search service name].search.windows.net/servicestats?api-version=[api-version]
+GET https://[service name].search.windows.net/servicestats?api-version=[api-version]
 Content-Type: application/json  
 api-key: [admin key]  
 ```  
