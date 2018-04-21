@@ -1,7 +1,7 @@
 ---
 title: "Create Data Source (Azure Search Service REST API) | Microsoft Docs"
 description: Data source connection information used by an Azure Search indexer when crawling external data sources.
-ms.date: "2018-04-20"
+ms.date: "04/20/2018"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"

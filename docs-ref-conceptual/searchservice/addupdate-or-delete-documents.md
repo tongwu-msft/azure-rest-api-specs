@@ -1,7 +1,7 @@
 ---
 title: "Add, Update or Delete Documents (Azure Search Service REST API) | Microsoft Docs"
 description: Refresh an Azure Search with incremental indexing to replace, remove, or create new index entries.
-ms.date: "2018-04-20"
+ms.date: "04/20/2018"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"
