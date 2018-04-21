@@ -480,6 +480,7 @@ The following are unrelated entity hints.
 -   Product  
 -   SportsTeam  
 
+<a name="errorcodes"></a>
 ## Error codes 
 
 [!INCLUDE [bing-error-codes](./includes/bing-error-codes-v7.md)]
