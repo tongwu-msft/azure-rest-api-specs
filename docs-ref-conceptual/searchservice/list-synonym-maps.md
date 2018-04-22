@@ -1,7 +1,7 @@
 ---
 title: "List Synonym Maps (Azure Search Service REST API) | Microsoft Docs"
 description: "A list of synonym maps can be retrieved using REST API in Azure Search."
-ms.date: "2017-03-13"
+ms.date: "04/20/2018"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"
@@ -21,8 +21,6 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # List Synonym Maps (Azure Search Service REST API)
-> [!NOTE]  
-> Synonyms is a preview feature and is not intended to be used in production code. Preview features are subject to change and are exempt from the service level agreement (SLA).
 
 ## Request
   The **List Synonym Maps** operation returns a list of the synonym maps in your Azure Search service.  
@@ -32,7 +30,7 @@ GET https://[service name].search.windows.net/synonymmaps?api-version=[api-versi
 api-key: [admin key]  
 ```  
 
- The `api-version` is required. The current preview version is `2016-09-01-Preview`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The `api-version` is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
 ### Request Headers
    The following list describes the required and optional request headers.  

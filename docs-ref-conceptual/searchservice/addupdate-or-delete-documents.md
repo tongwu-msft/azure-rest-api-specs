@@ -1,7 +1,7 @@
 ---
 title: "Add, Update or Delete Documents (Azure Search Service REST API) | Microsoft Docs"
 description: Refresh an Azure Search with incremental indexing to replace, remove, or create new index entries.
-ms.date: "2017-01-13"
+ms.date: "04/20/2018"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"
@@ -39,7 +39,7 @@ api-key: [admin key]
 
  The request URI includes, `[index name]`, specifying which index to post documents. You can only post documents to one index at a time.  
 
- The `api-version` parameter is required. The current version is `api-version=2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions.  
+ The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  

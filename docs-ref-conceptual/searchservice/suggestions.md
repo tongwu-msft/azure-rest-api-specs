@@ -1,7 +1,7 @@
 ---
 title: "Suggestions (Azure Search Service REST API) | Microsoft Docs"
 description: A query request composed of partial query input, returning matching strings from documents in an Azure Search index. Type-ahead query suggestions can populate dropdown search bars or other UI experiences.
-ms.date: "2017-07-17"
+ms.date: "04/20/2018"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"
@@ -151,11 +151,11 @@ api-key: [admin or query key]
  Retrieve 5 suggestions where the partial search input is 'lux':  
 
 ```  
-GET /indexes/hotels/docs/suggest?search=lux&$top=5&suggesterName=sg&api-version=2016-09-01  
+GET /indexes/hotels/docs/suggest?search=lux&$top=5&suggesterName=sg&api-version=2017-11-11  
 ```  
 
 ```  
-POST /indexes/hotels/docs/suggest?api-version=2016-09-01  
+POST /indexes/hotels/docs/suggest?api-version=2017-11-11  
     {  
       "search": "lux",  
       "top": 5,  

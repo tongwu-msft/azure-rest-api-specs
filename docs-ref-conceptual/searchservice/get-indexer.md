@@ -1,7 +1,7 @@
 ---
 title: "Get Indexer (Azure Search Service REST API) | Microsoft Docs"
 description: Returns an indexer definition from an Azure Search service.
-ms.date: "2016-11-09"
+ms.date: "04/20/2018"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"
@@ -28,7 +28,7 @@ GET https://[service name].search.windows.net/indexers/[indexer name]?api-versio
     api-key: [admin key]  
 ```  
 
- The **api-version** is required. The current version is `2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.
+ The **api-version** is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.
 
  The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
 

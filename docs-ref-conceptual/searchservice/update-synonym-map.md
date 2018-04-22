@@ -1,7 +1,7 @@
 ---
 title: "Update Synonym Map (Azure Search Service REST API) | Microsoft Docs"
 description: "A synonym map to expand or rewrite a search query can be updated using REST API in Azure Search."
-ms.date: "2016-11-09"
+ms.date: "04/20/2018"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"
@@ -21,8 +21,6 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Update synonym map (Azure Search Service REST API)
-> [!NOTE]  
-> Synonyms is a preview feature and is not intended to be used in production code. Preview features are subject to change and are exempt from the service level agreement (SLA).
 
 ## Request
   You can update an existing synonym map using an HTTP PUT request. You specify the name of the synonym map to update on the request URI:  
@@ -32,7 +30,7 @@ PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-
 Content-Type: application/json  
 api-key: [admin key]  
 ```  
- The **api-version** is required. The current preview version is `2016-09-01-Preview`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The **api-version** is required. The current preview version is `2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
 ### Request Headers  
   The following table describes the required and optional request headers.  

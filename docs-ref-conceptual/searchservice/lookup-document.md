@@ -1,7 +1,7 @@
 ---
 title: "Lookup Document (Azure Search Service REST API) | Microsoft Docs"
 description: Return a specific document by ID from an Azure Search index.
-ms.date: "2017-03-28"
+ms.date: "04/20/2018"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"
@@ -75,13 +75,13 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
  Lookup the document that has key '2':  
 
 ```  
-GET /indexes/hotels/docs/2?api-version=2016-09-01  
+GET /indexes/hotels/docs/2?api-version=2017-11-11  
 ```  
 
  Lookup the document that has key '3' using OData syntax:  
 
 ```  
-GET /indexes/hotels/docs('3')?api-version=2016-09-01  
+GET /indexes/hotels/docs('3')?api-version=2017-11-11  
 ```  
 
 ## See also  
