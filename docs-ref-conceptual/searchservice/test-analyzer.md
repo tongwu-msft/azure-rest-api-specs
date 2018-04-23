@@ -1,7 +1,7 @@
 ---
 title: "Analyze Text (Azure Search Service REST API) | Microsoft Docs"
 description: Test predefined and custom analyzers used for breaking text into tokens during Azure Search indexing.
-ms.date: "2017-01-11"
+ms.date: "04/20/2018"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"
@@ -33,7 +33,7 @@ The **Analyze API** shows how an analyzer breaks text into tokens.
 
 HTTPS is required for all services requests. The **Analyze API** request can be constructed using the POST method.
 
-`api-version=[string]` (required). The current version is `api-version=2016-09-01`. See [Search Service Versioning](http://msdn.microsoft.com/library/azure/dn864560.aspx) for details and alternative versions.
+`api-version=[string]` (required). The current version is `api-version=2017-11-11`. See [Search Service Versioning](http://msdn.microsoft.com/library/azure/dn864560.aspx) for details and alternative versions.
 
 ### Request Headers  
 The following list describes the required and optional request headers.

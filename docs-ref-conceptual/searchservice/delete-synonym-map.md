@@ -1,7 +1,7 @@
 ---
 title: "Delete Synonym Map (Azure Search Service REST API) | Microsoft Docs"
 description: "A synonym map can be deleted using REST API in Azure Search."
-ms.date: "2016-11-09"
+ms.date: "04/20/2018"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"
@@ -21,8 +21,6 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Delete Synonym Map (Azure Search Service REST API)
-> [!NOTE]  
-> Synonyms is a preview feature and is not intended to be used in production code. Preview features are subject to change and are exempt from the service level agreement (SLA).
 
 ## Request  
   The **Delete Synonym Map** operation removes a synonym map from your Azure Search service.  
@@ -35,7 +33,7 @@ api-key: [admin key]
 > [!NOTE]  
 >  Please ensure that no field in a search index is referencing the synonym map that you are deleting. The delete operation will still proceed but searches against the fields will fail with 400 (Bad Request) with the error message that the synonym map has been deleted.
 
- The **api-version** is required. The current preview version is `2016-09-01-Preview`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The **api-version** is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
 ### Request Headers  
   The following table describes the required and optional request headers.  

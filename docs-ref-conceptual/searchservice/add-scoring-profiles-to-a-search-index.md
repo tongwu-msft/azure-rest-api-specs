@@ -1,7 +1,7 @@
 ---
 title: "Add scoring profiles to a search index (Azure Search Service REST API) | Microsoft Docs"
 description: Boost search rank scores for Azure Search search results by adding scoring profiles.
-ms.date: "2017-06-06"
+ms.date: "04/20/2018"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"
@@ -59,7 +59,7 @@ translation.priority.mt:
  To use this scoring profile, your query is formulated to specify the profile on the query string. In the query below, notice the query parameter `scoringProfile=geo` in the request.  
 
 ```  
-GET /indexes/hotels/docs?search=inn&scoringProfile=geo&scoringParameter=currentLocation:-122.123,44.77233&api-version=2016-09-01  
+GET /indexes/hotels/docs?search=inn&scoringProfile=geo&scoringParameter=currentLocation:-122.123,44.77233&api-version=2017-11-11  
 ```  
 
  This query searches on the term ‘inn’ and passes in the current location. Note that this query includes other parameters, such as `scoringParameter`. Query parameters are described in [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md).  
