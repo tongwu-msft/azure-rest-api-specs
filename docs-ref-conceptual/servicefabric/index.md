@@ -59,5 +59,3 @@ This is a current version of the Service Fabric Client APIs. These APIs work wit
 * [Service Fabric Client APIs (v6.1)](sfclient-v61-index.md)
 
 * [Service Fabric Client APIs (v6.0)](sfclient-v60-index.md)
-
-* [Service Fabric Client APIs (v5.6)](sfclient-v56-index.md)
