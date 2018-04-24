@@ -1,0 +1,348 @@
+### YamlMime:RESTOperation
+uid: batch.core.windows.net.batchservice.task.listsubtasks
+name: List Subtasks
+service: Batch Service
+groupName: Task
+apiVersion: 2018-03-01.6.1
+summary: "Lists all of the subtasks that are associated with the specified multi-instance task.  \nIf the task is not a multi-instance task then this returns an empty collection."
+consumes:
+- application/json; odata=minimalmetadata
+produces:
+- application/json
+paths:
+- content: GET https://batch.core.windows.net/jobs/{jobId}/tasks/{taskId}/subtasksinfo?api-version=2018-03-01.6.1
+- content: GET https://batch.core.windows.net/jobs/{jobId}/tasks/{taskId}/subtasksinfo?$select={$select}&timeout={timeout}&api-version=2018-03-01.6.1
+  isOptional: true
+uriParameters:
+- name: jobId
+  in: path
+  isRequired: true
+  description: The ID of the job.
+  types:
+  - uid: string
+- name: taskId
+  in: path
+  isRequired: true
+  description: The ID of the task.
+  types:
+  - uid: string
+- name: $select
+  in: query
+  description: An OData $select clause.
+  types:
+  - uid: string
+- name: timeout
+  in: query
+  description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: client-request-id
+    value: string
+  - name: request-id
+    value: string
+  - name: ETag
+    value: string
+  - name: Last-Modified
+    value: string
+  description: A response containing the list of subtasks.
+  types:
+  - uid: CloudTaskListSubtasksResult
+- name: Other Status Codes
+  description: The error from the Batch service.
+  types:
+  - uid: BatchError
+requestHeader:
+- name: client-request-id
+  in: header
+  description: The caller-generated request identity, in the form of a GUID with no decoration such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+  types:
+  - uid: string
+  format: uuid
+- name: return-client-request-id
+  in: header
+  description: Whether the server should return the client-request-id in the response.
+  types:
+  - uid: boolean
+- name: ocp-date
+  in: header
+  description: The time the request was issued. Client libraries typically set this to the current system clock time; set it explicitly if you are calling the REST API directly.
+  types:
+  - uid: string
+  format: date-time-rfc1123
+definitions:
+- name: CloudTaskListSubtasksResult
+  description: The result of listing the subtasks of a task.
+  kind: object
+  properties:
+  - name: value
+    description: The list of subtasks.
+    types:
+    - uid: SubtaskInformation
+      isArray: true
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+  - name: values
+    description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+      isArray: true
+- name: SubtaskInformation
+  description: Information about an Azure Batch subtask.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the subtask.
+    types:
+    - uid: integer
+  - name: nodeInfo
+    description: Information about the compute node on which the subtask ran.
+    types:
+    - uid: ComputeNodeInformation
+  - name: startTime
+    description: The time at which the subtask started running. If the subtask has been restarted or retried, this is the most recent time at which the subtask started running.
+    types:
+    - uid: string
+  - name: endTime
+    description: "The time at which the subtask completed.  \nThis property is set only if the subtask is in the Completed state."
+    types:
+    - uid: string
+  - name: exitCode
+    description: "The exit code of the program specified on the subtask command line.  \nThis property is set only if the subtask is in the completed state. In general, the exit code for a process reflects the specific convention implemented by the application developer for that process. If you use the exit code value to make decisions in your code, be sure that you know the exit code convention used by the application process. However, if the Batch service terminates the subtask (due to timeout, or user termination via the API) you may see an operating system-defined exit code."
+    types:
+    - uid: integer
+  - name: containerInfo
+    description: "Information about the container under which the task is executing.  \nThis property is set only if the task runs in a container context."
+    types:
+    - uid: TaskContainerExecutionInformation
+  - name: failureInfo
+    description: "Information describing the task failure, if any.  \nThis property is set only if the task is in the completed state and encountered a failure."
+    types:
+    - uid: TaskFailureInformation
+  - name: state
+    description: The current state of the subtask.
+    types:
+    - uid: SubtaskState
+  - name: stateTransitionTime
+    description: The time at which the subtask entered its current state.
+    types:
+    - uid: string
+  - name: previousState
+    description: "The previous state of the subtask.  \nThis property is not set if the subtask is in its initial running state."
+    types:
+    - uid: SubtaskState
+  - name: previousStateTransitionTime
+    description: "The time at which the subtask entered its previous state.  \nThis property is not set if the subtask is in its initial running state."
+    types:
+    - uid: string
+  - name: result
+    description: "The result of the task execution.  \nIf the value is 'failed', then the details of the failure can be found in the failureInfo property."
+    types:
+    - uid: TaskExecutionResult
+- name: ErrorMessage
+  description: An error message received in an Azure Batch error response.
+  kind: object
+  properties:
+  - name: lang
+    description: The language code of the error message
+    types:
+    - uid: string
+  - name: value
+    description: The text of the message.
+    types:
+    - uid: string
+- name: BatchErrorDetail
+  description: An item of additional information included in an Azure Batch error response.
+  kind: object
+  properties:
+  - name: key
+    description: An identifier specifying the meaning of the Value property.
+    types:
+    - uid: string
+  - name: value
+    description: The additional information included with the error response.
+    types:
+    - uid: string
+- name: ComputeNodeInformation
+  description: Information about the compute node on which a task ran.
+  kind: object
+  properties:
+  - name: affinityId
+    description: An identifier for the compute node on which the task ran, which can be passed when adding a task to request that the task be scheduled on this compute node.
+    types:
+    - uid: string
+  - name: nodeUrl
+    description: 'The URL of the node on which the task ran. '
+    types:
+    - uid: string
+  - name: poolId
+    description: The ID of the pool on which the task ran.
+    types:
+    - uid: string
+  - name: nodeId
+    description: The ID of the node on which the task ran.
+    types:
+    - uid: string
+  - name: taskRootDirectory
+    description: The root directory of the task on the compute node.
+    types:
+    - uid: string
+  - name: taskRootDirectoryUrl
+    description: The URL to the root directory of the task on the compute node.
+    types:
+    - uid: string
+- name: TaskContainerExecutionInformation
+  description: Contains information about the container which a task is executing.
+  kind: object
+  properties:
+  - name: containerId
+    description: The ID of the container.
+    types:
+    - uid: string
+  - name: state
+    description: "The state of the container.  \nThis is the state of the container according to the Docker service. It is equivalent to the status field returned by \"docker inspect\"."
+    types:
+    - uid: string
+  - name: error
+    description: "Detailed error information about the container.  \nThis is the detailed error string from the Docker service, if available. It is equivalent to the error field returned by \"docker inspect\"."
+    types:
+    - uid: string
+- name: TaskFailureInformation
+  description: Information about a task failure.
+  kind: object
+  properties:
+  - name: category
+    description: The category of the task error.
+    types:
+    - uid: ErrorCategory
+  - name: code
+    description: An identifier for the task error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the task error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details related to the error.
+    types:
+    - uid: NameValuePair
+      isArray: true
+- name: SubtaskState
+  description: The state of the subtask.
+  kind: enum
+  properties:
+  - name: preparing
+    description: The task has been assigned to a compute node, but is waiting for a required Job Preparation task to complete on the node. If the Job Preparation task succeeds, the task will move to running. If the Job Preparation task fails, the task will return to active and will be eligible to be assigned to a different node.
+    types:
+    - uid: string
+  - name: running
+    description: The task is running on a compute node. This includes task-level preparation such as downloading resource files or deploying application packages specified on the task - it does not necessarily mean that the task command line has started executing.
+    types:
+    - uid: string
+  - name: completed
+    description: The task is no longer eligible to run, usually because the task has finished successfully, or the task has finished unsuccessfully and has exhausted its retry limit. A task is also marked as completed if an error occurred launching the task, or when the task has been terminated.
+    types:
+    - uid: string
+- name: TaskExecutionResult
+  description: The result of task execution.
+  kind: enum
+  properties:
+  - name: success
+    description: The task ran successfully.
+    types:
+    - uid: string
+  - name: failure
+    description: There was an error during processing of the task. The failure may have occurred before the task process was launched, while the task process was executing, or after the task process exited.
+    types:
+    - uid: string
+- name: ErrorCategory
+  description: The category of the error.
+  kind: enum
+  properties:
+  - name: usererror
+    description: The error is due to a user issue, such as misconfiguration.
+    types:
+    - uid: string
+  - name: servererror
+    description: The error is due to an internal server issue.
+    types:
+    - uid: string
+- name: NameValuePair
+  description: Represents a name-value pair.
+  kind: object
+  properties:
+  - name: name
+    description: The name in the name-value pair.
+    types:
+    - uid: string
+  - name: value
+    description: The value in the name-value pair.
+    types:
+    - uid: string
+examples:
+- name: Task list subtasks
+  request:
+    uri: GET https://batch.core.windows.net/jobs/jobId/tasks/taskId/subtasksinfo?api-version=2018-03-01.6.1
+    headers:
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": 1,
+            "startTime": "2016-09-06T06:59:16.3139271Z",
+            "endTime": "2016-09-06T06:59:20.0242024Z",
+            "state": "completed",
+            "stateTransitionTime": "2016-09-06T06:59:20.0242024Z",
+            "previousState": "running",
+            "previousStateTransitionTime": "2016-09-06T06:59:16.3139271Z",
+            "exitCode": 0,
+            "nodeInfo": {
+              "affinityId": "TVM:tvm-2544493925_3-20160905t051718z",
+              "nodeUrl": "https://account.region.batch.azure.com/pools/poolId/nodes/tvm-2544493925_3-20160905t051718z",
+              "poolId": "mpiPool",
+              "nodeId": "tvm-2544493925_3-20160905t051718z",
+              "taskRootDirectory": "\\workitems\\jobId\\job-1\\taskId\\1",
+              "taskRootDirectoryUrl": "https://account.region.batch.azure.com/pools/poolId/nodes/tvm-2544493925_3-20160905t051718z/files//workitems/jobId/job-1/taskId/1"
+            }
+          },
+          {
+            "id": 2,
+            "startTime": "2016-09-06T06:59:16.9702844Z",
+            "state": "running",
+            "stateTransitionTime": "2016-09-06T06:59:16.9702844Z",
+            "nodeInfo": {
+              "affinityId": "TVM:tvm-2544493925_2-20160905t051718z",
+              "nodeUrl": "https://account.region.batch.azure.com/pools/poolId/nodes/tvm-2544493925_2-20160905t051718z",
+              "poolId": "mpiPool",
+              "nodeId": "tvm-2544493925_2-20160905t051718z",
+              "taskRootDirectory": "\\workitems\\jobId\\job-1\\taskId\\2",
+              "taskRootDirectoryUrl": "https://account.region.batch.azure.com/pools/poolId/nodes/tvm-2544493925_2-20160905t051718z/files//workitems/jobId/job-1/taskId/2"
+            }
+          }
+        ]
+      }
+security: []

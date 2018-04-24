@@ -1,0 +1,105 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resourcemanagement.resourcelinks.listatsourcescope
+name: List At Source Scope
+service: Resource Management
+groupName: Resource Links
+apiVersion: 2016-09-01
+summary: Gets a list of resource links at and below the specified source scope.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Resources/links?api-version=2016-09-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Resources/links?$filter=atScope()&api-version=2016-09-01
+  isOptional: true
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: The fully qualified ID of the scope for getting the resource links. For example, to list resource links at and under a resource group, set the scope to /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply when getting resource links. To get links only at the specified scope (not below the scope), use Filter.atScope().
+  types:
+  - uid: Filter
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns an array of links at the specified scope.
+  types:
+  - uid: ResourceLinkResult
+requestHeader: []
+definitions:
+- name: Filter
+  description: The filter to apply when getting resource links. To get links only at the specified scope (not below the scope), use Filter.atScope().
+  kind: enum
+  properties:
+  - name: atScope()
+    types:
+    - uid: string
+- name: ResourceLinkResult
+  description: List of resource links.
+  kind: object
+  properties:
+  - name: value
+    description: An array of resource links.
+    types:
+    - uid: ResourceLink
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+- name: ResourceLink
+  description: The resource link.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The fully qualified ID of the resource link.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource link.
+    types:
+    - uid: string
+  - name: properties
+    description: Properties for resource link.
+    types:
+    - uid: ResourceLinkProperties
+- name: ResourceLinkProperties
+  description: The resource link properties.
+  kind: object
+  properties:
+  - name: sourceId
+    isReadyOnly: true
+    description: 'The fully qualified ID of the source resource in the link. '
+    types:
+    - uid: string
+  - name: targetId
+    description: The fully qualified ID of the target resource in the link.
+    types:
+    - uid: string
+  - name: notes
+    description: Notes about the resource link.
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

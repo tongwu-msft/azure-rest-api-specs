@@ -1,0 +1,126 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.objectdatatypes.listfieldsbymoduleandtype
+name: List Fields By Module And Type
+service: Automation
+groupName: Object Data Types
+apiVersion: 2015-10-31
+summary: Retrieve a list of fields of a given type identified by module name.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/objectDataTypes/{typeName}/fields?api-version=2015-10-31
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure Resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The automation account name.
+  types:
+  - uid: string
+- name: moduleName
+  in: path
+  isRequired: true
+  description: The name of module.
+  types:
+  - uid: string
+- name: typeName
+  in: path
+  isRequired: true
+  description: The name of type.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: TypeFieldListResult
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: TypeFieldListResult
+  description: The response model for the list fields operation.
+  kind: object
+  properties:
+  - name: value
+    description: Gets or sets a list of fields.
+    types:
+    - uid: TypeField
+      isArray: true
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: TypeField
+  description: Information about a field of a type.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the field.
+    types:
+    - uid: string
+  - name: type
+    description: Gets or sets the type of the field.
+    types:
+    - uid: string
+examples:
+- name: Get a list of fields of a given type
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/MyAutomationAccount/modules/MyModule/objectDataTypes/MyCustomType/fields?api-version=2015-10-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Name",
+            "type": "System.String"
+          },
+          {
+            "name": "Id",
+            "type": "System.Integer"
+          },
+          {
+            "name": "Details",
+            "type": "MyModule.AnotherCustomType"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

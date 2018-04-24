@@ -1,0 +1,177 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devtestlabs.artifacts.generatearmtemplate
+name: Generate Arm Template
+service: Dev Test Labs
+groupName: Artifacts
+apiVersion: 2016-05-15
+summary: Generates an ARM template for the given artifact, uploads the required files to a storage account, and validates the generated artifact.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{artifactSourceName}/artifacts/{name}/generateArmTemplate?api-version=2016-05-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: labName
+  in: path
+  isRequired: true
+  description: The name of the lab.
+  types:
+  - uid: string
+- name: artifactSourceName
+  in: path
+  isRequired: true
+  description: The name of the artifact source.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the artifact.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ArmTemplateInfo
+- name: Other Status Codes
+  description: BadRequest
+  types:
+  - uid: CloudError
+requestBody:
+- parameters:
+  - name: virtualMachineName
+    in: body
+    description: The resource name of the virtual machine.
+    types:
+    - uid: string
+  - name: parameters
+    in: body
+    description: The parameters of the ARM template.
+    types:
+    - uid: ParameterInfo
+      isArray: true
+  - name: location
+    in: body
+    description: The location of the virtual machine.
+    types:
+    - uid: string
+  - name: fileUploadOptions
+    in: body
+    description: Options for uploading the files for the artifact. UploadFilesAndGenerateSasTokens is the default value.
+    types:
+    - uid: FileUploadOptions
+requestHeader: []
+definitions:
+- name: ParameterInfo
+  description: Information about an artifact's parameter.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the artifact parameter.
+    types:
+    - uid: string
+  - name: value
+    description: The value of the artifact parameter.
+    types:
+    - uid: string
+- name: ArmTemplateInfo
+  description: Information about a generated ARM template.
+  kind: object
+  properties:
+  - name: template
+    description: The template's contents.
+    types:
+    - uid: object
+  - name: parameters
+    description: The parameters of the ARM template.
+    types:
+    - uid: object
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - name: error
+    description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
+- name: GenerateArmTemplateRequest
+  description: Parameters for generating an ARM template for deploying artifacts.
+  kind: object
+  properties:
+  - name: virtualMachineName
+    description: The resource name of the virtual machine.
+    types:
+    - uid: string
+  - name: parameters
+    description: The parameters of the ARM template.
+    types:
+    - uid: ParameterInfo
+      isArray: true
+  - name: location
+    description: The location of the virtual machine.
+    types:
+    - uid: string
+  - name: fileUploadOptions
+    description: Options for uploading the files for the artifact. UploadFilesAndGenerateSasTokens is the default value.
+    types:
+    - uid: FileUploadOptions
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: details
+    description: Inner errors.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: FileUploadOptions
+  description: Options for uploading the files for the artifact. UploadFilesAndGenerateSasTokens is the default value.
+  kind: enum
+  properties:
+  - name: UploadFilesAndGenerateSasTokens
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: OAuth2 Implicit Grant
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Access Microsoft Azure

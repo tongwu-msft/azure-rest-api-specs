@@ -1,6 +1,6 @@
 ---
 title: "RestartDeployedCodePackageDescription"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # RestartDeployedCodePackageDescription
 
-Defines description for restarting a deloyed code package on Service Fabric node.
+Defines description for restarting a deployed code package on Service Fabric node.
 
 
 ## Properties
@@ -69,8 +69,8 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The instance ID for currently running entry point. For a code package setup entry point (if specified) runs first and after it finishes main entry point is started. 
+The instance ID for currently running entry point. For a code package setup entry point (if specified) runs first and after it finishes main entry point is started.
 Each time entry point executable is run, its instance id will change. If 0 is passed in as the code package instance ID, the API will restart the code package with whatever instance ID it is currently running.
-If an instance ID other than 0 is passed in, the API will restart the code package only if the current Instance ID matches the passed in instance ID. 
+If an instance ID other than 0 is passed in, the API will restart the code package only if the current Instance ID matches the passed in instance ID.
 Note, passing in the exact instance ID (not 0) in the API is safer, because if ensures at most one restart of the code package.
 

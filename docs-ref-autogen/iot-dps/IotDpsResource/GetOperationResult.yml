@@ -1,0 +1,130 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothubdeviceprovisioningservice.iotdpsresource.getoperationresult
+name: Get Operation Result
+service: IoT Hub Device Provisioning Service
+groupName: Iot Dps Resource
+apiVersion: 2017-11-15
+summary: Gets the status of a long running operation, such as create, update or delete a provisioning service.
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/operationresults/{operationId}?asyncinfo={asyncinfo}&api-version=2017-11-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group identifier.
+  types:
+  - uid: string
+- name: provisioningServiceName
+  in: path
+  isRequired: true
+  description: Name of provisioning service that the operation is running on.
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: Operation id corresponding to long running operation. Use this to poll for the status.
+  types:
+  - uid: string
+- name: asyncinfo
+  in: query
+  isRequired: true
+  description: Async header used to poll on the status of the operation, obtained while creating the long running operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The status of the long running operation.
+  types:
+  - uid: AsyncOperationResult
+- name: Other Status Codes
+  description: Default error response.
+  types:
+  - uid: ErrorDetails
+requestHeader: []
+definitions:
+- name: AsyncOperationResult
+  description: Result of a long running operation.
+  kind: object
+  properties:
+  - name: status
+    description: current status of a long running operation.
+    types:
+    - uid: string
+  - name: error
+    description: Error message containing code, description and details
+    types:
+    - uid: ErrorMesssage
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: Code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: HttpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: Message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: Details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+- name: ErrorMesssage
+  description: Error response containing message and code.
+  kind: object
+  properties:
+  - name: code
+    description: standard error code
+    types:
+    - uid: string
+  - name: message
+    description: standard error description
+    types:
+    - uid: string
+  - name: details
+    description: detailed summary of error
+    types:
+    - uid: string
+examples:
+- name: DPSGetOperationResult
+  request:
+    uri: GET https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/provisioningServices/myFirstProvisioningService/operationresults/MTY5OTNmZDctODI5Yy00N2E2LTkxNDQtMDU1NGIyYzY1ZjRl?asyncinfo=1508265712453&api-version=2017-11-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "Succeeded"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

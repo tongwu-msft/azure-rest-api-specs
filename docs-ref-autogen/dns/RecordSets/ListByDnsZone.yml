@@ -1,0 +1,389 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.dns.recordsets.listbydnszone
+name: List By Dns Zone
+service: DNS
+groupName: Record Sets
+apiVersion: 2018-03-01-preview
+summary: Lists all record sets in a DNS zone.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/recordsets?api-version=2018-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/recordsets?$top={$top}&$recordsetnamesuffix={$recordsetnamesuffix}&api-version=2018-03-01-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: zoneName
+  in: path
+  isRequired: true
+  description: The name of the DNS zone (without a terminating dot).
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The maximum number of record sets to return. If not specified, returns up to 100 record sets.
+  types:
+  - uid: integer
+  format: int32
+- name: $recordsetnamesuffix
+  in: query
+  description: The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix>
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Specifies the API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success.
+  types:
+  - uid: RecordSetListResult
+- name: Other Status Codes
+  description: Default response. It will be deserialized as per the Error definition.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: RecordSetListResult
+  description: The response to a record set List operation.
+  kind: object
+  properties:
+  - name: value
+    description: Information about the record sets in the response.
+    types:
+    - uid: RecordSet
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The continuation token for the next page of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error message
+  kind: object
+  properties:
+  - name: error
+    description: The error message body
+    types:
+    - uid: CloudErrorBody
+- name: RecordSet
+  description: Describes a DNS record set (a collection of DNS records with the same name and type).
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ID of the record set.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the record set.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the record set.
+    types:
+    - uid: string
+  - name: etag
+    description: The etag of the record set.
+    types:
+    - uid: string
+  - name: properties.metadata
+    description: The metadata attached to the record set.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.TTL
+    description: The TTL (time-to-live) of the records in the record set.
+    types:
+    - uid: integer
+  - name: properties.fqdn
+    isReadyOnly: true
+    description: Fully qualified domain name of the record set.
+    types:
+    - uid: string
+  - name: properties.ARecords
+    description: The list of A records in the record set.
+    types:
+    - uid: ARecord
+      isArray: true
+  - name: properties.AAAARecords
+    description: The list of AAAA records in the record set.
+    types:
+    - uid: AaaaRecord
+      isArray: true
+  - name: properties.MXRecords
+    description: The list of MX records in the record set.
+    types:
+    - uid: MxRecord
+      isArray: true
+  - name: properties.NSRecords
+    description: The list of NS records in the record set.
+    types:
+    - uid: NsRecord
+      isArray: true
+  - name: properties.PTRRecords
+    description: The list of PTR records in the record set.
+    types:
+    - uid: PtrRecord
+      isArray: true
+  - name: properties.SRVRecords
+    description: The list of SRV records in the record set.
+    types:
+    - uid: SrvRecord
+      isArray: true
+  - name: properties.TXTRecords
+    description: The list of TXT records in the record set.
+    types:
+    - uid: TxtRecord
+      isArray: true
+  - name: properties.CNAMERecord
+    description: The CNAME record in the  record set.
+    types:
+    - uid: CnameRecord
+  - name: properties.SOARecord
+    description: The SOA record in the record set.
+    types:
+    - uid: SoaRecord
+  - name: properties.caaRecords
+    description: The list of CAA records in the record set.
+    types:
+    - uid: CaaRecord
+      isArray: true
+- name: CloudErrorBody
+  description: The body of an error message
+  kind: object
+  properties:
+  - name: code
+    description: The error code
+    types:
+    - uid: string
+  - name: message
+    description: A description of what caused the error
+    types:
+    - uid: string
+  - name: target
+    description: The target resource of the error message
+    types:
+    - uid: string
+  - name: details
+    description: Extra error information
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: ARecord
+  description: An A record.
+  kind: object
+  properties:
+  - name: ipv4Address
+    description: The IPv4 address of this A record.
+    types:
+    - uid: string
+- name: AaaaRecord
+  description: An AAAA record.
+  kind: object
+  properties:
+  - name: ipv6Address
+    description: The IPv6 address of this AAAA record.
+    types:
+    - uid: string
+- name: MxRecord
+  description: An MX record.
+  kind: object
+  properties:
+  - name: preference
+    description: The preference value for this MX record.
+    types:
+    - uid: integer
+  - name: exchange
+    description: The domain name of the mail host for this MX record.
+    types:
+    - uid: string
+- name: NsRecord
+  description: An NS record.
+  kind: object
+  properties:
+  - name: nsdname
+    description: The name server name for this NS record.
+    types:
+    - uid: string
+- name: PtrRecord
+  description: A PTR record.
+  kind: object
+  properties:
+  - name: ptrdname
+    description: The PTR target domain name for this PTR record.
+    types:
+    - uid: string
+- name: SrvRecord
+  description: An SRV record.
+  kind: object
+  properties:
+  - name: priority
+    description: The priority value for this SRV record.
+    types:
+    - uid: integer
+  - name: weight
+    description: The weight value for this SRV record.
+    types:
+    - uid: integer
+  - name: port
+    description: The port value for this SRV record.
+    types:
+    - uid: integer
+  - name: target
+    description: The target domain name for this SRV record.
+    types:
+    - uid: string
+- name: TxtRecord
+  description: A TXT record.
+  kind: object
+  properties:
+  - name: value
+    description: The text value of this TXT record.
+    types:
+    - uid: string
+      isArray: true
+- name: CnameRecord
+  description: A CNAME record.
+  kind: object
+  properties:
+  - name: cname
+    description: The canonical name for this CNAME record.
+    types:
+    - uid: string
+- name: SoaRecord
+  description: An SOA record.
+  kind: object
+  properties:
+  - name: host
+    description: The domain name of the authoritative name server for this SOA record.
+    types:
+    - uid: string
+  - name: email
+    description: The email contact for this SOA record.
+    types:
+    - uid: string
+  - name: serialNumber
+    description: The serial number for this SOA record.
+    types:
+    - uid: integer
+  - name: refreshTime
+    description: The refresh value for this SOA record.
+    types:
+    - uid: integer
+  - name: retryTime
+    description: The retry time for this SOA record.
+    types:
+    - uid: integer
+  - name: expireTime
+    description: The expire time for this SOA record.
+    types:
+    - uid: integer
+  - name: minimumTTL
+    description: The minimum value for this SOA record. By convention this is used to determine the negative caching duration.
+    types:
+    - uid: integer
+- name: CaaRecord
+  description: A CAA record.
+  kind: object
+  properties:
+  - name: flags
+    description: The flags for this CAA record as an integer between 0 and 255.
+    types:
+    - uid: integer
+  - name: tag
+    description: The tag for this CAA record.
+    types:
+    - uid: string
+  - name: value
+    description: The value for this CAA record.
+    types:
+    - uid: string
+examples:
+- name: List recordsets by zone
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/recordsets?api-version=2018-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nextLink": "https://servicehost/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA?api-version=2018-03-01-preview&$skipToken=skipToken",
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CAA/record1",
+            "etag": "00000000-0000-0000-0000-000000000000",
+            "name": "record1",
+            "type": "Microsoft.Network/dnsZones/CAA",
+            "properties": {
+              "metadata": {
+                "key1": "value1"
+              },
+              "TTL": 3600,
+              "fqdn": "record1.zone1",
+              "caaRecords": [
+                {
+                  "flags": 0,
+                  "tag": "issue",
+                  "value": "ca.contoso.com"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/A/record1",
+            "etag": "00000000-0000-0000-0000-000000000000",
+            "name": "record1",
+            "type": "Microsoft.Network/dnsZones/A",
+            "properties": {
+              "metadata": {
+                "key1": "value1"
+              },
+              "TTL": 3600,
+              "fqdn": "record1.zone1",
+              "ARecords": [
+                {
+                  "ipv4Address": "127.0.0.1"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/CNAME/record2",
+            "etag": "00000000-0000-0000-0000-000000000000",
+            "name": "record2",
+            "type": "Microsoft.Network/dnsZones/CNAME",
+            "properties": {
+              "metadata": {
+                "key1": "value1"
+              },
+              "TTL": 3600,
+              "fqdn": "record2.zone1",
+              "CNAMERecord": {
+                "cname": "contoso.com"
+              }
+            }
+          }
+        ]
+      }
+security: []

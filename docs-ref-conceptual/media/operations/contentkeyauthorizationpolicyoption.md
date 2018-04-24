@@ -1,7 +1,7 @@
 ---
 title: "ContentKeyAuthorizationPolicyOption"
 ms.custom: ""
-ms.date: "2016-07-14"
+ms.date: "03/14/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
@@ -31,15 +31,10 @@ Media Services supports multiple ways of authenticating users who make key reque
  Note that the Key Delivery service caches `ContentKeyAuthorizationPolicy` and its related objects (policy options and restrictions) for 15 minutes.  If you create a `ContentKeyAuthorizationPolicy` and specify to use a “Token” restriction, then test it, and then update the policy to “Open” restriction, it will take roughly 15 minutes before the policy switches to the “Open” version of the policy.  
   
  This topic describes `ContentKeyAuthorizationPolicyOption` and shows how to use this entity. For a more complete example, that shows how to associate `ContentKeyAuthorizationPolicyOption` with `ContentKeyAuthorizationPolicy`, see [ContentKeyAuthorizationPolicy](../operations/contentkeyauthorizationpolicy.md).  
-  
+
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
 ##  <a name="mediaprocessor_entity_properties"></a> ContentKeyAuthorizationPolicyOption Entity Properties  
   
 |Property|Type|Description|  
@@ -60,12 +55,7 @@ Media Services supports multiple ways of authenticating users who make key reque
   
 ## Create ContentKeyAuthorizationPolicyOption  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
  The following example creates a ContentKeyAuthorizationPolicyOption with the following values set: an `Open` authorization restriction (`"KeyRestrictionType":0`) and BaselineHttp (MPEG baseline HTTP key protocol) key delivery method (`"KeyDeliveryType":2`). You can try out the example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
-  
- Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   

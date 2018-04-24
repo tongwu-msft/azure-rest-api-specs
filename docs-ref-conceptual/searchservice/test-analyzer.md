@@ -1,20 +1,13 @@
 ---
-title: "Analyze Text (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2017-01-11"
+title: "Analyze Text (Azure Search Service REST API) | Microsoft Docs"
+description: Test predefined and custom analyzers used for breaking text into tokens during Azure Search indexing.
+ms.date: "04/20/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid:
-caps.latest.revision: 29
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -40,7 +33,7 @@ The **Analyze API** shows how an analyzer breaks text into tokens.
 
 HTTPS is required for all services requests. The **Analyze API** request can be constructed using the POST method.
 
-`api-version=[string]` (required). The current version is `api-version=2016-09-01`. See [Search Service Versioning](http://msdn.microsoft.com/library/azure/dn864560.aspx) for details and alternative versions.
+`api-version=[string]` (required). The current version is `api-version=2017-11-11`. See [Search Service Versioning](http://msdn.microsoft.com/library/azure/dn864560.aspx) for details and alternative versions.
 
 ### Request Headers  
 The following list describes the required and optional request headers.
@@ -49,7 +42,7 @@ The following list describes the required and optional request headers.
 |--------------------|-----------------|  
 |*api-key:*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Analyze API** request must include an `api-key` set to an admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body
 ```json

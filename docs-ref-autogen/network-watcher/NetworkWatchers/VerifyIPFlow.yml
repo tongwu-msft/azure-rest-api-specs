@@ -1,0 +1,187 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.networkwatcher.networkwatchers.verifyipflow
+name: Verify IP Flow
+service: Network Watcher
+groupName: Network Watchers
+apiVersion: 2018-02-01
+summary: Verify IP flow from the specified VM to a location given the currently configured NSG rules.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify?api-version=2018-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: networkWatcherName
+  in: path
+  isRequired: true
+  description: The name of the network watcher.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns the result of IP flow verification.
+  types:
+  - uid: VerificationIPFlowResult
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+  types:
+  - uid: VerificationIPFlowResult
+requestBody:
+- parameters:
+  - name: targetResourceId
+    in: body
+    isRequired: true
+    description: The ID of the target resource to perform next-hop on.
+    types:
+    - uid: string
+  - name: direction
+    in: body
+    isRequired: true
+    description: The direction of the packet represented as a 5-tuple.
+    types:
+    - uid: Direction
+  - name: protocol
+    in: body
+    isRequired: true
+    description: Protocol to be verified on.
+    types:
+    - uid: IpFlowProtocol
+  - name: localPort
+    in: body
+    isRequired: true
+    description: The local port. Acceptable values are a single integer in the range (0-65535). Support for * for the source port, which depends on the direction.
+    types:
+    - uid: string
+  - name: remotePort
+    in: body
+    isRequired: true
+    description: The remote port. Acceptable values are a single integer in the range (0-65535). Support for * for the source port, which depends on the direction.
+    types:
+    - uid: string
+  - name: localIPAddress
+    in: body
+    isRequired: true
+    description: The local IP address. Acceptable values are valid IPv4 addresses.
+    types:
+    - uid: string
+  - name: remoteIPAddress
+    in: body
+    isRequired: true
+    description: The remote IP address. Acceptable values are valid IPv4 addresses.
+    types:
+    - uid: string
+  - name: targetNicResourceId
+    in: body
+    description: The NIC ID. (If VM has multiple NICs and IP forwarding is enabled on any of them, then this parameter must be specified. Otherwise optional).
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: VerificationIPFlowResult
+  description: Results of IP flow verification on the target resource.
+  kind: object
+  properties:
+  - name: access
+    description: Indicates whether the traffic is allowed or denied.
+    types:
+    - uid: Access
+  - name: ruleName
+    description: Name of the rule. If input is not matched against any security rule, it is not displayed.
+    types:
+    - uid: string
+- name: VerificationIPFlowParameters
+  description: Parameters that define the IP flow to be verified.
+  kind: object
+  properties:
+  - name: targetResourceId
+    description: The ID of the target resource to perform next-hop on.
+    types:
+    - uid: string
+  - name: direction
+    description: The direction of the packet represented as a 5-tuple.
+    types:
+    - uid: Direction
+  - name: protocol
+    description: Protocol to be verified on.
+    types:
+    - uid: IpFlowProtocol
+  - name: localPort
+    description: The local port. Acceptable values are a single integer in the range (0-65535). Support for * for the source port, which depends on the direction.
+    types:
+    - uid: string
+  - name: remotePort
+    description: The remote port. Acceptable values are a single integer in the range (0-65535). Support for * for the source port, which depends on the direction.
+    types:
+    - uid: string
+  - name: localIPAddress
+    description: The local IP address. Acceptable values are valid IPv4 addresses.
+    types:
+    - uid: string
+  - name: remoteIPAddress
+    description: The remote IP address. Acceptable values are valid IPv4 addresses.
+    types:
+    - uid: string
+  - name: targetNicResourceId
+    description: The NIC ID. (If VM has multiple NICs and IP forwarding is enabled on any of them, then this parameter must be specified. Otherwise optional).
+    types:
+    - uid: string
+- name: Access
+  description: Indicates whether the traffic is allowed or denied.
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+- name: Direction
+  description: The direction of the packet represented as a 5-tuple.
+  kind: enum
+  properties:
+  - name: Inbound
+    types:
+    - uid: string
+  - name: Outbound
+    types:
+    - uid: string
+- name: IpFlowProtocol
+  description: Protocol to be verified on.
+  kind: enum
+  properties:
+  - name: TCP
+    types:
+    - uid: string
+  - name: UDP
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

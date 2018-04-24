@@ -1,20 +1,13 @@
 ---
-title: "List Data Sources (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2016-11-09"
+title: "List Data Sources (Azure Search Service REST API) | Microsoft Docs"
+description: Return a list of data source connection objects used by an Azure Search indexer.
+ms.date: "04/20/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 3f3a33a1-7179-42a0-b4a7-4a5f6e24fd31
-caps.latest.revision: 10
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -35,9 +28,9 @@ GET https://[service name].search.windows.net/datasources?api-version=[api-versi
     api-key: [admin key]  
 ```  
 
- The `api-version` is required. The current version is `2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The `api-version` is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
- The `api-key` must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+ The `api-key` must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
 
 ## Response  
  For a successful request: 200 OK. Here is an example response body:  
@@ -56,7 +49,7 @@ GET https://[service name].search.windows.net/datasources?api-version=[api-versi
  Note that you can filter the response down to just the properties you're interested in. For example, if you want only a list of data source names, use the OData **select** query option:  
 
 ```  
-GET /datasources?api-version=2016-09-01&$select=name  
+GET /datasources?api-version=2017-11-11&$select=name  
 ```  
 
  In this case, the response from the above example would appear as follows:  

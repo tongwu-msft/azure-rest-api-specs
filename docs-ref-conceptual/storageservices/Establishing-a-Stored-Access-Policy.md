@@ -65,7 +65,7 @@ A stored access policy provides an additional level of control over service-leve
   
  A maximum of five access policies may be set on a container, table, or queue at any given time. Each `SignedIdentifier` field, with its unique `Id` field, corresponds to one access policy. Attempting to set more than five access policies at one time results in the service returning status code 400 (Bad Request).  
   
-## Modifying or Revoking a Shared Access Signature  
+## Modifying or Revoking a Stored Access Policy  
  To modify the parameters of the stored access policy, you can call the access control list operation for the resource type to replace the existing policy, specifying a new start time, expiry time, or set of permissions. For example, if your existing policy grants read and write permissions to a resource, you can modify it to grant only read permissions for all future requests. In this case, the signed identifier of the new policy, as specified by the `ID` field, would be identical to the signed identifier of the policy you are replacing.  
   
  To revoke a stored access policy, you can either delete it, or rename it by changing the signed identifier. Changing the signed identifier breaks the associations between any existing signatures and the stored access policy. Deleting or renaming the stored access policy immediately effects all of the shared access signatures associated with it.  

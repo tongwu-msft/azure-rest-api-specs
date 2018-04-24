@@ -1,6 +1,6 @@
 ---
 title: "OperationStatus"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -50,16 +50,20 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-- Invalid - The operation state is invalid.
-- Running - The operation is in progress.
-- RollingBack -  The operation is rolling back internal system state because it encountered a fatal error or was cancelled by the user.  "RollingBack"
-   does not refer to user state.  For example, if CancelOperation is called on a command of type PartitionDataLoss,
-   a state of "RollingBack" does not mean service data is being restored (assuming the command has progressed far enough to cause data loss).
-   It means the system is rolling back/cleaning up internal system state associated with the command.
-- Completed - The operation has completed successfully and is no longer running.
-- Faulted - The operation has failed and is no longer running.
-- Cancelled - The operation was cancelled by the user using CancelOperation, and is no longer running.
-- ForceCancelled - The operation was cancelled by the user using CancelOperation, with the force parameter set to true.  It is no longer running.  Refer to CancelOperation for more details.
+
+
+The state of the operation.
+
+Possible values are: 
+
+  - Invalid - The operation state is invalid.
+  - Running - The operation is in progress.
+  - RollingBack - The operation is rolling back internal system state because it encountered a fatal error or was cancelled by the user.  "RollingBack"     does not refer to user state.  For example, if CancelOperation is called on a command of type PartitionDataLoss, state of "RollingBack" does not mean service data is being restored (assuming the command has progressed far enough to cause data loss). It means the system is rolling back/cleaning up internal system state associated with the command.
+  - Completed - The operation has completed successfully and is no longer running.
+  - Faulted - The operation has failed and is no longer running.
+  - Cancelled - The operation was cancelled by the user using CancelOperation, and is no longer running.
+  - ForceCancelled - The operation was cancelled by the user using CancelOperation, with the force parameter set to true.  It is no longer running.  Refer to CancelOperation for more details.
+
 
 
 ____
@@ -67,9 +71,16 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-- Invalid - The operation state is invalid.
-- PartitionDataLoss - An operation started using the StartDataLoss API.
-- PartitionQuorumLoss - An operation started using the StartQuorumLoss API.
-- PartitionRestart - An operation started using the StartPartitionRestart API.
-- NodeTransition - An operation started using the StartNodeTransition API.
+
+
+The type of the operation.
+
+Possible values are: 
+
+  - Invalid - The operation state is invalid.
+  - PartitionDataLoss - An operation started using the StartDataLoss API.
+  - PartitionQuorumLoss - An operation started using the StartQuorumLoss API.
+  - PartitionRestart - An operation started using the StartPartitionRestart API.
+  - NodeTransition - An operation started using the StartNodeTransition API.
+
 

@@ -1,20 +1,13 @@
 ---
-title: "Add, Update or Delete Documents (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2017-01-13"
+title: "Add, Update or Delete Documents (Azure Search Service REST API) | Microsoft Docs"
+description: Refresh an Azure Search with incremental indexing to replace, remove, or create new index entries.
+ms.date: "04/20/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 75503cda-fbc5-4e70-ac14-35fdedd0c001
-caps.latest.revision: 31
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -46,7 +39,7 @@ api-key: [admin key]
 
  The request URI includes, `[index name]`, specifying which index to post documents. You can only post documents to one index at a time.  
 
- The `api-version` parameter is required. The current version is `api-version=2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions.  
+ The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -56,7 +49,7 @@ api-key: [admin key]
 |*Content-Type:*|Required. Set this to `application/json`|  
 |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Add Documents** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body  
  The body of the request contains one or more documents to be indexed. Documents are identified by a unique key. Each document is associated with an action: upload, merge, mergeOrupload, or delete. Upload requests must include the document data as a set of key/value pairs.  

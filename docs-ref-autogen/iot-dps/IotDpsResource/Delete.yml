@@ -1,0 +1,93 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothubdeviceprovisioningservice.iotdpsresource.delete
+name: Delete
+service: IoT Hub Device Provisioning Service
+groupName: Iot Dps Resource
+apiVersion: 2017-11-15
+summary: "Delete the Provisioning Service  \nDeletes the Provisioning Service."
+consumes: []
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}?api-version=2017-11-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group identifier.
+  types:
+  - uid: string
+- name: provisioningServiceName
+  in: path
+  isRequired: true
+  description: Name of provisioning service to delete.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: The provisioning service resource provider always returns a 202 Accepted status code with valid Location and Retry-After headers. The resource provider also sets the Azure-AsyncOperation header with a URL that points to the operation resource for this operation. Subsequent GET attempts on the resource after a DELETE operation return a resource representation that indicates a transitional provisioning state (such as Terminating). To retrieve the status of the operation, a client can either poll the URL returned in the Location header after the Retry-After interval, get the provisioning service status directly, or query the operation resource.
+- name: 200 OK
+  description: This is returned as a response to the status polling request for the delete operation. The body contains the resource representation that indicates a transitional provisioning state.
+- name: 204 No Content
+  description: Once the long running delete operation completes successfully, a 204 No Content status code is returned when the status polling request finds the provisioning service metadata in the service and the status of the delete operation is set to a completed state.
+- name: 404 Not Found
+  description: After the long running delete operation completes successfully, a 404 Not Found is returned when the status polling request no longer finds the provisioning service metadata in the service.
+- name: Other Status Codes
+  description: Default error response.
+  types:
+  - uid: ErrorDetails
+requestHeader: []
+definitions:
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: Code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: HttpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: Message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: Details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+examples:
+- name: DPSDelete
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/provisioningServices/myFirstProvisioningService?api-version=2017-11-15
+  responses:
+  - statusCode: "200"
+  - statusCode: "204"
+  - statusCode: "202"
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

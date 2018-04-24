@@ -38,11 +38,11 @@ Beginning with version 2015-04-05, Azure Storage supports two types of shared ac
  ![Parameter elements of a SAS URL](media/ElementsofaSharedAccessSignatureURL.png "ElementsofaSharedAccessSignatureURL")  
   
 ## Specifying the Signed Version Field  
- The `signedversion` field contains the service version of the shared access signature. This value specifies the version of shared access authentication used by this shared access signature (in the `signature` field), and also specifies the service version of requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Azure Storage Services Versions 2015-07-08 and Earlier](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature. See [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md) for details about how this parameter affects authentication of requests made with a shared access signature.  
+ The `signedversion` field contains the service version of the shared access signature. This value specifies the version of shared access authentication used by this shared access signature (in the `signature` field), and also specifies the service version of requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature. See [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md) for details about how this parameter affects authentication of requests made with a shared access signature.
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedversion`|`sv`|Required and only allowed in versions 2012-02-12 and newer. The storage service version to use to authenticate requests made with this shared access signature, and the service version to use when handling requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Azure Storage Services Versions 2015-07-08 and Earlier](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature, and how clients executing the request can control the version using the `api-version` query parameter or the `x-ms-version` header.|  
+|`signedversion`|`sv`|Required and only allowed in versions 2012-02-12 and newer. The storage service version to use to authenticate requests made with this shared access signature, and the service version to use when handling requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) and [Previous Azure Storage service versions](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md) for information on which version is used when to execute requests via a shared access signature, and how clients executing the request can control the version using the `api-version` query parameter or the `x-ms-version` header.|
   
 ### Determining the Version of a Legacy Shared Access Signature Request  
  In legacy scenarios where `signedversion` is not used, the Blob service applies rules to determine the version. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) for more information about these rules.  
@@ -128,7 +128,7 @@ Beginning with version 2015-04-05, Azure Storage supports two types of shared ac
 |Add|a|Add a block to an append blob.|  
 |Create|c|Write a new blob, snapshot a blob, or copy a blob to a new blob.|  
 |Write|w|Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation.|  
-|Delete|d|Delete the blob.|  
+|Delete|d|Delete the blob. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a blob. See [Lease Blob](Lease-Blob.md) for more information.|  
   
  **Permissions for a container**  
   
@@ -138,7 +138,7 @@ Beginning with version 2015-04-05, Azure Storage supports two types of shared ac
 |Add|a|Add a block to any append blob in the container.|  
 |Create|c|Write a new blob to the container, snapshot any blob in the container, or copy a blob to a new blob in the container.|  
 |Write|w|For any blob in the container, create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. **Note:**  You cannot grant permissions to read or write container properties or metadata, nor to lease a container, with a service SAS. Use an account SAS instead.|  
-|Delete|d|Delete any blob in the container. **Note:**  You cannot grant permissions to delete a container with a service SAS. Use an account SAS instead.|  
+|Delete|d|Delete any blob in the container. **Note:**  You cannot grant permissions to delete a container with a service SAS. Use an account SAS instead. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a container. See [Lease Container](Lease-Container.md) for more information.|  
 |List|l|List blobs in the container.|  
   
  **Permissions for a file**  

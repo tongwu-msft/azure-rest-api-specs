@@ -19,7 +19,7 @@ The REST APIs for the Device Provisioning Service provide programmatic access to
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Device Enrollment](~/docs-ref-autogen/iot-dps/DeviceEnrollment.json)          | Provides device enrollment operations with the Device Provisioning Service. |
-| [Device Enrollment Group](~/docs-ref-autogen/iot-dps/DeviceEnrollmentGroup.json)  | Provides operations for managing device enrollment groups. |
-| [Registration Status](~/docs-ref-autogen/iot-dps/RegistrationStatus.json)  | Provides operations for retrieving and managing the status of device registrations. |
-| [Runtime Registration](~/docs-ref-autogen/iot-dps/RuntimeRegistration.json)  | Provides runtime operations for managing device registrations. |
+| [Device Enrollment](xref:localhost.iothubdeviceprovisioningservice.deviceenrollment)          | Provides device enrollment operations with the Device Provisioning Service. |
+| [Device Enrollment Group](xref:localhost.iothubdeviceprovisioningservice.deviceenrollmentgroup)  | Provides operations for managing device enrollment groups. |
+| [Registration Status](xref:localhost.iothubdeviceprovisioningservice.registrationstate)  | Provides operations for retrieving and managing the status of device registrations. |
+| [Runtime Registration](xref:localhost.iothubdeviceprovisioningservice.runtimeregistration)  | Provides runtime operations for managing device registrations. |

@@ -1,6 +1,6 @@
 ---
 title: "FolderInfo"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # FolderInfo
 
-Information about a image store folder. It inclues how many files this folder contains and its image store relative path.
+Information about a image store folder. It includes how many files this folder contains and its image store relative path.
 
 ## Properties
 | Name | Type | Required |

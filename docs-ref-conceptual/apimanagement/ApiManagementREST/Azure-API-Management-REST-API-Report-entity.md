@@ -27,7 +27,7 @@ translation.priority.mt:
 # Azure API Management REST API Report entity
 This topic describes how to retrieve reports using the API Management REST API.  
   
- For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](http://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
+ For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
   
 ## In this topic  
   

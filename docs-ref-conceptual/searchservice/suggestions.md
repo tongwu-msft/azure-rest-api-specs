@@ -1,20 +1,13 @@
 ---
-title: "Suggestions (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2017-07-17"
+title: "Suggestions (Azure Search Service REST API) | Microsoft Docs"
+description: A query request composed of partial query input, returning matching strings from documents in an Azure Search index. Type-ahead query suggestions can populate dropdown search bars or other UI experiences.
+ms.date: "04/20/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: b3fed159-774d-42e0-8ded-ee453f6cd857
-caps.latest.revision: 32
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -100,7 +93,7 @@ api-key: [admin or query key]
 |--------------------|-----------------|  
 |*api-key*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Suggestions** request can specify either an admin-key or query-key as the `api-key`. The query-key is used for query-only operations.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body  
  For GET: None.  
@@ -158,11 +151,11 @@ api-key: [admin or query key]
  Retrieve 5 suggestions where the partial search input is 'lux':  
 
 ```  
-GET /indexes/hotels/docs/suggest?search=lux&$top=5&suggesterName=sg&api-version=2016-09-01  
+GET /indexes/hotels/docs/suggest?search=lux&$top=5&suggesterName=sg&api-version=2017-11-11  
 ```  
 
 ```  
-POST /indexes/hotels/docs/suggest?api-version=2016-09-01  
+POST /indexes/hotels/docs/suggest?api-version=2017-11-11  
     {  
       "search": "lux",  
       "top": 5,  

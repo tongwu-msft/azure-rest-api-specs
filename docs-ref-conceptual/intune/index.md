@@ -18,19 +18,19 @@ Azure Intune provides mobile device management, mobile application management, a
 
 | Operation group                                                                           | Description                                                |
 |-------------------------------------------------------------------------------------------|------------------------------------------------------------|
-| [Android](~/docs-ref-autogen/intune/android.json)                                                  | Provides operations for managing Android MAM policies.     |
-| [Get Apps](~/docs-ref-autogen/intune/getapps.json)                                                 | Returns a list of Intune manageable apps.                  |
-| [Get Location By Host Name](~/docs-ref-autogen/intune/getlocationbyhostname.json)                  | Returns location for a given tenant.                       |
-| [Get Locations](~/docs-ref-autogen/intune/getlocations.json)                                       | Returns locations for a user tenant.                       |
-| [Get MAM Flagged User By Name](~/docs-ref-autogen/intune/getmamflaggeduserbyname.json)             | Returns Intune flagged user details.                       |
-| [Get MAM Flagged Users](~/docs-ref-autogen/intune/getmamflaggedusers.json)                         | Returns Intune flagged user collection.                    |
-| [Get MAM Statuses](~/docs-ref-autogen/intune/getmamstatuses.json)                                  | Returns Intune Tenant level statuses.                      |
-| [Get MAM User Device By Device Name](~/docs-ref-autogen/intune/getmamuserdevicebydevicename.json)  | Gets a unique device for a user.                           |
-| [Get MAM User Devices](~/docs-ref-autogen/intune/getmamuserdevices.json)                           | Gets devices for a user.                                   |
-| [Get MAM User Flagged Enrolled Apps](~/docs-ref-autogen/intune/getmamuserflaggedenrolledapps.json) | Returns Intune flagged enrolled app collection for a user. |
-| [Get Operation Results](~/docs-ref-autogen/intune/getoperationresults.json)                        | Returns operation results.                                 |
-| [Ios](~/docs-ref-autogen/intune/ios.json)                                                          | Provides operations for managing IOS MAM policies.         |
-| [Wipe MAM User Device](~/docs-ref-autogen/intune/wipemamuserdevice.json)                           | Wipes a device for a user.                                 |
+| [Android](xref:management.azure.com.intune.android)                                                  | Provides operations for managing Android MAM policies.     |
+| [Get Apps](xref:management.azure.com.intune.getapps)                                                 | Returns a list of Intune manageable apps.                  |
+| [Get Location By Host Name](xref:management.azure.com.intune.getlocationbyhostname)                  | Returns location for a given tenant.                       |
+| [Get Locations](xref:management.azure.com.intune.getlocations)                                       | Returns locations for a user tenant.                       |
+| [Get MAM Flagged User By Name](xref:management.azure.com.intune.getmamflaggeduserbyname)             | Returns Intune flagged user details.                       |
+| [Get MAM Flagged Users](xref:management.azure.com.intune.getmamflaggedusers)                         | Returns Intune flagged user collection.                    |
+| [Get MAM Statuses](xref:management.azure.com.intune.getmamstatuses)                                  | Returns Intune Tenant level statuses.                      |
+| [Get MAM User Device By Device Name](xref:management.azure.com.intune.getmamuserdevicebydevicename)  | Gets a unique device for a user.                           |
+| [Get MAM User Devices](xref:management.azure.com.intune.getmamuserdevices)                           | Gets devices for a user.                                   |
+| [Get MAM User Flagged Enrolled Apps](xref:management.azure.com.intune.getmamuserflaggedenrolledapps) | Returns Intune flagged enrolled app collection for a user. |
+| [Get Operation Results](xref:management.azure.com.intune.getoperationresults)                        | Returns operation results.                                 |
+| [Ios](xref:management.azure.com.intune.ios)                                                          | Provides operations for managing IOS MAM policies.         |
+| [Wipe MAM User Device](xref:management.azure.com.intune.wipemamuserdevice)                           | Wipes a device for a user.                                 |
 
 ## See also
 

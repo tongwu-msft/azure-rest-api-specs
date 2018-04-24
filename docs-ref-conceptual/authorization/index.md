@@ -18,11 +18,11 @@ For api-version, use 2015-07-01.
 
 | Operation Group                                   | Description |
 |---------------------------------------------------|-------------|
-| [Classic Administrators](~/docs-ref-autogen/authorization/classicadministrators.json) | Provides information about administrators in a subscription. |
-| [Permissions](~/docs-ref-autogen/authorization/permissions.json)                      | Provides operations to get the permissions assigned to resources and resource groups. |
-| [Provider Operations Metadata](~/docs-ref-autogen/authorization/provideroperationsmetadata.json) | Provides operations for getting information about resource providers. |
-| [Role Assignments](~/docs-ref-autogen/authorization/roleassignments.json)             | Provides operations for working with role assignments, such as assigning a role to a user or group. |
-| [Role Definitions](~/docs-ref-autogen/authorization/roledefinitions.json)             | Provides operations for defining roles, such as what actions are permitted. |
+| [Classic Administrators](xref:management.azure.com.authorization.classicadministrators) | Provides information about administrators in a subscription. |
+| [Permissions](xref:management.azure.com.authorization.permissions)                      | Provides operations to get the permissions assigned to resources and resource groups. |
+| [Provider Operations Metadata](xref:management.azure.com.authorization.provideroperationsmetadata) | Provides operations for getting information about resource providers. |
+| [Role Assignments](xref:management.azure.com.authorization.roleassignments)             | Provides operations for working with role assignments, such as assigning a role to a user or group. |
+| [Role Definitions](xref:management.azure.com.authorization.roledefinitions)             | Provides operations for defining roles, such as what actions are permitted. |
 
 ## See Also
 

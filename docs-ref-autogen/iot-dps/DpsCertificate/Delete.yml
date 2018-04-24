@@ -1,0 +1,157 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothubdeviceprovisioningservice.dpscertificate.delete
+name: Delete
+service: IoT Hub Device Provisioning Service
+groupName: Dps Certificate
+apiVersion: 2017-11-15
+summary: "Delete the Provisioning Service Certificate.  \nDeletes the specified certificate assosciated with the Provisioning Service"
+consumes: []
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}?api-version=2017-11-15
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}?certificate.name={certificate.name}&certificate.rawBytes={certificate.rawBytes}&certificate.isVerified={certificate.isVerified}&certificate.purpose={certificate.purpose}&certificate.created={certificate.created}&certificate.lastUpdated={certificate.lastUpdated}&certificate.hasPrivateKey={certificate.hasPrivateKey}&certificate.nonce={certificate.nonce}&api-version=2017-11-15
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group identifier.
+  types:
+  - uid: string
+- name: provisioningServiceName
+  in: path
+  isRequired: true
+  description: The name of the provisioning service.
+  types:
+  - uid: string
+- name: certificateName
+  in: path
+  isRequired: true
+  description: This is a mandatory field, and is the logical name of the certificate that the provisioning service will access by.
+  types:
+  - uid: string
+- name: certificate.name
+  in: query
+  description: This is optional, and it is the Common Name of the certificate.
+  types:
+  - uid: string
+- name: certificate.rawBytes
+  in: query
+  description: Raw data within the certificate.
+  types:
+  - uid: string
+  format: byte
+- name: certificate.isVerified
+  in: query
+  description: Indicates if certificate has been verified by owner of the private key.
+  types:
+  - uid: boolean
+- name: certificate.purpose
+  in: query
+  description: A description that mentions the purpose of the certificate.
+  types:
+  - uid: CertificatePurpose
+- name: certificate.created
+  in: query
+  description: Time the certificate is created.
+  types:
+  - uid: string
+  format: date-time
+- name: certificate.lastUpdated
+  in: query
+  description: Time the certificate is last updated.
+  types:
+  - uid: string
+  format: date-time
+- name: certificate.hasPrivateKey
+  in: query
+  description: Indicates if the certificate contains a private key.
+  types:
+  - uid: boolean
+- name: certificate.nonce
+  in: query
+  description: Random number generated to indicate Proof of Possession.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+- name: 204 No Content
+  description: No content.
+- name: Other Status Codes
+  description: Default error response.
+  types:
+  - uid: ErrorDetails
+requestHeader:
+- name: If-Match
+  in: header
+  isRequired: true
+  description: ETag of the certificate
+  types:
+  - uid: string
+definitions:
+- name: CertificatePurpose
+  description: A description that mentions the purpose of the certificate.
+  kind: enum
+  properties:
+  - name: clientAuthentication
+    types:
+    - uid: string
+  - name: serverAuthentication
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: Code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: HttpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: Message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: Details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+examples:
+- name: DPSDeleteCertificate
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/provisioningServices/myFirstProvisioningService/certificates/cert?api-version=2017-11-15
+    headers:
+    - name: If-Match
+      value: AAAAAAAADGk=
+  responses:
+  - statusCode: "200"
+  - statusCode: "204"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

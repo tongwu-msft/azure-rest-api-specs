@@ -1,0 +1,121 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.apidiagnostic.delete
+name: Delete
+service: API Management
+groupName: Api Diagnostic
+apiVersion: 2018-01-01
+summary: Deletes the specified Diagnostic from an API.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}?api-version=2018-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: apiId
+  in: path
+  isRequired: true
+  description: API identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+- name: diagnosticId
+  in: path
+  isRequired: true
+  description: Diagnostic identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The Diagnostic was successfully deleted.
+- name: 204 No Content
+  description: The Diagnostic was successfully deleted.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: If-Match
+  in: header
+  isRequired: true
+  description: ETag of the Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
+  types:
+  - uid: string
+definitions:
+- name: ErrorResponse
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementDeleteApiDiagnostic
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/diagnostics/default?api-version=2018-01-01
+    headers:
+    - name: If-Match
+      value: '*'
+  responses:
+  - statusCode: "204"
+  - statusCode: "200"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

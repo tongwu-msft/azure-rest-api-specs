@@ -1,20 +1,13 @@
 ---
-title: "Run Indexer (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2016-11-09"
+title: "Run Indexer (Azure Search Service REST API)  | Microsoft Docs"
+description: Trigger Azure Search indexing when using an indexer to crawl external data for searchable content.
+ms.date: "04/20/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 6861f630-43d2-41dd-aa17-db881bffac20
-caps.latest.revision: 10
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -35,9 +28,9 @@ POST https://[service name].search.windows.net/indexers/[indexer name]/run?api-v
     api-key: [admin key]  
 ```  
 
- The **api-version** is required. The current version is `2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The **api-version** is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](http://azure.microsoft.com/en-us/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+ The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](https://azure.microsoft.com/en-us/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
 
 ## Response  
  Status Code: 202 Accepted is returned for a successful response.  

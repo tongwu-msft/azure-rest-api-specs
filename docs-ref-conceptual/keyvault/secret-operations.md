@@ -11,23 +11,23 @@ ms.date: 06/14/2017
 
 The Azure Key Vault REST API supports the following operations for secrets.
 
-- [Set a secret](../../docs-ref-autogen/keyvault/SetSecret.json)
-- [Get a secret](../../docs-ref-autogen/keyvault/GetSecret.json)
-- [Get secrets in a key vault](../../docs-ref-autogen/keyvault/GetSecrets.json)
-- [Get versions of a secret](../../docs-ref-autogen/keyvault/GetSecretVersions.json)
-- [Delete a secret](../../docs-ref-autogen/keyvault/DeleteSecret.json)
-- [Update a secret](../../docs-ref-autogen/keyvault/UpdateSecret.json)
-- [Backup a secret](../../docs-ref-autogen/keyvault/BackupSecret.json)
-- [Restore a secret](../../docs-ref-autogen/keyvault/RestoreSecret.json)
+- [Set a secret](xref:keyvault.setsecret)
+- [Get a secret](xref:keyvault.getsecret)
+- [Get secrets in a key vault](xref:keyvault.getsecrets)
+- [Get versions of a secret](xref:keyvault.getsecretversions)
+- [Delete a secret](xref:keyvault.deletesecret)
+- [Update a secret](xref:keyvault.updatesecret)
+- [Backup a secret](xref:keyvault.backupsecret)
+- [Restore a secret](xref:keyvault.restoresecret)
 
 ## Soft-delete operations
 
 The soft-delete feature suppports these operations for deleted secrets
 
-- [Get deleted secret](../../docs-ref-autogen/keyvault/GetDeletedSecret.json)
-- [Get deleted secrets](../../docs-ref-autogen/keyvault/GetDeletedSecrets.json)
-- [Purge deleted secret](../../docs-ref-autogen/keyvault/PurgeDeletedSecret.json)
-- [Recover deleted secret](../../docs-ref-autogen/keyvault/RecoverDeletedSecret.json)
+- [Get deleted secret](xref:keyvault.getdeletedsecret)
+- [Get deleted secrets](xref:keyvault.getdeletedsecrets)
+- [Purge deleted secret](xref:keyvault.purgedeletedsecret)
+- [Recover deleted secret](xref:keyvault.recoverdeletedsecret)
 
 For more information on Key Vault's soft-delete feature, see [Azure Key Vault soft-delete feature overview](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete).
 

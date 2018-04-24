@@ -1,6 +1,6 @@
 ---
 title: "DeployedStatelessServiceInstanceInfo"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -93,6 +93,8 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The status of a replica of a service. Possible values are following.
 
   -Invalid - Indicates the replica status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
@@ -101,6 +103,7 @@ The status of a replica of a service. Possible values are following.
   -Ready - The replica is ready. The value is 3.
   -Down - The replica is down. The value is 4.
   -Dropped - Replica is dropped. This means that the replica has been removed from the replica set. If it is persisted, its state has been deleted. The value is 5.
+
 
 
 ____
@@ -132,4 +135,4 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Id of a stateless service instance. InstanceId is used by Service Fabric to uniquely identify an instance of a partition of a stateless service. It is unique within a partition and does not change for the lifetime of the instance. If the instance is failedover on the same or different node, it will get a different value for the InstanceId.
+Id of a stateless service instance. InstanceId is used by Service Fabric to uniquely identify an instance of a partition of a stateless service. It is unique within a partition and does not change for the lifetime of the instance. If the instance has failed over on the same or different node, it will get a different value for the InstanceId.

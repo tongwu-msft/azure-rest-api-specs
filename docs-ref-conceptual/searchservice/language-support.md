@@ -1,18 +1,13 @@
 ---
-title: "Language analyzers (Azure Search Service REST API)"
-ms.custom: ""
+title: "Language analyzers (Azure Search Service REST API) | Microsoft Docs"
+description: Multi-lingual lexical text analysis for non-English queries and indexes in Azure Search.
 ms.date: "2017-09-02"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-ms.assetid: 8f35915a-2bfa-4f23-80c3-e3f54e9e4543
-caps.latest.revision: 28
 author: "Yahnoosh"
 ms.author: "jlembicz"
-manager: "pablocas"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -27,7 +22,7 @@ translation.priority.mt:
 ---
 # Language analyzers in Azure Search
 
-A *language analyzer* is a specific component of a [full-text search engine](https://docs.microsoft.com/azure/search/search-lucene-query-architecture) that performs lexical analysis using the linguistic rules of the target language. Every searchable field has an `analyzer` property. If your index contains translated strings, such as separate fields for English and Chinese text, you could specify language analyzers on each field to access the rich linguistic capabilites of those analyzers.  
+A *language analyzer* is a specific component of a [full-text search engine](https://docs.microsoft.com/azure/search/search-lucene-query-architecture) that performs lexical analysis using the linguistic rules of the target language. Every searchable field has an `analyzer` property. If your index contains translated strings, such as separate fields for English and Chinese text, you could specify language analyzers on each field to access the rich linguistic capabilities of those analyzers.  
 
 Azure Search supports 35 analyzers backed by Lucene, and 50 analyzers backed by proprietary Microsoft natural language processing technology used in Office and Bing.
 
@@ -50,11 +45,11 @@ The default analyzer is Standard Lucene, which works well for English, but perha
 
 ## Analyzer configuration
 
-For each field in the index definition, you can set the `analyzer` property to an analyzer name that specifies which language and vendor. The same analyzer will be applied when indexing and searching for that field. For example, you can have separate fields for English, French, and Spanish hotel descriptions that exist side-by-side in the same index.  
+For each field in the index definition, you can set the `analyzer` property to an analyzer name that specifies which language and vendor. The same analyzer will be applied when indexing and searching for that field. For example, you can have separate fields for English, French, and Spanish hotel descriptions that exist side by side in the same index.  
 
 Use the **searchFields** query parameter to specify which language-specific field to search against in your queries. You can review query examples that include the analyzer property in Search Documents. 
 
-For more information about index properties, see [Create Index &#40;Azure Search Service REST API&#41;](create-index.md). For more information about analysis in Azure Search, see [Analyzers in Azure Search](https://docs.microsoft.com/azure/search/search-analyzers.md)
+For more information about index properties, see [Create Index &#40;Azure Search Service REST API&#41;](create-index.md). For more information about analysis in Azure Search, see [Analyzers in Azure Search](https://docs.microsoft.com/azure/search/search-analyzers).
 
 ## Analyzer List  
  Below is the list of supported languages together with Lucene and Microsoft analyzer names.  

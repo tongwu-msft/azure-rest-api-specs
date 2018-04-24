@@ -16,8 +16,8 @@ The Microsoft Azure DNS Resource Provider REST API allows you to create and modi
 
 | Operation Group | Description |
 |-----------------|-------------|
-|[DNS Zones](~/docs-ref-autogen/dns/Zones.json)| A DNS zone within a resource group |
-|[DNS Record Sets](~/docs-ref-autogen/dns/RecordSets.json)|The set of records (within a zone) with the same name and record type. Each DNS record type is represented as a separate Azure Resource Manager resource type. These resources are children of the 'dnsZone' resource.|
+|[DNS Zones](xref:management.azure.com.dns.zones)| A DNS zone within a resource group |
+|[DNS Record Sets](xref:management.azure.com.dns.recordsets)|The set of records (within a zone) with the same name and record type. Each DNS record type is represented as a separate Azure Resource Manager resource type. These resources are children of the 'dnsZone' resource.|
 
 ## See Also
 

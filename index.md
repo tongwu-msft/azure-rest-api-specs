@@ -24,11 +24,13 @@ Representational State Transfer (REST) APIs are service endpoints that support s
 * Overviews of creating and sending a REST request, and handling the response.
 
 > [!NOTE] 
-> Most Azure service REST APIs have a corresponding client SDK library, which handles much of the client code for you. See:  
+> Most Azure service REST APIs have client libraries that provide a native interface for using Azure services. 
 > 
-> [Azure .NET SDK][SDK-NET]  
-> [Azure Java SDK][SDK-JAVA]  
-> [Azure CLI 2.0 SDK][SDK-CLI]  
+> [.NET][SDK-NET]   
+> [Java][SDK-JAVA]   
+> [Node.js][SDK-NODE]   
+> [Python][SDK-PYTHON]   
+> [Azure CLI 2.0 SDK][SDK-CLI]    
 
 ## Components of a REST API request/response
 
@@ -209,7 +211,8 @@ And you should receive a response body that contains a list of Azure subscriptio
         "subscriptionId":"...",
         "displayName":"My Azure Subscription",
         "state":"Enabled",
-        "subscriptionPolicies":{
+
+"subscriptionPolicies":{
             "locationPlacementId":"Public_2015-09-01",
             "quotaId":"MSDN_2014-05-01",
             "spendingLimit":"On"}
@@ -275,6 +278,8 @@ To provide feedback and help us refine and shape our content, use the LiveFyre c
 [ARM-Create-Sp-Portal]: /azure/azure-resource-manager/resource-group-create-service-principal-portal
 [ARM-Provider-Summary]: /azure/azure-resource-manager/resource-manager-supported-services
 [ARM-Async-Ops]: /azure/azure-resource-manager/resource-manager-async-operations
-[SDK-NET]: /dotnet/api/
-[SDK-JAVA]: /java/api/
+[SDK-NET]: /dotnet/api/overview/azure/
+[SDK-JAVA]: /java/api/overview/azure/
+[SDK-NODE]: /javascript/api/overview/azure/
+[SDK-PYTHON]: /python/api/overview/azure/
 [SDK-CLI]: /cli/azure/

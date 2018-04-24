@@ -1,5 +1,5 @@
 ---
-title: "Incremental Copy Blob"
+title: "Get Page Ranges"
 ms.custom: na
 ms.date: 2016-12-13
 ms.prod: azure
@@ -149,7 +149,7 @@ If both `Range` and `x-ms-range` are specified, the service uses the value of `x
  Certain operations on a blob will cause `Get Page Ranges` to fail when called to return an incremental snapshot. `Get Pages Ranges` will fail with error code 409 (Conflict) if it is called on a blob that was the target of a [Put Blob](Put-Blob.md) or [Copy Blob](Copy-Blob.md) request after the snapshot specified by `prevsnapshot` was taken. If the target of the `Get Page Ranges` operation is itself a snapshot, then the call will succeed as long as the snapshot specified by `prevsnapshot` is older, and no `Put Blob` or `Copy Blob` operation was called in the interval between the two snapshots.  
   
 > [!NOTE]
->  Incremental snapshots are currently supported only for blobs created on or after January 1, 2016. Attempting to use this feature on an older blob will result in the `BlobOverwritten` error, which is HTTP error code 409 (Conlfict).  
+>  Incremental snapshots are currently supported only for blobs created on or after January 1, 2016. Attempting to use this feature on an older blob will result in the `BlobOverwritten` error, which is HTTP error code 409 (Conflict).  
   
 ## See Also  
  [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   

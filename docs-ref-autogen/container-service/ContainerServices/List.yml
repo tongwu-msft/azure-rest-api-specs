@@ -1,0 +1,510 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerservice.containerservices.list
+name: List
+service: Container Service
+groupName: Container Services
+apiVersion: 2017-01-31
+summary: "Gets a list of container services in the specified subscription.  \nGets a list of container services in the specified subscription. The operation returns properties of each container service including state, orchestrator, number of masters and agents, and FQDNs of masters and agents."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/containerServices?api-version=2017-01-31
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ContainerServiceListResult
+requestHeader: []
+definitions:
+- name: ContainerServiceListResult
+  description: The response from the List Container Services operation.
+  kind: object
+  properties:
+  - name: value
+    description: the list of container services.
+    types:
+    - uid: ContainerService
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of container service results.
+    types:
+    - uid: string
+- name: ContainerService
+  description: Container service.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: the current deployment or provisioning state, which only appears in the response.
+    types:
+    - uid: string
+  - name: properties.orchestratorProfile
+    description: Properties of the orchestrator.
+    types:
+    - uid: ContainerServiceOrchestratorProfile
+  - name: properties.customProfile
+    description: Properties for custom clusters.
+    types:
+    - uid: ContainerServiceCustomProfile
+  - name: properties.servicePrincipalProfile
+    description: Properties for cluster service principals.
+    types:
+    - uid: ContainerServiceServicePrincipalProfile
+  - name: properties.masterProfile
+    description: Properties of master agents.
+    types:
+    - uid: ContainerServiceMasterProfile
+  - name: properties.agentPoolProfiles
+    description: Properties of the agent pool.
+    types:
+    - uid: ContainerServiceAgentPoolProfile
+      isArray: true
+  - name: properties.windowsProfile
+    description: Properties of Windows VMs.
+    types:
+    - uid: ContainerServiceWindowsProfile
+  - name: properties.linuxProfile
+    description: Properties of Linux VMs.
+    types:
+    - uid: ContainerServiceLinuxProfile
+  - name: properties.diagnosticsProfile
+    description: Properties of the diagnostic agent.
+    types:
+    - uid: ContainerServiceDiagnosticsProfile
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ContainerServiceOrchestratorProfile
+  description: Profile for the container service orchestrator.
+  kind: object
+  properties:
+  - name: orchestratorType
+    description: The orchestrator to use to manage container service cluster resources. Valid values are Swarm, DCOS, and Custom.
+    types:
+    - uid: ContainerServiceOrchestratorTypes
+- name: ContainerServiceCustomProfile
+  description: Properties to configure a custom container service cluster.
+  kind: object
+  properties:
+  - name: orchestrator
+    description: The name of the custom orchestrator to use.
+    types:
+    - uid: string
+- name: ContainerServiceServicePrincipalProfile
+  description: Information about a service principal identity for the cluster to use for manipulating Azure APIs.
+  kind: object
+  properties:
+  - name: clientId
+    description: The ID for the service principal.
+    types:
+    - uid: string
+  - name: secret
+    description: The secret password associated with the service principal.
+    types:
+    - uid: string
+- name: ContainerServiceMasterProfile
+  description: Profile for the container service master.
+  kind: object
+  properties:
+  - name: count
+    description: Number of masters (VMs) in the container service cluster. Allowed values are 1, 3, and 5. The default value is 1.
+    types:
+    - uid: "1"
+    - uid: "3"
+    - uid: "5"
+    typesTitle: enum
+  - name: dnsPrefix
+    description: DNS prefix to be used to create the FQDN for master.
+    types:
+    - uid: string
+  - name: fqdn
+    isReadyOnly: true
+    description: FDQN for the master.
+    types:
+    - uid: string
+- name: ContainerServiceAgentPoolProfile
+  description: Profile for the container service agent pool.
+  kind: object
+  properties:
+  - name: name
+    description: Unique name of the agent pool profile in the context of the subscription and resource group.
+    types:
+    - uid: string
+  - name: count
+    description: 'Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
+    types:
+    - uid: integer
+  - name: vmSize
+    description: Size of agent VMs.
+    types:
+    - uid: ContainerServiceVMSizeTypes
+  - name: dnsPrefix
+    description: DNS prefix to be used to create the FQDN for the agent pool.
+    types:
+    - uid: string
+  - name: fqdn
+    isReadyOnly: true
+    description: FDQN for the agent pool.
+    types:
+    - uid: string
+- name: ContainerServiceWindowsProfile
+  description: Profile for Windows VMs in the container service cluster.
+  kind: object
+  properties:
+  - name: adminUsername
+    description: The administrator username to use for Windows VMs.
+    types:
+    - uid: string
+  - name: adminPassword
+    description: The administrator password to use for Windows VMs.
+    types:
+    - uid: string
+- name: ContainerServiceLinuxProfile
+  description: Profile for Linux VMs in the container service cluster.
+  kind: object
+  properties:
+  - name: adminUsername
+    description: The administrator username to use for Linux VMs.
+    types:
+    - uid: string
+  - name: ssh
+    description: The ssh key configuration for Linux VMs.
+    types:
+    - uid: ContainerServiceSshConfiguration
+- name: ContainerServiceDiagnosticsProfile
+  kind: object
+  properties:
+  - name: vmDiagnostics
+    description: Profile for the container service VM diagnostic agent.
+    types:
+    - uid: ContainerServiceVMDiagnostics
+- name: ContainerServiceOrchestratorTypes
+  description: The orchestrator to use to manage container service cluster resources. Valid values are Swarm, DCOS, and Custom.
+  kind: enum
+  properties:
+  - name: Swarm
+    types:
+    - uid: string
+  - name: DCOS
+    types:
+    - uid: string
+  - name: Custom
+    types:
+    - uid: string
+  - name: Kubernetes
+    types:
+    - uid: string
+- name: ContainerServiceVMSizeTypes
+  description: Size of agent VMs.
+  kind: enum
+  properties:
+  - name: Standard_A0
+    types:
+    - uid: string
+  - name: Standard_A1
+    types:
+    - uid: string
+  - name: Standard_A2
+    types:
+    - uid: string
+  - name: Standard_A3
+    types:
+    - uid: string
+  - name: Standard_A4
+    types:
+    - uid: string
+  - name: Standard_A5
+    types:
+    - uid: string
+  - name: Standard_A6
+    types:
+    - uid: string
+  - name: Standard_A7
+    types:
+    - uid: string
+  - name: Standard_A8
+    types:
+    - uid: string
+  - name: Standard_A9
+    types:
+    - uid: string
+  - name: Standard_A10
+    types:
+    - uid: string
+  - name: Standard_A11
+    types:
+    - uid: string
+  - name: Standard_D1
+    types:
+    - uid: string
+  - name: Standard_D2
+    types:
+    - uid: string
+  - name: Standard_D3
+    types:
+    - uid: string
+  - name: Standard_D4
+    types:
+    - uid: string
+  - name: Standard_D11
+    types:
+    - uid: string
+  - name: Standard_D12
+    types:
+    - uid: string
+  - name: Standard_D13
+    types:
+    - uid: string
+  - name: Standard_D14
+    types:
+    - uid: string
+  - name: Standard_D1_v2
+    types:
+    - uid: string
+  - name: Standard_D2_v2
+    types:
+    - uid: string
+  - name: Standard_D3_v2
+    types:
+    - uid: string
+  - name: Standard_D4_v2
+    types:
+    - uid: string
+  - name: Standard_D5_v2
+    types:
+    - uid: string
+  - name: Standard_D11_v2
+    types:
+    - uid: string
+  - name: Standard_D12_v2
+    types:
+    - uid: string
+  - name: Standard_D13_v2
+    types:
+    - uid: string
+  - name: Standard_D14_v2
+    types:
+    - uid: string
+  - name: Standard_G1
+    types:
+    - uid: string
+  - name: Standard_G2
+    types:
+    - uid: string
+  - name: Standard_G3
+    types:
+    - uid: string
+  - name: Standard_G4
+    types:
+    - uid: string
+  - name: Standard_G5
+    types:
+    - uid: string
+  - name: Standard_DS1
+    types:
+    - uid: string
+  - name: Standard_DS2
+    types:
+    - uid: string
+  - name: Standard_DS3
+    types:
+    - uid: string
+  - name: Standard_DS4
+    types:
+    - uid: string
+  - name: Standard_DS11
+    types:
+    - uid: string
+  - name: Standard_DS12
+    types:
+    - uid: string
+  - name: Standard_DS13
+    types:
+    - uid: string
+  - name: Standard_DS14
+    types:
+    - uid: string
+  - name: Standard_GS1
+    types:
+    - uid: string
+  - name: Standard_GS2
+    types:
+    - uid: string
+  - name: Standard_GS3
+    types:
+    - uid: string
+  - name: Standard_GS4
+    types:
+    - uid: string
+  - name: Standard_GS5
+    types:
+    - uid: string
+- name: ContainerServiceSshConfiguration
+  description: SSH configuration for Linux-based VMs running on Azure.
+  kind: object
+  properties:
+  - name: publicKeys
+    description: the list of SSH public keys used to authenticate with Linux-based VMs.
+    types:
+    - uid: ContainerServiceSshPublicKey
+      isArray: true
+- name: ContainerServiceVMDiagnostics
+  description: Profile for diagnostics on the container service VMs.
+  kind: object
+  properties:
+  - name: enabled
+    description: Whether the VM diagnostic agent is provisioned on the VM.
+    types:
+    - uid: boolean
+  - name: storageUri
+    isReadyOnly: true
+    description: The URI of the storage account where diagnostics are stored.
+    types:
+    - uid: string
+- name: ContainerServiceSshPublicKey
+  description: Contains information about SSH certificate public key data.
+  kind: object
+  properties:
+  - name: keyData
+    description: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or without headers.
+    types:
+    - uid: string
+examples:
+- name: List Container Services
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid1/providers/Microsoft.ContainerService/containerServices?api-version=2017-01-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "type": "Microsoft.ContainerService/ContainerServices",
+            "location": "location1",
+            "id": "/subscriptions/subid1/resourceGroups/RG1/providers/Microsoft.ContainerService/containerServices/acs1",
+            "name": "acs1",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "orchestratorProfile": {
+                "orchestratorType": "DCOS"
+              },
+              "masterProfile": {
+                "count": 1,
+                "dnsPrefix": "acs1-rg1-e240e5mgmt",
+                "fqdn": "acs1-rg1-e240e5mgmt.location1.cloudapp.azure.com"
+              },
+              "agentPoolProfiles": [
+                {
+                  "name": "agentpool0",
+                  "count": 3,
+                  "vmSize": "Standard_D2_v2",
+                  "dnsPrefix": "acs1-rg1-e240e5agent",
+                  "fqdn": "acs1-rg1-e240e5agent.location1.cloudapp.azure.com"
+                }
+              ],
+              "linuxProfile": {
+                "ssh": {
+                  "publicKeys": [
+                    {
+                      "keyData": "ssh-rsa AAAAB3NzaC1y...+0vNzo1FAdQ== user@hostname.local\n"
+                    }
+                  ]
+                },
+                "adminUsername": "azureuser"
+              },
+              "diagnosticsProfile": {
+                "vmDiagnostics": {
+                  "enabled": true,
+                  "storageUri": "https://mjwjtrv73stvgdiag0.blob.core.windows.net/"
+                }
+              }
+            }
+          },
+          {
+            "type": "Microsoft.ContainerService/ContainerServices",
+            "location": "location1",
+            "id": "/subscriptions/subid1/resourceGroups/RG1/providers/Microsoft.ContainerService/containerServices/acs2",
+            "name": "acs2",
+            "properties": {
+              "provisioningState": "Creating",
+              "orchestratorProfile": {
+                "orchestratorType": "DCOS"
+              },
+              "masterProfile": {
+                "count": 1,
+                "dnsPrefix": "acs2-rg1-e240e5mgmt"
+              },
+              "agentPoolProfiles": [
+                {
+                  "name": "agentpool0",
+                  "count": 3,
+                  "vmSize": "Standard_D2_v2",
+                  "dnsPrefix": "acs2-rg1-e240e5agent"
+                }
+              ],
+              "linuxProfile": {
+                "ssh": {
+                  "publicKeys": [
+                    {
+                      "keyData": "ssh-rsa AAAAB3NzaC1y...+0vNzo1FAdQ== user@hostname.local\n"
+                    }
+                  ]
+                },
+                "adminUsername": "azureuser"
+              },
+              "diagnosticsProfile": {
+                "vmDiagnostics": {
+                  "enabled": true
+                }
+              }
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,18 +1,13 @@
 ---
-title: "Document operations (Azure Search Service REST API)"
-ms.custom: ""
+title: "Document operations (Azure Search Service REST API) | Microsoft Docs"
+description: Learn which REST API calls are used to populate and query an Azure Search index.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "language-reference"
-ms.assetid: 86722ded-daf6-4776-b984-b0dfd48218c0
-caps.latest.revision: 14
+ms.topic: conceptual
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -28,7 +23,7 @@ translation.priority.mt:
 # Document operations (Azure Search Service REST API)
   In Azure Search, an index is stored in the cloud and populated using JSON documents that you upload to the service. All the documents that you upload comprise the corpus of your search data. Documents contain fields, some of which are tokenized into search terms as they are uploaded. The `/docs` URL segment in the Azure Search API represents the collection of documents in an index. All operations performed on the collection such as uploading, merging, deleting, or querying documents take place in the context of a single index, so the URLs for these operations will always start with `/indexes/[index name]/docs` for a given index name.  
 
- Your application code must either generate JSON documents to upload to Azure Search or you can use an indexer to load documents if the data source is either Azure SQL Database or DocumentDB. Typically, indexes are populated from a single dataset that you provide.  
+ Your application code must either generate JSON documents to upload to Azure Search or you can use an indexer to load documents if the data source is either Azure SQL Database or Azure Cosmos DB. Typically, indexes are populated from a single dataset that you provide.  
 
  Before you can upload documents, you must have already created the index on the service. See [Create Index &#40;Azure Search Service REST API&#41;](create-index.md) or [Create an Azure Search index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/) for instructions.  
 

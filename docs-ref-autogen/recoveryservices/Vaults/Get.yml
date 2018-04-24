@@ -1,0 +1,225 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.recoveryservices.vaults.get
+name: Get
+service: Recovery Services
+groupName: Vaults
+apiVersion: 2016-06-01
+summary: Get the Vault details.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}?api-version=2016-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Vault
+requestHeader: []
+definitions:
+- name: Vault
+  description: Resource information, as returned by the resource provider.
+  kind: object
+  properties:
+  - name: properties
+    description: Properties of the vault.
+    types:
+    - uid: VaultProperties
+  - name: sku
+    description: Identifies the unique system identifier for each Azure resource.
+    types:
+    - uid: Sku
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id represents the complete path to the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name associated with the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+    types:
+    - uid: string
+  - name: eTag
+    description: Optional ETag.
+    types:
+    - uid: string
+- name: VaultProperties
+  description: Properties of the vault.
+  kind: object
+  properties:
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning State.
+    types:
+    - uid: string
+  - name: upgradeDetails
+    description: Details for upgrading vault.
+    types:
+    - uid: UpgradeDetails
+- name: Sku
+  description: Identifies the unique system identifier for each Azure resource.
+  kind: object
+  properties:
+  - name: name
+    description: The Sku name.
+    types:
+    - uid: SkuName
+- name: UpgradeDetails
+  description: Details for upgrading vault.
+  kind: object
+  properties:
+  - name: operationId
+    isReadyOnly: true
+    description: ID of the vault upgrade operation.
+    types:
+    - uid: string
+  - name: startTimeUtc
+    isReadyOnly: true
+    description: UTC time at which the upgrade operation has started.
+    types:
+    - uid: string
+  - name: lastUpdatedTimeUtc
+    isReadyOnly: true
+    description: UTC time at which the upgrade operation status was last updated.
+    types:
+    - uid: string
+  - name: endTimeUtc
+    isReadyOnly: true
+    description: UTC time at which the upgrade operation has ended.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Status of the vault upgrade operation.
+    types:
+    - uid: VaultUpgradeState
+  - name: message
+    isReadyOnly: true
+    description: Message to the user containing information about the upgrade operation.
+    types:
+    - uid: string
+  - name: triggerType
+    isReadyOnly: true
+    description: The way the vault upgradation was triggered.
+    types:
+    - uid: TriggerType
+  - name: upgradedResourceId
+    isReadyOnly: true
+    description: Resource ID of the upgraded vault.
+    types:
+    - uid: string
+  - name: previousResourceId
+    isReadyOnly: true
+    description: Resource ID of the vault before the upgrade.
+    types:
+    - uid: string
+- name: SkuName
+  description: The Sku name.
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: RS0
+    types:
+    - uid: string
+- name: VaultUpgradeState
+  description: Status of the vault upgrade operation.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Upgraded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: TriggerType
+  description: The way the vault upgradation was triggered.
+  kind: enum
+  properties:
+  - name: UserTriggered
+    types:
+    - uid: string
+  - name: ForcedUpgrade
+    types:
+    - uid: string
+examples:
+- name: Get Recovery Services Resource
+  request:
+    uri: GET https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/Default-RecoveryServices-ResourceGroup/providers/Microsoft.RecoveryServices/vaults/swaggerExample?api-version=2016-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "westus",
+        "name": "swaggerExample",
+        "eTag": "W/\"datetime'2017-12-15T12%3A36%3A51.68Z'\"",
+        "tags": {
+          "TestUpdatedKey": "TestUpdatedValue"
+        },
+        "properties": {
+          "provisioningState": "Succeeded"
+        },
+        "id": "/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/Default-RecoveryServices-ResourceGroup/providers/Microsoft.RecoveryServices/vaults/swaggerExample",
+        "type": "Microsoft.RecoveryServices/vaults",
+        "sku": {
+          "name": "Standard"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.

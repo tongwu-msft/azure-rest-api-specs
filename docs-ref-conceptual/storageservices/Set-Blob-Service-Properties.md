@@ -25,10 +25,12 @@ translation.priority.mt:
   - zh-tw
 ---
 # Set Blob Service Properties
-The `Set Blob Service Properties` operation sets properties for a storage account’s Blob service endpoint, including properties for [Storage Analytics](Storage-Analytics.md), CORS (Cross-Origin Resource Sharing) rules and soft delete settings. See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for more information on CORS rules.  
-  
- You can also use this operation to set the default request version for all incoming requests to the Blob service that do not have a version specified.  
-  
+The `Set Blob Service Properties` operation sets properties for a storage account’s Blob service endpoint, including properties for [Storage Analytics](Storage-Analytics.md), CORS (Cross-Origin Resource Sharing) rules and soft delete settings. The Soft Delete feature is currently in preview.
+
+You can also use this operation to set the default request version for all incoming requests to the Blob service that do not have a version specified.
+
+See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for more information on CORS rules.
+
 ## Request  
  The `Set Blob Service Properties` request may be specified as follows. HTTPS is recommended. Replace `<account-name>` with the name of your storage account:  
   

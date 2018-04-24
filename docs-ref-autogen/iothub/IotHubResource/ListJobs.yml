@@ -1,0 +1,213 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothub.iothubresource.listjobs
+name: List Jobs
+service: IoT Hub
+groupName: Iot Hub Resource
+apiVersion: 2018-04-01
+summary: 'Get a list of all the jobs in an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry.'
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/jobs?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the IoT hub.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the IoT hub.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: This is a synchronous operation. The response contains a JSON-serialized array of all the jobs in the IoT hub.
+  types:
+  - uid: JobResponseListResult
+- name: Other Status Codes
+  description: DefaultErrorResponse
+  types:
+  - uid: ErrorDetails
+requestHeader: []
+definitions:
+- name: JobResponseListResult
+  description: The JSON-serialized array of JobResponse objects with a next link.
+  kind: object
+  properties:
+  - name: value
+    description: The array of JobResponse objects.
+    types:
+    - uid: JobResponse
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The next link.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: httpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+- name: JobResponse
+  description: The properties of the Job Response object.
+  kind: object
+  properties:
+  - name: jobId
+    isReadyOnly: true
+    description: The job identifier.
+    types:
+    - uid: string
+  - name: startTimeUtc
+    isReadyOnly: true
+    description: The start time of the job.
+    types:
+    - uid: string
+  - name: endTimeUtc
+    isReadyOnly: true
+    description: The time the job stopped processing.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the job.
+    types:
+    - uid: JobType
+  - name: status
+    isReadyOnly: true
+    description: The status of the job.
+    types:
+    - uid: JobStatus
+  - name: failureReason
+    isReadyOnly: true
+    description: If status == failed, this string containing the reason for the failure.
+    types:
+    - uid: string
+  - name: statusMessage
+    isReadyOnly: true
+    description: The status message for the job.
+    types:
+    - uid: string
+  - name: parentJobId
+    isReadyOnly: true
+    description: The job identifier of the parent job, if any.
+    types:
+    - uid: string
+- name: JobType
+  description: The type of the job.
+  kind: enum
+  properties:
+  - name: unknown
+    types:
+    - uid: string
+  - name: export
+    types:
+    - uid: string
+  - name: import
+    types:
+    - uid: string
+  - name: backup
+    types:
+    - uid: string
+  - name: readDeviceProperties
+    types:
+    - uid: string
+  - name: writeDeviceProperties
+    types:
+    - uid: string
+  - name: updateDeviceConfiguration
+    types:
+    - uid: string
+  - name: rebootDevice
+    types:
+    - uid: string
+  - name: factoryResetDevice
+    types:
+    - uid: string
+  - name: firmwareUpdate
+    types:
+    - uid: string
+- name: JobStatus
+  description: The status of the job.
+  kind: enum
+  properties:
+  - name: unknown
+    types:
+    - uid: string
+  - name: enqueued
+    types:
+    - uid: string
+  - name: running
+    types:
+    - uid: string
+  - name: completed
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+  - name: cancelled
+    types:
+    - uid: string
+examples:
+- name: IotHubResource_ListJobs
+  request:
+    uri: GET https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/testHub/jobs?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "jobId": "test",
+            "startTimeUtc": "Thu, 15 Jun 2017 19:20:58 GMT",
+            "endTimeUtc": "Thu, 15 Jun 2017 19:20:58 GMT",
+            "type": "unknown",
+            "status": "unknown"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
