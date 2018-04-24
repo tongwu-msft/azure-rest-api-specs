@@ -1,20 +1,13 @@
 ---
 title: "Indexer operations (Azure Search Service REST API) | Microsoft docs"
-ms.custom: ""
-ms.date: "2016-11-11"
+description: Learn REST API calls used to create, delete, or update an Azure Search indexer used for crawling external data sources for searchable content.
+ms.date: "04/20/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 99bd2afa-3413-424c-a54a-58c8bb12bdbe
-caps.latest.revision: 12
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -41,17 +34,17 @@ translation.priority.mt:
 
 ## Supportability
 
- Version 2016-09-01 of the Service REST API adds support for the Azure Blob and Azure Table indexers. Previously, these features were only available in the preview API.
+ Version 2017-11-11 of the Service REST API adds support for the Azure Blob and Azure Table indexers. Previously, these features were only available in the preview API.
 
  > [!NOTE]
- > Indexing of CSV blobs and blobs containing JSON arrays is still in preview and is therefore not supported in the 2016-09-01 API version.
+ > Indexing of CSV blobs and blobs containing JSON arrays is still in preview and is therefore not supported in the 2017-11-11 API version.
 
  A **data source** specifies what data needs to be indexed, credentials to access the data, and policies to enable Azure Search to efficiently identify changes in the data (such as modified or deleted rows in a database table). It's defined as an independent resource so that it can be used by multiple indexers.  
 
  The following data sources are currently supported:  
 
  - **Azure SQL Database** and **SQL Server on Azure VMs**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers/).
- - **Azure DocumentDB**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/documentdb-search-indexer/).
+ - **Azure Cosmos DB SQL API**. For a targeted walk-through, see [this article](https://docs.microsoft.com/azure/search/search-howto-index-documentdb).
  - **Azure Blob Storage**, including the following document formats: PDF, Microsoft Office (DOCX/DOC, XSLX/XLS, PPTX/PPT, MSG), HTML, XML, ZIP, and plain text files (including JSON). For  a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-blob-storage).
  - **Azure Table Storage**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-tables).
 

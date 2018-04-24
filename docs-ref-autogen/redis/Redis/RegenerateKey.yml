@@ -1,0 +1,108 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.rediscache.redis.regeneratekey
+name: Regenerate Key
+service: Redis Cache
+groupName: Redis
+apiVersion: 2016-04-01
+summary: Regenerate Redis cache's access keys. This operation requires write permission to the cache resource.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/regenerateKey?api-version=2016-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the Redis cache.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Lists the regenerated keys for Redis Cache
+  types:
+  - uid: RedisAccessKeys
+requestBody:
+- parameters:
+  - name: keyType
+    in: body
+    isRequired: true
+    description: The Redis access key to regenerate.
+    types:
+    - uid: RedisKeyType
+requestHeader: []
+definitions:
+- name: RedisAccessKeys
+  description: Redis cache access keys.
+  kind: object
+  properties:
+  - name: primaryKey
+    isReadyOnly: true
+    description: The current primary key that clients can use to authenticate with Redis cache.
+    types:
+    - uid: string
+  - name: secondaryKey
+    isReadyOnly: true
+    description: The current secondary key that clients can use to authenticate with Redis cache.
+    types:
+    - uid: string
+- name: RedisRegenerateKeyParameters
+  description: Specifies which Redis access keys to reset.
+  kind: object
+  properties:
+  - name: keyType
+    description: The Redis access key to regenerate.
+    types:
+    - uid: RedisKeyType
+- name: RedisKeyType
+  description: The Redis access key to regenerate.
+  kind: enum
+  properties:
+  - name: Primary
+    types:
+    - uid: string
+  - name: Secondary
+    types:
+    - uid: string
+examples:
+- name: RedisCacheRegenerateKey
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/regenerateKey?api-version=2016-04-01
+    body: >-
+      {
+        "keyType": "Primary"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "primaryKey": "secretkey1",
+        "secondaryKey": "secretKey2"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

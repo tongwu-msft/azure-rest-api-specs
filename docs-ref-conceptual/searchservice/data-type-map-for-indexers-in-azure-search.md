@@ -1,20 +1,13 @@
 ---
-title: "Data type map for indexers in Azure Search"
-ms.custom: ""
+title: "Data type map for indexers in Azure Search | Microsoft Docs"
+description: Source and destination field data type map combinations, used when crawling external data sources for data ingestion in an Azure Search index.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 4350e176-696f-4a89-b4bb-794ace3c251e
-caps.latest.revision: 10
+ms.topic: conceptual
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -30,7 +23,7 @@ translation.priority.mt:
 # Data type map for indexers in Azure Search
   When building a schema for an indexer, the data types used in the data source must map to an allowed data type for the fields in the target index.  
 
- This topic provides data type comparisons between SQL Data Types, JSON data types, and Azure Search. It contains the following:  
+ This article provides data type comparisons between SQL Data Types, JSON data types, and Azure Search. It contains the following:  
 
 -   [SQL Server Data Types to Azure Search Data Types](#bkmk_sql_search)  
 
@@ -68,8 +61,9 @@ translation.priority.mt:
 |JSON objects|N/A<br /><br /> Not supported; Azure Search currently supports only primitive types and string collections|  
 
 ## See also  
- [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md)   
- [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md)   
- [Supported data types &#40;Azure Search&#41;](supported-data-types.md)   
- [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
- [Azure Search Service REST](index.md)  
+
++ [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md)   
++ [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md)   
++ [Supported data types &#40;Azure Search&#41;](supported-data-types.md)   
++ [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
++ [Azure Search Service REST](index.md)  

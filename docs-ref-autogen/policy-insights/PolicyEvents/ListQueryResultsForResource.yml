@@ -1,0 +1,543 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.policyinsights.policyevents.listqueryresultsforresource
+name: List Query Results For Resource
+service: Policy Insights
+groupName: Policy Events
+apiVersion: 2017-12-12-preview
+summary: Queries policy events for the resource.
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/{resourceId}/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2017-12-12-preview
+- content: POST https://management.azure.com/{resourceId}/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2017-12-12-preview&$top={$top}&$orderby={$orderby}&$select={$select}&$from={$from}&$to={$to}&$filter={$filter}&$apply={$apply}
+  isOptional: true
+uriParameters:
+- name: resourceId
+  in: path
+  isRequired: true
+  description: Resource ID.
+  types:
+  - uid: string
+- name: policyEventsResource
+  in: path
+  isRequired: true
+  description: The name of the virtual resource under PolicyEvents resource type; only "default" is allowed.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version to use with the client requests.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: Maximum number of records to return.
+  types:
+  - uid: integer
+  format: int32
+- name: $orderby
+  in: query
+  description: Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc".
+  types:
+  - uid: string
+- name: $select
+  in: query
+  description: Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId".
+  types:
+  - uid: string
+- name: $from
+  in: query
+  description: ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day).
+  types:
+  - uid: string
+  format: date-time
+- name: $to
+  in: query
+  description: ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time.
+  types:
+  - uid: string
+  format: date-time
+- name: $filter
+  in: query
+  description: OData filter expression.
+  types:
+  - uid: string
+- name: $apply
+  in: query
+  description: OData apply expression for aggregations.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Query results.
+  types:
+  - uid: PolicyEventsQueryResults
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: QueryFailure
+requestHeader: []
+definitions:
+- name: PolicyEventsQueryResults
+  description: Query results.
+  kind: object
+  properties:
+  - name: '@odata.context'
+    description: OData context string; used by OData clients to resolve type information based on metadata.
+    types:
+    - uid: string
+  - name: '@odata.count'
+    description: OData entity count; represents the number of policy event records returned.
+    types:
+    - uid: integer
+  - name: value
+    description: Query results.
+    types:
+    - uid: PolicyEvent
+      isArray: true
+- name: QueryFailure
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: Error definition.
+    types:
+    - uid: Error
+- name: PolicyEvent
+  description: Policy event record.
+  kind: object
+  properties:
+  - name: '@odata.id'
+    description: OData entity ID; always set to null since policy event records do not have an entity ID.
+    types:
+    - uid: string
+  - name: '@odata.context'
+    description: OData context string; used by OData clients to resolve type information based on metadata.
+    types:
+    - uid: string
+  - name: timestamp
+    description: Timestamp for the policy event record.
+    types:
+    - uid: string
+  - name: resourceId
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: policyAssignmentId
+    description: Policy assignment ID.
+    types:
+    - uid: string
+  - name: policyDefinitionId
+    description: Policy definition ID.
+    types:
+    - uid: string
+  - name: effectiveParameters
+    description: Effective parameters for the policy assignment.
+    types:
+    - uid: string
+  - name: isCompliant
+    description: Flag which states whether the resource is compliant against the policy assignment it was evaluated against.
+    types:
+    - uid: boolean
+  - name: subscriptionId
+    description: Subscription ID.
+    types:
+    - uid: string
+  - name: resourceType
+    description: Resource type.
+    types:
+    - uid: string
+  - name: resourceLocation
+    description: Resource location.
+    types:
+    - uid: string
+  - name: resourceGroup
+    description: Resource group name.
+    types:
+    - uid: string
+  - name: resourceTags
+    description: List of resource tags.
+    types:
+    - uid: string
+  - name: policyAssignmentName
+    description: Policy assignment name.
+    types:
+    - uid: string
+  - name: policyAssignmentOwner
+    description: Policy assignment owner.
+    types:
+    - uid: string
+  - name: policyAssignmentParameters
+    description: Policy assignment parameters.
+    types:
+    - uid: string
+  - name: policyAssignmentScope
+    description: Policy assignment scope.
+    types:
+    - uid: string
+  - name: policyDefinitionName
+    description: Policy definition name.
+    types:
+    - uid: string
+  - name: policyDefinitionAction
+    description: Policy definition action, i.e. effect.
+    types:
+    - uid: string
+  - name: policyDefinitionCategory
+    description: Policy definition category.
+    types:
+    - uid: string
+  - name: policySetDefinitionId
+    description: Policy set definition ID, if the policy assignment is for a policy set.
+    types:
+    - uid: string
+  - name: policySetDefinitionName
+    description: Policy set definition name, if the policy assignment is for a policy set.
+    types:
+    - uid: string
+  - name: policySetDefinitionOwner
+    description: Policy set definition owner, if the policy assignment is for a policy set.
+    types:
+    - uid: string
+  - name: policySetDefinitionCategory
+    description: Policy set definition category, if the policy assignment is for a policy set.
+    types:
+    - uid: string
+  - name: policySetDefinitionParameters
+    description: Policy set definition parameters, if the policy assignment is for a policy set.
+    types:
+    - uid: string
+  - name: managementGroupIds
+    description: Comma seperated list of management group IDs, which represent the hierarchy of the management groups the resource is under.
+    types:
+    - uid: string
+  - name: policyDefinitionReferenceId
+    description: Reference ID for the policy definition inside the policy set, if the policy assignment is for a policy set.
+    types:
+    - uid: string
+  - name: tenantId
+    description: Tenant ID for the policy event record.
+    types:
+    - uid: string
+  - name: principalOid
+    description: Principal object ID for the user who initiated the resource operation that triggered the policy event.
+    types:
+    - uid: string
+- name: Error
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    description: Description of the error.
+    types:
+    - uid: string
+examples:
+- name: Query at resource scope
+  request:
+    uri: POST https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2017-12-12-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default",
+        "@odata.count": 2,
+        "value": [
+          {
+            "@odata.id": null,
+            "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default/$entity",
+            "timestamp": "2018-02-07T15:14:39.8473851Z",
+            "resourceId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName",
+            "policyAssignmentId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.Authorization/policyAssignments/ec8f9645-8ecb-4abb-9c0b-5292f19d4003",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/201ea587-7c90-41c3-910f-c280ae01cfd6",
+            "effectiveParameters": null,
+            "isCompliant": false,
+            "subscriptionId": "fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "resourceType": "/Microsoft.ClassicCompute/domainNames",
+            "resourceLocation": "eastus",
+            "resourceGroup": "myResourceGroup",
+            "resourceTags": "tbd",
+            "policyAssignmentName": "ec8f9645-8ecb-4abb-9c0b-5292f19d4003",
+            "policyAssignmentOwner": "tbd",
+            "policyAssignmentParameters": "{}",
+            "policyAssignmentScope": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "policyDefinitionName": "201ea587-7c90-41c3-910f-c280ae01cfd6",
+            "policyDefinitionAction": "audit",
+            "policyDefinitionCategory": "tbd",
+            "policySetDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/1f3afdf9-d0c9-4c3d-847f-89da613e70a8",
+            "policySetDefinitionName": "1f3afdf9-d0c9-4c3d-847f-89da613e70a8",
+            "policySetDefinitionOwner": null,
+            "policySetDefinitionCategory": null,
+            "policySetDefinitionParameters": null,
+            "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "policyDefinitionReferenceId": null,
+            "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "principalOid": "fff890fa-fff0-fff3-fff9-fffd7653f078"
+          },
+          {
+            "@odata.id": null,
+            "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default/$entity",
+            "timestamp": "2018-02-07T15:14:39.5842458Z",
+            "resourceId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName",
+            "policyAssignmentId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.Authorization/policyAssignments/d15545b8-ff50-409a-a6e3-5bd5cc954003",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/201ea587-7c90-41c3-910f-c280ae01cfd6",
+            "effectiveParameters": null,
+            "isCompliant": false,
+            "subscriptionId": "fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "resourceType": "/Microsoft.ClassicCompute/domainNames",
+            "resourceLocation": "eastus",
+            "resourceGroup": "myResourceGroup",
+            "resourceTags": "tbd",
+            "policyAssignmentName": "d15545b8-ff50-409a-a6e3-5bd5cc954003",
+            "policyAssignmentOwner": "tbd",
+            "policyAssignmentParameters": "{}",
+            "policyAssignmentScope": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "policyDefinitionName": "201ea587-7c90-41c3-910f-c280ae01cfd6",
+            "policyDefinitionAction": "audit",
+            "policyDefinitionCategory": "tbd",
+            "policySetDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/1f3afdf9-d0c9-4c3d-847f-89da613e70a8",
+            "policySetDefinitionName": "1f3afdf9-d0c9-4c3d-847f-89da613e70a8",
+            "policySetDefinitionOwner": null,
+            "policySetDefinitionCategory": null,
+            "policySetDefinitionParameters": null,
+            "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "policyDefinitionReferenceId": null,
+            "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "principalOid": "fff890fa-fff0-fff3-fff9-fffd7653f078"
+          }
+        ]
+      }
+- name: Query at subscription level resource scope
+  request:
+    uri: POST https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResourceName/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2017-12-12-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResourceName/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default",
+        "@odata.count": 2,
+        "value": [
+          {
+            "@odata.id": null,
+            "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResourceName/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default/$entity",
+            "timestamp": "2018-02-07T15:14:39.8473851Z",
+            "resourceId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResourceName",
+            "policyAssignmentId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.Authorization/policyAssignments/ec8f9645-8ecb-4abb-9c0b-5292f19d4003",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/201ea587-7c90-41c3-910f-c280ae01cfd6",
+            "effectiveParameters": null,
+            "isCompliant": false,
+            "subscriptionId": "fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "resourceType": "/Microsoft.SomeNamespace/someResourceType",
+            "resourceLocation": "eastus",
+            "resourceGroup": "",
+            "resourceTags": "tbd",
+            "policyAssignmentName": "ec8f9645-8ecb-4abb-9c0b-5292f19d4003",
+            "policyAssignmentOwner": "tbd",
+            "policyAssignmentParameters": "{}",
+            "policyAssignmentScope": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "policyDefinitionName": "201ea587-7c90-41c3-910f-c280ae01cfd6",
+            "policyDefinitionAction": "audit",
+            "policyDefinitionCategory": "tbd",
+            "policySetDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/1f3afdf9-d0c9-4c3d-847f-89da613e70a8",
+            "policySetDefinitionName": "1f3afdf9-d0c9-4c3d-847f-89da613e70a8",
+            "policySetDefinitionOwner": null,
+            "policySetDefinitionCategory": null,
+            "policySetDefinitionParameters": null,
+            "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "policyDefinitionReferenceId": null,
+            "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "principalOid": "fff890fa-fff0-fff3-fff9-fffd7653f078"
+          },
+          {
+            "@odata.id": null,
+            "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResourceName/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default/$entity",
+            "timestamp": "2018-02-07T15:14:39.5842458Z",
+            "resourceId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResourceName",
+            "policyAssignmentId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.Authorization/policyAssignments/d15545b8-ff50-409a-a6e3-5bd5cc954003",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/201ea587-7c90-41c3-910f-c280ae01cfd6",
+            "effectiveParameters": null,
+            "isCompliant": false,
+            "subscriptionId": "fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "resourceType": "/Microsoft.SomeNamespace/someResourceType",
+            "resourceLocation": "eastus",
+            "resourceGroup": "",
+            "resourceTags": "tbd",
+            "policyAssignmentName": "d15545b8-ff50-409a-a6e3-5bd5cc954003",
+            "policyAssignmentOwner": "tbd",
+            "policyAssignmentParameters": "{}",
+            "policyAssignmentScope": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "policyDefinitionName": "201ea587-7c90-41c3-910f-c280ae01cfd6",
+            "policyDefinitionAction": "audit",
+            "policyDefinitionCategory": "tbd",
+            "policySetDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/1f3afdf9-d0c9-4c3d-847f-89da613e70a8",
+            "policySetDefinitionName": "1f3afdf9-d0c9-4c3d-847f-89da613e70a8",
+            "policySetDefinitionOwner": null,
+            "policySetDefinitionCategory": null,
+            "policySetDefinitionParameters": null,
+            "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "policyDefinitionReferenceId": null,
+            "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "principalOid": "fff890fa-fff0-fff3-fff9-fffd7653f078"
+          }
+        ]
+      }
+- name: Query at nested resource scope
+  request:
+    uri: POST https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApplication/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2017-12-12-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/microsoft.servicefabric/clusters/myCluster/applications/myApplication/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default",
+        "@odata.count": 2,
+        "value": [
+          {
+            "@odata.id": null,
+            "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/microsoft.servicefabric/clusters/myCluster/applications/myApplication/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default/$entity",
+            "timestamp": "2018-02-07T20:43:04.6971328Z",
+            "resourceId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApplication",
+            "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policyAssignments/ec62f9b2a454487296f2ccd4",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policyDefinitions/72c0c41a-c752-4bc0-9c61-0d6adc567066",
+            "effectiveParameters": null,
+            "isCompliant": false,
+            "subscriptionId": "fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "resourceType": "/Microsoft.ServiceFabric/clusters/applications",
+            "resourceLocation": "eastus",
+            "resourceGroup": "myResourceGroup",
+            "resourceTags": "tbd",
+            "policyAssignmentName": "ec62f9b2a454487296f2ccd4",
+            "policyAssignmentOwner": "tbd",
+            "policyAssignmentParameters": "{\"ALLOWEDRESOURCEGROUPS_1\":{\"value\":[\"rg1\",\"rg2\"]},\"ALLOWEDRESOURCEGROUPS_2\":{\"value\":[\"myrg3\",\"myrg4\"]}}",
+            "policyAssignmentScope": "/providers/Microsoft.Management/managementGroups/myManagementGroup",
+            "policyDefinitionName": "72c0c41a-c752-4bc0-9c61-0d6adc567066",
+            "policyDefinitionAction": "audit",
+            "policyDefinitionCategory": "tbd",
+            "policySetDefinitionId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policySetDefinitions/00b36c66-612b-44e2-9f8e-b758296d40fe",
+            "policySetDefinitionName": "00b36c66-612b-44e2-9f8e-b758296d40fe",
+            "policySetDefinitionOwner": null,
+            "policySetDefinitionCategory": null,
+            "policySetDefinitionParameters": null,
+            "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "policyDefinitionReferenceId": "181565554491747128",
+            "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "principalOid": "fffdfc0f-fff5-fff0-fff3-fff1a968dcc6"
+          },
+          {
+            "@odata.id": null,
+            "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/microsoft.servicefabric/clusters/myCluster/applications/myApplication/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default/$entity",
+            "timestamp": "2018-02-07T20:43:04.6971328Z",
+            "resourceId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApplication",
+            "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policyAssignments/ec62f9b2a454487296f2ccd4",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policyDefinitions/72c0c41a-c752-4bc0-9c61-0d6adc567066",
+            "effectiveParameters": null,
+            "isCompliant": false,
+            "subscriptionId": "fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "resourceType": "/Microsoft.ServiceFabric/clusters/applications",
+            "resourceLocation": "eastus",
+            "resourceGroup": "myResourceGroup",
+            "resourceTags": "tbd",
+            "policyAssignmentName": "ec62f9b2a454487296f2ccd4",
+            "policyAssignmentOwner": "tbd",
+            "policyAssignmentParameters": "{\"ALLOWEDRESOURCEGROUPS_1\":{\"value\":[\"rg1\",\"rg2\"]},\"ALLOWEDRESOURCEGROUPS_2\":{\"value\":[\"myrg3\",\"myrg4\"]}}",
+            "policyAssignmentScope": "/providers/Microsoft.Management/managementGroups/myManagementGroup",
+            "policyDefinitionName": "72c0c41a-c752-4bc0-9c61-0d6adc567066",
+            "policyDefinitionAction": "audit",
+            "policyDefinitionCategory": "tbd",
+            "policySetDefinitionId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policySetDefinitions/00b36c66-612b-44e2-9f8e-b758296d40fe",
+            "policySetDefinitionName": "00b36c66-612b-44e2-9f8e-b758296d40fe",
+            "policySetDefinitionOwner": null,
+            "policySetDefinitionCategory": null,
+            "policySetDefinitionParameters": null,
+            "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "policyDefinitionReferenceId": "624540685646900425",
+            "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "principalOid": "fffdfc0f-fff5-fff0-fff3-fff1a968dcc6"
+          }
+        ]
+      }
+- name: Query at subscription level nested resource scope
+  request:
+    uri: POST https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResource/someNestedResourceType/someNestedResource/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2017-12-12-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResource/someNestedResourceType/someNestedResource/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default",
+        "@odata.count": 2,
+        "value": [
+          {
+            "@odata.id": null,
+            "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResource/someNestedResourceType/someNestedResource/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default/$entity",
+            "timestamp": "2018-02-07T20:43:04.6971328Z",
+            "resourceId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResource/someNestedResourceType/someNestedResource",
+            "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policyAssignments/ec62f9b2a454487296f2ccd4",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policyDefinitions/72c0c41a-c752-4bc0-9c61-0d6adc567066",
+            "effectiveParameters": null,
+            "isCompliant": false,
+            "subscriptionId": "fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "resourceType": "/Microsoft.SomeNamespace/someResourceType/someNestedResourceType",
+            "resourceLocation": "eastus",
+            "resourceGroup": "",
+            "resourceTags": "tbd",
+            "policyAssignmentName": "ec62f9b2a454487296f2ccd4",
+            "policyAssignmentOwner": "tbd",
+            "policyAssignmentParameters": "{\"ALLOWEDRESOURCEGROUPS_1\":{\"value\":[\"rg1\",\"rg2\"]},\"ALLOWEDRESOURCEGROUPS_2\":{\"value\":[\"myrg3\",\"myrg4\"]}}",
+            "policyAssignmentScope": "/providers/Microsoft.Management/managementGroups/myManagementGroup",
+            "policyDefinitionName": "72c0c41a-c752-4bc0-9c61-0d6adc567066",
+            "policyDefinitionAction": "audit",
+            "policyDefinitionCategory": "tbd",
+            "policySetDefinitionId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policySetDefinitions/00b36c66-612b-44e2-9f8e-b758296d40fe",
+            "policySetDefinitionName": "00b36c66-612b-44e2-9f8e-b758296d40fe",
+            "policySetDefinitionOwner": null,
+            "policySetDefinitionCategory": null,
+            "policySetDefinitionParameters": null,
+            "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "policyDefinitionReferenceId": "181565554491747128",
+            "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "principalOid": "fffdfc0f-fff5-fff0-fff3-fff1a968dcc6"
+          },
+          {
+            "@odata.id": null,
+            "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResource/someNestedResourceType/someNestedResource/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default/$entity",
+            "timestamp": "2018-02-07T20:43:04.6971328Z",
+            "resourceId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResource/someNestedResourceType/someNestedResource",
+            "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policyAssignments/ec62f9b2a454487296f2ccd4",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policyDefinitions/72c0c41a-c752-4bc0-9c61-0d6adc567066",
+            "effectiveParameters": null,
+            "isCompliant": false,
+            "subscriptionId": "fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "resourceType": "/Microsoft.SomeNamespace/someResourceType/someNestedResourceType",
+            "resourceLocation": "eastus",
+            "resourceGroup": "",
+            "resourceTags": "tbd",
+            "policyAssignmentName": "ec62f9b2a454487296f2ccd4",
+            "policyAssignmentOwner": "tbd",
+            "policyAssignmentParameters": "{\"ALLOWEDRESOURCEGROUPS_1\":{\"value\":[\"rg1\",\"rg2\"]},\"ALLOWEDRESOURCEGROUPS_2\":{\"value\":[\"myrg3\",\"myrg4\"]}}",
+            "policyAssignmentScope": "/providers/Microsoft.Management/managementGroups/myManagementGroup",
+            "policyDefinitionName": "72c0c41a-c752-4bc0-9c61-0d6adc567066",
+            "policyDefinitionAction": "audit",
+            "policyDefinitionCategory": "tbd",
+            "policySetDefinitionId": "/providers/Microsoft.Management/managementGroups/myManagementGroup/providers/Microsoft.Authorization/policySetDefinitions/00b36c66-612b-44e2-9f8e-b758296d40fe",
+            "policySetDefinitionName": "00b36c66-612b-44e2-9f8e-b758296d40fe",
+            "policySetDefinitionOwner": null,
+            "policySetDefinitionCategory": null,
+            "policySetDefinitionParameters": null,
+            "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "policyDefinitionReferenceId": "624540685646900425",
+            "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "principalOid": "fffdfc0f-fff5-fff0-fff3-fff1a968dcc6"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

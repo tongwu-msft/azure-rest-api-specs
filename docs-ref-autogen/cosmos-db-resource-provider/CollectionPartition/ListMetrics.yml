@@ -1,0 +1,285 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmosdbresourceprovider.collectionpartition.listmetrics
+name: List Metrics
+service: Cosmos DB Resource Provider
+groupName: Collection Partition
+apiVersion: 2015-04-08
+summary: Retrieves the metrics determined by the given filter for the given collection, split by partition.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/metrics?api-version=2015-04-08&$filter={$filter}
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: Cosmos DB database account name.
+  types:
+  - uid: string
+- name: databaseRid
+  in: path
+  isRequired: true
+  description: Cosmos DB database rid.
+  types:
+  - uid: string
+- name: collectionRid
+  in: path
+  isRequired: true
+  description: Cosmos DB collection rid.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2015-04-08.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  isRequired: true
+  description: An OData filter expression that describes a subset of metrics to return. The parameters that can be filtered are name.value (name of the metric, can have an or of multiple names), startTime, endTime, and timeGrain. The supported operator is eq.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The partition-level metrics for the collection were retrieved successfully.
+  types:
+  - uid: PartitionMetricListResult
+requestHeader: []
+definitions:
+- name: PartitionMetricListResult
+  description: The response to a list partition metrics request.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of partition-level metrics for the account.
+    types:
+    - uid: PartitionMetric
+      isArray: true
+- name: PartitionMetric
+  description: The metric values for a single partition.
+  kind: object
+  properties:
+  - name: partitionId
+    isReadyOnly: true
+    description: The parition id (GUID identifier) of the metric values.
+    types:
+    - uid: string
+  - name: partitionKeyRangeId
+    isReadyOnly: true
+    description: The partition key range id (integer identifier) of the metric values.
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: The start time for the metric (ISO-8601 format).
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: The end time for the metric (ISO-8601 format).
+    types:
+    - uid: string
+  - name: timeGrain
+    isReadyOnly: true
+    description: The time grain to be used to summarize the metric values.
+    types:
+    - uid: string
+  - name: unit
+    isReadyOnly: true
+    description: The unit of the metric.
+    types:
+    - uid: UnitType
+  - name: name
+    isReadyOnly: true
+    description: The name information for the metric.
+    types:
+    - uid: MetricName
+  - name: metricValues
+    isReadyOnly: true
+    description: The metric values for the specified time window and timestep.
+    types:
+    - uid: PercentileMetricValue
+      isArray: true
+    typesTitle: MetricValue[]
+- name: UnitType
+  description: The unit of the metric.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+  - name: Bytes
+    types:
+    - uid: string
+  - name: Seconds
+    types:
+    - uid: string
+  - name: Percent
+    types:
+    - uid: string
+  - name: CountPerSecond
+    types:
+    - uid: string
+  - name: BytesPerSecond
+    types:
+    - uid: string
+  - name: Milliseconds
+    types:
+    - uid: string
+- name: MetricName
+  description: A metric name.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The name of the metric.
+    types:
+    - uid: string
+  - name: localizedValue
+    isReadyOnly: true
+    description: The friendly name of the metric.
+    types:
+    - uid: string
+- name: PercentileMetricValue
+  description: Represents percentile metrics values.
+  kind: object
+  properties:
+  - name: P10
+    isReadyOnly: true
+    description: The 10th percentile value for the metric.
+    types:
+    - uid: number
+  - name: P25
+    isReadyOnly: true
+    description: The 25th percentile value for the metric.
+    types:
+    - uid: number
+  - name: P50
+    isReadyOnly: true
+    description: The 50th percentile value for the metric.
+    types:
+    - uid: number
+  - name: P75
+    isReadyOnly: true
+    description: The 75th percentile value for the metric.
+    types:
+    - uid: number
+  - name: P90
+    isReadyOnly: true
+    description: The 90th percentile value for the metric.
+    types:
+    - uid: number
+  - name: P95
+    isReadyOnly: true
+    description: The 95th percentile value for the metric.
+    types:
+    - uid: number
+  - name: P99
+    isReadyOnly: true
+    description: The 99th percentile value for the metric.
+    types:
+    - uid: number
+  - name: _count
+    isReadyOnly: true
+    description: The number of values for the metric.
+    types:
+    - uid: number
+  - name: average
+    isReadyOnly: true
+    description: The average value of the metric.
+    types:
+    - uid: number
+  - name: maximum
+    isReadyOnly: true
+    description: The max value of the metric.
+    types:
+    - uid: number
+  - name: minimum
+    isReadyOnly: true
+    description: The min value of the metric.
+    types:
+    - uid: number
+  - name: timestamp
+    isReadyOnly: true
+    description: The metric timestamp (ISO-8601 format).
+    types:
+    - uid: string
+  - name: total
+    isReadyOnly: true
+    description: The total value of the metric.
+    types:
+    - uid: number
+examples:
+- name: CosmosDBDatabaseAccountRegionGetMetrics
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/databases/databaseRid/collections/collectionRid/partitions/metrics?api-version=2015-04-08&$filter=$filter=(name.value eq 'Max RUs Per Second') and timeGrain eq duration'PT1M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T23:58:55.2780000Z
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "timeGrain": "PT1M",
+            "startTime": "2017-11-19T23:53:55.278Z",
+            "endTime": "2017-11-20T23:58:55.278Z",
+            "unit": "Count",
+            "partitionId": "00000000-0000-0000-0000-000000000000",
+            "partitionKeyRangeId": "0",
+            "metricValues": [
+              {
+                "timestamp": "2017-11-19T23:53:55.278Z",
+                "maximum": 5
+              },
+              {
+                "timestamp": "2017-11-19T23:54:55.278Z",
+                "maximum": 5
+              },
+              {
+                "timestamp": "2017-11-19T23:55:55.278Z",
+                "maximum": 5
+              },
+              {
+                "timestamp": "2017-11-19T23:56:55.278Z",
+                "maximum": 5
+              },
+              {
+                "timestamp": "2017-11-19T23:57:55.278Z",
+                "maximum": 5
+              },
+              {
+                "timestamp": "2017-11-19T23:58:55.278Z",
+                "maximum": 5
+              }
+            ],
+            "name": {
+              "value": "Max RUs Per Second",
+              "localizedValue": "Max RUs Per Second"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account

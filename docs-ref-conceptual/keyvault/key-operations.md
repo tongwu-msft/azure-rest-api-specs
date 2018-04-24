@@ -11,33 +11,33 @@ ms.date: 06/14/2017
 
 The Azure Key Vault REST API supports the following operations for key objects.
 
-- [Create a key](../../docs-ref-autogen/keyvault/CreateKey.json)
-- [Update a key](../../docs-ref-autogen/keyvault/UpdateKey.json)
-- [Delete a key](../../docs-ref-autogen/keyvault/DeleteKey.json)
-- [Get information about a key](../../docs-ref-autogen/keyvault/GetKey.json)
-- [Get the keys in a vault](../../docs-ref-autogen/keyvault/GetKeys.json)
-- [Get the versions of a key](../../docs-ref-autogen/keyvault/GetKeyVersions.json)
-- [Import a key into a vault](../../docs-ref-autogen/keyvault/ImportKey.json)
-- [Backup a key](../../docs-ref-autogen/keyvault/BackupKey.json)
-- [Restore a key](../../docs-ref-autogen/keyvault/RestoreKey.json)
+- [Create a key](xref:keyvault.createkey)
+- [Update a key](xref:keyvault.updatekey)
+- [Delete a key](xref:keyvault.deletekey)
+- [Get information about a key](xref:keyvault.getkey)
+- [Get the keys in a vault](xref:keyvault.getkeys)
+- [Get the versions of a key](xref:keyvault.getkeyversions)
+- [Import a key into a vault](xref:keyvault.importkey)
+- [Backup a key](xref:keyvault.backupkey)
+- [Restore a key](xref:keyvault.restorekey)
 
 ## Cryptographic operations
 
-- [Encrypt with a key](../../docs-ref-autogen/keyvault/encrypt.json)
-- [Decrypt with a key](../../docs-ref-autogen/keyvault/decrypt.json)
-- [Sign with a key](../../docs-ref-autogen/keyvault/sign.json)
-- [Verify with a key](../../docs-ref-autogen/keyvault/verify.json)
-- [Wrap a key](../../docs-ref-autogen/keyvault/wrapKey.json)
-- [Unwrap a key](../../docs-ref-autogen/keyvault/unwrapKey.json)
+- [Encrypt with a key](xref:keyvault.encrypt)
+- [Decrypt with a key](xref:keyvault.decrypt)
+- [Sign with a key](xref:keyvault.sign)
+- [Verify with a key](xref:keyvault.verify)
+- [Wrap a key](xref:keyvault.wrapkey)
+- [Unwrap a key](xref:keyvault.unwrapkey)
 
 ## Soft-delete operations
 
 The soft-delete feature suppports these operations for deleted keys
 
-- [Get deleted key](../../docs-ref-autogen/keyvault/GetDeletedKey.json)
-- [Get deleted keys](../../docs-ref-autogen/keyvault/GetDeletedKeys.json)
-- [Purge deleted key](../../docs-ref-autogen/keyvault/PurgeDeletedKey.json)
-- [Recover deleted key](../../docs-ref-autogen/keyvault/RecoverDeletedKey.json)
+- [Get deleted key](xref:keyvault.getdeletedkey)
+- [Get deleted keys](xref:keyvault.getdeletedkeys)
+- [Purge deleted key](xref:keyvault.purgedeletedkey)
+- [Recover deleted key](xref:keyvault.recoverdeletedkey)
 
 For more information on Key Vault's soft-delete feature, see [Azure Key Vault soft-delete feature overview](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete).
 

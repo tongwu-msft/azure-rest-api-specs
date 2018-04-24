@@ -1,0 +1,459 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.integrationruntimenodes.update
+name: Update
+service: Data Factory
+groupName: Integration Runtime Nodes
+apiVersion: 2017-09-01-preview
+summary: Updates a self-hosted integration runtime node.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}?api-version=2017-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: integrationRuntimeName
+  in: path
+  isRequired: true
+  description: The integration runtime name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: nodeName
+  in: path
+  isRequired: true
+  description: The integration runtime node name.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9A-Z][a-z0-9A-Z_-]{0,149}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: SelfHostedIntegrationRuntimeNode
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: concurrentJobsLimit
+    in: body
+    description: The number of concurrent jobs permitted to run on the integration runtime node. Values between 1 and maxConcurrentJobs(inclusive) are allowed.
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: SelfHostedIntegrationRuntimeNode
+  description: Properties of Self-hosted integration runtime node.
+  kind: object
+  properties:
+  - name: nodeName
+    isReadyOnly: true
+    description: Name of the integration runtime node.
+    types:
+    - uid: string
+  - name: machineName
+    isReadyOnly: true
+    description: Machine name of the integration runtime node.
+    types:
+    - uid: string
+  - name: hostServiceUri
+    isReadyOnly: true
+    description: URI for the host machine of the integration runtime.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Status of the integration runtime node.
+    types:
+    - uid: SelfHostedIntegrationRuntimeNodeStatus
+  - name: capabilities
+    isReadyOnly: true
+    description: The integration runtime capabilities dictionary
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: versionStatus
+    isReadyOnly: true
+    description: Status of the integration runtime node version.
+    types:
+    - uid: string
+  - name: version
+    isReadyOnly: true
+    description: Version of the integration runtime node.
+    types:
+    - uid: string
+  - name: registerTime
+    isReadyOnly: true
+    description: The time at which the integration runtime node was registered in ISO8601 format.
+    types:
+    - uid: string
+  - name: lastConnectTime
+    isReadyOnly: true
+    description: The most recent time at which the integration runtime was connected in ISO8601 format.
+    types:
+    - uid: string
+  - name: expiryTime
+    isReadyOnly: true
+    description: The time at which the integration runtime will expire in ISO8601 format.
+    types:
+    - uid: string
+  - name: lastStartTime
+    isReadyOnly: true
+    description: The time the node last started up.
+    types:
+    - uid: string
+  - name: lastStopTime
+    isReadyOnly: true
+    description: The integration runtime node last stop time.
+    types:
+    - uid: string
+  - name: lastUpdateResult
+    isReadyOnly: true
+    description: The result of the last integration runtime node update.
+    types:
+    - uid: IntegrationRuntimeUpdateResult
+  - name: lastStartUpdateTime
+    isReadyOnly: true
+    description: The last time for the integration runtime node update start.
+    types:
+    - uid: string
+  - name: lastEndUpdateTime
+    isReadyOnly: true
+    description: The last time for the integration runtime node update end.
+    types:
+    - uid: string
+  - name: isActiveDispatcher
+    isReadyOnly: true
+    description: Indicates whether this node is the active dispatcher for integration runtime requests.
+    types:
+    - uid: boolean
+  - name: concurrentJobsLimit
+    isReadyOnly: true
+    description: Maximum concurrent jobs on the integration runtime node.
+    types:
+    - uid: integer
+  - name: maxConcurrentJobs
+    isReadyOnly: true
+    description: The maximum concurrent jobs in this integration runtime.
+    types:
+    - uid: integer
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: details
+    description: Array with additional error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+- name: UpdateIntegrationRuntimeNodeRequest
+  description: Update integration runtime node request.
+  kind: object
+  properties:
+  - name: concurrentJobsLimit
+    description: The number of concurrent jobs permitted to run on the integration runtime node. Values between 1 and maxConcurrentJobs(inclusive) are allowed.
+    types:
+    - uid: integer
+- name: SelfHostedIntegrationRuntimeNodeStatus
+  description: Status of the integration runtime node.
+  kind: enum
+  properties:
+  - name: NeedRegistration
+    types:
+    - uid: string
+  - name: Online
+    types:
+    - uid: string
+  - name: Limited
+    types:
+    - uid: string
+  - name: Offline
+    types:
+    - uid: string
+  - name: Upgrading
+    types:
+    - uid: string
+  - name: Initializing
+    types:
+    - uid: string
+  - name: InitializeFailed
+    types:
+    - uid: string
+- name: IntegrationRuntimeUpdateResult
+  description: The result of the last integration runtime node update.
+  kind: enum
+  properties:
+  - name: Succeed
+    types:
+    - uid: string
+  - name: Fail
+    types:
+    - uid: string
+examples:
+- name: IntegrationRuntimeNodes_Update
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/nodes/Node_1?api-version=2017-09-01-preview
+    body: >-
+      {
+        "concurrentJobsLimit": 2
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Tue, 28 Nov 2017 06:51:38 GMT
+    - name: x-ms-request-id
+      value: eee2dbec-ee3b-4c5c-a040-d39c88f0f82b
+    - name: X-Content-Type-Options
+      value: nosniff
+    body: >-
+      {
+        "body": {
+          "nodeName": "Node_1",
+          "machineName": "YANZHANG-02",
+          "hostServiceUri": "https://yanzhang-02.redmond.corp.microsoft.com:8050/HostServiceRemote.svc/",
+          "status": "Online",
+          "capabilities": {
+            "serviceBusConnected": "True",
+            "httpsPortEnabled": "True",
+            "credentialInSync": "True",
+            "connectedToResourceManager": "True",
+            "nodeEnabled": "True"
+          },
+          "versionStatus": "UpToDate",
+          "version": "3.2.6519.3",
+          "registerTime": "2017-11-28T06:50:38.0809958Z",
+          "lastConnectTime": "2017-11-28T06:51:20.7868013Z",
+          "lastStartTime": "2017-11-28T06:51:20.7868013Z",
+          "lastUpdateResult": "None",
+          "isActiveDispatcher": true,
+          "concurrentJobsLimit": 2,
+          "maxConcurrentJobs": 48
+        },
+        "request": {
+          "version": {
+            "major": 1,
+            "minor": 1,
+            "build": -1,
+            "revision": -1,
+            "majorRevision": -1,
+            "minorRevision": -1
+          },
+          "content": {
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": [
+                  "application/json; charset=utf-8"
+                ]
+              },
+              {
+                "key": "Content-Length",
+                "value": [
+                  "32"
+                ]
+              }
+            ]
+          },
+          "method": {
+            "method": "PATCH"
+          },
+          "requestUri": "https://wu.frontend.int.clouddatahub-int.net/subscriptions/12345678-1234-1234-12345678abc/datafactories/exampleFactoryName/IntegrationRuntimes/exampleIntegrationRuntime/nodes/Node_1?api-version=1.0",
+          "headers": [
+            {
+              "key": "x-ms-client-request-id",
+              "value": [
+                "eee2dbec-ee3b-4c5c-a040-d39c88f0f82b"
+              ]
+            },
+            {
+              "key": "accept-language",
+              "value": [
+                "en-US"
+              ]
+            },
+            {
+              "key": "User-Agent",
+              "value": [
+                "Microsoft.DataTransfer.IntegrationRuntimeService.Client.IntegrationRuntimeServiceClient/0.9.0.0"
+              ]
+            }
+          ],
+          "properties": {}
+        },
+        "response": {
+          "version": {
+            "major": 1,
+            "minor": 1,
+            "build": -1,
+            "revision": -1,
+            "majorRevision": -1,
+            "minorRevision": -1
+          },
+          "content": {
+            "headers": [
+              {
+                "key": "Content-Length",
+                "value": [
+                  "607"
+                ]
+              },
+              {
+                "key": "Content-Type",
+                "value": [
+                  "application/json; charset=utf-8"
+                ]
+              },
+              {
+                "key": "Expires",
+                "value": [
+                  "-1"
+                ]
+              }
+            ]
+          },
+          "statusCode": 200,
+          "reasonPhrase": "OK",
+          "headers": [
+            {
+              "key": "Pragma",
+              "value": [
+                "no-cache"
+              ]
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": [
+                "nosniff"
+              ]
+            },
+            {
+              "key": "Cache-Control",
+              "value": [
+                "no-cache"
+              ]
+            },
+            {
+              "key": "Date",
+              "value": [
+                "Tue, 28 Nov 2017 06:51:37 GMT"
+              ]
+            },
+            {
+              "key": "Server",
+              "value": [
+                "Microsoft-IIS/8.5"
+              ]
+            },
+            {
+              "key": "X-AspNet-Version",
+              "value": [
+                "4.0.30319"
+              ]
+            }
+          ],
+          "requestMessage": {
+            "version": {
+              "major": 1,
+              "minor": 1,
+              "build": -1,
+              "revision": -1,
+              "majorRevision": -1,
+              "minorRevision": -1
+            },
+            "content": {
+              "headers": [
+                {
+                  "key": "Content-Type",
+                  "value": [
+                    "application/json; charset=utf-8"
+                  ]
+                },
+                {
+                  "key": "Content-Length",
+                  "value": [
+                    "32"
+                  ]
+                }
+              ]
+            },
+            "method": {
+              "method": "PATCH"
+            },
+            "requestUri": "https://wu.frontend.int.clouddatahub-int.net/subscriptions/12345678-1234-1234-12345678abc/datafactories/exampleFactoryName/IntegrationRuntimes/exampleIntegrationRuntime/nodes/Node_1?api-version=1.0",
+            "headers": [
+              {
+                "key": "x-ms-client-request-id",
+                "value": [
+                  "eee2dbec-ee3b-4c5c-a040-d39c88f0f82b"
+                ]
+              },
+              {
+                "key": "accept-language",
+                "value": [
+                  "en-US"
+                ]
+              },
+              {
+                "key": "User-Agent",
+                "value": [
+                  "Microsoft.DataTransfer.IntegrationRuntimeService.Client.IntegrationRuntimeServiceClient/0.9.0.0"
+                ]
+              }
+            ],
+            "properties": {}
+          },
+          "isSuccessStatusCode": true
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

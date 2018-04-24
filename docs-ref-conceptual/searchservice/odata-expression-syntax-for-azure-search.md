@@ -1,20 +1,13 @@
-﻿---
-title: "OData Expression Syntax for Azure Search"
-ms.custom: ""
-ms.date: "08/16/2017"
+---
+title: "OData Expression Syntax for Azure Search | Microsoft Docs"
+description: Filter and orderby expression syntax for Azure Search queries.
+ms.date: "01/09/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 20217801-f1f7-49e2-badf-0ac356bf8975
-caps.latest.revision: 26
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -201,7 +194,7 @@ $filter=description eq null
 Find all hotels with name equal to either Roach motel' or 'Budget hotel'):  
 
 ```  
-$filter=search.in(name, 'Roach motel, Budget hotel') 
+$filter=search.in(name, 'Roach motel,Budget hotel', ',') 
 ```
 
 Find all hotels with name equal to either Roach motel' or 'Budget hotel' separated by '|'):  

@@ -1,20 +1,13 @@
 ---
-title: "Lookup Document (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2017-03-28"
+title: "Lookup Document (Azure Search Service REST API) | Microsoft Docs"
+description: Return a specific document by ID from an Azure Search index.
+ms.date: "04/20/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 74a67156-c579-4b5f-8f61-3c2e8b83070c
-caps.latest.revision: 27
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -64,7 +57,7 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
 |--------------------|-----------------|  
 |*api-key*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Lookup Document** request can specify either an admin key or query key for the `api-key`.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body  
  None.  
@@ -82,13 +75,13 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
  Lookup the document that has key '2':  
 
 ```  
-GET /indexes/hotels/docs/2?api-version=2016-09-01  
+GET /indexes/hotels/docs/2?api-version=2017-11-11  
 ```  
 
  Lookup the document that has key '3' using OData syntax:  
 
 ```  
-GET /indexes/hotels/docs('3')?api-version=2016-09-01  
+GET /indexes/hotels/docs('3')?api-version=2017-11-11  
 ```  
 
 ## See also  

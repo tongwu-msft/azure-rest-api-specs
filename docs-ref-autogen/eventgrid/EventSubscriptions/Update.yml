@@ -1,0 +1,403 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.eventgrid.eventsubscriptions.update
+name: Update
+service: Event Grid
+groupName: Event Subscriptions
+apiVersion: 2018-01-01
+summary: "Update an event subscription  \nAsynchronously updates an existing event subscription."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}?api-version=2018-01-01
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: The scope of existing event subscription. The scope can be a subscription, or a resource group, or a top level resource belonging to a resource provider namespace, or an EventGrid topic. For example, use '/subscriptions/{subscriptionId}/' for a subscription, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for a resource group, and '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}' for a resource, and '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}' for an EventGrid topic.
+  types:
+  - uid: string
+- name: eventSubscriptionName
+  in: path
+  isRequired: true
+  description: Name of the event subscription to be created
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: EventSubscription update request accepted.
+  types:
+  - uid: EventSubscription
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 Bad Request.
+
+     * 500 Internal Server Error.
+requestBody:
+- parameters:
+  - name: destination
+    in: body
+    description: Information about the destination where events have to be delivered for the event subscription.
+    types:
+    - uid: WebHookEventSubscriptionDestination
+    - uid: EventHubEventSubscriptionDestination
+    typesTitle: EventSubscriptionDestination
+  - name: filter
+    in: body
+    description: Information about the filter for the event subscription.
+    types:
+    - uid: EventSubscriptionFilter
+  - name: labels
+    in: body
+    description: List of user defined labels.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: EventSubscriptionFilter
+  description: Filter for the Event Subscription
+  kind: object
+  properties:
+  - name: subjectBeginsWith
+    description: "An optional string to filter events for an event subscription based on a resource path prefix.\nThe format of this depends on the publisher of the events. \nWildcard characters are not supported in this path."
+    types:
+    - uid: string
+  - name: subjectEndsWith
+    description: >-
+      An optional string to filter events for an event subscription based on a resource path suffix.
+
+      Wildcard characters are not supported in this path.
+    types:
+    - uid: string
+  - name: includedEventTypes
+    description: "A list of applicable event types that need to be part of the event subscription. \nIf it is desired to subscribe to all event types, the string \"all\" needs to be specified as an element in this list."
+    types:
+    - uid: string
+      isArray: true
+  - name: isSubjectCaseSensitive
+    description: "Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter \nshould be compared in a case sensitive manner."
+    types:
+    - uid: boolean
+- name: EventSubscription
+  description: Event Subscription
+  kind: object
+  properties:
+  - name: properties.topic
+    isReadyOnly: true
+    description: Name of the topic of the event subscription.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the event subscription.
+    types:
+    - uid: EventSubscriptionProvisioningState
+  - name: properties.destination
+    description: Information about the destination where events have to be delivered for the event subscription.
+    types:
+    - uid: WebHookEventSubscriptionDestination
+    - uid: EventHubEventSubscriptionDestination
+    typesTitle: EventSubscriptionDestination
+  - name: properties.filter
+    description: Information about the filter for the event subscription.
+    types:
+    - uid: EventSubscriptionFilter
+  - name: properties.labels
+    description: List of user defined labels.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified identifier of the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource
+    types:
+    - uid: string
+- name: EventSubscriptionUpdateParameters
+  description: Properties of the Event Subscription update
+  kind: object
+  properties:
+  - name: destination
+    description: Information about the destination where events have to be delivered for the event subscription.
+    types:
+    - uid: WebHookEventSubscriptionDestination
+    - uid: EventHubEventSubscriptionDestination
+    typesTitle: EventSubscriptionDestination
+  - name: filter
+    description: Information about the filter for the event subscription.
+    types:
+    - uid: EventSubscriptionFilter
+  - name: labels
+    description: List of user defined labels.
+    types:
+    - uid: string
+      isArray: true
+- name: WebHookEventSubscriptionDestination
+  description: Information about the webhook destination for an event subscription
+  kind: object
+  properties:
+  - name: properties.endpointUrl
+    description: The URL that represents the endpoint of the destination of an event subscription.
+    types:
+    - uid: string
+  - name: properties.endpointBaseUrl
+    isReadyOnly: true
+    description: The base URL that represents the endpoint of the destination of an event subscription.
+    types:
+    - uid: string
+  - name: endpointType
+    description: Type of the endpoint for the event subscription destination
+    types:
+    - uid: WebHook
+    typesTitle: string
+- name: EventHubEventSubscriptionDestination
+  description: Information about the event hub destination for an event subscription
+  kind: object
+  properties:
+  - name: properties.resourceId
+    description: The Azure Resource Id that represents the endpoint of an Event Hub destination of an event subscription.
+    types:
+    - uid: string
+  - name: endpointType
+    description: Type of the endpoint for the event subscription destination
+    types:
+    - uid: EventHub
+    typesTitle: string
+- name: EventSubscriptionProvisioningState
+  description: Provisioning state of the event subscription.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: EventSubscriptions_UpdateForSubscription
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription3?api-version=2018-01-01
+    body: >-
+      {
+        "destination": {
+          "endpointType": "WebHook",
+          "properties": {
+            "endpointUrl": "https://requestb.in/15ksip71"
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": true,
+          "subjectBeginsWith": "existingPrefix",
+          "subjectEndsWith": "newSuffix"
+        },
+        "labels": [
+          "label1",
+          "label2"
+        ]
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "destination": {
+            "properties": {
+              "endpointBaseUrl": "https://requestb.in/15ksip71"
+            },
+            "endpointType": "WebHook"
+          },
+          "filter": {
+            "includedEventTypes": [
+              "All"
+            ],
+            "isSubjectCaseSensitive": true,
+            "subjectBeginsWith": "existingPrefix",
+            "subjectEndsWith": "newSuffix"
+          },
+          "labels": [],
+          "provisioningState": "Succeeded",
+          "topic": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4"
+        },
+        "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.EventGrid/topics/exampletopic2/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription3",
+        "name": "examplesubscription3",
+        "type": "Microsoft.EventGrid/eventSubscriptions"
+      }
+- name: EventSubscriptions_UpdateForResourceGroup
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription2?api-version=2018-01-01
+    body: >-
+      {
+        "destination": {
+          "endpointType": "EventHub",
+          "properties": {
+            "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.EventHub/namespaces/ContosoNamespace/eventhubs/EH1"
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": true,
+          "subjectBeginsWith": "existingPrefix",
+          "subjectEndsWith": "newSuffix"
+        },
+        "labels": [
+          "label1",
+          "label2"
+        ]
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "destination": {
+            "properties": {
+              "endpointBaseUrl": "https://requestb.in/15ksip71"
+            },
+            "endpointType": "WebHook"
+          },
+          "filter": {
+            "includedEventTypes": [
+              "All"
+            ],
+            "isSubjectCaseSensitive": true,
+            "subjectBeginsWith": "existingPrefix",
+            "subjectEndsWith": "newSuffix"
+          },
+          "labels": [],
+          "provisioningState": "Succeeded",
+          "topic": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg"
+        },
+        "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription2",
+        "name": "examplesubscription2",
+        "type": "Microsoft.EventGrid/eventSubscriptions"
+      }
+- name: EventSubscriptions_UpdateForResource
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2018-01-01
+    body: >-
+      {
+        "destination": {
+          "endpointType": "WebHook",
+          "properties": {
+            "endpointUrl": "https://requestb.in/15ksip71"
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": true,
+          "subjectBeginsWith": "existingPrefix",
+          "subjectEndsWith": "newSuffix"
+        },
+        "labels": [
+          "label1",
+          "label2"
+        ]
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "destination": {
+            "properties": {
+              "endpointBaseUrl": "https://requestb.in/15ksip71"
+            },
+            "endpointType": "WebHook"
+          },
+          "filter": {
+            "includedEventTypes": [
+              "All"
+            ],
+            "isSubjectCaseSensitive": true,
+            "subjectBeginsWith": "existingPrefix",
+            "subjectEndsWith": "newSuffix"
+          },
+          "labels": [],
+          "provisioningState": "Succeeded",
+          "topic": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1"
+        },
+        "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1",
+        "name": "examplesubscription1",
+        "type": "Microsoft.EventGrid/eventSubscriptions"
+      }
+- name: EventSubscriptions_UpdateForCustomTopic
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2018-01-01
+    body: >-
+      {
+        "destination": {
+          "endpointType": "WebHook",
+          "properties": {
+            "endpointUrl": "https://requestb.in/15ksip71"
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": true,
+          "subjectBeginsWith": "existingPrefix",
+          "subjectEndsWith": "newSuffix"
+        },
+        "labels": [
+          "label1",
+          "label2"
+        ]
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "destination": {
+            "properties": {
+              "endpointBaseUrl": "https://requestb.in/15ksip71"
+            },
+            "endpointType": "WebHook"
+          },
+          "filter": {
+            "includedEventTypes": [
+              "All"
+            ],
+            "isSubjectCaseSensitive": true,
+            "subjectBeginsWith": "existingPrefix",
+            "subjectEndsWith": "newSuffix"
+          },
+          "labels": [
+            "label1",
+            "label2"
+          ],
+          "provisioningState": "Succeeded",
+          "topic": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/microsoft.eventgrid/topics/exampletopic2"
+        },
+        "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1",
+        "name": "examplesubscription1",
+        "type": "Microsoft.EventGrid/eventSubscriptions"
+      }
+security: []

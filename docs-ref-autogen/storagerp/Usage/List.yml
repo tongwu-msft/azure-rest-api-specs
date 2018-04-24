@@ -1,0 +1,131 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storageresourceprovider.usage.list
+name: List
+service: Storage Resource Provider
+groupName: Usage
+apiVersion: 2017-06-01
+summary: Gets the current usage count and the limit for the resources under the subscription.
+consumes:
+- application/json
+produces:
+- application/json
+- text/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Storage/usages?api-version=2017-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- current usage acount and limit retrieved and returned successfully.
+  types:
+  - uid: UsageListResult
+requestHeader: []
+definitions:
+- name: UsageListResult
+  description: The response from the List Usages operation.
+  kind: object
+  properties:
+  - name: value
+    description: Gets or sets the list of Storage Resource Usages.
+    types:
+    - uid: Usage
+      isArray: true
+- name: Usage
+  description: Describes Storage Resource Usage.
+  kind: object
+  properties:
+  - name: unit
+    isReadyOnly: true
+    description: Gets the unit of measurement.
+    types:
+    - uid: UsageUnit
+  - name: currentValue
+    isReadyOnly: true
+    description: Gets the current count of the allocated resources in the subscription.
+    types:
+    - uid: integer
+  - name: limit
+    isReadyOnly: true
+    description: Gets the maximum count of the resources that can be allocated in the subscription.
+    types:
+    - uid: integer
+  - name: name
+    isReadyOnly: true
+    description: Gets the name of the type of usage.
+    types:
+    - uid: UsageName
+- name: UsageUnit
+  description: Gets the unit of measurement.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+  - name: Bytes
+    types:
+    - uid: string
+  - name: Seconds
+    types:
+    - uid: string
+  - name: Percent
+    types:
+    - uid: string
+  - name: CountsPerSecond
+    types:
+    - uid: string
+  - name: BytesPerSecond
+    types:
+    - uid: string
+- name: UsageName
+  description: The usage names that can be used; currently limited to StorageAccount.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Gets a string describing the resource name.
+    types:
+    - uid: string
+  - name: localizedValue
+    isReadyOnly: true
+    description: Gets a localized string describing the resource name.
+    types:
+    - uid: string
+examples:
+- name: UsageList
+  request:
+    uri: GET https://management.azure.com/subscriptions/27de630f-e1ee-42de-8849-90def4986454/providers/Microsoft.Storage/usages?api-version=2017-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "unit": "Count",
+            "currentValue": 51,
+            "limit": 250,
+            "name": {
+              "value": "StorageAccounts",
+              "localizedValue": "Storage Accounts"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

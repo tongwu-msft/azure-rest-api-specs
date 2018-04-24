@@ -1,20 +1,13 @@
 ---
-title: "Create Index (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2016-11-09"
+title: "Create Index (Azure Search Service REST API) | Microsoft Docs"
+description: Define an index schema for fields and other constructs in an Azure Search index.
+ms.date: "04/20/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: ecafed05-c746-4d9e-ac8e-653066e909b5
-caps.latest.revision: 54
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -54,7 +47,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
  The index name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
 
- The **api-version** parameter is required. The current version is `api-version=2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions. See [Language support &#40;Azure Search Service REST API&#41;](language-support.md) for details about language analyzers.  
+ The **api-version** parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions. See [Language support &#40;Azure Search Service REST API&#41;](language-support.md) for details about language analyzers.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -64,7 +57,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 |*Content-Type:*|Required. Set this to `application/json`|  
 |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Create Index** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the Azure classic portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get both the service name and `api-key` from your service dashboard in the Azure classic portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body Syntax  
  The body of the request contains a schema definition, which includes the list of data fields within documents that will be fed into this index.  
@@ -152,11 +145,11 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
         "sum (default) | average | minimum | maximum | firstMatching"  
     }  
   ],  
-"analyzers":(optional)[ ... ],
-"charFilters":(optional)[ ... ],
-"tokenizers":(optional)[ ... ],
-"tokenFilters":(optional)[ ... ],
-"defaultScoringProfile": (optional) "...",  
+  "analyzers":(optional)[ ... ],
+  "charFilters":(optional)[ ... ],
+  "tokenizers":(optional)[ ... ],
+  "tokenFilters":(optional)[ ... ],
+  "defaultScoringProfile": (optional) "...",  
   "corsOptions": (optional) {  
     "allowedOrigins": ["*"] | ["origin_1", "origin_2", ...],  
     "maxAgeInSeconds": (optional) max_age_in_seconds (non-negative integer)  

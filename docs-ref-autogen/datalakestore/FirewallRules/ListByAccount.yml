@@ -1,0 +1,118 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datalakestore.firewallrules.listbyaccount
+name: List By Account
+service: Data Lake Store
+groupName: Firewall Rules
+apiVersion: 2016-11-01
+summary: Lists the Data Lake Store firewall rules within the specified Data Lake Store account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeStore/accounts/{accountName}/firewallRules?api-version=2016-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the Azure resource group.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the Data Lake Store account.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of firewall rules.
+  types:
+  - uid: FirewallRuleListResult
+requestHeader: []
+definitions:
+- name: FirewallRuleListResult
+  description: Data Lake Store firewall rule list information.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The results of the list operation.
+    types:
+    - uid: FirewallRule
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+- name: FirewallRule
+  description: Data Lake Store firewall rule information.
+  kind: object
+  properties:
+  - name: properties.startIpAddress
+    isReadyOnly: true
+    description: The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+    types:
+    - uid: string
+  - name: properties.endIpAddress
+    isReadyOnly: true
+    description: The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+examples:
+- name: Lists the Data Lake Store firewall rules within the specified Data Lake Store account
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeStore/accounts/contosoadla/firewallRules?api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+            "name": "test_rule",
+            "type": "test_type",
+            "properties": {
+              "startIpAddress": "1.1.1.1",
+              "endIpAddress": "2.2.2.2"
+            }
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeStore/accounts/contosoadla/jobPolicies?api-version=2016-11-01&%24skiptoken=<token>"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

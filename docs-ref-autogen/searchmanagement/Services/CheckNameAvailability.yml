@@ -1,0 +1,159 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.searchmanagement.services.checknameavailability
+name: Check Name Availability
+service: Search Management
+groupName: Services
+apiVersion: 2015-08-19
+summary: Checks whether or not the given Search service name is available for use. Search service names must be globally unique since they are part of the service URI (https://<name>.search.windows.net).
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Search/checkNameAvailability?api-version=2015-08-19
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for each request. The current version is 2015-08-19.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The name check completed. The response contains details of whether the name is valid and available. If the name is invalid, the response also contains a message explaining why not.
+  types:
+  - uid: CheckNameAvailabilityOutput
+- name: Other Status Codes
+  description: "HTTP 400 (Bad Request): The given resource type is not 'searchServices'."
+  types:
+  - uid: CloudError
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    isRequired: true
+    description: The Search service name to validate. Search service names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in length.
+    types:
+    - uid: string
+  - name: type
+    in: body
+    isRequired: true
+    description: The type of the resource whose name is to be validated. This value must always be 'searchServices'.
+    types:
+    - uid: ResourceType
+requestHeader:
+- name: x-ms-client-request-id
+  in: header
+  description: A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request.
+  types:
+  - uid: string
+  format: uuid
+definitions:
+- name: CheckNameAvailabilityOutput
+  description: Output of check name availability API.
+  kind: object
+  properties:
+  - name: nameAvailable
+    isReadyOnly: true
+    description: A value indicating whether the name is available.
+    types:
+    - uid: boolean
+  - name: reason
+    isReadyOnly: true
+    description: The reason why the name is not available. 'Invalid' indicates the name provided does not match the naming requirements (incorrect length, unsupported characters, etc.). 'AlreadyExists' indicates that the name is already in use and is therefore unavailable.
+    types:
+    - uid: UnavailableNameReason
+  - name: message
+    isReadyOnly: true
+    description: A message that explains why the name is invalid and provides resource naming requirements. Available only if 'Invalid' is returned in the 'reason' property.
+    types:
+    - uid: string
+- name: CloudError
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: CloudErrorBody
+- name: CheckNameAvailabilityInput
+  description: Input of check name availability API.
+  kind: object
+  properties:
+  - name: name
+    description: The Search service name to validate. Search service names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in length.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the resource whose name is to be validated. This value must always be 'searchServices'.
+    types:
+    - uid: ResourceType
+- name: UnavailableNameReason
+  description: The reason why the name is not available. 'Invalid' indicates the name provided does not match the naming requirements (incorrect length, unsupported characters, etc.). 'AlreadyExists' indicates that the name is already in use and is therefore unavailable.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AlreadyExists
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: Describes a particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: Contains nested errors that are related to this error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: ResourceType
+  description: The type of the resource whose name is to be validated. This value must always be 'searchServices'.
+  kind: enum
+  properties:
+  - name: searchServices
+    types:
+    - uid: string
+examples:
+- name: SearchCheckNameAvailability
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Search/checkNameAvailability?api-version=2015-08-19
+    body: >-
+      {
+        "name": "mysearchservice",
+        "type": "searchServices"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": false,
+        "reason": "AlreadyExists",
+        "message": ""
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

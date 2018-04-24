@@ -1,0 +1,203 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.visualstudio.accounts.createorupdate
+name: Create Or Update
+service: Visual Studio
+groupName: Accounts
+apiVersion: 2017-11-01-preview
+summary: "Accounts_CreateOrUpdate  \nCreates or updates a Visual Studio Team Services account resource."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.visualstudio/account/{resourceName}?api-version=2017-11-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: Name of the resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation succeeded. The Visual Studio Team Services account resource was created or updated.
+  types:
+  - uid: AccountResource
+- name: 404 Not Found
+  description: The Visual Studio Team Services account does not exist.
+requestBody:
+- parameters:
+  - name: accountName
+    in: body
+    description: The account name.
+    types:
+    - uid: string
+  - name: location
+    in: body
+    description: The Azure instance location.
+    types:
+    - uid: string
+  - name: operationType
+    in: body
+    description: The type of the operation.
+    types:
+    - uid: AccountResourceRequestOperationType
+  - name: properties
+    in: body
+    description: The custom properties of the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    in: body
+    description: The custom tags of the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: AccountResource
+  description: The response to an account resource GET request.
+  kind: object
+  properties:
+  - name: properties
+    description: Resource properties.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Unique identifier of the resource.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: AccountResourceRequest
+  description: The body of a PUT request to modify a Visual Studio account resource.
+  kind: object
+  properties:
+  - name: accountName
+    description: The account name.
+    types:
+    - uid: string
+  - name: location
+    description: The Azure instance location.
+    types:
+    - uid: string
+  - name: operationType
+    description: The type of the operation.
+    types:
+    - uid: AccountResourceRequestOperationType
+  - name: properties
+    description: The custom properties of the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: The custom tags of the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: AccountResourceRequestOperationType
+  description: The type of the operation.
+  kind: enum
+  properties:
+  - name: unknown
+    types:
+    - uid: string
+  - name: create
+    types:
+    - uid: string
+  - name: update
+    types:
+    - uid: string
+  - name: link
+    types:
+    - uid: string
+examples:
+- name: Create an account resource
+  request:
+    uri: PUT https://management.azure.com/subscriptions/0de7f055-dbea-498d-8e9e-da287eedca90/resourcegroups/VS-Example-Group/providers/microsoft.visualstudio/account/Example?api-version=2017-11-01-preview
+    body: >-
+      {
+        "location": "Central US",
+        "tags": {},
+        "properties": {},
+        "operationType": "create",
+        "accountName": "Example"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/0de7f055-dbea-498d-8e9e-da287eedca90/resourceGroups/VS-Example-Group/providers/Microsoft.VisualStudio/account/Example",
+        "name": "VS-Example-Group",
+        "type": "Microsoft.VisualStudio/account",
+        "location": "Central US",
+        "tags": {},
+        "properties": {
+          "AccountURL": ""
+        }
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

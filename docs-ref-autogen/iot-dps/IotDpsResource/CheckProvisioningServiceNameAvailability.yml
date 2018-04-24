@@ -1,0 +1,127 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothubdeviceprovisioningservice.iotdpsresource.checkprovisioningservicenameavailability
+name: Check Provisioning Service Name Availability
+service: IoT Hub Device Provisioning Service
+groupName: Iot Dps Resource
+apiVersion: 2017-11-15
+summary: "Check if a provisioning service name is available.  \nCheck if a provisioning service name is available. This will validate if the name is syntactically valid and if the name is usable"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Devices/checkProvisioningServiceNameAvailability?api-version=2017-11-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: This is a synchronous operation. The body contains a JSON-serialized response that specifies whether the provisioning service name is available. If the name is not available, the body contains the reason.
+  types:
+  - uid: NameAvailabilityInfo
+- name: Other Status Codes
+  description: Default error response.
+  types:
+  - uid: ErrorDetails
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    isRequired: true
+    description: The name of the Provisioning Service to check.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: NameAvailabilityInfo
+  description: Description of name availability.
+  kind: object
+  properties:
+  - name: nameAvailable
+    description: specifies if a name is available or not
+    types:
+    - uid: boolean
+  - name: reason
+    description: specifies the reason a name is unavailable
+    types:
+    - uid: NameUnavailabilityReason
+  - name: message
+    description: message containing a etailed reason name is unavailable
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: Code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: HttpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: Message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: Details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+- name: OperationInputs
+  description: Input values for operation results call.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the Provisioning Service to check.
+    types:
+    - uid: string
+- name: NameUnavailabilityReason
+  description: specifies the reason a name is unavailable
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AlreadyExists
+    types:
+    - uid: string
+examples:
+- name: DPSCheckName
+  request:
+    uri: POST https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/providers/Microsoft.Devices/checkProvisioningServiceNameAvailability?api-version=2017-11-15
+    body: >-
+      {
+        "name": "test213123"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": true,
+        "reason": "Invalid",
+        "message": "name is valid"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

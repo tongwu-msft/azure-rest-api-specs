@@ -1,6 +1,6 @@
 ---
 title: "CheckExistsPropertyBatchOperation"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,11 @@ translation.priority.mt:
 ---
 # CheckExistsPropertyBatchOperation
 
-Represents a PropertyBatchOperation that compares the Boolean existence of a property with the Exists argument.  The PropertyBatchOperation operation fails if the property's existence is not equal to the Exists argument.  The CheckExistsPropertyBatchOperation is generally used as a precondition for the write operations in the batch.  Note that if one PropertyBatchOperation in a PropertyBatch fails,  the entire batch fails and cannot be committed in a transactional manner.
+Represents a PropertyBatchOperation that compares the Boolean existence of a property with the Exists argument.
+The PropertyBatchOperation operation fails if the property's existence is not equal to the Exists argument.
+The CheckExistsPropertyBatchOperation is generally used as a precondition for the write operations in the batch.
+Note that if one PropertyBatchOperation in a PropertyBatch fails,
+the entire batch fails and cannot be committed in a transactional manner.
 
 
 ## Properties

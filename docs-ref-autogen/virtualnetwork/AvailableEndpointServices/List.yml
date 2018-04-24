@@ -1,0 +1,104 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetworks.availableendpointservices.list
+name: List
+service: Virtual Networks
+groupName: Available Endpoint Services
+apiVersion: 2018-02-01
+summary: List what values of endpoint services are available for use.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/virtualNetworkAvailableEndpointServices?api-version=2018-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The location to check available endpoint services.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns list of available endpoint services.
+  types:
+  - uid: EndpointServicesListResult
+requestHeader: []
+definitions:
+- name: EndpointServicesListResult
+  description: Response for the ListAvailableEndpointServices API service call.
+  kind: object
+  properties:
+  - name: value
+    description: List of available endpoint services in a region.
+    types:
+    - uid: EndpointServiceResult
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: EndpointServiceResult
+  description: Endpoint service.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the endpoint service.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the endpoint service.
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+examples:
+- name: EndpointServicesList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/locations/westus/virtualNetworkAvailableEndpointServices?api-version=2018-02-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.Storage",
+            "id": "/subscriptions/subid/providers/Microsoft.Network/virtualNetworkEndpointServices/Microsoft.Storage",
+            "type": "Microsoft.Network/virtualNetworkEndpointServices"
+          },
+          {
+            "name": "Microsoft.Sql",
+            "id": "/subscriptions/subid/providers/Microsoft.Network/virtualNetworkEndpointServices/Microsoft.Sql",
+            "type": "Microsoft.Network/virtualNetworkEndpointServices"
+          },
+          {
+            "name": "Microsoft.AzureActiveDirectory",
+            "id": "/subscriptions/subid/providers/Microsoft.Network/virtualNetworkEndpointServices/Microsoft.AzureActiveDirectory",
+            "type": "Microsoft.Network/virtualNetworkEndpointServices"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

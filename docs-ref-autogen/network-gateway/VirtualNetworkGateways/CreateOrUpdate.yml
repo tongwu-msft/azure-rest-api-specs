@@ -1,0 +1,811 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.networkgateway.virtualnetworkgateways.createorupdate
+name: Create Or Update
+service: Network Gateway
+groupName: Virtual Network Gateways
+apiVersion: 2018-02-01
+summary: Creates or updates a virtual network gateway in the specified resource group.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}?api-version=2018-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: virtualNetworkGatewayName
+  in: path
+  isRequired: true
+  description: The name of the virtual network gateway.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Update successful. The operation returns the resulting VirtualNetworkGateway resource.
+  types:
+  - uid: VirtualNetworkGateway
+- name: 201 Created
+  description: Create successful. The operation returns the resulting VirtualNetworkGateway resource.
+  types:
+  - uid: VirtualNetworkGateway
+requestBody:
+- parameters:
+  - name: etag
+    in: body
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.ipConfigurations
+    in: body
+    description: IP configurations for virtual network gateway.
+    types:
+    - uid: VirtualNetworkGatewayIPConfiguration
+      isArray: true
+  - name: properties.gatewayType
+    in: body
+    description: "The type of this virtual network gateway. Possible values are: 'Vpn' and 'ExpressRoute'."
+    types:
+    - uid: VirtualNetworkGatewayType
+  - name: properties.vpnType
+    in: body
+    description: "The type of this virtual network gateway. Possible values are: 'PolicyBased' and 'RouteBased'."
+    types:
+    - uid: VpnType
+  - name: properties.enableBgp
+    in: body
+    description: Whether BGP is enabled for this virtual network gateway or not.
+    types:
+    - uid: boolean
+  - name: properties.activeActive
+    in: body
+    description: ActiveActive flag
+    types:
+    - uid: boolean
+  - name: properties.gatewayDefaultSite
+    in: body
+    description: The reference of the LocalNetworkGateway resource which represents local network site having default routes. Assign Null value in case of removing existing default site setting.
+    types:
+    - uid: VirtualNetworkGatewayIPConfiguration
+    - uid: VpnClientRootCertificate
+    - uid: VpnClientRevokedCertificate
+    typesTitle: SubResource
+  - name: properties.sku
+    in: body
+    description: The reference of the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network gateway.
+    types:
+    - uid: VirtualNetworkGatewaySku
+  - name: properties.vpnClientConfiguration
+    in: body
+    description: The reference of the VpnClientConfiguration resource which represents the P2S VpnClient configurations.
+    types:
+    - uid: VpnClientConfiguration
+  - name: properties.bgpSettings
+    in: body
+    description: Virtual network gateway's BGP speaker settings.
+    types:
+    - uid: BgpSettings
+  - name: properties.resourceGuid
+    in: body
+    description: The resource GUID property of the VirtualNetworkGateway resource.
+    types:
+    - uid: string
+  - name: id
+    in: body
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: location
+    in: body
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: VirtualNetworkGatewayIPConfiguration
+  description: IP configuration for virtual network gateway
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.privateIPAllocationMethod
+    description: "The private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
+    types:
+    - uid: IPAllocationMethod
+  - name: properties.subnet
+    description: The reference of the subnet resource.
+    types:
+    - uid: VirtualNetworkGatewayIPConfiguration
+    - uid: VpnClientRootCertificate
+    - uid: VpnClientRevokedCertificate
+    typesTitle: SubResource
+  - name: properties.publicIPAddress
+    description: The reference of the public IP resource.
+    types:
+    - uid: VirtualNetworkGatewayIPConfiguration
+    - uid: VpnClientRootCertificate
+    - uid: VpnClientRevokedCertificate
+    typesTitle: SubResource
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: VirtualNetworkGatewaySku
+  description: VirtualNetworkGatewaySku details
+  kind: object
+  properties:
+  - name: name
+    description: Gateway SKU name.
+    types:
+    - uid: VirtualNetworkGatewaySkuName
+  - name: tier
+    description: Gateway SKU tier.
+    types:
+    - uid: VirtualNetworkGatewaySkuTier
+  - name: capacity
+    description: The capacity.
+    types:
+    - uid: integer
+- name: VpnClientConfiguration
+  description: VpnClientConfiguration for P2S client.
+  kind: object
+  properties:
+  - name: vpnClientAddressPool
+    description: The reference of the address space resource which represents Address space for P2S VpnClient.
+    types:
+    - uid: AddressSpace
+  - name: vpnClientRootCertificates
+    description: VpnClientRootCertificate for virtual network gateway.
+    types:
+    - uid: VpnClientRootCertificate
+      isArray: true
+  - name: vpnClientRevokedCertificates
+    description: VpnClientRevokedCertificate for Virtual network gateway.
+    types:
+    - uid: VpnClientRevokedCertificate
+      isArray: true
+  - name: vpnClientProtocols
+    description: VpnClientProtocols for Virtual network gateway.
+    types:
+    - uid: string
+      isArray: true
+  - name: vpnClientIpsecPolicies
+    description: VpnClientIpsecPolicies for virtual network gateway P2S client.
+    types:
+    - uid: IpsecPolicy
+      isArray: true
+  - name: radiusServerAddress
+    description: The radius server address property of the VirtualNetworkGateway resource for vpn client connection.
+    types:
+    - uid: string
+  - name: radiusServerSecret
+    description: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
+    types:
+    - uid: string
+- name: BgpSettings
+  description: BGP settings details
+  kind: object
+  properties:
+  - name: asn
+    description: The BGP speaker's ASN.
+    types:
+    - uid: integer
+  - name: bgpPeeringAddress
+    description: The BGP peering address and BGP identifier of this BGP speaker.
+    types:
+    - uid: string
+  - name: peerWeight
+    description: The weight added to routes learned from this BGP speaker.
+    types:
+    - uid: integer
+- name: VirtualNetworkGateway
+  description: A common class for general resource information
+  kind: object
+  properties:
+  - name: etag
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.ipConfigurations
+    description: IP configurations for virtual network gateway.
+    types:
+    - uid: VirtualNetworkGatewayIPConfiguration
+      isArray: true
+  - name: properties.gatewayType
+    description: "The type of this virtual network gateway. Possible values are: 'Vpn' and 'ExpressRoute'."
+    types:
+    - uid: VirtualNetworkGatewayType
+  - name: properties.vpnType
+    description: "The type of this virtual network gateway. Possible values are: 'PolicyBased' and 'RouteBased'."
+    types:
+    - uid: VpnType
+  - name: properties.enableBgp
+    description: Whether BGP is enabled for this virtual network gateway or not.
+    types:
+    - uid: boolean
+  - name: properties.activeActive
+    description: ActiveActive flag
+    types:
+    - uid: boolean
+  - name: properties.gatewayDefaultSite
+    description: The reference of the LocalNetworkGateway resource which represents local network site having default routes. Assign Null value in case of removing existing default site setting.
+    types:
+    - uid: VirtualNetworkGatewayIPConfiguration
+    - uid: VpnClientRootCertificate
+    - uid: VpnClientRevokedCertificate
+    typesTitle: SubResource
+  - name: properties.sku
+    description: The reference of the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network gateway.
+    types:
+    - uid: VirtualNetworkGatewaySku
+  - name: properties.vpnClientConfiguration
+    description: The reference of the VpnClientConfiguration resource which represents the P2S VpnClient configurations.
+    types:
+    - uid: VpnClientConfiguration
+  - name: properties.bgpSettings
+    description: Virtual network gateway's BGP speaker settings.
+    types:
+    - uid: BgpSettings
+  - name: properties.resourceGuid
+    description: The resource GUID property of the VirtualNetworkGateway resource.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the VirtualNetworkGateway resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: IPAllocationMethod
+  description: "The private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
+  kind: enum
+  properties:
+  - name: Static
+    types:
+    - uid: string
+  - name: Dynamic
+    types:
+    - uid: string
+- name: VpnClientRootCertificate
+  description: VPN client root certificate of virtual network gateway
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.publicCertData
+    description: The certificate public data.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the VPN client root certificate resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: VpnClientRevokedCertificate
+  description: VPN client revoked certificate of virtual network gateway.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.thumbprint
+    description: The revoked VPN client certificate thumbprint.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the VPN client revoked certificate resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: VirtualNetworkGatewaySkuName
+  description: Gateway SKU name.
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+  - name: HighPerformance
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: UltraPerformance
+    types:
+    - uid: string
+  - name: VpnGw1
+    types:
+    - uid: string
+  - name: VpnGw2
+    types:
+    - uid: string
+  - name: VpnGw3
+    types:
+    - uid: string
+- name: VirtualNetworkGatewaySkuTier
+  description: Gateway SKU tier.
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+  - name: HighPerformance
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: UltraPerformance
+    types:
+    - uid: string
+  - name: VpnGw1
+    types:
+    - uid: string
+  - name: VpnGw2
+    types:
+    - uid: string
+  - name: VpnGw3
+    types:
+    - uid: string
+- name: AddressSpace
+  description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
+  kind: object
+  properties:
+  - name: addressPrefixes
+    description: A list of address blocks reserved for this virtual network in CIDR notation.
+    types:
+    - uid: string
+      isArray: true
+- name: IpsecPolicy
+  description: An IPSec Policy configuration for a virtual network gateway connection
+  kind: object
+  properties:
+  - name: saLifeTimeSeconds
+    description: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site to site VPN tunnel.
+    types:
+    - uid: integer
+  - name: saDataSizeKilobytes
+    description: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site to site VPN tunnel.
+    types:
+    - uid: integer
+  - name: ipsecEncryption
+    description: The IPSec encryption algorithm (IKE phase 1).
+    types:
+    - uid: IpsecEncryption
+  - name: ipsecIntegrity
+    description: The IPSec integrity algorithm (IKE phase 1).
+    types:
+    - uid: IpsecIntegrity
+  - name: ikeEncryption
+    description: The IKE encryption algorithm (IKE phase 2).
+    types:
+    - uid: IkeEncryption
+  - name: ikeIntegrity
+    description: The IKE integrity algorithm (IKE phase 2).
+    types:
+    - uid: IkeIntegrity
+  - name: dhGroup
+    description: The DH Groups used in IKE Phase 1 for initial SA.
+    types:
+    - uid: DhGroup
+  - name: pfsGroup
+    description: The Pfs Groups used in IKE Phase 2 for new child SA.
+    types:
+    - uid: PfsGroup
+- name: VirtualNetworkGatewayType
+  description: "The type of this virtual network gateway. Possible values are: 'Vpn' and 'ExpressRoute'."
+  kind: enum
+  properties:
+  - name: Vpn
+    types:
+    - uid: string
+  - name: ExpressRoute
+    types:
+    - uid: string
+- name: VpnType
+  description: "The type of this virtual network gateway. Possible values are: 'PolicyBased' and 'RouteBased'."
+  kind: enum
+  properties:
+  - name: PolicyBased
+    types:
+    - uid: string
+  - name: RouteBased
+    types:
+    - uid: string
+- name: IpsecEncryption
+  description: The IPSec encryption algorithm (IKE phase 1).
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: DES
+    types:
+    - uid: string
+  - name: DES3
+    types:
+    - uid: string
+  - name: AES128
+    types:
+    - uid: string
+  - name: AES192
+    types:
+    - uid: string
+  - name: AES256
+    types:
+    - uid: string
+  - name: GCMAES128
+    types:
+    - uid: string
+  - name: GCMAES192
+    types:
+    - uid: string
+  - name: GCMAES256
+    types:
+    - uid: string
+- name: IpsecIntegrity
+  description: The IPSec integrity algorithm (IKE phase 1).
+  kind: enum
+  properties:
+  - name: MD5
+    types:
+    - uid: string
+  - name: SHA1
+    types:
+    - uid: string
+  - name: SHA256
+    types:
+    - uid: string
+  - name: GCMAES128
+    types:
+    - uid: string
+  - name: GCMAES192
+    types:
+    - uid: string
+  - name: GCMAES256
+    types:
+    - uid: string
+- name: IkeEncryption
+  description: The IKE encryption algorithm (IKE phase 2).
+  kind: enum
+  properties:
+  - name: DES
+    types:
+    - uid: string
+  - name: DES3
+    types:
+    - uid: string
+  - name: AES128
+    types:
+    - uid: string
+  - name: AES192
+    types:
+    - uid: string
+  - name: AES256
+    types:
+    - uid: string
+  - name: GCMAES256
+    types:
+    - uid: string
+  - name: GCMAES128
+    types:
+    - uid: string
+- name: IkeIntegrity
+  description: The IKE integrity algorithm (IKE phase 2).
+  kind: enum
+  properties:
+  - name: MD5
+    types:
+    - uid: string
+  - name: SHA1
+    types:
+    - uid: string
+  - name: SHA256
+    types:
+    - uid: string
+  - name: SHA384
+    types:
+    - uid: string
+  - name: GCMAES256
+    types:
+    - uid: string
+  - name: GCMAES128
+    types:
+    - uid: string
+- name: DhGroup
+  description: The DH Groups used in IKE Phase 1 for initial SA.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: DHGroup1
+    types:
+    - uid: string
+  - name: DHGroup2
+    types:
+    - uid: string
+  - name: DHGroup14
+    types:
+    - uid: string
+  - name: DHGroup2048
+    types:
+    - uid: string
+  - name: ECP256
+    types:
+    - uid: string
+  - name: ECP384
+    types:
+    - uid: string
+  - name: DHGroup24
+    types:
+    - uid: string
+- name: PfsGroup
+  description: The Pfs Groups used in IKE Phase 2 for new child SA.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: PFS1
+    types:
+    - uid: string
+  - name: PFS2
+    types:
+    - uid: string
+  - name: PFS2048
+    types:
+    - uid: string
+  - name: ECP256
+    types:
+    - uid: string
+  - name: ECP384
+    types:
+    - uid: string
+  - name: PFS24
+    types:
+    - uid: string
+  - name: PFS14
+    types:
+    - uid: string
+  - name: PFSMM
+    types:
+    - uid: string
+examples:
+- name: UpdateVirtualNetworkGateway
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw?api-version=2018-02-01
+    body: >-
+      {
+        "properties": {
+          "ipConfigurations": [
+            {
+              "properties": {
+                "privateIPAllocationMethod": "Dynamic",
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet"
+                },
+                "publicIPAddress": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip"
+                }
+              },
+              "name": "gwipconfig1",
+              "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/gwipconfig1"
+            }
+          ],
+          "gatewayType": "Vpn",
+          "vpnType": "RouteBased",
+          "enableBgp": false,
+          "activeActive": false,
+          "sku": {
+            "name": "VpnGw1",
+            "tier": "VpnGw1",
+            "capacity": 0
+          },
+          "bgpSettings": {
+            "asn": 65515,
+            "bgpPeeringAddress": "10.0.1.30",
+            "peerWeight": 0
+          },
+          "resourceGuid": "00000000-0000-0000-0000-000000000000"
+        },
+        "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw",
+        "location": "centralus"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "vpngw",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw",
+        "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+        "type": "Microsoft.Network/virtualNetworkGateways",
+        "location": "centralus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-000000000000",
+          "ipConfigurations": [
+            {
+              "name": "gwipconfig1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/gwipconfig1",
+              "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateIPAllocationMethod": "Dynamic",
+                "publicIPAddress": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip"
+                },
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet"
+                }
+              }
+            }
+          ],
+          "sku": {
+            "name": "VpnGw1",
+            "tier": "VpnGw1",
+            "capacity": 0
+          },
+          "gatewayType": "Vpn",
+          "vpnType": "RouteBased",
+          "enableBgp": false,
+          "activeActive": false,
+          "vpnClientConfiguration": {
+            "vpnClientProtocols": [
+              "SSTP",
+              "IkeV2"
+            ],
+            "vpnClientRootCertificates": [],
+            "vpnClientRevokedCertificates": []
+          },
+          "bgpSettings": {
+            "asn": 65515,
+            "bgpPeeringAddress": "10.0.1.30",
+            "peerWeight": 0
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "vpngw",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw",
+        "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+        "type": "Microsoft.Network/virtualNetworkGateways",
+        "location": "centralus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-000000000000",
+          "ipConfigurations": [
+            {
+              "name": "gwipconfig1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/gwipconfig1",
+              "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateIPAllocationMethod": "Dynamic",
+                "publicIPAddress": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip"
+                },
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet"
+                }
+              }
+            }
+          ],
+          "sku": {
+            "name": "VpnGw1",
+            "tier": "VpnGw1",
+            "capacity": 0
+          },
+          "gatewayType": "Vpn",
+          "vpnType": "RouteBased",
+          "enableBgp": false,
+          "activeActive": false,
+          "vpnClientConfiguration": {
+            "vpnClientProtocols": [
+              "SSTP",
+              "IkeV2"
+            ],
+            "vpnClientRootCertificates": [],
+            "vpnClientRevokedCertificates": []
+          },
+          "bgpSettings": {
+            "asn": 65515,
+            "bgpPeeringAddress": "10.0.1.30",
+            "peerWeight": 0
+          }
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,228 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.virtualmachinesruncommands.runcommand
+name: Run Command
+service: Compute
+groupName: Virtual Machines Run Commands
+apiVersion: 2017-03-30
+summary: Run command on the VM.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommand?api-version=2017-03-30
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: vmName
+  in: path
+  isRequired: true
+  description: The name of the virtual machine.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: RunCommandResult
+- name: 202 Accepted
+  description: Accepted
+requestBody:
+- parameters:
+  - name: commandId
+    in: body
+    isRequired: true
+    description: The run command id.
+    types:
+    - uid: string
+  - name: script
+    in: body
+    description: Optional. The script to be executed.  When this value is given, the given script will override the default script of the command.
+    types:
+    - uid: string
+      isArray: true
+  - name: parameters
+    in: body
+    description: The run command parameters.
+    types:
+    - uid: RunCommandInputParameter
+      isArray: true
+requestHeader: []
+definitions:
+- name: RunCommandInputParameter
+  description: Describes the properties of a run command parameter.
+  kind: object
+  properties:
+  - name: name
+    description: The run command parameter name.
+    types:
+    - uid: string
+  - name: value
+    description: The run command parameter value.
+    types:
+    - uid: string
+- name: RunCommandResult
+  description: Run command operation response.
+  kind: object
+  properties:
+  - name: properties.output
+    description: Operation output data (raw JSON)
+    types:
+    - uid: object
+  - name: name
+    isReadyOnly: true
+    description: Operation ID
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Operation status
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: Start time of the operation
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: End time of the operation
+    types:
+    - uid: string
+  - name: error
+    isReadyOnly: true
+    description: Api error
+    types:
+    - uid: ApiError
+- name: RunCommandInput
+  description: Capture Virtual Machine parameters.
+  kind: object
+  properties:
+  - name: commandId
+    description: The run command id.
+    types:
+    - uid: string
+  - name: script
+    description: Optional. The script to be executed.  When this value is given, the given script will override the default script of the command.
+    types:
+    - uid: string
+      isArray: true
+  - name: parameters
+    description: The run command parameters.
+    types:
+    - uid: RunCommandInputParameter
+      isArray: true
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+examples:
+- name: VirtualMachineRunCommand
+  request:
+    uri: POST https://management.azure.com/subscriptions/24fb23e3-6ba3-41f0-9b6e-e41131d5d61e/resourceGroups/crptestar98131/providers/Microsoft.Compute/virtualMachines/vm3036/runCommand?api-version=2017-03-30
+    body: >-
+      {
+        "commandId": "ipconfig"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "startTime": "2017-06-16T23:01:37.8958419+00:00",
+        "endTime": "2017-06-16T23:10:11.2897717+00:00",
+        "status": "Succeeded",
+        "properties": {
+          "output": [
+            {
+              "code": "ComponentStatus/StdOut/succeeded",
+              "level": "Info",
+              "displayStatus": "Provisioning succeeded",
+              "message": "This is a sample script with parameters value1 value2"
+            },
+            {
+              "code": "ComponentStatus/StdErr/succeeded",
+              "level": "Info",
+              "displayStatus": "Provisioning succeeded",
+              "message": "#< CLIXML \n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><Obj S=\"progress\" RefId=\"0\"><TN RefId=\"0\"><T>System.Management.Automation.PSCustomObject</T><T>System.Object</T></TN><MS><I64 N=\"SourceId\">1</I64><PR N=\"Record\"><AV>Preparing modules for first use.</AV><AI>0</AI><Nil /><PI>-1</PI><PC>-1</PC><T>Completed</T><SR>-1</SR><SD> </SD></PR></MS></Obj><Obj S=\"progress\" RefId=\"1\"><TNRef RefId=\"0\" /><MS><I64 N=\"SourceId\">2</I64><PR N=\"Record\"><AV>Preparing modules for first use.</AV><AI>0</AI><Nil /><PI>-1</PI><PC>-1</PC><T>Completed</T><SR>-1</SR><SD> </SD></PR></MS></Obj><Obj S=\"progress\" RefId=\"2\"><TNRef RefId=\"0\" /><MS><I64 N=\"SourceId\">3</I64><PR N=\"Record\"><AV>Preparing modules for first use.</AV><AI>0</AI><Nil /><PI>-1</PI><PC>-1</PC><T>Completed</T><SR>-1</SR><SD> </SD></PR></MS></Obj></Objs>"
+            }
+          ]
+        },
+        "name": "289dbc84-3c84-4a86-9e40-bbd4d61edcaf"
+      }
+  - statusCode: "202"
+    body: "\"\""
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

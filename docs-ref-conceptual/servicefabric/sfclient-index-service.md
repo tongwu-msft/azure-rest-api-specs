@@ -1,6 +1,6 @@
 ---
 title: "Service"
-ms.date: "2017-10-02"
+ms.date: "2018-01-22"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ translation.priority.mt:
 | [Get Service Info List](sfclient-api-getserviceinfolist.md) | Gets the information about all services belonging to the application specified by the application id.<br/> |
 | [Get Service Info](sfclient-api-getserviceinfo.md) | Gets the information about the specific service belonging to a Service Fabric application.<br/> |
 | [Get Application Name Info](sfclient-api-getapplicationnameinfo.md) | Gets the name of the Service Fabric application for a service.<br/> |
-| [Create Service](sfclient-api-createservice.md) | Creates the specified service.<br/> |
-| [Create Service From Template](sfclient-api-createservicefromtemplate.md) | Creates a Service Fabric service from the service template defined in the application manifest.<br/> |
+| [Create Service](sfclient-api-createservice.md) | Creates the specified Service Fabric service.<br/> |
+| [Create Service From Template](sfclient-api-createservicefromtemplate.md) | Creates a Service Fabric service from the service template.<br/> |
 | [Delete Service](sfclient-api-deleteservice.md) | Deletes an existing Service Fabric service.<br/> |
-| [Update Service](sfclient-api-updateservice.md) | Updates the specified service using the given update description.<br/> |
+| [Update Service](sfclient-api-updateservice.md) | Updates a Service Fabric service using the specified update description.<br/> |
 | [Get Service Description](sfclient-api-getservicedescription.md) | Gets the description of an existing Service Fabric service.<br/> |
 | [Get Service Health](sfclient-api-getservicehealth.md) | Gets the health of the specified Service Fabric service.<br/> |
 | [Get Service Health Using Policy](sfclient-api-getservicehealthusingpolicy.md) | Gets the health of the specified Service Fabric service, by using the specified health policy.<br/> |

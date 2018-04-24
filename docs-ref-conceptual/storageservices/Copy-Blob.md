@@ -253,7 +253,7 @@ Date: <date>
 |202 (Accepted), x-ms-copy-status: success|Copy completed successfully.|  
 |4xx, 500, or 503|Copy failed.| 
 
- Tier is inherited for premium storage tiers only, for block blobs destination uses the default tier. Note that blob tiers for blob storage LRS accounts are currently in preview. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
+ Tier is inherited for premium storage tiers. For block blobs, overwriting the destination blob will inherit Hot/Cool tier from the destination. Overwriting an archived blob will fail. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
   
  **Billing**  
   

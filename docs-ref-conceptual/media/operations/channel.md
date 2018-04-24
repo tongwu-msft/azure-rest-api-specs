@@ -1,7 +1,7 @@
 ---
 title: "Channel"
 ms.custom: ""
-ms.date: "2017-01-09"
+ms.date: "03/14/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
@@ -34,23 +34,18 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
   
  Starting with the Media Services 2.10 release, when you create a Channel, you can specify in which way you want for your channel to receive the input stream and whether or not you want for the channel to perform live encoding of your stream. You have two options:  
   
--   `None` – Specify this value, if you plan to use an on-premises live encoder which will output multi-bitrate stream. In this case, the incoming stream passed through to the output without any encoding. This is the behavior of a Channel prior to 2.10 release. For more detailed information about working with channels of this type, see [Working with Channels that Receive Multi-bitrate Live Stream from On-premises Encoders](http://azure.microsoft.com/documentation/articles/media-services-manage-channels-overview/).  
+-   `None` – Specify this value, if you plan to use an on-premises live encoder which will output multi-bitrate stream. In this case, the incoming stream passed through to the output without any encoding. This is the behavior of a Channel prior to 2.10 release. For more detailed information about working with channels of this type, see [Working with Channels that Receive Multi-bitrate Live Stream from On-premises Encoders](https://azure.microsoft.com/documentation/articles/media-services-manage-channels-overview/).  
   
 -   `Standard` – If you plan to use Media Services to encode your single bitrate live stream to multi-bitrate stream, choose this value.  
   
     > [!NOTE]
-    >  Be aware that there is a billing impact for live encoding and you should remember that leaving a live encoding channel in the "Running" state will incur billing charges.  It is recommended that you immediately stop your running channels after your live streaming event is complete to avoid extra hourly charges. For more information, see [Working with Channels that are Enabled to Perform Live Encoding with Azure Media Services](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+    >  Be aware that there is a billing impact for live encoding and you should remember that leaving a live encoding channel in the "Running" state will incur billing charges.  It is recommended that you immediately stop your running channels after your live streaming event is complete to avoid extra hourly charges. For more information, see [Working with Channels that are Enabled to Perform Live Encoding with Azure Media Services](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
- For more information on Live Streaming and managing channels, see [Delivering Live Streaming with Azure Media Services](http://azure.microsoft.com/en-us/documentation/articles/media-services-live-streaming-workflow/).  
+ For more information on Live Streaming and managing channels, see [Delivering Live Streaming with Azure Media Services](https://azure.microsoft.com/en-us/documentation/articles/media-services-live-streaming-workflow/).  
   
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
  This topic gives an overview of the `Channel` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
 -   [Create Channels](#create_channels)  
@@ -105,7 +100,7 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
 |`Endpoints`<br /><br /> Read-only.|[ChannelEndpoint ComplexType](#ChannelEndpoint)|Channel input endpoints.<br /><br /> A Channel provides input endpoints (ingest URLs) that you then use to ingest your live stream. The channel receives live input streams and makes the output streams available for streaming through one or more streaming endpoints.|  
   
 ###  <a name="ChannelPreview"></a> ChannelPreview ComplexType  
- For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+ For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
@@ -119,21 +114,21 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
 |`IP`|[IPAccessControl](#IPAccessControl)|IP addresses that are allowed to connect to channel input endpoints.|  
   
 ###  <a name="ChannelPreviewAccessControl"></a> ChannelPreviewAccessControl ComplexType  
- For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+ For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
 |`IP`|[IPAccessControl](#IPAccessControl)|IP addresses that are allowed to connect to channel input endpoints.|  
   
 ###  <a name="IPAccessControl"></a> IPAccessControl  
- For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+ For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
 |Allow|[IPRange ComplexType](#IPRange)|IP addresses that are allowed to connect to channel input endpoints. **Note:**  Setting this value to null allows all IP source addresses to connect. Setting it to an empty string (“”) allows no one to connect.|  
   
 ###  <a name="IPRange"></a> IPRange ComplexType  
- For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+ For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
@@ -149,21 +144,21 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
 |`Url`|Edm.String|The channel streaming endpoint URL.|  
   
 ###  <a name="ChannelOutput"></a> ChannelOutput ComplexType  
- For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/)  
+ For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/)  
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
 |`Hls`|[ChannelOutputHls ComplexType](#ChannelOutputHls)|The HLS specific settings.|  
   
 ###  <a name="ChannelOutputHls"></a> ChannelOutputHls ComplexType  
- For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+ For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
 |`FragmentsPerSegment`|Edm.Int16|The amount of fragments per HTTP Live Streaming (HLS) segment.|  
   
 ###  <a name="encoding"></a> Encoding ComplexType  
- For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+ For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
@@ -188,7 +183,7 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
   
  Audio is encoded to stereo AAC-LC at 64 kbps, sampling rate of 44.1 kHz.  
   
- For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+ For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 ###  <a name="VideoStream"></a> VideoStream  
  Describes the input video stream. If this field is not specified, the default value is used. This setting is allowed only if the input streaming protocol is set to RTP (MPEG-TS).  
@@ -198,7 +193,7 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
 |`Index`|Edm.Int1|A zero-based index that specifies which input video stream should be processed by the live encoder within the Channel. This setting applies only if ingest streaming protocol is RTP (MPEG-TS).<br /><br /> Default value is zero. It is recommended to send in a single program transport stream (SPTS). If the input stream contains multiple programs, the live encoder parses the Program Map Table (PMT) in the input, identifies the inputs that have a stream type name of MPEG-2 Video or H.264, and arranges them in the order specified in the PMT. The zero-based index is then used to pick up the n-th entry in that arrangement.|  
 |`Name`|Edm.String|`Optional`. Descriptive tag for this input video stream.|  
   
- For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+ For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 ###  <a name="AudioStreams"></a> AudioStreams  
  Describes the input audio streams. If this field is not specified, the default values specified apply. This setting is allowed only if the input streaming protocol is set to RTP (MPEG-TS).  
@@ -223,21 +218,18 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
 |`InsertSlateOnAdMarker`|Edm.Bool|When set to True, this setting configures the live encoder to insert a slate image during an ad break. The default value is true.|  
 |`DefaultSlateAssetId`|Edm.String|`Optional`. Specifies the Asset Id of the Media Services Asset which contains the slate image. Default is null.<br /><br /> Before creating the Channel, the slate image, of 1920x1080 maximum resolution, in JPEG format, and at most 3 Mbytes in size, should be uploaded as a dedicated asset (no other files should be in this asset). The file name should have a *.jpg extension, and this AssetFile should be marked as the primary file for that asset. This Asset cannot be storage encr2ypted.<br /><br /> If the default slate Asset Id is not specified, and insert slate on ad marker is set to true, a default Azure Media Services image will be used to mask the input stream.|  
   
- For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+ For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 ##  <a name="create_channels"></a> Create Channels  
  Channels can be created using a POST HTTP request and specifying property values.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels|HTTP/1.1|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -251,7 +243,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -396,14 +388,11 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channelid*’)/Start|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channelid*’)/Start|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -417,7 +406,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -430,14 +419,11 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channelid*’)/Stop|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channelid*’)/Stop|HTTP/1.1|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -451,7 +437,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -464,14 +450,11 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|Get all Channels:<br /><br /> https://media.windows.net/api/Channels<br /><br /> Get a specified Channel.<br /><br /> https://media.windows.net/api/Channels('*channelid*')|HTTP/1.1|  
+|GET|Get all Channels:<br /><br /> https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels<br /><br /> Get a specified Channel.<br /><br /> https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels('*channelid*')|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -485,7 +468,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -498,14 +481,11 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channelid*’)/Reset|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channelid*’)/Reset|HTTP/1.1|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -519,7 +499,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -532,14 +512,11 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/en-us/library/dd541276.aspx).|https://media.windows.net/api/Channels(‘*channelid*’)|HTTP/1.1|  
+|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/en-us/library/dd541276.aspx).|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channelid*’)|HTTP/1.1|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -553,7 +530,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -572,14 +549,14 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channeled*’)/StartAdvertisement|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channeled*’)/StartAdvertisement|HTTP/1.1|  
   
- For more information, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+ For more information, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 ###  <a name="StartAdvertisementEntity"></a> StartAdvertisement Entity  
  This entity represents the start-of-advertisement API – it is an asynchronous call to the live encoder to insert an advertisement or commercial breaks in the output stream.  
   
- For more information, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+ For more information, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
@@ -589,10 +566,7 @@ Authorization: Bearer <token value>
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -606,7 +580,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -630,18 +604,15 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channeled*’)/EndAdvertisement|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channeled*’)/EndAdvertisement|HTTP/1.1|  
   
  This call should only be invoked when there is an on-going advertisement.  
   
- For more information, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+ For more information, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -655,7 +626,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -670,12 +641,12 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channeled*’)/ShowSlate|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channeled*’)/ShowSlate|HTTP/1.1|  
   
- For more information, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+ For more information, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 ###  <a name="ShowSlateEntity"></a> ShowSlate Entity  
- For more information, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+ For more information, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
@@ -686,10 +657,7 @@ Authorization: Bearer <token value>
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -703,7 +671,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -726,18 +694,15 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channelid*’)/HideSlate|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channelid*’)/HideSlate|HTTP/1.1|  
   
  This call should only be invoked when there is an on-going slate.  
   
- For more information, see [Overview of Channels that are enabled for Live Encoding](http://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
+ For more information, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -751,7 +716,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -764,14 +729,11 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://media.windows.net/api/Channels(‘*channelid*’)|HTTP/1.1|  
+|DELETE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channelid*’)|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -785,7 +747,7 @@ Accept: application/json;odata=minimalmetadata
 Accept-Charset: UTF-8  
 x-ms-version: 2.11  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -794,5 +756,5 @@ Authorization: Bearer <token value>
  If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ## See Also  
- [Delivering Live Streaming with Azure Media Services](http://azure.microsoft.com/en-us/documentation/articles/media-services-live-streaming-workflow/)   
+ [Delivering Live Streaming with Azure Media Services](https://azure.microsoft.com/en-us/documentation/articles/media-services-live-streaming-workflow/)   
  [Program](../operations/program.md)

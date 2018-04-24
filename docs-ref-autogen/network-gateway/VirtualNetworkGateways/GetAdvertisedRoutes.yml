@@ -1,0 +1,120 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.networkgateway.virtualnetworkgateways.getadvertisedroutes
+name: Get Advertised Routes
+service: Network Gateway
+groupName: Virtual Network Gateways
+apiVersion: 2018-02-01
+summary: This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getAdvertisedRoutes?peer={peer}&api-version=2018-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: virtualNetworkGatewayName
+  in: path
+  isRequired: true
+  description: The name of the virtual network gateway.
+  types:
+  - uid: string
+- name: peer
+  in: query
+  isRequired: true
+  description: The IP address of the peer
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: List of learned BGP routes
+  types:
+  - uid: GatewayRouteListResult
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+requestHeader: []
+definitions:
+- name: GatewayRouteListResult
+  description: List of virtual network gateway routes
+  kind: object
+  properties:
+  - name: value
+    description: List of gateway routes
+    types:
+    - uid: GatewayRoute
+      isArray: true
+- name: GatewayRoute
+  description: Gateway routing details
+  kind: object
+  properties:
+  - name: localAddress
+    isReadyOnly: true
+    description: The gateway's local address
+    types:
+    - uid: string
+  - name: network
+    isReadyOnly: true
+    description: The route's network prefix
+    types:
+    - uid: string
+  - name: nextHop
+    isReadyOnly: true
+    description: The route's next hop
+    types:
+    - uid: string
+  - name: sourcePeer
+    isReadyOnly: true
+    description: The peer this route was learned from
+    types:
+    - uid: string
+  - name: origin
+    isReadyOnly: true
+    description: The source this route was learned from
+    types:
+    - uid: string
+  - name: asPath
+    isReadyOnly: true
+    description: The route's AS path sequence
+    types:
+    - uid: string
+  - name: weight
+    isReadyOnly: true
+    description: The route's weight
+    types:
+    - uid: integer
+examples:
+- name: GetVirtualNetworkGatewayAdvertisedRoutes
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/getAdvertisedRoutes?api-version=2018-02-01
+  responses:
+  - statusCode: "202"
+    body: '{}'
+  - statusCode: "200"
+    body: '{}'
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

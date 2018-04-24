@@ -1,0 +1,618 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicemap.machines.listconnections
+name: List Connections
+service: Service Map
+groupName: Machines
+apiVersion: 2015-11-01-preview
+summary: Returns a collection of connections terminating or originating at the specified machine
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machines/{machineName}/connections?api-version=2015-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machines/{machineName}/connections?api-version=2015-11-01-preview&startTime={startTime}&endTime={endTime}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name within the specified subscriptionId.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9_-]+'
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: OMS workspace containing the resources of interest.
+  types:
+  - uid: string
+  pattern: '[a-zA-Z0-9_][a-zA-Z0-9_-]+[a-zA-Z0-9_]'
+- name: machineName
+  in: path
+  isRequired: true
+  description: Machine resource name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version.
+  types:
+  - uid: string
+- name: startTime
+  in: query
+  description: UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m
+  types:
+  - uid: string
+  format: date-time
+- name: endTime
+  in: query
+  description: UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow
+  types:
+  - uid: string
+  format: date-time
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: ConnectionCollection
+- name: Other Status Codes
+  description: An error occurred while processing the request. See the error.code parameter to identify the specific error.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ConnectionCollection
+  description: Collection of Connection resources.
+  kind: object
+  properties:
+  - name: value
+    description: Collection of Connection resources.
+    types:
+    - uid: Connection
+      isArray: true
+  - name: nextLink
+    description: The URL to the next set of resources.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: An error response from the API.
+  kind: object
+  properties:
+  - name: error
+    description: Error information.
+    types:
+    - uid: Error
+- name: Connection
+  description: A network connection.
+  kind: object
+  properties:
+  - name: properties.serverPort
+    description: Reference to the server port via which this connection has been established.
+    types:
+    - uid: PortReference
+  - name: properties.failureState
+    description: Specifies whether there are only successful, failed or a mixture of both connections represented by this resource.
+    types:
+    - uid: ConnectionFailureState
+  - name: kind
+    description: Additional resource type qualifier.
+    types:
+    - uid: rel:connection
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Resource identifier.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: properties.source
+    description: Source resource of the relationship.
+    types:
+    - uid: MachineReference
+    - uid: ProcessReference
+    - uid: PortReference
+    - uid: MachineReferenceWithHints
+    - uid: ClientGroupReference
+    typesTitle: ResourceReference
+  - name: properties.destination
+    description: Destination resource of the relationship.
+    types:
+    - uid: MachineReference
+    - uid: ProcessReference
+    - uid: PortReference
+    - uid: MachineReferenceWithHints
+    - uid: ClientGroupReference
+    typesTitle: ResourceReference
+  - name: properties.startTime
+    description: Relationship start time.
+    types:
+    - uid: string
+  - name: properties.endTime
+    description: Relationship end time.
+    types:
+    - uid: string
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Error code identifying the specific error.
+    types:
+    - uid: string
+  - name: message
+    description: Error message in the caller's locale.
+    types:
+    - uid: string
+- name: PortReference
+  description: Reference to a port.
+  kind: object
+  properties:
+  - name: properties.machine
+    isReadyOnly: true
+    description: Machine hosting the port.
+    types:
+    - uid: MachineReference
+  - name: properties.ipAddress
+    isReadyOnly: true
+    description: IP address of the port.
+    types:
+    - uid: string
+  - name: properties.portNumber
+    description: Port number.
+    types:
+    - uid: integer
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:port
+    typesTitle: string
+- name: ConnectionFailureState
+  description: >-
+    Connection failure state:
+     * ```ok``` indicates no failures
+     * ```failed``` indicates only failures
+     * ```mixed``` indicates both failures and successes
+  kind: enum
+  properties:
+  - name: ok
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+  - name: mixed
+    types:
+    - uid: string
+- name: MachineReference
+  description: Reference to a machine.
+  kind: object
+  properties:
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:machine
+    typesTitle: string
+- name: ProcessReference
+  description: Reference to a process.
+  kind: object
+  properties:
+  - name: properties.machine
+    isReadyOnly: true
+    description: Machine hosting the process.
+    types:
+    - uid: MachineReference
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:process
+    typesTitle: string
+- name: MachineReferenceWithHints
+  description: A machine reference with a hint of the machine's name and operating system.
+  kind: object
+  properties:
+  - name: properties.displayNameHint
+    isReadyOnly: true
+    description: Last known display name.
+    types:
+    - uid: string
+  - name: properties.osFamilyHint
+    isReadyOnly: true
+    description: Last known operating system family.
+    types:
+    - uid: OperatingSystemFamily
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:machinewithhints
+    typesTitle: string
+- name: ClientGroupReference
+  description: Reference to a client group.
+  kind: object
+  properties:
+  - name: id
+    description: Resource URI.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type qualifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    description: Specifies the sub-class of the reference.
+    types:
+    - uid: ref:clientgroup
+    typesTitle: string
+- name: OperatingSystemFamily
+  description: Specifies the operating system family, e.g., Linux, Windows, etc.
+  kind: enum
+  properties:
+  - name: unknown
+    types:
+    - uid: string
+  - name: windows
+    types:
+    - uid: string
+  - name: linux
+    types:
+    - uid: string
+  - name: solaris
+    types:
+    - uid: string
+  - name: aix
+    types:
+    - uid: string
+examples:
+- name: SMMachinesListConnectionsGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/features/serviceMap/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4/connections?api-version=2015-11-01-preview&startTime=1/7/2018 7:31:38 AM&endTime=1/7/2018 7:31:38 AM
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "kind": "rel:connection",
+            "properties": {
+              "source": {
+                "kind": "ref:process",
+                "properties": {
+                  "machine": {
+                    "kind": "ref:machine",
+                    "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-00377B1B-7F4D-4EF8-8E1B-5B683DA02123",
+                    "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                    "name": "m-00377B1B-7F4D-4EF8-8E1B-5B683DA02123"
+                  }
+                },
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-00377B1B-7F4D-4EF8-8E1B-5B683DA02123/processes/p-1a9dc431ad6048d83dade29fb72dfd9fbe2ee2b4",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines/processes",
+                "name": "p-1a9dc431ad6048d83dade29fb72dfd9fbe2ee2b4"
+              },
+              "destination": {
+                "kind": "ref:process",
+                "properties": {
+                  "machine": {
+                    "kind": "ref:machine",
+                    "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4",
+                    "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                    "name": "m-A4AB1C69-03E9-42D2-B822-B42555569FB4"
+                  }
+                },
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4/processes/p-f107e3f1cb5d792e6abfed7832ba4e864f995cee",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines/processes",
+                "name": "p-f107e3f1cb5d792e6abfed7832ba4e864f995cee"
+              },
+              "serverPort": {
+                "kind": "ref:port",
+                "properties": {
+                  "machine": {
+                    "kind": "ref:machine",
+                    "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4",
+                    "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                    "name": "m-A4AB1C69-03E9-42D2-B822-B42555569FB4"
+                  },
+                  "ipAddress": "1.0.0.1",
+                  "portNumber": 9000
+                },
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4/ports/b-01000001_9000",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines/ports",
+                "name": "b-01000001_9000"
+              },
+              "failureState": "ok"
+            },
+            "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/connections/m@m-00377B1B-7F4D-4EF8-8E1B-5B683DA02123@p@p-1a9dc431ad6048d83dade29fb72dfd9fbe2ee2b4!m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@p@p-f107e3f1cb5d792e6abfed7832ba4e864f995cee!m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@b@b-01000001_9000",
+            "type": "Microsoft.OperationalInsights/workspaces/features/connections",
+            "name": "m@m-00377B1B-7F4D-4EF8-8E1B-5B683DA02123@p@p-1a9dc431ad6048d83dade29fb72dfd9fbe2ee2b4!m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@p@p-f107e3f1cb5d792e6abfed7832ba4e864f995cee!m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@b@b-01000001_9000"
+          },
+          {
+            "kind": "rel:connection",
+            "properties": {
+              "source": {
+                "kind": "ref:clientgroup",
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/clientGroups/m!m-A4AB1C69-03E9-42D2-B822-B42555569FB4!b!b-01000001_8000",
+                "type": "Microsoft.OperationalInsights/workspaces/features/clientGroups",
+                "name": "m!m-A4AB1C69-03E9-42D2-B822-B42555569FB4!b!b-01000001_8000"
+              },
+              "destination": {
+                "kind": "ref:process",
+                "properties": {
+                  "machine": {
+                    "kind": "ref:machine",
+                    "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4",
+                    "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                    "name": "m-A4AB1C69-03E9-42D2-B822-B42555569FB4"
+                  }
+                },
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4/processes/p-68cf5e3251379179122fa88e761e2acd5577c249",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines/processes",
+                "name": "p-68cf5e3251379179122fa88e761e2acd5577c249"
+              },
+              "serverPort": {
+                "kind": "ref:port",
+                "properties": {
+                  "machine": {
+                    "kind": "ref:machine",
+                    "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4",
+                    "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                    "name": "m-A4AB1C69-03E9-42D2-B822-B42555569FB4"
+                  },
+                  "ipAddress": "1.0.0.1",
+                  "portNumber": 8000
+                },
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4/ports/b-01000001_8000",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines/ports",
+                "name": "b-01000001_8000"
+              },
+              "failureState": "ok"
+            },
+            "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/connections/c@m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@b@b-01000001_8000!m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@p@p-68cf5e3251379179122fa88e761e2acd5577c249!m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@b@b-01000001_8000",
+            "type": "Microsoft.OperationalInsights/workspaces/features/connections",
+            "name": "c@m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@b@b-01000001_8000!m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@p@p-68cf5e3251379179122fa88e761e2acd5577c249!m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@b@b-01000001_8000"
+          },
+          {
+            "kind": "rel:connection",
+            "properties": {
+              "source": {
+                "kind": "ref:process",
+                "properties": {
+                  "machine": {
+                    "kind": "ref:machine",
+                    "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4",
+                    "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                    "name": "m-A4AB1C69-03E9-42D2-B822-B42555569FB4"
+                  }
+                },
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4/processes/p-d642fef420c5baa4c72f53de9426f1ed699899e2",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines/processes",
+                "name": "p-d642fef420c5baa4c72f53de9426f1ed699899e2"
+              },
+              "destination": {
+                "kind": "ref:process",
+                "properties": {
+                  "machine": {
+                    "kind": "ref:machine",
+                    "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-21E1AC11-8AFF-4D2D-8A1F-72FEDA473F7B",
+                    "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                    "name": "m-21E1AC11-8AFF-4D2D-8A1F-72FEDA473F7B"
+                  }
+                },
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-21E1AC11-8AFF-4D2D-8A1F-72FEDA473F7B/processes/p-08445135a7215e343f0f49b8d0b70c3b853ef87f",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines/processes",
+                "name": "p-08445135a7215e343f0f49b8d0b70c3b853ef87f"
+              },
+              "serverPort": {
+                "kind": "ref:port",
+                "properties": {
+                  "machine": {
+                    "kind": "ref:machine",
+                    "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-21E1AC11-8AFF-4D2D-8A1F-72FEDA473F7B",
+                    "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                    "name": "m-21E1AC11-8AFF-4D2D-8A1F-72FEDA473F7B"
+                  },
+                  "ipAddress": "2.0.0.1",
+                  "portNumber": 1001
+                },
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-21E1AC11-8AFF-4D2D-8A1F-72FEDA473F7B/ports/b-02000001_1001",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines/ports",
+                "name": "b-02000001_1001"
+              },
+              "failureState": "ok"
+            },
+            "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/connections/m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@p@p-d642fef420c5baa4c72f53de9426f1ed699899e2!m@m-21E1AC11-8AFF-4D2D-8A1F-72FEDA473F7B@p@p-08445135a7215e343f0f49b8d0b70c3b853ef87f!m@m-21E1AC11-8AFF-4D2D-8A1F-72FEDA473F7B@b@b-02000001_1001",
+            "type": "Microsoft.OperationalInsights/workspaces/features/connections",
+            "name": "m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@p@p-d642fef420c5baa4c72f53de9426f1ed699899e2!m@m-21E1AC11-8AFF-4D2D-8A1F-72FEDA473F7B@p@p-08445135a7215e343f0f49b8d0b70c3b853ef87f!m@m-21E1AC11-8AFF-4D2D-8A1F-72FEDA473F7B@b@b-02000001_1001"
+          },
+          {
+            "kind": "rel:connection",
+            "properties": {
+              "source": {
+                "kind": "ref:process",
+                "properties": {
+                  "machine": {
+                    "kind": "ref:machine",
+                    "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4",
+                    "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                    "name": "m-A4AB1C69-03E9-42D2-B822-B42555569FB4"
+                  }
+                },
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4/processes/p-d642fef420c5baa4c72f53de9426f1ed699899e2",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines/processes",
+                "name": "p-d642fef420c5baa4c72f53de9426f1ed699899e2"
+              },
+              "destination": {
+                "kind": "ref:process",
+                "properties": {
+                  "machine": {
+                    "kind": "ref:machine",
+                    "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-573847EE-4D31-4936-A8B2-771372806C80",
+                    "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                    "name": "m-573847EE-4D31-4936-A8B2-771372806C80"
+                  }
+                },
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-573847EE-4D31-4936-A8B2-771372806C80/processes/p-daedaa0e25869b6cf36525d51c2d321335e69f71",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines/processes",
+                "name": "p-daedaa0e25869b6cf36525d51c2d321335e69f71"
+              },
+              "serverPort": {
+                "kind": "ref:port",
+                "properties": {
+                  "machine": {
+                    "kind": "ref:machine",
+                    "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-573847EE-4D31-4936-A8B2-771372806C80",
+                    "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                    "name": "m-573847EE-4D31-4936-A8B2-771372806C80"
+                  },
+                  "ipAddress": "2.0.0.2",
+                  "portNumber": 1002
+                },
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-573847EE-4D31-4936-A8B2-771372806C80/ports/b-02000002_1002",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines/ports",
+                "name": "b-02000002_1002"
+              },
+              "failureState": "ok"
+            },
+            "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/connections/m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@p@p-d642fef420c5baa4c72f53de9426f1ed699899e2!m@m-573847EE-4D31-4936-A8B2-771372806C80@p@p-daedaa0e25869b6cf36525d51c2d321335e69f71!m@m-573847EE-4D31-4936-A8B2-771372806C80@b@b-02000002_1002",
+            "type": "Microsoft.OperationalInsights/workspaces/features/connections",
+            "name": "m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@p@p-d642fef420c5baa4c72f53de9426f1ed699899e2!m@m-573847EE-4D31-4936-A8B2-771372806C80@p@p-daedaa0e25869b6cf36525d51c2d321335e69f71!m@m-573847EE-4D31-4936-A8B2-771372806C80@b@b-02000002_1002"
+          },
+          {
+            "kind": "rel:connection",
+            "properties": {
+              "source": {
+                "kind": "ref:process",
+                "properties": {
+                  "machine": {
+                    "kind": "ref:machine",
+                    "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4",
+                    "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                    "name": "m-A4AB1C69-03E9-42D2-B822-B42555569FB4"
+                  }
+                },
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4/processes/p-d642fef420c5baa4c72f53de9426f1ed699899e2",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines/processes",
+                "name": "p-d642fef420c5baa4c72f53de9426f1ed699899e2"
+              },
+              "destination": {
+                "kind": "ref:process",
+                "properties": {
+                  "machine": {
+                    "kind": "ref:machine",
+                    "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4",
+                    "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                    "name": "m-A4AB1C69-03E9-42D2-B822-B42555569FB4"
+                  }
+                },
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4/processes/p-68cf5e3251379179122fa88e761e2acd5577c249",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines/processes",
+                "name": "p-68cf5e3251379179122fa88e761e2acd5577c249"
+              },
+              "serverPort": {
+                "kind": "ref:port",
+                "properties": {
+                  "machine": {
+                    "kind": "ref:machine",
+                    "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4",
+                    "type": "Microsoft.OperationalInsights/workspaces/features/machines",
+                    "name": "m-A4AB1C69-03E9-42D2-B822-B42555569FB4"
+                  },
+                  "ipAddress": "1.0.0.1",
+                  "portNumber": 8000
+                },
+                "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/machines/m-A4AB1C69-03E9-42D2-B822-B42555569FB4/ports/b-01000001_8000",
+                "type": "Microsoft.OperationalInsights/workspaces/features/machines/ports",
+                "name": "b-01000001_8000"
+              },
+              "failureState": "ok"
+            },
+            "id": "/subscriptions/63BE4E24-FDF0-4E9C-9342-6A5D5A359722/resourceGroups/rg-sm/providers/Microsoft.OperationalInsights/workspaces/D6F79F14-E563-469B-84B5-9286D2803B2F/connections/m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@p@p-d642fef420c5baa4c72f53de9426f1ed699899e2!m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@p@p-68cf5e3251379179122fa88e761e2acd5577c249!m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@b@b-01000001_8000",
+            "type": "Microsoft.OperationalInsights/workspaces/features/connections",
+            "name": "m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@p@p-d642fef420c5baa4c72f53de9426f1ed699899e2!m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@p@p-68cf5e3251379179122fa88e761e2acd5577c249!m@m-A4AB1C69-03E9-42D2-B822-B42555569FB4@b@b-01000001_8000"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

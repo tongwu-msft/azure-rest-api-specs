@@ -1,0 +1,151 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.trafficmanager.profiles.checktrafficmanagerrelativednsnameavailability
+name: Check Traffic Manager Relative Dns Name Availability
+service: Traffic Manager
+groupName: Profiles
+apiVersion: 2017-05-01
+summary: Checks the availability of a Traffic Manager Relative DNS name.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.Network/checkTrafficManagerNameAvailability?api-version=2017-05-01
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The Traffic Manager Name Availability.
+  types:
+  - uid: TrafficManagerNameAvailability
+- name: Other Status Codes
+  description: Default response. It will be deserialized as per the Error definition.
+  types:
+  - uid: CloudError
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    in: body
+    description: The type of the resource.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: TrafficManagerNameAvailability
+  description: Class representing a Traffic Manager Name Availability response.
+  kind: object
+  properties:
+  - name: name
+    description: The relative name.
+    types:
+    - uid: string
+  - name: type
+    description: Traffic Manager profile resource type.
+    types:
+    - uid: string
+  - name: nameAvailable
+    description: Describes whether the relative name is available or not.
+    types:
+    - uid: boolean
+  - name: reason
+    description: The reason why the name is not available, when applicable.
+    types:
+    - uid: string
+  - name: message
+    description: Descriptive message that explains why the name is not available, when applicable.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error returned by the Azure Resource Manager
+  kind: object
+  properties:
+  - name: error
+    description: The content of the error.
+    types:
+    - uid: CloudErrorBody
+- name: CheckTrafficManagerRelativeDnsNameAvailabilityParameters
+  description: Parameters supplied to check Traffic Manager name operation.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: The content of an error returned by the Azure Resource Manager
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: target
+    description: Error target
+    types:
+    - uid: string
+  - name: details
+    description: Error details
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: NameAvailabilityTest_NameAvailablePOST21
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Network/checkTrafficManagerNameAvailability?api-version=2017-05-01
+    body: >-
+      {
+        "name": "azsmnet5403",
+        "type": "microsoft.network/trafficmanagerprofiles"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "azsmnet5403",
+        "type": "Microsoft.Network/trafficManagerProfiles",
+        "nameAvailable": true
+      }
+- name: NameAvailabilityTest_NameNotAvailablePOST23
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Network/checkTrafficManagerNameAvailability?api-version=2017-05-01
+    body: >-
+      {
+        "name": "azsmnet4696",
+        "type": "microsoft.network/trafficmanagerprofiles"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "azsmnet4696",
+        "type": "Microsoft.Network/trafficManagerProfiles",
+        "nameAvailable": false,
+        "reason": "AlreadyExists",
+        "message": "Domain name azsmnet4696.tmpreview.watmtest.azure-test.net already exists. Please choose a different DNS prefix."
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

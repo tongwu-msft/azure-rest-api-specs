@@ -1,0 +1,123 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.batchmanagement.applicationpackage.activate
+name: Activate
+service: Batch Management
+groupName: Application Package
+apiVersion: 2017-09-01
+summary: Activates the specified application package.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}/versions/{version}/activate?api-version=2017-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the Batch account.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the Batch account.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: applicationId
+  in: path
+  isRequired: true
+  description: The ID of the application.
+  types:
+  - uid: string
+- name: version
+  in: path
+  isRequired: true
+  description: The version of the application to activate.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: The operation was successful.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- parameters:
+  - name: format
+    in: body
+    isRequired: true
+    description: The format of the application package binary file.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Batch service.
+    types:
+    - uid: CloudErrorBody
+- name: ActivateApplicationPackageParameters
+  description: Parameters for an activating an application package.
+  kind: object
+  properties:
+  - name: format
+    description: The format of the application package binary file.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: ApplicationPackageActivate
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/applications/app1/versions/1/activate?api-version=2017-09-01
+    body: >-
+      {
+        "format": "zip"
+      }
+  responses:
+  - statusCode: "204"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

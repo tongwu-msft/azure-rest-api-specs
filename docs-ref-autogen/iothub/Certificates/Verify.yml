@@ -1,0 +1,199 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothub.certificates.verify
+name: Verify
+service: IoT Hub
+groupName: Certificates
+apiVersion: 2018-04-01
+summary: "Verify certificate's private key possession.  \nVerifies the certificate's private key possession by providing the leaf cert issued by the verifying pre uploaded certificate."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}/verify?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the IoT hub.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the IoT hub.
+  types:
+  - uid: string
+- name: certificateName
+  in: path
+  isRequired: true
+  description: The name of the certificate
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9-._]{1,64}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The body contains the certificate.
+  types:
+  - uid: CertificateDescription
+- name: Other Status Codes
+  description: DefaultErrorResponse
+  types:
+  - uid: ErrorDetails
+requestBody:
+- parameters:
+  - name: certificate
+    in: body
+    description: base-64 representation of X509 certificate .cer file or just .pem file content.
+    types:
+    - uid: string
+requestHeader:
+- name: If-Match
+  in: header
+  isRequired: true
+  description: ETag of the Certificate.
+  types:
+  - uid: string
+definitions:
+- name: CertificateDescription
+  description: The X509 Certificate.
+  kind: object
+  properties:
+  - name: properties
+    description: The description of an X509 CA Certificate.
+    types:
+    - uid: CertificateProperties
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the certificate.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: The entity tag.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: httpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+- name: CertificateVerificationDescription
+  description: The JSON-serialized leaf certificate
+  kind: object
+  properties:
+  - name: certificate
+    description: base-64 representation of X509 certificate .cer file or just .pem file content.
+    types:
+    - uid: string
+- name: CertificateProperties
+  description: The description of an X509 CA Certificate.
+  kind: object
+  properties:
+  - name: subject
+    isReadyOnly: true
+    description: The certificate's subject name.
+    types:
+    - uid: string
+  - name: expiry
+    isReadyOnly: true
+    description: The certificate's expiration date and time.
+    types:
+    - uid: string
+  - name: thumbprint
+    isReadyOnly: true
+    description: The certificate's thumbprint.
+    types:
+    - uid: string
+  - name: isVerified
+    isReadyOnly: true
+    description: Determines whether certificate has been verified.
+    types:
+    - uid: boolean
+  - name: created
+    isReadyOnly: true
+    description: The certificate's create date and time.
+    types:
+    - uid: string
+  - name: updated
+    isReadyOnly: true
+    description: The certificate's last update date and time.
+    types:
+    - uid: string
+examples:
+- name: Certificates_Verify
+  request:
+    uri: POST https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/myFirstProvisioningService/certificates/cert/verify?api-version=2018-04-01
+    body: >-
+      {
+        "certificate": "#####################################"
+      }
+    headers:
+    - name: If-Match
+      value: AAAAAAAADGk=
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "subject": "CN=andbucdevice1",
+          "expiry": "Sat, 31 Dec 2039 23:59:59 GMT",
+          "thumbprint": "97388663832D0393C9246CAB4FBA2C8677185A25",
+          "isVerified": true,
+          "created": "Thu, 12 Oct 2017 19:23:50 GMT",
+          "updated": "Thu, 12 Oct 2017 19:26:56 GMT"
+        },
+        "id": "/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/ProvisioningServices/myFirstProvisioningService/certificates/cert",
+        "name": "cert",
+        "type": "Microsoft.Devices/IotHubs/Certificates",
+        "etag": "AAAAAAExpTQ="
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

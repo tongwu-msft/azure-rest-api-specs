@@ -1,7 +1,7 @@
 ---
-title: "Update Index (Azure Search Service REST API)"
+title: "Update Index (Azure Search Service REST API) | Microsoft Docs"
 ms.custom: ""
-ms.date: "2016-11-09"
+ms.date: "04/20/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -14,7 +14,7 @@ ms.assetid: f26a6d3c-823c-401e-a27e-0699aad8fd8c
 caps.latest.revision: 29
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -55,7 +55,7 @@ Note that this operation will put your index offline for at least a few seconds,
 
  The index name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
 
- The `api-version` parameter is required. The current version is `api-version=2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -65,7 +65,7 @@ Note that this operation will put your index offline for at least a few seconds,
 |*Content-Type:*|Required. Set this to `application/json`|  
 |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Update Index** request must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](http://azure.microsoft.com/en-us/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/en-us/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body Syntax  
  When updating an existing index, the body must include the original schema definition, plus the new fields you are adding, as well as the modified scoring profiles and CORS options, if any. If you are not modifying the scoring profiles and CORS options, you must include the original values from when the index was created. In general, the best pattern to use for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT.  
@@ -133,11 +133,11 @@ Note that this operation will put your index offline for at least a few seconds,
         "sum (default) | average | minimum | maximum | firstMatching"  
     }  
   ],  
-"analyzers":(optional)[ ... ],
-"charFilters":(optional)[ ... ],
-"tokenizers":(optional)[ ... ],
-"tokenFilters":(optional)[ ... ],
-"defaultScoringProfile": (optional) "...",  
+  "analyzers":(optional)[ ... ],
+  "charFilters":(optional)[ ... ],
+  "tokenizers":(optional)[ ... ],
+  "tokenFilters":(optional)[ ... ],
+  "defaultScoringProfile": (optional) "...",  
   "corsOptions": (optional) {  
     "allowedOrigins": ["*"] | ["origin_1", "origin_2", ...],  
     "maxAgeInSeconds": (optional) max_age_in_seconds (non-negative integer)  

@@ -1,0 +1,109 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.loganalytics.workspaces.listmanagementgroups
+name: List Management Groups
+service: Log Analytics
+groupName: Workspaces
+apiVersion: 2015-11-01-preview
+summary: Gets a list of management groups connected to a workspace.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/managementGroups?api-version=2015-11-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to get. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK response definition.
+  types:
+  - uid: WorkspaceListManagementGroupsResult
+requestHeader: []
+definitions:
+- name: WorkspaceListManagementGroupsResult
+  description: The list workspace managmement groups operation response.
+  kind: object
+  properties:
+  - name: value
+    description: Gets or sets a list of management groups attached to the workspace.
+    types:
+    - uid: ManagementGroup
+      isArray: true
+- name: ManagementGroup
+  description: A management group that is connected to a workspace
+  kind: object
+  properties:
+  - name: properties.serverCount
+    description: The number of servers connected to the management group.
+    types:
+    - uid: integer
+  - name: properties.isGateway
+    description: Gets or sets a value indicating whether the management group is a gateway.
+    types:
+    - uid: boolean
+  - name: properties.name
+    description: The name of the management group.
+    types:
+    - uid: string
+  - name: properties.id
+    description: The unique ID of the management group.
+    types:
+    - uid: string
+  - name: properties.created
+    description: The datetime that the management group was created.
+    types:
+    - uid: string
+  - name: properties.dataReceived
+    description: The last datetime that the management group received data.
+    types:
+    - uid: string
+  - name: properties.version
+    description: The version of System Center that is managing the management group.
+    types:
+    - uid: string
+  - name: properties.sku
+    description: The SKU of System Center that is managing the management group.
+    types:
+    - uid: string
+examples:
+- name: WorkspacesListManagementGroups
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/rg1/providers/Microsoft.OperationalInsights/workspaces/TestLinkWS/managementGroups?api-version=2015-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": []
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

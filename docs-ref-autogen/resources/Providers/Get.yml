@@ -1,0 +1,136 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resourcemanagement.providers.get
+name: Get
+service: Resource Management
+groupName: Providers
+apiVersion: 2018-02-01
+summary: Gets the specified resource provider.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}?api-version=2018-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}?$expand={$expand}&api-version=2018-02-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceProviderNamespace
+  in: path
+  isRequired: true
+  description: The namespace of the resource provider.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: The $expand query parameter. For example, to include property aliases in response, use $expand=resourceTypes/aliases.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns information about the resource provider.
+  types:
+  - uid: Provider
+requestHeader: []
+definitions:
+- name: Provider
+  description: Resource provider information.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The provider ID.
+    types:
+    - uid: string
+  - name: namespace
+    description: The namespace of the resource provider.
+    types:
+    - uid: string
+  - name: registrationState
+    isReadyOnly: true
+    description: The registration state of the provider.
+    types:
+    - uid: string
+  - name: resourceTypes
+    isReadyOnly: true
+    description: The collection of provider resource types.
+    types:
+    - uid: ProviderResourceType
+      isArray: true
+- name: ProviderResourceType
+  description: Resource type managed by the resource provider.
+  kind: object
+  properties:
+  - name: resourceType
+    description: The resource type.
+    types:
+    - uid: string
+  - name: locations
+    description: The collection of locations where this resource type can be created.
+    types:
+    - uid: string
+      isArray: true
+  - name: aliases
+    description: The aliases that are supported by this resource type.
+    types:
+    - uid: AliasType
+      isArray: true
+  - name: apiVersions
+    description: The API version.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties
+    description: The properties.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: AliasType
+  description: 'The alias type. '
+  kind: object
+  properties:
+  - name: name
+    description: The alias name.
+    types:
+    - uid: string
+  - name: paths
+    description: The paths for an alias.
+    types:
+    - uid: AliasPathType
+      isArray: true
+- name: AliasPathType
+  description: 'The type of the paths for alias. '
+  kind: object
+  properties:
+  - name: path
+    description: The path of an alias.
+    types:
+    - uid: string
+  - name: apiVersions
+    description: The API versions.
+    types:
+    - uid: string
+      isArray: true
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
