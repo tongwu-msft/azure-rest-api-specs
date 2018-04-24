@@ -81,6 +81,7 @@ The `Get Blob Properties` operation returns all user-defined metadata, standard 
 |Response header|Description|  
 |---------------------|-----------------|  
 |`Last-Modified`|The date/time that the blob was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last modified time of the blob.|  
+|`x-ms-creation-time`|Version 2017-11-09 and newer. The date/time at which the blob was created. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md).|  
 |`x-ms-meta-name:value`|A set of name-value pairs that correspond to the user-defined metadata associated with this blob.|  
 |`x-ms-blob-type:<BlockBlob&#124;PageBlob&#124;AppendBlob>`|The blob type.|  
 |`x-ms-copy-completion-time:<datetime>`|Version 2012-02-12 and newer. Conclusion time of the last attempted `Copy Blob` operation where this blob was the destination blob. This value can specify the time of a completed, aborted, or failed copy attempt. This header does not appear if a copy is pending, if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  

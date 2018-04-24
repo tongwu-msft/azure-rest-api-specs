@@ -87,6 +87,7 @@ The `Get Blob` operation reads or downloads a blob from the system, including it
 |Syntax|Description|  
 |------------|-----------------|  
 |`Last-Modified`|The date/time that the blob was last modified. The date format follows RFC 1123.<br /><br /> Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob.|  
+|`x-ms-creation-time`|Version 2017-11-09 and newer. The date/time at which the blob was created. The date format follows RFC 1123.|  
 |`x-ms-meta-name:value`|A set of name-value pairs associated with this blob as user-defined metadata.|  
 |`Content-Length`|The number of bytes present in the response body.|  
 |`Content-Type`|The content type specified for the blob. The default content type is `application/octet-stream`.|  

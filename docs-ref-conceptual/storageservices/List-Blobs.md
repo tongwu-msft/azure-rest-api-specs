@@ -129,6 +129,8 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
  For version 2017-04-17 and above, `List Blobs` returns the `AccessTier` element if an access tier has been explicitly set. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features). For blob storage LRS accounts, valid values are `Hot`/`Cool`/`Archive`. Tiers on standard blob accounts are currently in preview. For detailed information about standard blob LRS account block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
 
  `Deleted`, `DeletedTime` and `RemainingRetentionDays` appear only in version 2017-07-29 and later, when this operation includes the `include={deleted}` parameter. These elements do not appear if this blob was not deleted. These elements appear for blob or snapshot that are deleted with `DELETE` operation when soft delete feature was enabled. `Deleted` element is set to true for blobs and snapshots that are soft deleted. `Deleted-Time` corresponds to time when the blob was deleted. `RemainingRetentionDays` indicates number of days after which soft deleted blob will be permanently deleted by blob service. 
+ 
+ `Creation-Time` appears only in version 2017-11-09 and later. It indicates the time at which this blob was created.
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -142,7 +144,8 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
       <Name>blob-name</name>    
       <Deleted>true</Deleted>
       <Snapshot>date-time-value</Snapshot>
-      <Properties>  
+      <Properties> 
+        <Creation-Time>date-time-value</Creation-Time>
         <Last-Modified>date-time-value</Last-Modified>  
         <Etag>etag</Etag>  
         <Content-Length>size-in-bytes</Content-Length>  

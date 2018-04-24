@@ -108,7 +108,9 @@ The `List Containers` operation returns a list of the containers under the speci
         <LeaseStatus>locked | unlocked</LeaseStatus>  
         <LeaseState>available | leased | expired | breaking | broken</LeaseState>  
         <LeaseDuration>infinite | fixed</LeaseDuration> 
-        <PublicAccess>container | blob</PublicAccess>       
+        <PublicAccess>container | blob</PublicAccess>
+        <HasImmutabilityPolicy>true | false</HasImmutabilityPolicy>
+        <HasLegalHold>true | false</HasLegalHold>
       </Properties>  
       <Metadata>  
         <metadata-name>value</metadata-name>  
@@ -144,6 +146,10 @@ Beginning with the 2016-05-31 version, the container public permissions will be 
 - blob: Indicates public read access for blobs. Blob data within this container can be read via anonymous request, but container data is not available. Clients cannot enumerate blobs within the container via anonymous request.
 
 If this property is not specified in the <properties> section, the container is private to the account owner.
+
+`HasImmutabilityPolicy` and `HasLegalHold` only appear in version 2017-11-09 and later. 
+`HasImmutabilityPolicy` is `true` if the container has an immutability policy set on it, `false` otherwise.
+`HasLegalHold` is `true` if the container has one or more legal hold(s) on it, `false` otherwise.
 
 > [!NOTE]
 >  Beginning with version 2009-09-19, the response body for `List Containers` returns the container's last modified time in an element named `Last-Modified`. In previous versions, this element was named `LastModified`.  
