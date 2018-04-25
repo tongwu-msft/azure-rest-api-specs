@@ -1,6 +1,6 @@
 ---
 title: "StatefulServiceReplicaInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,14 +34,14 @@ Represents a stateful service replica. This includes information about the ident
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServiceKind](#servicekind) | string | Yes |
-| [ReplicaStatus](#replicastatus) | string (enum) | No |
-| [HealthState](#healthstate) | string (enum) | No |
-| [NodeName](#nodename) | string | No |
-| [Address](#address) | string | No |
-| [LastInBuildDurationInSeconds](#lastinbuilddurationinseconds) | string | No |
-| [ReplicaRole](#replicarole) | string (enum) | No |
-| [ReplicaId](#replicaid) | string | No |
+| [`ServiceKind`](#servicekind) | string | Yes |
+| [`ReplicaStatus`](#replicastatus) | string (enum) | No |
+| [`HealthState`](#healthstate) | string (enum) | No |
+| [`NodeName`](#nodename) | string | No |
+| [`Address`](#address) | string | No |
+| [`LastInBuildDurationInSeconds`](#lastinbuilddurationinseconds) | string | No |
+| [`ReplicaRole`](#replicarole) | string (enum) | No |
+| [`ReplicaId`](#replicaid) | string | No |
 
 ____
 ### ServiceKind
@@ -51,25 +51,27 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Stateful' for objects of type 'StatefulServiceReplicaInfo'.
 
 ____
-### ReplicaStatus
+### `ReplicaStatus`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
 
 
-The status of a replica of a service. Possible values are following.
+The status of a replica of a service.
 
-  -Invalid - Indicates the replica status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-  -InBuild - The replica is being built. This means that a primary replica is seeding this replica. The value is 1.
-  -Standby - The replica is in standby. The value is 2.
-  -Ready - The replica is ready. The value is 3.
-  -Down - The replica is down. The value is 4.
-  -Dropped - Replica is dropped. This means that the replica has been removed from the replica set. If it is persisted, its state has been deleted. The value is 5.
+Possible values are: 
+
+  - `Invalid` - Indicates the replica status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `InBuild` - The replica is being built. This means that a primary replica is seeding this replica. The value is 1.
+  - `Standby` - The replica is in standby. The value is 2.
+  - `Ready` - The replica is ready. The value is 3.
+  - `Down` - The replica is down. The value is 4.
+  - `Dropped` - Replica is dropped. This means that the replica has been removed from the replica set. If it is persisted, its state has been deleted. The value is 5.
 
 
 
 ____
-### HealthState
+### `HealthState`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -79,37 +81,37 @@ The health state of a Service Fabric entity such as Cluster, Node, Application, 
 
 Possible values are: 
 
-  - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Ok - Indicates the health state is okay. The value is 1.
-  - Warning - Indicates the health state is at a warning level. The value is 2.
-  - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
-  - Unknown - Indicates an unknown health status. The value is 65535.
+  - `Invalid` - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Ok` - Indicates the health state is okay. The value is 1.
+  - `Warning` - Indicates the health state is at a warning level. The value is 2.
+  - `Error` - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+  - `Unknown` - Indicates an unknown health status. The value is 65535.
 
 
 
 ____
-### NodeName
+### `NodeName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of a Service Fabric node.
 
 ____
-### Address
+### `Address`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The address the replica is listening on.
 
 ____
-### LastInBuildDurationInSeconds
+### `LastInBuildDurationInSeconds`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The last in build duration of the replica in seconds.
 
 ____
-### ReplicaRole
+### `ReplicaRole`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -119,16 +121,16 @@ The role of a replica of a stateful service.
 
 Possible values are: 
 
-  - Unknown - Indicates the initial role that a replica is created in. The value is zero.
-  - None - Specifies that the replica has no responsibility in regard to the replica set. The value is 1
-  - Primary - Refers to the replica in the set on which all read and write operations are complete in order to enforce strong consistency semantics. Read operations are handled directly by the Primary replica, while write operations must be acknowledged by a quorum of the replicas in the replica set. There can only be one Primary replica in a replica set at a time. The value is 2.
-  - IdleSecondary - Refers to a replica in the set that receives a state transfer from the Primary replica to prepare for becoming an active Secondary replica. There can be multiple Idle Secondary replicas in a replica set at a time. Idle Secondary replicas do not count as a part of a write quorum. The value is 3.
-  - ActiveSecondary - Refers to a replica in the set that receives state updates from the Primary replica, applies them, and sends acknowledgements back. Secondary replicas must participate in the write quorum for a replica set. There can be multiple active Secondary replicas in a replica set at a time. The number of active Secondary replicas is configurable that the reliability subsystem should maintain. The value is 4.
+  - `Unknown` - Indicates the initial role that a replica is created in. The value is zero.
+  - `None` - Specifies that the replica has no responsibility in regard to the replica set. The value is 1
+  - `Primary` - Refers to the replica in the set on which all read and write operations are complete in order to enforce strong consistency semantics. Read operations are handled directly by the Primary replica, while write operations must be acknowledged by a quorum of the replicas in the replica set. There can only be one Primary replica in a replica set at a time. The value is 2.
+  - `IdleSecondary` - Refers to a replica in the set that receives a state transfer from the Primary replica to prepare for becoming an active Secondary replica. There can be multiple Idle Secondary replicas in a replica set at a time. Idle Secondary replicas do not count as a part of a write quorum. The value is 3.
+  - `ActiveSecondary` - Refers to a replica in the set that receives state updates from the Primary replica, applies them, and sends acknowledgements back. Secondary replicas must participate in the write quorum for a replica set. There can be multiple active Secondary replicas in a replica set at a time. The number of active Secondary replicas is configurable that the reliability subsystem should maintain. The value is 4.
 
 
 
 ____
-### ReplicaId
+### `ReplicaId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

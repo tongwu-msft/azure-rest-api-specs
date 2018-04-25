@@ -1,6 +1,6 @@
 ---
 title: "ServiceNameInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,11 +34,11 @@ Information about the service name.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Id](#id) | string | No |
-| [Name](#name) | string | No |
+| [`Id`](#id) | string | No |
+| [`Name`](#name) | string | No |
 
 ____
-### Id
+### `Id`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -48,7 +48,7 @@ the service identity would be "myapp~app1\~svc1" in 6.0+ and "myapp/app1/svc1" i
 
 
 ____
-### Name
+### `Name`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

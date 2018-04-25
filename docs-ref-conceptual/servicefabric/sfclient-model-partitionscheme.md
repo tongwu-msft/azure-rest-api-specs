@@ -1,6 +1,6 @@
 ---
 title: "PartitionScheme"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,8 +35,8 @@ Enumerates the ways that a service can be partitioned.
 
 Possible values are: 
 
-  - Invalid - Indicates the partition kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Singleton - Indicates that the partition is based on string names, and is a SingletonPartitionSchemeDescription object, The value is 1.
-  - UniformInt64Range - Indicates that the partition is based on Int64 key ranges, and is a UniformInt64RangePartitionSchemeDescription object. The value is 2.
-  - Named - Indicates that the partition is based on string names, and is a NamedPartitionSchemeDescription object. The value is 3
+  - `Invalid` - Indicates the partition kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Singleton` - Indicates that the partition is based on string names, and is a SingletonPartitionSchemeDescription object, The value is 1.
+  - `UniformInt64Range` - Indicates that the partition is based on Int64 key ranges, and is a UniformInt64RangePartitionSchemeDescription object. The value is 2.
+  - `Named` - Indicates that the partition is based on string names, and is a NamedPartitionSchemeDescription object. The value is 3
 

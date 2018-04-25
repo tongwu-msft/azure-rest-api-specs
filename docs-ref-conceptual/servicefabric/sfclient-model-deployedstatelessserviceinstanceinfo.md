@@ -1,6 +1,6 @@
 ---
 title: "DeployedStatelessServiceInstanceInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,17 +34,17 @@ Information about a stateless service instance deployed on a node.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServiceKind](#servicekind) | string | Yes |
-| [ServiceName](#servicename) | string | No |
-| [ServiceTypeName](#servicetypename) | string | No |
-| [ServiceManifestName](#servicemanifestname) | string | No |
-| [CodePackageName](#codepackagename) | string | No |
-| [PartitionId](#partitionid) | string (uuid) | No |
-| [ReplicaStatus](#replicastatus) | string (enum) | No |
-| [Address](#address) | string | No |
-| [ServicePackageActivationId](#servicepackageactivationid) | string | No |
-| [HostProcessId](#hostprocessid) | string (int64) | No |
-| [InstanceId](#instanceid) | string | No |
+| [`ServiceKind`](#servicekind) | string | Yes |
+| [`ServiceName`](#servicename) | string | No |
+| [`ServiceTypeName`](#servicetypename) | string | No |
+| [`ServiceManifestName`](#servicemanifestname) | string | No |
+| [`CodePackageName`](#codepackagename) | string | No |
+| [`PartitionId`](#partitionid) | string (uuid) | No |
+| [`ReplicaStatus`](#replicastatus) | string (enum) | No |
+| [`Address`](#address) | string | No |
+| [`ServicePackageActivationId`](#servicepackageactivationid) | string | No |
+| [`HostProcessId`](#hostprocessid) | string | No |
+| [`InstanceId`](#instanceid) | string | No |
 
 ____
 ### ServiceKind
@@ -54,67 +54,69 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Stateless' for objects of type 'DeployedStatelessServiceInstanceInfo'.
 
 ____
-### ServiceName
+### `ServiceName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The full name of the service with 'fabric:' URI scheme.
 
 ____
-### ServiceTypeName
+### `ServiceTypeName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Name of the service type as specified in the service manifest.
 
 ____
-### ServiceManifestName
+### `ServiceManifestName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of the service manifest in which this service type is defined.
 
 ____
-### CodePackageName
+### `CodePackageName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of the code package that hosts this replica.
 
 ____
-### PartitionId
+### `PartitionId`
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
 <br/>
-An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition id is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the ids of its partitions would be different.
+An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
 
 ____
-### ReplicaStatus
+### `ReplicaStatus`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
 
 
-The status of a replica of a service. Possible values are following.
+The status of a replica of a service.
 
-  -Invalid - Indicates the replica status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-  -InBuild - The replica is being built. This means that a primary replica is seeding this replica. The value is 1.
-  -Standby - The replica is in standby. The value is 2.
-  -Ready - The replica is ready. The value is 3.
-  -Down - The replica is down. The value is 4.
-  -Dropped - Replica is dropped. This means that the replica has been removed from the replica set. If it is persisted, its state has been deleted. The value is 5.
+Possible values are: 
+
+  - `Invalid` - Indicates the replica status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `InBuild` - The replica is being built. This means that a primary replica is seeding this replica. The value is 1.
+  - `Standby` - The replica is in standby. The value is 2.
+  - `Ready` - The replica is ready. The value is 3.
+  - `Down` - The replica is down. The value is 4.
+  - `Dropped` - Replica is dropped. This means that the replica has been removed from the replica set. If it is persisted, its state has been deleted. The value is 5.
 
 
 
 ____
-### Address
+### `Address`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The last address returned by the replica in Open or ChangeRole.
 
 ____
-### ServicePackageActivationId
+### `ServicePackageActivationId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -124,14 +126,14 @@ is always an empty string.
 
 
 ____
-### HostProcessId
-__Type__: string (int64) <br/>
+### `HostProcessId`
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Host process id of the process that is hosting the replica. This will be zero if the replica is down. In hyper-v containers this host process id will be from different kernel.
+Host process ID of the process that is hosting the replica. This will be zero if the replica is down. In hyper-v containers this host process ID will be from different kernel.
 
 ____
-### InstanceId
+### `InstanceId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

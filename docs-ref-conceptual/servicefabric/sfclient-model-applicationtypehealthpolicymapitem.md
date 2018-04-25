@@ -1,6 +1,6 @@
 ---
 title: "ApplicationTypeHealthPolicyMapItem"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,18 +35,18 @@ Defines an item in ApplicationTypeHealthPolicyMap.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Key](#key) | string | Yes |
-| [Value](#value) | integer | Yes |
+| [`Key`](#key) | string | Yes |
+| [`Value`](#value) | integer | Yes |
 
 ____
-### Key
+### `Key`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The key of the application type health policy map item. This is the name of the application type.
 
 ____
-### Value
+### `Value`
 __Type__: integer <br/>
 __Required__: Yes<br/>
 <br/>

@@ -1,6 +1,6 @@
 ---
 title: "Get Cluster Health Using Policy"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -45,22 +45,22 @@ Use ClusterHealthPolicies to override the health policies used to evaluate the h
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [api-version](#api-version) | string | Yes | Query |
-| [NodesHealthStateFilter](#nodeshealthstatefilter) | integer | No | Query |
-| [ApplicationsHealthStateFilter](#applicationshealthstatefilter) | integer | No | Query |
-| [EventsHealthStateFilter](#eventshealthstatefilter) | integer | No | Query |
-| [ExcludeHealthStatistics](#excludehealthstatistics) | boolean | No | Query |
-| [IncludeSystemApplicationHealthStatistics](#includesystemapplicationhealthstatistics) | boolean | No | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
-| [ClusterHealthPolicies](#clusterhealthpolicies) | [ClusterHealthPolicies](sfclient-model-clusterhealthpolicies.md) | No | Body |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`NodesHealthStateFilter`](#nodeshealthstatefilter) | integer | No | Query |
+| [`ApplicationsHealthStateFilter`](#applicationshealthstatefilter) | integer | No | Query |
+| [`EventsHealthStateFilter`](#eventshealthstatefilter) | integer | No | Query |
+| [`ExcludeHealthStatistics`](#excludehealthstatistics) | boolean | No | Query |
+| [`IncludeSystemApplicationHealthStatistics`](#includesystemapplicationhealthstatistics) | boolean | No | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
+| [`ClusterHealthPolicies`](#clusterhealthpolicies) | [ClusterHealthPolicies](sfclient-model-clusterhealthpolicies.md) | No | Body |
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0 <br/>
+__Default__: `6.0` <br/>
 <br/>
-The version of this API. This is a required parameter and its value must be "6.0".
+The version of the API. This parameter is required and its value must be '6.0'.
 
 Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
 
@@ -68,10 +68,10 @@ Additionally the runtime accept any version that is higher than the latest suppo
 
 
 ____
-### NodesHealthStateFilter
+### `NodesHealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 Allows filtering of the node health state objects returned in the result of cluster health query
 based on their health state. The possible values for this parameter include integer value of one of the
@@ -89,10 +89,10 @@ For example, if the provided value is 6 then health state of nodes with HealthSt
 
 
 ____
-### ApplicationsHealthStateFilter
+### `ApplicationsHealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 Allows filtering of the application health state objects returned in the result of cluster health
 query based on their health state.
@@ -111,10 +111,10 @@ For example, if the provided value is 6 then health state of applications with H
 
 
 ____
-### EventsHealthStateFilter
+### `EventsHealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 Allows filtering the collection of HealthEvent objects returned based on health state.
 The possible values for this parameter include integer value of one of the following health states.
@@ -130,20 +130,20 @@ If not specified, all entries are returned. The state values are flag based enum
 
 
 ____
-### ExcludeHealthStatistics
+### `ExcludeHealthStatistics`
 __Type__: boolean <br/>
 __Required__: No<br/>
-__Default__: false <br/>
+__Default__: `false` <br/>
 <br/>
 Indicates whether the health statistics should be returned as part of the query result. False by default.
 The statistics show the number of children entities in health state Ok, Warning, and Error.
 
 
 ____
-### IncludeSystemApplicationHealthStatistics
+### `IncludeSystemApplicationHealthStatistics`
 __Type__: boolean <br/>
 __Required__: No<br/>
-__Default__: false <br/>
+__Default__: `false` <br/>
 <br/>
 Indicates whether the health statistics should include the fabric:/System application health statistics. False by default.
 If IncludeSystemApplicationHealthStatistics is set to true, the health statistics include the entities that belong to the fabric:/System application.
@@ -152,17 +152,17 @@ The health statistics must be included in the query result for this parameter to
 
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
-### ClusterHealthPolicies
+### `ClusterHealthPolicies`
 __Type__: [ClusterHealthPolicies](sfclient-model-clusterhealthpolicies.md) <br/>
 __Required__: No<br/>
 <br/>

@@ -1,6 +1,6 @@
 ---
 title: "StatefulServicePartitionInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,14 +34,14 @@ Information about a partition of a stateful Service Fabric service..
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServiceKind](#servicekind) | string | Yes |
-| [HealthState](#healthstate) | string (enum) | No |
-| [PartitionStatus](#partitionstatus) | string (enum) | No |
-| [PartitionInformation](#partitioninformation) | [PartitionInformation](sfclient-model-partitioninformation.md) | No |
-| [TargetReplicaSetSize](#targetreplicasetsize) | integer (int64) | No |
-| [MinReplicaSetSize](#minreplicasetsize) | integer (int64) | No |
-| [LastQuorumLossDuration](#lastquorumlossduration) | string (duration) | No |
-| [CurrentConfigurationEpoch](#currentconfigurationepoch) | [Epoch](sfclient-model-epoch.md) | No |
+| [`ServiceKind`](#servicekind) | string | Yes |
+| [`HealthState`](#healthstate) | string (enum) | No |
+| [`PartitionStatus`](#partitionstatus) | string (enum) | No |
+| [`PartitionInformation`](#partitioninformation) | [PartitionInformation](sfclient-model-partitioninformation.md) | No |
+| [`TargetReplicaSetSize`](#targetreplicasetsize) | integer (int64) | No |
+| [`MinReplicaSetSize`](#minreplicasetsize) | integer (int64) | No |
+| [`LastQuorumLossDuration`](#lastquorumlossduration) | string (duration) | No |
+| [`CurrentConfigurationEpoch`](#currentconfigurationepoch) | [Epoch](sfclient-model-epoch.md) | No |
 
 ____
 ### ServiceKind
@@ -51,7 +51,7 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Stateful' for objects of type 'StatefulServicePartitionInfo'.
 
 ____
-### HealthState
+### `HealthState`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -61,16 +61,16 @@ The health state of a Service Fabric entity such as Cluster, Node, Application, 
 
 Possible values are: 
 
-  - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Ok - Indicates the health state is okay. The value is 1.
-  - Warning - Indicates the health state is at a warning level. The value is 2.
-  - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
-  - Unknown - Indicates an unknown health status. The value is 65535.
+  - `Invalid` - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Ok` - Indicates the health state is okay. The value is 1.
+  - `Warning` - Indicates the health state is at a warning level. The value is 2.
+  - `Error` - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+  - `Unknown` - Indicates an unknown health status. The value is 65535.
 
 
 
 ____
-### PartitionStatus
+### `PartitionStatus`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -80,45 +80,45 @@ The status of the service fabric service partition.
 
 Possible values are: 
 
-  - Invalid - Indicates the partition status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Ready - Indicates that the partition is ready. This means that for a stateless service partition there is at least one instance that is up and for a stateful service partition the number of ready replicas is greater than or equal to the MinReplicaSetSize. The value is 1.
-  - NotReady - Indicates that the partition is not ready. This status is returned when none of the other states apply. The value is 2.
-  - InQuorumLoss - Indicates that the partition is in quorum loss. This means that number of replicas that are up and participating in a replica set is less than MinReplicaSetSize for this partition. The value is 3.
-  - Reconfiguring - Indicates that the partition is undergoing reconfiguration of its replica sets. This can happen due to failover, upgrade, load balancing or addition or removal of replicas from the replica set. The value is 4.
-  - Deleting - Indicates that the partition is being deleted. The value is 5.
+  - `Invalid` - Indicates the partition status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Ready` - Indicates that the partition is ready. This means that for a stateless service partition there is at least one instance that is up and for a stateful service partition the number of ready replicas is greater than or equal to the MinReplicaSetSize. The value is 1.
+  - `NotReady` - Indicates that the partition is not ready. This status is returned when none of the other states apply. The value is 2.
+  - `InQuorumLoss` - Indicates that the partition is in quorum loss. This means that number of replicas that are up and participating in a replica set is less than MinReplicaSetSize for this partition. The value is 3.
+  - `Reconfiguring` - Indicates that the partition is undergoing reconfiguration of its replica sets. This can happen due to failover, upgrade, load balancing or addition or removal of replicas from the replica set. The value is 4.
+  - `Deleting` - Indicates that the partition is being deleted. The value is 5.
 
 
 
 ____
-### PartitionInformation
+### `PartitionInformation`
 __Type__: [PartitionInformation](sfclient-model-partitioninformation.md) <br/>
 __Required__: No<br/>
 <br/>
 Information about the partition identity, partitioning scheme and keys supported by it.
 
 ____
-### TargetReplicaSetSize
+### `TargetReplicaSetSize`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
 The target replica set size as a number.
 
 ____
-### MinReplicaSetSize
+### `MinReplicaSetSize`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
 The minimum replica set size as a number.
 
 ____
-### LastQuorumLossDuration
+### `LastQuorumLossDuration`
 __Type__: string (duration) <br/>
 __Required__: No<br/>
 <br/>
 The duration for which this partition was in quorum loss. If the partition is currently in quorum loss, it returns the duration since it has been in that state. This field is using ISO8601 format for specifying the duration.
 
 ____
-### CurrentConfigurationEpoch
+### `CurrentConfigurationEpoch`
 __Type__: [Epoch](sfclient-model-epoch.md) <br/>
 __Required__: No<br/>
 <br/>

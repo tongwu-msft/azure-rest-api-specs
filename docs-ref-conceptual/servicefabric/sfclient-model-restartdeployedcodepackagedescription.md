@@ -1,6 +1,6 @@
 ---
 title: "RestartDeployedCodePackageDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,20 +35,20 @@ Defines description for restarting a deployed code package on Service Fabric nod
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServiceManifestName](#servicemanifestname) | string | Yes |
-| [ServicePackageActivationId](#servicepackageactivationid) | string | No |
-| [CodePackageName](#codepackagename) | string | Yes |
-| [CodePackageInstanceId](#codepackageinstanceid) | string | Yes |
+| [`ServiceManifestName`](#servicemanifestname) | string | Yes |
+| [`ServicePackageActivationId`](#servicepackageactivationid) | string | No |
+| [`CodePackageName`](#codepackagename) | string | Yes |
+| [`CodePackageInstanceId`](#codepackageinstanceid) | string | Yes |
 
 ____
-### ServiceManifestName
+### `ServiceManifestName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of service manifest that specified this code package.
 
 ____
-### ServicePackageActivationId
+### `ServicePackageActivationId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -58,19 +58,19 @@ is always an empty string.
 
 
 ____
-### CodePackageName
+### `CodePackageName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the code package defined in the service manifest.
 
 ____
-### CodePackageInstanceId
+### `CodePackageInstanceId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The instance ID for currently running entry point. For a code package setup entry point (if specified) runs first and after it finishes main entry point is started.
-Each time entry point executable is run, its instance id will change. If 0 is passed in as the code package instance ID, the API will restart the code package with whatever instance ID it is currently running.
+Each time entry point executable is run, its instance ID will change. If 0 is passed in as the code package instance ID, the API will restart the code package with whatever instance ID it is currently running.
 If an instance ID other than 0 is passed in, the API will restart the code package only if the current Instance ID matches the passed in instance ID.
 Note, passing in the exact instance ID (not 0) in the API is safer, because if ensures at most one restart of the code package.
 

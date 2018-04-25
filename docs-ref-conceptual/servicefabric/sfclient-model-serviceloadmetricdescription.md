@@ -1,6 +1,6 @@
 ---
 title: "ServiceLoadMetricDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,21 +34,21 @@ Specifies a metric to load balance a service during runtime.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Name](#name) | string | Yes |
-| [Weight](#weight) | string (enum) | No |
-| [PrimaryDefaultLoad](#primarydefaultload) | integer | No |
-| [SecondaryDefaultLoad](#secondarydefaultload) | integer | No |
-| [DefaultLoad](#defaultload) | integer | No |
+| [`Name`](#name) | string | Yes |
+| [`Weight`](#weight) | string (enum) | No |
+| [`PrimaryDefaultLoad`](#primarydefaultload) | integer | No |
+| [`SecondaryDefaultLoad`](#secondarydefaultload) | integer | No |
+| [`DefaultLoad`](#defaultload) | integer | No |
 
 ____
-### Name
+### `Name`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the metric. If the service chooses to report load during runtime, the load metric name should match the name that is specified in Name exactly. Note that metric names are case sensitive.
 
 ____
-### Weight
+### `Weight`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -58,29 +58,29 @@ Determines the metric weight relative to the other metrics that are configured f
 
 Possible values are: 
 
-  - Zero - Disables resource balancing for this metric. This value is zero.
-  - Low - Specifies the metric weight of the service load as Low. The value is 1.
-  - Medium - Specifies the metric weight of the service load as Medium. The value is 2.
-  - High - Specifies the metric weight of the service load as High. The value is 3.
+  - `Zero` - Disables resource balancing for this metric. This value is zero.
+  - `Low` - Specifies the metric weight of the service load as Low. The value is 1.
+  - `Medium` - Specifies the metric weight of the service load as Medium. The value is 2.
+  - `High` - Specifies the metric weight of the service load as High. The value is 3.
 
 
 
 ____
-### PrimaryDefaultLoad
+### `PrimaryDefaultLoad`
 __Type__: integer <br/>
 __Required__: No<br/>
 <br/>
 Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Primary replica.
 
 ____
-### SecondaryDefaultLoad
+### `SecondaryDefaultLoad`
 __Type__: integer <br/>
 __Required__: No<br/>
 <br/>
 Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Secondary replica.
 
 ____
-### DefaultLoad
+### `DefaultLoad`
 __Type__: integer <br/>
 __Required__: No<br/>
 <br/>

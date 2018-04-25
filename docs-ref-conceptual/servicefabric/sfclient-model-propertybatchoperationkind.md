@@ -1,6 +1,6 @@
 ---
 title: "PropertyBatchOperationKind"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,11 +35,11 @@ The kind of property batch operation, determined by the operation to be performe
 
 Possible values are: 
 
-  - Invalid - Indicates the property operation is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Put - The operation will create or edit a property. The value is 1.
-  - Get - The operation will get a property. The value is 2.
-  - CheckExists - The operation will check that a property exists or doesn't exists, depending on the provided value. The value is 3.
-  - CheckSequence - The operation will ensure that the sequence number is equal to the provided value. The value is 4.
-  - Delete - The operation will delete a property. The value is 5.
-  - CheckValue - The operation will ensure that the value of a property is equal to the provided value. The value is 7.
+  - `Invalid` - Indicates the property operation is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Put` - The operation will create or edit a property. The value is 1.
+  - `Get` - The operation will get a property. The value is 2.
+  - `CheckExists` - The operation will check that a property exists or doesn't exists, depending on the provided value. The value is 3.
+  - `CheckSequence` - The operation will ensure that the sequence number is equal to the provided value. The value is 4.
+  - `Delete` - The operation will delete a property. The value is 5.
+  - `CheckValue` - The operation will ensure that the value of a property is equal to the provided value. The value is 7.
 

@@ -1,6 +1,6 @@
 ---
 title: "Resolve Service"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Resolve Service
 Resolve a Service Fabric partition.
 
-Resolve a Service Fabric service partition, to get the endpoints of the service replicas.
+Resolve a Service Fabric service partition to get the endpoints of the service replicas.
 
 ## Request
 | Method | Request URI |
@@ -41,15 +41,15 @@ Resolve a Service Fabric service partition, to get the endpoints of the service 
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [serviceId](#serviceid) | string | Yes | Path |
-| [api-version](#api-version) | string | Yes | Query |
-| [PartitionKeyType](#partitionkeytype) | integer | No | Query |
-| [PartitionKeyValue](#partitionkeyvalue) | string | No | Query |
-| [PreviousRspVersion](#previousrspversion) | string | No | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
+| [`serviceId`](#serviceid) | string | Yes | Path |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`PartitionKeyType`](#partitionkeytype) | integer | No | Query |
+| [`PartitionKeyValue`](#partitionkeyvalue) | string | No | Query |
+| [`PreviousRspVersion`](#previousrspversion) | string | No | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
 
 ____
-### serviceId
+### `serviceId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
@@ -59,12 +59,12 @@ For example, if the service name is "fabric:/myapp/app1/svc1", the service ident
 
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0 <br/>
+__Default__: `6.0` <br/>
 <br/>
-The version of this API. This is a required parameter and its value must be "6.0".
+The version of the API. This parameter is required and its value must be '6.0'.
 
 Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
 
@@ -72,7 +72,7 @@ Additionally the runtime accept any version that is higher than the latest suppo
 
 
 ____
-### PartitionKeyType
+### `PartitionKeyType`
 __Type__: integer <br/>
 __Required__: No<br/>
 <br/>
@@ -83,28 +83,28 @@ Key type for the partition. This parameter is required if the partition scheme f
 
 
 ____
-### PartitionKeyValue
+### `PartitionKeyValue`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Partition key. This is required if the partition scheme for the service is Int64Range or Named.
 
 ____
-### PreviousRspVersion
+### `PreviousRspVersion`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The value in the Version field of the response that was received previously. This is required if the user knows that the result that was got previously is stale.
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

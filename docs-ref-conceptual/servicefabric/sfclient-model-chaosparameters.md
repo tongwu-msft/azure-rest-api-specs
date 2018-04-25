@@ -1,6 +1,6 @@
 ---
 title: "ChaosParameters"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,44 +35,44 @@ Defines all the parameters to configure a Chaos run.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [TimeToRunInSeconds](#timetoruninseconds) | string | No |
-| [MaxClusterStabilizationTimeoutInSeconds](#maxclusterstabilizationtimeoutinseconds) | integer (int64) | No |
-| [MaxConcurrentFaults](#maxconcurrentfaults) | integer (int64) | No |
-| [EnableMoveReplicaFaults](#enablemovereplicafaults) | boolean | No |
-| [WaitTimeBetweenFaultsInSeconds](#waittimebetweenfaultsinseconds) | integer (int64) | No |
-| [WaitTimeBetweenIterationsInSeconds](#waittimebetweeniterationsinseconds) | integer (int64) | No |
-| [ClusterHealthPolicy](#clusterhealthpolicy) | [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) | No |
-| [Context](#context) | [ChaosContext](sfclient-model-chaoscontext.md) | No |
-| [ChaosTargetFilter](#chaostargetfilter) | [ChaosTargetFilter](sfclient-model-chaostargetfilter.md) | No |
+| [`TimeToRunInSeconds`](#timetoruninseconds) | string | No |
+| [`MaxClusterStabilizationTimeoutInSeconds`](#maxclusterstabilizationtimeoutinseconds) | integer (int64) | No |
+| [`MaxConcurrentFaults`](#maxconcurrentfaults) | integer (int64) | No |
+| [`EnableMoveReplicaFaults`](#enablemovereplicafaults) | boolean | No |
+| [`WaitTimeBetweenFaultsInSeconds`](#waittimebetweenfaultsinseconds) | integer (int64) | No |
+| [`WaitTimeBetweenIterationsInSeconds`](#waittimebetweeniterationsinseconds) | integer (int64) | No |
+| [`ClusterHealthPolicy`](#clusterhealthpolicy) | [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) | No |
+| [`Context`](#context) | [ChaosContext](sfclient-model-chaoscontext.md) | No |
+| [`ChaosTargetFilter`](#chaostargetfilter) | [ChaosTargetFilter](sfclient-model-chaostargetfilter.md) | No |
 
 ____
-### TimeToRunInSeconds
+### `TimeToRunInSeconds`
 __Type__: string <br/>
 __Required__: No<br/>
-__Default__: 4294967295 <br/>
+__Default__: `4294967295` <br/>
 <br/>
 Total time (in seconds) for which Chaos will run before automatically stopping. The maximum allowed value is 4,294,967,295 (System.UInt32.MaxValue).
 
 
 ____
-### MaxClusterStabilizationTimeoutInSeconds
+### `MaxClusterStabilizationTimeoutInSeconds`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 0 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `0` <br/>
 <br/>
 The maximum amount of time to wait for all cluster entities to become stable and healthy. Chaos executes in iterations and at the start of each iteration it validates the health of cluster entities.
 During validation if a cluster entity is not stable and healthy within MaxClusterStabilizationTimeoutInSeconds, Chaos generates a validation failed event.
 
 
 ____
-### MaxConcurrentFaults
+### `MaxConcurrentFaults`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 1 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 0 <br/>
+__Default__: `1` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `0` <br/>
 <br/>
 MaxConcurrentFaults is the maximum number of concurrent faults induced per iteration.
 Chaos executes in iterations and two consecutive iterations are separated by a validation phase.
@@ -81,21 +81,21 @@ The recommendation is to start with a value of 2 or 3 and to exercise caution wh
 
 
 ____
-### EnableMoveReplicaFaults
+### `EnableMoveReplicaFaults`
 __Type__: boolean <br/>
 __Required__: No<br/>
-__Default__: true <br/>
+__Default__: `true` <br/>
 <br/>
 Enables or disables the move primary and move secondary faults.
 
 
 ____
-### WaitTimeBetweenFaultsInSeconds
+### `WaitTimeBetweenFaultsInSeconds`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 20 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 0 <br/>
+__Default__: `20` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `0` <br/>
 <br/>
 Wait time (in seconds) between consecutive faults within a single iteration.
 The larger the value, the lower the overlapping between faults and the simpler the sequence of state transitions that the cluster goes through.
@@ -103,19 +103,19 @@ The recommendation is to start with a value between 1 and 5 and exercise caution
 
 
 ____
-### WaitTimeBetweenIterationsInSeconds
+### `WaitTimeBetweenIterationsInSeconds`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 30 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 0 <br/>
+__Default__: `30` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `0` <br/>
 <br/>
 Time-separation (in seconds) between two consecutive iterations of Chaos.
 The larger the value, the lower the fault injection rate.
 
 
 ____
-### ClusterHealthPolicy
+### `ClusterHealthPolicy`
 __Type__: [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) <br/>
 __Required__: No<br/>
 <br/>
@@ -123,7 +123,7 @@ Passed-in cluster health policy is used to validate health of the cluster in bet
 
 
 ____
-### Context
+### `Context`
 __Type__: [ChaosContext](sfclient-model-chaoscontext.md) <br/>
 __Required__: No<br/>
 <br/>
@@ -133,7 +133,7 @@ This map is set by the starter of the Chaos run to optionally store the context 
 
 
 ____
-### ChaosTargetFilter
+### `ChaosTargetFilter`
 __Type__: [ChaosTargetFilter](sfclient-model-chaostargetfilter.md) <br/>
 __Required__: No<br/>
 <br/>

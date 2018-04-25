@@ -1,6 +1,6 @@
 ---
 title: "StartedChaosEvent"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,9 +34,9 @@ Describes a Chaos event that gets generated when Chaos is started.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [TimeStampUtc](#timestamputc) | string (date-time) | Yes |
-| [ChaosParameters](#chaosparameters) | [ChaosParameters](sfclient-model-chaosparameters.md) | No |
+| [`Kind`](#kind) | string | Yes |
+| [`TimeStampUtc`](#timestamputc) | string (date-time) | Yes |
+| [`ChaosParameters`](#chaosparameters) | [ChaosParameters](sfclient-model-chaosparameters.md) | No |
 
 ____
 ### Kind
@@ -46,14 +46,14 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Started' for objects of type 'StartedChaosEvent'.
 
 ____
-### TimeStampUtc
+### `TimeStampUtc`
 __Type__: string (date-time) <br/>
 __Required__: Yes<br/>
 <br/>
 The UTC timestamp when this Chaos event was generated.
 
 ____
-### ChaosParameters
+### `ChaosParameters`
 __Type__: [ChaosParameters](sfclient-model-chaosparameters.md) <br/>
 __Required__: No<br/>
 <br/>

@@ -1,6 +1,6 @@
 ---
 title: "UpgradeMode"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -31,12 +31,12 @@ translation.priority.mt:
 
 type: string
 
-The mode used to monitor health during a rolling upgrade.
+The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored.
 
 Possible values are: 
 
-  - Invalid - Indicates the upgrade mode is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-  - UnmonitoredAuto - The upgrade will proceed automatically without performing any health monitoring. The value is 1
-  - UnmonitoredManual - The upgrade will stop after completing each upgrade domain, giving the opportunity to manually monitor health before proceeding. The value is 2
-  - Monitored - The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. The value is 3
+  - `Invalid` - Indicates the upgrade mode is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `UnmonitoredAuto` - The upgrade will proceed automatically without performing any health monitoring. The value is 1
+  - `UnmonitoredManual` - The upgrade will stop after completing each upgrade domain, giving the opportunity to manually monitor health before proceeding. The value is 2
+  - `Monitored` - The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. The value is 3
 

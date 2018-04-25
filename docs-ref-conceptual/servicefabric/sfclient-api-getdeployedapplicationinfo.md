@@ -1,6 +1,6 @@
 ---
 title: "Get Deployed Application Info"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -42,21 +42,21 @@ Gets the information about an application deployed on a Service Fabric node.  Th
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [nodeName](#nodename) | string | Yes | Path |
-| [applicationId](#applicationid) | string | Yes | Path |
-| [api-version](#api-version) | string | Yes | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
-| [IncludeHealthState](#includehealthstate) | boolean | No | Query |
+| [`nodeName`](#nodename) | string | Yes | Path |
+| [`applicationId`](#applicationid) | string | Yes | Path |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
+| [`IncludeHealthState`](#includehealthstate) | boolean | No | Query |
 
 ____
-### nodeName
+### `nodeName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the node.
 
 ____
-### applicationId
+### `applicationId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
@@ -66,12 +66,12 @@ For example, if the application name is "fabric:/myapp/app1", the application id
 
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.1 <br/>
+__Default__: `6.1` <br/>
 <br/>
-The version of this API. This is a required parameter and its value must be "6.1".
+The version of the API. This parameter is required and its value must be '6.1'.
 
 Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
 
@@ -79,20 +79,20 @@ Additionally the runtime accept any version that is higher than the latest suppo
 
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
-### IncludeHealthState
+### `IncludeHealthState`
 __Type__: boolean <br/>
 __Required__: No<br/>
-__Default__: false <br/>
+__Default__: `false` <br/>
 <br/>
 Include the health state of an entity.
 If this parameter is false or not specified, then the health state returned is "Unknown".
@@ -112,7 +112,7 @@ As a result, the query is more expensive and may take a longer time.
 
 ### Get a specific deployed application by application ID and include the health state in the result
 
-This example shows how to get information about one application deployed on a specified node by a provided application ID. Note that the applications IDs, unlike application names, do not start with 'fabric:/'. This query is asking to include the health state of the deployed application.
+This example shows how to get information about an application deployed on a specified node by using an application identifier. If the application is found it's information is returned with 200 status code. An empty response with status code 204 is returned, if the specified application is not deployed on the node.
 
 #### Request
 ```
@@ -134,3 +134,7 @@ GET http://localhost:19080/Nodes/_Node_0/$/GetApplications/samples~CalculatorApp
 }
 ```
 
+
+#### 204 Response
+##### Body
+The response body is empty.

@@ -1,6 +1,6 @@
 ---
 title: "ImageStoreCopyDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,34 +34,34 @@ Information about how to copy image store content from one image store relative 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [RemoteSource](#remotesource) | string | Yes |
-| [RemoteDestination](#remotedestination) | string | Yes |
-| [SkipFiles](#skipfiles) | array of string | No |
-| [CheckMarkFile](#checkmarkfile) | boolean | No |
+| [`RemoteSource`](#remotesource) | string | Yes |
+| [`RemoteDestination`](#remotedestination) | string | Yes |
+| [`SkipFiles`](#skipfiles) | array of string | No |
+| [`CheckMarkFile`](#checkmarkfile) | boolean | No |
 
 ____
-### RemoteSource
+### `RemoteSource`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The relative path of source image store content to be copied from.
 
 ____
-### RemoteDestination
+### `RemoteDestination`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The relative path of destination image store content to be copied to.
 
 ____
-### SkipFiles
+### `SkipFiles`
 __Type__: array of string <br/>
 __Required__: No<br/>
 <br/>
 The list of the file names to be skipped for copying.
 
 ____
-### CheckMarkFile
+### `CheckMarkFile`
 __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>

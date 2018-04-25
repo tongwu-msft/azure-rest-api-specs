@@ -1,6 +1,6 @@
 ---
 title: "FabricError"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,10 +35,10 @@ The REST API operations for Service Fabric return standard HTTP status codes. Th
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Error](#error) | [FabricErrorError](sfclient-model-fabricerrorerror.md) | Yes |
+| [`Error`](#error) | [FabricErrorError](sfclient-model-fabricerrorerror.md) | Yes |
 
 ____
-### Error
+### `Error`
 __Type__: [FabricErrorError](sfclient-model-fabricerrorerror.md) <br/>
 __Required__: Yes<br/>
 <br/>

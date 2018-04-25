@@ -1,6 +1,6 @@
 ---
 title: "ServicePackageActivationMode"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,6 +35,6 @@ The activation mode of service package to be used for a Service Fabric service. 
 
 Possible values are: 
 
-  - SharedProcess - This is the default activation mode. With this activation mode, replicas or instances from different partition(s) of service, on a given node, will share same activation of service package on a node. The value is zero.
-  - ExclusiveProcess - With this activation mode, each replica or instance of service, on a given node, will have its own dedicated activation of service package on a node. The value is 1.
+  - `SharedProcess` - This is the default activation mode. With this activation mode, replicas or instances from different partition(s) of service, on a given node, will share same activation of service package on a node. The value is zero.
+  - `ExclusiveProcess` - With this activation mode, each replica or instance of service, on a given node, will have its own dedicated activation of service package on a node. The value is 1.
 

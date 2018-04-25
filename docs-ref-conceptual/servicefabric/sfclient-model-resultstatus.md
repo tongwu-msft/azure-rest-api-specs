@@ -1,6 +1,6 @@
 ---
 title: "ResultStatus"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,10 +35,10 @@ Possible values include: 'Invalid', 'Succeeded', 'Cancelled', 'Interrupted', 'Fa
 
 Possible values are: 
 
-  - Invalid - Indicates that the repair task result is invalid. All Service Fabric enumerations have the invalid value.
-  - Succeeded - Indicates that the repair task completed execution successfully.
-  - Cancelled - Indicates that the repair task was cancelled prior to execution.
-  - Interrupted - Indicates that execution of the repair task was interrupted by a cancellation request after some work had already been performed.
-  - Failed - Indicates that there was a failure during execution of the repair task. Some work may have been performed.
-  - Pending - Indicates that the repair task result is not yet available, because the repair task has not finished executing.
+  - `Invalid` - Indicates that the repair task result is invalid. All Service Fabric enumerations have the invalid value.
+  - `Succeeded` - Indicates that the repair task completed execution successfully.
+  - `Cancelled` - Indicates that the repair task was cancelled prior to execution.
+  - `Interrupted` - Indicates that execution of the repair task was interrupted by a cancellation request after some work had already been performed.
+  - `Failed` - Indicates that there was a failure during execution of the repair task. Some work may have been performed.
+  - `Pending` - Indicates that the repair task result is not yet available, because the repair task has not finished executing.
 
