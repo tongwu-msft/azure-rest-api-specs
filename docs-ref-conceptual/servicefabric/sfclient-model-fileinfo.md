@@ -1,6 +1,6 @@
 ---
 title: "FileInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,34 +34,34 @@ Information about a image store file.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [FileSize](#filesize) | string | No |
-| [FileVersion](#fileversion) | [FileVersion](sfclient-model-fileversion.md) | No |
-| [ModifiedDate](#modifieddate) | string (date-time) | No |
-| [StoreRelativePath](#storerelativepath) | string | No |
+| [`FileSize`](#filesize) | string | No |
+| [`FileVersion`](#fileversion) | [FileVersion](sfclient-model-fileversion.md) | No |
+| [`ModifiedDate`](#modifieddate) | string (date-time) | No |
+| [`StoreRelativePath`](#storerelativepath) | string | No |
 
 ____
-### FileSize
+### `FileSize`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The size of file in bytes.
 
 ____
-### FileVersion
+### `FileVersion`
 __Type__: [FileVersion](sfclient-model-fileversion.md) <br/>
 __Required__: No<br/>
 <br/>
 Information about the version of image store file.
 
 ____
-### ModifiedDate
+### `ModifiedDate`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The date and time when the image store file was last modified.
 
 ____
-### StoreRelativePath
+### `StoreRelativePath`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

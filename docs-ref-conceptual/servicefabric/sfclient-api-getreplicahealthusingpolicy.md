@@ -1,6 +1,6 @@
 ---
 title: "Get Replica Health Using Policy"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -44,34 +44,34 @@ Use ApplicationHealthPolicy to optionally override the health policies used to e
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [partitionId](#partitionid) | string (uuid) | Yes | Path |
-| [replicaId](#replicaid) | string | Yes | Path |
-| [api-version](#api-version) | string | Yes | Query |
-| [EventsHealthStateFilter](#eventshealthstatefilter) | integer | No | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
-| [ApplicationHealthPolicy](#applicationhealthpolicy) | [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) | No | Body |
+| [`partitionId`](#partitionid) | string (uuid) | Yes | Path |
+| [`replicaId`](#replicaid) | string | Yes | Path |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`EventsHealthStateFilter`](#eventshealthstatefilter) | integer | No | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
+| [`ApplicationHealthPolicy`](#applicationhealthpolicy) | [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) | No | Body |
 
 ____
-### partitionId
+### `partitionId`
 __Type__: string (uuid) <br/>
 __Required__: Yes<br/>
 <br/>
 The identity of the partition.
 
 ____
-### replicaId
+### `replicaId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The identifier of the replica.
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0 <br/>
+__Default__: `6.0` <br/>
 <br/>
-The version of this API. This is a required parameter and its value must be "6.0".
+The version of the API. This parameter is required and its value must be '6.0'.
 
 Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
 
@@ -79,10 +79,10 @@ Additionally the runtime accept any version that is higher than the latest suppo
 
 
 ____
-### EventsHealthStateFilter
+### `EventsHealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 Allows filtering the collection of HealthEvent objects returned based on health state.
 The possible values for this parameter include integer value of one of the following health states.
@@ -98,17 +98,17 @@ If not specified, all entries are returned. The state values are flag based enum
 
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
-### ApplicationHealthPolicy
+### `ApplicationHealthPolicy`
 __Type__: [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) <br/>
 __Required__: No<br/>
 <br/>

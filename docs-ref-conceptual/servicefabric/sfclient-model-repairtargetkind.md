@@ -1,6 +1,6 @@
 ---
 title: "RepairTargetKind"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,6 +35,6 @@ Specifies the kind of the repair target. This type supports the Service Fabric p
 
 Possible values are: 
 
-  - Invalid - The repair target is not valid or is of an unknown type.
-  - Node - The repair target is a set of Service Fabric nodes.
+  - `Invalid` - The repair target is not valid or is of an unknown type.
+  - `Node` - The repair target is a set of Service Fabric nodes.
 

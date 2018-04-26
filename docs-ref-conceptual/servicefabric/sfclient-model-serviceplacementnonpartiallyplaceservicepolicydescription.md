@@ -1,6 +1,6 @@
 ---
 title: "ServicePlacementNonPartiallyPlaceServicePolicyDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Describes the policy to be used for placement of a Service Fabric service where 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Type](#type) | string | Yes |
+| [`Type`](#type) | string | Yes |
 
 ____
 ### Type

@@ -1,6 +1,6 @@
 ---
 title: "FolderInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,19 +34,19 @@ Information about a image store folder. It includes how many files this folder c
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [StoreRelativePath](#storerelativepath) | string | No |
-| [FileCount](#filecount) | string (uuid) | No |
+| [`StoreRelativePath`](#storerelativepath) | string | No |
+| [`FileCount`](#filecount) | string | No |
 
 ____
-### StoreRelativePath
+### `StoreRelativePath`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The remote location within image store. This path is relative to the image store root.
 
 ____
-### FileCount
-__Type__: string (uuid) <br/>
+### `FileCount`
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The number of files from within the image store folder.

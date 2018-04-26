@@ -1,6 +1,6 @@
 ---
 title: "UploadSessionInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,42 +34,42 @@ Information about an image store upload session. A session is associated with a 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [StoreRelativePath](#storerelativepath) | string | No |
-| [SessionId](#sessionid) | string (uuid) | No |
-| [ModifiedDate](#modifieddate) | string (date-time) | No |
-| [FileSize](#filesize) | string (int64) | No |
-| [ExpectedRanges](#expectedranges) | array of [UploadChunkRange](sfclient-model-uploadchunkrange.md) | No |
+| [`StoreRelativePath`](#storerelativepath) | string | No |
+| [`SessionId`](#sessionid) | string (uuid) | No |
+| [`ModifiedDate`](#modifieddate) | string (date-time) | No |
+| [`FileSize`](#filesize) | string | No |
+| [`ExpectedRanges`](#expectedranges) | array of [UploadChunkRange](sfclient-model-uploadchunkrange.md) | No |
 
 ____
-### StoreRelativePath
+### `StoreRelativePath`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The remote location within image store. This path is relative to the image store root.
 
 ____
-### SessionId
+### `SessionId`
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
 <br/>
 A unique ID of the upload session. A session ID can be reused only if the session was committed or removed.
 
 ____
-### ModifiedDate
+### `ModifiedDate`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The date and time when the upload session was last modified.
 
 ____
-### FileSize
-__Type__: string (int64) <br/>
+### `FileSize`
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The size in bytes of the uploading file.
 
 ____
-### ExpectedRanges
+### `ExpectedRanges`
 __Type__: array of [UploadChunkRange](sfclient-model-uploadchunkrange.md) <br/>
 __Required__: No<br/>
 <br/>

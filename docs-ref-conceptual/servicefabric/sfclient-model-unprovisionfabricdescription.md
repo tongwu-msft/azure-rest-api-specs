@@ -1,6 +1,6 @@
 ---
 title: "UnprovisionFabricDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,18 @@ Describes the parameters for unprovisioning a cluster.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [CodeVersion](#codeversion) | string | No |
-| [ConfigVersion](#configversion) | string | No |
+| [`CodeVersion`](#codeversion) | string | No |
+| [`ConfigVersion`](#configversion) | string | No |
 
 ____
-### CodeVersion
+### `CodeVersion`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The cluster code package version.
 
 ____
-### ConfigVersion
+### `ConfigVersion`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

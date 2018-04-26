@@ -1,6 +1,6 @@
 ---
 title: "UpgradeKind"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,6 +35,6 @@ The kind of upgrade out of the following possible values.
 
 Possible values are: 
 
-  - Invalid - Indicates the upgrade kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Rolling - The upgrade progresses one upgrade domain at a time. The value is 1
+  - `Invalid` - Indicates the upgrade kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Rolling` - The upgrade progresses one upgrade domain at a time. The value is 1
 

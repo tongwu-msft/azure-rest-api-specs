@@ -1,6 +1,6 @@
 ---
 title: "ServiceKind"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ The kind of service (Stateless or Stateful).
 
 Possible values are: 
 
-  - Invalid - Indicates the service kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Stateless - Does not use Service Fabric to make its state highly available or reliable. The value is 1.
-  - Stateful - Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2.
+  - `Invalid` - Indicates the service kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Stateless` - Does not use Service Fabric to make its state highly available or reliable. The value is 1.
+  - `Stateful` - Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2.
 

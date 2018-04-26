@@ -1,6 +1,6 @@
 ---
 title: "NodeRepairImpactDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,8 +37,8 @@ This type supports the Service Fabric platform; it is not meant to be used direc
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [NodeImpactList](#nodeimpactlist) | array of [NodeImpact](sfclient-model-nodeimpact.md) | No |
+| [`Kind`](#kind) | string | Yes |
+| [`NodeImpactList`](#nodeimpactlist) | array of [NodeImpact](sfclient-model-nodeimpact.md) | No |
 
 ____
 ### Kind
@@ -48,7 +48,7 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Node' for objects of type 'NodeRepairImpactDescription'.
 
 ____
-### NodeImpactList
+### `NodeImpactList`
 __Type__: array of [NodeImpact](sfclient-model-nodeimpact.md) <br/>
 __Required__: No<br/>
 <br/>

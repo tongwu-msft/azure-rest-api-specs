@@ -1,6 +1,6 @@
 ---
 title: "ClusterHealthPolicy"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,24 +35,24 @@ Defines a health policy used to evaluate the health of the cluster or of a clust
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ConsiderWarningAsError](#considerwarningaserror) | boolean | No |
-| [MaxPercentUnhealthyNodes](#maxpercentunhealthynodes) | integer | No |
-| [MaxPercentUnhealthyApplications](#maxpercentunhealthyapplications) | integer | No |
-| [ApplicationTypeHealthPolicyMap](#applicationtypehealthpolicymap) | array of [ApplicationTypeHealthPolicyMapItem](sfclient-model-applicationtypehealthpolicymapitem.md) | No |
+| [`ConsiderWarningAsError`](#considerwarningaserror) | boolean | No |
+| [`MaxPercentUnhealthyNodes`](#maxpercentunhealthynodes) | integer | No |
+| [`MaxPercentUnhealthyApplications`](#maxpercentunhealthyapplications) | integer | No |
+| [`ApplicationTypeHealthPolicyMap`](#applicationtypehealthpolicymap) | array of [ApplicationTypeHealthPolicyMapItem](sfclient-model-applicationtypehealthpolicymapitem.md) | No |
 
 ____
-### ConsiderWarningAsError
+### `ConsiderWarningAsError`
 __Type__: boolean <br/>
 __Required__: No<br/>
-__Default__: false <br/>
+__Default__: `false` <br/>
 <br/>
 Indicates whether warnings are treated with the same severity as errors.
 
 ____
-### MaxPercentUnhealthyNodes
+### `MaxPercentUnhealthyNodes`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The maximum allowed percentage of unhealthy nodes before reporting an error. For example, to allow 10% of nodes to be unhealthy, this value would be 10.
 
@@ -65,10 +65,10 @@ In large clusters, some nodes will always be down or out for repairs, so this pe
 
 
 ____
-### MaxPercentUnhealthyApplications
+### `MaxPercentUnhealthyApplications`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The maximum allowed percentage of unhealthy applications before reporting an error. For example, to allow 10% of applications to be unhealthy, this value would be 10.
 
@@ -79,7 +79,7 @@ The computation rounds up to tolerate one failure on small numbers of applicatio
 
 
 ____
-### ApplicationTypeHealthPolicyMap
+### `ApplicationTypeHealthPolicyMap`
 __Type__: array of [ApplicationTypeHealthPolicyMapItem](sfclient-model-applicationtypehealthpolicymapitem.md) <br/>
 __Required__: No<br/>
 <br/>

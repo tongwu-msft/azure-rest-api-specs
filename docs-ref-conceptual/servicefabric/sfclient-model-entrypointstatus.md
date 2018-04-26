@@ -1,6 +1,6 @@
 ---
 title: "EntryPointStatus"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,10 +35,10 @@ Specifies the status of the code package entry point deployed on a Service Fabri
 
 Possible values are: 
 
-  - Invalid - Indicates status of entry point is not known or invalid. The value is 0.
-  - Pending - Indicates the entry point is scheduled to be started. The value is 1.
-  - Starting - Indicates the entry point is being started. The value is 2.
-  - Started - Indicates the entry point was started successfully and is running. The value is 3.
-  - Stopping - Indicates the entry point is being stopped. The value is 4.
-  - Stopped - Indicates the entry point is not running. The value is 5.
+  - `Invalid` - Indicates status of entry point is not known or invalid. The value is 0.
+  - `Pending` - Indicates the entry point is scheduled to be started. The value is 1.
+  - `Starting` - Indicates the entry point is being started. The value is 2.
+  - `Started` - Indicates the entry point was started successfully and is running. The value is 3.
+  - `Stopping` - Indicates the entry point is being stopped. The value is 4.
+  - `Stopped` - Indicates the entry point is not running. The value is 5.
 

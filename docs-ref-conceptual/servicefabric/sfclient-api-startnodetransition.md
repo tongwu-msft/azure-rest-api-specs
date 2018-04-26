@@ -1,6 +1,6 @@
 ---
 title: "Start Node Transition"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -44,28 +44,28 @@ Call GetNodeTransitionProgress with the same OperationId to get the progress of 
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [nodeName](#nodename) | string | Yes | Path |
-| [api-version](#api-version) | string | Yes | Query |
-| [OperationId](#operationid) | string (uuid) | Yes | Query |
-| [NodeTransitionType](#nodetransitiontype) | string (enum) | Yes | Query |
-| [NodeInstanceId](#nodeinstanceid) | string | Yes | Query |
-| [StopDurationInSeconds](#stopdurationinseconds) | integer (int32) | Yes | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
+| [`nodeName`](#nodename) | string | Yes | Path |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`OperationId`](#operationid) | string (uuid) | Yes | Query |
+| [`NodeTransitionType`](#nodetransitiontype) | string (enum) | Yes | Query |
+| [`NodeInstanceId`](#nodeinstanceid) | string | Yes | Query |
+| [`StopDurationInSeconds`](#stopdurationinseconds) | integer (int32) | Yes | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
 
 ____
-### nodeName
+### `nodeName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the node.
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0 <br/>
+__Default__: `6.0` <br/>
 <br/>
-The version of this API. This is a required parameter and its value must be "6.0".
+The version of the API. This parameter is required and its value must be '6.0'.
 
 Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
 
@@ -73,43 +73,43 @@ Additionally the runtime accept any version that is higher than the latest suppo
 
 
 ____
-### OperationId
+### `OperationId`
 __Type__: string (uuid) <br/>
 __Required__: Yes<br/>
 <br/>
 A GUID that identifies a call of this API.  This is passed into the corresponding GetProgress API
 
 ____
-### NodeTransitionType
+### `NodeTransitionType`
 __Type__: string (enum) <br/>
 __Required__: Yes<br/>
 <br/>
 Indicates the type of transition to perform.  NodeTransitionType.Start will start a stopped node.  NodeTransitionType.Stop will stop a node that is up. Possible values include: 'Invalid', 'Start', 'Stop'
 
 ____
-### NodeInstanceId
+### `NodeInstanceId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The node instance ID of the target node.  This can be determined through GetNodeInfo API.
 
 ____
-### StopDurationInSeconds
+### `StopDurationInSeconds`
 __Type__: integer (int32) <br/>
 __Required__: Yes<br/>
-__InclusiveMinimum__: 0 <br/>
+__InclusiveMinimum__: `0` <br/>
 <br/>
 The duration, in seconds, to keep the node stopped.  The minimum value is 600, the maximum is 14400.  After this time expires, the node will automatically come back up.
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

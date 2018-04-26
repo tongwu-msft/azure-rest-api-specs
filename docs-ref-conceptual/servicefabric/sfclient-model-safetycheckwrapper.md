@@ -1,6 +1,6 @@
 ---
 title: "SafetyCheckWrapper"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ A wrapper for the safety check object. Safety checks are performed by service fa
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [SafetyCheck](#safetycheck) | [SafetyCheck](sfclient-model-safetycheck.md) | No |
+| [`SafetyCheck`](#safetycheck) | [SafetyCheck](sfclient-model-safetycheck.md) | No |
 
 ____
-### SafetyCheck
+### `SafetyCheck`
 __Type__: [SafetyCheck](sfclient-model-safetycheck.md) <br/>
 __Required__: No<br/>
 <br/>

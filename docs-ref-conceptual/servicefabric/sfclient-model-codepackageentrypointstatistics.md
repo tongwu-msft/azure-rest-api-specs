@@ -1,6 +1,6 @@
 ---
 title: "CodePackageEntryPointStatistics"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,90 +34,90 @@ Statistics about setup or main entry point  of a code package deployed on a Serv
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [LastExitCode](#lastexitcode) | string | No |
-| [LastActivationTime](#lastactivationtime) | string (date-time) | No |
-| [LastExitTime](#lastexittime) | string (date-time) | No |
-| [LastSuccessfulActivationTime](#lastsuccessfulactivationtime) | string (date-time) | No |
-| [LastSuccessfulExitTime](#lastsuccessfulexittime) | string (date-time) | No |
-| [ActivationCount](#activationcount) | string | No |
-| [ActivationFailureCount](#activationfailurecount) | string | No |
-| [ContinuousActivationFailureCount](#continuousactivationfailurecount) | string | No |
-| [ExitCount](#exitcount) | string | No |
-| [ExitFailureCount](#exitfailurecount) | string | No |
-| [ContinuousExitFailureCount](#continuousexitfailurecount) | string | No |
+| [`LastExitCode`](#lastexitcode) | string | No |
+| [`LastActivationTime`](#lastactivationtime) | string (date-time) | No |
+| [`LastExitTime`](#lastexittime) | string (date-time) | No |
+| [`LastSuccessfulActivationTime`](#lastsuccessfulactivationtime) | string (date-time) | No |
+| [`LastSuccessfulExitTime`](#lastsuccessfulexittime) | string (date-time) | No |
+| [`ActivationCount`](#activationcount) | string | No |
+| [`ActivationFailureCount`](#activationfailurecount) | string | No |
+| [`ContinuousActivationFailureCount`](#continuousactivationfailurecount) | string | No |
+| [`ExitCount`](#exitcount) | string | No |
+| [`ExitFailureCount`](#exitfailurecount) | string | No |
+| [`ContinuousExitFailureCount`](#continuousexitfailurecount) | string | No |
 
 ____
-### LastExitCode
+### `LastExitCode`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The last exit code of the entry point.
 
 ____
-### LastActivationTime
+### `LastActivationTime`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The last time (in UTC) when Service Fabric attempted to run the entry point.
 
 ____
-### LastExitTime
+### `LastExitTime`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The last time (in UTC) when the entry point finished running.
 
 ____
-### LastSuccessfulActivationTime
+### `LastSuccessfulActivationTime`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The last time (in UTC) when the entry point ran successfully.
 
 ____
-### LastSuccessfulExitTime
+### `LastSuccessfulExitTime`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The last time (in UTC) when the entry point finished running gracefully.
 
 ____
-### ActivationCount
+### `ActivationCount`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Number of times the entry point has run.
 
 ____
-### ActivationFailureCount
+### `ActivationFailureCount`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Number of times the entry point failed to run.
 
 ____
-### ContinuousActivationFailureCount
+### `ContinuousActivationFailureCount`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Number of times the entry point continuously failed to run.
 
 ____
-### ExitCount
+### `ExitCount`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Number of times the entry point finished running.
 
 ____
-### ExitFailureCount
+### `ExitFailureCount`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Number of times the entry point failed to exit gracefully.
 
 ____
-### ContinuousExitFailureCount
+### `ContinuousExitFailureCount`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

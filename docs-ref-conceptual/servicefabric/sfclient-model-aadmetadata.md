@@ -1,6 +1,6 @@
 ---
 title: "AadMetadata"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,50 +34,50 @@ Azure Active Directory metadata used for secured connection to cluster.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [authority](#authority) | string | No |
-| [client](#client) | string | No |
-| [cluster](#cluster) | string | No |
-| [login](#login) | string | No |
-| [redirect](#redirect) | string | No |
-| [tenant](#tenant) | string | No |
+| [`authority`](#authority) | string | No |
+| [`client`](#client) | string | No |
+| [`cluster`](#cluster) | string | No |
+| [`login`](#login) | string | No |
+| [`redirect`](#redirect) | string | No |
+| [`tenant`](#tenant) | string | No |
 
 ____
-### authority
+### `authority`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The AAD authority url.
 
 ____
-### client
+### `client`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The AAD client application Id.
 
 ____
-### cluster
+### `cluster`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The AAD cluster application Id.
 
 ____
-### login
+### `login`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The AAD login url.
 
 ____
-### redirect
+### `redirect`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The client application redirect address.
 
 ____
-### tenant
+### `tenant`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

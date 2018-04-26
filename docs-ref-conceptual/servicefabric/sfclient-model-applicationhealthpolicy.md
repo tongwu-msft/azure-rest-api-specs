@@ -1,6 +1,6 @@
 ---
 title: "ApplicationHealthPolicy"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,24 +35,24 @@ Defines a health policy used to evaluate the health of an application or one of 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ConsiderWarningAsError](#considerwarningaserror) | boolean | No |
-| [MaxPercentUnhealthyDeployedApplications](#maxpercentunhealthydeployedapplications) | integer | No |
-| [DefaultServiceTypeHealthPolicy](#defaultservicetypehealthpolicy) | [ServiceTypeHealthPolicy](sfclient-model-servicetypehealthpolicy.md) | No |
-| [ServiceTypeHealthPolicyMap](#servicetypehealthpolicymap) | array of [ServiceTypeHealthPolicyMapItem](sfclient-model-servicetypehealthpolicymapitem.md) | No |
+| [`ConsiderWarningAsError`](#considerwarningaserror) | boolean | No |
+| [`MaxPercentUnhealthyDeployedApplications`](#maxpercentunhealthydeployedapplications) | integer | No |
+| [`DefaultServiceTypeHealthPolicy`](#defaultservicetypehealthpolicy) | [ServiceTypeHealthPolicy](sfclient-model-servicetypehealthpolicy.md) | No |
+| [`ServiceTypeHealthPolicyMap`](#servicetypehealthpolicymap) | array of [ServiceTypeHealthPolicyMapItem](sfclient-model-servicetypehealthpolicymapitem.md) | No |
 
 ____
-### ConsiderWarningAsError
+### `ConsiderWarningAsError`
 __Type__: boolean <br/>
 __Required__: No<br/>
-__Default__: false <br/>
+__Default__: `false` <br/>
 <br/>
 Indicates whether warnings are treated with the same severity as errors.
 
 ____
-### MaxPercentUnhealthyDeployedApplications
+### `MaxPercentUnhealthyDeployedApplications`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100.
 The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error.
@@ -61,15 +61,15 @@ The computation rounds up to tolerate one failure on small numbers of nodes. Def
 
 
 ____
-### DefaultServiceTypeHealthPolicy
+### `DefaultServiceTypeHealthPolicy`
 __Type__: [ServiceTypeHealthPolicy](sfclient-model-servicetypehealthpolicy.md) <br/>
 __Required__: No<br/>
 <br/>
 The health policy used by default to evaluate the health of a service type.
 
 ____
-### ServiceTypeHealthPolicyMap
+### `ServiceTypeHealthPolicyMap`
 __Type__: array of [ServiceTypeHealthPolicyMapItem](sfclient-model-servicetypehealthpolicymapitem.md) <br/>
 __Required__: No<br/>
 <br/>
-The map with service type health policy per service type name. The map is empty be default.
+The map with service type health policy per service type name. The map is empty by default.

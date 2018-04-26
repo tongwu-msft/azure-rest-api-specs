@@ -1,6 +1,6 @@
 ---
 title: "ServiceOperationName"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,10 +35,10 @@ Specifies the current active life-cycle operation on a stateful service replica 
 
 Possible values are: 
 
-  - Unknown - Reserved for future use.
-  - None - The service replica or instance is not going through any life-cycle changes.
-  - Open - The service replica or instance is being opened.
-  - ChangeRole - The service replica is changing roles.
-  - Close - The service replica or instance is being closed.
-  - Abort - The service replica or instance is being aborted.
+  - `Unknown` - Reserved for future use.
+  - `None` - The service replica or instance is not going through any life-cycle changes.
+  - `Open` - The service replica or instance is being opened.
+  - `ChangeRole` - The service replica is changing roles.
+  - `Close` - The service replica or instance is being closed.
+  - `Abort` - The service replica or instance is being aborted.
 

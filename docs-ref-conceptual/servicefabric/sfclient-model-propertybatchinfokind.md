@@ -1,6 +1,6 @@
 ---
 title: "PropertyBatchInfoKind"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ The kind of property batch info, determined by the results of a property batch. 
 
 Possible values are: 
 
-  - Invalid - Indicates the property batch info is invalid. All Service Fabric enumerations have the invalid type.
-  - Successful - The property batch succeeded.
-  - Failed - The property batch failed.
+  - `Invalid` - Indicates the property batch info is invalid. All Service Fabric enumerations have the invalid type.
+  - `Successful` - The property batch succeeded.
+  - `Failed` - The property batch failed.
 

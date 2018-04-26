@@ -1,6 +1,6 @@
 ---
 title: "PartitionHealthStateFilter"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,12 +37,12 @@ One filter can match zero, one or multiple partitions, depending on its properti
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [PartitionIdFilter](#partitionidfilter) | string (uuid) | No |
-| [HealthStateFilter](#healthstatefilter) | integer | No |
-| [ReplicaFilters](#replicafilters) | array of [ReplicaHealthStateFilter](sfclient-model-replicahealthstatefilter.md) | No |
+| [`PartitionIdFilter`](#partitionidfilter) | string (uuid) | No |
+| [`HealthStateFilter`](#healthstatefilter) | integer | No |
+| [`ReplicaFilters`](#replicafilters) | array of [ReplicaHealthStateFilter](sfclient-model-replicahealthstatefilter.md) | No |
 
 ____
-### PartitionIdFilter
+### `PartitionIdFilter`
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
 <br/>
@@ -53,14 +53,14 @@ If not specified, all partitions that match the parent filters (if any) are take
 
 
 ____
-### HealthStateFilter
+### `HealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The filter for the health state of the partitions. It allows selecting partitions if they match the desired health states.
 The possible values are integer value of one of the following health states. Only partitions that match the filter are returned. All partitions are used to evaluate the cluster aggregated health state.
-If not specified, default value is None, unless the partition id is specified. If the filter has default value and partition id is specified, the matching partition is returned.
+If not specified, default value is None, unless the partition ID is specified. If the filter has default value and partition ID is specified, the matching partition is returned.
 The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
 For example, if the provided value is 6, it matches partitions with HealthState value of OK (2) and Warning (4).
 
@@ -73,7 +73,7 @@ For example, if the provided value is 6, it matches partitions with HealthState 
 
 
 ____
-### ReplicaFilters
+### `ReplicaFilters`
 __Type__: array of [ReplicaHealthStateFilter](sfclient-model-replicahealthstatefilter.md) <br/>
 __Required__: No<br/>
 <br/>

@@ -1,6 +1,6 @@
 ---
 title: "Start Compose Deployment Upgrade"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -41,38 +41,38 @@ Validates the supplied upgrade parameters and starts upgrading the deployment if
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [deploymentName](#deploymentname) | string | Yes | Path |
-| [api-version](#api-version) | string | Yes | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
-| [ComposeDeploymentUpgradeDescription](#composedeploymentupgradedescription) | [ComposeDeploymentUpgradeDescription](sfclient-model-composedeploymentupgradedescription.md) | Yes | Body |
+| [`deploymentName`](#deploymentname) | string | Yes | Path |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
+| [`ComposeDeploymentUpgradeDescription`](#composedeploymentupgradedescription) | [ComposeDeploymentUpgradeDescription](sfclient-model-composedeploymentupgradedescription.md) | Yes | Body |
 
 ____
-### deploymentName
+### `deploymentName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The identity of the deployment.
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0-preview <br/>
+__Default__: `6.0-preview` <br/>
 <br/>
-The version of the API. This is a required parameter and its value must be "6.0-preview".
+The version of the API. This parameter is required and its value must be '"6.0-preview'.
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
-### ComposeDeploymentUpgradeDescription
+### `ComposeDeploymentUpgradeDescription`
 __Type__: [ComposeDeploymentUpgradeDescription](sfclient-model-composedeploymentupgradedescription.md) <br/>
 __Required__: Yes<br/>
 <br/>

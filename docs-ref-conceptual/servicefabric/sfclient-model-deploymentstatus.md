@@ -1,6 +1,6 @@
 ---
 title: "DeploymentStatus"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,10 +36,10 @@ Specifies the status of a deployed application or service package on a Service F
 
 Possible values are: 
 
-  - Invalid - Indicates status of the application or service package is not known or invalid. The value is 0.
-  - Downloading - Indicates the application or service package is being downloaded to the node from the ImageStore. The value is 1.
-  - Activating - Indicates the application or service package is being activated. The value is 2.
-  - Active - Indicates the application or service package is active the node. The value is 3.
-  - Upgrading - Indicates the application or service package is being upgraded. The value is 4.
-  - Deactivating - Indicates the application or service package is being deactivated. The value is 5.
+  - `Invalid` - Indicates status of the application or service package is not known or invalid. The value is 0.
+  - `Downloading` - Indicates the application or service package is being downloaded to the node from the ImageStore. The value is 1.
+  - `Activating` - Indicates the application or service package is being activated. The value is 2.
+  - `Active` - Indicates the application or service package is active the node. The value is 3.
+  - `Upgrading` - Indicates the application or service package is being upgraded. The value is 4.
+  - `Deactivating` - Indicates the application or service package is being deactivated. The value is 5.
 

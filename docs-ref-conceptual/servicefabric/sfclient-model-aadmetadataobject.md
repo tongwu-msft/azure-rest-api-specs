@@ -1,6 +1,6 @@
 ---
 title: "AadMetadataObject"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,18 @@ Azure Active Directory metadata object used for secured connection to cluster.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [type](#type) | string | No |
-| [metadata](#metadata) | [AadMetadata](sfclient-model-aadmetadata.md) | No |
+| [`type`](#type) | string | No |
+| [`metadata`](#metadata) | [AadMetadata](sfclient-model-aadmetadata.md) | No |
 
 ____
-### type
+### `type`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The client authentication method.
 
 ____
-### metadata
+### `metadata`
 __Type__: [AadMetadata](sfclient-model-aadmetadata.md) <br/>
 __Required__: No<br/>
 <br/>

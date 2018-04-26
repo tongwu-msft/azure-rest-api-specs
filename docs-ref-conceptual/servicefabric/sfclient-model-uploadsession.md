@@ -1,6 +1,6 @@
 ---
 title: "UploadSession"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Information about a image store upload session
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [UploadSessions](#uploadsessions) | array of [UploadSessionInfo](sfclient-model-uploadsessioninfo.md) | No |
+| [`UploadSessions`](#uploadsessions) | array of [UploadSessionInfo](sfclient-model-uploadsessioninfo.md) | No |
 
 ____
-### UploadSessions
+### `UploadSessions`
 __Type__: array of [UploadSessionInfo](sfclient-model-uploadsessioninfo.md) <br/>
 __Required__: No<br/>
 <br/>

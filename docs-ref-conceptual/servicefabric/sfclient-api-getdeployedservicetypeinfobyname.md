@@ -1,6 +1,6 @@
 ---
 title: "Get Deployed Service Type Info By Name"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Deployed Service Type Info By Name
 Gets the information about a specified service type of the application deployed on a node in a Service Fabric cluster.
 
-Gets the list containing the information about a specific service type from the applications deployed on a node in a Service Fabric cluster. The response includes the name of the service type, its registration status, the code package that registered it and activation id of the service package. Each entry represents one activation of a service type, differentiated by the activation id.
+Gets the list containing the information about a specific service type from the applications deployed on a node in a Service Fabric cluster. The response includes the name of the service type, its registration status, the code package that registered it and activation ID of the service package. Each entry represents one activation of a service type, differentiated by the activation ID.
 
 ## Request
 | Method | Request URI |
@@ -41,22 +41,22 @@ Gets the list containing the information about a specific service type from the 
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [nodeName](#nodename) | string | Yes | Path |
-| [applicationId](#applicationid) | string | Yes | Path |
-| [serviceTypeName](#servicetypename) | string | Yes | Path |
-| [api-version](#api-version) | string | Yes | Query |
-| [ServiceManifestName](#servicemanifestname) | string | No | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
+| [`nodeName`](#nodename) | string | Yes | Path |
+| [`applicationId`](#applicationid) | string | Yes | Path |
+| [`serviceTypeName`](#servicetypename) | string | Yes | Path |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`ServiceManifestName`](#servicemanifestname) | string | No | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
 
 ____
-### nodeName
+### `nodeName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the node.
 
 ____
-### applicationId
+### `applicationId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
@@ -66,19 +66,19 @@ For example, if the application name is "fabric:/myapp/app1", the application id
 
 
 ____
-### serviceTypeName
+### `serviceTypeName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 Specifies the name of a Service Fabric service type.
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0 <br/>
+__Default__: `6.0` <br/>
 <br/>
-The version of this API. This is a required parameter and its value must be "6.0".
+The version of the API. This parameter is required and its value must be '6.0'.
 
 Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
 
@@ -86,21 +86,21 @@ Additionally the runtime accept any version that is higher than the latest suppo
 
 
 ____
-### ServiceManifestName
+### `ServiceManifestName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of the service manifest to filter the list of deployed service type information. If specified, the response will only contain the information about service types that are defined in this service manifest.
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 
