@@ -3,14 +3,14 @@ uid: management.azure.com.cdn.endpoints.validatecustomdomain
 name: Validate Custom Domain
 service: CDN
 groupName: Endpoints
-apiVersion: 2016-10-02
+apiVersion: 2017-10-12
 summary: Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/validateCustomDomain?api-version=2016-10-02
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/validateCustomDomain?api-version=2017-10-12
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,7 +40,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. Current version is 2016-10-02.
+  description: Version of the API to be used with the client request. Current version is 2017-04-02.
   types:
   - uid: string
 responses:
@@ -67,14 +67,17 @@ definitions:
   kind: object
   properties:
   - name: customDomainValidated
-    description: Indicates whether the custom domain is validated or not.
+    isReadyOnly: true
+    description: Indicates whether the custom domain is valid or not.
     types:
     - uid: boolean
   - name: reason
+    isReadyOnly: true
     description: The reason why the custom domain is not valid.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: Error message describing why the custom domain is not valid.
     types:
     - uid: string
@@ -83,10 +86,12 @@ definitions:
   kind: object
   properties:
   - name: code
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: Error message indicating why the operation failed.
     types:
     - uid: string
@@ -98,7 +103,22 @@ definitions:
     description: The host name of the custom domain. Must be a domain name.
     types:
     - uid: string
-examples: []
+examples:
+- name: Endpoints_ValidateCustomDomain
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/validateCustomDomain?api-version=2017-10-12
+    body: >-
+      {
+        "hostname": "www.someDomain.com"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "customDomainValidated": true,
+        "message": null,
+        "reason": null
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
