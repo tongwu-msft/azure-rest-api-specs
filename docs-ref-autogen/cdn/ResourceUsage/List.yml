@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cdn.listresourceusage.listresourceusage
-name: List Resource Usage
+uid: management.azure.com.cdn.resourceusage.list
+name: List
 service: CDN
-groupName: List Resource Usage
-apiVersion: 2016-10-02
+groupName: Resource Usage
+apiVersion: 2017-10-12
 summary: Check the quota and actual usage of the CDN profiles under the given subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkResourceUsage?api-version=2016-10-02
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkResourceUsage?api-version=2017-10-12
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,7 +21,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. Current version is 2016-10-02.
+  description: Version of the API to be used with the client request. Current version is 2017-04-02.
   types:
   - uid: string
 responses:
@@ -40,6 +40,7 @@ definitions:
   kind: object
   properties:
   - name: value
+    isReadyOnly: true
     description: List of resource usages.
     types:
     - uid: ResourceUsage
@@ -53,10 +54,12 @@ definitions:
   kind: object
   properties:
   - name: code
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: Error message indicating why the operation failed.
     types:
     - uid: string
@@ -65,22 +68,42 @@ definitions:
   kind: object
   properties:
   - name: resourceType
-    description: Resource type of the usages.
+    isReadyOnly: true
+    description: Resource type for which the usage is provided.
     types:
     - uid: string
   - name: unit
+    isReadyOnly: true
     description: Unit of the usage. e.g. Count.
     types:
     - uid: string
   - name: currentValue
-    description: Actual value of the resource type.
+    isReadyOnly: true
+    description: Actual value of usage on the specified resource type.
     types:
     - uid: integer
   - name: limit
-    description: Quota of the resource type.
+    isReadyOnly: true
+    description: Quota of the specified resource type.
     types:
     - uid: integer
-examples: []
+examples:
+- name: ResourceUsage_List
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Cdn/checkResourceUsage?api-version=2017-10-12
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "resourceType": "profile",
+            "unit": "count",
+            "currentValue": 31,
+            "limit": 200
+          }
+        ]
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.

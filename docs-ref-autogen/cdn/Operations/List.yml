@@ -1,0 +1,191 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cdn.operations.list
+name: List
+service: CDN
+groupName: Operations
+apiVersion: 2017-10-12
+summary: Lists all of the available CDN REST API operations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Cdn/operations?api-version=2017-10-12
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2017-04-02.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: OperationsListResult
+- name: Other Status Codes
+  description: CDN error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: OperationsListResult
+  description: Result of the request to list CDN operations. It contains a list of operations and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of CDN operations supported by the CDN resource provider.
+    types:
+    - uid: Operation
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: Operation
+  description: CDN REST API operation
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: 'Operation name: {provider}/{resource}/{operation}'
+    types:
+    - uid: string
+  - name: display
+    description: The object that represents the operation.
+    types:
+    - uid: Display
+- name: Display
+  description: The object that represents the operation.
+  kind: object
+  properties:
+  - name: provider
+    isReadyOnly: true
+    description: 'Service provider: Microsoft.Cdn'
+    types:
+    - uid: string
+  - name: resource
+    isReadyOnly: true
+    description: 'Resource on which the operation is performed: Profile, endpoint, etc.'
+    types:
+    - uid: string
+  - name: operation
+    isReadyOnly: true
+    description: 'Operation type: Read, write, delete, etc.'
+    types:
+    - uid: string
+examples:
+- name: Operations_List
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Cdn/operations?api-version=2017-10-12
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.Cdn/register/action",
+            "display": {
+              "provider": "Microsoft.Cdn",
+              "resource": "Microsoft.Cdn Resource Provider",
+              "operation": "Registers the Microsoft.Cdn Resource Provider",
+              "description": "Registers the subscription for the CDN resource provider and enables the creation of CDN profiles."
+            }
+          },
+          {
+            "name": "Microsoft.Cdn/edgenodes/read",
+            "display": {
+              "provider": "Microsoft.Cdn",
+              "resource": "EdgeNode",
+              "operation": "read"
+            }
+          },
+          {
+            "name": "Microsoft.Cdn/edgenodes/write",
+            "display": {
+              "provider": "Microsoft.Cdn",
+              "resource": "EdgeNode",
+              "operation": "write"
+            }
+          },
+          {
+            "name": "Microsoft.Cdn/edgenodes/delete",
+            "display": {
+              "provider": "Microsoft.Cdn",
+              "resource": "EdgeNode",
+              "operation": "delete"
+            }
+          },
+          {
+            "name": "Microsoft.Cdn/profiles/read",
+            "display": {
+              "provider": "Microsoft.Cdn",
+              "resource": "Profile",
+              "operation": "read"
+            }
+          },
+          {
+            "name": "Microsoft.Cdn/profiles/write",
+            "display": {
+              "provider": "Microsoft.Cdn",
+              "resource": "Profile",
+              "operation": "write"
+            }
+          },
+          {
+            "name": "Microsoft.Cdn/operationresults/profileresults/write",
+            "display": {
+              "provider": "Microsoft.Cdn",
+              "resource": "Profile",
+              "operation": "write"
+            }
+          },
+          {
+            "name": "Microsoft.Cdn/operationresults/profileresults/delete",
+            "display": {
+              "provider": "Microsoft.Cdn",
+              "resource": "Profile",
+              "operation": "delete"
+            }
+          },
+          {
+            "name": "Microsoft.Cdn/operationresults/profileresults/CheckResourceUsage/action",
+            "display": {
+              "provider": "Microsoft.Cdn",
+              "resource": "Profile",
+              "operation": "CheckResourceUsage"
+            }
+          },
+          {
+            "name": "Microsoft.Cdn/operationresults/profileresults/GenerateSsoUri/action",
+            "display": {
+              "provider": "Microsoft.Cdn",
+              "resource": "Profile",
+              "operation": "GenerateSsoUri"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
