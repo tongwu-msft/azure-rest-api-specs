@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.mapsapi.search.getsearchfuzzy
-name: Get Search Fuzzy
+uid: atlas.microsoft.com.mapsapi.search.getsearchnearby
+name: Get Search Nearby
 service: Maps API
 groupName: Search
 apiVersion: "1.0"
-summary: Returns the search results from a fuzzy search
+summary: Returns the nearby POIs around the given location.
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&minFuzzyLevel={minFuzzyLevel}&maxFuzzyLevel={maxFuzzyLevel}&idxSet={idxSet}
+- content: GET https://atlas.microsoft.com/search/nearby/{format}?subscription-key={subscription-key}&api-version=1.0&lat={lat}&lon={lon}
+- content: GET https://atlas.microsoft.com/search/nearby/{format}?subscription-key={subscription-key}&api-version=1.0&lat={lat}&lon={lon}&limit={limit}&ofs={ofs}&countrySet={countrySet}&radius={radius}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}
   isOptional: true
 uriParameters:
 - name: format
@@ -32,17 +32,18 @@ uriParameters:
   description: Version number of Azure Maps API. Current version is 1.0
   types:
   - uid: string
-- name: query
+- name: lat
   in: query
   isRequired: true
-  description: The applicable query string and/or coordinates
+  description: Latitude where results should be biased. E.g. 37.337
   types:
-  - uid: string
-- name: typeahead
+  - uid: number
+- name: lon
   in: query
-  description: Boolean. If the typeahead flag is set, the query will be interpreted as a partial input and the search will enter predictive mode
+  isRequired: true
+  description: Longitude where results should be biased. E.g. -121.89
   types:
-  - uid: boolean
+  - uid: number
 - name: limit
   in: query
   description: Maximum number of responses that will be returned.
@@ -50,7 +51,7 @@ uriParameters:
   - uid: integer
 - name: ofs
   in: query
-  description: Starting offset of the returned results within the full result set.
+  description: Starting offset of returned results. Max value is 1900.
   types:
   - uid: integer
 - name: countrySet
@@ -58,31 +59,11 @@ uriParameters:
   description: Comma separated string of country codes, e.g. FR, ES. This will limit the search to the specified countries
   types:
   - uid: array
-- name: lat
-  in: query
-  description: Latitude where results should be biased. E.g. 37.337
-  types:
-  - uid: number
-- name: lon
-  in: query
-  description: Longitude where results should be biased. E.g. -121.89
-  types:
-  - uid: number
 - name: radius
   in: query
   description: The radius in meters to for the results to be constrained to the defined area
   types:
   - uid: number
-- name: topLeft
-  in: query
-  description: Top left position of the bounding box. E.g. 37.553,-122.453
-  types:
-  - uid: string
-- name: btmRight
-  in: query
-  description: Bottom right position of the bounding box. E.g. 37.553,-122.453
-  types:
-  - uid: string
 - name: language
   in: query
   description: Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used
@@ -90,29 +71,14 @@ uriParameters:
   - uid: string
 - name: extendedPostalCodesFor
   in: query
-  description: 'Indexes for which extended postal codes should be included in the results. Available indexes are: Addr = Address ranges, Geo = Geographies, PAD = Point Addresses, POI = Points of Interest, Str = Streets, XStr = Cross Streets (intersections)'
+  description: Indexes for which extended postal codes should be included in the results. POI = Points of Interest
   types:
   - uid: string
-- name: minFuzzyLevel
-  in: query
-  description: Minimum fuzzyness level to be used.
-  types:
-  - uid: integer
-- name: maxFuzzyLevel
-  in: query
-  description: Maximum fuzzyness level to be used.
-  types:
-  - uid: integer
-- name: idxSet
-  in: query
-  description: 'A comma separated list of indexes which should be utilized for the search. Item order does not matter. Available indexes are: Addr = Address range interpolation, Geo = Geographies, PAD = Point Addresses, POI = Points of interest, Str = Streets, Xstr = Cross Streets (intersections)'
-  types:
-  - uid: array
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SearchFuzzyResult
+  - uid: SearchNearbyResult
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -135,8 +101,8 @@ responses:
   - uid: Error
 requestHeader: []
 definitions:
-- name: SearchFuzzyResult
-  description: This object is returned from a successful Search Fuzzy call
+- name: SearchNearbyResult
+  description: This object is returned from a successful Search Nearby call
   kind: object
   properties:
   - name: summary
@@ -148,7 +114,7 @@ definitions:
     isReadyOnly: true
     description: Results array
     types:
-    - uid: SearchFuzzyResultArray
+    - uid: Results
       isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Location Based Service API
@@ -203,7 +169,8 @@ definitions:
     description: FuzzyLevel property
     types:
     - uid: integer
-- name: SearchFuzzyResultArray
+- name: Results
+  description: Results array
   kind: object
   properties:
   - name: type
@@ -247,10 +214,6 @@ definitions:
     description: The viewport that covers the result
     types:
     - uid: Viewport
-  - name: boundingBox
-    description: Bounding box of the result
-    types:
-    - uid: BoundingBox
   - name: entryPoints
     description: Entry Points array
     types:
@@ -417,20 +380,6 @@ definitions:
     description: Bottom right of the viewport
     types:
     - uid: BtmRightPoint
-- name: BoundingBox
-  description: Bounding Box for the address
-  kind: object
-  properties:
-  - name: northEast
-    isReadyOnly: true
-    description: The North East coordinates for the Bounding Box
-    types:
-    - uid: string
-  - name: southWest
-    isReadyOnly: true
-    description: The South West coordinates for the Bounding Box
-    types:
-    - uid: string
 - name: EntryPoint
   kind: object
   properties:
@@ -458,6 +407,20 @@ definitions:
     types:
     - uid: ClassificationName
       isArray: true
+- name: BoundingBox
+  description: Bounding Box for the address
+  kind: object
+  properties:
+  - name: northEast
+    isReadyOnly: true
+    description: The North East coordinates for the Bounding Box
+    types:
+    - uid: string
+  - name: southWest
+    isReadyOnly: true
+    description: The South West coordinates for the Bounding Box
+    types:
+    - uid: string
 - name: TopLeftPoint
   description: Top left of the viewport
   kind: object
@@ -500,29 +463,49 @@ definitions:
     types:
     - uid: string
 examples:
-- name: GetSearchFuzzy
+- name: GetSearchPOI
   request:
-    uri: GET https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&query=seattle
+    uri: GET https://atlas.microsoft.com/search/nearby/json?api-version=1.0&lat=47.6&lon=-122.3&radius=30
   responses:
   - statusCode: "200"
     body: >-
       {
         "summary": {
-          "query": "seattle",
-          "queryType": "NON_NEAR",
-          "queryTime": 72,
-          "numResults": 5,
+          "queryType": "NEARBY",
+          "queryTime": 17,
+          "numResults": 3,
           "offset": 0,
-          "totalResults": 5150,
-          "fuzzyLevel": 1
+          "totalResults": 3,
+          "fuzzyLevel": 1,
+          "geoBias": {
+            "lat": 47.6,
+            "lon": -122.3
+          }
         },
         "results": [
           {
-            "type": "Geography",
-            "id": "US/GEO/p0/174752",
-            "score": 6.134,
-            "info": "search:ta:840533000005461-US",
-            "entityType": "Municipality",
+            "type": "POI",
+            "id": "US/POI/p1/282915",
+            "score": 1,
+            "dist": 0,
+            "info": "search:decarta:geonames:6492268",
+            "poi": {
+              "name": "Travelodge Seattle North/Aurora",
+              "categories": [
+                "hotel"
+              ],
+              "classifications": [
+                {
+                  "code": "HOTEL_MOTEL",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "hotel"
+                    }
+                  ]
+                }
+              ]
+            },
             "address": {
               "municipality": "Seattle",
               "countrySecondarySubdivision": "King",
@@ -534,216 +517,153 @@ examples:
               "countrySubdivisionName": "Washington"
             },
             "position": {
-              "lat": 47.60323,
-              "lon": -122.33028
+              "lat": 47.6,
+              "lon": -122.3
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.80472,
-                "lon": -122.60233
+                "lat": 47.6009,
+                "lon": -122.30133
               },
               "btmRightPoint": {
-                "lat": 47.30606,
-                "lon": -122.12291
-              }
-            },
-            "boundingBox": {
-              "topLeftPoint": {
-                "lat": 47.80472,
-                "lon": -122.60233
-              },
-              "btmRightPoint": {
-                "lat": 47.30606,
-                "lon": -122.12291
-              }
-            }
-          },
-          {
-            "type": "Geography",
-            "id": "MX/GEO/p0/55857",
-            "score": 4.5,
-            "info": "search:ta:00004d30-3300-2800-0000-0000502b582a-MX",
-            "entityType": "MunicipalitySubdivision",
-            "address": {
-              "municipalitySubdivision": "Seattle",
-              "municipality": "Zapopan, Guadalajara",
-              "countrySubdivision": "Jalisco",
-              "countryCode": "MX",
-              "country": "Mexico",
-              "countryCodeISO3": "MEX",
-              "freeformAddress": "Zapopan"
-            },
-            "position": {
-              "lat": 20.72069,
-              "lon": -103.37434
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 20.72301,
-                "lon": -103.37591
-              },
-              "btmRightPoint": {
-                "lat": 20.71684,
-                "lon": -103.36897
-              }
-            },
-            "boundingBox": {
-              "topLeftPoint": {
-                "lat": 20.72301,
-                "lon": -103.37591
-              },
-              "btmRightPoint": {
-                "lat": 20.71684,
-                "lon": -103.36897
+                "lat": 47.5991,
+                "lon": -122.29867
               }
             }
           },
           {
             "type": "POI",
-            "id": "US/POI/p1/8288014",
-            "score": 4.457,
-            "info": "search:ta:840539000615260-US",
+            "id": "US/POI/p1/269951",
+            "score": 0.999,
+            "dist": 24.777493439802786,
+            "info": "search:decarta:ta:840539000199001-US",
             "poi": {
-              "name": "Seattle Great Wheel",
-              "phone": "+(1)-(206)-6238607",
-              "url": "seattlegreatwheel.com",
+              "name": "Seattle Housing Authority Resident Managers",
+              "phone": "+(1)-(206)-3207745",
               "categories": [
-                "important tourist attraction"
+                "welfare organization"
               ],
               "classifications": [
                 {
-                  "code": "IMPORTANT_TOURIST_ATTRACTION",
+                  "code": "WELFARE_ORGANIZATION",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "important tourist attraction"
+                      "name": "welfare organization"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "1301",
-              "streetName": "Alaskan Way",
-              "municipalitySubdivision": "Seattle, Central Business District",
-              "municipality": "Seattle, Times Square",
+              "streetNumber": "323",
+              "streetName": "25th Ave S",
+              "municipalitySubdivision": "Atlantic, Seattle",
+              "municipality": "Beacon Hill, Seattle",
               "countrySecondarySubdivision": "King",
               "countryTertiarySubdivision": "Seattle",
               "countrySubdivision": "WA",
-              "postalCode": "98101",
-              "extendedPostalCode": "981012057",
+              "postalCode": "98144",
+              "extendedPostalCode": "981442460",
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "1301 Alaskan Way, Seattle, WA 98101",
+              "freeformAddress": "323 25th Ave S, Seattle, WA 98144",
               "countrySubdivisionName": "Washington"
             },
             "position": {
-              "lat": 47.60606,
-              "lon": -122.34102
+              "lat": 47.59984,
+              "lon": -122.30023
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.60696,
-                "lon": -122.34235
+                "lat": 47.60074,
+                "lon": -122.30156
               },
               "btmRightPoint": {
-                "lat": 47.60516,
-                "lon": -122.33969
+                "lat": 47.59894,
+                "lon": -122.2989
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.60622,
-                  "lon": -122.34066
+                  "lat": 47.59983,
+                  "lon": -122.29987
                 }
               }
             ]
           },
           {
-            "type": "Geography",
-            "id": "US/GEO/p0/123969",
-            "score": 4.267,
-            "entityType": "CountryTertiarySubdivision",
+            "type": "POI",
+            "id": "US/POI/p0/3494905",
+            "score": 0.999,
+            "dist": 24.777493439802786,
+            "info": "search:decarta:ta:840531000364599-US",
+            "poi": {
+              "name": "Seattle Housing Authority",
+              "phone": "+(1)-(206)-3207745",
+              "url": "www.seattlehousing.org",
+              "categories": [
+                "residential accommodation",
+                "retirement community"
+              ],
+              "classifications": [
+                {
+                  "code": "RESIDENTIAL_ACCOMMODATION",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "residential accommodation"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "retirement community"
+                    }
+                  ]
+                }
+              ]
+            },
             "address": {
+              "streetNumber": "323",
+              "streetName": "25th Ave S",
+              "municipalitySubdivision": "Atlantic, Seattle",
+              "municipality": "Beacon Hill, Seattle",
               "countrySecondarySubdivision": "King",
-              "countryTertiarySubdivision": "Seattle East",
+              "countryTertiarySubdivision": "Seattle",
               "countrySubdivision": "WA",
+              "postalCode": "98144",
+              "extendedPostalCode": "981442460",
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "Seattle East, WA",
+              "freeformAddress": "323 25th Ave S, Seattle, WA 98144",
               "countrySubdivisionName": "Washington"
             },
             "position": {
-              "lat": 47.6137,
-              "lon": -122.19093
+              "lat": 47.59984,
+              "lon": -122.30023
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.77704,
-                "lon": -122.27603
+                "lat": 47.60074,
+                "lon": -122.30156
               },
               "btmRightPoint": {
-                "lat": 47.42285,
-                "lon": -121.91824
+                "lat": 47.59894,
+                "lon": -122.2989
               }
             },
-            "boundingBox": {
-              "topLeftPoint": {
-                "lat": 47.77704,
-                "lon": -122.27603
-              },
-              "btmRightPoint": {
-                "lat": 47.42285,
-                "lon": -121.91824
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.59983,
+                  "lon": -122.29987
+                }
               }
-            }
-          },
-          {
-            "type": "Geography",
-            "id": "US/GEO/p0/175836",
-            "score": 4.267,
-            "info": "search:ta:840533000011722-US",
-            "entityType": "MunicipalitySubdivision",
-            "address": {
-              "municipalitySubdivision": "Seattle Heights",
-              "municipality": "Brier, Lynnwood",
-              "countrySecondarySubdivision": "Snohomish",
-              "countryTertiarySubdivision": "Edmonds",
-              "countrySubdivision": "WA",
-              "countryCode": "US",
-              "country": "United States Of America",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "Brier, WA",
-              "countrySubdivisionName": "Washington"
-            },
-            "position": {
-              "lat": 47.80679,
-              "lon": -122.32191
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.80861,
-                "lon": -122.3233
-              },
-              "btmRightPoint": {
-                "lat": 47.80497,
-                "lon": -122.32191
-              }
-            },
-            "boundingBox": {
-              "topLeftPoint": {
-                "lat": 47.80861,
-                "lon": -122.3233
-              },
-              "btmRightPoint": {
-                "lat": 47.80497,
-                "lon": -122.32191
-              }
-            }
+            ]
           }
         ]
       }
