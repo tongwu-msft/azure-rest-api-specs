@@ -1,0 +1,154 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.versions.get
+name: Get
+service: Cognitive Services
+groupName: Versions
+apiVersion: v2.0 preview
+summary: Gets the version info.
+produces:
+- application/json
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A model containing the version info.
+  types:
+  - uid: VersionInfo
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: VersionInfo
+  description: Object model of an application version.
+  kind: object
+  properties:
+  - name: version
+    description: 'The version ID. E.g.: "0.1"'
+    types:
+    - uid: string
+  - name: createdDateTime
+    description: The version's creation timestamp.
+    types:
+    - uid: string
+  - name: lastModifiedDateTime
+    description: Timestamp of the last update.
+    types:
+    - uid: string
+  - name: lastTrainedDateTime
+    description: Timestamp of the last time the model was trained.
+    types:
+    - uid: string
+  - name: lastPublishedDateTime
+    description: Timestamp when was last published.
+    types:
+    - uid: string
+  - name: endpointUrl
+    description: The Runtime endpoint URL for this model version.
+    types:
+    - uid: string
+  - name: assignedEndpointKey
+    description: The endpoint key.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: externalApiKeys
+    description: External keys.
+    types:
+    - uid: object
+  - name: intentsCount
+    description: Number of intents in this model.
+    types:
+    - uid: integer
+  - name: entitiesCount
+    description: Number of entities in this model.
+    types:
+    - uid: integer
+  - name: endpointHitsCount
+    description: Number of calls made to this endpoint.
+    types:
+    - uid: integer
+  - name: trainingStatus
+    description: The current training status.
+    types:
+    - uid: TrainingStatus
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: TrainingStatus
+  description: The Trainning status.
+  kind: enum
+  properties:
+  - name: Queued
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: UpToDate
+    types:
+    - uid: string
+  - name: Fail
+    types:
+    - uid: string
+  - name: Success
+    types:
+    - uid: string
+examples:
+- name: Successful Get Application Version info request
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/363187f1-c573-46b3-bc4c-ae01d686e68e/versions/0.1/
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "version": "0.1",
+        "createdDateTime": "2017-08-01T14:34:15Z",
+        "lastModifiedDateTime": "2017-11-28T20:12:09Z",
+        "lastTrainedDateTime": "2017-11-28T20:12:12Z",
+        "lastPublishedDateTime": "2017-11-28T20:12:35Z",
+        "endpointUrl": "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/363187f1-c573-46b3-bc4c-ae01d686e68e",
+        "assignedEndpointKey": {
+          "SubscriptionKey": "",
+          "SubscriptionRegion": "westus",
+          "SubscriptionName": ""
+        },
+        "externalApiKeys": {},
+        "intentsCount": 4,
+        "entitiesCount": 0,
+        "endpointHitsCount": 175,
+        "trainingStatus": "Trained"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
