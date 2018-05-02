@@ -1,5 +1,0 @@
-# [Common Render Service Scenarios]()
-## [Render a map as a png image]()
-## [Display a map of the whole world with zooming and panning]()
-## [Display a map framed around a specific country]()
-## [Display a map at the given location and show its detailed surroundings]()
