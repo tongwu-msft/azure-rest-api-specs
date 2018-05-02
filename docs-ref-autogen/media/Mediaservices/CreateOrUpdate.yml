@@ -1,0 +1,233 @@
+### YamlMime:RESTOperation
+uid: mediaservices.mediaservices.createorupdate
+name: Create Or Update
+service: Media Services
+groupName: Mediaservices
+apiVersion: 2018-03-30-preview
+summary: "Create or update a Media Services account  \nCreates or updates a Media Services account"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https:///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}?api-version=2018-03-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Media Services account name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: MediaService
+- name: 201 Created
+  description: Created
+  types:
+  - uid: MediaService
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ApiError
+requestBody:
+- parameters:
+  - name: properties.storageAccounts
+    in: body
+    description: The storage accounts for this resource.
+    types:
+    - uid: StorageAccount
+      isArray: true
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    in: body
+    description: The Azure Region of the resource.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: StorageAccount
+  description: The storage account details.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the storage account resource. Media Services relies on tables and queues as well as blobs, so the primary storage account must be a Standard Storage account (either Microsoft.ClassicStorage or Microsoft.Storage). Blob only storage accounts can be added as secondary storage accounts.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the storage account.
+    types:
+    - uid: StorageAccountType
+- name: MediaService
+  description: A Media Services account.
+  kind: object
+  properties:
+  - name: properties.mediaServiceId
+    isReadyOnly: true
+    description: The Media Services account ID.
+    types:
+    - uid: string
+  - name: properties.storageAccounts
+    description: The storage accounts for this resource.
+    types:
+    - uid: StorageAccount
+      isArray: true
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The Azure Region of the resource.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ApiError
+  description: The API error.
+  kind: object
+  properties:
+  - name: error
+    description: The error properties.
+    types:
+    - uid: ODataError
+- name: StorageAccountType
+  description: The type of the storage account.
+  kind: enum
+  properties:
+  - name: Primary
+    description: The primary storage account for the Media Services account.
+    types:
+    - uid: string
+  - name: Secondary
+    description: A secondary storage account for the Media Services account.
+    types:
+    - uid: string
+- name: ODataError
+  description: Information about an error.
+  kind: object
+  properties:
+  - name: code
+    description: A language-independent error name.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: The error details.
+    types:
+    - uid: ODataError
+      isArray: true
+examples:
+- name: Create a Media Services account
+  request:
+    uri: PUT https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contososports?api-version=2018-03-30-preview
+    body: >-
+      {
+        "location": "South Central US",
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "properties": {
+          "storageAccounts": [
+            {
+              "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Storage/storageAccounts/contososportsstore",
+              "type": "Primary"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "contososports",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contososports",
+        "type": "Microsoft.Media/mediaservices",
+        "location": "South Central US",
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "properties": {
+          "mediaServiceId": "42bea25f-1aa9-4f7a-82af-5a417592f22d",
+          "storageAccounts": [
+            {
+              "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Storage/storageAccounts/contososportsstore",
+              "type": "Primary"
+            }
+          ]
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "contososports",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contososports",
+        "type": "Microsoft.Media/mediaservices",
+        "location": "South Central US",
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "properties": {
+          "mediaServiceId": "42bea25f-1aa9-4f7a-82af-5a417592f22d",
+          "storageAccounts": [
+            {
+              "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Storage/storageAccounts/contososportsstore",
+              "type": "Primary"
+            }
+          ]
+        }
+      }
+security: []
