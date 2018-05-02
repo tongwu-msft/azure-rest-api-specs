@@ -3,19 +3,19 @@ uid: management.azure.com.cdn.checknameavailability.checknameavailability
 name: Check Name Availability
 service: CDN
 groupName: Check Name Availability
-apiVersion: 2016-10-02
+apiVersion: 2017-10-12
 summary: Check the availability of a resource name. This is needed for resources where name is globally unique, such as a CDN endpoint.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/providers/Microsoft.Cdn/checkNameAvailability?api-version=2016-10-02
+- content: POST https://management.azure.com/providers/Microsoft.Cdn/checkNameAvailability?api-version=2017-10-12
 uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. Current version is 2016-10-02.
+  description: Version of the API to be used with the client request. Current version is 2017-04-02.
   types:
   - uid: string
 responses:
@@ -48,14 +48,17 @@ definitions:
   kind: object
   properties:
   - name: nameAvailable
+    isReadyOnly: true
     description: Indicates whether the name is available.
     types:
     - uid: boolean
   - name: reason
+    isReadyOnly: true
     description: The reason why the name is not available.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: The detailed error message describing why the name is not available.
     types:
     - uid: string
@@ -64,10 +67,12 @@ definitions:
   kind: object
   properties:
   - name: code
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: Error message indicating why the operation failed.
     types:
     - uid: string
@@ -90,7 +95,23 @@ definitions:
   - name: Microsoft.Cdn/Profiles/Endpoints
     types:
     - uid: string
-examples: []
+examples:
+- name: CheckNameAvailability
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Cdn/checkNameAvailability?api-version=2017-10-12
+    body: >-
+      {
+        "name": "sampleName",
+        "type": "Microsoft.Cdn/Profiles/Endpoints"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": false,
+        "reason": "Name is already in use",
+        "message": "Name not available"
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
