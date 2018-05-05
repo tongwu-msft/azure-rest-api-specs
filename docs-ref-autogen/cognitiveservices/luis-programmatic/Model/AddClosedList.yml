@@ -1,0 +1,131 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.model.addclosedlist
+name: Add Closed List
+service: Cognitive Services
+groupName: Model
+apiVersion: v2.0 preview
+summary: Adds a closed list model to the application.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: The ID of the created model.
+  types:
+  - uid: string
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: subLists
+    in: body
+    description: Sublists for the feature.
+    types:
+    - uid: WordListObject
+      isArray: true
+  - name: name
+    in: body
+    description: Name of the closed list feature.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: WordListObject
+  description: Sublist of items for a Closed list.
+  kind: object
+  properties:
+  - name: canonicalForm
+    description: The standard form that the list represents.
+    types:
+    - uid: string
+  - name: list
+    description: List of synonym words.
+    types:
+    - uid: string
+      isArray: true
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: ClosedListModelCreateObject
+  description: Object model for creating a closed list.
+  kind: object
+  properties:
+  - name: subLists
+    description: Sublists for the feature.
+    types:
+    - uid: WordListObject
+      isArray: true
+  - name: name
+    description: Name of the closed list feature.
+    types:
+    - uid: string
+examples:
+- name: Successful Create Closed List Entity Model request
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/86226c53-b7a6-416f-876b-226b2b5ab07b/versions/0.1/closedlists
+    body: >-
+      {
+        "name": "States",
+        "subLists": [
+          {
+            "canonicalForm": "New York",
+            "list": [
+              "NY",
+              "New York"
+            ]
+          },
+          {
+            "canonicalForm": "Washington",
+            "list": [
+              "Washington",
+              "WA"
+            ]
+          },
+          {
+            "canonicalForm": "California",
+            "list": [
+              "California",
+              "CA",
+              "Calif.",
+              "Cal."
+            ]
+          }
+        ]
+      }
+  responses:
+  - statusCode: "201"
+    body: "\"8713b104-78ec-4c4f-9f96-f2e53562cc16\""
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

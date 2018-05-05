@@ -1,0 +1,88 @@
+### YamlMime:RESTOperation
+uid: face.v1.0.cognitiveservices.persongroup.get
+name: Get
+service: Cognitive Services
+groupName: Person Group
+apiVersion: "1.0"
+summary: Retrieve the information of a person group, including its name and userData.
+produces:
+- application/json
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/persongroups/{personGroupId}
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: personGroupId
+  in: path
+  isRequired: true
+  description: Id referencing a particular person group.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9-_]+$
+responses:
+- name: 200 OK
+  description: A successful call returns the person group's information.
+  types:
+  - uid: PersonGroup
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader: []
+definitions:
+- name: PersonGroup
+  description: Person group object.
+  kind: object
+  properties:
+  - name: personGroupId
+    description: PersonGroupId of the existing person groups.
+    types:
+    - uid: string
+  - name: name
+    description: User defined name, maximum length is 128.
+    types:
+    - uid: string
+  - name: userData
+    description: User specified data. Length should not exceed 16KB.
+    types:
+    - uid: string
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Get person group example
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups/abc
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "personGroupId": "sample_group",
+        "name": "group1",
+        "userData": "User-provided data attached to the person group"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

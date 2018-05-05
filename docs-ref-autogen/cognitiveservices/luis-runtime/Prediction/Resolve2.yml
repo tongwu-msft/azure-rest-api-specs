@@ -1,0 +1,283 @@
+### YamlMime:RESTOperation
+uid: luis.v2.0.apps.cognitiveservices.prediction.resolve2
+name: Resolve2
+service: Cognitive Services
+groupName: Prediction
+apiVersion: v2.0 preview
+summary: Gets predictions for a given utterance, in the form of intents and entities. The current maximum query size is 500 characters.
+produces:
+- application/json
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/v2.0/apps/{appId}?q={q}
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/v2.0/apps/{appId}?q={q}&timezoneOffset={timezoneOffset}&verbose={verbose}&staging={staging}&spellCheck={spellCheck}&bing-spell-check-subscription-key={bing-spell-check-subscription-key}&log={log}
+  isOptional: true
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The LUIS application ID (guid).
+  types:
+  - uid: string
+- name: q
+  in: query
+  isRequired: true
+  description: The utterance to predict.
+  types:
+  - uid: string
+- name: timezoneOffset
+  in: query
+  description: The timezone offset for the location of the request.
+  types:
+  - uid: number
+- name: verbose
+  in: query
+  description: If true, return all intents instead of just the top scoring intent.
+  types:
+  - uid: boolean
+- name: staging
+  in: query
+  description: Use the staging endpoint slot.
+  types:
+  - uid: boolean
+- name: spellCheck
+  in: query
+  description: Enable spell checking.
+  types:
+  - uid: boolean
+- name: bing-spell-check-subscription-key
+  in: query
+  description: The subscription key to use when enabling bing spell check
+  types:
+  - uid: string
+- name: log
+  in: query
+  description: Log query (default is true)
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: Prediction, based on the input query, containing intent(s) and entities.
+  types:
+  - uid: LuisResult
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader: []
+definitions:
+- name: LuisResult
+  description: Prediction, based on the input query, containing intent(s) and entities.
+  kind: object
+  properties:
+  - name: query
+    description: The input utterance that was analized.
+    types:
+    - uid: string
+  - name: alteredQuery
+    description: The corrected utterance (when spell checking was enabled).
+    types:
+    - uid: string
+  - name: topScoringIntent
+    description: An intent detected from the utterance.
+    types:
+    - uid: IntentModel
+  - name: intents
+    description: All the intents (and their score) that were detected from utterance.
+    types:
+    - uid: IntentModel
+      isArray: true
+  - name: entities
+    description: The entities extracted from the utterance.
+    types:
+    - uid: EntityWithScore
+      isArray: true
+    - uid: EntityWithResolution
+      isArray: true
+    typesTitle: EntityModel[]
+  - name: compositeEntities
+    description: The composite entities extracted from the utterance.
+    types:
+    - uid: CompositeEntityModel
+      isArray: true
+  - name: sentiment
+    description: Sentiment of the input utterance.
+    types:
+    - uid: Sentiment
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: statusCode
+    description: HTTP Status code
+    types:
+    - uid: string
+  - name: message
+    description: Cause of the error.
+    types:
+    - uid: string
+- name: IntentModel
+  description: An intent detected from the utterance.
+  kind: object
+  properties:
+  - name: intent
+    description: Name of the intent, as defined in LUIS.
+    types:
+    - uid: string
+  - name: score
+    description: Associated prediction score for the intent (float).
+    types:
+    - uid: number
+- name: CompositeEntityModel
+  description: LUIS Composite Entity.
+  kind: object
+  properties:
+  - name: parentType
+    description: Type/name of parent entity.
+    types:
+    - uid: string
+  - name: value
+    description: Value for composite entity extracted by LUIS.
+    types:
+    - uid: string
+  - name: children
+    description: Child entities.
+    types:
+    - uid: CompositeChildModel
+      isArray: true
+- name: Sentiment
+  description: Sentiment of the input utterance.
+  kind: object
+  properties:
+  - name: label
+    description: The polarity of the sentiment, can be positive, neutral or negative.
+    types:
+    - uid: string
+  - name: score
+    description: Score of the sentiment, ranges from 0 (most negative) to 1 (most negative).
+    types:
+    - uid: number
+- name: EntityWithScore
+  kind: object
+  properties:
+  - name: entity
+    description: Name of the entity, as defined in LUIS.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the entity, as defined in LUIS.
+    types:
+    - uid: string
+  - name: startIndex
+    description: The position of the first character of the matched entity within the utterance.
+    types:
+    - uid: number
+  - name: endIndex
+    description: The position of the last character of the matched entity within the utterance.
+    types:
+    - uid: number
+  - name: score
+    description: Associated prediction score for the intent (float).
+    types:
+    - uid: number
+- name: EntityWithResolution
+  kind: object
+  properties:
+  - name: entity
+    description: Name of the entity, as defined in LUIS.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the entity, as defined in LUIS.
+    types:
+    - uid: string
+  - name: startIndex
+    description: The position of the first character of the matched entity within the utterance.
+    types:
+    - uid: number
+  - name: endIndex
+    description: The position of the last character of the matched entity within the utterance.
+    types:
+    - uid: number
+  - name: resolution
+    description: Resolution values for pre-built LUIS entities.
+    types:
+    - uid: object
+- name: CompositeChildModel
+  description: Child entity in a LUIS Composite Entity.
+  kind: object
+  properties:
+  - name: type
+    description: Type of child entity.
+    types:
+    - uid: string
+  - name: value
+    description: Value extracted by LUIS.
+    types:
+    - uid: string
+examples:
+- name: Successful Get Predictions From Endpoint Via Get request
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/{Application Id}?q=forward to frank 30 dollars through HSBC
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "query": "forward to frank 30 dollars through HSBC",
+        "topScoringIntent": {
+          "intent": "give",
+          "score": 0.3964121
+        },
+        "entities": [
+          {
+            "entity": "30",
+            "type": "builtin.number",
+            "startIndex": 17,
+            "endIndex": 18,
+            "resolution": {
+              "value": "30"
+            }
+          },
+          {
+            "entity": "frank",
+            "type": "frank",
+            "startIndex": 11,
+            "endIndex": 15,
+            "score": 0.935219169
+          },
+          {
+            "entity": "30 dollars",
+            "type": "builtin.currency",
+            "startIndex": 17,
+            "endIndex": 26,
+            "resolution": {
+              "unit": "Dollar",
+              "value": "30"
+            }
+          },
+          {
+            "entity": "hsbc",
+            "type": "Bank",
+            "startIndex": 36,
+            "endIndex": 39,
+            "resolution": {
+              "values": [
+                "BankeName"
+              ]
+            }
+          }
+        ],
+        "sentiment": {
+          "label": "positive",
+          "score": 0.9163064
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

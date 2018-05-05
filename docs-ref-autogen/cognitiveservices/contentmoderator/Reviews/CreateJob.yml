@@ -1,0 +1,118 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.reviews.createjob
+name: Create Job
+service: Cognitive Services
+groupName: Reviews
+apiVersion: "1.0"
+summary: "A job Id will be returned for the content posted on this endpoint. \r\n\r\nOnce the content is evaluated against the Workflow provided the review will be created or ignored based on the workflow expression.\r\n\r\n<h3>CallBack Schemas </h3>\r\n\r\n<p>\r\n<h4>Job Completion CallBack Sample</h4><br/>\r\n\r\n{<br/>\r\n  \"JobId\": \"<Job Id>,<br/>\r\n  \"ReviewId\": \"<Review Id, if the Job resulted in a Review to be created>\",<br/>\r\n  \"WorkFlowId\": \"default\",<br/>\r\n  \"Status\": \"<This will be one of Complete, InProgress, Error>\",<br/>\r\n  \"ContentType\": \"Image\",<br/>\r\n  \"ContentId\": \"<This is the ContentId that was specified on input>\",<br/>\r\n  \"CallBackType\": \"Job\",<br/>\r\n  \"Metadata\": {<br/>\r\n    \"adultscore\": \"0.xxx\",<br/>\r\n    \"a\": \"False\",<br/>\r\n    \"racyscore\": \"0.xxx\",<br/>\r\n    \"r\": \"True\"<br/>\r\n  }<br/>\r\n}<br/>\r\n\r\n</p>\r\n<p>\r\n<h4>Review Completion CallBack Sample</h4><br/>\r\n\r\n{\r\n  \"ReviewId\": \"<Review Id>\",<br/>\r\n  \"ModifiedOn\": \"2016-10-11T22:36:32.9934851Z\",<br/>\r\n  \"ModifiedBy\": \"<Name of the Reviewer>\",<br/>\r\n  \"CallBackType\": \"Review\",<br/>\r\n  \"ContentId\": \"<The ContentId that was specified input>\",<br/>\r\n  \"Metadata\": {<br/>\r\n    \"adultscore\": \"0.xxx\",\r\n    \"a\": \"False\",<br/>\r\n    \"racyscore\": \"0.xxx\",<br/>\r\n    \"r\": \"True\"<br/>\r\n  },<br/>\r\n  \"ReviewerResultTags\": {<br/>\r\n    \"a\": \"False\",<br/>\r\n    \"r\": \"True\"<br/>\r\n  }<br/>\r\n}<br/>\r\n\r\n</p>."
+consumes:
+- application/json
+- image/jpeg
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://{baseUrl}/contentmoderator/review/v1.0/teams/{teamName}/jobs?ContentType={ContentType}&ContentId={ContentId}&WorkflowName={WorkflowName}
+- content: POST https://{baseUrl}/contentmoderator/review/v1.0/teams/{teamName}/jobs?ContentType={ContentType}&ContentId={ContentId}&WorkflowName={WorkflowName}&CallBackEndpoint={CallBackEndpoint}
+  isOptional: true
+uriParameters:
+- name: baseUrl
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Content Moderator endpoints
+  types:
+  - uid: string
+- name: teamName
+  in: path
+  isRequired: true
+  description: Your team name.
+  types:
+  - uid: string
+- name: ContentType
+  in: query
+  isRequired: true
+  description: Image, Text or Video.
+  types:
+  - uid: string
+- name: ContentId
+  in: query
+  isRequired: true
+  description: Id/Name to identify the content submitted.
+  types:
+  - uid: string
+- name: WorkflowName
+  in: query
+  isRequired: true
+  description: Workflow Name that you want to invoke.
+  types:
+  - uid: string
+- name: CallBackEndpoint
+  in: query
+  description: Callback endpoint for posting the create job result.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: JobId
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader:
+- name: Content-Type
+  in: header
+  isRequired: true
+  description: The content type.
+  types:
+  - uid: string
+definitions:
+- name: JobId
+  kind: object
+  properties:
+  - name: JobId
+    description: Id of the created job.
+    types:
+    - uid: string
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: Error
+    description: Error body.
+    types:
+    - uid: Error
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: Code
+    description: ''
+    types:
+    - uid: string
+  - name: Message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Create Job request
+  request:
+    uri: POST https://southeastasia.api.cognitive.microsoft.com/contentmoderator/review/v1.0/teams/sonaliProdTeam/jobs?ContentType=Image&ContentId=ContentID A&WorkflowName=TestWorkflow&CallBackEndpoint=
+    body: >-
+      {
+        "ContentValue": "https://moderatorsampleimages.blob.core.windows.net/samples/sample.jpg"
+      }
+    headers:
+    - name: Content-Type
+      value: application/json
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "JobId": "234"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

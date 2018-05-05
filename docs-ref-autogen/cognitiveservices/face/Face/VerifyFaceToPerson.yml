@@ -1,0 +1,120 @@
+### YamlMime:RESTOperation
+uid: face.v1.0.cognitiveservices.face.verifyfacetoperson
+name: Verify Face To Person
+service: Cognitive Services
+groupName: Face
+apiVersion: "1.0"
+summary: Verify whether two faces belong to a same person. Compares a face Id with a Person Id
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/verify
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A successful call returns the verification result.
+  types:
+  - uid: VerifyResult
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestBody:
+- parameters:
+  - name: faceId
+    in: body
+    isRequired: true
+    description: FaceId the face, comes from Face - Detect
+    types:
+    - uid: string
+  - name: personGroupId
+    in: body
+    isRequired: true
+    description: Using existing personGroupId and personId for fast loading a specified person. personGroupId is created in Person Groups.Create.
+    types:
+    - uid: string
+  - name: personId
+    in: body
+    isRequired: true
+    description: Specify a certain person in a person group. personId is created in Persons.Create.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: VerifyResult
+  description: Result of the verify operation.
+  kind: object
+  properties:
+  - name: isIdentical
+    description: True if the two faces belong to the same person or the face belongs to the person, otherwise false.
+    types:
+    - uid: boolean
+  - name: confidence
+    description: A number indicates the similarity confidence of whether two faces belong to the same person, or whether the face belongs to the person. By default, isIdentical is set to True if similarity confidence is greater than or equal to 0.5. This is useful for advanced users to override "isIdentical" and fine-tune the result on their own data.
+    types:
+    - uid: number
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: VerifyFaceToPersonRequest
+  description: Request body for verify operation.
+  kind: object
+  properties:
+  - name: faceId
+    description: FaceId the face, comes from Face - Detect
+    types:
+    - uid: string
+  - name: personGroupId
+    description: Using existing personGroupId and personId for fast loading a specified person. personGroupId is created in Person Groups.Create.
+    types:
+    - uid: string
+  - name: personId
+    description: Specify a certain person in a person group. personId is created in Persons.Create.
+    types:
+    - uid: string
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Verify face to person example
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/face/v1.0/verify
+    body: >-
+      {
+        "faceId": "c5c24a82-6845-4031-9d5d-978df9175426",
+        "personId": "815df99c-598f-4926-930a-a734b3fd651c",
+        "personGroupId": "sample_group"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "isIdentical": true,
+        "confidence": 0.9
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

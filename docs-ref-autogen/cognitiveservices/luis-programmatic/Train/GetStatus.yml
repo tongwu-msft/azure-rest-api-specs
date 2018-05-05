@@ -1,0 +1,171 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.train.getstatus
+name: Get Status
+service: Cognitive Services
+groupName: Train
+apiVersion: v2.0 preview
+summary: Gets the training status of all models (intents and entities) for the specified LUIS app. You must call the train API to train the LUIS app before you call this API to get training status. "appID" specifies the LUIS app ID. "versionId" specifies the version number of the LUIS app. For example, "0.1".
+produces:
+- application/json
+- JSON
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/train
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: 'A successful response provides an array of training status details for a LUIS app that you submitted for training. Each element in the response array provides training status for a model (intent or entity) in the LUIS app. Note: Training status is not provided for prebuilt entities because they are pretrained. The "modelId" property identifies which intent or entity the training status corresponds to. To get the name and type of each model, use the models API which has a request URL in this format: https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/models The details property for each model can contain the following fields: "statusId": An integer from 0 to 3 that corresponds to the value of the status field. "status": A string with one of the following values: “Success”, “UpToDate”, “InProgress”, “Fail”. If the status is “Fail”, the "failureReason" property provides the reason for failure. "exampleCount": The number of examples used for training. In the case of the None intent or prebuilt domain intents and entities, this number includes example provided internally by the system as well as examples you added to your LUIS app. "failureReason": A string that indicates the reason training failed.  The value "FewLabels" means that no labeled examples were provided for training. "trainingDateTime": A string indicating the time the model was last trained. The value uses the ISO 8601 format for representing times in UTC (Coordinated Universal Time) with a UTC designator (“Z”), for example: "2017-08-10T01:08:34Z".'
+  types:
+  - uid: ModelTrainingInfo
+    isArray: true
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ModelTrainingInfo
+  description: Model Training Info.
+  kind: object
+  properties:
+  - name: modelId
+    description: The ID (GUID) of the model.
+    types:
+    - uid: string
+  - name: details
+    description: Model Training Details.
+    types:
+    - uid: ModelTrainingDetails
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: ModelTrainingDetails
+  description: Model Training Details.
+  kind: object
+  properties:
+  - name: statusId
+    description: The train request status ID.
+    types:
+    - uid: integer
+  - name: status
+    description: The Trainning status.
+    types:
+    - uid: TrainingStatus
+  - name: exampleCount
+    description: The count of examples used to train the model.
+    types:
+    - uid: integer
+  - name: trainingDateTime
+    description: When the model was trained.
+    types:
+    - uid: string
+  - name: failureReason
+    description: Reason for the training failure.
+    types:
+    - uid: string
+- name: TrainingStatus
+  description: The Trainning status.
+  kind: enum
+  properties:
+  - name: Queued
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: UpToDate
+    types:
+    - uid: string
+  - name: Fail
+    types:
+    - uid: string
+  - name: Success
+    types:
+    - uid: string
+examples:
+- name: Successful Get Application Version Training Status request
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/86226c53-b7a6-416f-876b-226b2b5ab07b/versions/0.1/train
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "modelId": "f9b00d5b-1f2d-421e-bc99-5ff192d0b998",
+          "details": {
+            "statusId": 3,
+            "status": "InProgress",
+            "exampleCount": 0
+          }
+        },
+        {
+          "modelId": "51403af3-5342-4926-abaa-91172a42e075",
+          "details": {
+            "statusId": 2,
+            "status": "UpToDate",
+            "exampleCount": 12,
+            "trainingDateTime": "2017-01-31T21:42:02Z"
+          }
+        },
+        {
+          "modelId": "b4cf6402-dc79-4ca3-8666-b0007337e92b",
+          "details": {
+            "statusId": 1,
+            "status": "Fail",
+            "exampleCount": 12,
+            "failureReason": "FewLabels"
+          }
+        },
+        {
+          "modelId": "e8e3135a-acd9-4164-a65c-e2fedbe78cfa",
+          "details": {
+            "statusId": 3,
+            "status": "InProgress",
+            "exampleCount": 0
+          }
+        },
+        {
+          "modelId": "3291fac9-6368-4c87-9562-e78cae0fa7c6",
+          "details": {
+            "statusId": 0,
+            "status": "Success",
+            "exampleCount": 12,
+            "trainingDateTime": "2017-01-31T21:42:02Z"
+          }
+        },
+        {
+          "modelId": "a193efac-ab02-49d7-b005-ee717d45c4f1",
+          "details": {
+            "statusId": 3,
+            "status": "InProgress",
+            "exampleCount": 0
+          }
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

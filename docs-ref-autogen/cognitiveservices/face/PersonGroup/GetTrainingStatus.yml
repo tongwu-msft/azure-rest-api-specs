@@ -1,0 +1,107 @@
+### YamlMime:RESTOperation
+uid: face.v1.0.cognitiveservices.persongroup.gettrainingstatus
+name: Get Training Status
+service: Cognitive Services
+groupName: Person Group
+apiVersion: "1.0"
+summary: Retrieve the training status of a person group (completed or ongoing).
+produces:
+- application/json
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/persongroups/{personGroupId}/training
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: personGroupId
+  in: path
+  isRequired: true
+  description: Id referencing a particular person group.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9-_]+$
+responses:
+- name: 200 OK
+  description: A successful call returns the person group's training status.
+  types:
+  - uid: TrainingStatus
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader: []
+definitions:
+- name: TrainingStatus
+  description: Training status object.
+  kind: object
+  properties:
+  - name: status
+    description: 'Training status: notstarted, running, succeeded, failed. If the training process is waiting to perform, the status is notstarted. If the training is ongoing, the status is running. Status succeed means this person group is ready for Face - Identify. Status failed is often caused by no person or no persisted face exist in the person group'
+    types:
+    - uid: TrainingStatusType
+  - name: createdDateTime
+    description: A combined UTC date and time string that describes person group created time.
+    types:
+    - uid: string
+  - name: lastActionDateTime
+    description: Person group last modify time in the UTC, could be null value when the person group is not successfully trained.
+    types:
+    - uid: string
+  - name: message
+    description: Show failure message when training failed (omitted when training succeed).
+    types:
+    - uid: string
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: TrainingStatusType
+  description: 'Training status: notstarted, running, succeeded, failed. If the training process is waiting to perform, the status is notstarted. If the training is ongoing, the status is running. Status succeed means this person group is ready for Face - Identify. Status failed is often caused by no person or no persisted face exist in the person group'
+  kind: enum
+  properties:
+  - name: nonstarted
+    types:
+    - uid: string
+  - name: running
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Get training status example
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups/abc/training
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "succeeded",
+        "createdDateTime": "2017-08-01T00:00:00Z"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

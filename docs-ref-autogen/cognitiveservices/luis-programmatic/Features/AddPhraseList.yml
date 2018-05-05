@@ -1,0 +1,102 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.features.addphraselist
+name: Add Phrase List
+service: Cognitive Services
+groupName: Features
+apiVersion: v2.0 preview
+summary: Creates a new phraselist feature.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: The ID of the created feature.
+  types:
+  - uid: integer
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: phrases
+    in: body
+    description: List of comma-separated phrases that represent the Phraselist.
+    types:
+    - uid: string
+  - name: name
+    in: body
+    description: The Phraselist name.
+    types:
+    - uid: string
+  - name: isExchangeable
+    in: body
+    description: An exchangeable phrase list feature are serves as single feature to the LUIS underlying training algorithm. It is used as a lexicon lookup feature where its value is 1 if the lexicon contains a given word or 0 if it doesn’t. Think of an exchangeable as a synonyms list. A non-exchangeable phrase list feature has all the phrases in the list serve as separate features to the underlying training algorithm. So, if you your phrase list feature contains 5 phrases, they will be mapped to 5 separate features. You can think of the non-exchangeable phrase list feature as an additional bag of words that you are willing to add to LUIS existing vocabulary features. Think of a non-exchangeable as set of different words. Default value is true.
+    types:
+    - uid: boolean
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: PhraselistCreateObject
+  description: Object model for creating a phraselist model.
+  kind: object
+  properties:
+  - name: phrases
+    description: List of comma-separated phrases that represent the Phraselist.
+    types:
+    - uid: string
+  - name: name
+    description: The Phraselist name.
+    types:
+    - uid: string
+  - name: isExchangeable
+    description: An exchangeable phrase list feature are serves as single feature to the LUIS underlying training algorithm. It is used as a lexicon lookup feature where its value is 1 if the lexicon contains a given word or 0 if it doesn’t. Think of an exchangeable as a synonyms list. A non-exchangeable phrase list feature has all the phrases in the list serve as separate features to the underlying training algorithm. So, if you your phrase list feature contains 5 phrases, they will be mapped to 5 separate features. You can think of the non-exchangeable phrase list feature as an additional bag of words that you are willing to add to LUIS existing vocabulary features. Think of a non-exchangeable as set of different words. Default value is true.
+    types:
+    - uid: boolean
+examples:
+- name: Successful Create Phraselist Feature request
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/86226c53-b7a6-416f-876b-226b2b5ab07b/versions/0.1/phraselists
+    body: >-
+      {
+        "name": "DaysOfWeek",
+        "phrases": "monday,tuesday,wednesday,thursday,friday,saturday,sunday",
+        "isExchangeable": true
+      }
+  responses:
+  - statusCode: "201"
+    body: "1823"
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
