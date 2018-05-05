@@ -1,0 +1,211 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.renderservice.getmapimage
+name: Get Map Image
+service: Maps
+groupName: Render Service
+apiVersion: "1.0"
+summary: >-
+  The static image service renders a user-defined, rectangular image containing a map section using a zoom level from 0 to 20.
+
+
+  The supported resolution range for the map image is from 1x1 to 8192x8192.
+
+
+  If you are deciding when to use the static image service over the map tile service, you may want to consider how you would like to interact with the rendered map. If the map contents will be relatively unchanging, a static map is a good choice. If you want to support a lot of zooming, panning and changing of the map content, the map tile service would be a better choice.
+
+
+  _Note_ : Either **center** or **bbox** parameter must be supplied to the API.
+consumes: []
+produces:
+- image/png
+- application/json
+paths:
+- content: GET https://atlas.microsoft.com/map/static/png?subscription-key={subscription-key}&api-version=1.0
+- content: GET https://atlas.microsoft.com/map/static/png?subscription-key={subscription-key}&api-version=1.0&layer={layer}&style=main&zoom={zoom}&center={center}&bbox={bbox}&height={height}&width={width}&language={language}
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: 'Desired format of the response. Possible value: png.'
+  types:
+  - uid: format
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+- name: layer
+  in: query
+  description: Map layer requested. If layer is set to labels or hybrid, the format should be png.
+  types:
+  - uid: layer
+- name: style
+  in: query
+  description: Map style to be returned. Currently, only style available is main.
+  types:
+  - uid: string
+- name: zoom
+  in: query
+  description: 'Desired zoom level of the map. Zoom value must be in the range: 0-20 (inclusive). Default value is 12.<br><br>Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.'
+  types:
+  - uid: integer
+- name: center
+  in: query
+  description: "Coordinates of the center point. Format: 'lon,lat'. Projection used - EPSG:3857. Longitude range: -180 to 180. Latitude range: -85 to 85. Note: Either center or bbox are required parameters. They are mutually exclusive."
+  types:
+  - uid: string
+- name: bbox
+  in: query
+  description: "Bounding box. Projection used - EPSG:3857. Format : 'minLon, minLat, maxLon, maxLat'. Note: Either bbox or center are required parameters. They are mutually exclusive. It shouldn�t be used with height or width."
+  types:
+  - uid: string
+- name: height
+  in: query
+  description: Height of the resulting image in pixels. Range is 1 to 8192. Default is 512. It shouldn�t be used with bbox.
+  types:
+  - uid: integer
+- name: width
+  in: query
+  description: Width of the resulting image in pixels. Range is 1 to 8192. Default is 512. It shouldn�t be used with bbox.
+  types:
+  - uid: integer
+- name: language
+  in: query
+  description: Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used. Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/maps/supported-languages) for details.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: string
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
+  types:
+  - uid: ErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: format
+  description: 'Desired format of the response. Possible value: png.'
+  kind: enum
+  properties:
+  - name: png
+    description: An image in the png format. Supports zoom levels 0 through 18.
+    types:
+    - uid: string
+- name: layer
+  description: Map layer requested. If layer is set to labels or hybrid, the format should be png.
+  kind: enum
+  properties:
+  - name: basic
+    description: Returns an image containing all map features including polygons, borders, roads and labels.
+    types:
+    - uid: string
+  - name: hybrid
+    description: Returns an image containing borders, roads, and labels, and can be overlaid on other tiles (such as satellite imagery) to produce hybrid tiles.
+    types:
+    - uid: string
+  - name: labels
+    description: Returns an image of just the map's label information.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+examples:
+- name: GetMapStaticImage
+  request:
+    uri: GET https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=2&bbox=1.355233,42.982261,24.980233,56.526017
+  responses:
+  - statusCode: "200"
+    body: "\"binary string image\""
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: subscription-key
+  type: apiKey
+  in: query

@@ -1,0 +1,223 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.traffic.gettrafficincidentviewport
+name: Get Traffic Incident Viewport
+service: Maps
+groupName: Traffic
+apiVersion: "1.0"
+summary: __Traffic Incident Viewport__ <br/><br/>This API returns legal and technical information for the viewport described in the request. It should be called by client applications whenever the viewport changes (for instance, through zooming, panning, going to a location, or displaying a route). The request should contain the bounding box and zoom level of the viewport whose information is needed. The return will contain map version information, as well as the current Traffic Model ID and copyright IDs. The Traffic Model ID returned by the Viewport Description is used by other APIs to retrieve last traffic information for further processing.
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: GET https://atlas.microsoft.com/traffic/incident/viewport/{format}?subscription-key={subscription-key}&api-version=1.0&boundingbox={boundingbox}&boundingzoom={boundingzoom}&overviewbox={overviewbox}&overviewzoom={overviewzoom}&copyright={copyright}
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+- name: boundingbox
+  in: query
+  isRequired: true
+  description: "Bounding box of the map viewport in [EPSG900913](http://docs.openlayers.org/library/spherical_mercator.html) projection. The `boundingbox` is represented by two value pairs describing it's corners (first pair for lower left corner and second for upper right). All values should be separated by commas (e.g., _minY,minX,maxY,maxX_). The maximum size of the bounding box that can be passed is dependent on the requested zoom level. The width and height cannot exceed 4092 pixels when rendered on the given zoom level.<br><br>NOTE: Bounding boxes that cross the 180� meridian require special treatment. For such boxes, the eastern _maxX_ value will be negative, and thus less than the _minX_ value west of the 180� meridian. To address that, the value 40075016.6855874 should be added to the true _maxX_ value before it is passed in the request."
+  types:
+  - uid: string
+- name: boundingzoom
+  in: query
+  isRequired: true
+  description: Zoom level of the map viewport. Used to determine whether the view can be zoomed in.
+  types:
+  - uid: integer
+- name: overviewbox
+  in: query
+  isRequired: true
+  description: Bounding box of the overview map in [EPSG900913](http://docs.openlayers.org/library/spherical_mercator.html) projection.<br><br>Used in case the overview box/mini map has different copyright data than the main map. If there is no mini map, the same coordinates as `boundingBox` is used.
+  types:
+  - uid: string
+- name: overviewzoom
+  in: query
+  isRequired: true
+  description: Zoom level of the overview map. If there is no mini map, use the same zoom level as boundingZoom.
+  types:
+  - uid: integer
+- name: copyright
+  in: query
+  isRequired: true
+  description: Determines what copyright information to return. When true the copyright text is returned; when false only the copyright index is returned.
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: TrafficIncidentViewportResult
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
+  types:
+  - uid: ErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: TrafficIncidentViewportResult
+  description: This object is returned from a successful Traffic Incident Viewport call
+  kind: object
+  properties:
+  - name: viewpResp
+    isReadyOnly: true
+    description: Viewport Response object
+    types:
+    - uid: ViewpResp
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: ViewpResp
+  description: Viewport Response object
+  kind: object
+  properties:
+  - name: trafficState
+    isReadyOnly: true
+    description: Traffic State array
+    types:
+    - uid: TrafficState
+  - name: copyrightIds
+    isReadyOnly: true
+    description: Copyright Ids property
+    types:
+    - uid: string
+  - name: '@version'
+    isReadyOnly: true
+    description: '@Version property'
+    types:
+    - uid: string
+  - name: '@maps'
+    isReadyOnly: true
+    description: '@maps property'
+    types:
+    - uid: string
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+- name: TrafficState
+  description: Traffic State array
+  kind: object
+  properties:
+  - name: '@trafficAge'
+    isReadyOnly: true
+    description: '@Traffic Age property'
+    types:
+    - uid: integer
+  - name: '@trafficModelId'
+    isReadyOnly: true
+    description: '@Traffic Model Id property'
+    types:
+    - uid: string
+examples:
+- name: GetTrafficIncidentViewport
+  request:
+    uri: GET https://atlas.microsoft.com/traffic/incident/viewport/json?api-version=1.0&boundingbox=-939584.4813015489,-23954526.723651607,14675583.153020501,25043442.895825107&boundingzoom=2&overviewbox=-939584.4813018347,-23954526.723651607,14675583.153020501,25043442.8958229083&overviewzoom=2&copyright=True
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "viewpResp": {
+          "trafficState": {
+            "@trafficAge": 18895,
+            "@trafficModelId": "1504808593298"
+          },
+          "copyrightIds": "&copy; 2017 GeoSmart^&copy; 2017 TomTom^&copy; 2017 Whereis",
+          "@version": "1.0.51-mascoma",
+          "@maps": "europe,taiwan,latam,northamerica,israel,middleeast,iraq,guam,australia,newzealand,india,africa,world,southeastasia"
+        }
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: subscription-key
+  type: apiKey
+  in: query

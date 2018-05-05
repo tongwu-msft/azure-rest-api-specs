@@ -13,6 +13,8 @@ produces:
 - text/plain; charset=utf-8
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/configurations?api-version=2015-10-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/configurations?api-version=2015-10-31&$filter={$filter}&$skip={$skip}&$top={$top}&$inlinecount={$inlinecount}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,6 +41,26 @@ uriParameters:
   description: Client Api Version.
   types:
   - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+- name: $skip
+  in: query
+  description: The number of rows to skip.
+  types:
+  - uid: integer
+- name: $top
+  in: query
+  description: The the number of rows to take.
+  types:
+  - uid: integer
+- name: $inlinecount
+  in: query
+  description: Return total rows.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
   description: OK
@@ -63,6 +85,10 @@ definitions:
     description: Gets or sets the next link.
     types:
     - uid: string
+  - name: totalCount
+    description: Gets the total number of configurations matching filter criteria.
+    types:
+    - uid: integer
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
@@ -115,6 +141,10 @@ definitions:
     description: Gets or sets the last modified time.
     types:
     - uid: string
+  - name: properties.nodeConfigurationCount
+    description: Gets the number of compiled node configurations.
+    types:
+    - uid: integer
   - name: properties.description
     description: Gets or sets the description.
     types:
@@ -229,6 +259,88 @@ examples:
             }
           }
         ]
+      }
+- name: List Paged DSC Configurations with no filter
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations?api-version=2015-10-31&$skip=0&$top=3&$inlinecount=allpages
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations/SqlServerBig",
+            "location": "East US 2",
+            "name": "SqlServerBig",
+            "type": "Microsoft.Automation/AutomationAccounts/Configurations",
+            "properties": {
+              "state": "Published",
+              "creationTime": "2017-03-28T18:53:24.997+00:00",
+              "lastModifiedTime": "2017-03-28T18:53:24.997+00:00",
+              "nodeConfigurationCount": 1
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations/SqlServerLittle",
+            "location": "East US 2",
+            "name": "SqlServerLittle",
+            "type": "Microsoft.Automation/AutomationAccounts/Configurations",
+            "properties": {
+              "state": "Published",
+              "creationTime": "2017-03-28T18:53:24.997+00:00",
+              "lastModifiedTime": "2017-03-28T18:53:24.997+00:00",
+              "nodeConfigurationCount": 1
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations/SetupServer",
+            "location": "East US 2",
+            "name": "SetupServer",
+            "type": "Microsoft.Automation/AutomationAccounts/Configurations",
+            "properties": {
+              "state": "Published",
+              "creationTime": "2017-03-28T18:53:24.997+00:00",
+              "lastModifiedTime": "2017-03-28T18:53:24.997+00:00",
+              "nodeConfigurationCount": 1
+            }
+          }
+        ],
+        "totalCount": 12
+      }
+- name: List Paged DSC Configurations with name filter
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations?api-version=2015-10-31&$filter=contains(name,'server')&$skip=0&$top=2&$inlinecount=allpages
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations/SqlServerBig",
+            "location": "East US 2",
+            "name": "SqlServerBig",
+            "type": "Microsoft.Automation/AutomationAccounts/Configurations",
+            "properties": {
+              "state": "Published",
+              "creationTime": "2017-03-28T18:53:24.997+00:00",
+              "lastModifiedTime": "2017-03-28T18:53:24.997+00:00",
+              "nodeConfigurationCount": 1
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations/SqlServerLittle",
+            "location": "East US 2",
+            "name": "SqlServerLittle",
+            "type": "Microsoft.Automation/AutomationAccounts/Configurations",
+            "properties": {
+              "state": "Published",
+              "creationTime": "2017-03-28T18:53:24.997+00:00",
+              "lastModifiedTime": "2017-03-28T18:53:24.997+00:00",
+              "nodeConfigurationCount": 1
+            }
+          }
+        ],
+        "totalCount": 4
       }
 security:
 - type: oauth2
