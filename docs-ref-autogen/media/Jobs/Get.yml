@@ -1,0 +1,449 @@
+### YamlMime:RESTOperation
+uid: mediaservices.jobs.get
+name: Get
+service: Media Services
+groupName: Jobs
+apiVersion: 2018-03-30-preview
+summary: "Get Job  \nGets a Job."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https:///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs/{jobName}?api-version=2018-03-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Media Services account name.
+  types:
+  - uid: string
+- name: transformName
+  in: path
+  isRequired: true
+  description: The Transform name.
+  types:
+  - uid: string
+- name: jobName
+  in: path
+  isRequired: true
+  description: The Job name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Job
+- name: 404 Not Found
+  description: NotFound
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: Job
+  description: A Job resource type. The progress and state can be obtained by polling a Job or subscribing to events using EventGrid.
+  kind: object
+  properties:
+  - name: properties.created
+    isReadyOnly: true
+    description: The UTC date and time when the Job was created, in 'YYYY-MM-DDThh:mm:ssZ' format.
+    types:
+    - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: The current state of the job.
+    types:
+    - uid: JobState
+  - name: properties.description
+    description: Optional customer supplied description of the Job.
+    types:
+    - uid: string
+  - name: properties.input
+    description: The inputs for the Job.
+    types:
+    - uid: JobInputClip
+    - uid: JobInputs
+    typesTitle: JobInput
+  - name: properties.lastModified
+    isReadyOnly: true
+    description: The UTC date and time when the Job was last updated, in 'YYYY-MM-DDThh:mm:ssZ' format.
+    types:
+    - uid: string
+  - name: properties.outputs
+    description: The outputs for the Job.
+    types:
+    - uid: JobOutputAsset
+      isArray: true
+    typesTitle: JobOutput[]
+  - name: properties.priority
+    description: Priority with which the job should be processed. Higher priority jobs are processed before lower priority jobs. If not set, the default is normal.
+    types:
+    - uid: Priority
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ApiError
+  description: The API error.
+  kind: object
+  properties:
+  - name: error
+    description: The error properties.
+    types:
+    - uid: ODataError
+- name: JobState
+  description: Describes the state of the JobOutput.
+  kind: enum
+  properties:
+  - name: Canceled
+    description: The job was canceled. This is a final state for the job.
+    types:
+    - uid: string
+  - name: Canceling
+    description: The job is in the process of being canceled. This is a transient state for the job.
+    types:
+    - uid: string
+  - name: Error
+    description: The job has encountered an error. This is a final state for the job.
+    types:
+    - uid: string
+  - name: Finished
+    description: The job is finished. This is a final state for the job.
+    types:
+    - uid: string
+  - name: Processing
+    description: The job is processing. This is a transient state for the job.
+    types:
+    - uid: string
+  - name: Queued
+    description: The job is in a queued state, waiting for resources to become available. This is a transient state.
+    types:
+    - uid: string
+  - name: Scheduled
+    description: The job is being scheduled to run on an available resource. This is a transient state, between queued and processing states.
+    types:
+    - uid: string
+- name: Priority
+  description: Sets the relative priority of the TransformOutputs within a Transform. This sets the priority that the service uses for processing TransformOutputs. The default priority is Normal.
+  kind: enum
+  properties:
+  - name: Low
+    description: Used for TransformOutputs that can be generated after Normal and High priority TransformOutputs.
+    types:
+    - uid: string
+  - name: Normal
+    description: Used for TransformOutputs that can be generated at Normal priority.
+    types:
+    - uid: string
+  - name: High
+    description: Used for TransformOutputs that should take precedence over others.
+    types:
+    - uid: string
+- name: ODataError
+  description: Information about an error.
+  kind: object
+  properties:
+  - name: code
+    description: A language-independent error name.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: The error details.
+    types:
+    - uid: ODataError
+      isArray: true
+- name: JobInputs
+  description: Describes a list of of inputs to a Job.
+  kind: object
+  properties:
+  - name: inputs
+    description: List of inputs to a Job.
+    types:
+    - uid: JobInputClip
+      isArray: true
+    - uid: JobInputs
+      isArray: true
+    typesTitle: JobInput[]
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.JobInputs'
+    typesTitle: string
+  - name: label
+    description: A label that is assigned to a JobInput, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
+    types:
+    - uid: string
+- name: JobOutputAsset
+  description: Represents an Asset used as a JobOutput.
+  kind: object
+  properties:
+  - name: assetName
+    description: The name of the output Asset.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.JobOutputAsset'
+    typesTitle: string
+  - name: error
+    isReadyOnly: true
+    description: If the JobOutput is in the Error state, it contains the details of the error.
+    types:
+    - uid: JobError
+  - name: state
+    isReadyOnly: true
+    description: Describes the state of the JobOutput.
+    types:
+    - uid: JobState
+  - name: progress
+    isReadyOnly: true
+    description: If the JobOutput is in a Processing state, this contains the job completion percentage.  The value is an estimate and not intended to be used to predict job completion times. To determine if the JobOutput is complete, use the State property.
+    types:
+    - uid: integer
+- name: JobInputAsset
+  description: Represents an Asset for input into a Job.
+  kind: object
+  properties:
+  - name: assetName
+    description: The name of the input Asset.
+    types:
+    - uid: string
+  - name: files
+    description: List of files. Required for JobInputHttp.
+    types:
+    - uid: string
+      isArray: true
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.JobInputClip'
+    typesTitle: string
+  - name: label
+    description: A label that is assigned to a JobInput, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
+    types:
+    - uid: string
+- name: JobInputHttp
+  description: Represents HTTPS job input.
+  kind: object
+  properties:
+  - name: baseUri
+    description: Base URI for HTTPS job input. It will be concatenated with provided file names.   If no base uri is given, then the provided file list is assumed to be fully qualified uris.
+    types:
+    - uid: string
+  - name: files
+    description: List of files. Required for JobInputHttp.
+    types:
+    - uid: string
+      isArray: true
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.JobInputClip'
+    typesTitle: string
+  - name: label
+    description: A label that is assigned to a JobInput, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
+    types:
+    - uid: string
+- name: JobError
+  description: Details of JobOutput errors.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code describing the error.
+    types:
+    - uid: JobErrorCode
+  - name: message
+    isReadyOnly: true
+    description: A human-readable language-dependent representation of the error.
+    types:
+    - uid: string
+  - name: category
+    isReadyOnly: true
+    description: Helps with categorization of errors.
+    types:
+    - uid: JobErrorCategory
+  - name: retry
+    isReadyOnly: true
+    description: Indicates that it may be possible to retry the Job. If retry is unsuccessful, please contact Azure support via Azure Portal.
+    types:
+    - uid: JobRetry
+  - name: details
+    isReadyOnly: true
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: JobErrorDetail
+      isArray: true
+- name: JobErrorCode
+  description: Error code describing the error.
+  kind: enum
+  properties:
+  - name: ServiceError
+    description: Fatal service error, please contact support.
+    types:
+    - uid: string
+  - name: ServiceTransientError
+    description: Transient error, please retry, if retry is unsuccessful, please contact support.
+    types:
+    - uid: string
+  - name: DownloadNotAccessible
+    description: While trying to download the input files, the files were not accessible, please check the availability of the source.
+    types:
+    - uid: string
+  - name: DownloadTransientError
+    description: While trying to download the input files, there was an issue during transfer (storage service, network errors), see details and check your source.
+    types:
+    - uid: string
+  - name: UploadNotAccessible
+    description: While trying to upload the output files, the destination was not reachable, please check the availability of the destination.
+    types:
+    - uid: string
+  - name: UploadTransientError
+    description: While trying to upload the output files, there was an issue during transfer (storage service, network errors), see details and check your destination.
+    types:
+    - uid: string
+  - name: ConfigurationUnsupported
+    description: There was a problem with the combination of input files and the configuration settings applied, fix the configuration settings and retry with the same input, or change input to match the configuration.
+    types:
+    - uid: string
+  - name: ContentMalformed
+    description: 'There was a problem with the input content (for example: zero byte files, or corrupt/non-decodable files), check the input files.'
+    types:
+    - uid: string
+  - name: ContentUnsupported
+    description: There was a problem with the format of the input (not valid media file, or an unsupported file/codec), check the validity of the input files.
+    types:
+    - uid: string
+- name: JobErrorCategory
+  description: Helps with categorization of errors.
+  kind: enum
+  properties:
+  - name: Service
+    description: The error is service related.
+    types:
+    - uid: string
+  - name: Download
+    description: The error is download related.
+    types:
+    - uid: string
+  - name: Upload
+    description: The error is upload related.
+    types:
+    - uid: string
+  - name: Configuration
+    description: The error is configuration related.
+    types:
+    - uid: string
+  - name: Content
+    description: The error is related to data in the input files.
+    types:
+    - uid: string
+- name: JobRetry
+  description: Indicates that it may be possible to retry the Job. If retry is unsuccessful, please contact Azure support via Azure Portal.
+  kind: enum
+  properties:
+  - name: DoNotRetry
+    description: Issue needs to be investigated and then the job resubmitted with corrections or retried once the underlying issue has been corrected.
+    types:
+    - uid: string
+  - name: MayRetry
+    description: Issue may be resolved after waiting for a period of time and resubmitting the same Job.
+    types:
+    - uid: string
+- name: JobErrorDetail
+  description: Details of JobOutput errors.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Code describing the error detail.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+examples:
+- name: Get a Job by name
+  request:
+    uri: GET https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/ExampleTransform/jobs/job1?api-version=2018-03-30-preview
+  responses:
+  - statusCode: "404"
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "job1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/ExampleTransform/jobs/job1",
+        "type": "Microsoft.Media/mediaservices/transforms/jobs",
+        "properties": {
+          "created": "2018-03-05T23:52:20.0074211Z",
+          "state": "Queued",
+          "description": null,
+          "input": {
+            "@odata.type": "#Microsoft.Media.JobInputs",
+            "label": null,
+            "inputs": [
+              {
+                "@odata.type": "#Microsoft.Media.JobInputAsset",
+                "label": null,
+                "files": [],
+                "assetName": "job1 input"
+              }
+            ]
+          },
+          "lastModified": "2018-03-05T23:52:20.0074211Z",
+          "outputs": [
+            {
+              "@odata.type": "#Microsoft.Media.JobOutputAsset",
+              "error": null,
+              "state": "Queued",
+              "progress": 0,
+              "assetName": "job1 output"
+            }
+          ],
+          "priority": "Low"
+        }
+      }
+security: []

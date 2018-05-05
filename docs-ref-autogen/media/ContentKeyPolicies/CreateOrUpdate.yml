@@ -1,0 +1,1101 @@
+### YamlMime:RESTOperation
+uid: mediaservices.contentkeypolicies.createorupdate
+name: Create Or Update
+service: Media Services
+groupName: Content Key Policies
+apiVersion: 2018-03-30-preview
+summary: "Create or update an Content Key Policy  \nCreate or update a Content Key Policy in the Media Services account"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https:///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies/{contentKeyPolicyName}?api-version=2018-03-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Media Services account name.
+  types:
+  - uid: string
+- name: contentKeyPolicyName
+  in: path
+  isRequired: true
+  description: The Content Key Policy name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ContentKeyPolicy
+- name: 201 Created
+  description: Created
+  types:
+  - uid: ContentKeyPolicy
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ApiError
+requestBody:
+- parameters:
+  - name: properties.description
+    in: body
+    description: A description for the Policy.
+    types:
+    - uid: string
+  - name: properties.options
+    in: body
+    isRequired: true
+    description: The Key Policy options.
+    types:
+    - uid: ContentKeyPolicyOption
+      isArray: true
+requestHeader: []
+definitions:
+- name: ContentKeyPolicyOption
+  description: Represents a policy option.
+  kind: object
+  properties:
+  - name: policyOptionId
+    isReadyOnly: true
+    description: The legacy Policy Option ID.
+    types:
+    - uid: string
+  - name: name
+    description: The Policy Option description.
+    types:
+    - uid: string
+  - name: configuration
+    description: The key delivery configuration.
+    types:
+    - uid: ContentKeyPolicyClearKeyConfiguration
+    - uid: ContentKeyPolicyUnknownConfiguration
+    - uid: ContentKeyPolicyWidevineConfiguration
+    - uid: ContentKeyPolicyPlayReadyConfiguration
+    - uid: ContentKeyPolicyFairPlayConfiguration
+    typesTitle: ContentKeyPolicyConfiguration
+  - name: restriction
+    description: The requirements that must be met to deliver keys with this configuration
+    types:
+    - uid: ContentKeyPolicyOpenRestriction
+    - uid: ContentKeyPolicyUnknownRestriction
+    - uid: ContentKeyPolicyTokenRestriction
+    typesTitle: ContentKeyPolicyRestriction
+- name: ContentKeyPolicy
+  description: A Content Key Policy resource.
+  kind: object
+  properties:
+  - name: properties.policyId
+    isReadyOnly: true
+    description: The legacy Policy ID.
+    types:
+    - uid: string
+  - name: properties.created
+    isReadyOnly: true
+    description: The creation date of the Policy
+    types:
+    - uid: string
+  - name: properties.lastModified
+    isReadyOnly: true
+    description: The last modified date of the Policy
+    types:
+    - uid: string
+  - name: properties.description
+    description: A description for the Policy.
+    types:
+    - uid: string
+  - name: properties.options
+    description: The Key Policy options.
+    types:
+    - uid: ContentKeyPolicyOption
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ApiError
+  description: The API error.
+  kind: object
+  properties:
+  - name: error
+    description: The error properties.
+    types:
+    - uid: ODataError
+- name: ODataError
+  description: Information about an error.
+  kind: object
+  properties:
+  - name: code
+    description: A language-independent error name.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: The error details.
+    types:
+    - uid: ODataError
+      isArray: true
+- name: ContentKeyPolicyClearKeyConfiguration
+  description: Represents a configuration for non-DRM keys.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration'
+    typesTitle: string
+- name: ContentKeyPolicyUnknownConfiguration
+  description: Represents a ContentKeyPolicyConfiguration that is unavailable in the current API version.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.ContentKeyPolicyUnknownConfiguration'
+    typesTitle: string
+- name: ContentKeyPolicyWidevineConfiguration
+  description: Specifies a configuration for Widevine licenses.
+  kind: object
+  properties:
+  - name: widevineTemplate
+    description: The Widevine template.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.ContentKeyPolicyWidevineConfiguration'
+    typesTitle: string
+- name: ContentKeyPolicyPlayReadyConfiguration
+  description: Specifies a configuration for PlayReady licenses.
+  kind: object
+  properties:
+  - name: licenses
+    description: The PlayReady licenses.
+    types:
+    - uid: ContentKeyPolicyPlayReadyLicense
+      isArray: true
+  - name: responseCustomData
+    description: The custom response data.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.ContentKeyPolicyPlayReadyConfiguration'
+    typesTitle: string
+- name: ContentKeyPolicyFairPlayConfiguration
+  description: Specifies a configuration for FairPlay licenses.
+  kind: object
+  properties:
+  - name: ask
+    description: The key that must be used as FairPlay ASk.
+    types:
+    - uid: string
+  - name: fairPlayPfxPassword
+    description: The password encrypting FairPlay certificate in PKCS 12 (pfx) format.
+    types:
+    - uid: string
+  - name: fairPlayPfx
+    description: The Base64 representation of FairPlay certificate in PKCS 12 (pfx) format (including private key).
+    types:
+    - uid: string
+  - name: rentalAndLeaseKeyType
+    description: The rental and lease key type.
+    types:
+    - uid: ContentKeyPolicyFairPlayRentalAndLeaseKeyType
+  - name: rentalDuration
+    description: The rental duration. Must be greater than or equal to 0.
+    types:
+    - uid: integer
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.ContentKeyPolicyFairPlayConfiguration'
+    typesTitle: string
+- name: ContentKeyPolicyOpenRestriction
+  description: Represents an open restriction. License or key will be delivered on every request.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.ContentKeyPolicyOpenRestriction'
+    typesTitle: string
+- name: ContentKeyPolicyUnknownRestriction
+  description: Represents a ContentKeyPolicyRestriction that is unavailable in the current API version.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.ContentKeyPolicyUnknownRestriction'
+    typesTitle: string
+- name: ContentKeyPolicyTokenRestriction
+  description: Represents a token restriction. Provided token must match these requirements for successful license or key delivery.
+  kind: object
+  properties:
+  - name: issuer
+    description: The token issuer.
+    types:
+    - uid: string
+  - name: audience
+    description: The audience for the token.
+    types:
+    - uid: string
+  - name: primaryVerificationKey
+    description: The primary verification key.
+    types:
+    - uid: ContentKeyPolicySymmetricTokenKey
+    - uid: ContentKeyPolicyRsaTokenKey
+    - uid: ContentKeyPolicyX509CertificateTokenKey
+    typesTitle: ContentKeyPolicyRestrictionTokenKey
+  - name: alternateVerificationKeys
+    description: A list of alternative verification keys.
+    types:
+    - uid: ContentKeyPolicySymmetricTokenKey
+      isArray: true
+    - uid: ContentKeyPolicyRsaTokenKey
+      isArray: true
+    - uid: ContentKeyPolicyX509CertificateTokenKey
+      isArray: true
+    typesTitle: ContentKeyPolicyRestrictionTokenKey[]
+  - name: requiredClaims
+    description: A list of required token claims.
+    types:
+    - uid: ContentKeyPolicyTokenClaim
+      isArray: true
+  - name: restrictionTokenType
+    description: The type of token.
+    types:
+    - uid: ContentKeyPolicyRestrictionTokenType
+  - name: openIdConnectDiscoveryDocument
+    description: The OpenID connect discovery document.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.ContentKeyPolicyTokenRestriction'
+    typesTitle: string
+- name: ContentKeyPolicyPlayReadyLicense
+  description: The PlayReady license
+  kind: object
+  properties:
+  - name: allowTestDevices
+    description: A flag indicating whether test devices can use the license.
+    types:
+    - uid: boolean
+  - name: beginDate
+    description: The begin date of license
+    types:
+    - uid: string
+  - name: expirationDate
+    description: The expiration date of license.
+    types:
+    - uid: string
+  - name: relativeBeginDate
+    description: The relative begin date of license.
+    types:
+    - uid: string
+  - name: relativeExpirationDate
+    description: The relative expiration date of license.
+    types:
+    - uid: string
+  - name: gracePeriod
+    description: The grace period of license.
+    types:
+    - uid: string
+  - name: playRight
+    description: The license PlayRight
+    types:
+    - uid: ContentKeyPolicyPlayReadyPlayRight
+  - name: licenseType
+    description: The license type.
+    types:
+    - uid: ContentKeyPolicyPlayReadyLicenseType
+  - name: contentKeyLocation
+    description: The content key location.
+    types:
+    - uid: ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader
+    - uid: ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier
+    typesTitle: ContentKeyPolicyPlayReadyContentKeyLocation
+  - name: contentType
+    description: The PlayReady content type.
+    types:
+    - uid: ContentKeyPolicyPlayReadyContentType
+- name: ContentKeyPolicyFairPlayRentalAndLeaseKeyType
+  description: The rental and lease key type.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Represents a ContentKeyPolicyFairPlayRentalAndLeaseKeyType that is unavailable in current API version.
+    types:
+    - uid: string
+  - name: Undefined
+    description: Key duration is not specified.
+    types:
+    - uid: string
+  - name: PersistentUnlimited
+    description: Content key can be persisted with an unlimited duration
+    types:
+    - uid: string
+  - name: PersistentLimited
+    description: Content key can be persisted and the valid duration is limited by the Rental Duration value
+    types:
+    - uid: string
+- name: ContentKeyPolicyTokenClaim
+  description: Represents a token claim.
+  kind: object
+  properties:
+  - name: claimType
+    description: Token claim type.
+    types:
+    - uid: string
+  - name: claimValue
+    description: Token claim value.
+    types:
+    - uid: string
+- name: ContentKeyPolicyRestrictionTokenType
+  description: The type of token.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Represents a ContentKeyPolicyRestrictionTokenType that is unavailable in current API version.
+    types:
+    - uid: string
+  - name: Swt
+    description: Simple Web Token.
+    types:
+    - uid: string
+  - name: Jwt
+    description: JSON Web Token.
+    types:
+    - uid: string
+- name: ContentKeyPolicyPlayReadyPlayRight
+  description: Configures the Play Right in the PlayReady license.
+  kind: object
+  properties:
+  - name: firstPlayExpiration
+    description: The amount of time that the license is valid after the license is first used to play content.
+    types:
+    - uid: string
+  - name: scmsRestriction
+    description: Configures the Serial Copy Management System (SCMS) in the license. Must be between 0 and 3 inclusive.
+    types:
+    - uid: integer
+  - name: agcAndColorStripeRestriction
+    description: Configures Automatic Gain Control (AGC) and Color Stripe in the license. Must be between 0 and 3 inclusive.
+    types:
+    - uid: integer
+  - name: explicitAnalogTelevisionOutputRestriction
+    description: Configures the Explicit Analog Television Output Restriction in the license. Configuration data must be between 0 and 3 inclusive.
+    types:
+    - uid: ContentKeyPolicyPlayReadyExplicitAnalogTelevisionRestriction
+  - name: digitalVideoOnlyContentRestriction
+    description: Enables the Image Constraint For Analog Component Video Restriction in the license.
+    types:
+    - uid: boolean
+  - name: imageConstraintForAnalogComponentVideoRestriction
+    description: Enables the Image Constraint For Analog Component Video Restriction in the license.
+    types:
+    - uid: boolean
+  - name: imageConstraintForAnalogComputerMonitorRestriction
+    description: Enables the Image Constraint For Analog Component Video Restriction in the license.
+    types:
+    - uid: boolean
+  - name: allowPassingVideoContentToUnknownOutput
+    description: Configures Unknown output handling settings of the license.
+    types:
+    - uid: ContentKeyPolicyPlayReadyUnknownOutputPassingOption
+  - name: uncompressedDigitalVideoOpl
+    description: Specifies the output protection level for uncompressed digital video.
+    types:
+    - uid: integer
+  - name: compressedDigitalVideoOpl
+    description: Specifies the output protection level for compressed digital video.
+    types:
+    - uid: integer
+  - name: analogVideoOpl
+    description: Specifies the output protection level for compressed digital audio.
+    types:
+    - uid: integer
+  - name: compressedDigitalAudioOpl
+    description: Specifies the output protection level for compressed digital audio.
+    types:
+    - uid: integer
+  - name: uncompressedDigitalAudioOpl
+    description: Specifies the output protection level for uncompressed digital audio.
+    types:
+    - uid: integer
+- name: ContentKeyPolicyPlayReadyLicenseType
+  description: The license type.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Represents a ContentKeyPolicyPlayReadyLicenseType that is unavailable in current API version.
+    types:
+    - uid: string
+  - name: NonPersistent
+    description: Non persistent license.
+    types:
+    - uid: string
+  - name: Persistent
+    description: Persistent license. Allows offline playback.
+    types:
+    - uid: string
+- name: ContentKeyPolicyPlayReadyContentType
+  description: The PlayReady content type.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Represents a ContentKeyPolicyPlayReadyContentType that is unavailable in current API version.
+    types:
+    - uid: string
+  - name: Unspecified
+    description: Unspecified content type.
+    types:
+    - uid: string
+  - name: UltraVioletDownload
+    description: Ultraviolet download content type.
+    types:
+    - uid: string
+  - name: UltraVioletStreaming
+    description: Ultraviolet streaming content type.
+    types:
+    - uid: string
+- name: ContentKeyPolicySymmetricTokenKey
+  description: Specifies a symmetric key for token validation.
+  kind: object
+  properties:
+  - name: keyValue
+    description: The key value of the key
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.ContentKeyPolicySymmetricTokenKey'
+    typesTitle: string
+- name: ContentKeyPolicyRsaTokenKey
+  description: Specifies a RSA key for token validation
+  kind: object
+  properties:
+  - name: exponent
+    description: The RSA Parameter exponent
+    types:
+    - uid: string
+  - name: modulus
+    description: The RSA Parameter modulus
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.ContentKeyPolicyRsaTokenKey'
+    typesTitle: string
+- name: ContentKeyPolicyX509CertificateTokenKey
+  description: Specifies a certificate for token validation.
+  kind: object
+  properties:
+  - name: rawBody
+    description: The raw data field of a certificate in PKCS 12 format (X509Certificate2 in .NET)
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.ContentKeyPolicyX509CertificateTokenKey'
+    typesTitle: string
+- name: ContentKeyPolicyPlayReadyExplicitAnalogTelevisionRestriction
+  description: Configures the Explicit Analog Television Output Restriction control bits. For further details see the PlayReady Compliance Rules.
+  kind: object
+  properties:
+  - name: bestEffort
+    description: Indicates whether this restriction is enforced on a Best Effort basis.
+    types:
+    - uid: boolean
+  - name: configurationData
+    description: Configures the restriction control bits. Must be between 0 and 3 inclusive.
+    types:
+    - uid: integer
+- name: ContentKeyPolicyPlayReadyUnknownOutputPassingOption
+  description: Configures Unknown output handling settings of the license.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Represents a ContentKeyPolicyPlayReadyUnknownOutputPassingOption that is unavailable in current API version.
+    types:
+    - uid: string
+  - name: NotAllowed
+    description: Passing the video portion of protected content to an Unknown Output is not allowed.
+    types:
+    - uid: string
+  - name: Allowed
+    description: Passing the video portion of protected content to an Unknown Output is allowed.
+    types:
+    - uid: string
+  - name: AllowedWithVideoConstriction
+    description: Passing the video portion of protected content to an Unknown Output is allowed but with constrained resolution.
+    types:
+    - uid: string
+- name: ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader
+  description: Specifies that the content key ID is in the PlayReady header.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader'
+    typesTitle: string
+- name: ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier
+  description: Specifies that the content key ID is specified in the PlayReady configuration.
+  kind: object
+  properties:
+  - name: keyId
+    description: The content key ID.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier'
+    typesTitle: string
+examples:
+- name: Creates a Content Key Policy with PlayReady option and Open Restriction
+  request:
+    uri: PUT https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyWithPlayReadyOptionAndOpenRestriction?api-version=2018-03-30-preview
+    body: >-
+      {
+        "properties": {
+          "policyId": "00000000-0000-0000-0000-000000000000",
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "policyOptionId": "00000000-0000-0000-0000-000000000000",
+              "name": "ArmPolicyOptionName",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyPlayReadyConfiguration",
+                "licenses": [
+                  {
+                    "allowTestDevices": true,
+                    "beginDate": "2017-10-16T18:22:53.46Z",
+                    "playRight": {
+                      "scmsRestriction": 2,
+                      "imageConstraintForAnalogComponentVideoRestriction": true,
+                      "allowPassingVideoContentToUnknownOutput": "NotAllowed"
+                    },
+                    "licenseType": "Persistent",
+                    "contentKeyLocation": {
+                      "@odata.type": "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader"
+                    },
+                    "contentType": "UltraVioletDownload"
+                  }
+                ]
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyOpenRestriction"
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "PolicyWithPlayReadyOptionAndOpenRestriction",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomedia/contentKeyPolicies/PolicyWithPlayReadyOptionAndOpenRestriction",
+        "type": "Microsoft.Media/mediaservices/contentKeyPolicies",
+        "properties": {
+          "policyId": "a9bacd1d-60f5-4af3-8d2b-cf46ca5c9b04",
+          "created": "2012-11-01T00:00:00Z",
+          "lastModified": "2018-03-07T18:49:20.94Z",
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "policyOptionId": "9f60df33-124b-4590-94c8-f00d92107187",
+              "name": "ArmPolicyOptionName",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyPlayReadyConfiguration",
+                "licenses": [
+                  {
+                    "allowTestDevices": true,
+                    "beginDate": "2017-10-16T18:22:53.46Z",
+                    "expirationDate": null,
+                    "relativeBeginDate": null,
+                    "relativeExpirationDate": null,
+                    "gracePeriod": null,
+                    "playRight": {
+                      "firstPlayExpiration": null,
+                      "scmsRestriction": 2,
+                      "agcAndColorStripeRestriction": null,
+                      "explicitAnalogTelevisionOutputRestriction": null,
+                      "digitalVideoOnlyContentRestriction": false,
+                      "imageConstraintForAnalogComponentVideoRestriction": true,
+                      "imageConstraintForAnalogComputerMonitorRestriction": false,
+                      "allowPassingVideoContentToUnknownOutput": "NotAllowed",
+                      "uncompressedDigitalVideoOpl": null,
+                      "compressedDigitalVideoOpl": null,
+                      "analogVideoOpl": null,
+                      "compressedDigitalAudioOpl": null,
+                      "uncompressedDigitalAudioOpl": null
+                    },
+                    "licenseType": "Persistent",
+                    "contentKeyLocation": {
+                      "@odata.type": "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader"
+                    },
+                    "contentType": "UltraVioletDownload"
+                  }
+                ],
+                "responseCustomData": null
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyOpenRestriction"
+              }
+            }
+          ]
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "PolicyWithPlayReadyOptionAndOpenRestriction",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomedia/contentKeyPolicies/PolicyWithPlayReadyOptionAndOpenRestriction",
+        "type": "Microsoft.Media/mediaservices/contentKeyPolicies",
+        "properties": {
+          "policyId": "a9bacd1d-60f5-4af3-8d2b-cf46ca5c9b04",
+          "created": "2012-11-01T00:00:00Z",
+          "lastModified": "2018-03-07T18:49:20.94Z",
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "policyOptionId": "9f60df33-124b-4590-94c8-f00d92107187",
+              "name": "ArmPolicyOptionName",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyPlayReadyConfiguration",
+                "licenses": [
+                  {
+                    "allowTestDevices": true,
+                    "beginDate": "2017-10-16T18:22:53.46Z",
+                    "expirationDate": null,
+                    "relativeBeginDate": null,
+                    "relativeExpirationDate": null,
+                    "gracePeriod": null,
+                    "playRight": {
+                      "firstPlayExpiration": null,
+                      "scmsRestriction": 2,
+                      "agcAndColorStripeRestriction": null,
+                      "explicitAnalogTelevisionOutputRestriction": null,
+                      "digitalVideoOnlyContentRestriction": false,
+                      "imageConstraintForAnalogComponentVideoRestriction": true,
+                      "imageConstraintForAnalogComputerMonitorRestriction": false,
+                      "allowPassingVideoContentToUnknownOutput": "NotAllowed",
+                      "uncompressedDigitalVideoOpl": null,
+                      "compressedDigitalVideoOpl": null,
+                      "analogVideoOpl": null,
+                      "compressedDigitalAudioOpl": null,
+                      "uncompressedDigitalAudioOpl": null
+                    },
+                    "licenseType": "Persistent",
+                    "contentKeyLocation": {
+                      "@odata.type": "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader"
+                    },
+                    "contentType": "UltraVioletDownload"
+                  }
+                ],
+                "responseCustomData": null
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyOpenRestriction"
+              }
+            }
+          ]
+        }
+      }
+- name: Creates a Content Key Policy with Widevine option and Token Restriction
+  request:
+    uri: PUT https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyWithWidevineOptionAndJwtTokenRestriction?api-version=2018-03-30-preview
+    body: >-
+      {
+        "properties": {
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "name": "widevineoption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyWidevineConfiguration",
+                "widevineTemplate": "{\"allowed_track_types\":\"SD_HD\",\"content_key_specs\":[{\"track_type\":\"SD\",\"security_level\":1,\"required_output_protection\":{\"hdcp\":\"HDCP_V2\"}}],\"policy_overrides\":{\"can_play\":true,\"can_persist\":true,\"can_renew\":false}}"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                "issuer": "urn:issuer",
+                "audience": "urn:audience",
+                "primaryVerificationKey": {
+                  "@odata.type": "#Microsoft.Media.ContentKeyPolicyRsaTokenKey",
+                  "exponent": "AQAB",
+                  "modulus": "AQAD"
+                },
+                "alternateVerificationKeys": [
+                  {
+                    "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                    "keyValue": "AAAAAAAAAAAAAAAAAAAAAA=="
+                  }
+                ],
+                "restrictionTokenType": "Jwt"
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "PolicyWithWidevineOptionAndJwtTokenRestriction",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomedia/contentKeyPolicies/PolicyWithWidevineOptionAndJwtTokenRestriction",
+        "type": "Microsoft.Media/mediaservices/contentKeyPolicies",
+        "properties": {
+          "policyId": "f5f2f742-e073-4a7a-8663-09ffdad9d2c0",
+          "created": "2018-03-07T18:49:21.007Z",
+          "lastModified": "2018-03-07T18:49:21.007Z",
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "policyOptionId": "56af71e4-6e97-4588-a162-bad1f5b03074",
+              "name": "widevineoption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyWidevineConfiguration",
+                "widevineTemplate": "{\"allowed_track_types\":\"SD_HD\",\"content_key_specs\":[{\"track_type\":\"SD\",\"security_level\":1,\"required_output_protection\":{\"hdcp\":\"HDCP_V2\"}}],\"policy_overrides\":{\"can_play\":true,\"can_persist\":true,\"can_renew\":false}}"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                "issuer": "urn:issuer",
+                "audience": "urn:audience",
+                "primaryVerificationKey": {
+                  "@odata.type": "#Microsoft.Media.ContentKeyPolicyRsaTokenKey",
+                  "exponent": "",
+                  "modulus": ""
+                },
+                "alternateVerificationKeys": [
+                  {
+                    "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                    "keyValue": ""
+                  }
+                ],
+                "requiredClaims": [],
+                "restrictionTokenType": "Jwt",
+                "openIdConnectDiscoveryDocument": null
+              }
+            }
+          ]
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "PolicyWithWidevineOptionAndJwtTokenRestriction",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomedia/contentKeyPolicies/PolicyWithWidevineOptionAndJwtTokenRestriction",
+        "type": "Microsoft.Media/mediaservices/contentKeyPolicies",
+        "properties": {
+          "policyId": "f5f2f742-e073-4a7a-8663-09ffdad9d2c0",
+          "created": "2018-03-07T18:49:21.007Z",
+          "lastModified": "2018-03-07T18:49:21.007Z",
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "policyOptionId": "56af71e4-6e97-4588-a162-bad1f5b03074",
+              "name": "widevineoption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyWidevineConfiguration",
+                "widevineTemplate": "{\"allowed_track_types\":\"SD_HD\",\"content_key_specs\":[{\"track_type\":\"SD\",\"security_level\":1,\"required_output_protection\":{\"hdcp\":\"HDCP_V2\"}}],\"policy_overrides\":{\"can_play\":true,\"can_persist\":true,\"can_renew\":false}}"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                "issuer": "urn:issuer",
+                "audience": "urn:audience",
+                "primaryVerificationKey": {
+                  "@odata.type": "#Microsoft.Media.ContentKeyPolicyRsaTokenKey",
+                  "exponent": "",
+                  "modulus": ""
+                },
+                "alternateVerificationKeys": [
+                  {
+                    "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                    "keyValue": ""
+                  }
+                ],
+                "requiredClaims": [],
+                "restrictionTokenType": "Jwt",
+                "openIdConnectDiscoveryDocument": null
+              }
+            }
+          ]
+        }
+      }
+- name: Creates a Content Key Policy with ClearKey option and Token Restriction
+  request:
+    uri: PUT https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyWithClearKeyOptionAndSwtTokenRestriction?api-version=2018-03-30-preview
+    body: >-
+      {
+        "properties": {
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "name": "ClearKeyOption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                "issuer": "urn:issuer",
+                "audience": "urn:audience",
+                "primaryVerificationKey": {
+                  "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                  "keyValue": "AAAAAAAAAAAAAAAAAAAAAA=="
+                },
+                "restrictionTokenType": "Swt"
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "PolicyWithClearKeyOptionAndSwtTokenRestriction",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomedia/contentKeyPolicies/PolicyWithClearKeyOptionAndSwtTokenRestriction",
+        "type": "Microsoft.Media/mediaservices/contentKeyPolicies",
+        "properties": {
+          "policyId": "cb77b46c-f120-4e28-ae45-11be48aea02c",
+          "created": "2018-03-07T18:49:21.103Z",
+          "lastModified": "2018-03-07T18:49:21.103Z",
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "policyOptionId": "5fa6f216-bfdb-4e3f-9ea5-d8dcc023ed7f",
+              "name": "ClearKeyOption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                "issuer": "urn:issuer",
+                "audience": "urn:audience",
+                "primaryVerificationKey": {
+                  "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                  "keyValue": ""
+                },
+                "alternateVerificationKeys": [],
+                "requiredClaims": [],
+                "restrictionTokenType": "Swt",
+                "openIdConnectDiscoveryDocument": null
+              }
+            }
+          ]
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "PolicyWithClearKeyOptionAndSwtTokenRestriction",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomedia/contentKeyPolicies/PolicyWithClearKeyOptionAndSwtTokenRestriction",
+        "type": "Microsoft.Media/mediaservices/contentKeyPolicies",
+        "properties": {
+          "policyId": "cb77b46c-f120-4e28-ae45-11be48aea02c",
+          "created": "2018-03-07T18:49:21.103Z",
+          "lastModified": "2018-03-07T18:49:21.103Z",
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "policyOptionId": "5fa6f216-bfdb-4e3f-9ea5-d8dcc023ed7f",
+              "name": "ClearKeyOption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                "issuer": "urn:issuer",
+                "audience": "urn:audience",
+                "primaryVerificationKey": {
+                  "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                  "keyValue": ""
+                },
+                "alternateVerificationKeys": [],
+                "requiredClaims": [],
+                "restrictionTokenType": "Swt",
+                "openIdConnectDiscoveryDocument": null
+              }
+            }
+          ]
+        }
+      }
+- name: Creates a Content Key Policy with multiple options
+  request:
+    uri: PUT https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyCreatedWithMultipleOptions?api-version=2018-03-30-preview
+    body: >-
+      {
+        "properties": {
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "name": "ClearKeyOption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                "issuer": "urn:issuer",
+                "audience": "urn:audience",
+                "primaryVerificationKey": {
+                  "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                  "keyValue": "AAAAAAAAAAAAAAAAAAAAAA=="
+                },
+                "restrictionTokenType": "Swt"
+              }
+            },
+            {
+              "name": "widevineoption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyWidevineConfiguration",
+                "widevineTemplate": "{\"allowed_track_types\":\"SD_HD\",\"content_key_specs\":[{\"track_type\":\"SD\",\"security_level\":1,\"required_output_protection\":{\"hdcp\":\"HDCP_V2\"}}],\"policy_overrides\":{\"can_play\":true,\"can_persist\":true,\"can_renew\":false}}"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyOpenRestriction"
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "PolicyCreatedWithMultipleOptions",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomedia/contentKeyPolicies/PolicyCreatedWithMultipleOptions",
+        "type": "Microsoft.Media/mediaservices/contentKeyPolicies",
+        "properties": {
+          "policyId": "720ef07f-a2bd-4d02-89ca-e31177e9517e",
+          "created": "2018-03-07T18:49:21.16Z",
+          "lastModified": "2018-03-07T18:49:21.16Z",
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "policyOptionId": "3f114e9c-4b81-48ac-a7c4-79bb2bc58224",
+              "name": "ClearKeyOption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                "issuer": "urn:issuer",
+                "audience": "urn:audience",
+                "primaryVerificationKey": {
+                  "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                  "keyValue": ""
+                },
+                "alternateVerificationKeys": [],
+                "requiredClaims": [],
+                "restrictionTokenType": "Swt",
+                "openIdConnectDiscoveryDocument": null
+              }
+            },
+            {
+              "policyOptionId": "7fc39d0a-1a75-4109-acf8-3fa6a6cdb041",
+              "name": "widevineoption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyWidevineConfiguration",
+                "widevineTemplate": "{\"allowed_track_types\":\"SD_HD\",\"content_key_specs\":[{\"track_type\":\"SD\",\"security_level\":1,\"required_output_protection\":{\"hdcp\":\"HDCP_V2\"}}],\"policy_overrides\":{\"can_play\":true,\"can_persist\":true,\"can_renew\":false}}"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyOpenRestriction"
+              }
+            }
+          ]
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "PolicyCreatedWithMultipleOptions",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomedia/contentKeyPolicies/PolicyCreatedWithMultipleOptions",
+        "type": "Microsoft.Media/mediaservices/contentKeyPolicies",
+        "properties": {
+          "policyId": "720ef07f-a2bd-4d02-89ca-e31177e9517e",
+          "created": "2018-03-07T18:49:21.16Z",
+          "lastModified": "2018-03-07T18:49:21.16Z",
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "policyOptionId": "3f114e9c-4b81-48ac-a7c4-79bb2bc58224",
+              "name": "ClearKeyOption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                "issuer": "urn:issuer",
+                "audience": "urn:audience",
+                "primaryVerificationKey": {
+                  "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                  "keyValue": ""
+                },
+                "alternateVerificationKeys": [],
+                "requiredClaims": [],
+                "restrictionTokenType": "Swt",
+                "openIdConnectDiscoveryDocument": null
+              }
+            },
+            {
+              "policyOptionId": "7fc39d0a-1a75-4109-acf8-3fa6a6cdb041",
+              "name": "widevineoption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyWidevineConfiguration",
+                "widevineTemplate": "{\"allowed_track_types\":\"SD_HD\",\"content_key_specs\":[{\"track_type\":\"SD\",\"security_level\":1,\"required_output_protection\":{\"hdcp\":\"HDCP_V2\"}}],\"policy_overrides\":{\"can_play\":true,\"can_persist\":true,\"can_renew\":false}}"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyOpenRestriction"
+              }
+            }
+          ]
+        }
+      }
+security: []
