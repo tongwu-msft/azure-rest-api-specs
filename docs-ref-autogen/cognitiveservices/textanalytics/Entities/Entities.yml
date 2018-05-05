@@ -1,0 +1,278 @@
+### YamlMime:RESTOperation
+uid: text.analytics.cognitiveservices.entities.entities
+name: Entities
+service: Cognitive Services
+groupName: Entities
+apiVersion: v2.0
+summary: "The API returns a list of recognized entities in a given document.  \nTo get even more information on each recognized entity we recommend using the Bing Entity Search API by querying for the recognized entities names. See the <a href=\"https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/text-analytics-supported-languages\">Supported languages in Text Analytics API</a> for the list of enabled languages."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/text/analytics/v2.0/entities
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A successful call results in a list of recognized entities returned for each valid document
+  types:
+  - uid: EntitiesBatchResult
+- name: Other Status Codes
+  description: Error Response
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: documents
+    in: body
+    description: ''
+    types:
+    - uid: MultiLanguageInput
+      isArray: true
+requestHeader: []
+definitions:
+- name: MultiLanguageInput
+  kind: object
+  properties:
+  - name: language
+    description: This is the 2 letter ISO 639-1 representation of a language. For example, use "en" for English; "es" for Spanish etc.,
+    types:
+    - uid: string
+  - name: id
+    description: Unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: text
+    description: ''
+    types:
+    - uid: string
+- name: EntitiesBatchResult
+  kind: object
+  properties:
+  - name: documents
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: EntitiesBatchResultItem
+      isArray: true
+  - name: errors
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: ErrorRecord
+      isArray: true
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: innerError
+    description: ''
+    types:
+    - uid: InternalError
+- name: MultiLanguageBatchInput
+  kind: object
+  properties:
+  - name: documents
+    description: ''
+    types:
+    - uid: MultiLanguageInput
+      isArray: true
+- name: EntitiesBatchResultItem
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Unique document identifier.
+    types:
+    - uid: string
+  - name: entities
+    isReadyOnly: true
+    description: Recognized entities in the document.
+    types:
+    - uid: EntityRecord
+      isArray: true
+- name: ErrorRecord
+  kind: object
+  properties:
+  - name: id
+    description: Input document unique identifier the error refers to.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+- name: InternalError
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: innerError
+    description: ''
+    types:
+    - uid: InternalError
+- name: EntityRecord
+  kind: object
+  properties:
+  - name: name
+    description: Entity formal name.
+    types:
+    - uid: string
+  - name: matches
+    isReadyOnly: true
+    description: List of instances this entity appears in the text.
+    types:
+    - uid: MatchRecord
+      isArray: true
+  - name: wikipediaLanguage
+    description: Wikipedia language for which the WikipediaId and WikipediaUrl refers to.
+    types:
+    - uid: string
+  - name: wikipediaId
+    description: Wikipedia unique identifier of the recognized entity.
+    types:
+    - uid: string
+  - name: wikipediaUrl
+    isReadyOnly: true
+    description: URL for the entity's English Wikipedia page.
+    types:
+    - uid: string
+  - name: bingId
+    description: Bing unique identifier of the recognized entity. Use in conjunction with the Bing Entity Search API to fetch additional relevant information.
+    types:
+    - uid: string
+- name: MatchRecord
+  kind: object
+  properties:
+  - name: text
+    description: Entity text as appears in the request.
+    types:
+    - uid: string
+  - name: offset
+    description: Start position (in Unicode characters) for the entity match text.
+    types:
+    - uid: integer
+  - name: length
+    description: Length (in Unicode characters) for the entity match text.
+    types:
+    - uid: integer
+examples:
+- name: Successful Entities request
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/entities
+    body: >-
+      {
+        "documents": [
+          {
+            "language": "en",
+            "id": "1",
+            "text": "Microsoft released Windows 10"
+          },
+          {
+            "language": "en",
+            "id": "2",
+            "text": "In 1975, Bill Gates III and Paul Allen founded the company."
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "documents": [
+          {
+            "id": "1",
+            "entities": [
+              {
+                "name": "Windows 10",
+                "matches": [
+                  {
+                    "text": "Windows 10",
+                    "offset": 19,
+                    "length": 10
+                  }
+                ],
+                "wikipediaLanguage": "en",
+                "wikipediaId": "Windows 10",
+                "wikipediaUrl": "https://en.wikipedia.org/wiki/Windows_10",
+                "bingId": "5f9fbd03-49c4-39ef-cc95-de83ab897b94"
+              },
+              {
+                "name": "Microsoft",
+                "matches": [
+                  {
+                    "text": "Microsoft",
+                    "offset": 0,
+                    "length": 9
+                  }
+                ],
+                "wikipediaLanguage": "en",
+                "wikipediaId": "Microsoft",
+                "wikipediaUrl": "https://en.wikipedia.org/wiki/Microsoft",
+                "bingId": "a093e9b9-90f5-a3d5-c4b8-5855e1b01f85"
+              }
+            ]
+          },
+          {
+            "id": "2",
+            "entities": [
+              {
+                "name": "Bill Gates",
+                "matches": [
+                  {
+                    "text": "Bill Gates III",
+                    "offset": 9,
+                    "length": 14
+                  }
+                ],
+                "wikipediaLanguage": "en",
+                "wikipediaId": "Bill Gates",
+                "wikipediaUrl": "https://en.wikipedia.org/wiki/Bill_Gates",
+                "bingId": "0d47c987-0042-5576-15e8-97af601614fa"
+              },
+              {
+                "name": "Paul Allen",
+                "matches": [
+                  {
+                    "text": "Paul Allen",
+                    "offset": 28,
+                    "length": 10
+                  }
+                ],
+                "wikipediaLanguage": "en",
+                "wikipediaId": "Paul Allen",
+                "wikipediaUrl": "https://en.wikipedia.org/wiki/Paul_Allen",
+                "bingId": "df2c4376-9923-6a54-893f-2ee5a5badbc7"
+              }
+            ]
+          }
+        ],
+        "errors": []
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

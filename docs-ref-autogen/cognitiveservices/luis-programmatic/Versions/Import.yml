@@ -75,12 +75,6 @@ requestBody:
     types:
     - uid: HierarchicalModel
       isArray: true
-  - name: bing_entities
-    in: body
-    description: List of prebuilt intents.
-    types:
-    - uid: string
-      isArray: true
   - name: closedLists
     in: body
     description: List of closed lists.
@@ -93,6 +87,24 @@ requestBody:
     types:
     - uid: HierarchicalModel
       isArray: true
+  - name: patternAnyEntities
+    in: body
+    description: List of Pattern.Any entities.
+    types:
+    - uid: PatternAny
+      isArray: true
+  - name: regex_entities
+    in: body
+    description: List of regular expression entities.
+    types:
+    - uid: RegexEntity
+      isArray: true
+  - name: prebuiltEntities
+    in: body
+    description: List of prebuilt entities.
+    types:
+    - uid: PrebuiltEntity
+      isArray: true
   - name: regex_features
     in: body
     description: List of pattern features.
@@ -104,6 +116,12 @@ requestBody:
     description: List of model features.
     types:
     - uid: JSONModelFeature
+      isArray: true
+  - name: patterns
+    in: body
+    description: List of patterns.
+    types:
+    - uid: PatternRule
       isArray: true
   - name: utterances
     in: body
@@ -125,6 +143,15 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: inherits
+    description: ''
+    types:
+    - uid: PrebuiltDomainObject
+  - name: roles
+    description: ''
+    types:
+    - uid: string
+      isArray: true
 - name: ClosedList
   description: Exported Model - A Closed List.
   kind: object
@@ -139,6 +166,59 @@ definitions:
     - uid: SubClosedListResponse
       isArray: true
     typesTitle: SubClosedList[]
+  - name: roles
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: PatternAny
+  description: Pattern.Any Entity Extractor.
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: explicitList
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: roles
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: RegexEntity
+  description: Regular Expression Entity Extractor.
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: regexPattern
+    description: ''
+    types:
+    - uid: string
+  - name: roles
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: PrebuiltEntity
+  description: Prebuilt Entity Extractor.
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: roles
+    description: ''
+    types:
+    - uid: string
+      isArray: true
 - name: JSONRegexFeature
   description: Exported Model - A Pattern feature.
   kind: object
@@ -175,6 +255,18 @@ definitions:
     description: An exchangeable phrase list feature are serves as single feature to the LUIS underlying training algorithm. It is used as a lexicon lookup feature where its value is 1 if the lexicon contains a given word or 0 if it doesn’t. Think of an exchangeable as a synonyms list. A non-exchangeable phrase list feature has all the phrases in the list serve as separate features to the underlying training algorithm. So, if you your phrase list feature contains 5 phrases, they will be mapped to 5 separate features. You can think of the non-exchangeable phrase list feature as an additional bag of words that you are willing to add to LUIS existing vocabulary features. Think of a non-exchangeable as set of different words. Default value is true.
     types:
     - uid: boolean
+- name: PatternRule
+  description: Pattern
+  kind: object
+  properties:
+  - name: pattern
+    description: The pattern text.
+    types:
+    - uid: string
+  - name: intent
+    description: The intent's name where the pattern belongs to.
+    types:
+    - uid: string
 - name: JSONUtterance
   description: Exported Model - Utterance that was used to train the model.
   kind: object
@@ -230,11 +322,6 @@ definitions:
     types:
     - uid: HierarchicalModel
       isArray: true
-  - name: bing_entities
-    description: List of prebuilt intents.
-    types:
-    - uid: string
-      isArray: true
   - name: closedLists
     description: List of closed lists.
     types:
@@ -244,6 +331,21 @@ definitions:
     description: List of composite entities.
     types:
     - uid: HierarchicalModel
+      isArray: true
+  - name: patternAnyEntities
+    description: List of Pattern.Any entities.
+    types:
+    - uid: PatternAny
+      isArray: true
+  - name: regex_entities
+    description: List of regular expression entities.
+    types:
+    - uid: RegexEntity
+      isArray: true
+  - name: prebuiltEntities
+    description: List of prebuilt entities.
+    types:
+    - uid: PrebuiltEntity
       isArray: true
   - name: regex_features
     description: List of pattern features.
@@ -255,11 +357,27 @@ definitions:
     types:
     - uid: JSONModelFeature
       isArray: true
+  - name: patterns
+    description: List of patterns.
+    types:
+    - uid: PatternRule
+      isArray: true
   - name: utterances
     description: List of sample utterances.
     types:
     - uid: JSONUtterance
       isArray: true
+- name: PrebuiltDomainObject
+  kind: object
+  properties:
+  - name: domain_name
+    description: ''
+    types:
+    - uid: string
+  - name: model_name
+    description: ''
+    types:
+    - uid: string
 - name: JSONEntity
   description: Exported Model - Extracted Entity from utterance.
   kind: object
@@ -299,12 +417,19 @@ examples:
     uri: POST https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/bd72e8d7-62b8-48f5-9dcb-e3b0588b803a/versions/import?versionId=0.2
     body: >-
       {
-        "luis_schema_version": "2.1.0",
+        "luis_schema_version": "3.0.0",
         "versionId": "0.1",
         "name": "LuisBot",
         "desc": "",
         "culture": "en-us",
         "intents": [
+          {
+            "name": "HomeAutomation.TurnOff",
+            "inherits": {
+              "domain_name": "HomeAutomation",
+              "model_name": "TurnOff"
+            }
+          },
           {
             "name": "dateintent"
           },
@@ -323,17 +448,44 @@ examples:
         ],
         "entities": [
           {
-            "name": "AirportCode"
+            "name": "AirportCode",
+            "roles": [
+              "destination"
+            ]
           },
           {
-            "name": "Hotel"
+            "name": "Hotel",
+            "roles": []
           }
         ],
         "composites": [],
         "closedLists": [],
-        "bing_entities": [
-          "datetimeV2",
-          "geography"
+        "patternAnyEntities": [
+          {
+            "name": "patternAny1",
+            "explicitList": [],
+            "roles": [
+              "role1",
+              "role2"
+            ]
+          }
+        ],
+        "regex_entities": [
+          {
+            "name": "regex1",
+            "regexPattern": "[^a]+",
+            "roles": [
+              "regex role"
+            ]
+          }
+        ],
+        "prebuiltEntities": [
+          {
+            "name": "datetimeV2",
+            "roles": [
+              "datetime role"
+            ]
+          }
         ],
         "model_features": [
           {
@@ -354,6 +506,12 @@ examples:
             "name": "AirportCodeRegex",
             "pattern": "[a-z]{3}",
             "activated": true
+          }
+        ],
+        "patterns": [
+          {
+            "pattern": "this is [a test] {patternAny1:role1}",
+            "intent": "Help"
           }
         ],
         "utterances": [
@@ -554,7 +712,7 @@ examples:
   - statusCode: "201"
     headers:
     - name: Location
-      value: https://api.luis.ai/api/v2.0/bd72e8d7-62b8-48f5-9dcb-e3b0588b803a/versions/0.2
+      value: https://westus.api.cognitive.microsoft.com/luis/api/v2.0/bd72e8d7-62b8-48f5-9dcb-e3b0588b803a/versions/0.2
     body: "\"0.2\""
 security:
 - name: Ocp-Apim-Subscription-Key
