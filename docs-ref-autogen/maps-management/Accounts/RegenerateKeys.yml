@@ -1,0 +1,165 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.mapsmanagement.accounts.regeneratekeys
+name: Regenerate Keys
+service: Maps Management
+groupName: Accounts
+apiVersion: 2018-05-01
+summary: Regenerate either the primary or secondary key for use with the Maps APIs. The old key will stop working immediately.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/regenerateKey?api-version=2018-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the Azure Resource Group.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the Maps Account.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful.
+  types:
+  - uid: MapsAccountKeys
+- name: 404 Not Found
+  description: The specified Account does not exist.
+- name: Other Status Codes
+  description: An unexpected error occurred.
+  types:
+  - uid: Error
+requestBody:
+- parameters:
+  - name: keyType
+    in: body
+    isRequired: true
+    description: Whether the operation refers to the primary or secondary key.
+    types:
+    - uid: KeyType
+requestHeader: []
+definitions:
+- name: MapsAccountKeys
+  description: The set of keys which can be used to access the Maps REST APIs. Two keys are provided for key rotation without interruption.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The full Azure resource identifier of the Maps Account.
+    types:
+    - uid: string
+  - name: primaryKey
+    isReadyOnly: true
+    description: The primary key for accessing the Maps REST APIs.
+    types:
+    - uid: string
+  - name: secondaryKey
+    isReadyOnly: true
+    description: The secondary key for accessing the Maps REST APIs.
+    types:
+    - uid: string
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: If available, the component generating the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: If available, a list of additional details about the error.
+    types:
+    - uid: Details
+      isArray: true
+- name: MapsKeySpecification
+  description: Whether the operation refers to the primary or secondary key.
+  kind: object
+  properties:
+  - name: keyType
+    description: Whether the operation refers to the primary or secondary key.
+    types:
+    - uid: KeyType
+- name: Details
+  description: If available, a list of additional details about the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: If available, the component generating the error.
+    types:
+    - uid: string
+- name: KeyType
+  description: Whether the operation refers to the primary or secondary key.
+  kind: enum
+  properties:
+  - name: primary
+    types:
+    - uid: string
+  - name: secondary
+    types:
+    - uid: string
+examples:
+- name: RegenerateKey
+  request:
+    uri: POST https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount/regenerateKey?api-version=2018-05-01
+    body: >-
+      {
+        "keyType": "primary"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount",
+        "primaryKey": "uj0yqjjz8zG3IOSWvb_smi1q1QenGtupAqrOA1zCO6s",
+        "secondaryKey": "cJHpmUGNaGGO8H59p6NKGhfff9VjD278-2bi5wo0_mU"
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

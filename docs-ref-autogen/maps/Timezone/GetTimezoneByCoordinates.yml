@@ -1,0 +1,442 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.timezone.gettimezonebycoordinates
+name: Get Timezone By Coordinates
+service: Maps
+groupName: Timezone
+apiVersion: "1.0"
+summary: >-
+  __Time Zone by Coordinates__
+
+
+  This API returns current, historical, and future time zone information for a specified latitude-longitude pair.
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://atlas.microsoft.com/timezone/byCoordinates/json?subscription-key={subscription-key}&api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/timezone/byCoordinates/json?subscription-key={subscription-key}&api-version=1.0&options={options}&timeStamp={timeStamp}&transitionsFrom={transitionsFrom}&transitionsYears={transitionsYears}&query={query}
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: 'Desired format of the response. Possible value: json.'
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+- name: options
+  in: query
+  description: Alternatively, use alias "o". Options available for types of information returned in the result.
+  types:
+  - uid: options
+- name: timeStamp
+  in: query
+  description: Alternatively, use alias "stamp", or "s". Reference time, if omitted, the API will use the machine time serving the request.
+  types:
+  - uid: string
+  format: date-time
+- name: transitionsFrom
+  in: query
+  description: Alternatively, use alias "tf". The start date from which daylight savings time (DST) transitions are requested, only applies when "options" = all or "options" = transitions.
+  types:
+  - uid: string
+  format: date-time
+- name: transitionsYears
+  in: query
+  description: Alternatively, use alias "ty". The number of years from "transitionsFrom" for which DST transitions are requested, only applies when "options" = all or "options" = transitions.
+  types:
+  - uid: integer
+- name: query
+  in: query
+  isRequired: true
+  description: The applicable query string. Must be properly URL encoded.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: TimezoneByCoordinatesResult
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
+  types:
+  - uid: ErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Accept-Language
+  in: header
+  description: Specifies the language code in which the timezone names should be returned. If no language code is provided, the response will be in "EN". Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/maps/supported-languages) for details.
+  types:
+  - uid: string
+definitions:
+- name: options
+  description: Specifies the `GeoJSON` geometry type. Must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
+  kind: enum
+  properties:
+  - name: Point
+    description: '`GeoJSON Point` geometry.'
+    types:
+    - uid: string
+  - name: MultiPoint
+    description: '`GeoJSON MultiPoint` geometry.'
+    types:
+    - uid: string
+  - name: LineString
+    description: '`GeoJSON LineString` geometry.'
+    types:
+    - uid: string
+  - name: MultiLineString
+    description: '`GeoJSON MultiLineString` geometry.'
+    types:
+    - uid: string
+  - name: Polygon
+    description: '`GeoJSON Polygon` geometry.'
+    types:
+    - uid: string
+  - name: MultiPolygon
+    description: '`GeoJSON MultiPolygon` geometry.'
+    types:
+    - uid: string
+  - name: GeometryCollection
+    description: '`GeoJSON GeometryCollection` geometry.'
+    types:
+    - uid: string
+- name: TimezoneByCoordinatesResult
+  description: This object is returned from a successful Timezone By Coordinates call
+  kind: object
+  properties:
+  - name: version
+    isReadyOnly: true
+    description: Version property
+    types:
+    - uid: string
+  - name: referenceUtcTimestamp
+    isReadyOnly: true
+    description: Reference Utc Timestamp property
+    types:
+    - uid: string
+  - name: timeZones
+    isReadyOnly: true
+    description: TimeZones array
+    types:
+    - uid: Timezone
+      isArray: true
+  - name: count
+    isReadyOnly: true
+    description: Count property
+    types:
+    - uid: number
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: Timezone
+  kind: object
+  properties:
+  - name: Id
+    isReadyOnly: true
+    description: Id property
+    types:
+    - uid: string
+  - name: Aliases
+    isReadyOnly: true
+    description: Aliases array
+    types:
+    - uid: string
+      isArray: true
+  - name: Countries
+    isReadyOnly: true
+    description: Countries array
+    types:
+    - uid: Country
+      isArray: true
+  - name: Names
+    description: ''
+    types:
+    - uid: Names
+  - name: ReferenceTime
+    isReadyOnly: true
+    description: Reference Time object
+    types:
+    - uid: ReferenceTime
+  - name: RepresentativePoint
+    isReadyOnly: true
+    description: Representative point property
+    types:
+    - uid: RepresentativePoint
+  - name: TimeTransitions
+    isReadyOnly: true
+    description: TimeTransitions array
+    types:
+    - uid: TimeTransition
+      isArray: true
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+- name: Country
+  kind: object
+  properties:
+  - name: Name
+    isReadyOnly: true
+    description: Country Name
+    types:
+    - uid: string
+  - name: Code
+    isReadyOnly: true
+    description: Country Code
+    types:
+    - uid: string
+- name: Names
+  kind: object
+  properties:
+  - name: ISO6391LanguageCode
+    isReadyOnly: true
+    description: The ISO 639-1 language code of the Names
+    types:
+    - uid: string
+  - name: Generic
+    isReadyOnly: true
+    description: Generic Name
+    types:
+    - uid: string
+  - name: Standard
+    isReadyOnly: true
+    description: Standard Name
+    types:
+    - uid: string
+  - name: Daylight
+    isReadyOnly: true
+    description: Daylight Name
+    types:
+    - uid: string
+- name: ReferenceTime
+  description: Reference Time object
+  kind: object
+  properties:
+  - name: Tag
+    isReadyOnly: true
+    description: Tag property
+    types:
+    - uid: string
+  - name: StandardOffset
+    isReadyOnly: true
+    description: Standard Offset property
+    types:
+    - uid: string
+  - name: DaylightSavings
+    isReadyOnly: true
+    description: Daylight Savings property
+    types:
+    - uid: string
+  - name: WallTime
+    isReadyOnly: true
+    description: Wall Time property
+    types:
+    - uid: string
+  - name: PosixTimezoneValidYear
+    isReadyOnly: true
+    description: Posix Timezone Valid Year property
+    types:
+    - uid: integer
+  - name: PosixTimezone
+    isReadyOnly: true
+    description: Posix timezone property
+    types:
+    - uid: string
+- name: RepresentativePoint
+  description: Representative point property
+  kind: object
+  properties:
+  - name: Latitude
+    isReadyOnly: true
+    description: Latitude property
+    types:
+    - uid: number
+  - name: Longitude
+    isReadyOnly: true
+    description: Longitude property
+    types:
+    - uid: number
+- name: TimeTransition
+  kind: object
+  properties:
+  - name: Tag
+    isReadyOnly: true
+    description: Tag property
+    types:
+    - uid: string
+  - name: StandardOffset
+    isReadyOnly: true
+    description: StandardOffset property
+    types:
+    - uid: string
+  - name: DaylightSavings
+    isReadyOnly: true
+    description: DaylightSavings property
+    types:
+    - uid: string
+  - name: UtcStart
+    isReadyOnly: true
+    description: UtcStart property
+    types:
+    - uid: string
+  - name: UtcEnd
+    isReadyOnly: true
+    description: UtcEnd property
+    types:
+    - uid: string
+examples:
+- name: GetTimezoneByCoordinates
+  request:
+    uri: GET https://atlas.microsoft.com/timezone/byCoordinates/json?api-version=1.0&options=all&query=47.0,-122
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "version": "2018c",
+        "referenceUtcTimestamp": "2018-01-30T23:58:41.4911539Z",
+        "timeZones": [
+          {
+            "Id": "America/Los_Angeles",
+            "Aliases": [
+              "US/Pacific",
+              "US/Pacific-New"
+            ],
+            "Countries": [
+              {
+                "Name": "United States",
+                "Code": "US"
+              }
+            ],
+            "Names": {
+              "ISO6391LanguageCode": "en",
+              "Generic": "Pacific Time",
+              "Standard": "Pacific Standard Time",
+              "Daylight": "Pacific Daylight Time"
+            },
+            "ReferenceTime": {
+              "Tag": "PST",
+              "StandardOffset": "-08:00:00",
+              "DaylightSavings": "00:00:00",
+              "WallTime": "2018-01-30T23:58:41.4911539+00:00",
+              "PosixTzValidYear": 2018,
+              "PosixTz": "PST+8PDT,M3.2.0,M11.1.0"
+            },
+            "RepresentativePoint": {
+              "Latitude": 34.05222222222222,
+              "Longitude": -118.24277777777778
+            },
+            "TimeTransitions": [
+              {
+                "Tag": "PST",
+                "StandardOffset": "-08:00:00",
+                "DaylightSavings": "00:00:00",
+                "UtcStart": "2017-11-05T09:00:00Z",
+                "UtcEnd": "2018-03-11T10:00:00Z"
+              },
+              {
+                "Tag": "PDT",
+                "StandardOffset": "-08:00:00",
+                "DaylightSavings": "01:00:00",
+                "UtcStart": "2018-03-11T10:00:00Z",
+                "UtcEnd": "2018-11-04T09:00:00Z"
+              },
+              {
+                "Tag": "PST",
+                "StandardOffset": "-08:00:00",
+                "DaylightSavings": "00:00:00",
+                "UtcStart": "2018-11-04T09:00:00Z",
+                "UtcEnd": "2019-03-10T10:00:00Z"
+              }
+            ]
+          }
+        ]
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: subscription-key
+  type: apiKey
+  in: query

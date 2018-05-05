@@ -1,0 +1,135 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.mapsmanagement.accounts.move
+name: Move
+service: Maps Management
+groupName: Accounts
+apiVersion: 2018-05-01
+summary: Moves Maps Accounts from one ResourceGroup (or Subscription) to another
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/moveResources?api-version=2018-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains Maps Account to move.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The Accounts were successfully moved.
+- name: Other Status Codes
+  description: An unexpected error occurred.
+  types:
+  - uid: Error
+requestBody:
+- parameters:
+  - name: targetResourceGroup
+    in: body
+    isRequired: true
+    description: The name of the destination resource group.
+    types:
+    - uid: string
+  - name: resourceIds
+    in: body
+    isRequired: true
+    description: A list of resource names to move from the source resource group.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: If available, the component generating the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: If available, a list of additional details about the error.
+    types:
+    - uid: Details
+      isArray: true
+- name: MapsAccountsMoveRequest
+  description: The description of what resources to move between resource groups.
+  kind: object
+  properties:
+  - name: targetResourceGroup
+    description: The name of the destination resource group.
+    types:
+    - uid: string
+  - name: resourceIds
+    description: A list of resource names to move from the source resource group.
+    types:
+    - uid: string
+      isArray: true
+- name: Details
+  description: If available, a list of additional details about the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: If available, the component generating the error.
+    types:
+    - uid: string
+examples:
+- name: MoveAccounts
+  request:
+    uri: POST https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/moveResources?api-version=2018-05-01
+    body: >-
+      {
+        "targetResourceGroup": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup2",
+        "resourceIds": [
+          "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount",
+          "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount2"
+        ]
+      }
+  responses:
+  - statusCode: "200"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
