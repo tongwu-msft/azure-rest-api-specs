@@ -4,7 +4,7 @@ name: Get Search Fuzzy
 service: Maps
 groupName: Search
 apiVersion: "1.0"
-summary: Returns the search results from a fuzzy search
+summary: "**Free Form Search**<br><br>The basic default API is Free Form Search which handles the most fuzzy of inputs handling any combination of address or POI tokens. This search API is the canonical 'single line search'. The Free Form Search API is a seamless combination of POI search and geocoding. The API can also be weighted with a contextual position (lat./lon. pair), or fully constrained by a coordinate and radius, or it can be executed more generally without any geo biasing anchor point.<br><br>We strongly advise you to use the 'countrySet' parameter to specify only the countries for which your application needs coverage, as the default behavior will be to search the entire world, potentially returning unnecessary results.<br><br> E.g.: `countrySet`=US,FR <br><br>Please see [Search Coverage](https://docs.microsoft.com/en-us/azure/location-based-services/geocoding-coverage) for a complete list of all the supported countries.<br><br>Most Search queries default to `maxFuzzyLevel`=2 to gain performance and also reduce unusual results. This new default can be overridden as needed per request by passing in the query param `maxFuzzyLevel`=3 or 4."
 consumes: []
 produces:
 - application/json
@@ -17,7 +17,7 @@ uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Possible values are json & xml.
+  description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
   - uid: string
 - name: subscription-key
@@ -35,7 +35,7 @@ uriParameters:
 - name: query
   in: query
   isRequired: true
-  description: The applicable query string and/or coordinates
+  description: The applicable query string (e.g., "seattle", "pizza"). Can _also_ be specified as a comma separated string composed by latitude followed by longitude (e.g., "47.641268, -122.125679"). Must be properly URL encoded.
   types:
   - uid: string
 - name: typeahead
@@ -45,12 +45,12 @@ uriParameters:
   - uid: boolean
 - name: limit
   in: query
-  description: Maximum number of responses that will be returned.
+  description: 'Maximum number of responses that will be returned. Default: 10, minimum: 1 and maximum: 100'
   types:
   - uid: integer
 - name: ofs
   in: query
-  description: Starting offset of the returned results within the full result set.
+  description: 'Starting offset of the returned results within the full result set. Default: 0, minimum: 0 and maximum: 1900'
   types:
   - uid: integer
 - name: countrySet
@@ -85,22 +85,22 @@ uriParameters:
   - uid: string
 - name: language
   in: query
-  description: Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used
+  description: Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used. Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/maps/supported-languages) for details.
   types:
   - uid: string
 - name: extendedPostalCodesFor
   in: query
-  description: 'Indexes for which extended postal codes should be included in the results. Available indexes are: Addr = Address ranges, Geo = Geographies, PAD = Point Addresses, POI = Points of Interest, Str = Streets, XStr = Cross Streets (intersections)'
+  description: "Indexes for which extended postal codes should be included in the results.\n\nAvailable indexes are: \n\n **Addr** = Address ranges \n\n **Geo** = Geographies \n\n **PAD** = Point Addresses \n\n **POI** = Points of Interest \n\n **Str** = Streets \n\n **XStr** = Cross Streets (intersections)\n\nValue should be a comma separated list of index types (in any order) or **None** for no indexes.\n\nBy default extended postal codes are included for all indexes except Geo. Extended postal code lists for geographies can be quite long so they have to be explicitly requested when needed.\n\nUsage examples:\n\n extendedPostalCodesFor=POI \n\n extendedPostalCodesFor=PAD,Addr,POI \n\n extendedPostalCodesFor=None\n\nExtended postal code is returned as an **extendedPostalCode** property of an address. Availability is region-dependent."
   types:
   - uid: string
 - name: minFuzzyLevel
   in: query
-  description: Minimum fuzzyness level to be used.
+  description: 'Minimum fuzzyness level to be used. Default: 1, minimum: 1 and maximum: 4'
   types:
   - uid: integer
 - name: maxFuzzyLevel
   in: query
-  description: Maximum fuzzyness level to be used.
+  description: 'Maximum fuzzyness level to be used. Default: 2, minimum: 1 and maximum: 4'
   types:
   - uid: integer
 - name: idxSet
@@ -116,23 +116,23 @@ responses:
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 401 Unauthorized
   description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: SearchFuzzyResult
@@ -150,20 +150,14 @@ definitions:
     types:
     - uid: SearchFuzzyResultArray
       isArray: true
-- name: Error
-  description: This object is returned when an error occurs in the Location Based Service API
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
   kind: object
   properties:
-  - name: statuscode
-    isReadyOnly: true
-    description: Error code.
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: If available, a human readable description of the error.
-    types:
-    - uid: string
+    - uid: Error
 - name: Summary
   description: Summary object
   kind: object
@@ -232,7 +226,7 @@ definitions:
     types:
     - uid: string
   - name: poi
-    description: POI property
+    description: Details of the poi including the name, phone, url, and categories.
     types:
     - uid: Poi
   - name: address
@@ -256,8 +250,22 @@ definitions:
     types:
     - uid: EntryPoint
       isArray: true
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
 - name: Poi
-  description: POI property
+  description: Details of the poi including the name, phone, url, and categories.
   kind: object
   properties:
   - name: name
@@ -432,19 +440,23 @@ definitions:
     types:
     - uid: string
 - name: EntryPoint
+  description: The entry point for the POI being returned.
   kind: object
   properties:
   - name: type
     isReadyOnly: true
-    description: The entry point for the POI being returned.
+    description: The type of entry point. Value can be either _main_ or _minor_.
     types:
-    - uid: string
+    - uid: main
+    - uid: minor
+    typesTitle: enum
   - name: position
     isReadyOnly: true
     description: Name property
     types:
     - uid: Position
 - name: Classification
+  description: The classification for the POI being returned
   kind: object
   properties:
   - name: code
@@ -487,6 +499,7 @@ definitions:
     types:
     - uid: number
 - name: ClassificationName
+  description: Name for the classification
   kind: object
   properties:
   - name: nameLocale
@@ -500,7 +513,7 @@ definitions:
     types:
     - uid: string
 examples:
-- name: GetSearchFuzzy
+- name: Search City Seattle
   request:
     uri: GET https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&query=seattle
   responses:
@@ -750,32 +763,42 @@ examples:
   - statusCode: "400"
     body: >-
       {
-        "statuscode": "400",
-        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
       }
   - statusCode: "401"
     body: >-
       {
-        "statuscode": "401",
-        "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
       }
   - statusCode: "403"
     body: >-
       {
-        "statuscode": "403",
-        "message": "Permission, capacity, or authentication issues."
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
       }
   - statusCode: "404"
     body: >-
       {
-        "statuscode": "404",
-        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
       }
   - statusCode: "500"
     body: >-
       {
-        "statuscode": "500",
-        "message": "An error occurred while processing the request. Please try again later."
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
       }
 security:
 - name: Ocp-Apim-Subscription-Key

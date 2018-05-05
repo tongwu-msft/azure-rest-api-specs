@@ -4,7 +4,7 @@ name: Get Traffic Incident Viewport
 service: Maps
 groupName: Traffic
 apiVersion: "1.0"
-summary: Get the traffic incident viewport for a given boundingbox
+summary: __Traffic Incident Viewport__ <br/><br/>This API returns legal and technical information for the viewport described in the request. It should be called by client applications whenever the viewport changes (for instance, through zooming, panning, going to a location, or displaying a route). The request should contain the bounding box and zoom level of the viewport whose information is needed. The return will contain map version information, as well as the current Traffic Model ID and copyright IDs. The Traffic Model ID returned by the Viewport Description is used by other APIs to retrieve last traffic information for further processing.
 consumes: []
 produces:
 - application/json
@@ -15,7 +15,7 @@ uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Possible values are json & xml.
+  description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
   - uid: string
 - name: subscription-key
@@ -33,7 +33,7 @@ uriParameters:
 - name: boundingbox
   in: query
   isRequired: true
-  description: 'The maximum size of the bounding box that can be passed is dependent on the requested zoom level. The width and height cannot exceed 4092 pixels when rendered on the given zoom level. Bounding box overview map: http://docs.openlayers.org/library/spherical_mercator.html'
+  description: "Bounding box of the map viewport in [EPSG900913](http://docs.openlayers.org/library/spherical_mercator.html) projection. The `boundingbox` is represented by two value pairs describing it's corners (first pair for lower left corner and second for upper right). All values should be separated by commas (e.g., _minY,minX,maxY,maxX_). The maximum size of the bounding box that can be passed is dependent on the requested zoom level. The width and height cannot exceed 4092 pixels when rendered on the given zoom level.<br><br>NOTE: Bounding boxes that cross the 180� meridian require special treatment. For such boxes, the eastern _maxX_ value will be negative, and thus less than the _minX_ value west of the 180� meridian. To address that, the value 40075016.6855874 should be added to the true _maxX_ value before it is passed in the request."
   types:
   - uid: string
 - name: boundingzoom
@@ -45,7 +45,7 @@ uriParameters:
 - name: overviewbox
   in: query
   isRequired: true
-  description: 'Used in case the overview box/mini map has different copyright data than the main map. If there is no mini map, the same coordinates as boundingBox is used. Bounding box overview map: http://docs.openlayers.org/library/spherical_mercator.html'
+  description: Bounding box of the overview map in [EPSG900913](http://docs.openlayers.org/library/spherical_mercator.html) projection.<br><br>Used in case the overview box/mini map has different copyright data than the main map. If there is no mini map, the same coordinates as `boundingBox` is used.
   types:
   - uid: string
 - name: overviewzoom
@@ -68,23 +68,23 @@ responses:
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 401 Unauthorized
   description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: TrafficIncidentViewportResult
@@ -96,20 +96,14 @@ definitions:
     description: Viewport Response object
     types:
     - uid: ViewpResp
-- name: Error
-  description: This object is returned when an error occurs in the Location Based Service API
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
   kind: object
   properties:
-  - name: statuscode
-    isReadyOnly: true
-    description: Error code.
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: If available, a human readable description of the error.
-    types:
-    - uid: string
+    - uid: Error
 - name: ViewpResp
   description: Viewport Response object
   kind: object
@@ -132,6 +126,20 @@ definitions:
   - name: '@maps'
     isReadyOnly: true
     description: '@maps property'
+    types:
+    - uid: string
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
     types:
     - uid: string
 - name: TrafficState
@@ -169,32 +177,42 @@ examples:
   - statusCode: "400"
     body: >-
       {
-        "statuscode": "400",
-        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
       }
   - statusCode: "401"
     body: >-
       {
-        "statuscode": "401",
-        "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
       }
   - statusCode: "403"
     body: >-
       {
-        "statuscode": "403",
-        "message": "Permission, capacity, or authentication issues."
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
       }
   - statusCode: "404"
     body: >-
       {
-        "statuscode": "404",
-        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
       }
   - statusCode: "500"
     body: >-
       {
-        "statuscode": "500",
-        "message": "An error occurred while processing the request. Please try again later."
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
       }
 security:
 - name: Ocp-Apim-Subscription-Key

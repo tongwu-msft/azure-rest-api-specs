@@ -4,7 +4,7 @@ name: Get Search Address
 service: Maps
 groupName: Search
 apiVersion: "1.0"
-summary: In some cases, a fuzzy search might be too much. For example, if you are only interested in traditional geocoding, Address Search can be used for address look up exclusively. The geocoding is performed by hitting the endpoint with just the address or partial address in question. The search index will be queried for everything above the street level data and no POIs will be returned. Note that the geocoder is very tolerant of typos and incomplete addresses. It will also handle everything from exact street addresses or street or intersections as well as higher level geographies such as city centers, counties, states etc.
+summary: '**Address Geocoding**<br><br>In many cases, the complete search service might be too much, for instance if you are only interested in traditional geocoding. Search can also be accessed for address look up exclusively. The geocoding is performed by hitting the geocode endpoint with just the address or partial address in question. The geocoding search index will be queried for everything above the street level data. No POIs will be returned. Note that the geocoder is very tolerant of typos and incomplete addresses. It will also handle everything from exact street addresses or street or intersections as well as higher level geographies such as city centers, counties, states etc.'
 consumes: []
 produces:
 - application/json
@@ -17,7 +17,7 @@ uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Possible values are json & xml.
+  description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
   - uid: string
 - name: subscription-key
@@ -35,7 +35,7 @@ uriParameters:
 - name: query
   in: query
   isRequired: true
-  description: The applicable query string and/or coordinates
+  description: The applicable query string. Must be properly URL encoded.
   types:
   - uid: string
 - name: typeahead
@@ -45,7 +45,7 @@ uriParameters:
   - uid: boolean
 - name: limit
   in: query
-  description: Maximum number of responses that will be returned.
+  description: 'Maximum number of responses that will be returned. Default: 10, minimum: 1 and maximum: 100'
   types:
   - uid: integer
 - name: ofs
@@ -85,12 +85,12 @@ uriParameters:
   - uid: string
 - name: language
   in: query
-  description: Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used
+  description: Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used. Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/maps/supported-languages) for details.
   types:
   - uid: string
 - name: extendedPostalCodesFor
   in: query
-  description: 'Indexes for which extended postal codes should be included in the results. Available indexes are: Addr = Address ranges, Geo = Geographies, PAD = Point Addresses, POI = Points of Interest, Str = Streets, XStr = Cross Streets (intersections)'
+  description: "Indexes for which extended postal codes should be included in the results.\n\nAvailable indexes are: \n\n **Addr** = Address ranges \n\n **Geo** = Geographies \n\n **PAD** = Point Addresses \n\n **POI** = Points of Interest \n\n **Str** = Streets \n\n **XStr** = Cross Streets (intersections)\n\nValue should be a comma separated list of index types (in any order) or **None** for no indexes.\n\nBy default extended postal codes are included for all indexes except Geo. Extended postal code lists for geographies can be quite long so they have to be explicitly requested when needed.\n\nUsage examples:\n\n extendedPostalCodesFor=POI \n\n extendedPostalCodesFor=PAD,Addr,POI \n\n extendedPostalCodesFor=None\n\nExtended postal code is returned as an **extendedPostalCode** property of an address. Availability is region-dependent."
   types:
   - uid: string
 responses:
@@ -101,23 +101,23 @@ responses:
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 401 Unauthorized
   description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: SearchAddressResult
@@ -135,20 +135,14 @@ definitions:
     types:
     - uid: SearchAddressResultArray
       isArray: true
-- name: Error
-  description: This object is returned when an error occurs in the Location Based Service API
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
   kind: object
   properties:
-  - name: statuscode
-    isReadyOnly: true
-    description: Error code.
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: If available, a human readable description of the error.
-    types:
-    - uid: string
+    - uid: Error
 - name: Summary
   description: Summary object
   kind: object
@@ -223,6 +217,20 @@ definitions:
     types:
     - uid: EntryPoint
       isArray: true
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
 - name: Address
   description: The address of the result
   kind: object
@@ -354,13 +362,16 @@ definitions:
     types:
     - uid: BtmRightPoint
 - name: EntryPoint
+  description: The entry point for the POI being returned.
   kind: object
   properties:
   - name: type
     isReadyOnly: true
-    description: The entry point for the POI being returned.
+    description: The type of entry point. Value can be either _main_ or _minor_.
     types:
-    - uid: string
+    - uid: main
+    - uid: minor
+    typesTitle: enum
   - name: position
     isReadyOnly: true
     description: Name property
@@ -409,7 +420,7 @@ definitions:
     types:
     - uid: number
 examples:
-- name: GetSearchAddress
+- name: Search detail address 15127 NE 24th Street, Redmond, WA 98052
   request:
     uri: GET https://atlas.microsoft.com/search/address/json?api-version=1.0&query=15127 NE 24th Street, Redmond, WA 98052
   responses:
@@ -475,32 +486,42 @@ examples:
   - statusCode: "400"
     body: >-
       {
-        "statuscode": "400",
-        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
       }
   - statusCode: "401"
     body: >-
       {
-        "statuscode": "401",
-        "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
       }
   - statusCode: "403"
     body: >-
       {
-        "statuscode": "403",
-        "message": "Permission, capacity, or authentication issues."
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
       }
   - statusCode: "404"
     body: >-
       {
-        "statuscode": "404",
-        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
       }
   - statusCode: "500"
     body: >-
       {
-        "statuscode": "500",
-        "message": "An error occurred while processing the request. Please try again later."
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
       }
 security:
 - name: Ocp-Apim-Subscription-Key

@@ -1,0 +1,164 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.logicapps.integrationaccounts.listkeyvaultkeys
+name: List Key Vault Keys
+service: Logic Apps
+groupName: Integration Accounts
+apiVersion: 2016-06-01
+summary: Gets the integration account's Key Vault keys.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/listKeyVaultKeys?api-version=2016-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: integrationAccountName
+  in: path
+  isRequired: true
+  description: The integration account name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: KeyVaultKeyCollection
+requestBody:
+- parameters:
+  - name: keyVault
+    in: body
+    isRequired: true
+    description: The key vault reference.
+    types:
+    - uid: KeyVaultReference
+  - name: skipToken
+    in: body
+    description: The skip token.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: KeyVaultReference
+  description: The key vault reference.
+  kind: object
+  properties:
+  - name: name
+    description: The key vault name.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The resource id.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Gets the resource type.
+    types:
+    - uid: string
+- name: KeyVaultKeyCollection
+  description: Collection of key vault keys.
+  kind: object
+  properties:
+  - name: value
+    description: The key vault keys.
+    types:
+    - uid: KeyVaultKey
+      isArray: true
+  - name: skipToken
+    description: The skip token.
+    types:
+    - uid: string
+- name: ListKeyVaultKeysDefinition
+  description: The list key vault keys definition.
+  kind: object
+  properties:
+  - name: keyVault
+    description: The key vault reference.
+    types:
+    - uid: KeyVaultReference
+  - name: skipToken
+    description: The skip token.
+    types:
+    - uid: string
+- name: KeyVaultKey
+  description: The key vault key.
+  kind: object
+  properties:
+  - name: kid
+    description: The key id.
+    types:
+    - uid: string
+  - name: attributes
+    description: The key attributes.
+    types:
+    - uid: Attributes
+- name: Attributes
+  description: The key attributes.
+  kind: object
+  properties:
+  - name: enabled
+    description: Whether the key is enabled or not.
+    types:
+    - uid: boolean
+  - name: created
+    description: When the key was created.
+    types:
+    - uid: integer
+  - name: updated
+    description: When the key was updated.
+    types:
+    - uid: integer
+examples:
+- name: Get Integration Account callback URL
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/listKeyVaultKeys?api-version=2016-06-01
+    body: >-
+      {
+        "keyVault": {
+          "id": "subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.KeyVault/vaults/testKeyVault"
+        },
+        "skipToken": "testSkipToken"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "kid": "https://testKeyVault.vault.azure.net/keys/testkey",
+            "attributes": {
+              "enabled": true,
+              "created": 1498072075,
+              "updated": 1498072075
+            }
+          }
+        ],
+        "skipToken": "testSkipToken"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

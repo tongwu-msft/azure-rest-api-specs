@@ -1,0 +1,256 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.logicapps.integrationaccounts.logtrackingevents
+name: Log Tracking Events
+service: Logic Apps
+groupName: Integration Accounts
+apiVersion: 2016-06-01
+summary: Logs the integration account's tracking events.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/logTrackingEvents?api-version=2016-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: integrationAccountName
+  in: path
+  isRequired: true
+  description: The integration account name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+requestBody:
+- parameters:
+  - name: sourceType
+    in: body
+    isRequired: true
+    description: ''
+    types:
+    - uid: string
+  - name: trackEventsOptions
+    in: body
+    description: The track events operation options.
+    types:
+    - uid: TrackEventsOperationOptions
+  - name: events
+    in: body
+    isRequired: true
+    description: ''
+    types:
+    - uid: TrackingEvent
+      isArray: true
+requestHeader: []
+definitions:
+- name: TrackingEvent
+  kind: object
+  properties:
+  - name: eventLevel
+    description: The event level.
+    types:
+    - uid: EventLevel
+  - name: eventTime
+    description: ''
+    types:
+    - uid: string
+  - name: recordType
+    description: The tracking record type.
+    types:
+    - uid: TrackingRecordType
+  - name: error
+    description: ''
+    types:
+    - uid: TrackingEventErrorInfo
+- name: TrackingEventsDefinition
+  kind: object
+  properties:
+  - name: sourceType
+    description: ''
+    types:
+    - uid: string
+  - name: trackEventsOptions
+    description: The track events operation options.
+    types:
+    - uid: TrackEventsOperationOptions
+  - name: events
+    description: ''
+    types:
+    - uid: TrackingEvent
+      isArray: true
+- name: EventLevel
+  description: The event level.
+  kind: enum
+  properties:
+  - name: LogAlways
+    types:
+    - uid: string
+  - name: Critical
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Informational
+    types:
+    - uid: string
+  - name: Verbose
+    types:
+    - uid: string
+- name: TrackingRecordType
+  description: The tracking record type.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: Custom
+    types:
+    - uid: string
+  - name: AS2Message
+    types:
+    - uid: string
+  - name: AS2MDN
+    types:
+    - uid: string
+  - name: X12Interchange
+    types:
+    - uid: string
+  - name: X12FunctionalGroup
+    types:
+    - uid: string
+  - name: X12TransactionSet
+    types:
+    - uid: string
+  - name: X12InterchangeAcknowledgment
+    types:
+    - uid: string
+  - name: X12FunctionalGroupAcknowledgment
+    types:
+    - uid: string
+  - name: X12TransactionSetAcknowledgment
+    types:
+    - uid: string
+  - name: EdifactInterchange
+    types:
+    - uid: string
+  - name: EdifactFunctionalGroup
+    types:
+    - uid: string
+  - name: EdifactTransactionSet
+    types:
+    - uid: string
+  - name: EdifactInterchangeAcknowledgment
+    types:
+    - uid: string
+  - name: EdifactFunctionalGroupAcknowledgment
+    types:
+    - uid: string
+  - name: EdifactTransactionSetAcknowledgment
+    types:
+    - uid: string
+- name: TrackingEventErrorInfo
+  kind: object
+  properties:
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: code
+    description: ''
+    types:
+    - uid: string
+- name: TrackEventsOperationOptions
+  description: The track events operation options.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: DisableSourceInfoEnrich
+    types:
+    - uid: string
+examples:
+- name: Log a tracked event
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/integrationAccounts/testIntegrationAccount/logTrackingEvents?api-version=2016-06-01
+    body: >-
+      {
+        "sourceType": "Microsoft.Logic/workflows",
+        "source": {
+          "workflow": {
+            "systemId": "/locations/westus/scaleunits/test-01/workflows/bf501b3fceaa4a858a166aa64768ced5"
+          },
+          "runInstance": {
+            "runId": "08586772141809790618914792486CU03"
+          },
+          "operation": {
+            "operationName": "httpgetaction"
+          }
+        },
+        "events": [
+          {
+            "eventlevel": "Informational",
+            "eventTime": "2016-08-05T01:54:49.505567Z",
+            "recordType": "AS2Message",
+            "record": {
+              "agreementProperties": {
+                "senderPartnerName": "testPartner1",
+                "receiverPartnerName": "testPartner2",
+                "as2To": "testas2to",
+                "as2From": "testas2from",
+                "agreementName": "testAgreement"
+              },
+              "messageProperties": {
+                "direction": "Receive",
+                "messageId": "12345",
+                "dispositionType": "received-success",
+                "fileName": "test",
+                "isMessageFailed": false,
+                "IsMessageEncrypted": false,
+                "IsMessageSigned": false,
+                "correlationMessageId": "Unique message identifier",
+                "isMessageCompressed": false,
+                "isNrrEnabled": true,
+                "isMdnExpected": true,
+                "mdnType": "Async"
+              }
+            },
+            "error": {
+              "message": "Some error occurred",
+              "code": "NotFound"
+            }
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

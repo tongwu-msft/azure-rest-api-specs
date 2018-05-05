@@ -4,7 +4,11 @@ name: Get Timezone IANA Version
 service: Maps
 groupName: Timezone
 apiVersion: "1.0"
-summary: Returns the current IANA version
+summary: >-
+  __Time Zone IANA Version__
+
+
+  This API returns the current IANA version number.
 consumes: []
 produces:
 - application/json
@@ -37,23 +41,23 @@ responses:
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 401 Unauthorized
   description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: TimezoneIanaVersionResult
@@ -65,13 +69,21 @@ definitions:
     description: Version property
     types:
     - uid: string
-- name: Error
-  description: This object is returned when an error occurs in the Location Based Service API
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
   kind: object
   properties:
-  - name: statuscode
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
     isReadyOnly: true
-    description: Error code.
+    description: The HTTP status code.
     types:
     - uid: string
   - name: message
@@ -92,32 +104,42 @@ examples:
   - statusCode: "400"
     body: >-
       {
-        "statuscode": "400",
-        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
       }
   - statusCode: "401"
     body: >-
       {
-        "statuscode": "401",
-        "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
       }
   - statusCode: "403"
     body: >-
       {
-        "statuscode": "403",
-        "message": "Permission, capacity, or authentication issues."
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
       }
   - statusCode: "404"
     body: >-
       {
-        "statuscode": "404",
-        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
       }
   - statusCode: "500"
     body: >-
       {
-        "statuscode": "500",
-        "message": "An error occurred while processing the request. Please try again later."
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
       }
 security:
 - name: Ocp-Apim-Subscription-Key

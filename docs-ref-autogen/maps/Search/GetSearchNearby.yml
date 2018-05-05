@@ -4,7 +4,7 @@ name: Get Search Nearby
 service: Maps
 groupName: Search
 apiVersion: "1.0"
-summary: Returns the nearby POIs around the given location.
+summary: '**Nearby Search**<br><br>If you have a use case for only retrieving POI results around a specific location, the nearby search method may be the right choice. This endpoint will only return POI results, and does not take in a search query parameter.'
 consumes: []
 produces:
 - application/json
@@ -17,7 +17,7 @@ uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Possible values are json & xml.
+  description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
   - uid: string
 - name: subscription-key
@@ -35,18 +35,18 @@ uriParameters:
 - name: lat
   in: query
   isRequired: true
-  description: Latitude where results should be biased. E.g. 37.337
+  description: Latitude where results should be biased. E.g. 37.337.
   types:
   - uid: number
 - name: lon
   in: query
   isRequired: true
-  description: Longitude where results should be biased. E.g. -121.89
+  description: Longitude where results should be biased. E.g. -121.89.
   types:
   - uid: number
 - name: limit
   in: query
-  description: Maximum number of responses that will be returned.
+  description: 'Maximum number of responses that will be returned. Default: 10, minimum: 1 and maximum: 100'
   types:
   - uid: integer
 - name: ofs
@@ -61,17 +61,17 @@ uriParameters:
   - uid: array
 - name: radius
   in: query
-  description: The radius in meters to for the results to be constrained to the defined area
+  description: The radius in meters to for the results to be constrained to the defined area, Min value is 1, Max Value is 50000.
   types:
   - uid: number
 - name: language
   in: query
-  description: Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used
+  description: Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used. Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/maps/supported-languages) for details.
   types:
   - uid: string
 - name: extendedPostalCodesFor
   in: query
-  description: Indexes for which extended postal codes should be included in the results. POI = Points of Interest
+  description: "Indexes for which extended postal codes should be included in the results.\n\nAvailable indexes are: \n\n **Addr** = Address ranges \n\n **Geo** = Geographies \n\n **PAD** = Point Addresses \n\n **POI** = Points of Interest \n\n **Str** = Streets \n\n **XStr** = Cross Streets (intersections)\n\nValue should be a comma separated list of index types (in any order) or **None** for no indexes.\n\nBy default extended postal codes are included for all indexes except Geo. Extended postal code lists for geographies can be quite long so they have to be explicitly requested when needed.\n\nUsage examples:\n\n extendedPostalCodesFor=POI \n\n extendedPostalCodesFor=PAD,Addr,POI \n\n extendedPostalCodesFor=None\n\nExtended postal code is returned as an **extendedPostalCode** property of an address. Availability is region-dependent."
   types:
   - uid: string
 responses:
@@ -82,23 +82,23 @@ responses:
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 401 Unauthorized
   description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: SearchNearbyResult
@@ -116,20 +116,14 @@ definitions:
     types:
     - uid: Results
       isArray: true
-- name: Error
-  description: This object is returned when an error occurs in the Location Based Service API
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
   kind: object
   properties:
-  - name: statuscode
-    isReadyOnly: true
-    description: Error code.
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: If available, a human readable description of the error.
-    types:
-    - uid: string
+    - uid: Error
 - name: Summary
   description: Summary object
   kind: object
@@ -199,7 +193,7 @@ definitions:
     types:
     - uid: string
   - name: poi
-    description: POI property
+    description: Details of the poi including the name, phone, url, and categories.
     types:
     - uid: Poi
   - name: address
@@ -219,8 +213,22 @@ definitions:
     types:
     - uid: EntryPoint
       isArray: true
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
 - name: Poi
-  description: POI property
+  description: Details of the poi including the name, phone, url, and categories.
   kind: object
   properties:
   - name: name
@@ -381,19 +389,23 @@ definitions:
     types:
     - uid: BtmRightPoint
 - name: EntryPoint
+  description: The entry point for the POI being returned.
   kind: object
   properties:
   - name: type
     isReadyOnly: true
-    description: The entry point for the POI being returned.
+    description: The type of entry point. Value can be either _main_ or _minor_.
     types:
-    - uid: string
+    - uid: main
+    - uid: minor
+    typesTitle: enum
   - name: position
     isReadyOnly: true
     description: Name property
     types:
     - uid: Position
 - name: Classification
+  description: The classification for the POI being returned
   kind: object
   properties:
   - name: code
@@ -450,6 +462,7 @@ definitions:
     types:
     - uid: number
 - name: ClassificationName
+  description: Name for the classification
   kind: object
   properties:
   - name: nameLocale
@@ -463,204 +476,694 @@ definitions:
     types:
     - uid: string
 examples:
-- name: GetSearchPOI
+- name: Search for any points of interest (POI) within 5 miles of Manhattan NY and return the top 10 results
   request:
-    uri: GET https://atlas.microsoft.com/search/nearby/json?api-version=1.0&lat=47.6&lon=-122.3&radius=30
+    uri: GET https://atlas.microsoft.com/search/nearby/json?api-version=1.0&lat=40.70627&lon=-74.011454&limit=10&radius=8046
   responses:
   - statusCode: "200"
     body: >-
       {
         "summary": {
           "queryType": "NEARBY",
-          "queryTime": 17,
-          "numResults": 3,
+          "queryTime": 137,
+          "numResults": 10,
           "offset": 0,
-          "totalResults": 3,
+          "totalResults": 256620,
           "fuzzyLevel": 1,
           "geoBias": {
-            "lat": 47.6,
-            "lon": -122.3
+            "lat": 40.70627,
+            "lon": -74.011454
           }
         },
         "results": [
           {
             "type": "POI",
-            "id": "US/POI/p1/282915",
+            "id": "US/POI/p1/7652731",
             "score": 1,
-            "dist": 0,
-            "info": "search:decarta:geonames:6492268",
+            "dist": 14.736843483489132,
+            "info": "search:ta:840369002225435-US",
             "poi": {
-              "name": "Travelodge Seattle North/Aurora",
+              "name": "Ycd Multimedia",
+              "phone": "+(1)-(212)-5091049",
               "categories": [
-                "hotel"
+                "non governmental organization"
               ],
               "classifications": [
                 {
-                  "code": "HOTEL_MOTEL",
+                  "code": "NON_GOVERNMENTAL_ORGANIZATION",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "hotel"
+                      "name": "non governmental organization"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "municipality": "Seattle",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
+              "streetNumber": "55",
+              "streetName": "Exchange Pl",
+              "municipalitySubdivision": "New York City, NYC, New York, Financial District",
+              "municipality": "Wall Street, New York City, NYC, NY City, NY, Manhattan, Bowling Green, New York",
+              "countrySecondarySubdivision": "New York",
+              "countryTertiarySubdivision": "Manhattan",
+              "countrySubdivision": "NY",
+              "postalCode": "10004",
+              "extendedPostalCode": "100042320",
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "Seattle, WA",
-              "countrySubdivisionName": "Washington"
+              "freeformAddress": "55 Exchange Pl, New York, NY 10004",
+              "countrySubdivisionName": "New York"
             },
             "position": {
-              "lat": 47.6,
-              "lon": -122.3
+              "lat": 40.7064,
+              "lon": -74.01142
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.6009,
-                "lon": -122.30133
+                "lat": 40.7073,
+                "lon": -74.01261
               },
               "btmRightPoint": {
-                "lat": 47.5991,
-                "lon": -122.29867
-              }
-            }
-          },
-          {
-            "type": "POI",
-            "id": "US/POI/p1/269951",
-            "score": 0.999,
-            "dist": 24.777493439802786,
-            "info": "search:decarta:ta:840539000199001-US",
-            "poi": {
-              "name": "Seattle Housing Authority Resident Managers",
-              "phone": "+(1)-(206)-3207745",
-              "categories": [
-                "welfare organization"
-              ],
-              "classifications": [
-                {
-                  "code": "WELFARE_ORGANIZATION",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "welfare organization"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "323",
-              "streetName": "25th Ave S",
-              "municipalitySubdivision": "Atlantic, Seattle",
-              "municipality": "Beacon Hill, Seattle",
-              "countrySecondarySubdivision": "King",
-              "countryTertiarySubdivision": "Seattle",
-              "countrySubdivision": "WA",
-              "postalCode": "98144",
-              "extendedPostalCode": "981442460",
-              "countryCode": "US",
-              "country": "United States Of America",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "323 25th Ave S, Seattle, WA 98144",
-              "countrySubdivisionName": "Washington"
-            },
-            "position": {
-              "lat": 47.59984,
-              "lon": -122.30023
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.60074,
-                "lon": -122.30156
-              },
-              "btmRightPoint": {
-                "lat": 47.59894,
-                "lon": -122.2989
+                "lat": 40.7055,
+                "lon": -74.01023
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.59983,
-                  "lon": -122.29987
+                  "lat": 40.70636,
+                  "lon": -74.01145
                 }
               }
             ]
           },
           {
             "type": "POI",
-            "id": "US/POI/p0/3494905",
-            "score": 0.999,
-            "dist": 24.777493439802786,
-            "info": "search:decarta:ta:840531000364599-US",
+            "id": "US/POI/p1/7652732",
+            "score": 1,
+            "dist": 14.736843483489132,
+            "info": "search:ta:840369001882610-US",
             "poi": {
-              "name": "Seattle Housing Authority",
-              "phone": "+(1)-(206)-3207745",
-              "url": "www.seattlehousing.org",
+              "name": "Grubb & Ellis Management Services",
+              "phone": "+(1)-(212)-7851619",
               "categories": [
-                "residential accommodation",
-                "retirement community"
+                "company",
+                "services"
               ],
               "classifications": [
                 {
-                  "code": "RESIDENTIAL_ACCOMMODATION",
+                  "code": "COMPANY",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "residential accommodation"
+                      "name": "company"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "retirement community"
+                      "name": "services"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "323",
-              "streetName": "25th Ave S",
-              "municipalitySubdivision": "Atlantic, Seattle",
-              "municipality": "Beacon Hill, Seattle",
-              "countrySecondarySubdivision": "King",
-              "countryTertiarySubdivision": "Seattle",
-              "countrySubdivision": "WA",
-              "postalCode": "98144",
-              "extendedPostalCode": "981442460",
+              "streetNumber": "55",
+              "streetName": "Exchange Pl",
+              "municipalitySubdivision": "New York City, NYC, New York, Financial District",
+              "municipality": "Wall Street, New York City, NYC, NY City, NY, Manhattan, Bowling Green, New York",
+              "countrySecondarySubdivision": "New York",
+              "countryTertiarySubdivision": "Manhattan",
+              "countrySubdivision": "NY",
+              "postalCode": "10004",
+              "extendedPostalCode": "100042320",
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "323 25th Ave S, Seattle, WA 98144",
-              "countrySubdivisionName": "Washington"
+              "freeformAddress": "55 Exchange Pl, New York, NY 10004",
+              "countrySubdivisionName": "New York"
             },
             "position": {
-              "lat": 47.59984,
-              "lon": -122.30023
+              "lat": 40.7064,
+              "lon": -74.01142
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.60074,
-                "lon": -122.30156
+                "lat": 40.7073,
+                "lon": -74.01261
               },
               "btmRightPoint": {
-                "lat": 47.59894,
-                "lon": -122.2989
+                "lat": 40.7055,
+                "lon": -74.01023
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.59983,
-                  "lon": -122.29987
+                  "lat": 40.70636,
+                  "lon": -74.01145
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p1/7652735",
+            "score": 1,
+            "dist": 14.736843483489132,
+            "info": "search:ta:840369001322824-US",
+            "poi": {
+              "name": "Hispanic Federation",
+              "phone": "+(1)-(212)-7420480",
+              "url": "Hispanicfederation.org",
+              "categories": [
+                "automotive dealer",
+                "boat"
+              ],
+              "classifications": [
+                {
+                  "code": "AUTOMOTIVE_DEALER",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "boat"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "automotive dealer"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "55",
+              "streetName": "Exchange Pl",
+              "municipalitySubdivision": "New York City, NYC, New York, Financial District",
+              "municipality": "Wall Street, New York City, NYC, NY City, NY, Manhattan, Bowling Green, New York",
+              "countrySecondarySubdivision": "New York",
+              "countryTertiarySubdivision": "Manhattan",
+              "countrySubdivision": "NY",
+              "postalCode": "10004",
+              "extendedPostalCode": "100042320",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "55 Exchange Pl, New York, NY 10004",
+              "countrySubdivisionName": "New York"
+            },
+            "position": {
+              "lat": 40.7064,
+              "lon": -74.01142
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 40.7073,
+                "lon": -74.01261
+              },
+              "btmRightPoint": {
+                "lat": 40.7055,
+                "lon": -74.01023
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 40.70636,
+                  "lon": -74.01145
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p1/7652736",
+            "score": 1,
+            "dist": 14.736843483489132,
+            "info": "search:ta:840369000631230-US",
+            "poi": {
+              "name": "Edwin Gould Foundation",
+              "phone": "+(1)-(212)-9825200",
+              "url": "edwingouldfoundation.org",
+              "categories": [
+                "non governmental organization"
+              ],
+              "classifications": [
+                {
+                  "code": "NON_GOVERNMENTAL_ORGANIZATION",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "non governmental organization"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "55",
+              "streetName": "Exchange Pl",
+              "municipalitySubdivision": "New York City, NYC, New York, Financial District",
+              "municipality": "Wall Street, New York City, NYC, NY City, NY, Manhattan, Bowling Green, New York",
+              "countrySecondarySubdivision": "New York",
+              "countryTertiarySubdivision": "Manhattan",
+              "countrySubdivision": "NY",
+              "postalCode": "10004",
+              "extendedPostalCode": "100042320",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "55 Exchange Pl, New York, NY 10004",
+              "countrySubdivisionName": "New York"
+            },
+            "position": {
+              "lat": 40.7064,
+              "lon": -74.01142
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 40.7073,
+                "lon": -74.01261
+              },
+              "btmRightPoint": {
+                "lat": 40.7055,
+                "lon": -74.01023
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 40.70636,
+                  "lon": -74.01145
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p1/7652737",
+            "score": 1,
+            "dist": 14.736843483489132,
+            "info": "search:ta:840369001196585-US",
+            "poi": {
+              "name": "Newmark Grubb Knight Frank",
+              "phone": "+(1)-(646)-6951990",
+              "url": "www.newmarkkf.com",
+              "categories": [
+                "real estate agents",
+                "shop"
+              ],
+              "classifications": [
+                {
+                  "code": "SHOP",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "shop"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "real estate agents"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "55",
+              "streetName": "Exchange Pl",
+              "municipalitySubdivision": "New York City, NYC, New York, Financial District",
+              "municipality": "Wall Street, New York City, NYC, NY City, NY, Manhattan, Bowling Green, New York",
+              "countrySecondarySubdivision": "New York",
+              "countryTertiarySubdivision": "Manhattan",
+              "countrySubdivision": "NY",
+              "postalCode": "10004",
+              "extendedPostalCode": "100042320",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "55 Exchange Pl, New York, NY 10004",
+              "countrySubdivisionName": "New York"
+            },
+            "position": {
+              "lat": 40.7064,
+              "lon": -74.01142
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 40.7073,
+                "lon": -74.01261
+              },
+              "btmRightPoint": {
+                "lat": 40.7055,
+                "lon": -74.01023
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 40.70636,
+                  "lon": -74.01145
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p1/7652738",
+            "score": 1,
+            "dist": 14.736843483489132,
+            "info": "search:ta:840369002164164-US",
+            "poi": {
+              "name": "Sponsors For Educational Opportunity",
+              "phone": "+(1)-(212)-7851361",
+              "url": "www.seo-usa.org",
+              "categories": [
+                "non governmental organization"
+              ],
+              "classifications": [
+                {
+                  "code": "NON_GOVERNMENTAL_ORGANIZATION",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "non governmental organization"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "55",
+              "streetName": "Exchange Pl",
+              "municipalitySubdivision": "New York City, NYC, New York, Financial District",
+              "municipality": "Wall Street, New York City, NYC, NY City, NY, Manhattan, Bowling Green, New York",
+              "countrySecondarySubdivision": "New York",
+              "countryTertiarySubdivision": "Manhattan",
+              "countrySubdivision": "NY",
+              "postalCode": "10004",
+              "extendedPostalCode": "100042320",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "55 Exchange Pl, New York, NY 10004",
+              "countrySubdivisionName": "New York"
+            },
+            "position": {
+              "lat": 40.7064,
+              "lon": -74.01142
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 40.7073,
+                "lon": -74.01261
+              },
+              "btmRightPoint": {
+                "lat": 40.7055,
+                "lon": -74.01023
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 40.70636,
+                  "lon": -74.01145
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p0/7373205",
+            "score": 1,
+            "dist": 14.736843483489132,
+            "info": "search:ta:840361001736646-US",
+            "poi": {
+              "name": "Visiting Nurse Service",
+              "phone": "+(1)-(212)-7428259",
+              "url": "www.vnsny.org",
+              "categories": [
+                "health care service"
+              ],
+              "classifications": [
+                {
+                  "code": "HEALTH_CARE_SERVICE",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "health care service"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "55",
+              "streetName": "Exchange Pl",
+              "municipalitySubdivision": "New York City, NYC, New York, Financial District",
+              "municipality": "Wall Street, New York City, NYC, NY City, NY, Manhattan, Bowling Green, New York",
+              "countrySecondarySubdivision": "New York",
+              "countryTertiarySubdivision": "Manhattan",
+              "countrySubdivision": "NY",
+              "postalCode": "10004",
+              "extendedPostalCode": "100042320",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "55 Exchange Pl, New York, NY 10004",
+              "countrySubdivisionName": "New York"
+            },
+            "position": {
+              "lat": 40.7064,
+              "lon": -74.01142
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 40.7073,
+                "lon": -74.01261
+              },
+              "btmRightPoint": {
+                "lat": 40.7055,
+                "lon": -74.01023
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 40.70636,
+                  "lon": -74.01145
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p0/7373206",
+            "score": 1,
+            "dist": 14.736843483489132,
+            "info": "search:ta:840361001326915-US",
+            "poi": {
+              "name": "Hispanic In Philanthropy",
+              "phone": "+(1)-(646)-2777101",
+              "url": "www.hiponline.org",
+              "categories": [
+                "non governmental organization"
+              ],
+              "classifications": [
+                {
+                  "code": "NON_GOVERNMENTAL_ORGANIZATION",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "non governmental organization"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "55",
+              "streetName": "Exchange Pl",
+              "municipalitySubdivision": "New York City, NYC, New York, Financial District",
+              "municipality": "Wall Street, New York City, NYC, NY City, NY, Manhattan, Bowling Green, New York",
+              "countrySecondarySubdivision": "New York",
+              "countryTertiarySubdivision": "Manhattan",
+              "countrySubdivision": "NY",
+              "postalCode": "10004",
+              "extendedPostalCode": "100042320",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "55 Exchange Pl, New York, NY 10004",
+              "countrySubdivisionName": "New York"
+            },
+            "position": {
+              "lat": 40.7064,
+              "lon": -74.01142
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 40.7073,
+                "lon": -74.01261
+              },
+              "btmRightPoint": {
+                "lat": 40.7055,
+                "lon": -74.01023
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 40.70636,
+                  "lon": -74.01145
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p0/7373207",
+            "score": 1,
+            "dist": 14.736843483489132,
+            "info": "search:ta:840369002316633-US",
+            "poi": {
+              "name": "Advantage Technical Resourcing",
+              "phone": "+(1)-(212)-2691140",
+              "categories": [
+                "company",
+                "services"
+              ],
+              "classifications": [
+                {
+                  "code": "COMPANY",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "company"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "services"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "55",
+              "streetName": "Exchange Pl",
+              "municipalitySubdivision": "New York City, NYC, New York, Financial District",
+              "municipality": "Wall Street, New York City, NYC, NY City, NY, Manhattan, Bowling Green, New York",
+              "countrySecondarySubdivision": "New York",
+              "countryTertiarySubdivision": "Manhattan",
+              "countrySubdivision": "NY",
+              "postalCode": "10004",
+              "extendedPostalCode": "100042320",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "55 Exchange Pl, New York, NY 10004",
+              "countrySubdivisionName": "New York"
+            },
+            "position": {
+              "lat": 40.7064,
+              "lon": -74.01142
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 40.7073,
+                "lon": -74.01261
+              },
+              "btmRightPoint": {
+                "lat": 40.7055,
+                "lon": -74.01023
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 40.70636,
+                  "lon": -74.01145
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p0/7373208",
+            "score": 1,
+            "dist": 14.736843483489132,
+            "info": "search:ta:840369002031974-US",
+            "poi": {
+              "name": "Workshop In Bus Opportunities",
+              "phone": "+(1)-(212)-6840854",
+              "url": "www.wibo.org",
+              "categories": [
+                "company",
+                "services"
+              ],
+              "classifications": [
+                {
+                  "code": "COMPANY",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "company"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "services"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "55",
+              "streetName": "Exchange Pl",
+              "municipalitySubdivision": "New York City, NYC, New York, Financial District",
+              "municipality": "Wall Street, New York City, NYC, NY City, NY, Manhattan, Bowling Green, New York",
+              "countrySecondarySubdivision": "New York",
+              "countryTertiarySubdivision": "Manhattan",
+              "countrySubdivision": "NY",
+              "postalCode": "10004",
+              "extendedPostalCode": "100042320",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "55 Exchange Pl, New York, NY 10004",
+              "countrySubdivisionName": "New York"
+            },
+            "position": {
+              "lat": 40.7064,
+              "lon": -74.01142
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 40.7073,
+                "lon": -74.01261
+              },
+              "btmRightPoint": {
+                "lat": 40.7055,
+                "lon": -74.01023
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 40.70636,
+                  "lon": -74.01145
                 }
               }
             ]
@@ -670,32 +1173,42 @@ examples:
   - statusCode: "400"
     body: >-
       {
-        "statuscode": "400",
-        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
       }
   - statusCode: "401"
     body: >-
       {
-        "statuscode": "401",
-        "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
       }
   - statusCode: "403"
     body: >-
       {
-        "statuscode": "403",
-        "message": "Permission, capacity, or authentication issues."
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
       }
   - statusCode: "404"
     body: >-
       {
-        "statuscode": "404",
-        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
       }
   - statusCode: "500"
     body: >-
       {
-        "statuscode": "500",
-        "message": "An error occurred while processing the request. Please try again later."
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
       }
 security:
 - name: Ocp-Apim-Subscription-Key

@@ -1,30 +1,23 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.search.searchinsidegeometry
-name: Search Inside Geometry
+uid: atlas.microsoft.com.maps.search.getsearchalongroute
+name: Get Search Along Route
 service: Maps
 groupName: Search
 apiVersion: "1.0"
-summary: >-
-  The geometry search endpoint allows you to perform a free form search inside a single geometry or many of them. The search results that fall inside the geometry/geometries will be returned.
-
-
-  Available geometry types are Polygon and Circle. The geometry should be provided as a GeoJSON FeatureCollection. The FeatureCollection can contain a Max of 50 GeoJSON Feature objects. Each Feature object should represent either a Polygon or a Circle. A Polygon geometry can have a max of 50 coordinates. A Feature object for the Circle geometry must contain the radius value (in meters) in the object's properties.
-
-
-  To send the geometry you will use a POST/GET request with the JSON as a string value for the geometryList parameter, POST is recommended for large datasets. POST requests require the "Content-Type" header to be set to "application/json"
+summary: The Search Along Route endpoint allows you to perform a fuzzy search for POIs along a specified route. This search is constrained by specifying the `maxDetourTime` limiting measure.<br><br>To send the route-points you will use a `GET` request where the `route` parameter is represented as a `GeoJSON LineString` type. Each route-point in `route` is represented as a `GeoJSON Position` type i.e. an array where the _longitude_ value is followed by the _latitude_ value and the _altitude_ value is ignored. The `route` should contain at least 2 route-points.<br><br>It is possible that original route will be altered, some of it's points may be skipped. If the route that passes through the found point is faster than the original one, the `detourTime` value in the response is negative.
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: POST https://atlas.microsoft.com/search/geometry/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
-- content: POST https://atlas.microsoft.com/search/geometry/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&limit={limit}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&idxSet={idxSet}
+- content: GET https://atlas.microsoft.com/search/alongRoute/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&route={route}&maxDetourTime={maxDetourTime}
+- content: GET https://atlas.microsoft.com/search/alongRoute/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&route={route}&maxDetourTime={maxDetourTime}&limit={limit}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Possible values are json & xml.
+  description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
   - uid: string
 - name: subscription-key
@@ -42,87 +35,55 @@ uriParameters:
 - name: query
   in: query
   isRequired: true
-  description: The applicable query string and/or coordinates
+  description: The applicable query string. Must be properly URL encoded.
   types:
   - uid: string
-- name: limit
+- name: route
   in: query
-  description: Maximum number of responses that will be returned.
+  isRequired: true
+  description: This represents the route to search along and should be a valid `GeoJSON LineString` type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details.
+  types:
+  - uid: string
+- name: maxDetourTime
+  in: query
+  isRequired: true
+  description: Maximum detour time of the point of interest in seconds. Max value is 3600 seconds
   types:
   - uid: integer
-- name: language
+- name: limit
   in: query
-  description: Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used
+  description: Maximum number of responses that will be returned. Default value is 10. Max value is 20
   types:
-  - uid: string
-- name: extendedPostalCodesFor
-  in: query
-  description: 'Indexes for which extended postal codes should be included in the results. Available indexes are: Addr = Address ranges, Geo = Geographies, PAD = Point Addresses, POI = Points of Interest, Str = Streets, XStr = Cross Streets (intersections)'
-  types:
-  - uid: string
-- name: idxSet
-  in: query
-  description: 'A comma separated list of indexes which should be utilized for the search. Item order does not matter. Available indexes are: Addr = Address range interpolation, Geo = Geographies, PAD = Point Addresses, POI = Points of interest, Str = Streets, Xstr = Cross Streets (intersections)'
-  types:
-  - uid: array
+  - uid: integer
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SearchGeometryResult
+  - uid: SearchAlongRouteResponse
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 401 Unauthorized
   description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: Error
+  - uid: ErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: Error
-requestBody:
-- parameters:
-  - name: type
-    in: body
-    description: Type property. Value should always be equal to - FeatureCollection
-    types:
-    - uid: string
-  - name: features
-    in: body
-    description: Contains a list of GeoJSON compliant Feature objects
-    types:
-    - uid: FeatureGeoJson
-      isArray: true
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: FeatureGeoJson
-  description: A GeoJSON compliant Feature object
-  kind: object
-  properties:
-  - name: type
-    description: Type property. Value should always be equal to - Feature
-    types:
-    - uid: string
-  - name: geometry
-    description: A GeoJSON compliant Geometry object
-    types:
-    - uid: GeometryGeoJson
-  - name: properties
-    description: Properties can contain addition metadata about the Feature. Value can be any JSON object or a JSON null value.
-    types:
-    - uid: object
-- name: SearchGeometryResult
-  description: This object is returned from a successful Search By Geometry call
+- name: SearchAlongRouteResponse
+  description: This object is returned from a successful Search Along Route call.
   kind: object
   properties:
   - name: summary
@@ -132,50 +93,18 @@ definitions:
     - uid: Summary
   - name: results
     isReadyOnly: true
-    description: Results array
+    description: A list of Search Along Route results.
     types:
-    - uid: SearchGeometryResultArray
+    - uid: SearchAlongRouteResult
       isArray: true
-- name: Error
-  description: This object is returned when an error occurs in the Location Based Service API
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
   kind: object
   properties:
-  - name: statuscode
-    isReadyOnly: true
-    description: Error code.
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: If available, a human readable description of the error.
-    types:
-    - uid: string
-- name: FeatureCollectionGeoJson
-  description: A GeoJSON compliant FeatureCollection object
-  kind: object
-  properties:
-  - name: type
-    description: Type property. Value should always be equal to - FeatureCollection
-    types:
-    - uid: string
-  - name: features
-    description: Contains a list of GeoJSON compliant Feature objects
-    types:
-    - uid: FeatureGeoJson
-      isArray: true
-- name: GeometryGeoJson
-  description: A GeoJSON compliant Geometry object
-  kind: object
-  properties:
-  - name: type
-    description: Type property. This value must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection
-    types:
-    - uid: string
-  - name: coordinates
-    description: Coordinates for the geometry object. Each Position object in Coordinates should be GeoJSON compliant i.e. longitude precedes latitute. Depending on the geometry this might be a 1d, 2d or a 3d array. Refer to RFC7946 for details.
-    types:
-    - uid: LineStringGeoJson
-      isArray: true
+    - uid: Error
 - name: Summary
   description: Summary object
   kind: object
@@ -215,7 +144,8 @@ definitions:
     description: FuzzyLevel property
     types:
     - uid: integer
-- name: SearchGeometryResultArray
+- name: SearchAlongRouteResult
+  description: This type represents the Search Along Route result object.
   kind: object
   properties:
   - name: type
@@ -244,7 +174,7 @@ definitions:
     types:
     - uid: string
   - name: poi
-    description: POI property
+    description: Details of the poi including the name, phone, url, and categories.
     types:
     - uid: Poi
   - name: address
@@ -264,21 +194,32 @@ definitions:
     types:
     - uid: EntryPoint
       isArray: true
-- name: LineStringGeoJson
-  description: A GeoJSON compliant LineString Geometry object
+  - name: dist
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: number
+  - name: detourTime
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: number
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
   kind: object
   properties:
-  - name: type
-    description: Type property. This value must be equal to LineString.
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
     types:
     - uid: string
-  - name: coordinates
-    description: Coordinates for the LineString object. Each Position object in Coordinates should be GeoJSON compliant i.e. longitude precedes latitute. Refer to RFC7946 for details.
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
     types:
-    - uid: LineStringGeoJson
-      isArray: true
+    - uid: string
 - name: Poi
-  description: POI property
+  description: Details of the poi including the name, phone, url, and categories.
   kind: object
   properties:
   - name: name
@@ -439,19 +380,23 @@ definitions:
     types:
     - uid: BtmRightPoint
 - name: EntryPoint
+  description: The entry point for the POI being returned.
   kind: object
   properties:
   - name: type
     isReadyOnly: true
-    description: The entry point for the POI being returned.
+    description: The type of entry point. Value can be either _main_ or _minor_.
     types:
-    - uid: string
+    - uid: main
+    - uid: minor
+    typesTitle: enum
   - name: position
     isReadyOnly: true
     description: Name property
     types:
     - uid: Position
 - name: Classification
+  description: The classification for the POI being returned
   kind: object
   properties:
   - name: code
@@ -508,6 +453,7 @@ definitions:
     types:
     - uid: number
 - name: ClassificationName
+  description: Name for the classification
   kind: object
   properties:
   - name: nameLocale
@@ -521,240 +467,206 @@ definitions:
     types:
     - uid: string
 examples:
-- name: SearchInsideGeometry
+- name: Search for burger joints along a route
   request:
-    uri: POST https://atlas.microsoft.com/search/geometry/json?api-version=1.0&query=pizza&limit=2
-    body: >-
-      {
-        "type": "FeatureCollection",
-        "features": [
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Polygon",
-              "coordinates": [
-                [
-                  [
-                    -122.143035,
-                    47.653536
-                  ],
-                  [
-                    -122.187164,
-                    47.617556
-                  ],
-                  [
-                    -122.114981,
-                    47.570599
-                  ],
-                  [
-                    -122.132756,
-                    47.654009
-                  ],
-                  [
-                    -122.143035,
-                    47.653536
-                  ]
-                ]
-              ]
-            },
-            "properties": {}
-          },
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates": [
-                -122.126986,
-                47.639754
-              ]
-            },
-            "properties": {
-              "radius": 100
-            }
-          }
-        ]
-      }
+    uri: GET https://atlas.microsoft.com/search/alongRoute/json?api-version=1.0&query=burger&maxDetourTime=1000&limit=2
   responses:
   - statusCode: "200"
     body: >-
       {
         "summary": {
-          "query": "pizza",
+          "query": "burger",
           "queryType": "NON_NEAR",
-          "queryTime": 45,
-          "numResults": 2,
+          "queryTime": 409,
+          "numResults": 13,
           "offset": 0,
-          "totalResults": 18,
+          "totalResults": 13,
           "fuzzyLevel": 1
         },
         "results": [
           {
             "type": "POI",
-            "id": "US/POI/p1/199865",
-            "score": 4,
-            "info": "search:decarta:ta:840539000519519-US",
+            "id": "US/POI/p0/3492825",
+            "score": 4.89,
+            "dist": 3479.404482853342,
+            "info": "search:decarta:ta:840539000647577-US",
             "poi": {
-              "name": "Tutta Bella",
-              "phone": "+(1)-(425)-5027402",
-              "url": "TuttaBella.com",
+              "name": "Mugshots Burger N' Brew",
+              "phone": "+(1)-(425)-7468852",
+              "url": "www.mugshotsburgernbrew.com/",
               "categories": [
-                "pizza",
-                "restaurant"
+                "cocktail bar",
+                "nightlife"
               ],
               "classifications": [
                 {
-                  "code": "RESTAURANT",
+                  "code": "NIGHTLIFE",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "nightlife"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "cocktail bar"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "15600",
-              "streetName": "NE 8th St",
+              "streetNumber": "1428",
+              "streetName": "156th Ave NE",
               "municipalitySubdivision": "Bellevue, Crossroads",
-              "municipality": "Bellevue",
-              "countrySecondarySubdivision": "King",
-              "countryTertiarySubdivision": "Seattle East",
-              "countrySubdivision": "WA",
-              "postalCode": "98008",
-              "extendedPostalCode": "980084084",
-              "countryCode": "US",
-              "country": "United States Of America",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "15600 NE 8th St, Bellevue, WA 98008",
-              "countrySubdivisionName": "Washington"
-            },
-            "position": {
-              "lat": 47.61705,
-              "lon": -122.13228
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.61795,
-                "lon": -122.13361
-              },
-              "btmRightPoint": {
-                "lat": 47.61615,
-                "lon": -122.13095
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.61701,
-                  "lon": -122.13228
-                }
-              }
-            ]
-          },
-          {
-            "type": "POI",
-            "id": "US/POI/p1/205464",
-            "score": 4,
-            "info": "search:decarta:ta:840539000714286-US",
-            "poi": {
-              "name": "Q & S Food Co LLC",
-              "phone": "+(1)-(425)-7464764",
-              "categories": [
-                "pizza",
-                "restaurant"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "pizza"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "511",
-              "streetName": "141st Ave SE",
-              "municipalitySubdivision": "Bellevue, West Lake Hills",
               "municipality": "Bellevue, Eastgate",
               "countrySecondarySubdivision": "King",
               "countryTertiarySubdivision": "Seattle East",
               "countrySubdivision": "WA",
               "postalCode": "98007",
+              "extendedPostalCode": "980074421",
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "511 141st Ave SE, Bellevue, WA 98007",
+              "freeformAddress": "1428 156th Ave NE, Bellevue, WA 98007",
               "countrySubdivisionName": "Washington"
             },
             "position": {
-              "lat": 47.6051,
-              "lon": -122.15226
+              "lat": 47.62272,
+              "lon": -122.13239
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.606,
-                "lon": -122.15359
+                "lat": 47.62362,
+                "lon": -122.13372
               },
               "btmRightPoint": {
-                "lat": 47.6042,
-                "lon": -122.15093
+                "lat": 47.62182,
+                "lon": -122.13106
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.6051,
-                  "lon": -122.15219
+                  "lat": 47.62303,
+                  "lon": -122.13235
                 }
               }
-            ]
+            ],
+            "detourTime": -549
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p1/205585",
+            "score": 4.927,
+            "dist": 2296.770006012297,
+            "info": "search:decarta:ta:840539000615501-US",
+            "poi": {
+              "name": "Wendy's Old Fashioned Hamburgers",
+              "phone": "+(1)-(425)-8850988",
+              "url": "https://wendys.com",
+              "categories": [
+                "fast food",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "fast food"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "15945",
+              "streetName": "Redmond Way",
+              "municipalitySubdivision": "Redmond",
+              "municipality": "Adelaide, Ames Lake, Avondale, Earlmount, Redmond",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle East",
+              "countrySubdivision": "WA",
+              "postalCode": "98052",
+              "extendedPostalCode": "980523836",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "15945 Redmond Way, Redmond, WA 98052",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.6744,
+              "lon": -122.12786
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.6753,
+                "lon": -122.1292
+              },
+              "btmRightPoint": {
+                "lat": 47.6735,
+                "lon": -122.12652
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.67474,
+                  "lon": -122.12798
+                }
+              }
+            ],
+            "detourTime": -484
           }
         ]
       }
   - statusCode: "400"
     body: >-
       {
-        "statuscode": "400",
-        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
       }
   - statusCode: "401"
     body: >-
       {
-        "statuscode": "401",
-        "message": "Unauthorized: Access is denied due to invalid credentials."
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
       }
   - statusCode: "403"
     body: >-
       {
-        "statuscode": "403",
-        "message": "Permission, capacity, or authentication issues."
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
       }
   - statusCode: "404"
     body: >-
       {
-        "statuscode": "404",
-        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
       }
   - statusCode: "500"
     body: >-
       {
-        "statuscode": "500",
-        "message": "An error occurred while processing the request. Please try again later."
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
       }
 security:
 - name: Ocp-Apim-Subscription-Key
