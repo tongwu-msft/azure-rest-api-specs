@@ -1313,6 +1313,9 @@
 ##### [List Skus](cognitiveservices/accountmanagement/CognitiveServicesAccounts/ListSkus.yml)
 ##### [Regenerate Key](cognitiveservices/accountmanagement/CognitiveServicesAccounts/RegenerateKey.yml)
 ##### [Update](cognitiveservices/accountmanagement/CognitiveServicesAccounts/Update.yml)
+### Bing Visual Search
+#### [Images](cognitiveservices/bingvisualsearch/Images.yml)
+##### [Visual Search](cognitiveservices/bingvisualsearch/Images/VisualSearch.yml)
 ### Computer Vision
 #### [Analyze Image](cognitiveservices/computervision/AnalyzeImage.yml)
 ##### [Analyze Image](cognitiveservices/computervision/AnalyzeImage/AnalyzeImage.yml)
