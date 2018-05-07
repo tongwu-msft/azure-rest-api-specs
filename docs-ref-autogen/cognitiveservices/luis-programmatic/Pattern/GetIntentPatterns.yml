@@ -1,0 +1,109 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.pattern.getintentpatterns
+name: Get Intent Patterns
+service: Cognitive Services
+groupName: Pattern
+apiVersion: v2.0 preview
+summary: Returns patterns to be retrieved for the specific intent.
+produces:
+- application/json
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}/patternrules
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}/patternrules?skip={skip}&take={take}
+  isOptional: true
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+- name: intentId
+  in: path
+  isRequired: true
+  description: The intent classifier ID.
+  types:
+  - uid: string
+  format: uuid
+- name: skip
+  in: query
+  description: The number of entries to skip. Default value is 0.
+  types:
+  - uid: integer
+- name: take
+  in: query
+  description: The number of entries to return. Maximum page size is 500. Default is 100.
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: The retrieved patterns
+  types:
+  - uid: PatternRuleInfo
+    isArray: true
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PatternRuleInfo
+  description: Pattern rule
+  kind: object
+  properties:
+  - name: id
+    description: The pattern ID.
+    types:
+    - uid: string
+  - name: pattern
+    description: The pattern text.
+    types:
+    - uid: string
+  - name: intent
+    description: The intent's name where the pattern belongs to.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Successful Get Intent Patterns request
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/86226c53-b7a6-416f-876b-226b2b5ab07b/versions/0.1/intents/6dbed7e2-7df6-4cd6-a225-97e6fbe4493d/patternrules?skip=0&take=100
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "id": "cc8fa554-cc6c-4bcc-97eb-c8e5bc2091b3",
+          "pattern": "who's {Name} reporting to?",
+          "intent": "report to"
+        },
+        {
+          "id": "58077d3a-4bbb-47ba-8aa9-31c0ead0bf08",
+          "pattern": "who's reporting to {Name}?",
+          "intent": "report to"
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

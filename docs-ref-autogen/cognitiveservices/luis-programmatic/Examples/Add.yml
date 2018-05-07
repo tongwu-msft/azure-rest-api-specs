@@ -1,0 +1,142 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.examples.add
+name: Add
+service: Cognitive Services
+groupName: Examples
+apiVersion: v2.0 preview
+summary: Adds a labeled example to the application.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/example
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: The ID of the created example.
+  types:
+  - uid: LabelExampleResponse
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: text
+    in: body
+    description: The sample's utterance.
+    types:
+    - uid: string
+  - name: entityLabels
+    in: body
+    description: The idenfied entities within the utterance.
+    types:
+    - uid: EntityLabelObject
+      isArray: true
+  - name: intentName
+    in: body
+    description: The idenfitied intent representing the utterance.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: EntityLabelObject
+  description: Defines the entity type and position of the extracted entity within the example.
+  kind: object
+  properties:
+  - name: entityName
+    description: The entity type.
+    types:
+    - uid: string
+  - name: startCharIndex
+    description: The index within the utterance where the extracted entity starts.
+    types:
+    - uid: integer
+  - name: endCharIndex
+    description: The index within the utterance where the extracted entity ends.
+    types:
+    - uid: integer
+- name: LabelExampleResponse
+  description: Response when adding a labeled example.
+  kind: object
+  properties:
+  - name: UtteranceText
+    description: The sample's utterance.
+    types:
+    - uid: string
+  - name: ExampleId
+    description: The newly created sample ID.
+    types:
+    - uid: integer
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: ExampleLabelObject
+  description: A labeled example.
+  kind: object
+  properties:
+  - name: text
+    description: The sample's utterance.
+    types:
+    - uid: string
+  - name: entityLabels
+    description: The idenfied entities within the utterance.
+    types:
+    - uid: EntityLabelObject
+      isArray: true
+  - name: intentName
+    description: The idenfitied intent representing the utterance.
+    types:
+    - uid: string
+examples:
+- name: Successful Add Label request
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/86226c53-b7a6-416f-876b-226b2b5ab07b/versions/0.1/example
+    body: >-
+      {
+        "text": "whats the weather in buenos aires?",
+        "intentName": "WeatherInPlace",
+        "entityLabels": [
+          {
+            "entityName": "Place",
+            "startCharIndex": 21,
+            "endCharIndex": 34
+          }
+        ]
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "UtteranceText": "whats the weather in buenos aires?",
+        "ExampleId": -11
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

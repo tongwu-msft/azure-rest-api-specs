@@ -1,0 +1,680 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.traffic.gettrafficincidentdetail
+name: Get Traffic Incident Detail
+service: Maps
+groupName: Traffic
+apiVersion: "1.0"
+summary: __Traffic Incident Detail__ <br/><br/>The Azure Traffic Incident Tile API serves 256 x 256 pixel tiles showing traffic incidents. All tiles use the same grid system. Because the traffic tiles use transparent images, they can be layered on top of map tiles to create a compound display. Traffic tiles render graphics to indicate traffic on the roads in the specified area.
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: GET https://atlas.microsoft.com/traffic/incident/detail/{format}?subscription-key={subscription-key}&api-version=1.0&style={style}&boundingbox={boundingbox}&boundingZoom={boundingZoom}&trafficmodelid={trafficmodelid}
+- content: GET https://atlas.microsoft.com/traffic/incident/detail/{format}?subscription-key={subscription-key}&api-version=1.0&style={style}&boundingbox={boundingbox}&boundingZoom={boundingZoom}&trafficmodelid={trafficmodelid}&language={language}&projection={projection}&geometries={geometries}&expandCluster={expandCluster}&originalPosition={originalPosition}
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+- name: style
+  in: query
+  isRequired: true
+  description: The style that will be used to render the tile in Traffic Incident Tile API. This will have an effect on the coordinates of traffic incidents in the reply.
+  types:
+  - uid: TrafficIncidentDetailStyle
+- name: boundingbox
+  in: query
+  isRequired: true
+  description: "The `boundingbox` is represented by two value pairs describing it's corners (first pair for lower left corner and second for upper right). The pairs can either be specified using any of the `projection`'s specified below (e.g., _minY,minX,maxY,maxX_) or by two latitude-longitude pairs (e.g., _minLat,minLon,maxLat,maxLon_).<br><br>NOTE: If latitude/longitude pairs are used, then the `projection` parameter must be set to \"EPSG4326\"."
+  types:
+  - uid: string
+- name: boundingZoom
+  in: query
+  isRequired: true
+  description: Zoom level for desired tile. 0 to 18 for raster tiles, 0 through 20 for vector tiles
+  types:
+  - uid: integer
+- name: trafficmodelid
+  in: query
+  isRequired: true
+  description: Number referencing traffic model. This can be obtained from the Viewport API. It is updated every minute, and is valid for two minutes before it times out. If the wrong Traffic Model ID is specified, the correct one will be returned by the interface. A value of -1 will always invoke the most recent traffic model
+  types:
+  - uid: string
+- name: language
+  in: query
+  description: ISO 639-1 code for the output language. Supported languages are ar, ca, cs, da, de, el, en, en-GB, en-US, es, et, fi, fr, he, hu, id, in*, it, lt, lv, nb, nl, no, pl, pt, ro, ru, sk, sv, th, tr, zh
+  types:
+  - uid: string
+- name: projection
+  in: query
+  description: The projection used to specify the coordinates in the request and response. [EPSG900913](http://docs.openlayers.org/library/spherical_mercator.html) (default) or [EPSG4326](http://spatialreference.org/ref/epsg/4326/)
+  types:
+  - uid: string
+- name: geometries
+  in: query
+  description: The type of vector geometry added to incidents (returned in the <v> element of the response).
+  types:
+  - uid: geometries
+- name: expandCluster
+  in: query
+  description: Boolean to indicate whether to list all traffic incidents in a cluster separately
+  types:
+  - uid: boolean
+- name: originalPosition
+  in: query
+  description: Boolean on whether to return the original position of the incident (<op>) as well as the one shifted to the beginning of the traffic tube (<p>)
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: TrafficIncidentDetailResult
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
+  types:
+  - uid: ErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: TrafficIncidentDetailStyle
+  description: The style that will be used to render the tile in Traffic Incident Tile API. This will have an effect on the coordinates of traffic incidents in the reply.
+  kind: enum
+  properties:
+  - name: s1
+    description: Creates traffic lines with colored chevrons indicating severity.
+    types:
+    - uid: string
+  - name: s2
+    description: Creates plain lines with certain degree of glow.
+    types:
+    - uid: string
+  - name: s3
+    description: Creates plain lines with certain degree of glow.
+    types:
+    - uid: string
+  - name: night
+    description: Night style.
+    types:
+    - uid: string
+- name: geometries
+  description: The type of vector geometry added to incidents (returned in the <v> element of the response).
+  kind: enum
+  properties:
+  - name: original
+    description: Places incidents precisely on the road.
+    types:
+    - uid: string
+  - name: shifted
+    description: Moves the incident slightly (depending on zoom level) to indicate specific road lanes.
+    types:
+    - uid: string
+- name: TrafficIncidentDetailResult
+  description: This object is returned from a successful Traffic incident Detail call
+  kind: object
+  properties:
+  - name: tm
+    isReadyOnly: true
+    description: Main response element
+    types:
+    - uid: Tm
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: Tm
+  description: Main response element
+  kind: object
+  properties:
+  - name: '@id'
+    isReadyOnly: true
+    description: ID of the traffic incident
+    types:
+    - uid: string
+  - name: poi
+    isReadyOnly: true
+    description: A single traffic incident, or a cluster of traffic incidents
+    types:
+    - uid: TrafficIncidentPoi
+      isArray: true
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+- name: TrafficIncidentPoi
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: ID of the traffic incident
+    types:
+    - uid: string
+  - name: p
+    isReadyOnly: true
+    description: The point where an icon of the cluster or raw incident should be drawn, expressed in the requested projection. This is affected by traffic style, zoom level and road type
+    types:
+    - uid: P
+  - name: ic
+    isReadyOnly: true
+    description: The icon category associated with this incident. Values are numbers in the range 0-13, with the following meanings
+    types:
+    - uid: integer
+  - name: ty
+    isReadyOnly: true
+    description: The magnitude of delay associated with incident. These values correspond to incident colors in the traffic tiles
+    types:
+    - uid: integer
+  - name: cbl
+    isReadyOnly: true
+    description: Bottom left coordinate of the cluster in the projection of the request
+    types:
+    - uid: Cbl
+  - name: ctr
+    isReadyOnly: true
+    description: Top right coordinate of the cluster in the projection of the request
+    types:
+    - uid: Ctr
+  - name: cs
+    isReadyOnly: true
+    description: 'Cluster size: the number of incidents in the cluster'
+    types:
+    - uid: integer
+  - name: l
+    isReadyOnly: true
+    description: Length of the incident in meters
+    types:
+    - uid: integer
+  - name: r
+    isReadyOnly: true
+    description: The road number(s) affected by the incident. Multiple road numbers will delimited by slashes
+    types:
+    - uid: string
+  - name: dl
+    isReadyOnly: true
+    description: Delay caused by the incident in seconds (except in road closures)
+    types:
+    - uid: integer
+  - name: t
+    isReadyOnly: true
+    description: 'To: the name of the intersection or location where the traffic due to the incident ends'
+    types:
+    - uid: string
+  - name: f
+    isReadyOnly: true
+    description: 'From: the name of the intersection or location where the traffic due to the incident starts'
+    types:
+    - uid: string
+  - name: d
+    isReadyOnly: true
+    description: Description of the incident in the language requested
+    types:
+    - uid: string
+  - name: c
+    isReadyOnly: true
+    description: Cause of the incident, where available, in the language requested
+    types:
+    - uid: string
+- name: P
+  description: The point where an icon of the cluster or raw incident should be drawn, expressed in the requested projection. This is affected by traffic style, zoom level and road type
+  kind: object
+  properties:
+  - name: x
+    isReadyOnly: true
+    description: x coordinate
+    types:
+    - uid: number
+  - name: y
+    isReadyOnly: true
+    description: y coordinate
+    types:
+    - uid: number
+- name: Cbl
+  description: Bottom left coordinate of the cluster in the projection of the request
+  kind: object
+  properties:
+  - name: x
+    isReadyOnly: true
+    description: x coordinate
+    types:
+    - uid: number
+  - name: y
+    isReadyOnly: true
+    description: y coordinate
+    types:
+    - uid: number
+- name: Ctr
+  description: Top right coordinate of the cluster in the projection of the request
+  kind: object
+  properties:
+  - name: x
+    isReadyOnly: true
+    description: x coordinate
+    types:
+    - uid: number
+  - name: y
+    isReadyOnly: true
+    description: y coordinate
+    types:
+    - uid: number
+examples:
+- name: GetTrafficIncidentDetail
+  request:
+    uri: GET https://atlas.microsoft.com/traffic/incident/detail/json?api-version=1.0&style=s3&boundingbox=6841263.950712,511972.674418,6886056.049288,582676.925582&boundingZoom=11&trafficmodelid=1335294634919
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "tm": {
+          "@id": "1521671948910",
+          "poi": [
+            {
+              "id": "europe_HD_NL_TTR116377227776064",
+              "p": {
+                "x": 538636.9,
+                "y": 6842004.5
+              },
+              "ic": 9,
+              "ty": 1,
+              "cs": 0,
+              "d": "roadworks",
+              "c": "new roadworks layout",
+              "f": "Amstelveen/Vinkeveen - N201 (N196)",
+              "t": "Uithoorn-Centrum (N196)",
+              "l": 220,
+              "dl": 14,
+              "r": "N196"
+            },
+            {
+              "id": "europe_CLUSTER_11_-34959639",
+              "p": {
+                "x": 528668.6,
+                "y": 6848897.9
+              },
+              "ic": 8,
+              "ty": 0,
+              "cbl": {
+                "x": 528622.5,
+                "y": 6848661.2
+              },
+              "ctr": {
+                "x": 528714.7,
+                "y": 6849134.6
+              },
+              "cs": 2,
+              "l": 190
+            },
+            {
+              "id": "europe_CLUSTER_11_-1540737434",
+              "p": {
+                "x": 518277,
+                "y": 6852206.8
+              },
+              "ic": 9,
+              "ty": 1,
+              "cbl": {
+                "x": 517421.3,
+                "y": 6851776.4
+              },
+              "ctr": {
+                "x": 519132.8,
+                "y": 6852637.2
+              },
+              "cs": 2,
+              "l": 1620
+            },
+            {
+              "id": "europe_CLUSTER_11_-26712906",
+              "p": {
+                "x": 529902.2,
+                "y": 6855622.4
+              },
+              "ic": 8,
+              "ty": 0,
+              "cbl": {
+                "x": 529524.6,
+                "y": 6855377.2
+              },
+              "ctr": {
+                "x": 530279.9,
+                "y": 6855867.7
+              },
+              "cs": 4,
+              "l": 660
+            },
+            {
+              "id": "europe_HD_NL_TTR116367997504816",
+              "p": {
+                "x": 568216,
+                "y": 6851287.6
+              },
+              "ic": 9,
+              "ty": 1,
+              "cs": 0,
+              "d": "roadworks",
+              "c": "new roadworks layout",
+              "f": "Ankeveen (N236)",
+              "t": "Weesp (N236)",
+              "l": 2760,
+              "dl": 73,
+              "r": "N236"
+            },
+            {
+              "id": "europe_HD_NL_TTR116367997261488",
+              "p": {
+                "x": 561973.7,
+                "y": 6854259.4
+              },
+              "ic": 9,
+              "ty": 3,
+              "cs": 0,
+              "d": "roadworks",
+              "c": "new roadworks layout",
+              "f": "Weesp (N236)",
+              "t": "Ankeveen (N236)",
+              "l": 2650,
+              "r": "N236"
+            },
+            {
+              "id": "europe_HD_NL_TTR116331064819392",
+              "p": {
+                "x": 571268.5,
+                "y": 6858435.4
+              },
+              "ic": 8,
+              "ty": 4,
+              "cs": 0,
+              "d": "closed",
+              "f": "IJsselmeerweg",
+              "t": "A6",
+              "l": 370
+            },
+            {
+              "id": "europe_CLUSTER_11_-1442937814",
+              "p": {
+                "x": 563934,
+                "y": 6859271.3
+              },
+              "ic": 9,
+              "ty": 1,
+              "cbl": {
+                "x": 563726.1,
+                "y": 6859250.4
+              },
+              "ctr": {
+                "x": 564141.9,
+                "y": 6859292.2
+              },
+              "cs": 2,
+              "l": 460
+            },
+            {
+              "id": "europe_CLUSTER_11_258400781",
+              "p": {
+                "x": 558055.6,
+                "y": 6861147.1
+              },
+              "ic": 13,
+              "ty": 1,
+              "cbl": {
+                "x": 557493.3,
+                "y": 6860514.8
+              },
+              "ctr": {
+                "x": 558618,
+                "y": 6861779.4
+              },
+              "cs": 3,
+              "l": 1030
+            },
+            {
+              "id": "europe_HD_NL_TTR116100227865681",
+              "p": {
+                "x": 542665,
+                "y": 6861959.7
+              },
+              "ic": 8,
+              "ty": 4,
+              "cs": 0,
+              "d": "closed",
+              "f": "Strawinskylaan",
+              "t": "Matthijs Vermeulenpad",
+              "l": 110
+            },
+            {
+              "id": "europe_CLUSTER_11_1438243625",
+              "p": {
+                "x": 545058.7,
+                "y": 6864571.6
+              },
+              "ic": 8,
+              "ty": 0,
+              "cbl": {
+                "x": 543779.5,
+                "y": 6864070.7
+              },
+              "ctr": {
+                "x": 546337.8,
+                "y": 6865072.6
+              },
+              "cs": 5,
+              "l": 1590
+            },
+            {
+              "id": "europe_HD_NL_TTR116081762316976",
+              "p": {
+                "x": 547507.8,
+                "y": 6866259.3
+              },
+              "ic": 8,
+              "ty": 4,
+              "cs": 0,
+              "d": "closed",
+              "f": "Alexanderplein (s113)",
+              "t": "Stadhouderskade",
+              "l": 390,
+              "r": "S100"
+            },
+            {
+              "id": "europe_CLUSTER_11_691732516",
+              "p": {
+                "x": 541448.7,
+                "y": 6867162.1
+              },
+              "ic": 8,
+              "ty": 0,
+              "cbl": {
+                "x": 541160.1,
+                "y": 6866710.7
+              },
+              "ctr": {
+                "x": 541737.2,
+                "y": 6867613.5
+              },
+              "cs": 4,
+              "l": 430
+            },
+            {
+              "id": "europe_CLUSTER_11_1582351486",
+              "p": {
+                "x": 534709.6,
+                "y": 6865174.7
+              },
+              "ic": 8,
+              "ty": 0,
+              "cbl": {
+                "x": 534562.2,
+                "y": 6865025.3
+              },
+              "ctr": {
+                "x": 534856.9,
+                "y": 6865324.2
+              },
+              "cs": 2,
+              "l": 380
+            },
+            {
+              "id": "europe_CLUSTER_11_-2070222267",
+              "p": {
+                "x": 536813.1,
+                "y": 6868188.3
+              },
+              "ic": 8,
+              "ty": 0,
+              "cbl": {
+                "x": 536191.1,
+                "y": 6867699.7
+              },
+              "ctr": {
+                "x": 537435.1,
+                "y": 6868677
+              },
+              "cs": 7,
+              "l": 1380
+            },
+            {
+              "id": "europe_CLUSTER_11_-496866890",
+              "p": {
+                "x": 516025.5,
+                "y": 6871606.3
+              },
+              "ic": 8,
+              "ty": 0,
+              "cbl": {
+                "x": 514115.1,
+                "y": 6870216.9
+              },
+              "ctr": {
+                "x": 517935.9,
+                "y": 6872995.7
+              },
+              "cs": 7,
+              "l": 1510
+            },
+            {
+              "id": "europe_HD_NL_TTR115675492352160",
+              "p": {
+                "x": 517835.3,
+                "y": 6883216.3
+              },
+              "ic": 8,
+              "ty": 4,
+              "cs": 0,
+              "d": "closed",
+              "f": "Amsterdamseweg",
+              "t": "A22",
+              "l": 710
+            },
+            {
+              "id": "europe_CLUSTER_11_834920993",
+              "p": {
+                "x": 543803.8,
+                "y": 6875659.8
+              },
+              "ic": 8,
+              "ty": 0,
+              "cbl": {
+                "x": 543474.7,
+                "y": 6875602.7
+              },
+              "ctr": {
+                "x": 544133,
+                "y": 6875716.9
+              },
+              "cs": 2,
+              "l": 760
+            }
+          ]
+        }
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: subscription-key
+  type: apiKey
+  in: query

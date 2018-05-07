@@ -1,0 +1,186 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.listmanagementterm.getallterms
+name: Get All Terms
+service: Cognitive Services
+groupName: List Management Term
+apiVersion: "1.0"
+summary: Gets all terms from the list with list Id equal to the list Id passed.
+produces:
+- application/json
+paths:
+- content: GET https://{baseUrl}/contentmoderator/lists/v1.0/termlists/{listId}/terms?language={language}
+- content: GET https://{baseUrl}/contentmoderator/lists/v1.0/termlists/{listId}/terms?language={language}&offset={offset}&limit={limit}
+  isOptional: true
+uriParameters:
+- name: baseUrl
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Content Moderator endpoints
+  types:
+  - uid: string
+- name: listId
+  in: path
+  isRequired: true
+  description: List Id of the image list.
+  types:
+  - uid: string
+- name: language
+  in: query
+  isRequired: true
+  description: Language of the terms.
+  types:
+  - uid: string
+- name: offset
+  in: query
+  description: The pagination start index.
+  types:
+  - uid: integer
+- name: limit
+  in: query
+  description: The max limit.
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Terms
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader: []
+definitions:
+- name: Terms
+  description: Terms properties.
+  kind: object
+  properties:
+  - name: Data
+    description: Term data details.
+    types:
+    - uid: TermsData
+  - name: Paging
+    description: Paging details.
+    types:
+    - uid: Paging
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: Error
+    description: Error body.
+    types:
+    - uid: Error
+- name: TermsData
+  description: All term Id response properties.
+  kind: object
+  properties:
+  - name: Language
+    description: Language of the terms.
+    types:
+    - uid: string
+  - name: Terms
+    description: List of terms.
+    types:
+    - uid: TermsInList
+      isArray: true
+  - name: Status
+    description: Term Status.
+    types:
+    - uid: Status
+  - name: TrackingId
+    description: Tracking Id.
+    types:
+    - uid: string
+- name: Paging
+  description: Paging details.
+  kind: object
+  properties:
+  - name: Total
+    description: Total details.
+    types:
+    - uid: integer
+  - name: Limit
+    description: Limit details.
+    types:
+    - uid: integer
+  - name: Offset
+    description: Offset details.
+    types:
+    - uid: integer
+  - name: Returned
+    description: Returned text details.
+    types:
+    - uid: integer
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: Code
+    description: ''
+    types:
+    - uid: string
+  - name: Message
+    description: ''
+    types:
+    - uid: string
+- name: TermsInList
+  description: Terms in list Id passed.
+  kind: object
+  properties:
+  - name: Term
+    description: Added term details.
+    types:
+    - uid: string
+- name: Status
+  description: Status properties.
+  kind: object
+  properties:
+  - name: Code
+    description: Status code.
+    types:
+    - uid: integer
+  - name: Description
+    description: Status description.
+    types:
+    - uid: string
+  - name: Exception
+    description: Exception status.
+    types:
+    - uid: string
+examples:
+- name: Get All Terms request
+  request:
+    uri: GET https://southeastasia.api.cognitive.microsoft.com/contentmoderator/lists/v1.0/termlists/89003/terms?language=eng
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "Data": {
+          "Language": "eng",
+          "Terms": [
+            {
+              "Term": "testA"
+            },
+            {
+              "Term": "testB"
+            }
+          ],
+          "Status": {
+            "Code": 3000,
+            "Description": "OK",
+            "Exception": ""
+          },
+          "TrackingId": "1239cc41a-b123-4983-8446-ef1df9a6768"
+        },
+        "Paging": {
+          "Total": 2,
+          "Limit": 50,
+          "Offset": 0,
+          "Returned": 2
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
