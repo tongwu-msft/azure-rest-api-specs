@@ -1,0 +1,515 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestackadmin.blobservices.listmetricdefinitions
+name: List Metric Definitions
+service: Azure Stack Admin
+groupName: Blob Services
+apiVersion: 2015-12-01-preview
+summary: Returns the list of metric definitions for BLOB service.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage.Admin/farms/{farmId}/blobservices/default/metricdefinitions?api-version=2015-12-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name.
+  types:
+  - uid: string
+- name: farmId
+  in: path
+  isRequired: true
+  description: Farm Id.
+  types:
+  - uid: string
+- name: serviceType
+  in: path
+  isRequired: true
+  description: The service type.
+  types:
+  - uid: ServiceType
+- name: api-version
+  in: query
+  isRequired: true
+  description: REST Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- The list of metric definitions for the BLOB service has been returned.
+  types:
+  - uid: MetricDefinitionList
+- name: 404 Not Found
+  description: NOT FOUND -- The specified farm was not found.
+requestHeader: []
+definitions:
+- name: ServiceType
+  description: The service type.
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
+- name: MetricDefinitionList
+  description: Pageable list of metric definitions.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of metric definitions.
+    types:
+    - uid: MetricDefinition
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: MetricDefinition
+  description: Metric definition.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Metric name.
+    types:
+    - uid: LocalizableString
+  - name: unit
+    isReadyOnly: true
+    description: Metric unit.
+    types:
+    - uid: MetricUnit
+  - name: primaryAggregationType
+    isReadyOnly: true
+    description: Aggregation type of metric.
+    types:
+    - uid: AggregateType
+  - name: metricAvailabilities
+    isReadyOnly: true
+    description: Metric availabilities.
+    types:
+    - uid: MetricAvailability
+      isArray: true
+- name: LocalizableString
+  description: Localizable string.
+  kind: object
+  properties:
+  - name: value
+    description: Value of the string.
+    types:
+    - uid: string
+  - name: localizedValue
+    description: Localized value of the string.
+    types:
+    - uid: string
+- name: MetricUnit
+  description: Metric unit.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+  - name: Bytes
+    types:
+    - uid: string
+  - name: Seconds
+    types:
+    - uid: string
+  - name: CountPerSecond
+    types:
+    - uid: string
+  - name: BytesPerSecond
+    types:
+    - uid: string
+- name: AggregateType
+  description: Aggregate type.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Average
+    types:
+    - uid: string
+  - name: Total
+    types:
+    - uid: string
+  - name: Minimum
+    types:
+    - uid: string
+  - name: Maximum
+    types:
+    - uid: string
+  - name: Last
+    types:
+    - uid: string
+- name: MetricAvailability
+  description: Metric availability.
+  kind: object
+  properties:
+  - name: timeGrain
+    description: Time grain.
+    types:
+    - uid: string
+  - name: retention
+    description: Retention of metric.
+    types:
+    - uid: string
+examples:
+- name: Returns the list of metric definitions for BLOB service.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/9ad61516-995c-4873-a21f-7e44904f0ed2/resourcegroups/System.local/providers/Microsoft.Storage.Admin/farms/3cf03497-c44a-4e51-a56f-3987d88c70af/blobservices/default/metricdefinitions?api-version=2015-12-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "metricAvailabilities": [
+              {
+                "retention": "P1D",
+                "timeGrain": "PT1M"
+              },
+              {
+                "retention": "P10D",
+                "timeGrain": "PT1H"
+              },
+              {
+                "retention": "P60D",
+                "timeGrain": "P1D"
+              }
+            ],
+            "name": {
+              "localizedValue": "End-to-end latency (BlobService)",
+              "value": "E2ELatency"
+            },
+            "primaryAggregationType": "Average",
+            "unit": "Count"
+          },
+          {
+            "metricAvailabilities": [
+              {
+                "retention": "P1D",
+                "timeGrain": "PT1M"
+              },
+              {
+                "retention": "P10D",
+                "timeGrain": "PT1H"
+              },
+              {
+                "retention": "P60D",
+                "timeGrain": "P1D"
+              }
+            ],
+            "name": {
+              "localizedValue": "Server latency (BlobService)",
+              "value": "ServerLatency"
+            },
+            "primaryAggregationType": "Average",
+            "unit": "Count"
+          },
+          {
+            "metricAvailabilities": [
+              {
+                "retention": "P1D",
+                "timeGrain": "PT1M"
+              },
+              {
+                "retention": "P10D",
+                "timeGrain": "PT1H"
+              },
+              {
+                "retention": "P60D",
+                "timeGrain": "P1D"
+              }
+            ],
+            "name": {
+              "localizedValue": "Availability (BlobService)",
+              "value": "Availability"
+            },
+            "primaryAggregationType": "Average",
+            "unit": "Count"
+          },
+          {
+            "metricAvailabilities": [
+              {
+                "retention": "P1D",
+                "timeGrain": "PT1M"
+              },
+              {
+                "retention": "P10D",
+                "timeGrain": "PT1H"
+              },
+              {
+                "retention": "P60D",
+                "timeGrain": "P1D"
+              }
+            ],
+            "name": {
+              "localizedValue": "Total successful requests (BlobService)",
+              "value": "SuccessfulRequests"
+            },
+            "primaryAggregationType": "Total",
+            "unit": "Count"
+          },
+          {
+            "metricAvailabilities": [
+              {
+                "retention": "P1D",
+                "timeGrain": "PT1M"
+              },
+              {
+                "retention": "P10D",
+                "timeGrain": "PT1H"
+              },
+              {
+                "retention": "P60D",
+                "timeGrain": "P1D"
+              }
+            ],
+            "name": {
+              "localizedValue": "Total requests (BlobService)",
+              "value": "TotalRequests"
+            },
+            "primaryAggregationType": "Total",
+            "unit": "Count"
+          },
+          {
+            "metricAvailabilities": [
+              {
+                "retention": "P1D",
+                "timeGrain": "PT1M"
+              },
+              {
+                "retention": "P10D",
+                "timeGrain": "PT1H"
+              },
+              {
+                "retention": "P60D",
+                "timeGrain": "P1D"
+              }
+            ],
+            "name": {
+              "localizedValue": "Ingress (BlobService)",
+              "value": "Ingress"
+            },
+            "primaryAggregationType": "Total",
+            "unit": "Count"
+          },
+          {
+            "metricAvailabilities": [
+              {
+                "retention": "P1D",
+                "timeGrain": "PT1M"
+              },
+              {
+                "retention": "P10D",
+                "timeGrain": "PT1H"
+              },
+              {
+                "retention": "P60D",
+                "timeGrain": "P1D"
+              }
+            ],
+            "name": {
+              "localizedValue": "Egress (BlobService)",
+              "value": "Egress"
+            },
+            "primaryAggregationType": "Total",
+            "unit": "Count"
+          },
+          {
+            "metricAvailabilities": [
+              {
+                "retention": "P10D",
+                "timeGrain": "PT1M"
+              },
+              {
+                "retention": "P30D",
+                "timeGrain": "PT1H"
+              },
+              {
+                "retention": "P60D",
+                "timeGrain": "P1D"
+              }
+            ],
+            "name": {
+              "localizedValue": "Requests per second (BlobFrontEnd)",
+              "value": "BlobFrontEndRequestsPerSecond"
+            },
+            "primaryAggregationType": "Average",
+            "unit": "CountPerSecond"
+          },
+          {
+            "metricAvailabilities": [
+              {
+                "retention": "P10D",
+                "timeGrain": "PT1M"
+              },
+              {
+                "retention": "P30D",
+                "timeGrain": "PT1H"
+              },
+              {
+                "retention": "P60D",
+                "timeGrain": "P1D"
+              }
+            ],
+            "name": {
+              "localizedValue": "End-to-end latency (BlobFrontEnd)",
+              "value": "BlobFrontEndE2ELatency"
+            },
+            "primaryAggregationType": "Average",
+            "unit": "Count"
+          },
+          {
+            "metricAvailabilities": [
+              {
+                "retention": "P10D",
+                "timeGrain": "PT1M"
+              },
+              {
+                "retention": "P30D",
+                "timeGrain": "PT1H"
+              },
+              {
+                "retention": "P60D",
+                "timeGrain": "P1D"
+              }
+            ],
+            "name": {
+              "localizedValue": "Server latency (BlobFrontEnd)",
+              "value": "BlobFrontEndServerLatency"
+            },
+            "primaryAggregationType": "Average",
+            "unit": "Count"
+          },
+          {
+            "metricAvailabilities": [
+              {
+                "retention": "P10D",
+                "timeGrain": "PT1M"
+              },
+              {
+                "retention": "P30D",
+                "timeGrain": "PT1H"
+              },
+              {
+                "retention": "P60D",
+                "timeGrain": "P1D"
+              }
+            ],
+            "name": {
+              "localizedValue": "Concurrent requests (BlobFrontEnd)",
+              "value": "BlobFrontEndConcurrentRequests"
+            },
+            "primaryAggregationType": "Average",
+            "unit": "Count"
+          },
+          {
+            "metricAvailabilities": [
+              {
+                "retention": "P10D",
+                "timeGrain": "PT1M"
+              },
+              {
+                "retention": "P30D",
+                "timeGrain": "PT1H"
+              },
+              {
+                "retention": "P60D",
+                "timeGrain": "P1D"
+              }
+            ],
+            "name": {
+              "localizedValue": "The count of pending requests in the request queue (BlobFrontEnd)",
+              "value": "BlobFrontEndRequestQueueLength"
+            },
+            "primaryAggregationType": "Average",
+            "unit": "Count"
+          },
+          {
+            "metricAvailabilities": [
+              {
+                "retention": "P10D",
+                "timeGrain": "PT1M"
+              },
+              {
+                "retention": "P30D",
+                "timeGrain": "PT1H"
+              },
+              {
+                "retention": "P60D",
+                "timeGrain": "P1D"
+              }
+            ],
+            "name": {
+              "localizedValue": "Processor time percentage (BlobFrontEnd)",
+              "value": "BlobFrontEndProcessorTime"
+            },
+            "primaryAggregationType": "Average",
+            "unit": "Count"
+          },
+          {
+            "metricAvailabilities": [
+              {
+                "retention": "P10D",
+                "timeGrain": "PT1M"
+              },
+              {
+                "retention": "P30D",
+                "timeGrain": "PT1H"
+              },
+              {
+                "retention": "P60D",
+                "timeGrain": "P1D"
+              }
+            ],
+            "name": {
+              "localizedValue": "Requests per second (BlobServer)",
+              "value": "BlobServerRequestsPerSecond"
+            },
+            "primaryAggregationType": "Average",
+            "unit": "CountPerSecond"
+          },
+          {
+            "metricAvailabilities": [
+              {
+                "retention": "P10D",
+                "timeGrain": "PT1M"
+              },
+              {
+                "retention": "P30D",
+                "timeGrain": "PT1H"
+              },
+              {
+                "retention": "P60D",
+                "timeGrain": "P1D"
+              }
+            ],
+            "name": {
+              "localizedValue": "Server latency (BlobServer)",
+              "value": "BlobServerServerLatency"
+            },
+            "primaryAggregationType": "Average",
+            "unit": "Count"
+          }
+        ]
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

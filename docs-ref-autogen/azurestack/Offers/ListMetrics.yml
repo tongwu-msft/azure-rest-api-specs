@@ -1,0 +1,162 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestackadmin.offers.listmetrics
+name: List Metrics
+service: Azure Stack Admin
+groupName: Offers
+apiVersion: 2015-11-01
+summary: Get the offer metrics.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/offers/{offer}/Metrics?api-version=2015-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription.The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group the resource is located under.
+  types:
+  - uid: string
+- name: offer
+  in: path
+  isRequired: true
+  description: Name of an offer.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: MetricList
+requestHeader: []
+definitions:
+- name: MetricList
+  description: List of metrics.
+  kind: object
+  properties:
+  - name: value
+    description: List of metrics.
+    types:
+    - uid: Metric
+      isArray: true
+  - name: nextLink
+    description: Continuation token
+    types:
+    - uid: string
+- name: Metric
+  description: The resource metric set that represents the metrics for a particular resource.
+  kind: object
+  properties:
+  - name: metricUnit
+    description: Unit of metrics.
+    types:
+    - uid: MetricUnit
+  - name: timeGrain
+    description: Timespan of the metric.
+    types:
+    - uid: string
+  - name: startTime
+    description: Start time of the metric.
+    types:
+    - uid: string
+  - name: endTime
+    description: End time of the metric.
+    types:
+    - uid: string
+  - name: metricValues
+    description: Collected metric values in the timespan.
+    types:
+    - uid: MetricValue
+      isArray: true
+- name: MetricUnit
+  description: The resource metric unit.
+  kind: enum
+  properties:
+  - name: Count
+    description: The count.
+    types:
+    - uid: string
+  - name: Bytes
+    description: The bytes.
+    types:
+    - uid: string
+  - name: Seconds
+    description: The seconds.
+    types:
+    - uid: string
+  - name: CountPerSecond
+    description: The count per second.
+    types:
+    - uid: string
+  - name: BytesPerSecond
+    description: The bytes per second.
+    types:
+    - uid: string
+- name: MetricValue
+  description: Metric value
+  kind: object
+  properties:
+  - name: timeStamp
+    description: Timestamp of when the metric value was collected.
+    types:
+    - uid: string
+  - name: average
+    description: Average value for metric sample period.
+    types:
+    - uid: number
+  - name: minimum
+    description: Minimum value for metric sample period.
+    types:
+    - uid: number
+  - name: maximum
+    description: Maximum value for metric sample period.
+    types:
+    - uid: number
+  - name: total
+    description: Total value for metric sample period.
+    types:
+    - uid: number
+  - name: count
+    description: Number of measurements for metric sample period.
+    types:
+    - uid: integer
+  - name: properties
+    description: Extended properties.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Get the offer metrics.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/RG1/providers/Microsoft.Subscriptions.Admin/offers/sampleoffer1/Metrics?api-version=2015-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [],
+        "nextLink": ""
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,506 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestackadmin.queueservices.listmetrics
+name: List Metrics
+service: Azure Stack Admin
+groupName: Queue Services
+apiVersion: 2015-12-01-preview
+summary: Returns a list of metrics for the queue service.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage.Admin/farms/{farmId}/queueservices/default/metrics?api-version=2015-12-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name.
+  types:
+  - uid: string
+- name: farmId
+  in: path
+  isRequired: true
+  description: Farm Id.
+  types:
+  - uid: string
+- name: serviceType
+  in: path
+  isRequired: true
+  description: The service type.
+  types:
+  - uid: ServiceType
+- name: api-version
+  in: query
+  isRequired: true
+  description: REST Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- The list of metrics has been returned.
+  types:
+  - uid: MetricList
+- name: 404 Not Found
+  description: NOT FOUND -- The specified farm was not found.
+requestHeader: []
+definitions:
+- name: ServiceType
+  description: The service type.
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
+- name: MetricList
+  description: Pageable list of metrics.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of metrics.
+    types:
+    - uid: Metric
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: Metric
+  description: Metric information.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Metric Name.
+    types:
+    - uid: LocalizableString
+  - name: metricUnit
+    isReadyOnly: true
+    description: Metric Unit.
+    types:
+    - uid: MetricUnit
+  - name: timeGrain
+    isReadyOnly: true
+    description: Metric time grain.
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: Metric start time.
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: Metric end time.
+    types:
+    - uid: string
+  - name: metricValues
+    isReadyOnly: true
+    description: List of metric values.
+    types:
+    - uid: MetricValue
+      isArray: true
+- name: LocalizableString
+  description: Localizable string.
+  kind: object
+  properties:
+  - name: value
+    description: Value of the string.
+    types:
+    - uid: string
+  - name: localizedValue
+    description: Localized value of the string.
+    types:
+    - uid: string
+- name: MetricUnit
+  description: Metric unit.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+  - name: Bytes
+    types:
+    - uid: string
+  - name: Seconds
+    types:
+    - uid: string
+  - name: CountPerSecond
+    types:
+    - uid: string
+  - name: BytesPerSecond
+    types:
+    - uid: string
+- name: MetricValue
+  description: Metric value.
+  kind: object
+  properties:
+  - name: timeStamp
+    isReadyOnly: true
+    description: Timestamp of metric value.
+    types:
+    - uid: string
+  - name: average
+    isReadyOnly: true
+    description: Average value of metric.
+    types:
+    - uid: number
+  - name: minimum
+    isReadyOnly: true
+    description: Minimum value of metric.
+    types:
+    - uid: number
+  - name: maximum
+    isReadyOnly: true
+    description: Maximum value of metric.
+    types:
+    - uid: number
+  - name: total
+    isReadyOnly: true
+    description: Total value of metric.
+    types:
+    - uid: number
+  - name: count
+    isReadyOnly: true
+    description: Count of metric values.
+    types:
+    - uid: integer
+  - name: properties
+    isReadyOnly: true
+    description: Metric value properties.
+    types:
+    - uid: string
+examples:
+- name: Returns a list of metrics for the queue service.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/9ad61516-995c-4873-a21f-7e44904f0ed2/resourcegroups/System.local/providers/Microsoft.Storage.Admin/farms/3cf03497-c44a-4e51-a56f-3987d88c70af/queueservices/default/metrics?api-version=2015-12-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "endTime": "2018-01-30T19:31:24.5345914Z",
+            "metricUnit": "CountPerSecond",
+            "metricValues": [],
+            "name": {
+              "localizedValue": "Requests per second (QueueFrontEnd)",
+              "value": "QueueFrontEndRequestsPerSecond"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:24.5345914Z",
+            "metricUnit": "Count",
+            "metricValues": [],
+            "name": {
+              "localizedValue": "End-to-end latency (QueueFrontEnd)",
+              "value": "QueueFrontEndE2ELatency"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:24.5345914Z",
+            "metricUnit": "Count",
+            "metricValues": [],
+            "name": {
+              "localizedValue": "Server latency (QueueFrontEnd)",
+              "value": "QueueFrontEndServerLatency"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:24.5345914Z",
+            "metricUnit": "Count",
+            "metricValues": [],
+            "name": {
+              "localizedValue": "Concurrent requests (QueueFrontEnd)",
+              "value": "QueueFrontEndConcurrentRequests"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:24.5345914Z",
+            "metricUnit": "Count",
+            "metricValues": [],
+            "name": {
+              "localizedValue": "The count of pending requests in the request queue (QueueFrontEnd)",
+              "value": "QueueFrontEndRequestQueueLength"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:24.5345914Z",
+            "metricUnit": "Count",
+            "metricValues": [],
+            "name": {
+              "localizedValue": "Processor time percentage (QueueFrontEnd)",
+              "value": "QueueFrontEndProcessorTime"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:24.5345914Z",
+            "metricUnit": "Count",
+            "metricValues": [
+              {
+                "average": 1.88592776264484,
+                "timeStamp": "2018-01-23T00:00:00Z"
+              },
+              {
+                "average": 1.85851217466339,
+                "timeStamp": "2018-01-24T00:00:00Z"
+              },
+              {
+                "average": 1.87040051806059,
+                "timeStamp": "2018-01-25T00:00:00Z"
+              },
+              {
+                "average": 1.90624102793048,
+                "timeStamp": "2018-01-26T00:00:00Z"
+              },
+              {
+                "average": 1.93359342860519,
+                "timeStamp": "2018-01-27T00:00:00Z"
+              },
+              {
+                "average": 1.91756062246845,
+                "timeStamp": "2018-01-28T00:00:00Z"
+              },
+              {
+                "average": 1.90350660188966,
+                "timeStamp": "2018-01-29T00:00:00Z"
+              }
+            ],
+            "name": {
+              "localizedValue": "End-to-end latency (QueueService)",
+              "value": "E2ELatency"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:24.5345914Z",
+            "metricUnit": "Count",
+            "metricValues": [
+              {
+                "average": 1.81003101711863,
+                "timeStamp": "2018-01-23T00:00:00Z"
+              },
+              {
+                "average": 1.78567652998375,
+                "timeStamp": "2018-01-24T00:00:00Z"
+              },
+              {
+                "average": 1.79746391271282,
+                "timeStamp": "2018-01-25T00:00:00Z"
+              },
+              {
+                "average": 1.83270876455636,
+                "timeStamp": "2018-01-26T00:00:00Z"
+              },
+              {
+                "average": 1.85885443391132,
+                "timeStamp": "2018-01-27T00:00:00Z"
+              },
+              {
+                "average": 1.84392369316924,
+                "timeStamp": "2018-01-28T00:00:00Z"
+              },
+              {
+                "average": 1.82936276116956,
+                "timeStamp": "2018-01-29T00:00:00Z"
+              }
+            ],
+            "name": {
+              "localizedValue": "Server latency (QueueService)",
+              "value": "ServerLatency"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:24.5345914Z",
+            "metricUnit": "Count",
+            "metricValues": [
+              {
+                "average": 100,
+                "timeStamp": "2018-01-23T00:00:00Z"
+              },
+              {
+                "average": 100,
+                "timeStamp": "2018-01-24T00:00:00Z"
+              },
+              {
+                "average": 100,
+                "timeStamp": "2018-01-25T00:00:00Z"
+              },
+              {
+                "average": 100,
+                "timeStamp": "2018-01-26T00:00:00Z"
+              },
+              {
+                "average": 100,
+                "timeStamp": "2018-01-27T00:00:00Z"
+              },
+              {
+                "average": 100,
+                "timeStamp": "2018-01-28T00:00:00Z"
+              },
+              {
+                "average": 100,
+                "timeStamp": "2018-01-29T00:00:00Z"
+              }
+            ],
+            "name": {
+              "localizedValue": "Availability (QueueService)",
+              "value": "Availability"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:24.5345914Z",
+            "metricUnit": "Count",
+            "metricValues": [
+              {
+                "timeStamp": "2018-01-23T00:00:00Z",
+                "total": 709694
+              },
+              {
+                "timeStamp": "2018-01-24T00:00:00Z",
+                "total": 706686
+              },
+              {
+                "timeStamp": "2018-01-25T00:00:00Z",
+                "total": 706644
+              },
+              {
+                "timeStamp": "2018-01-26T00:00:00Z",
+                "total": 707869
+              },
+              {
+                "timeStamp": "2018-01-27T00:00:00Z",
+                "total": 711097
+              },
+              {
+                "timeStamp": "2018-01-28T00:00:00Z",
+                "total": 711197
+              },
+              {
+                "timeStamp": "2018-01-29T00:00:00Z",
+                "total": 713652
+              }
+            ],
+            "name": {
+              "localizedValue": "Total requests (QueueService)",
+              "value": "TotalRequests"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:24.5345914Z",
+            "metricUnit": "Count",
+            "metricValues": [
+              {
+                "timeStamp": "2018-01-23T00:00:00Z",
+                "total": 330187754
+              },
+              {
+                "timeStamp": "2018-01-24T00:00:00Z",
+                "total": 328237824
+              },
+              {
+                "timeStamp": "2018-01-25T00:00:00Z",
+                "total": 328220543
+              },
+              {
+                "timeStamp": "2018-01-26T00:00:00Z",
+                "total": 328897291
+              },
+              {
+                "timeStamp": "2018-01-27T00:00:00Z",
+                "total": 330626016
+              },
+              {
+                "timeStamp": "2018-01-28T00:00:00Z",
+                "total": 330693320
+              },
+              {
+                "timeStamp": "2018-01-29T00:00:00Z",
+                "total": 332315876
+              }
+            ],
+            "name": {
+              "localizedValue": "Ingress (QueueService)",
+              "value": "Ingress"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:24.5345914Z",
+            "metricUnit": "Count",
+            "metricValues": [
+              {
+                "timeStamp": "2018-01-23T00:00:00Z",
+                "total": 179169105
+              },
+              {
+                "timeStamp": "2018-01-24T00:00:00Z",
+                "total": 178217533
+              },
+              {
+                "timeStamp": "2018-01-25T00:00:00Z",
+                "total": 178211569
+              },
+              {
+                "timeStamp": "2018-01-26T00:00:00Z",
+                "total": 178640382
+              },
+              {
+                "timeStamp": "2018-01-27T00:00:00Z",
+                "total": 179836179
+              },
+              {
+                "timeStamp": "2018-01-28T00:00:00Z",
+                "total": 179870886
+              },
+              {
+                "timeStamp": "2018-01-29T00:00:00Z",
+                "total": 180647853
+              }
+            ],
+            "name": {
+              "localizedValue": "Egress (QueueService)",
+              "value": "Egress"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          }
+        ]
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

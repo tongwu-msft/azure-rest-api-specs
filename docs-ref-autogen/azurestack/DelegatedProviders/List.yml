@@ -1,0 +1,169 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestackadmin.delegatedproviders.list
+name: List
+service: Azure Stack Admin
+groupName: Delegated Providers
+apiVersion: 2015-11-01
+summary: Get the list of delegatedProviders.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/providers/Microsoft.Subscriptions.Admin/delegatedProviders?api-version=2015-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription.The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SubscriptionList
+requestHeader: []
+definitions:
+- name: SubscriptionList
+  description: List of subscriptions.
+  kind: object
+  properties:
+  - name: value
+    description: Subscription definition.
+    types:
+    - uid: Subscription
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: Subscription
+  description: List of supported operations.
+  kind: object
+  properties:
+  - name: delegatedProviderSubscriptionId
+    description: Parent DelegatedProvider subscription identifier.
+    types:
+    - uid: string
+  - name: displayName
+    description: Subscription name.
+    types:
+    - uid: string
+  - name: id
+    description: Fully qualified identifier.
+    types:
+    - uid: string
+  - name: externalReferenceId
+    description: External reference identifier.
+    types:
+    - uid: string
+  - name: offerId
+    description: Identifier of the offer under the scope of a delegated provider.
+    types:
+    - uid: string
+  - name: owner
+    description: Subscription owner.
+    types:
+    - uid: string
+  - name: routingResourceManagerType
+    description: Routing resource manager type.
+    types:
+    - uid: ResourceManagerType
+  - name: state
+    description: Subscription state.
+    types:
+    - uid: SubscriptionState
+  - name: subscriptionId
+    description: Subscription identifier.
+    types:
+    - uid: string
+  - name: tenantId
+    description: Directory tenant identifier.
+    types:
+    - uid: string
+- name: ResourceManagerType
+  description: Resource manager type.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: Admin
+    types:
+    - uid: string
+- name: SubscriptionState
+  description: Subscription notification state.
+  kind: enum
+  properties:
+  - name: NotDefined
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Warned
+    types:
+    - uid: string
+  - name: PastDue
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: PartiallyDeleted
+    types:
+    - uid: string
+examples:
+- name: Get the list of delegatedProviders.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/8ab2551d-41e5-489b-9273-1cdf1cbc7dc6/providers/Microsoft.Subscriptions.Admin/delegatedProviders?api-version=2015-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/8ab2551d-41e5-489b-9273-1cdf1cbc7dc6/providers/Microsoft.Subscriptions.Admin/subscriptions/8ab2551d-41e5-489b-9273-1cdf1cbc7dc6",
+            "subscriptionId": "8ab2551d-41e5-489b-9273-1cdf1cbc7dc6",
+            "delegatedProviderSubscriptionId": "8ab2551d-41e5-489b-9273-1cdf1cbc7dc6",
+            "displayName": "Default Provider Subscription",
+            "owner": "admin@contoso.com",
+            "tenantId": "2b3697e6-a7a2-4cdd-a3d4-f4ef6505cd4f",
+            "routingResourceManagerType": "Admin",
+            "offerId": "/subscriptions/8ab2551d-41e5-489b-9273-1cdf1cbc7dc6/resourceGroups/system.global/providers/Microsoft.Subscriptions.Admin/offers/5790469D-0852-480D-AF9F-F4CCE1BB8B62",
+            "state": "Enabled"
+          },
+          {
+            "id": "/subscriptions/8ab2551d-41e5-489b-9273-1cdf1cbc7dc6/providers/Microsoft.Subscriptions.Admin/subscriptions/5ef8575a-14db-4d02-8313-b9122385722b",
+            "subscriptionId": "5ef8575a-14db-4d02-8313-b9122385722b",
+            "delegatedProviderSubscriptionId": "8ab2551d-41e5-489b-9273-1cdf1cbc7dc6",
+            "displayName": "ResellerSub",
+            "owner": "tenantadmin1@msazurestack.onmicrosoft.com",
+            "tenantId": "2b3697e6-a7a2-4cdd-a3d4-f4ef6505cd4f",
+            "routingResourceManagerType": "Default",
+            "offerId": "/subscriptions/8ab2551d-41e5-489b-9273-1cdf1cbc7dc6/resourceGroups/testrg/providers/Microsoft.Subscriptions.Admin/offers/reselleroffer",
+            "state": "Enabled"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

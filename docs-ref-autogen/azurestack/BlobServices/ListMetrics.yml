@@ -1,0 +1,568 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestackadmin.blobservices.listmetrics
+name: List Metrics
+service: Azure Stack Admin
+groupName: Blob Services
+apiVersion: 2015-12-01-preview
+summary: Returns a list of metrics for BLOB service.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage.Admin/farms/{farmId}/blobservices/default/metrics?api-version=2015-12-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name.
+  types:
+  - uid: string
+- name: farmId
+  in: path
+  isRequired: true
+  description: Farm Id.
+  types:
+  - uid: string
+- name: serviceType
+  in: path
+  isRequired: true
+  description: The service type.
+  types:
+  - uid: ServiceType
+- name: api-version
+  in: query
+  isRequired: true
+  description: REST Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- The list of metrics has been returned.
+  types:
+  - uid: MetricList
+- name: 404 Not Found
+  description: NOT FOUND -- The specified farm was not found.
+requestHeader: []
+definitions:
+- name: ServiceType
+  description: The service type.
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
+- name: MetricList
+  description: Pageable list of metrics.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of metrics.
+    types:
+    - uid: Metric
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: Metric
+  description: Metric information.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Metric Name.
+    types:
+    - uid: LocalizableString
+  - name: metricUnit
+    isReadyOnly: true
+    description: Metric Unit.
+    types:
+    - uid: MetricUnit
+  - name: timeGrain
+    isReadyOnly: true
+    description: Metric time grain.
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: Metric start time.
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: Metric end time.
+    types:
+    - uid: string
+  - name: metricValues
+    isReadyOnly: true
+    description: List of metric values.
+    types:
+    - uid: MetricValue
+      isArray: true
+- name: LocalizableString
+  description: Localizable string.
+  kind: object
+  properties:
+  - name: value
+    description: Value of the string.
+    types:
+    - uid: string
+  - name: localizedValue
+    description: Localized value of the string.
+    types:
+    - uid: string
+- name: MetricUnit
+  description: Metric unit.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+  - name: Bytes
+    types:
+    - uid: string
+  - name: Seconds
+    types:
+    - uid: string
+  - name: CountPerSecond
+    types:
+    - uid: string
+  - name: BytesPerSecond
+    types:
+    - uid: string
+- name: MetricValue
+  description: Metric value.
+  kind: object
+  properties:
+  - name: timeStamp
+    isReadyOnly: true
+    description: Timestamp of metric value.
+    types:
+    - uid: string
+  - name: average
+    isReadyOnly: true
+    description: Average value of metric.
+    types:
+    - uid: number
+  - name: minimum
+    isReadyOnly: true
+    description: Minimum value of metric.
+    types:
+    - uid: number
+  - name: maximum
+    isReadyOnly: true
+    description: Maximum value of metric.
+    types:
+    - uid: number
+  - name: total
+    isReadyOnly: true
+    description: Total value of metric.
+    types:
+    - uid: number
+  - name: count
+    isReadyOnly: true
+    description: Count of metric values.
+    types:
+    - uid: integer
+  - name: properties
+    isReadyOnly: true
+    description: Metric value properties.
+    types:
+    - uid: string
+examples:
+- name: Returns a list of metrics for BLOB service.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/9ad61516-995c-4873-a21f-7e44904f0ed2/resourcegroups/System.local/providers/Microsoft.Storage.Admin/farms/3cf03497-c44a-4e51-a56f-3987d88c70af/blobservices/default/metrics?api-version=2015-12-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "endTime": "2018-01-30T19:31:02.3087124Z",
+            "metricUnit": "CountPerSecond",
+            "metricValues": [],
+            "name": {
+              "localizedValue": "Requests per second (BlobFrontEnd)",
+              "value": "BlobFrontEndRequestsPerSecond"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:02.3087124Z",
+            "metricUnit": "Count",
+            "metricValues": [],
+            "name": {
+              "localizedValue": "End-to-end latency (BlobFrontEnd)",
+              "value": "BlobFrontEndE2ELatency"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:02.3087124Z",
+            "metricUnit": "Count",
+            "metricValues": [],
+            "name": {
+              "localizedValue": "Server latency (BlobFrontEnd)",
+              "value": "BlobFrontEndServerLatency"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:02.3087124Z",
+            "metricUnit": "Count",
+            "metricValues": [],
+            "name": {
+              "localizedValue": "Concurrent requests (BlobFrontEnd)",
+              "value": "BlobFrontEndConcurrentRequests"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:02.3087124Z",
+            "metricUnit": "Count",
+            "metricValues": [],
+            "name": {
+              "localizedValue": "The count of pending requests in the request queue (BlobFrontEnd)",
+              "value": "BlobFrontEndRequestQueueLength"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:02.3087124Z",
+            "metricUnit": "Count",
+            "metricValues": [],
+            "name": {
+              "localizedValue": "Processor time percentage (BlobFrontEnd)",
+              "value": "BlobFrontEndProcessorTime"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:02.3087124Z",
+            "metricUnit": "CountPerSecond",
+            "metricValues": [],
+            "name": {
+              "localizedValue": "Requests per second (BlobServer)",
+              "value": "BlobServerRequestsPerSecond"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:02.3087124Z",
+            "metricUnit": "Count",
+            "metricValues": [],
+            "name": {
+              "localizedValue": "Server latency (BlobServer)",
+              "value": "BlobServerServerLatency"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:02.3087124Z",
+            "metricUnit": "Count",
+            "metricValues": [
+              {
+                "average": 3.37839472205425,
+                "timeStamp": "2018-01-23T00:00:00Z"
+              },
+              {
+                "average": 3.23720755548253,
+                "timeStamp": "2018-01-24T00:00:00Z"
+              },
+              {
+                "average": 3.23283110690318,
+                "timeStamp": "2018-01-25T00:00:00Z"
+              },
+              {
+                "average": 3.24997418164272,
+                "timeStamp": "2018-01-26T00:00:00Z"
+              },
+              {
+                "average": 3.25500401782453,
+                "timeStamp": "2018-01-27T00:00:00Z"
+              },
+              {
+                "average": 3.24891968824928,
+                "timeStamp": "2018-01-28T00:00:00Z"
+              },
+              {
+                "average": 3.23743272199632,
+                "timeStamp": "2018-01-29T00:00:00Z"
+              }
+            ],
+            "name": {
+              "localizedValue": "End-to-end latency (BlobService)",
+              "value": "E2ELatency"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:02.3087124Z",
+            "metricUnit": "Count",
+            "metricValues": [
+              {
+                "average": 3.00302941330881,
+                "timeStamp": "2018-01-23T00:00:00Z"
+              },
+              {
+                "average": 2.88515644890154,
+                "timeStamp": "2018-01-24T00:00:00Z"
+              },
+              {
+                "average": 2.8953629314371,
+                "timeStamp": "2018-01-25T00:00:00Z"
+              },
+              {
+                "average": 2.90971362786012,
+                "timeStamp": "2018-01-26T00:00:00Z"
+              },
+              {
+                "average": 2.9197896120973,
+                "timeStamp": "2018-01-27T00:00:00Z"
+              },
+              {
+                "average": 2.90887585146789,
+                "timeStamp": "2018-01-28T00:00:00Z"
+              },
+              {
+                "average": 2.89673016247954,
+                "timeStamp": "2018-01-29T00:00:00Z"
+              }
+            ],
+            "name": {
+              "localizedValue": "Server latency (BlobService)",
+              "value": "ServerLatency"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:02.3087124Z",
+            "metricUnit": "Count",
+            "metricValues": [
+              {
+                "average": 100,
+                "timeStamp": "2018-01-23T00:00:00Z"
+              },
+              {
+                "average": 100,
+                "timeStamp": "2018-01-24T00:00:00Z"
+              },
+              {
+                "average": 100,
+                "timeStamp": "2018-01-25T00:00:00Z"
+              },
+              {
+                "average": 100,
+                "timeStamp": "2018-01-26T00:00:00Z"
+              },
+              {
+                "average": 100,
+                "timeStamp": "2018-01-27T00:00:00Z"
+              },
+              {
+                "average": 100,
+                "timeStamp": "2018-01-28T00:00:00Z"
+              },
+              {
+                "average": 100,
+                "timeStamp": "2018-01-29T00:00:00Z"
+              }
+            ],
+            "name": {
+              "localizedValue": "Availability (BlobService)",
+              "value": "Availability"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:02.3087124Z",
+            "metricUnit": "Count",
+            "metricValues": [
+              {
+                "timeStamp": "2018-01-23T00:00:00Z",
+                "total": 514291
+              },
+              {
+                "timeStamp": "2018-01-24T00:00:00Z",
+                "total": 553823
+              },
+              {
+                "timeStamp": "2018-01-25T00:00:00Z",
+                "total": 550283
+              },
+              {
+                "timeStamp": "2018-01-26T00:00:00Z",
+                "total": 590665
+              },
+              {
+                "timeStamp": "2018-01-27T00:00:00Z",
+                "total": 602316
+              },
+              {
+                "timeStamp": "2018-01-28T00:00:00Z",
+                "total": 592653
+              },
+              {
+                "timeStamp": "2018-01-29T00:00:00Z",
+                "total": 592690
+              }
+            ],
+            "name": {
+              "localizedValue": "Total successful requests (BlobService)",
+              "value": "SuccessfulRequests"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:02.3087124Z",
+            "metricUnit": "Count",
+            "metricValues": [
+              {
+                "timeStamp": "2018-01-23T00:00:00Z",
+                "total": 525915
+              },
+              {
+                "timeStamp": "2018-01-24T00:00:00Z",
+                "total": 565447
+              },
+              {
+                "timeStamp": "2018-01-25T00:00:00Z",
+                "total": 561886
+              },
+              {
+                "timeStamp": "2018-01-26T00:00:00Z",
+                "total": 602269
+              },
+              {
+                "timeStamp": "2018-01-27T00:00:00Z",
+                "total": 613916
+              },
+              {
+                "timeStamp": "2018-01-28T00:00:00Z",
+                "total": 604253
+              },
+              {
+                "timeStamp": "2018-01-29T00:00:00Z",
+                "total": 604290
+              }
+            ],
+            "name": {
+              "localizedValue": "Total requests (BlobService)",
+              "value": "TotalRequests"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:02.3087124Z",
+            "metricUnit": "Count",
+            "metricValues": [
+              {
+                "timeStamp": "2018-01-23T00:00:00Z",
+                "total": 1368310311
+              },
+              {
+                "timeStamp": "2018-01-24T00:00:00Z",
+                "total": 1404079959
+              },
+              {
+                "timeStamp": "2018-01-25T00:00:00Z",
+                "total": 1400057193
+              },
+              {
+                "timeStamp": "2018-01-26T00:00:00Z",
+                "total": 1445879884
+              },
+              {
+                "timeStamp": "2018-01-27T00:00:00Z",
+                "total": 1475166639
+              },
+              {
+                "timeStamp": "2018-01-28T00:00:00Z",
+                "total": 1463924092
+              },
+              {
+                "timeStamp": "2018-01-29T00:00:00Z",
+                "total": 1468371175
+              }
+            ],
+            "name": {
+              "localizedValue": "Ingress (BlobService)",
+              "value": "Ingress"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          },
+          {
+            "endTime": "2018-01-30T19:31:02.3087124Z",
+            "metricUnit": "Count",
+            "metricValues": [
+              {
+                "timeStamp": "2018-01-23T00:00:00Z",
+                "total": 1042768756
+              },
+              {
+                "timeStamp": "2018-01-24T00:00:00Z",
+                "total": 1140164863
+              },
+              {
+                "timeStamp": "2018-01-25T00:00:00Z",
+                "total": 902184482
+              },
+              {
+                "timeStamp": "2018-01-26T00:00:00Z",
+                "total": 1173363120
+              },
+              {
+                "timeStamp": "2018-01-27T00:00:00Z",
+                "total": 1184912696
+              },
+              {
+                "timeStamp": "2018-01-28T00:00:00Z",
+                "total": 1175637645
+              },
+              {
+                "timeStamp": "2018-01-29T00:00:00Z",
+                "total": 1175858765
+              }
+            ],
+            "name": {
+              "localizedValue": "Egress (BlobService)",
+              "value": "Egress"
+            },
+            "startTime": "2018-01-23T00:00:00Z",
+            "timeGrain": "P1D"
+          }
+        ]
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
