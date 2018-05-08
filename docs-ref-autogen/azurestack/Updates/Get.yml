@@ -1,0 +1,209 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestackadmin.updates.get
+name: Get
+service: Azure Stack Admin
+groupName: Updates
+apiVersion: 2016-05-01
+summary: Get a specific update at an update location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Update.Admin/updateLocations/{updateLocation}/updates/{updateName}?api-version=2016-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription.  The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name.
+  types:
+  - uid: string
+- name: updateLocation
+  in: path
+  isRequired: true
+  description: The name of the update location.
+  types:
+  - uid: string
+- name: updateName
+  in: path
+  isRequired: true
+  description: Name of the update.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Update
+requestHeader: []
+definitions:
+- name: Update
+  description: Information pertaining to an update.
+  kind: object
+  properties:
+  - name: properties.dateAvailable
+    description: Date uploaded by provider.
+    types:
+    - uid: string
+  - name: properties.installedDate
+    description: Date update was installed.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Description of the update.
+    types:
+    - uid: string
+  - name: properties.state
+    description: Current state of the update.
+    types:
+    - uid: UpdateState
+  - name: properties.kbLink
+    description: Link to the KB article about the update.
+    types:
+    - uid: string
+  - name: properties.minVersionRequired
+    description: The minimum version required to install.
+    types:
+    - uid: string
+  - name: properties.packagePath
+    description: Path to the update package.
+    types:
+    - uid: string
+  - name: properties.packageSizeInMb
+    description: Size of update package.
+    types:
+    - uid: integer
+  - name: properties.updateName
+    description: Name of the update.
+    types:
+    - uid: string
+  - name: properties.version
+    description: Version of the update.
+    types:
+    - uid: string
+  - name: properties.updateOemFile
+    description: OEM version of the update.
+    types:
+    - uid: string
+  - name: properties.publisher
+    description: Publisher of the update.
+    types:
+    - uid: string
+  - name: properties.packageType
+    description: Describes the components that will be updated.
+    types:
+    - uid: PackageType
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: Region location of resource.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: UpdateState
+  description: State of the update.
+  kind: enum
+  properties:
+  - name: HasPrerequisite
+    types:
+    - uid: string
+  - name: Obsolete
+    types:
+    - uid: string
+  - name: Ready
+    types:
+    - uid: string
+  - name: NotApplicableBecauseAnotherUpdateIsInProgress
+    types:
+    - uid: string
+  - name: Installed
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Installing
+    types:
+    - uid: string
+- name: PackageType
+  description: Describes the components that will be updated.
+  kind: enum
+  properties:
+  - name: Microsoft
+    types:
+    - uid: string
+  - name: Oem
+    types:
+    - uid: string
+  - name: Combined
+    types:
+    - uid: string
+examples:
+- name: Get a specific update at an update location.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/System.Redmond/providers/Microsoft.Update.Admin/updateLocations/Redmond/updates/Microsoft1.0.180302.1?api-version=2016-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/23d66fd1-4743-42ff-b391-e29dc51d799e/resourcegroups/System.Redmond/providers/Microsoft.Update.Admin/updateLocations/redmond/updates/Microsoft1.0.180302.1",
+        "name": "Microsoft1.0.180302.1",
+        "type": "Microsoft.Update.Admin/updateLocations/updates",
+        "location": "redmond",
+        "tags": {},
+        "properties": {
+          "dateAvailable": "0001-01-01T00:00:00Z",
+          "installedDate": "2018-03-03T08:09:12.8824552Z",
+          "description": "MAS Update 1.0.180302.1",
+          "state": "Installed",
+          "kbLink": "https://aka.ms/azurestackupdate",
+          "minVersionRequired": "1.0.180103.2",
+          "packagePath": "\\\\SU1FileServer\\SU1_Infrastructure_2\\Updates\\Packages\\Microsoft1.0.180302.1",
+          "packageSizeInMb": 2144,
+          "updateName": "MAS - 1.0.180302.1",
+          "version": "1.0.180302.1",
+          "updateOemFile": "",
+          "publisher": "Microsoft",
+          "packageType": "Microsoft"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,196 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestackadmin.scaleunits.get
+name: Get
+service: Azure Stack Admin
+groupName: Scale Units
+apiVersion: 2016-05-01
+summary: Returns the requested scale unit.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/scaleUnits/{scaleUnit}?api-version=2016-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Location of the resource.
+  types:
+  - uid: string
+- name: scaleUnit
+  in: path
+  isRequired: true
+  description: Name of the scale units.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ScaleUnit
+- name: 404 Not Found
+  description: NOT FOUND
+requestHeader: []
+definitions:
+- name: ScaleUnit
+  description: Represents a cluster. Generally, the cluster will be a collection of hosts backed by failover cluster manager.
+  kind: object
+  properties:
+  - name: properties.scaleUnitType
+    description: Type of cluster.
+    types:
+    - uid: ScaleUnitType
+  - name: properties.logicalFaultDomain
+    description: Fault domain name of the cluster.
+    types:
+    - uid: integer
+  - name: properties.nodes
+    description: List of nodes in the server.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.state
+    description: Current state of the cluster.
+    types:
+    - uid: ScaleUnitState
+  - name: properties.model
+    description: Model of the servers in the cluster.
+    types:
+    - uid: string
+  - name: properties.totalCapacity
+    description: Capacity information for the cluster.
+    types:
+    - uid: ScaleUnitCapacity
+  - name: properties.isMultiNode
+    description: Denotes if more than one node in cluster.
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: The region where the resource is located.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ScaleUnitType
+  description: Type of cluster.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: ComputeOnly
+    types:
+    - uid: string
+  - name: StorageOnly
+    types:
+    - uid: string
+  - name: HyperConverged
+    types:
+    - uid: string
+- name: ScaleUnitState
+  description: Current state of the cluster.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Upgrading
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+- name: ScaleUnitCapacity
+  description: The capacity information for a physical machine.
+  kind: object
+  properties:
+  - name: memoryGB
+    description: The memory for the physical machine.
+    types:
+    - uid: number
+  - name: cores
+    description: The number of CPU cores for the physical machine.
+    types:
+    - uid: integer
+examples:
+- name: Returns the requested scale unit
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/scaleUnits/S-Cluster?api-version=2016-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/23a94a7f-64b3-42d8-807c-733284339015/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/scaleUnits/S-Cluster",
+        "name": "S-Cluster",
+        "type": "Microsoft.Fabric.Admin/fabricLocations/scaleUnits",
+        "location": "local",
+        "tags": {},
+        "properties": {
+          "scaleUnitType": "HyperConverged",
+          "logicalFaultDomain": 0,
+          "nodes": [
+            "/subscriptions/23a94a7f-64b3-42d8-807c-733284339015/resourceGroups/system.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/scaleUnitNodes/HC1u15a2437"
+          ],
+          "state": "Running",
+          "totalCapacity": {
+            "memoryGB": 511.8877,
+            "cores": 32
+          },
+          "isMultiNode": false
+        }
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

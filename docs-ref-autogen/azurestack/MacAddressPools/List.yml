@@ -1,0 +1,155 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestackadmin.macaddresspools.list
+name: List
+service: Azure Stack Admin
+groupName: Mac Address Pools
+apiVersion: 2016-05-01
+summary: Returns a list of all MAC address pools at a location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/macAddressPools?api-version=2016-05-01
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/macAddressPools?api-version=2016-05-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Location of the resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter parameter.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: MacAddressPoolList
+- name: 404 Not Found
+  description: NOT FOUND
+requestHeader: []
+definitions:
+- name: MacAddressPoolList
+  description: A pageable list of MAC address pools.
+  kind: object
+  properties:
+  - name: value
+    description: List of MAC address pools.
+    types:
+    - uid: MacAddressPool
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: MacAddressPool
+  description: This resource represents a MAC address pool.  The default MAC address pools are used if you set the MAC address type for a virtual machine to 'Static'.  If the virtual machine setting is 'Dynamic', the hypervisor assigns the MAC address.
+  kind: object
+  properties:
+  - name: properties.metadata
+    description: Metadata related to the MAC pool.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.startMacAddress
+    description: Starting MAC address.
+    types:
+    - uid: string
+  - name: properties.endMacAddress
+    description: Ending MAC address.
+    types:
+    - uid: string
+  - name: properties.numberOfAllocatedMacAddresses
+    description: Number of MAC addresses allocated.
+    types:
+    - uid: integer
+  - name: properties.numberOfAvailableMacAddresses
+    description: Number of MAC addresses available.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: The region where the resource is located.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Returns all MAC address pools
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/macAddressPools?api-version=2016-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/36e98cad-c8a5-4580-bef7-af878a237908/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/macAddressPools/8197fd09-8a69-417e-a55c-10c2c61f5ee7",
+            "name": "8197fd09-8a69-417e-a55c-10c2c61f5ee7",
+            "type": "Microsoft.Fabric.Admin/fabricLocations/macAddressPools",
+            "location": "local",
+            "tags": {},
+            "properties": {
+              "startMacAddress": "00-1D-D8-B7-1C-00",
+              "endMacAddress": "00-1D-D8-F4-1F-FF",
+              "numberOfAllocatedMacAddresses": 5,
+              "numberOfAvailableMacAddresses": 3998715
+            }
+          }
+        ]
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,164 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestackadmin.edgegatewaypools.list
+name: List
+service: Azure Stack Admin
+groupName: Edge Gateway Pools
+apiVersion: 2016-05-01
+summary: Returns a list of all edge gateway pool objects at a location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/edgeGatewayPools?api-version=2016-05-01
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/edgeGatewayPools?api-version=2016-05-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Location of the resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter parameter.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: EdgeGatewayPoolList
+- name: 404 Not Found
+  description: NOT FOUND
+requestHeader: []
+definitions:
+- name: EdgeGatewayPoolList
+  description: A pageable list of edge gateway pools objects.
+  kind: object
+  properties:
+  - name: value
+    description: List of edge gateway pool objects.
+    types:
+    - uid: EdgeGatewayPool
+      isArray: true
+  - name: nextLink
+    description: The URI to the next page.
+    types:
+    - uid: string
+- name: EdgeGatewayPool
+  description: This object represents an edge gateway pool, which contains a list of gateways.
+  kind: object
+  properties:
+  - name: properties.gatewayType
+    description: The gateway type, for example, S2sIPsec, S2sGre, and so on.
+    types:
+    - uid: string
+  - name: properties.numberOfGateways
+    description: The number of gateways in the pool.
+    types:
+    - uid: integer
+  - name: properties.redundantGatewayCount
+    description: The number of redundant gateways.
+    types:
+    - uid: integer
+  - name: properties.gatewayCapacityKiloBitsPerSecond
+    description: Gateway capacity in kilobits per second.
+    types:
+    - uid: integer
+  - name: properties.publicIpAddress
+    description: The public IP address.
+    types:
+    - uid: string
+  - name: properties.greVipSubnet
+    description: The GRE VIP subnet.
+    types:
+    - uid: string
+  - name: properties.edgeGateways
+    description: List of the edge gateways in the pool.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: The region where the resource is located.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Returns a list of all edge gateway pool objects at a location.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/edgeGatewayPools?api-version=2016-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/edgeGatewayPools/default",
+            "name": "default",
+            "type": "Microsoft.Fabric.Admin/fabricLocations/edgeGatewayPools",
+            "location": "local",
+            "tags": {},
+            "properties": {
+              "gatewayType": "S2sIPsec",
+              "numberOfGateways": 1,
+              "redundantGatewayCount": 0,
+              "gatewayCapacityKiloBitsPerSecond": 100000000,
+              "publicIpAddress": "00000000-5555-0000-0001-000000000000",
+              "edgeGateways": [
+                "local/AzS-Gwy01"
+              ]
+            }
+          }
+        ]
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,565 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestackadmin.updateruns.list
+name: List
+service: Azure Stack Admin
+groupName: Update Runs
+apiVersion: 2016-05-01
+summary: Get the list of update runs.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Update.Admin/updateLocations/{updateLocation}/updates/{updateName}/updateRuns?api-version=2016-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription.  The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name.
+  types:
+  - uid: string
+- name: updateLocation
+  in: path
+  isRequired: true
+  description: The name of the update location.
+  types:
+  - uid: string
+- name: updateName
+  in: path
+  isRequired: true
+  description: Name of the update.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: UpdateRunList
+requestHeader: []
+definitions:
+- name: UpdateRunList
+  description: Pageable list of update runs.
+  kind: object
+  properties:
+  - name: value
+    description: List of update runs.
+    types:
+    - uid: UpdateRun
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: UpdateRun
+  description: Representation of a update run resource.
+  kind: object
+  properties:
+  - name: properties.progress
+    description: Current progress of the update run.
+    types:
+    - uid: Step
+  - name: properties.timeStarted
+    description: Update start time.
+    types:
+    - uid: string
+  - name: properties.duration
+    description: Duration of the update.
+    types:
+    - uid: string
+  - name: properties.state
+    description: State of the update run.
+    types:
+    - uid: UpdateRunState
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: Region location of resource.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: Step
+  description: Inforamtion about each step of the update process.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the step.
+    types:
+    - uid: string
+  - name: description
+    description: Description of the step.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message, if any.
+    types:
+    - uid: string
+  - name: status
+    description: State of the step.
+    types:
+    - uid: string
+  - name: startTimeUtc
+    description: Time at which this step started executing
+    types:
+    - uid: string
+  - name: endTimeUtc
+    description: Time at which this step stopped executing
+    types:
+    - uid: string
+  - name: steps
+    description: Inner steps
+    types:
+    - uid: Step
+      isArray: true
+- name: UpdateRunState
+  description: State of the update run.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: Get the list of update run.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/System.Redmond/providers/Microsoft.Update.Admin/updateLocations/Redmond/updates/Microsoft1.0.180302.1/updateRuns?api-version=2016-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/23d66fd1-4743-42ff-b391-e29dc51d799e/resourceGroups/System.Redmond/providers/Microsoft.Update.Admin/updateLocations/redmond/updates/Microsoft1.0.180302.1/updateRuns/407d9b8f-debf-4058-b374-a94a1bb4de30",
+            "name": "407d9b8f-debf-4058-b374-a94a1bb4de30",
+            "type": "Microsoft.Update.Admin/updateLocations/updates/updateRuns",
+            "location": "redmond",
+            "tags": {},
+            "properties": {
+              "progress": {
+                "name": "Unnamed step",
+                "description": "Update Azure Stack.",
+                "errorMessage": "",
+                "status": "Success",
+                "startTimeUtc": "2018-03-02T17:25:37.4173123+00:00",
+                "endTimeUtc": "2018-03-03T08:09:04.9913191+00:00",
+                "steps": [
+                  {
+                    "name": "Pre-engine Update",
+                    "description": "Perform pre-engine update.",
+                    "errorMessage": "",
+                    "status": "Success",
+                    "startTimeUtc": "2018-03-02T17:25:37.4798089+00:00",
+                    "endTimeUtc": "2018-03-02T18:28:55.8289013+00:00",
+                    "steps": [
+                      {
+                        "name": "PreUpdate Cloud",
+                        "description": "Copy packages to NugetStore.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T17:25:41.9019404+00:00",
+                        "endTimeUtc": "2018-03-02T17:57:50.1318779+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Update SeedRing SF Runtime",
+                        "description": "Update SeedRing SF Runtime step.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T17:57:50.1475043+00:00",
+                        "endTimeUtc": "2018-03-02T18:17:07.8319178+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Update SeedRing ECE",
+                        "description": "Update SeedRing ECE step.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T18:17:07.8631688+00:00",
+                        "endTimeUtc": "2018-03-02T18:28:55.7507724+00:00",
+                        "steps": []
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Engine Update",
+                    "description": "Perform engine update.",
+                    "errorMessage": "",
+                    "status": "Success",
+                    "startTimeUtc": "2018-03-02T18:28:55.8601531+00:00",
+                    "endTimeUtc": "2018-03-02T18:37:44.0480253+00:00",
+                    "steps": [
+                      {
+                        "name": "PreUpdate Cloud",
+                        "description": "Copy packages to NugetStore.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T18:28:59.500983+00:00",
+                        "endTimeUtc": "2018-03-02T18:35:43.2198256+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Update SeedRing SF Runtime",
+                        "description": "Update SeedRing SF Runtime step.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T18:35:43.2354458+00:00",
+                        "endTimeUtc": "2018-03-02T18:36:14.5629258+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Update SeedRing ECE",
+                        "description": "Update SeedRing ECE step.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T18:36:14.5941782+00:00",
+                        "endTimeUtc": "2018-03-02T18:37:43.9698965+00:00",
+                        "steps": []
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Cloud Update",
+                    "description": "Perform cloud update.",
+                    "errorMessage": "",
+                    "status": "Success",
+                    "startTimeUtc": "2018-03-02T18:37:44.079278+00:00",
+                    "endTimeUtc": "2018-03-03T08:09:04.960067+00:00",
+                    "steps": [
+                      {
+                        "name": "Update Domain",
+                        "description": "Live Update on Domain.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T18:37:48.3763886+00:00",
+                        "endTimeUtc": "2018-03-02T18:41:20.0340798+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Check Cloud Health",
+                        "description": "Check the health of all roles in parallel before beginning update.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T18:41:20.0653266+00:00",
+                        "endTimeUtc": "2018-03-02T18:56:10.4396313+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "PreUpdate OEM.",
+                        "description": "Copy OEM content to CloudMedia.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T18:56:10.4708828+00:00",
+                        "endTimeUtc": "2018-03-02T18:56:16.1459718+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "(DEP) Generate Code Integrity Policy",
+                        "description": "Generates the Code Integrity Policy",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T18:56:16.1807685+00:00",
+                        "endTimeUtc": "2018-03-02T18:57:07.0682796+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Update OEM S2D whitelist.",
+                        "description": "Update S2D health service from StorageDisks.xml.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T18:57:07.0995306+00:00",
+                        "endTimeUtc": "2018-03-02T18:57:14.7249566+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "(FBI) Create new Storage Accounts",
+                        "description": "Create newly introduced storage accounts to be used by different providers.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T18:57:14.7562105+00:00",
+                        "endTimeUtc": "2018-03-02T18:58:34.4194385+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "NC Auto Update Disable",
+                        "description": "Disable EnableAutomaticUpdates flag on NC fabriccluster",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T18:58:34.4506838+00:00",
+                        "endTimeUtc": "2018-03-02T19:00:13.6332139+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Install Update.",
+                        "description": "Install Update on Hosts and Infra VMs.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T19:00:13.6644452+00:00",
+                        "endTimeUtc": "2018-03-02T20:19:16.6339385+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "(DEP) Generate base images for hosts and virtual machines.",
+                        "description": "Creates and updates the base images needed by hosts and virtual machines.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T20:19:16.7901987+00:00",
+                        "endTimeUtc": "2018-03-02T20:38:55.3959294+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "(DEP) Generate host image.",
+                        "description": "Build VHDs for the host at runtime and the backup WinPE for servicing.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T20:38:55.4115607+00:00",
+                        "endTimeUtc": "2018-03-02T20:43:15.272197+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Update PrivilegedEndpoint whitelist",
+                        "description": "Update PrivilegedEndpoint whitelist on SeedRing nodes.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T20:43:15.3034455+00:00",
+                        "endTimeUtc": "2018-03-02T20:47:22.3519764+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Update Defender",
+                        "description": "Update Defender signatures.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T20:47:22.3832322+00:00",
+                        "endTimeUtc": "2018-03-02T20:48:07.0983871+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Update Node Sets",
+                        "description": "Live Update all nodes in a node set.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T20:48:07.129639+00:00",
+                        "endTimeUtc": "2018-03-02T21:51:45.6581291+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Update SeedRing IBC",
+                        "description": "Update SeedRing IBC step.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T21:51:45.6934194+00:00",
+                        "endTimeUtc": "2018-03-02T22:02:32.5586541+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Restart Storage Hosts",
+                        "description": "Restart Storage Hosts step.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-02T22:02:32.5899091+00:00",
+                        "endTimeUtc": "2018-03-03T02:53:35.1617531+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Restart CA.",
+                        "description": "Restart CA to finish applying OS updates.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T02:53:35.1993965+00:00",
+                        "endTimeUtc": "2018-03-03T03:00:23.0498989+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Restart NC.",
+                        "description": "Restart NC VMs to finish applying OS updates and Update the NC ring app.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T03:00:23.1436539+00:00",
+                        "endTimeUtc": "2018-03-03T04:53:58.2467744+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Restart SQL.",
+                        "description": "Restart SQL VMs to finish applying OS updates and Update SQL servers.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T04:53:58.3717999+00:00",
+                        "endTimeUtc": "2018-03-03T05:08:54.2948193+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Restart SLB.",
+                        "description": "Restart SLB to finish applying OS updates.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T05:08:54.3260706+00:00",
+                        "endTimeUtc": "2018-03-03T05:28:05.8095784+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Restart ACSFabric and Gateway",
+                        "description": "Restart ACSFabric and Gateway to finish applying OS updates.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T05:28:05.8408311+00:00",
+                        "endTimeUtc": "2018-03-03T06:27:56.0854925+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Restart WAS",
+                        "description": "Restart WAS to finish applying OS updates.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T06:27:56.1479976+00:00",
+                        "endTimeUtc": "2018-03-03T06:46:02.7735634+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Restart WASPUBLIC",
+                        "description": "Restart WASPUBLIC to finish applying OS updates.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T06:46:02.8048171+00:00",
+                        "endTimeUtc": "2018-03-03T07:15:02.30254+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Restart XRP FabricRing, PXE and ADFS, and SQL.",
+                        "description": "Restart XRP FabricRing, PXE, ADFS, and SQL to finish applying OS updates.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T07:15:02.3337871+00:00",
+                        "endTimeUtc": "2018-03-03T07:47:21.7605287+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Update OEM manifest.",
+                        "description": "Update ECE manifest from OEM manifests.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T07:47:21.7917861+00:00",
+                        "endTimeUtc": "2018-03-03T07:47:35.5958946+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Update Active Version on Node Sets",
+                        "description": "Live Update all nodes active version.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T07:47:35.6271478+00:00",
+                        "endTimeUtc": "2018-03-03T08:05:12.3530683+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Post Update Trace Collector.",
+                        "description": "Switch Trace Collector to post update and validate the service is running.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T08:05:12.5405827+00:00",
+                        "endTimeUtc": "2018-03-03T08:06:19.9796654+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Enable StartComponentCleanup on NC VMs",
+                        "description": "Enable WU StartComponentCleanup on NC VMs",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T08:06:20.0265482+00:00",
+                        "endTimeUtc": "2018-03-03T08:07:37.297809+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Update Cloud Security",
+                        "description": "Update cloud security step",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T08:07:37.3446716+00:00",
+                        "endTimeUtc": "2018-03-03T08:07:56.664821+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "PostUpdate Cloud.",
+                        "description": "Update Azure Stack Version.",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T08:07:56.6960734+00:00",
+                        "endTimeUtc": "2018-03-03T08:08:19.7703032+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Update ExternalDNS",
+                        "description": "Disable DNS Recursion on WASP VMs",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T08:08:19.8015565+00:00",
+                        "endTimeUtc": "2018-03-03T08:08:28.0283394+00:00",
+                        "steps": []
+                      },
+                      {
+                        "name": "Close Active Alerts After LiveUdpate",
+                        "description": "Query HRP service and close all existing active alerts",
+                        "errorMessage": "",
+                        "status": "Success",
+                        "startTimeUtc": "2018-03-03T08:08:28.0595832+00:00",
+                        "endTimeUtc": "2018-03-03T08:09:04.8819362+00:00",
+                        "steps": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              "timeStarted": "2018-03-02T17:25:22.818Z",
+              "duration": "PT14H43M50.0644552S",
+              "state": "Succeeded"
+            }
+          }
+        ],
+        "nextLink": ""
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

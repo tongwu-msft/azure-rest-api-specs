@@ -1,0 +1,112 @@
+### YamlMime:RESTOperation
+uid: management.local.azurestack.external.azurestackadmin.quota(keyvault).list
+name: List
+service: Azure Stack Admin
+groupName: Quota (KeyVault)
+apiVersion: 2017-02-01-preview
+summary: Get a list of all quota objects for KeyVault at a location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.local.azurestack.external/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault.Admin/locations/{location}/quotas?api-version=2017-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription.The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The location of the quota.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: QuotaList
+requestHeader: []
+definitions:
+- name: QuotaList
+  description: List of keyvault quotas.
+  kind: object
+  properties:
+  - name: value
+    description: List of keyvault quotas.
+    types:
+    - uid: Quota
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: Quota
+  description: KeyVault Quota.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Location where resource is location.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: List of key value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Get a list of all quota objects for KeyVault at a location.
+  request:
+    uri: GET https://management.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.KeyVault.Admin/locations/local/quotas?api-version=2017-02-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "20ff7fc3-e762-44dd-bd96-b71116dcdc23",
+            "type": "Microsoft.KeyVault/locations/quotas",
+            "name": "local/Unlimited",
+            "properties": "null",
+            "location": "local"
+          }
+        ],
+        "nextLink": ""
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

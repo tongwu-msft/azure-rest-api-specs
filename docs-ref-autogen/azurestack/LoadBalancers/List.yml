@@ -1,0 +1,158 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestackadmin.loadbalancers.list
+name: List
+service: Azure Stack Admin
+groupName: Load Balancers
+apiVersion: 2015-06-15
+summary: Get a list of all load balancers.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/providers/Microsoft.Network.Admin/adminLoadBalancers?api-version=2015-06-15
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/providers/Microsoft.Network.Admin/adminLoadBalancers?api-version=2015-06-15&$filter={$filter}&$orderBy={$orderBy}&$top={$top}&$skip={$skip}&$inlineCount={$inlineCount}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter parameter.
+  types:
+  - uid: string
+- name: $orderBy
+  in: query
+  description: OData orderBy parameter.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: OData top parameter.
+  types:
+  - uid: string
+- name: $skip
+  in: query
+  description: OData skip parameter.
+  types:
+  - uid: string
+- name: $inlineCount
+  in: query
+  description: OData inline count parameter.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: LoadBalancerList
+requestHeader: []
+definitions:
+- name: LoadBalancerList
+  description: Pageable list of load balancers.
+  kind: object
+  properties:
+  - name: value
+    description: List of load balancers for this page.
+    types:
+    - uid: LoadBalancer
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: LoadBalancer
+  description: Representation of a load balancer.
+  kind: object
+  properties:
+  - name: properties.publicIpAddresses
+    description: List of public IP addresses.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Region location of resource.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state.
+    types:
+    - uid: string
+  - name: properties.subscriptionId
+    isReadyOnly: true
+    description: The subscription ID.
+    types:
+    - uid: string
+  - name: properties.tenantResourceUri
+    isReadyOnly: true
+    description: The tenant resource URI.
+    types:
+    - uid: string
+examples:
+- name: List all load balancers
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/fc8456aa-4843-4079-a152-f3497c63aa73/providers/Microsoft.Network.Admin/adminLoadBalancers?api-version=2015-06-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "TestLoadBalancer",
+            "type": "Microsoft.Network.Admin/adminLoadBalancers",
+            "location": "",
+            "id": "/subscriptions/fc8456aa-4843-4079-a152-f3497c63aa73/providers/Microsoft.Network.Admin/adminLoadBalancers/TestLoadBalancer",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "publicIpAddresses": [
+                "192.168.102.32"
+              ],
+              "subscriptionId": "fc8456aa-4843-4079-a152-f3497c63aa73",
+              "tenantResourceUri": "/subscriptions/fc8456aa-4843-4079-a152-f3497c63aa73/resourceGroups/GreatResource/providers/Microsoft.Network/loadBalancers/TestLoadBalancer"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
