@@ -16,4 +16,4 @@ Azure Container Service (ACS) allows you to quickly deploy a production ready Ku
 
 | Operation group | Description |
 |-----------------|-------------|
-| [Container Services](xref:management.azure.com.containerservice.containerservices) | Create and manage Kubernetes, Swarm, and DC/OS deployments in ACS. |
+| [Container Services](xref:management.azure.com.container-service.containerservices) | Create and manage Kubernetes, Swarm, and DC/OS deployments in ACS. |

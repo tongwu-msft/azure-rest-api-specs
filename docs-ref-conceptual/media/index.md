@@ -19,7 +19,7 @@ Azure Media Services (AMS) has 2 REST APIs. One for creating/managing Media Serv
 
 Azure Media Services (AMS) resources may be created and managed programmatically using APIs provided by the AMS Resource Provider. The APIs are available through the Azure Resource Manager (ARM) REST API endpoints.
 
-For more information, see [Media Services management REST API reference](xref:management.azure.com.mediaservices.mediaservice).
+For more information, see [Media Services management REST API reference](xref:management.azure.com.media.mediaservice).
 
 | Operation Group | Description |
 |-----------------|-------------|
@@ -41,4 +41,4 @@ For more information, see [Media Services Operations REST API reference](operati
 
 ## See Also
 
-[Media Services management REST API reference](xref:management.azure.com.mediaservices.mediaservice)
+[Media Services management REST API reference](xref:management.azure.com.media.mediaservice)

@@ -27,7 +27,7 @@ translation.priority.mt:
 # Regenerate Media Services Primary Account Key
 
 > [!NOTE]
->  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services management REST API reference](xref:management.azure.com.mediaservices.mediaservice).
+>  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services management REST API reference](xref:management.azure.com.media.mediaservice).
    
   
  The `POST` request method described in this topic request to regenerate the specified Media Services account primary identity key.  
