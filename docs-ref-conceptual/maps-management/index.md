@@ -1,6 +1,6 @@
 ---
 title: Maps Management API | Microsoft Docs
-ms.date: 10/31/2017
+ms.date: 05/07/2018
 ms.service: maps
 ms.topic: reference
 ms.devlang: rest-api
