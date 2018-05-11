@@ -27,7 +27,7 @@ translation.priority.mt:
 # Delete Media Services Account
 
 > [!NOTE]
->  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services management REST API reference](xref:management.azure.com.mediaservices.mediaservice). 
+>  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services management REST API reference](xref:management.azure.com.media.mediaservice). 
 
  The `DELETE` request method described in this topic deletes the specified Media Services account in the specified subscription.  
 
