@@ -27,7 +27,7 @@ Organized by subject area.
 | *Metrics* | | 
 | [Metric Definitions](xref:management.azure.com.monitor.metricdefinitions)      | Lists the metric definitions available for the resource. That is, what [specific metrics](https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-supported-metrics) can you collect. |
 | [Metrics](xref:management.azure.com.monitor.metrics)          | Lists the metric values for a resource you identify.   |
-| Diagnostic Logs | |
+| *Diagnostic Logs* | |
 | [Diagnostic Settings](xref:management.azure.com.monitor.diagnosticsettings)       | Provides operations for creating, updating, and retrieving the [diagnostic settings](https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-overview-of-diagnostic-logs#resource-diagnostic-settings) for a resource.|
 | [Diagnostic Settings Category](xref:management.azure.com.monitor.diagnosticsettingscategory) | Relates to the [possible categories](https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-diagnostic-logs-schema#supported-log-categories-per-resource-type) for a given resource|
 | *Activity Log* | |
