@@ -198,7 +198,6 @@ The `Get Blob Service Properties` operation gets the properties of a storage acc
     <DeleteRetentionPolicy>
         <Enabled>true|false</Enabled>
         <Days>number-of-days</Days>
-        <RetainedVersionsPerBlob>number-of-deleted-versions-to-retain</RetainedVersionsPerBlob>
     </DeleteRetentionPolicy>
 </StorageServiceProperties>  
   
@@ -231,7 +230,6 @@ The `Get Blob Service Properties` operation gets the properties of a storage acc
 |**DeleteRetentionPolicy**|Groups the Azure Delete settings. Applies only to the Blob service.|
 |**Enabled**|Indicates whether deleted blob or snapshot is retained or immediately removed by delete operation.| 
 |**Days**|Indicates the number of days that deleted blob be retained. All data older than this value will be permanently deleted.| 
-|**RetainedVersionsPerBlob**|Indicates the number of deleted version of each blob should be retained. After reaching this limit blob service permanently deletes the oldest deleted version of blob.| 
   
 ## Authorization  
  Only the storage account owner may call this operation.  
@@ -311,7 +309,6 @@ Date: Tue, 12 Sep 2017 23:38:35 GMT
     <DeleteRetentionPolicy>
         <Enabled>true</Enabled>
         <Days>5</Days>
-        <RetainedVersionsPerBlob>2</RetainedVersionsPerBlob>
     </DeleteRetentionPolicy>    
 </StorageServiceProperties>    
   
