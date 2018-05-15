@@ -27,7 +27,7 @@ Use the Azure Data Lake Analytics REST APIs to create and manage Data Lake Analy
 |[Recurrence](xref:management.azure.com.datalakeanalytics.recurrence) | Provides operations to explore the recurrences associated with the jobs submitted to a Data Lake Analytics account. |
 |[Storage Accounts](xref:management.azure.com.datalakeanalytics.storageaccounts) | Provides operations to manage the list of Azure Storage accounts associated with a Data Lake Analytics account. |
 
-##Common parameters and headers
+## Common parameters and headers
 
 The following information is common to all tasks that you might do related to Data Lake Analytics:
 
@@ -38,6 +38,6 @@ Replace `{account-name}` in the URI with your Data Lake Analytics account name.
 * Set the **Content-Type** header to **application/json**.
 * Set the **Authorization** header to a JSON Web Token that you obtain from Azure Active Directory. For job, pipeline, recurrence, and catalog operations, be sure to obtain a token for the resource URI / audience claim “https://datalake.azure.net/”, NOT “https://management.core.windows.net/” nor “https://management.azure.com/”. For more information, see Authenticating Azure Resource Manager requests.
 
-## See Also
+## See also
 
 - [Azure Data Lake Analytics](https://azure.microsoft.com/services/data-lake-analytics/)
