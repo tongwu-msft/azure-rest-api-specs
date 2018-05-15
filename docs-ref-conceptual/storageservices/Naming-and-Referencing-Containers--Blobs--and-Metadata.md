@@ -78,7 +78,8 @@ This topic describes naming and referring to containers, blobs, metadata, and sn
  You can take advantage of the delimiter character when enumerating blobs.  
   
 ### Metadata Names  
- Metadata for a container or blob resource is stored as name-value pairs associated with the resource. Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/cpp/c-language/c-identifiers).  
+
+ Metadata for a container or blob resource is stored as name-value pairs associated with the resource. Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).  
   
  Note that metadata names preserve the case with which they were created, but are case-insensitive when set or read. If two or more metadata headers with the same name are submitted for a resource, the Blob service returns status code 400 (Bad Request).  
   

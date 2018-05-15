@@ -42,7 +42,7 @@ Containers and blobs support custom metadata, represented as HTTP headers. Metad
 x-ms-meta-name:string-value  
 ```  
   
- Beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](http://msdn.microsoft.com/library/aa664670\(VS.71\).aspx).  
+ Beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).  
   
  Names are case-insensitive. Note that metadata names preserve the case with which they were created, but are case-insensitive when set or read. If two or more metadata headers with the same name are submitted for a resource, the Blob service returns status code 400 (Bad Request).  
   
