@@ -1,0 +1,135 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.logicalnetworks.get
+name: Get
+service: Azure Stack Admin
+groupName: Logical Networks
+apiVersion: 2016-05-01
+summary: Returns the requested logical network.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/logicalNetworks/{logicalNetwork}?api-version=2016-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Location of the resource.
+  types:
+  - uid: string
+- name: logicalNetwork
+  in: path
+  isRequired: true
+  description: Name of the logical network.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: LogicalNetwork
+- name: 404 Not Found
+  description: NOT FOUND
+requestHeader: []
+definitions:
+- name: LogicalNetwork
+  description: This resource represents a logical partition of physical network that is dedicated for a particular purpose.  A logical network comprises a collection of logical subnets.
+  kind: object
+  properties:
+  - name: properties.metadata
+    description: Metadata related to the logical network.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.networkVirtualizationEnabled
+    description: Flag to indicate that the network virtualization is enabled on the logical network.
+    types:
+    - uid: boolean
+  - name: properties.subnets
+    description: List of subnets belonging to the logical network.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: The region where the resource is located.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Returns the requested logical network.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/logicalNetworks/B60B71AA-36BF-40AC-A9CE-A6915D1EAE1A?api-version=2016-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/36e98cad-c8a5-4580-bef7-af878a237908/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/logicalNetworks/f8f67956-3906-4303-94c5-09cf91e7e311",
+        "name": "f8f67956-3906-4303-94c5-09cf91e7e311",
+        "type": "Microsoft.Fabric.Admin/fabricLocations/logicalNetworks",
+        "location": "local",
+        "tags": {},
+        "properties": {
+          "networkVirtualizationEnabled": false,
+          "subnets": [
+            "11313dcd-b797-43eb-8234-2d10b208e0b6",
+            "Subnet-TestIpPool1992",
+            "Subnet-TestIpPool199198",
+            "Subnet-TestIpPool1993",
+            "Subnet-TestIpPool1994",
+            "Subnet-TestIpPool199196"
+          ]
+        }
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,255 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.regionhealths.get
+name: Get
+service: Azure Stack Admin
+groupName: Region Healths
+apiVersion: 2016-05-01
+summary: Returns the requested health status of a region.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.InfrastructureInsights.Admin/regionHealths/{location}?api-version=2016-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Name of the region
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: RegionHealth
+requestHeader: []
+definitions:
+- name: RegionHealth
+  description: Contains information related to the health of a region.
+  kind: object
+  properties:
+  - name: properties.alertSummary
+    description: Summary of alerts.
+    types:
+    - uid: AlertSummary
+  - name: properties.usageMetrics
+    description: List of usage metrics for the region.
+    types:
+    - uid: UsageMetrics
+      isArray: true
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The Azure Region where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: AlertSummary
+  description: Summary of the alerts.
+  kind: object
+  properties:
+  - name: criticalAlertCount
+    description: The number of critical alerts for the service.
+    types:
+    - uid: integer
+  - name: warningAlertCount
+    description: The number of warning alerts for the service.
+    types:
+    - uid: integer
+- name: UsageMetrics
+  description: Metrics of resource usage.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the usage metric.
+    types:
+    - uid: string
+  - name: metricsValue
+    description: List of usage metrics.
+    types:
+    - uid: Metrics
+      isArray: true
+- name: Metrics
+  description: Metrics for a source.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the usage metric.
+    types:
+    - uid: string
+  - name: maCounterName
+    description: Name of the counter.
+    types:
+    - uid: string
+  - name: observedTimestamp
+    description: Time counter was observed.
+    types:
+    - uid: string
+  - name: sourceType
+    description: Type of the source.
+    types:
+    - uid: string
+  - name: sourceName
+    description: Name of the source.
+    types:
+    - uid: MetricsSourceType
+  - name: unit
+    description: Unit for the metric.
+    types:
+    - uid: MetricsUnit
+  - name: value
+    description: Name of the usage metric.
+    types:
+    - uid: number
+- name: MetricsSourceType
+  description: The origin of the metric.
+  kind: enum
+  properties:
+  - name: PhysicalNode
+    types:
+    - uid: string
+  - name: VirtualMachine
+    types:
+    - uid: string
+  - name: ResourceProvider
+    types:
+    - uid: string
+- name: MetricsUnit
+  description: The unit of the metric.
+  kind: enum
+  properties:
+  - name: One
+    types:
+    - uid: string
+  - name: Percentage
+    types:
+    - uid: string
+  - name: B
+    types:
+    - uid: string
+  - name: KB
+    types:
+    - uid: string
+  - name: MB
+    types:
+    - uid: string
+  - name: GB
+    types:
+    - uid: string
+  - name: TB
+    types:
+    - uid: string
+examples:
+- name: Returns the requested health status of a region.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.InfrastructureInsights.Admin/regionHealths/local?api-version=2016-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.InfrastructureInsights.Admin/regionHealths/local",
+        "name": "local",
+        "type": "Microsoft.InfrastructureInsights.Admin/regionHealths",
+        "location": "local",
+        "tags": {},
+        "properties": {
+          "usageMetrics": [
+            {
+              "name": "Physical memory",
+              "metricsValue": [
+                {
+                  "name": "Used",
+                  "unit": "GB",
+                  "value": 76.249416351318359
+                },
+                {
+                  "name": "Available",
+                  "unit": "GB",
+                  "value": 181.7333984375
+                }
+              ]
+            },
+            {
+              "name": "Physical storage",
+              "metricsValue": [
+                {
+                  "name": "Used",
+                  "unit": "TB",
+                  "value": 0.22170669212937355
+                },
+                {
+                  "name": "Available",
+                  "unit": "TB",
+                  "value": 2.2449070774018764
+                }
+              ]
+            },
+            {
+              "name": "Public IP address pools",
+              "metricsValue": [
+                {
+                  "name": "Used",
+                  "unit": "One",
+                  "value": 31
+                },
+                {
+                  "name": "Available",
+                  "unit": "One",
+                  "value": 480
+                }
+              ]
+            }
+          ],
+          "alertSummary": {
+            "criticalAlertCount": 0,
+            "warningAlertCount": 2
+          }
+        }
+      }
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
