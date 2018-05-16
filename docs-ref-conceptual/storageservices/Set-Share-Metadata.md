@@ -58,7 +58,7 @@ The `Set Share Metadata` operation sets one or more user-defined name-value pair
 |`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-meta-name:value`|Optional. A name-value pair to contain metadata for the share.<br /><br /> Each call to this operation replaces all existing metadata attached to the share. To remove all metadata from the share, call this operation with no metadata headers.<br /><br /> Metadata names must adhere to the naming rules for [C# identifiers](http://msdn.microsoft.com/library/aa664670\(VS.71\).aspx).|  
+|`x-ms-meta-name:value`|Optional. A name-value pair to contain metadata for the share.<br /><br /> Each call to this operation replaces all existing metadata attached to the share. To remove all metadata from the share, call this operation with no metadata headers.<br /><br /> Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
   
 ## Request Body  
  None.  
