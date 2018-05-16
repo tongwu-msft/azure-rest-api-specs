@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: adminmanagement.local.azurestack.external.azurestack.quotas(subscriptionadmin).list
-name: List
+uid: adminmanagement.local.azurestack.external.azurestack.quotas(subscriptionsadmin).get
+name: Get
 service: Azure Stack Admin
-groupName: Quotas (SubscriptionAdmin)
+groupName: Quotas (SubscriptionsAdmin)
 apiVersion: 2015-11-01
-summary: Get the list of quotas at a location.
+summary: Gets a quota by name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/providers/Microsoft.Subscriptions.Admin/locations/{location}/quotas?api-version=2015-11-01
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/providers/Microsoft.Subscriptions.Admin/locations/{location}/quotas/{quota}?api-version=2015-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,6 +24,12 @@ uriParameters:
   description: The AzureStack location.
   types:
   - uid: string
+- name: quota
+  in: path
+  isRequired: true
+  description: Name of the quota.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -34,22 +40,9 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: QuotaList
+  - uid: Quota
 requestHeader: []
 definitions:
-- name: QuotaList
-  description: List of quotas.
-  kind: object
-  properties:
-  - name: value
-    description: List of quotas.
-    types:
-    - uid: Quota
-      isArray: true
-  - name: nextLink
-    description: URI to next page.
-    types:
-    - uid: string
 - name: Quota
   description: Quotas for DelegatedProviders.
   kind: object
@@ -87,24 +80,20 @@ definitions:
       - uid: string
       - uid: string
 examples:
-- name: Get the list of quotas at a location.
+- name: Gets a quota by name.
   request:
-    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Subscriptions.Admin/locations/local/quotas?api-version=2015-11-01
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Subscriptions.Admin/locations/local/quotas/local/delegatedProviderQuota?api-version=2015-11-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions.Admin/locations/local/quotas/delegatedProviderQuota",
-            "name": "local/delegatedProviderQuota",
-            "type": "Microsoft.Subscriptions.Admin/locations/quotas",
-            "location": "local",
-            "properties": {
-              "allowCustomPortalBranding": false
-            }
-          }
-        ]
+        "id": "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions.Admin/locations/local/quotas/delegatedProviderQuota",
+        "name": "local/delegatedProviderQuota",
+        "type": "Microsoft.Subscriptions.Admin/locations/quotas",
+        "location": "local",
+        "properties": {
+          "allowCustomPortalBranding": false
+        }
       }
 security:
 - type: oauth2
