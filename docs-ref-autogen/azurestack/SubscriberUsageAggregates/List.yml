@@ -1,0 +1,152 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.subscriberusageaggregates.list
+name: List
+service: Azure Stack Admin
+groupName: Subscriber Usage Aggregates
+apiVersion: 2015-06-01-preview
+summary: Gets a collection of SubscriberUsageAggregates, which are UsageAggregates from users.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/providers/Microsoft.Commerce.Admin/subscriberUsageAggregates?api-version=2015-06-01-preview&reportedStartTime={reportedStartTime}&reportedEndTime={reportedEndTime}
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/providers/Microsoft.Commerce.Admin/subscriberUsageAggregates?api-version=2015-06-01-preview&reportedStartTime={reportedStartTime}&reportedEndTime={reportedEndTime}&aggregationGranularity={aggregationGranularity}&subscriberId={subscriberId}&continuationToken={continuationToken}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription.The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+- name: reportedStartTime
+  in: query
+  isRequired: true
+  description: The reported start time (inclusive).
+  types:
+  - uid: string
+  format: date-time
+- name: reportedEndTime
+  in: query
+  isRequired: true
+  description: The reported end time (exclusive).
+  types:
+  - uid: string
+  format: date-time
+- name: aggregationGranularity
+  in: query
+  description: The aggregation granularity.
+  types:
+  - uid: string
+- name: subscriberId
+  in: query
+  description: The tenant subscription identifier.
+  types:
+  - uid: string
+- name: continuationToken
+  in: query
+  description: The continuation token.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: UsageAggregatePage
+requestHeader: []
+definitions:
+- name: UsageAggregatePage
+  description: Pageable list of usage aggregates
+  kind: object
+  properties:
+  - name: value
+    description: List of usage aggregates.
+    types:
+    - uid: UsageAggregate
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: UsageAggregate
+  description: Aggregate usage values for resource.
+  kind: object
+  properties:
+  - name: properties.subscriptionId
+    description: Subscription ID of tenant using plan.
+    types:
+    - uid: string
+  - name: properties.usageStartTime
+    description: UTC start time for the usage category to which this usage aggregate belongs.
+    types:
+    - uid: string
+  - name: properties.usageEndTime
+    description: UTC end time for the usage category to which this usage aggregate belongs.
+    types:
+    - uid: string
+  - name: properties.instanceData
+    description: Key-value pairs of instance details represented as a string.
+    types:
+    - uid: string
+  - name: properties.quantity
+    description: The amount of the resource consumption that occurred in this time frame.
+    types:
+    - uid: string
+  - name: properties.meterId
+    description: Unique ID for the resource that was consumed, for example, the Resource ID.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Location where resource is location.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Gets a collection of SubscriberUsageAggregates, which are UsageAggregates from users.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Commerce.Admin/subscriberUsageAggregates?api-version=2015-06-01-preview&reportedStartTime=8/1/2017 12:00:00 AM&reportedEndTime=8/2/2017 12:00:00 AM&aggregationGranularity=&subscriberId=&continuationToken=
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": []
+      }
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

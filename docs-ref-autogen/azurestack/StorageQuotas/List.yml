@@ -1,0 +1,125 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.storagequotas.list
+name: List
+service: Azure Stack Admin
+groupName: Storage Quotas
+apiVersion: 2015-12-01-preview
+summary: Returns a list of storage quotas at the given location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/providers/Microsoft.Storage.Admin/locations/{location}/quotas?api-version=2015-12-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription Id.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Resource location.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: REST Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- The list of storage quotas has been returned.
+  types:
+  - uid: StorageQuotaList
+- name: 404 Not Found
+  description: OK -- The location does not exist.
+requestHeader: []
+definitions:
+- name: StorageQuotaList
+  description: Pageable list of storage quotas.
+  kind: object
+  properties:
+  - name: value
+    description: List of storage quotas.
+    types:
+    - uid: StorageQuota
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: StorageQuota
+  description: Storage quota.
+  kind: object
+  properties:
+  - name: properties.numberOfStorageAccounts
+    description: Total number of storage accounts.
+    types:
+    - uid: integer
+  - name: properties.capacityInGb
+    description: Maxium capacity (GB).
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Returns a list of storage quotas at the given location.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/9ad61516-995c-4873-a21f-7e44904f0ed2/providers/Microsoft.Storage.Admin/locations/local/quotas?api-version=2015-12-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/9ad61516-995c-4873-a21f-7e44904f0ed2/providers/Microsoft.Storage.Admin/locations/local/quotas/TestCreateQuota",
+            "name": "local/TestCreateQuota",
+            "type": "Microsoft.Storage.Admin/locations/quotas",
+            "location": "local",
+            "properties": {
+              "numberOfStorageAccounts": -1000000000,
+              "capacityInGb": -100000000
+            }
+          }
+        ]
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
