@@ -23,6 +23,8 @@ Use the Azure Data Lake Analytics REST APIs to create and manage Data Lake Analy
 |[Data Lake Store Accounts](xref:management.azure.com.datalakeanalytics.datalakestoreaccounts) | Provides operations to manage the list of Data Lake Store accounts associated with a Data Lake Analytics account. |
 |[Firewall Rules](xref:management.azure.com.datalakeanalytics.firewallrules) | Provides operations to create and manage firewall rules for a Data Lake Analytics account. |
 |[Job](xref:management.azure.com.datalakeanalytics.job) | Provides operations to submit and manage jobs in a Data Lake Analytics account. |
+|[Locations](xref:management.azure.com.datalakeanalytics.locations) | Provides an operation to explore the Data Lake Analytics capabilities and limits available to your subscription. |
+|[Operations](xref:management.azure.com.datalakeanalytics.operations) | Provides an operation to list the available operations of the Data Lake Analytics resource provider. |
 |[Pipeline](xref:management.azure.com.datalakeanalytics.pipeline) | Provides operations to explore the pipelines associated with the jobs submitted to a Data Lake Analytics account. |
 |[Recurrence](xref:management.azure.com.datalakeanalytics.recurrence) | Provides operations to explore the recurrences associated with the jobs submitted to a Data Lake Analytics account. |
 |[Storage Accounts](xref:management.azure.com.datalakeanalytics.storageaccounts) | Provides operations to manage the list of Azure Storage accounts associated with a Data Lake Analytics account. |
