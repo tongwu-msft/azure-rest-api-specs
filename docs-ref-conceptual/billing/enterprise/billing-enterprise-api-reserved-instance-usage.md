@@ -20,7 +20,7 @@ ms.author: manshuk
 ---
 # Reserved Instance usage for enterprise customers
 
-The Reserved Instance usage api returns the usage of the Reserved Instance purchases within a enrollment. If there are more than one Reserved Instance purchases in an enrollment, you can get the usage of all the Reserved Instance purchases using this api.
+The Reserved Instance usage api returns the usage of the Reserved Instance purchases within an enrollment. If there are more than one Reserved Instances in an enrollment, you can get the usage of all the Reserved Instance purchases using this api.
 
 
 ## Request for  Reserved Instance usage details
@@ -51,7 +51,7 @@ Common header properties that need to be added are specified [here](https://docs
 |reservationOrderId|string|The reservation order ID is the identifier for a reservation purchase. Each reservation order ID represents a single purchase transaction. A reservation order contains reservations. The reservation order specifies the VM size and region for the reservations.|
 |reservationId|string |The reservation ID is the identifier of a reservation within a reservation order. Each reservation is the grouping for applying the benefit scope and also specifies the number of instances to which the reservation benefit can be applied to.|
 |usageDate|string |The date on which consumption occurred.|
-|skuName|string| This is the Azure Resource Manager Sku name. It can be used to join with the servicetype field in additnalinfo in usage records.|
+|skuName|string| This is the Azure Resource Manager Sku name. It can be used to join with the servicetype field in additionalInfo in usage records.|
 |instanceId|string| This identifier is the name of the resource or the fully qualified Resource ID.|
 |totalReservedQuantity|string| This is the total count of instances that are reserved for the reservationid.|
 |reservedHours|decimal| This is the total hours reserved for the day. For example, if reservation for 1 instance was made on 1 PM, reserved hours will be 11 hours for first day and 24 hours for subsequent days.|
@@ -96,7 +96,7 @@ Common header properties that need to be added are specified [here](https://docs
 |usedHours|decimal| This is the total hours used by the instance.|
 |minUtilizationPercentage|double|This is the minimum utilization percentage on a given day. If you purchase one reservation and have 1 VM running for 23 hours, this will be 0.
 |avgUtilizationPercentage|double|This is the Average utilization percentage on a given day. If you purchase one reservation and have 1 VM running for 23 hours, this will be 23/24.
-|MaxUtilizationPercentage|double|This is the Average utilization percentage on a given day. If you purchase one reservation and have 1 VM running for 23 hours, this field will be 1.
+|MaxUtilizationPercentage|double|This is the maximum utilization percentage on a given day. If you purchase one reservation and have 1 VM running for 23 hours, this field will be 1.
 <br/>
 ## See also
 
@@ -109,3 +109,7 @@ Common header properties that need to be added are specified [here](https://docs
 * [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md) 
 
 * [Price Sheet API](billing-enterprise-api-pricesheet.md)
+
+* [Reserved Instance Recommendation API](billing-enterprise-api-reserved-instance-recommendation.md)
+
+* [Reserved Instance Charges API](billing-enterprise-api-reserved-instance-charges.md)
