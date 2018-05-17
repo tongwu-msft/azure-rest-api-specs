@@ -33,6 +33,7 @@ Common header properties that need to be added are specified [here](https://docs
 > [!Note]
 > To use the previous version of API, replace v3 with v2 in the above URL. Some of the fields will not be available if you use v2.
 >
+
 ## Response
 ```json
 [
