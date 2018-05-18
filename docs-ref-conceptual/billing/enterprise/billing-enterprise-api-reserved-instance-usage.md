@@ -19,7 +19,7 @@ ms.author: manshuk
 ---
 # Get Reserved Instance usage for enterprise customers
 
-The Reserved Instance usage api returns the usage of the Reserved Instance purchases within an enrollment. If there are more than one Reserved Instances in an enrollment, you can get the usage of all the Reserved Instance purchases using this api.
+The Reserved Instance usage API returns the usage of the Reserved Instance purchases within an enrollment. If there are more than one Reserved Instances in an enrollment, you can get the usage of all the Reserved Instance purchases using this API.
 
 
 ## Request for  Reserved Instance usage details
@@ -59,7 +59,7 @@ Common header properties that need to be added are specified [here](https://docs
 
 <br/>
 ## Request for  Reserved Instance usage summary
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). This api supports reservation utilization for daily and monthly grain. Startdate and EndDate parameters are not required for monthly data.
+Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). This API supports reservation utilization for daily and monthly grain. Startdate and EndDate parameters are not required for monthly data.
 
 |Method | Request URI|
 |-|-|
