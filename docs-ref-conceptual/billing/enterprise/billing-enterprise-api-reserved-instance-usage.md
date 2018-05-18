@@ -1,24 +1,23 @@
 ---
 title: Azure Billing Enterprise APIs - Reserved Instance Usage| Microsoft Docs
 description: Get Reserved Instance usage.
-services: ''
+services: 'billing'
 documentationcenter: ''
 author: manish-shukla01
 manager: manshuk
 editor: ''
 tags: billing
 
-ms.assetid: 3e817b43-0696-400c-a02e-47b7817f9b77
 ms.service: billing
 ms.devlang: na
 ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: billing
-ms.date: 02/27/2018
+ms.date: 05/18/2018
 ms.author: manshuk
 
 ---
-# Reserved Instance usage for enterprise customers
+# Get Reserved Instance usage for enterprise customers
 
 The Reserved Instance usage api returns the usage of the Reserved Instance purchases within an enrollment. If there are more than one Reserved Instances in an enrollment, you can get the usage of all the Reserved Instance purchases using this api.
 

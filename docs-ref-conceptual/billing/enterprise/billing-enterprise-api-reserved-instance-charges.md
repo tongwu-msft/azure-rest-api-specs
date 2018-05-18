@@ -1,24 +1,23 @@
 ---
 title: Azure Billing Enterprise APIs - Reserved Instance Charges| Microsoft Docs
 description: Get Reserved Instance transaction charges based on Enrollment.
-services: ''
+services: 'billing'
 documentationcenter: ''
 author: manish-shukla01
 manager: manshuk
 editor: ''
 tags: billing
 
-ms.assetid: 3e817b43-0696-400c-a02e-47b7817f9b77
 ms.service: billing
 ms.devlang: na
 ms.topic: article
 ms.tgt_pltfrm: na
 ms.workload: billing
-ms.date: 04/17/2018
+ms.date: 05/18/2018
 ms.author: manshuk
 
 ---
-# Reserved Instance transaction charges for enterprise customers
+# Get Reserved Instance transaction charges for enterprise customers
 
 Reserved Instance charges API shows the billing transactions made on the Enterprise enrollment. If the reservation has been moved from the purchasing enrollment to a different enrollment, it will show the purchasing and the current enrollment of the reservation.
 
@@ -66,23 +65,23 @@ Common header properties that need to be added are specified [here](https://docs
 |-|-|-|
 |purchasingEnrollment|string|Enrollmentnumber that purchased the Reservation.|
 |armSkuName|string|String representing the purchased resource.|
-|term|string|string representing the term of Reservation. It will be P1Y for one year and P3Y for three years.|
+|term|string|String representing the term of Reservation. It will be P1Y for one year and P3Y for three years.|
 |region|string|Region for which Reserved Instance is transacted.|
 |PurchasingsubscriptionGuid|string|Subscriptionguid that was used to purchase the Reservation.|
 |PurchasingsubscriptionName|string|Name of the Subscription that was used to purchase the Reservation.|
 |accountName| string| Account associated to the purchasing subscription. |
 |accountOwnerEmail| string| Email account associated to the purchasing subscription. |
 |departmentName| string| Name of the purchasing subscription's department. |
-|costCenter| string| The cost center that the purchasing subscription is associated with. |
-|CurrentEnrollment|string|Enrollmentnumber where Reserved Instance resides today. If Reserved Instance was purchased in EA1 and later moved to EA2. This field will be EA2|
-|eventDate|string|Date of the reservation purchase/cancel/refund event|
+|costCenter| string| The cost center that the purchasing subscription is associated with.|
+|CurrentEnrollment|string|Enrollmentnumber where Reserved Instance resides today. If Reserved Instance was purchased in EA1 and later moved to EA2. This field will be EA2.|
+|eventDate|string|Date of the reservation purchase/cancel/refund event.|
 |reservationOrderId|string |The reservationorderID is the identifier for a reservation transaction. Each reservation order ID represents a single transaction. A reservation order contains reservations. The reservation order specifies the VM size and region for the reservations.|
-|description|string |This string is combination of Azure Resource Manager SKUName, region and the duration of Reserved Instance purchase|
-|eventType|string| String representing purchase/cancel/refund event|
-|quantity|decimal| Number of Reserved Instances transacted|
-|amount|string| Total amount of transaction|
-|currency|decimal| Currency of the Reserved Instance transaction|
-|reservationOrderName|string| Friendly name of the reservation order|
+|description|string |This string is combination of Azure Resource Manager SKUName, region and the duration of Reserved Instance purchase.|
+|eventType|string| String representing purchase/cancel/refund event.|
+|quantity|decimal| Number of Reserved Instances transacted.|
+|amount|string| Total amount of transaction.|
+|currency|decimal| Currency of the Reserved Instance transaction.|
+|reservationOrderName|string| Friendly name of the reservation order.|
 <br/>
 
 
