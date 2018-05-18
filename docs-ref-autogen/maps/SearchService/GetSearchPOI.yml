@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.search.getsearchfuzzy
-name: Get Search Fuzzy
+uid: atlas.microsoft.com.maps.searchservice.getsearchpoi
+name: Get Search POI
 service: Maps
-groupName: Search
+groupName: Search Service
 apiVersion: "1.0"
-summary: "**Free Form Search**<br><br>The basic default API is Free Form Search which handles the most fuzzy of inputs handling any combination of address or POI tokens. This search API is the canonical 'single line search'. The Free Form Search API is a seamless combination of POI search and geocoding. The API can also be weighted with a contextual position (lat./lon. pair), or fully constrained by a coordinate and radius, or it can be executed more generally without any geo biasing anchor point.<br><br>We strongly advise you to use the 'countrySet' parameter to specify only the countries for which your application needs coverage, as the default behavior will be to search the entire world, potentially returning unnecessary results.<br><br> E.g.: `countrySet`=US,FR <br><br>Please see [Search Coverage](https://docs.microsoft.com/en-us/azure/location-based-services/geocoding-coverage) for a complete list of all the supported countries.<br><br>Most Search queries default to `maxFuzzyLevel`=2 to gain performance and also reduce unusual results. This new default can be overridden as needed per request by passing in the query param `maxFuzzyLevel`=3 or 4."
+summary: '**Get POI by Name**<br><br>If your search use case only requires POI results, you may use the POI endpoint for searching. This endpoint will only return POI results.'
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&minFuzzyLevel={minFuzzyLevel}&maxFuzzyLevel={maxFuzzyLevel}&idxSet={idxSet}
+- content: GET https://atlas.microsoft.com/search/poi/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/search/poi/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}
   isOptional: true
 uriParameters:
 - name: format
@@ -35,7 +35,7 @@ uriParameters:
 - name: query
   in: query
   isRequired: true
-  description: The applicable query string (e.g., "seattle", "pizza"). Can _also_ be specified as a comma separated string composed by latitude followed by longitude (e.g., "47.641268, -122.125679"). Must be properly URL encoded.
+  description: The applicable query string. Must be properly URL encoded.
   types:
   - uid: string
 - name: typeahead
@@ -90,29 +90,14 @@ uriParameters:
   - uid: string
 - name: extendedPostalCodesFor
   in: query
-  description: "Indexes for which extended postal codes should be included in the results.\n\nAvailable indexes are: \n\n **Addr** = Address ranges \n\n **Geo** = Geographies \n\n **PAD** = Point Addresses \n\n **POI** = Points of Interest \n\n **Str** = Streets \n\n **XStr** = Cross Streets (intersections)\n\nValue should be a comma separated list of index types (in any order) or **None** for no indexes.\n\nBy default extended postal codes are included for all indexes except Geo. Extended postal code lists for geographies can be quite long so they have to be explicitly requested when needed.\n\nUsage examples:\n\n extendedPostalCodesFor=POI \n\n extendedPostalCodesFor=PAD,Addr,POI \n\n extendedPostalCodesFor=None\n\nExtended postal code is returned as an **extendedPostalCode** property of an address. Availability is region-dependent."
+  description: "Indexes for which extended postal codes should be included in the results.\n\nAvailable indexes are: \n\n **POI** = Points of Interest \n\nValue should be **POI** or **None** to disable extended postal codes.\n\nBy default extended postal codes are included.\n\nUsage examples:\n\n extendedPostalCodesFor=POI \n\n extendedPostalCodesFor=None\n\nExtended postal code is returned as an **extendedPostalCode** property of an address. Availability is region-dependent."
   types:
   - uid: string
-- name: minFuzzyLevel
-  in: query
-  description: 'Minimum fuzzyness level to be used. Default: 1, minimum: 1 and maximum: 4'
-  types:
-  - uid: integer
-- name: maxFuzzyLevel
-  in: query
-  description: 'Maximum fuzzyness level to be used. Default: 2, minimum: 1 and maximum: 4'
-  types:
-  - uid: integer
-- name: idxSet
-  in: query
-  description: 'A comma separated list of indexes which should be utilized for the search. Item order does not matter. Available indexes are: Addr = Address range interpolation, Geo = Geographies, PAD = Point Addresses, POI = Points of interest, Str = Streets, Xstr = Cross Streets (intersections)'
-  types:
-  - uid: array
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SearchFuzzyResult
+  - uid: SearchPoiResult
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -135,8 +120,8 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: SearchFuzzyResult
-  description: This object is returned from a successful Search Fuzzy call
+- name: SearchPoiResult
+  description: This object is returned from a successful Search POI call
   kind: object
   properties:
   - name: summary
@@ -148,7 +133,7 @@ definitions:
     isReadyOnly: true
     description: Results array
     types:
-    - uid: SearchFuzzyResultArray
+    - uid: Results
       isArray: true
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
@@ -197,7 +182,8 @@ definitions:
     description: FuzzyLevel property
     types:
     - uid: integer
-- name: SearchFuzzyResultArray
+- name: Results
+  description: Results array
   kind: object
   properties:
   - name: type
@@ -241,10 +227,6 @@ definitions:
     description: The viewport that covers the result
     types:
     - uid: Viewport
-  - name: boundingBox
-    description: Bounding box of the result
-    types:
-    - uid: BoundingBox
   - name: entryPoints
     description: Entry Points array
     types:
@@ -425,20 +407,6 @@ definitions:
     description: Bottom right of the viewport
     types:
     - uid: BtmRightPoint
-- name: BoundingBox
-  description: Bounding Box for the address
-  kind: object
-  properties:
-  - name: northEast
-    isReadyOnly: true
-    description: The North East coordinates for the Bounding Box
-    types:
-    - uid: string
-  - name: southWest
-    isReadyOnly: true
-    description: The South West coordinates for the Bounding Box
-    types:
-    - uid: string
 - name: EntryPoint
   description: The entry point for the POI being returned.
   kind: object
@@ -470,6 +438,20 @@ definitions:
     types:
     - uid: ClassificationName
       isArray: true
+- name: BoundingBox
+  description: Bounding Box for the address
+  kind: object
+  properties:
+  - name: northEast
+    isReadyOnly: true
+    description: The North East coordinates for the Bounding Box
+    types:
+    - uid: string
+  - name: southWest
+    isReadyOnly: true
+    description: The South West coordinates for the Bounding Box
+    types:
+    - uid: string
 - name: TopLeftPoint
   description: Top left of the viewport
   kind: object
@@ -513,250 +495,375 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Search City Seattle
+- name: Search for juice bars within 5 miles of Seattle Downtown and limit the response to 5 results
   request:
-    uri: GET https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&query=seattle
+    uri: GET https://atlas.microsoft.com/search/poi/json?subscription-key=[subscription-key]&api-version=1.0&query=juice bars&limit=5&lat=47.606038&lon=-122.333345&radius=8046
   responses:
   - statusCode: "200"
     body: >-
       {
         "summary": {
-          "query": "seattle",
+          "query": "juice bars",
           "queryType": "NON_NEAR",
-          "queryTime": 72,
+          "queryTime": 43,
           "numResults": 5,
           "offset": 0,
-          "totalResults": 5150,
-          "fuzzyLevel": 1
+          "totalResults": 10,
+          "fuzzyLevel": 1,
+          "geoBias": {
+            "lat": 47.606038,
+            "lon": -122.333345
+          }
         },
         "results": [
           {
-            "type": "Geography",
-            "id": "US/GEO/p0/174752",
-            "score": 6.134,
-            "info": "search:ta:840533000005461-US",
-            "entityType": "Municipality",
-            "address": {
-              "municipality": "Seattle",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countryCode": "US",
-              "country": "United States Of America",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "Seattle, WA",
-              "countrySubdivisionName": "Washington"
-            },
-            "position": {
-              "lat": 47.60323,
-              "lon": -122.33028
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.80472,
-                "lon": -122.60233
-              },
-              "btmRightPoint": {
-                "lat": 47.30606,
-                "lon": -122.12291
-              }
-            },
-            "boundingBox": {
-              "topLeftPoint": {
-                "lat": 47.80472,
-                "lon": -122.60233
-              },
-              "btmRightPoint": {
-                "lat": 47.30606,
-                "lon": -122.12291
-              }
-            }
-          },
-          {
-            "type": "Geography",
-            "id": "MX/GEO/p0/55857",
-            "score": 4.5,
-            "info": "search:ta:00004d30-3300-2800-0000-0000502b582a-MX",
-            "entityType": "MunicipalitySubdivision",
-            "address": {
-              "municipalitySubdivision": "Seattle",
-              "municipality": "Zapopan, Guadalajara",
-              "countrySubdivision": "Jalisco",
-              "countryCode": "MX",
-              "country": "Mexico",
-              "countryCodeISO3": "MEX",
-              "freeformAddress": "Zapopan"
-            },
-            "position": {
-              "lat": 20.72069,
-              "lon": -103.37434
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 20.72301,
-                "lon": -103.37591
-              },
-              "btmRightPoint": {
-                "lat": 20.71684,
-                "lon": -103.36897
-              }
-            },
-            "boundingBox": {
-              "topLeftPoint": {
-                "lat": 20.72301,
-                "lon": -103.37591
-              },
-              "btmRightPoint": {
-                "lat": 20.71684,
-                "lon": -103.36897
-              }
-            }
-          },
-          {
             "type": "POI",
-            "id": "US/POI/p1/8288014",
-            "score": 4.457,
-            "info": "search:ta:840539000615260-US",
+            "id": "US/POI/p1/6816234",
+            "score": 8.464,
+            "dist": 1131.743149955716,
+            "info": "search:ta:840539001043192-US",
             "poi": {
-              "name": "Seattle Great Wheel",
-              "phone": "+(1)-(206)-6238607",
-              "url": "seattlegreatwheel.com",
+              "name": "Assembly Hall Juice & Coffee",
+              "phone": "+(1)-(206)-8128413",
+              "url": "www.assemblyhallseattle.com",
               "categories": [
-                "important tourist attraction"
+                "café/pub",
+                "coffee shop"
               ],
               "classifications": [
                 {
-                  "code": "IMPORTANT_TOURIST_ATTRACTION",
+                  "code": "CAFE_PUB",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "important tourist attraction"
+                      "name": "coffee shop"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "café/pub"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "1301",
-              "streetName": "Alaskan Way",
-              "municipalitySubdivision": "Seattle, Central Business District",
-              "municipality": "Seattle, Times Square",
+              "streetNumber": "2121",
+              "streetName": "6th Ave",
+              "municipalitySubdivision": "Seattle, Belltown",
+              "municipality": "Seattle",
               "countrySecondarySubdivision": "King",
               "countryTertiarySubdivision": "Seattle",
               "countrySubdivision": "WA",
-              "postalCode": "98101",
-              "extendedPostalCode": "981012057",
+              "postalCode": "98121",
+              "extendedPostalCode": "981212867",
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "1301 Alaskan Way, Seattle, WA 98101",
+              "freeformAddress": "2121 6th Ave, Seattle, WA 98121",
               "countrySubdivisionName": "Washington"
             },
             "position": {
-              "lat": 47.60606,
-              "lon": -122.34102
+              "lat": 47.61512,
+              "lon": -122.34016
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.60696,
-                "lon": -122.34235
+                "lat": 47.61602,
+                "lon": -122.34149
               },
               "btmRightPoint": {
-                "lat": 47.60516,
-                "lon": -122.33969
+                "lat": 47.61422,
+                "lon": -122.33883
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.60622,
-                  "lon": -122.34066
+                  "lat": 47.61531,
+                  "lon": -122.33992
                 }
               }
             ]
           },
           {
-            "type": "Geography",
-            "id": "US/GEO/p0/123969",
-            "score": 4.267,
-            "entityType": "CountryTertiarySubdivision",
+            "type": "POI",
+            "id": "US/POI/p1/3816873",
+            "score": 8.455,
+            "dist": 1420.6447561782316,
+            "info": "search:ta:840539001412283-US",
+            "poi": {
+              "name": "Fresh Fruit Juice LLC",
+              "phone": "+(1)-(206)-3295979",
+              "categories": [
+                "café/pub",
+                "tea house"
+              ],
+              "classifications": [
+                {
+                  "code": "CAFE_PUB",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "café/pub"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "tea house"
+                    }
+                  ]
+                }
+              ]
+            },
             "address": {
+              "streetNumber": "1043",
+              "streetName": "S Jackson St",
+              "municipalitySubdivision": "Yesler Terrace, Seattle, International District",
+              "municipality": "Pioneer Square, International, Seattle",
               "countrySecondarySubdivision": "King",
-              "countryTertiarySubdivision": "Seattle East",
+              "countryTertiarySubdivision": "Seattle",
               "countrySubdivision": "WA",
+              "postalCode": "98104",
+              "extendedPostalCode": "981043029",
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "Seattle East, WA",
+              "freeformAddress": "1043 S Jackson St, Seattle, WA 98104",
               "countrySubdivisionName": "Washington"
             },
             "position": {
-              "lat": 47.6137,
-              "lon": -122.19093
+              "lat": 47.59891,
+              "lon": -122.31762
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.77704,
-                "lon": -122.27603
+                "lat": 47.59981,
+                "lon": -122.31895
               },
               "btmRightPoint": {
-                "lat": 47.42285,
-                "lon": -121.91824
+                "lat": 47.59801,
+                "lon": -122.31629
               }
             },
-            "boundingBox": {
-              "topLeftPoint": {
-                "lat": 47.77704,
-                "lon": -122.27603
-              },
-              "btmRightPoint": {
-                "lat": 47.42285,
-                "lon": -121.91824
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.59921,
+                  "lon": -122.31762
+                }
               }
-            }
+            ]
           },
           {
-            "type": "Geography",
-            "id": "US/GEO/p0/175836",
-            "score": 4.267,
-            "info": "search:ta:840533000011722-US",
-            "entityType": "MunicipalitySubdivision",
+            "type": "POI",
+            "id": "US/POI/p1/6829423",
+            "score": 8.453,
+            "dist": 1486.5584783997256,
+            "info": "search:ta:840539000834455-US",
+            "poi": {
+              "name": "Juice Bar LLC",
+              "phone": "+(1)-(206)-9098879",
+              "url": "www.larcheusa.org",
+              "categories": [
+                "shop",
+                "specialty foods"
+              ],
+              "classifications": [
+                {
+                  "code": "SHOP",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "specialty foods"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "shop"
+                    }
+                  ]
+                }
+              ]
+            },
             "address": {
-              "municipalitySubdivision": "Seattle Heights",
-              "municipality": "Brier, Lynnwood",
-              "countrySecondarySubdivision": "Snohomish",
-              "countryTertiarySubdivision": "Edmonds",
+              "streetNumber": "103",
+              "streetName": "Bellevue Ave E",
+              "municipalitySubdivision": "Seattle, Broadway",
+              "municipality": "Capitol Hill, Broadway, Seattle",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle",
               "countrySubdivision": "WA",
+              "postalCode": "98102",
+              "extendedPostalCode": "981025594",
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "Brier, WA",
+              "freeformAddress": "103 Bellevue Ave E, Seattle, WA 98102",
               "countrySubdivisionName": "Washington"
             },
             "position": {
-              "lat": 47.80679,
-              "lon": -122.32191
+              "lat": 47.61872,
+              "lon": -122.32707
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.80861,
-                "lon": -122.3233
+                "lat": 47.61962,
+                "lon": -122.3284
               },
               "btmRightPoint": {
-                "lat": 47.80497,
-                "lon": -122.32191
+                "lat": 47.61782,
+                "lon": -122.32574
               }
             },
-            "boundingBox": {
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.6187,
+                  "lon": -122.32676
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p1/6819120",
+            "score": 8.308,
+            "dist": 6235.7984817582947,
+            "info": "search:ta:840531000416784-US",
+            "poi": {
+              "name": "Jamba Juice",
+              "phone": "+(1)-(206)-6322060",
+              "url": "www.jambajuice.com",
+              "categories": [
+                "restaurant",
+                "yogurt/juice bar"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "yogurt/juice bar"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "4555",
+              "streetName": "Stone Way N",
+              "municipalitySubdivision": "Wallingford, Seattle",
+              "municipality": "Wallingford, Greenwood, Seattle",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle",
+              "countrySubdivision": "WA",
+              "postalCode": "98103",
+              "extendedPostalCode": "981036647",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "4555 Stone Way N, Seattle, WA 98103",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.66179,
+              "lon": -122.34233
+            },
+            "viewport": {
               "topLeftPoint": {
-                "lat": 47.80861,
-                "lon": -122.3233
+                "lat": 47.66269,
+                "lon": -122.34367
               },
               "btmRightPoint": {
-                "lat": 47.80497,
-                "lon": -122.32191
+                "lat": 47.66089,
+                "lon": -122.34099
               }
-            }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.66188,
+                  "lon": -122.34211
+                }
+              }
+            ]
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p1/6731878",
+            "score": 8.286,
+            "dist": 6980.5798207982534,
+            "info": "search:ta:840539000817372-US",
+            "poi": {
+              "name": "Jujubeet Juice Bar",
+              "phone": "+(1)-(206)-9851000",
+              "url": "www.jujubeet.com",
+              "categories": [
+                "bar",
+                "nightlife"
+              ],
+              "classifications": [
+                {
+                  "code": "NIGHTLIFE",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "bar"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "nightlife"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "4915",
+              "streetName": "25th Ave NE",
+              "municipalitySubdivision": "University District, Seattle, Ravenna",
+              "municipality": "University, Seattle",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle",
+              "countrySubdivision": "WA",
+              "postalCode": "98105",
+              "extendedPostalCode": "981055671",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "4915 25th Ave NE, Seattle, WA 98105",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.66511,
+              "lon": -122.30181
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.66601,
+                "lon": -122.30315
+              },
+              "btmRightPoint": {
+                "lat": 47.66421,
+                "lon": -122.30047
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.66489,
+                  "lon": -122.30083
+                }
+              }
+            ]
           }
         ]
       }
