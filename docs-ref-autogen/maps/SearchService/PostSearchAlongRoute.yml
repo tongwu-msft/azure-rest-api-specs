@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.search.getsearchalongroute
-name: Get Search Along Route
+uid: atlas.microsoft.com.maps.searchservice.postsearchalongroute
+name: Post Search Along Route
 service: Maps
-groupName: Search
+groupName: Search Service
 apiVersion: "1.0"
-summary: The Search Along Route endpoint allows you to perform a fuzzy search for POIs along a specified route. This search is constrained by specifying the `maxDetourTime` limiting measure.<br><br>To send the route-points you will use a `GET` request where the `route` parameter is represented as a `GeoJSON LineString` type. Each route-point in `route` is represented as a `GeoJSON Position` type i.e. an array where the _longitude_ value is followed by the _latitude_ value and the _altitude_ value is ignored. The `route` should contain at least 2 route-points.<br><br>It is possible that original route will be altered, some of it's points may be skipped. If the route that passes through the found point is faster than the original one, the `detourTime` value in the response is negative.
+summary: The Search Along Route endpoint allows you to perform a fuzzy search for POIs along a specified route. This search is constrained by specifying the `maxDetourTime` limiting measure.<br><br>To send the route-points you will use a `POST` request where the request body will contain the `route` object represented as a `GeoJSON LineString` type and the `Content-Type` header will be set to `application/json`. Each route-point in `route` is represented as a `GeoJSON Position` type i.e. an array where the _longitude_ value is followed by the _latitude_ value and the _altitude_ value is ignored. The `route` should contain at least 2 route-points.<br><br>It is possible that original route will be altered, some of it's points may be skipped. If the route that passes through the found point is faster than the original one, the `detourTime` value in the response is negative.
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/search/alongRoute/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&route={route}&maxDetourTime={maxDetourTime}
-- content: GET https://atlas.microsoft.com/search/alongRoute/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&route={route}&maxDetourTime={maxDetourTime}&limit={limit}
+- content: POST https://atlas.microsoft.com/search/alongRoute/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&maxDetourTime={maxDetourTime}
+- content: POST https://atlas.microsoft.com/search/alongRoute/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&maxDetourTime={maxDetourTime}&limit={limit}
   isOptional: true
 uriParameters:
 - name: format
@@ -36,12 +36,6 @@ uriParameters:
   in: query
   isRequired: true
   description: The applicable query string. Must be properly URL encoded.
-  types:
-  - uid: string
-- name: route
-  in: query
-  isRequired: true
-  description: This represents the route to search along and should be a valid `GeoJSON LineString` type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details.
   types:
   - uid: string
 - name: maxDetourTime
@@ -80,8 +74,28 @@ responses:
   description: An error occurred while processing the request. Please try again later.
   types:
   - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: route
+    in: body
+    description: A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details.
+    types:
+    - uid: GeoJSONLineString
 requestHeader: []
 definitions:
+- name: GeoJSONLineString
+  description: A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `type` for the geometry. Value should always be equal to "LineString".
+    types:
+    - uid: string
+  - name: coordinates
+    description: Coordinates for the `LineString` geometry.
+    types:
+    - uid: array
+      isArray: true
 - name: SearchAlongRouteResponse
   description: This object is returned from a successful Search Along Route call.
   kind: object
@@ -105,6 +119,14 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
+- name: SearchAlongRouteRequestBody
+  description: This type represents the request body for the Search Along Route service.
+  kind: object
+  properties:
+  - name: route
+    description: A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details.
+    types:
+    - uid: GeoJSONLineString
 - name: Summary
   description: Summary object
   kind: object
@@ -196,12 +218,12 @@ definitions:
       isArray: true
   - name: dist
     isReadyOnly: true
-    description: ''
+    description: Distance in meters
     types:
     - uid: number
   - name: detourTime
     isReadyOnly: true
-    description: ''
+    description: Detour time in seconds
     types:
     - uid: number
 - name: Error
@@ -469,7 +491,31 @@ definitions:
 examples:
 - name: Search for burger joints along a route
   request:
-    uri: GET https://atlas.microsoft.com/search/alongRoute/json?api-version=1.0&query=burger&maxDetourTime=1000&limit=2
+    uri: POST https://atlas.microsoft.com/search/alongRoute/json?subscription-key=[subscription-key]&api-version=1.0&query=burger&maxDetourTime=1000&limit=2
+    body: >-
+      {
+        "route": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -122.143035,
+              47.653536
+            ],
+            [
+              -122.187164,
+              47.617556
+            ],
+            [
+              -122.114981,
+              47.570599
+            ],
+            [
+              -122.132756,
+              47.654009
+            ]
+          ]
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-

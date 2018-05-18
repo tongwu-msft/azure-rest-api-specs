@@ -1,8 +1,8 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.route.getroutedirections
+uid: atlas.microsoft.com.maps.routeservice.getroutedirections
 name: Get Route Directions
 service: Maps
-groupName: Route
+groupName: Route Service
 apiVersion: "1.0"
 summary: >-
   Returns  a route between an origin and a destination, passing through waypoints if they are specified. The route will take into account factors such as current traffic and the typical road speeds on the requested day of the week and time of day.
@@ -11,7 +11,7 @@ summary: >-
   Information returned includes the distance, estimated travel time, and a representation of the route geometry. Additional routing information such as optimized waypoint order or turn by turn instructions is also available, depending on the options selected.
 
 
-  Routing service provides a set of parameters for a detailed description of vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/en-us/rest/api/maps/consumption-model) for detailed explanation of the concepts and parameters involved.
+  Routing service provides a set of parameters for a detailed description of vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/en-us/azure/azure-maps/consumption-model) for detailed explanation of the concepts and parameters involved.
 consumes: []
 produces:
 - application/json
@@ -52,9 +52,9 @@ uriParameters:
   - uid: integer
 - name: alternativeType
   in: query
-  description: Controls the optimality, with respect to the given planning criteria. Controls the optimality, with respect to the given planning criteria, of the calculated alternatives compared to the reference route.
+  description: Controls the optimality, with respect to the given planning criteria, of the calculated alternatives compared to the reference route.
   types:
-  - uid: alternativeType
+  - uid: AlternativeRouteType
 - name: minDeviationDistance
   in: query
   description: All alternative routes returned will follow the reference route (see section POST Requests) from the origin point of the calculateRoute request for at least this number of meters. Can only be used when reconstructing a route. The minDeviationDistance parameter cannot be used in conjunction with arriveAt
@@ -81,7 +81,7 @@ uriParameters:
   in: query
   description: If specified, guidance instructions will be returned. Note that the instructionsType parameter cannot be used in conjunction with routeRepresentation=none
   types:
-  - uid: instructionsType
+  - uid: RouteInstructionsType
 - name: language
   in: query
   description: The language parameter determines the language of the guidance messages. It does not affect proper nouns (the names of streets, plazas, etc.) It has no effect when instructionsType=coded. Allowed values are (a subset of) the IETF language tags described
@@ -96,12 +96,12 @@ uriParameters:
   in: query
   description: Specifies the representation of the set of routes provided as response. This parameter value can only be used in conjunction with computeBestOrder=true.
   types:
-  - uid: routeRepresentation
+  - uid: RouteRepresentation
 - name: computeTravelTimeFor
   in: query
   description: Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time.
   types:
-  - uid: computeTravelTimeFor
+  - uid: ComputeTravelTimeFor
 - name: vehicleHeading
   in: query
   description: The directional heading of the vehicle in degrees starting at true North and continuing in clockwise direction. North is 0 degrees, east is 90 degrees, south is 180 degrees, west is 270 degrees. Possible values 0-359
@@ -120,7 +120,7 @@ uriParameters:
 
     For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car
   types:
-  - uid: sectionType
+  - uid: SectionType
 - name: vehicleAxleWeight
   in: query
   description: Weight per axle of the vehicle in kg. A value of 0 means that weight restrictions per axle are not considered.
@@ -174,22 +174,22 @@ uriParameters:
   in: query
   description: Level of turns for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
   types:
-  - uid: windingness
+  - uid: Windingness
 - name: hilliness
   in: query
   description: Degree of hilliness for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
   types:
-  - uid: hilliness
+  - uid: Hilliness
 - name: travelMode
   in: query
   description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In calculateReachableRange requests, the values bicycle and pedestrian must not be used
   types:
-  - uid: travelMode
+  - uid: TravelMode
 - name: avoid
   in: query
   description: 'Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times. Possible values: (tollRoads avoids toll roads), (motorways avoids motorways), (ferries avoids ferries), (unpavedRoads avoids unpaved roads), (carpools avoids routes that require use of carpool (HOV/ High Occupancy Vehicle) lanes), (alreadyUsedRoads avoids using the same road multiple times. Most useful in conjunction with routeType=thrilling). In calculateReachableRange requests, the value alreadyUsedRoads must not be used.'
   types:
-  - uid: avoid
+  - uid: Avoid
 - name: traffic
   in: query
   description: 'Possible values: (true (do consider all available traffic information during routing)), (false (ignore current traffic data during routing). Note that although the current traffic data is ignored during routing, the effect of historic traffic on effective road speeds is still incorporated).'
@@ -199,17 +199,17 @@ uriParameters:
   in: query
   description: The type of route requested.
   types:
-  - uid: routeType
+  - uid: RouteType
 - name: vehicleLoadType
   in: query
   description: Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck.
   types:
-  - uid: vehicleLoadType
+  - uid: VehicleLoadType
 - name: vehicleEngineType
   in: query
   description: Engine type of the vehicle. When a detailed Consumption Model is specified, it must be consistent with the value of **vehicleEngineType**.
   types:
-  - uid: vehicleEngineType
+  - uid: VehicleEngineType
 - name: constantSpeedConsumptionInLitersPerHundredkm
   in: query
   description: "\n\nSpecifies the speed-dependent component of consumption.\n\nProvided as an unordered list of colon-delimited speed & consumption-rate pairs. The list defines points on a consumption curve. Consumption rates for speeds not in the list are found as follows:\n\n * by linear interpolation, if the given speed lies in between two speeds in the list\n\n * by linear extrapolation otherwise, assuming a constant (?Consumption/?Speed) determined by the nearest two points in the list\n\nThe list must contain between 1 and 25 points (inclusive), and may not contain duplicate points for the same speed. If it only contains a single point, then the consumption rate of that point is used without further processing.\n\nConsumption specified for the largest speed must be greater than or equal to that of the penultimate largest speed. This ensures that extrapolation does not lead to negative consumption rates.\n\nSimilarly, consumption values specified for the two smallest speeds in the list cannot lead to a negative consumption rate for any smaller speed.\n\nThe valid range for the consumption values(expressed in l/100km) is between 0.01 and 100000.0.\n\nSensible Values : 50,6.3:130,11.5\n\n**Note** : This parameter is required for **The Combustion Consumption Model**."
@@ -419,8 +419,8 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: alternativeType
-  description: Controls the optimality, with respect to the given planning criteria. Controls the optimality, with respect to the given planning criteria, of the calculated alternatives compared to the reference route.
+- name: AlternativeRouteType
+  description: Controls the optimality, with respect to the given planning criteria, of the calculated alternatives compared to the reference route.
   kind: enum
   properties:
   - name: anyRoute
@@ -431,7 +431,7 @@ definitions:
     description: Return an alternative route only if it is better than the reference route according to the given planning criteria.
     types:
     - uid: string
-- name: instructionsType
+- name: RouteInstructionsType
   description: If specified, guidance instructions will be returned. Note that the instructionsType parameter cannot be used in conjunction with routeRepresentation=none
   kind: enum
   properties:
@@ -447,7 +447,7 @@ definitions:
     description: Returns raw instruction data with tagged human-readable messages to permit formatting.
     types:
     - uid: string
-- name: routeRepresentation
+- name: RouteRepresentation
   description: Specifies the representation of the set of routes provided as response. This parameter value can only be used in conjunction with computeBestOrder=true.
   kind: enum
   properties:
@@ -459,7 +459,7 @@ definitions:
     description: Includes only the optimized waypoint indices but does not include the route geometry in the response.
     types:
     - uid: string
-- name: computeTravelTimeFor
+- name: ComputeTravelTimeFor
   description: Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time.
   kind: enum
   properties:
@@ -471,7 +471,7 @@ definitions:
     description: Computes travel times for all types of traffic information and specifies all results in the fields noTrafficTravelTimeInSeconds, historicTrafficTravelTimeInSeconds and liveTrafficIncidentsTravelTimeInSeconds being included in the summaries in the route response.
     types:
     - uid: string
-- name: sectionType
+- name: SectionType
   description: >-
     Specifies which of the section types is reported in the route response.
 
@@ -509,7 +509,7 @@ definitions:
   - name: tunnel
     types:
     - uid: string
-- name: windingness
+- name: Windingness
   description: Level of turns for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
   kind: enum
   properties:
@@ -522,7 +522,7 @@ definitions:
   - name: high
     types:
     - uid: string
-- name: hilliness
+- name: Hilliness
   description: Degree of hilliness for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
   kind: enum
   properties:
@@ -535,7 +535,7 @@ definitions:
   - name: high
     types:
     - uid: string
-- name: travelMode
+- name: TravelMode
   description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In calculateReachableRange requests, the values bicycle and pedestrian must not be used
   kind: enum
   properties:
@@ -563,7 +563,7 @@ definitions:
   - name: pedestrian
     types:
     - uid: string
-- name: avoid
+- name: Avoid
   description: 'Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times. Possible values: (tollRoads avoids toll roads), (motorways avoids motorways), (ferries avoids ferries), (unpavedRoads avoids unpaved roads), (carpools avoids routes that require use of carpool (HOV/ High Occupancy Vehicle) lanes), (alreadyUsedRoads avoids using the same road multiple times. Most useful in conjunction with routeType=thrilling). In calculateReachableRange requests, the value alreadyUsedRoads must not be used.'
   kind: enum
   properties:
@@ -585,7 +585,7 @@ definitions:
   - name: alreadyUsedRoads
     types:
     - uid: string
-- name: routeType
+- name: RouteType
   description: The type of route requested.
   kind: enum
   properties:
@@ -605,7 +605,7 @@ definitions:
     description: Includes interesting or challenging roads and uses as few motorways as possible. You can choose the level of turns included and also the degree of hilliness. See the hilliness and windingness parameters for how to set this. There is a limit of 900 km on routes planned with routeType=thrilling
     types:
     - uid: string
-- name: vehicleLoadType
+- name: VehicleLoadType
   description: Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck.
   kind: enum
   properties:
@@ -657,7 +657,7 @@ definitions:
     description: Harmful to water
     types:
     - uid: string
-- name: vehicleEngineType
+- name: VehicleEngineType
   description: Engine type of the vehicle. When a detailed Consumption Model is specified, it must be consistent with the value of **vehicleEngineType**.
   kind: enum
   properties:
@@ -868,7 +868,7 @@ definitions:
     isReadyOnly: true
     description: 'The magnitude of delay caused by the incident. These values correspond to the values of the response field <ty> of the Get Traffic Incident Detail API. '
     types:
-    - uid: magnitudeOfDelay
+    - uid: MagnitudeOfDelay
   - name: tec
     description: Details of the traffic event, using definitions in the TPEG2-TEC standard. Can contain <effectCode> and <causes> elements.
     types:
@@ -917,7 +917,7 @@ definitions:
     description: Longitude property
     types:
     - uid: number
-- name: magnitudeOfDelay
+- name: MagnitudeOfDelay
   description: 'The magnitude of delay caused by the incident. These values correspond to the values of the response field <ty> of the Get Traffic Incident Detail API. '
   kind: enum
   properties:
@@ -977,7 +977,7 @@ definitions:
   - name: instructionType
     description: Type of the instruction, e.g., turn or change of road form.
     types:
-    - uid: instructionType
+    - uid: GuidanceInstructionType
   - name: street
     isReadyOnly: true
     description: Street name of the next significant road segment after the maneuver, or of the street that should be followed.
@@ -997,12 +997,12 @@ definitions:
     isReadyOnly: true
     description: Indicates left-hand vs. right-hand side driving at the point of the maneuver.
     types:
-    - uid: drivingSide
+    - uid: DrivingSide
   - name: maneuver
     isReadyOnly: true
     description: A code identifying the maneuver.
     types:
-    - uid: maneuver
+    - uid: GuidanceManeuver
   - name: message
     isReadyOnly: true
     description: A human-readable message for the maneuver.
@@ -1060,7 +1060,7 @@ definitions:
     description: Longitude.
     types:
     - uid: number
-- name: instructionType
+- name: GuidanceInstructionType
   description: Type of the instruction, e.g., turn or change of road form.
   kind: enum
   properties:
@@ -1082,7 +1082,7 @@ definitions:
   - name: LOCATION_WAYPOINT
     types:
     - uid: string
-- name: drivingSide
+- name: DrivingSide
   description: Indicates left-hand vs. right-hand side driving at the point of the maneuver.
   kind: enum
   properties:
@@ -1092,7 +1092,7 @@ definitions:
   - name: RIGHT
     types:
     - uid: string
-- name: maneuver
+- name: GuidanceManeuver
   description: A code identifying the maneuver.
   kind: enum
   properties:
@@ -1231,7 +1231,7 @@ definitions:
 examples:
 - name: GetRouteDirections
   request:
-    uri: GET https://atlas.microsoft.com/route/directions/json?api-version=1.0&query=52.50931,13.42936:52.50274,13.43872
+    uri: GET https://atlas.microsoft.com/route/directions/json?subscription-key=[subscription-key]&api-version=1.0&query=52.50931,13.42936:52.50274,13.43872
   responses:
   - statusCode: "200"
     body: >-
