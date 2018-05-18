@@ -26,9 +26,37 @@ translation.priority.mt:
 ---
 # Authenticate with Azure Active Directory (Preview)
 
-Azure Storage provides integration with Azure Active Directory (Azure AD) for identity-based authentication of requests to the Blob and Queue services.  With Azure AD, you can use role-based access control (RBAC) to grant access to your Azure Storage resources to users, groups, or applications. The preview enables you to grant permissions that are scoped to the level of an individual container or queue. 
+Azure Storage provides integration with Azure Active Directory (Azure AD) for identity-based authentication of requests to the Blob and Queue services.  With Azure AD, you can use role-based access control (RBAC) to grant access to your Azure Storage resources to users, groups, or applications. During the  preview, you can grant permissions that are scoped to the level of an individual container or queue. 
 
 To learn more about Azure AD integration in Azure Storage and about the preview, see [Authenticating requests to Azure Storage using Azure Active Directory (Preview)](https://docs.microsoft.com/azure/storage/common/storage-authentication-aad).
+
+## Access tokens for Azure Storage
+
+Azure Storage accepts OAuth 2.0 access tokens from the Azure AD tenant associated with the subscription that contains the storage account. Azure Storage accepts access tokens for:
+
+- Users and groups
+- Service principals 
+- Managed service identities
+- Applications using permissions delegated by users 
+
+Azure storage exposes a single delegation scope named `user_impersonation` that permits applications to take any action allowed by the user.
+
+To request tokens for Azure storage, specify the value `https://storage.azure.com/` for the Resource ID.
+
+For more information on requesting access tokens from Azure AD for users and service principals, see [Authentication scenarios for Azure AD](https://docs.microsoft.com/azure/active-directory/develop/active-directory-authentication-scenarios).
+
+For more information about requesting access tokens for resources configured with a manage service Identity, see [How to use an Azure VM Managed Service Identity (MSI) for token acquisition](https://docs.microsoft.com/azure/active-directory/managed-service-identity/how-to-use-vm-token).
+
+## Call storage operations with OAuth tokens
+
+To call Blob and Queue service operations using OAuth access tokens, pass the access token in the **Authorization** header using the **Bearer** scheme, and specify a service version of 2017-11-09 or higher, as shown in the following example:
+
+```
+GET /container/file.txt HTTP/1.1
+Host: mystorageaccount.blob.core.windows.net
+x-ms-version: 2017-11-09
+Authorization: Bearer eyJ0eXAiOnJKV1...Xd6j
+```    
 
 ## Permissions required by REST operations
 
