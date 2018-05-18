@@ -35,6 +35,8 @@ Options for authenticating requests to Azure Storage include:
 - **Shared access signatures:** Shared access signatures (SAS) delegate access to a particular resource in your account with specified permissions and over a specified time interval. For more information about SAS, see [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md). 
 - **Anonymous access to containers and blobs:** You can optionally make blob resources public at the container or blob level. A public container or blob is accessible to any user for anonymous read access. Read requests to public containers and blobs do not require authentication. For more information, see [Enable public read access for containers and blobs in Azure Blob storage](https://docs.microsoft.com/azure/storage/blobs/storage-manage-access-to-resources).
 
+> [!TIP]
+> Authenticating from your Azure Storage applications with Azure AD provides superior security and ease of use over existing authentication options. While you can continue to use Shared Key authentication with your applications, using Azure AD circumvents the need to store your account access key with your code. Similarly, you can continue to use shared access signatures (SAS) to grant fine-grained access to resources in your storage account, but Azure AD offers similar capabilities without the need to manage SAS tokens or worry about revoking a compromised SAS.  
   
 ## See Also  
  [Blob Service REST API](Blob-Service-REST-API.md)   
