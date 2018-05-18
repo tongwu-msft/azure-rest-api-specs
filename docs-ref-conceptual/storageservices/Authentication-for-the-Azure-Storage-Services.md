@@ -26,13 +26,15 @@ translation.priority.mt:
 ---
 # Authentication for the Azure Storage Services
 
-Every request made against the Blob, File, Queue, or Table service must be authenticated, unless the request is for a blob or container resource that has been made available for public or signed access.  
+Every request made against a secured resource in the Blob, File, Queue, or Table service must be authenticated. Authentication ensures that resources in your storage account are accessible only when you want them to be, and only to those users or applications to whom you grant access. 
 
-Options for authentication include:
+Options for authenticating requests to Azure Storage include:
 
-- Azure Active Directory
-- Shared Key/Shared Key Lite
-- Shared Access Signatures
+- **Azure Active Directory (Azure AD)(Preview):** [Azure AD](https://docs.microsoft.com/azure/active-directory/active-directory-whatis.md) is Microsoft's cloud-based identity and access management service. Azure AD integration is currently available in preview for the Blob and Queue services. With Azure AD, you can assign fine-grained access to users, groups, or applications via role-based access control (RBAC). For information about Azure AD integration with Azure Storage, see [Authenticate with Azure Active Directory](Authenticate-with-Azure-Active-Directory.md). 
+- **Shared Key:** Shared Key authentication relies on your account access keys and other parameters to produce an encrypted signature string that is passed on the request in the Authorization header. For more information about Shared Key authentication, see [Authenticate with Shared Key](Authenticate-with-Shared-Key.md).
+- **Shared access signatures:** Shared access signatures (SAS) delegate access to a particular resource in your account with specified permissions and over a specified time interval. For more information about SAS, see [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md). 
+- **Anonymous access to containers and blobs:** You can optionally make blob resources public at the container or blob level. A public container or blob is accessible to any user for anonymous read access. Read requests to public containers and blobs do not require authentication. For more information, see [Enable public read access for containers and blobs in Azure Blob storage](https://docs.microsoft.com/azure/storage/blobs/storage-manage-access-to-resources).
+
   
 ## See Also  
  [Blob Service REST API](Blob-Service-REST-API.md)   

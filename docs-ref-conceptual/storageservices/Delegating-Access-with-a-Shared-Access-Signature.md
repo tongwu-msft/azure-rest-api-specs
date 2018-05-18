@@ -25,11 +25,15 @@ translation.priority.mt:
   - zh-tw
 ---
 # Delegating Access with a Shared Access Signature
+
 A shared access signature (SAS) is a URI that grants restricted access rights to Azure Storage resources. You can provide a shared access signature to clients who should not be trusted with your storage account key but to whom you wish to delegate access to certain storage account resources. By distributing a shared access signature URI to these clients, you can grant them access to a resource for a specified period of time, with a specified set of permissions.  
+
+> [!NOTE]
+> Azure Storage supports integration with Azure Active Directory for fine-grained control over access to storage resources. Azure AD integration is currently supported for the Blob and Queue services. Because Azure AD provides identity management, you can authenticate access to storage resources without storing your account access keys in your applications. For more information, see [Authenticate with Azure Active Directory](Authenticate-with-Azure-Active-Directory.md).
+
+The URI query parameters comprising the SAS token incorporate all of the information necessary to grant controlled access to a storage resource. A client who is in possession of the SAS can make a request against Azure Storage with just the SAS URI, and the information contained in the SAS token is used to authenticate the request.  
   
- The URI query parameters comprising the SAS token incorporate all of the information necessary to grant controlled access to a storage resource. A client who is in possession of the SAS can make a request against Azure Storage with just the SAS URI, and the information contained in the SAS token is used to authenticate the request.  
-  
- Beginning with version 2015-04-05, Azure Storage supports two types of shared access signatures (SAS):  
+Beginning with version 2015-04-05, Azure Storage supports two types of shared access signatures (SAS):  
   
 -   An account-level SAS, introduced with version 2015-04-05. The account SAS delegates access to resources in one or more of the storage services. All of the operations available via a service SAS are also available via an account SAS. Additionally, with the account SAS, you can delegate access to operations that apply to a given service, such as `Get/Set Service Properties` and `Get Service Stats`. You can also delegate access to read, write, and delete operations on blob containers, tables, queues, and file shares that are not permitted with a service SAS. See [Constructing an Account SAS](Constructing-an-Account-SAS.md) for more information about account SAS.  
   
