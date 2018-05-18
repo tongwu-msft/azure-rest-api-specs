@@ -64,7 +64,7 @@ Authorization: Bearer eyJ0eXAiOnJKV1...Xd6j
 
 Azure AD handles the authorization of access to secured resources through RBAC. Using RBAC, you can assign roles to users, groups, or service principals. Each role encompasses a set of permissions for a resource. Once the role is assigned to the user, group, or service principal, they have access to that resource. You can assign access rights using the Azure portal, Azure command-line tools, and Azure Management APIs. For more information on RBAC, see [Get started with Role-Based Access Control](https://docs.microsoft.com/azure/role-based-access-control/overview).
 
-For Azure Storage, you can grant access to the entire storage account, a container in the account, or a queue. Azure Storage offers four built-in RBAC roles for use with Azure AD:
+For Azure Storage, you can grant access to the entire storage account, a container in the account, or a queue. Azure Storage offers these built-in RBAC roles for use with Azure AD:
 
 - [Storage Account Contributor](https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-account-contributor)
 - [Storage Account Key Operator Service Role](https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-account-key-operator-service-role)
