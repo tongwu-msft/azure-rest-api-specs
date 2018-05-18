@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.traffic.gettrafficincidenttile
-name: Get Traffic Incident Tile
+uid: atlas.microsoft.com.maps.trafficservice.gettrafficflowtile
+name: Get Traffic Flow Tile
 service: Maps
-groupName: Traffic
+groupName: Traffic Service
 apiVersion: "1.0"
-summary: __Traffic Incident Tile__ <br/><br/>This API provides information on traffic incidents inside a given bounding box, based on the current Traffic Model ID. The Traffic Model ID is available to grant synchronization of data between calls and API's. The Traffic Model ID is a key value for determining the currency of traffic incidents. It is updated every minute, and is valid for two minutes before it times out. It is used in rendering [traffic tiles](https://docs.microsoft.com/en-us/rest/api/location-based-services/traffic/gettrafficincidenttile). It can be obtained from the [Viewport API](https://docs.microsoft.com/en-us/rest/api/location-based-services/traffic/gettrafficincidentviewport).
+summary: __Traffic Flow Tile__ <br/><br/>The Azure Flow Tile API serves 256 x 256 pixel tiles showing traffic flow. All tiles use the same grid system. Because the traffic tiles use transparent images, they can be layered on top of map tiles to create a compound display. The Flow tiles use colors to indicate either the speed of traffic on different road segments, or the difference between that speed and the free-flow speed on the road segment in question.
 consumes: []
 produces:
+- image/png
 - application/json
-- application/xml
 paths:
-- content: GET https://atlas.microsoft.com/traffic/incident/tile/png?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}
-- content: GET https://atlas.microsoft.com/traffic/incident/tile/png?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}&t={t}
+- content: GET https://atlas.microsoft.com/traffic/flow/tile/png?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}
+- content: GET https://atlas.microsoft.com/traffic/flow/tile/png?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}&thickness={thickness}
   isOptional: true
 uriParameters:
 - name: format
@@ -19,7 +19,7 @@ uriParameters:
   isRequired: true
   description: 'Desired format of the response. Possible value: png.'
   types:
-  - uid: format
+  - uid: RasterTileFormat
 - name: subscription-key
   in: query
   isRequired: true
@@ -35,9 +35,9 @@ uriParameters:
 - name: style
   in: query
   isRequired: true
-  description: The style to be used to render the tile.
+  description: <p>The style to be used to render the tile.</p> <ul> <li> Absolute which returns colors reflecting the absolute speed measured. </li> <li> Relative to which returns the speed relative to free-flow. </li> <li> Relative-delay displays when relative speeds are different from the free-flow speeds. </li> </ul>
   types:
-  - uid: TrafficIncidentTileStyle
+  - uid: TrafficFlowTileStyle
 - name: zoom
   in: query
   isRequired: true
@@ -56,16 +56,16 @@ uriParameters:
   description: Y coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].<br><br>Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
   types:
   - uid: integer
-- name: t
+- name: thickness
   in: query
-  description: 'Reference value for the state of traffic at a particular time, obtained from the Viewport API call. It is updated every minute, and is valid for two minutes before it times out. Use -1 to get the most recent traffic information. Default: most recent traffic information'
+  description: The value of the width of the line representing traffic. This value is a multiplier and the accepted values range from 1 - 20. The default value is 10.
   types:
-  - uid: string
+  - uid: integer
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: TrafficIncidentTileResult
+  - uid: string
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -88,7 +88,7 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: format
+- name: RasterTileFormat
   description: 'Desired format of the response. Possible value: png.'
   kind: enum
   properties:
@@ -96,33 +96,24 @@ definitions:
     description: An image in the png format. Supports zoom levels 0 through 18.
     types:
     - uid: string
-- name: TrafficIncidentTileStyle
-  description: The style to be used to render the tile.
+- name: TrafficFlowTileStyle
+  description: <p>The style to be used to render the tile.</p> <ul> <li> Absolute which returns colors reflecting the absolute speed measured. </li> <li> Relative to which returns the speed relative to free-flow. </li> <li> Relative-delay displays when relative speeds are different from the free-flow speeds. </li> </ul>
   kind: enum
   properties:
-  - name: s1
-    description: Creates traffic lines with colored chevrons indicating severity.
+  - name: absolute
+    description: Colors will reflect the absolute speed measured.
     types:
     - uid: string
-  - name: s2
-    description: Creates plain lines with certain degree of glow.
+  - name: relative
+    description: Colors will reflect the speed relative to free-flow.
     types:
     - uid: string
-  - name: s3
-    description: Creates plain lines with certain degree of glow.
+  - name: relative-delay
+    description: Displays relative colors only where they are different from the freeflow speeds.
     types:
     - uid: string
-  - name: night
-    description: Night style.
-    types:
-    - uid: string
-- name: TrafficIncidentTileResult
-  description: This object is returned from a successful Traffic Incident Tile call
-  kind: object
-  properties:
-  - name: image
-    isReadyOnly: true
-    description: Image property
+  - name: reduced-sensitivity
+    description: Displays relative colors but a larger difference from freeflow is required for segments to change the color.
     types:
     - uid: string
 - name: ErrorResponse
@@ -148,12 +139,12 @@ definitions:
     types:
     - uid: string
 examples:
-- name: GetTrafficIncidentTile
+- name: GetTrafficFlowTile
   request:
-    uri: GET https://atlas.microsoft.com/traffic/incident/tile/png?api-version=1.0&style=s3&zoom=12&x=2044&y=1360
+    uri: GET https://atlas.microsoft.com/traffic/flow/tile/png?subscription-key=[subscription-key]&api-version=1.0&style=absolute&zoom=12&x=2044&y=1360
   responses:
   - statusCode: "200"
-    body: '{}'
+    body: "\"binary string image\""
   - statusCode: "400"
     body: >-
       {

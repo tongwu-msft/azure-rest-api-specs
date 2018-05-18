@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.search.getsearchpoi
-name: Get Search POI
+uid: atlas.microsoft.com.maps.searchservice.getsearchpoicategory
+name: Get Search POI Category
 service: Maps
-groupName: Search
+groupName: Search Service
 apiVersion: "1.0"
-summary: '**Get POI by Name**<br><br>If your search use case only requires POI results, you may use the POI endpoint for searching. This endpoint will only return POI results.'
+summary: '**Get POI by Category**<br><br>If your search use case only requires POI results filtered by category, you may use the category endpoint. This endpoint will only return POI results which are categorized as specified.<br><br>List of available categories can be found [here](https://docs.microsoft.com/en-us/azure/azure-maps/search-categories).'
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/search/poi/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/search/poi/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}
+- content: GET https://atlas.microsoft.com/search/poi/category/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/search/poi/category/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&typeahead={typeahead}&limit={limit}&multiplier={multiplier}&routingTimeout={routingTimeout}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}
   isOptional: true
 uriParameters:
 - name: format
@@ -48,9 +48,14 @@ uriParameters:
   description: 'Maximum number of responses that will be returned. Default: 10, minimum: 1 and maximum: 100'
   types:
   - uid: integer
-- name: ofs
+- name: multiplier
   in: query
-  description: 'Starting offset of the returned results within the full result set. Default: 0, minimum: 0 and maximum: 1900'
+  description: Multiplies the limit by this value to gather more candidate POIs, which will then be sorted by drive distance, returning only the top candidates according to the limit.
+  types:
+  - uid: integer
+- name: routingTimeout
+  in: query
+  description: Number of milliseconds routing engine can take to give the results.
   types:
   - uid: integer
 - name: countrySet
@@ -90,14 +95,14 @@ uriParameters:
   - uid: string
 - name: extendedPostalCodesFor
   in: query
-  description: "Indexes for which extended postal codes should be included in the results.\n\nAvailable indexes are: \n\n **POI** = Points of Interest \n\nValue should be **POI** or **None** to disable extended postal codes.\n\nBy default extended postal codes are included.\n\nUsage examples:\n\n extendedPostalCodesFor=POI \n\n extendedPostalCodesFor=None\n\nExtended postal code is returned as an **extendedPostalCode** property of an address. Availability is region-dependent."
+  description: "Indexes for which extended postal codes should be included in the results.\n\nAvailable indexes are: \n\n **Addr** = Address ranges \n\n **Geo** = Geographies \n\n **PAD** = Point Addresses \n\n **POI** = Points of Interest \n\n **Str** = Streets \n\n **XStr** = Cross Streets (intersections)\n\nValue should be a comma separated list of index types (in any order) or **None** for no indexes.\n\nBy default extended postal codes are included for all indexes except Geo. Extended postal code lists for geographies can be quite long so they have to be explicitly requested when needed.\n\nUsage examples:\n\n extendedPostalCodesFor=POI \n\n extendedPostalCodesFor=PAD,Addr,POI \n\n extendedPostalCodesFor=None\n\nExtended postal code is returned as an **extendedPostalCode** property of an address. Availability is region-dependent."
   types:
   - uid: string
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SearchPoiResult
+  - uid: SearchPoiCategoryResult
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -120,8 +125,8 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: SearchPoiResult
-  description: This object is returned from a successful Search POI call
+- name: SearchPoiCategoryResult
+  description: This object is returned from a successful Search POI Category call
   kind: object
   properties:
   - name: summary
@@ -133,7 +138,7 @@ definitions:
     isReadyOnly: true
     description: Results array
     types:
-    - uid: Results
+    - uid: SearchPoiCategoryResultArray
       isArray: true
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
@@ -182,8 +187,7 @@ definitions:
     description: FuzzyLevel property
     types:
     - uid: integer
-- name: Results
-  description: Results array
+- name: SearchPoiCategoryResultArray
   kind: object
   properties:
   - name: type
@@ -199,6 +203,11 @@ definitions:
   - name: score
     isReadyOnly: true
     description: Score property
+    types:
+    - uid: number
+  - name: dist
+    isReadyOnly: true
+    description: Distance in meters
     types:
     - uid: number
   - name: info
@@ -495,372 +504,211 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Search for juice bars within 5 miles of Seattle Downtown and limit the response to 5 results
+- name: Search for atm's within 2 miles of Times Square NY and return the top 3 results
   request:
-    uri: GET https://atlas.microsoft.com/search/poi/json?subscription-key=[subscription-key]&api-version=1.0&query=juice bars&limit=5&lat=47.606038&lon=-122.333345&radius=8046
+    uri: GET https://atlas.microsoft.com/search/poi/category/json?subscription-key=[subscription-key]&api-version=1.0&query=atm&limit=3&lat=40.758953&lon=-73.985263&radius=3200
   responses:
   - statusCode: "200"
     body: >-
       {
         "summary": {
-          "query": "juice bars",
+          "query": "atm",
           "queryType": "NON_NEAR",
-          "queryTime": 43,
-          "numResults": 5,
+          "queryTime": 49,
+          "numResults": 3,
           "offset": 0,
-          "totalResults": 10,
+          "totalResults": 3512,
           "fuzzyLevel": 1,
           "geoBias": {
-            "lat": 47.606038,
-            "lon": -122.333345
+            "lat": 40.758953,
+            "lon": -73.985263
           }
         },
         "results": [
           {
             "type": "POI",
-            "id": "US/POI/p1/6816234",
-            "score": 8.464,
-            "dist": 1131.743149955716,
-            "info": "search:ta:840539001043192-US",
+            "id": "US/POI/p1/2132991",
+            "score": 5,
+            "dist": 10.743802093311858,
+            "info": "search:ta:840369001846523-US",
             "poi": {
-              "name": "Assembly Hall Juice & Coffee",
-              "phone": "+(1)-(206)-8128413",
-              "url": "www.assemblyhallseattle.com",
+              "name": "FISERV MASTERMONEY",
               "categories": [
-                "café/pub",
-                "coffee shop"
+                "cash dispenser"
               ],
               "classifications": [
                 {
-                  "code": "CAFE_PUB",
+                  "code": "CASH_DISPENSER",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "coffee shop"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "café/pub"
+                      "name": "cash dispenser"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "2121",
-              "streetName": "6th Ave",
-              "municipalitySubdivision": "Seattle, Belltown",
-              "municipality": "Seattle",
-              "countrySecondarySubdivision": "King",
-              "countryTertiarySubdivision": "Seattle",
-              "countrySubdivision": "WA",
-              "postalCode": "98121",
-              "extendedPostalCode": "981212867",
+              "streetNumber": "1560",
+              "streetName": "Broadway",
+              "municipalitySubdivision": "New York City, NYC, Times Square, New York, Midtown",
+              "municipality": "New York City, NYC, NY City, NY, Manhattan, New York",
+              "countrySecondarySubdivision": "New York",
+              "countryTertiarySubdivision": "Manhattan",
+              "countrySubdivision": "NY",
+              "postalCode": "10036",
+              "extendedPostalCode": "100361517",
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "2121 6th Ave, Seattle, WA 98121",
-              "countrySubdivisionName": "Washington"
+              "freeformAddress": "1560 Broadway, New York, NY 10036",
+              "countrySubdivisionName": "New York"
             },
             "position": {
-              "lat": 47.61512,
-              "lon": -122.34016
+              "lat": 40.75901,
+              "lon": -73.98516
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.61602,
-                "lon": -122.34149
+                "lat": 40.75991,
+                "lon": -73.98635
               },
               "btmRightPoint": {
-                "lat": 47.61422,
-                "lon": -122.33883
+                "lat": 40.75811,
+                "lon": -73.98397
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.61531,
-                  "lon": -122.33992
+                  "lat": 40.75902,
+                  "lon": -73.98522
                 }
               }
             ]
           },
           {
             "type": "POI",
-            "id": "US/POI/p1/3816873",
-            "score": 8.455,
-            "dist": 1420.6447561782316,
-            "info": "search:ta:840539001412283-US",
+            "id": "US/POI/p1/2135024",
+            "score": 4.998,
+            "dist": 55.009653221373966,
+            "info": "search:ta:840369001359393-US",
             "poi": {
-              "name": "Fresh Fruit Juice LLC",
-              "phone": "+(1)-(206)-3295979",
+              "name": "ATM",
               "categories": [
-                "café/pub",
-                "tea house"
+                "cash dispenser"
               ],
               "classifications": [
                 {
-                  "code": "CAFE_PUB",
+                  "code": "CASH_DISPENSER",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "café/pub"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "tea house"
+                      "name": "cash dispenser"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "1043",
-              "streetName": "S Jackson St",
-              "municipalitySubdivision": "Yesler Terrace, Seattle, International District",
-              "municipality": "Pioneer Square, International, Seattle",
-              "countrySecondarySubdivision": "King",
-              "countryTertiarySubdivision": "Seattle",
-              "countrySubdivision": "WA",
-              "postalCode": "98104",
-              "extendedPostalCode": "981043029",
+              "streetNumber": "1552",
+              "streetName": "Broadway",
+              "municipalitySubdivision": "New York City, NYC, Times Square, New York, Midtown",
+              "municipality": "New York City, NYC, NY City, NY, Manhattan, New York",
+              "countrySecondarySubdivision": "New York",
+              "countryTertiarySubdivision": "Manhattan",
+              "countrySubdivision": "NY",
+              "postalCode": "10036",
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "1043 S Jackson St, Seattle, WA 98104",
-              "countrySubdivisionName": "Washington"
+              "freeformAddress": "1552 Broadway, New York, NY 10036",
+              "countrySubdivisionName": "New York"
             },
             "position": {
-              "lat": 47.59891,
-              "lon": -122.31762
+              "lat": 40.75873,
+              "lon": -73.98468
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.59981,
-                "lon": -122.31895
+                "lat": 40.75963,
+                "lon": -73.98587
               },
               "btmRightPoint": {
-                "lat": 47.59801,
-                "lon": -122.31629
+                "lat": 40.75783,
+                "lon": -73.98349
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.59921,
-                  "lon": -122.31762
+                  "lat": 40.7588,
+                  "lon": -73.98492
                 }
               }
             ]
           },
           {
             "type": "POI",
-            "id": "US/POI/p1/6829423",
-            "score": 8.453,
-            "dist": 1486.5584783997256,
-            "info": "search:ta:840539000834455-US",
+            "id": "US/POI/p0/2421307",
+            "score": 4.998,
+            "dist": 58.681073545012559,
+            "info": "search:ta:840369003262975-US",
             "poi": {
-              "name": "Juice Bar LLC",
-              "phone": "+(1)-(206)-9098879",
-              "url": "www.larcheusa.org",
+              "name": "Metabank",
               "categories": [
-                "shop",
-                "specialty foods"
+                "cash dispenser"
               ],
               "classifications": [
                 {
-                  "code": "SHOP",
+                  "code": "CASH_DISPENSER",
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "specialty foods"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "shop"
+                      "name": "cash dispenser"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "103",
-              "streetName": "Bellevue Ave E",
-              "municipalitySubdivision": "Seattle, Broadway",
-              "municipality": "Capitol Hill, Broadway, Seattle",
-              "countrySecondarySubdivision": "King",
-              "countryTertiarySubdivision": "Seattle",
-              "countrySubdivision": "WA",
-              "postalCode": "98102",
-              "extendedPostalCode": "981025594",
+              "streetNumber": "1567",
+              "streetName": "Broadway",
+              "municipalitySubdivision": "New York City, NYC, Times Square, New York, Midtown",
+              "municipality": "New York City, NYC, NY City, NY, Manhattan, New York",
+              "countrySecondarySubdivision": "New York",
+              "countryTertiarySubdivision": "Manhattan",
+              "countrySubdivision": "NY",
+              "postalCode": "10036",
+              "extendedPostalCode": "100361517",
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "103 Bellevue Ave E, Seattle, WA 98102",
-              "countrySubdivisionName": "Washington"
+              "freeformAddress": "1567 Broadway, New York, NY 10036",
+              "countrySubdivisionName": "New York"
             },
             "position": {
-              "lat": 47.61872,
-              "lon": -122.32707
+              "lat": 40.75937,
+              "lon": -73.98569
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.61962,
-                "lon": -122.3284
+                "lat": 40.76027,
+                "lon": -73.98688
               },
               "btmRightPoint": {
-                "lat": 47.61782,
-                "lon": -122.32574
+                "lat": 40.75847,
+                "lon": -73.9845
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.6187,
-                  "lon": -122.32676
-                }
-              }
-            ]
-          },
-          {
-            "type": "POI",
-            "id": "US/POI/p1/6819120",
-            "score": 8.308,
-            "dist": 6235.7984817582947,
-            "info": "search:ta:840531000416784-US",
-            "poi": {
-              "name": "Jamba Juice",
-              "phone": "+(1)-(206)-6322060",
-              "url": "www.jambajuice.com",
-              "categories": [
-                "restaurant",
-                "yogurt/juice bar"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "yogurt/juice bar"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "4555",
-              "streetName": "Stone Way N",
-              "municipalitySubdivision": "Wallingford, Seattle",
-              "municipality": "Wallingford, Greenwood, Seattle",
-              "countrySecondarySubdivision": "King",
-              "countryTertiarySubdivision": "Seattle",
-              "countrySubdivision": "WA",
-              "postalCode": "98103",
-              "extendedPostalCode": "981036647",
-              "countryCode": "US",
-              "country": "United States Of America",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "4555 Stone Way N, Seattle, WA 98103",
-              "countrySubdivisionName": "Washington"
-            },
-            "position": {
-              "lat": 47.66179,
-              "lon": -122.34233
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.66269,
-                "lon": -122.34367
-              },
-              "btmRightPoint": {
-                "lat": 47.66089,
-                "lon": -122.34099
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.66188,
-                  "lon": -122.34211
-                }
-              }
-            ]
-          },
-          {
-            "type": "POI",
-            "id": "US/POI/p1/6731878",
-            "score": 8.286,
-            "dist": 6980.5798207982534,
-            "info": "search:ta:840539000817372-US",
-            "poi": {
-              "name": "Jujubeet Juice Bar",
-              "phone": "+(1)-(206)-9851000",
-              "url": "www.jujubeet.com",
-              "categories": [
-                "bar",
-                "nightlife"
-              ],
-              "classifications": [
-                {
-                  "code": "NIGHTLIFE",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "bar"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "nightlife"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "4915",
-              "streetName": "25th Ave NE",
-              "municipalitySubdivision": "University District, Seattle, Ravenna",
-              "municipality": "University, Seattle",
-              "countrySecondarySubdivision": "King",
-              "countryTertiarySubdivision": "Seattle",
-              "countrySubdivision": "WA",
-              "postalCode": "98105",
-              "extendedPostalCode": "981055671",
-              "countryCode": "US",
-              "country": "United States Of America",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "4915 25th Ave NE, Seattle, WA 98105",
-              "countrySubdivisionName": "Washington"
-            },
-            "position": {
-              "lat": 47.66511,
-              "lon": -122.30181
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.66601,
-                "lon": -122.30315
-              },
-              "btmRightPoint": {
-                "lat": 47.66421,
-                "lon": -122.30047
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.66489,
-                  "lon": -122.30083
+                  "lat": 40.75924,
+                  "lon": -73.98513
                 }
               }
             ]
