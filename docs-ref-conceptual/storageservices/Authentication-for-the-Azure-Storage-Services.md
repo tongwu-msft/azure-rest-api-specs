@@ -11,7 +11,7 @@ ms.topic: reference
 ms.assetid: 96cec7bc-63cc-4227-920a-dddd850433c9
 caps.latest.revision: 63
 author: tamram
-manager: carolz
+manager: jeconnoc
 translation.priority.mt: 
   - de-de
   - es-es
