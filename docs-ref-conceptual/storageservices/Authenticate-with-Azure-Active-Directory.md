@@ -72,7 +72,7 @@ For Azure Storage, you can grant access to data in a container or queue in the s
 - [Storage Queue Data Contributor (Preview)](https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-queue-data-contributor-preview)
 - [Storage Queue Data Reader (Preview)](https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-queue-data-reader-preview)
 - [Storage Account Contributor](https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-account-contributor) (for Azure Storage resource provider actions only)
-- [Storage Account Key Operator Service Role](for listing and regenerating account access keys)(https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-account-key-operator-service-role)
+- [Storage Account Key Operator Service Role](https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-account-key-operator-service-role)(for listing and regenerating account access keys)
 
 For more information about how built-in roles are defined for Azure Storage, see [Understand role definitions](https://docs.microsoft.com/azure/role-based-access-control/role-definitions#management-and-data-operations-preview).
 
@@ -142,3 +142,6 @@ For more details about the RBAC actions shown below, see [Management and data op
 | [Delete Message](https://docs.microsoft.com/rest/api/storageservices/fileservices/delete-message2)                            | Microsoft.Storage/storageAccounts/queueServices/queues/messages/process/action or Microsoft.Storage/storageAccounts/queueServices/queues/messages/delete                                                                                                                                                         |
 | [Clear Messages](https://docs.microsoft.com/rest/api/storageservices/fileservices/clear-messages)                             | Microsoft.Storage/storageAccounts/queueServices/queues/messages/delete                                                                                                                                                            |
 | [Update Message](https://docs.microsoft.com/rest/api/storageservices/fileservices/update-message)                             | Microsoft.Storage/storageAccounts/queueServices/queues/messages/write                                                                                                                                                             |
+# See also
+
+[Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)
