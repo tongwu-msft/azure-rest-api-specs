@@ -1,13 +1,14 @@
 ---
 title: "Authenticate with Shared Key"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 05/20/2018
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
 ms.suite: na
 ms.tgt_pltfrm: na
 ms.topic: reference
+ms.author: tamram
 ms.assetid: 96cec7bc-63cc-4227-920a-dddd850433c9
 caps.latest.revision: 63
 author: tamram
@@ -86,7 +87,7 @@ Authorization="[SharedKey|SharedKeyLite] <AccountName>:<Signature>"
   
 -   If the `x-ms-date` header is specified, you may ignore the `Date` header, regardless of whether it is specified on the request, and simply specify an empty line for the `Date` portion of the signature string. In this case, follow the instructions in the [Constructing the CanonicalizedHeaders Element](#Constructing_Element) section for adding the `x-ms-date` header.  
   
-     Note that it is acceptable to specify both `x-ms-date` and `Date`; in this case, the service uses the value of `x-ms-date`.  
+    It is acceptable to specify both `x-ms-date` and `Date`; in this case, the service uses the value of `x-ms-date`.  
   
 -   If the `x-ms-date` header is not specified, specify the `Date` header in the signature string, without including the header name.  
   
@@ -114,7 +115,7 @@ StringToSign = VERB + "\n" +
                CanonicalizedResource;  
 ```  
   
- The following example shows a signature string for a [Get Blob](Get-Blob.md) operation. Note that where there is no header value, the new-line character only is specified.  
+ The following example shows a signature string for a [Get Blob](Get-Blob.md) operation. Where there is no header value, the new-line character only is specified.  
   
 ```  
 GET\n\n\n\n\n\n\n\n\n\n\n\nx-ms-date:Sun, 11 Oct 2009 21:49:13 GMT\nx-ms-version:2009-09-19\n/myaccount/mycontainer\ncomp:metadata\nrestype:container\ntimeout:20  
@@ -147,7 +148,7 @@ x-ms-date:Sun, 11 Oct 2009 21:49:13 GMT\nx-ms-version:2009-09-19\n    /*Canonica
 Authorization: SharedKey myaccount:ctzMq410TV3wS7upTBcunJTDLEJwMAZuFPfr0mrrA08=  
 ```  
   
- Note that in order to use Shared Key authentication with version 2009-09-19 and later of the Blob and Queue services, you must update your code to use this augmented signature string.  
+ To use Shared Key authentication with version 2009-09-19 and later of the Blob and Queue services, you must update your code to use this augmented signature string.  
   
  If you prefer to migrate your code to version 2009-09-19 or later of the Blob and Queue services with the fewest possible changes, you can modify your existing `Authorization` headers to use Shared Key Lite instead of Shared Key. The signature format required by Shared Key Lite is identical to that required for Shared Key by versions of the Blob and Queue services prior to 2009-09-19.  
   
@@ -185,7 +186,7 @@ PUT\n\n\n\n0\n\n\n\n\n\n\n\nx-ms-date:Fri, 26 Jun 2015 23:39:12 GMT\nx-ms-versio
 #### Table Service (Shared Key Authentication)  
  You must use Shared Key authentication to authenticate a request made against the Table service if your service is using the REST API to make the request. The format of the signature string for Shared Key against the Table service is the same for all versions.  
   
- Note that the Shared Key signature string for a request against the Table service differs slightly from that for a request against the Blob or Queue service, in that it does not include the `CanonicalizedHeaders` portion of the string. Additionally, the `Date` header in this case is never empty even if the request sets the `x-ms-date` header. If the request sets `x-ms-date`, that value is also used for the value of the `Date` header.  
+ The Shared Key signature string for a request against the Table service differs slightly from that for a request against the Blob or Queue service, in that it does not include the `CanonicalizedHeaders` portion of the string. Additionally, the `Date` header in this case is never empty even if the request sets the `x-ms-date` header. If the request sets `x-ms-date`, that value is also used for the value of the `Date` header.  
   
  To encode the signature string for a request against the Table service made using the REST API, use the following format:  
   
@@ -203,7 +204,7 @@ StringToSign = VERB + "\n" +
 #### Blob, Queue, and File Service (Shared Key Lite Authentication)  
  You may use Shared Key Lite authentication to authenticate a request made against the 2009-09-19 version and later of the Blob and Queue services, and version 2014-02-14 and later of the File services.  
   
- The signature string for Shared Key Lite is identical to the signature string required for Shared Key authentication in versions of the Blob and Queue services prior to 2009-09-19. So if you wish to migrate your code with the least number of changes to version 2009-09-19 of the Blob and Queue services, you can modify your code to use Shared Key Lite, without changing the signature string itself. Note that by using Shared Key Lite, you will not gain the enhanced security functionality provided by using Shared Key with version 2009-09-19 and later.  
+ The signature string for Shared Key Lite is identical to the signature string required for Shared Key authentication in versions of the Blob and Queue services prior to 2009-09-19. So if you wish to migrate your code with the least number of changes to version 2009-09-19 of the Blob and Queue services, you can modify your code to use Shared Key Lite, without changing the signature string itself. By using Shared Key Lite, you will not gain the enhanced security functionality provided by using Shared Key with version 2009-09-19 and later.  
   
  To encode the signature string for a request against the Blob or Queue service, use the following format:  
   

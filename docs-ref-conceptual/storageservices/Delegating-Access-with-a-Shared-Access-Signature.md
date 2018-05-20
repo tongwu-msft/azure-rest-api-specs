@@ -1,13 +1,14 @@
 ---
 title: "Delegating Access with a Shared Access Signature"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 05/20/2018
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
 ms.suite: na
 ms.tgt_pltfrm: na
 ms.topic: reference
+ms.author: tamram
 ms.assetid: 98f3411e-d85d-4be9-809e-135b3d4ed436
 caps.latest.revision: 36
 author: tamram
@@ -44,5 +45,5 @@ Beginning with version 2015-04-05, Azure Storage supports two types of shared ac
   
  Additionally, a service SAS can reference a stored access policy that provides an additional level of control over a set of signatures, including the ability to modify or revoke access to the resource if necessary. For more information on stored access policies, see [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md).  
   
-## See Also  
+## See also  
  [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)

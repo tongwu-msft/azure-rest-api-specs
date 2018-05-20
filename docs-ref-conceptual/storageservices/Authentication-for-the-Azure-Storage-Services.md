@@ -1,13 +1,14 @@
 ﻿---
 title: "Authentication for the Azure Storage Services"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 05/20/2018
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
 ms.suite: na
 ms.tgt_pltfrm: na
 ms.topic: reference
+ms.author: tamram
 ms.assetid: 96cec7bc-63cc-4227-920a-dddd850433c9
 caps.latest.revision: 63
 author: tamram
@@ -38,8 +39,3 @@ Options for authenticating requests to Azure Storage include:
 > [!TIP]
 > Authenticating from your Azure Storage applications with Azure AD provides superior security and ease of use over existing authentication options. While you can continue to use Shared Key authentication with your applications, using Azure AD circumvents the need to store your account access key with your code. Similarly, you can continue to use shared access signatures (SAS) to grant fine-grained access to resources in your storage account, but Azure AD offers similar capabilities without the need to manage SAS tokens or worry about revoking a compromised SAS. For more information about Azure AD integration in Azure Storage, see [Authenticating requests to Azure Storage using Azure Active Directory (Preview)](https://docs.microsoft.com/azure/storage/common/storage-authentication-aad).
   
-## See Also  
- [Blob Service REST API](Blob-Service-REST-API.md)   
- [Queue Service REST API](Queue-Service-REST-API.md)   
- [Table Service REST API](Table-Service-REST-API.md)   
- [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)

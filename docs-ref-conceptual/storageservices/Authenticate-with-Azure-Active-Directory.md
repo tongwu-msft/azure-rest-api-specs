@@ -1,13 +1,14 @@
 ---
 title: "Authenticate with Azure Active Directory (Preview)"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 05/20/2018
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
 ms.suite: na
 ms.tgt_pltfrm: na
 ms.topic: reference
+ms.author: tamram
 ms.assetid: 96cec7bc-63cc-4227-920a-dddd850433c9
 caps.latest.revision: 63
 author: tamram
@@ -142,6 +143,6 @@ For more details about the RBAC actions shown below, see [Management and data op
 | [Delete Message](https://docs.microsoft.com/rest/api/storageservices/fileservices/delete-message2)                            | Microsoft.Storage/storageAccounts/queueServices/queues/messages/process/action or Microsoft.Storage/storageAccounts/queueServices/queues/messages/delete                                                                                                                                                         |
 | [Clear Messages](https://docs.microsoft.com/rest/api/storageservices/fileservices/clear-messages)                             | Microsoft.Storage/storageAccounts/queueServices/queues/messages/delete                                                                                                                                                            |
 | [Update Message](https://docs.microsoft.com/rest/api/storageservices/fileservices/update-message)                             | Microsoft.Storage/storageAccounts/queueServices/queues/messages/write                                                                                                                                                             |
-# See also
+## See also
 
 [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)
