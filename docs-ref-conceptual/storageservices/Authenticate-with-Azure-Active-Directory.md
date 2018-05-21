@@ -142,4 +142,5 @@ For more details about the RBAC actions shown below, see [Management and data op
 | [Update Message](https://docs.microsoft.com/rest/api/storageservices/fileservices/update-message)                             | Microsoft.Storage/storageAccounts/queueServices/queues/messages/write                                                                                                                                                             |
 ## See also
 
-[Authorization for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)
+- [Announcing the Preview of Azure AD Authentication for Azure Storage](https://azure.microsoft.com/blog/announcing-the-preview-of-aad-authentication-for-storage/).
+- [Authorization for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)
