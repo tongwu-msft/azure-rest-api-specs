@@ -1,5 +1,5 @@
 ---
-title: "Authenticate with Shared Key"
+title: "Authorize with Shared Key"
 ms.custom: na
 ms.date: 05/20/2018
 ms.prod: azure
@@ -25,43 +25,43 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Authenticate with Shared Key
+# Authorize with Shared Key
 
- Every request made against a storage service must be authenticated, unless the request is for a blob or container resource that has been made available for public or signed access. One option for authenticating a request is by using Shared Key, described in this article.
+ Every request made against a storage service must be authorized, unless the request is for a blob or container resource that has been made available for public or signed access. One option for authorizing a request is by using Shared Key, described in this article.
 
 > [!NOTE]
-> Azure Storage supports integration with Azure Active Directory for fine-grained control over access to storage resources. Azure AD integration is currently supported for the Blob and Queue services. Because Azure AD provides identity management, you can authenticate access to storage resources without storing your account access keys in your applications. For more information, see [Authenticate with Azure Active Directory](Authenticate-with-Azure-Active-Directory.md).
+> Azure Storage supports integration with Azure Active Directory for fine-grained control over access to storage resources. Azure AD integration is currently supported for the Blob and Queue services. Because Azure AD provides identity management, you can authorize access to storage resources without storing your account access keys in your applications. For more information, see [Authenticate with Azure Active Directory](Authenticate-with-Azure-Active-Directory.md).
  
- The Blob, Queue, Table, and File services support the following Shared Key authentication schemes for version 2009-09-19 and later (for Blob, Queue, and Table service) and version 2014-02-14 and later (for File service):  
+ The Blob, Queue, Table, and File services support the following Shared Key authorization schemes for version 2009-09-19 and later (for Blob, Queue, and Table service) and version 2014-02-14 and later (for File service):  
   
--   **Shared Key for Blob, Queue, and File Services.** Use the Shared Key authentication scheme to make requests against the Blob, Queue, and File services. Shared Key authentication in version 2009-09-19 and later supports an augmented signature string for enhanced security and requires that you update your service to authenticate using this augmented signature.  
+-   **Shared Key for Blob, Queue, and File Services.** Use the Shared Key authorization scheme to make requests against the Blob, Queue, and File services. Shared Key authorization in version 2009-09-19 and later supports an augmented signature string for enhanced security and requires that you update your service to authorize using this augmented signature.  
   
--   **Shared Key for Table Service.** Use the Shared Key authentication scheme to make requests against the Table service using the REST API. Shared Key authentication for the Table service in version 2009-09-19 and later uses the same signature string as in previous versions of the Table service.  
+-   **Shared Key for Table Service.** Use the Shared Key authorization scheme to make requests against the Table service using the REST API. Shared Key authorization for the Table service in version 2009-09-19 and later uses the same signature string as in previous versions of the Table service.  
   
--   **Shared Key Lite.** Use the Shared Key Lite authentication scheme to make requests against the Blob, Queue, Table, and File services.  
+-   **Shared Key Lite.** Use the Shared Key Lite authorization scheme to make requests against the Blob, Queue, Table, and File services.  
   
-     For version 2009-09-19 and later of the Blob and Queue services, Shared Key Lite authentication supports using a signature string identical to what was supported against Shared Key in previous versions of the Blob and Queue services. You can therefore use Shared Key Lite to make requests against the Blob and Queue services without updating your signature string.  
+     For version 2009-09-19 and later of the Blob and Queue services, Shared Key Lite authorization supports using a signature string identical to what was supported against Shared Key in previous versions of the Blob and Queue services. You can therefore use Shared Key Lite to make requests against the Blob and Queue services without updating your signature string.  
   
- An authenticated request requires two headers: the `Date` or `x-ms-date` header and the `Authorization` header. The following sections describe how to construct these headers.  
+ An authorized request requires two headers: the `Date` or `x-ms-date` header and the `Authorization` header. The following sections describe how to construct these headers.  
 
 > [!IMPORTANT]
 >  The Microsoft Azure storage services support both HTTP and HTTPS; however, using HTTPS is highly recommended.  
    
 > [!NOTE]
->  A container or blob may be made available for public access by setting a container's permissions. For more information, see [Manage Access to Azure Storage Resources](/azure/storage/storage-manage-access-to-resources). A container, blob, queue, or table may be available for signed access via a shared access signature; a shared access signature is authenticated through a different mechanism. See [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md) for more details.  
+>  A container or blob may be made available for public access by setting a container's permissions. For more information, see [Manage Access to Azure Storage Resources](/azure/storage/storage-manage-access-to-resources). A container, blob, queue, or table may be available for signed access via a shared access signature; a shared access signature is authorized through a different mechanism. See [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md) for more details.  
   
 ##  <a name="Subheading1"></a> Specifying the Date Header  
- All authenticated requests must include the Coordinated Universal Time (UTC) timestamp for the request. You can specify the timestamp either in the `x-ms-date` header, or in the standard HTTP/HTTPS `Date` header. If both headers are specified on the request, the value of `x-ms-date` is used as the request's time of creation.  
+ All authorized requests must include the Coordinated Universal Time (UTC) timestamp for the request. You can specify the timestamp either in the `x-ms-date` header, or in the standard HTTP/HTTPS `Date` header. If both headers are specified on the request, the value of `x-ms-date` is used as the request's time of creation.  
   
  The storage services ensure that a request is no older than 15 minutes by the time it reaches the service. This guards against certain security attacks, including replay attacks. When this check fails, the server returns response code 403 (Forbidden).  
   
 > [!NOTE]
->  The `x-ms-date` header is provided because some HTTP client libraries and proxies automatically set the `Date` header, and do not give the developer an opportunity to read its value in order to include it in the authenticated request. If you set `x-ms-date`, construct the signature with an empty value for the `Date` header.  
+>  The `x-ms-date` header is provided because some HTTP client libraries and proxies automatically set the `Date` header, and do not give the developer an opportunity to read its value in order to include it in the authorized request. If you set `x-ms-date`, construct the signature with an empty value for the `Date` header.  
   
 ##  <a name="Subheading2"></a> Specifying the Authorization Header  
- An authenticated request must include the `Authorization` header. If this header is not included, the request is anonymous and may only succeed against a container or blob that is marked for public access, or against a container, blob, queue, or table for which a shared access signature has been provided for delegated access.  
+ An authorized request must include the `Authorization` header. If this header is not included, the request is anonymous and may only succeed against a container or blob that is marked for public access, or against a container, blob, queue, or table for which a shared access signature has been provided for delegated access.  
   
- To authenticate a request, you must sign the request with the key for the account that is making the request and pass that signature as part of the request.  
+ To authorize a request, you must sign the request with the key for the account that is making the request and pass that signature as part of the request.  
   
  The format for the `Authorization` header is as follows:  
   
@@ -77,11 +77,11 @@ Authorization="[SharedKey|SharedKeyLite] <AccountName>:<Signature>"
  The following sections describe how to construct the `Authorization` header.  
   
 ### Constructing the Signature String  
- How you construct the signature string depends on which service and version you are authenticating against and which authentication scheme you are using. When constructing the signature string, keep in mind the following:  
+ How you construct the signature string depends on which service and version you are authorizing against and which authorization scheme you are using. When constructing the signature string, keep in mind the following:  
   
 -   The VERB portion of the string is the HTTP verb, such as GET or PUT, and must be uppercase.  
   
--   For Shared Key authentication for the Blob, Queue, and File services, each header included in the signature string may appear only once. If any header is duplicated, the service returns status code 400 (Bad Request).  
+-   For Shared Key authorization for the Blob, Queue, and File services, each header included in the signature string may appear only once. If any header is duplicated, the service returns status code 400 (Bad Request).  
   
 -   The values of all standard HTTP headers must be included in the string in the order shown in the signature format, without the header names. These headers may be empty if they are not being specified as part of the request; in that case, only the new-line character is required.  
   
@@ -95,7 +95,7 @@ Authorization="[SharedKey|SharedKeyLite] <AccountName>:<Signature>"
   
 -   The signature string includes canonicalized headers and canonicalized resource strings. Canonicalizing these strings puts them into a standard format that is recognized by Azure Storage. For detailed information on constructing the `CanonicalizedHeaders` and `CanonicalizedResource` strings that make up part of the signature string, see the appropriate sections later in this topic.  
   
-#### Blob, Queue, and File Services (Shared Key Authentication)  
+#### Blob, Queue, and File Services (Shared Key authorization)  
  To encode the Shared Key signature string for a request against the 2009-09-19 version and later of the Blob or Queue service, and version 2014-02-14 and later of the File service, use the following format:  
   
 ```  
@@ -148,7 +148,7 @@ x-ms-date:Sun, 11 Oct 2009 21:49:13 GMT\nx-ms-version:2009-09-19\n    /*Canonica
 Authorization: SharedKey myaccount:ctzMq410TV3wS7upTBcunJTDLEJwMAZuFPfr0mrrA08=  
 ```  
   
- To use Shared Key authentication with version 2009-09-19 and later of the Blob and Queue services, you must update your code to use this augmented signature string.  
+ To use Shared Key authorization with version 2009-09-19 and later of the Blob and Queue services, you must update your code to use this augmented signature string.  
   
  If you prefer to migrate your code to version 2009-09-19 or later of the Blob and Queue services with the fewest possible changes, you can modify your existing `Authorization` headers to use Shared Key Lite instead of Shared Key. The signature format required by Shared Key Lite is identical to that required for Shared Key by versions of the Blob and Queue services prior to 2009-09-19.  
   
@@ -183,8 +183,8 @@ PUT\n\n\n\n0\n\n\n\n\n\n\n\nx-ms-date:Fri, 26 Jun 2015 23:39:12 GMT\nx-ms-versio
   
 ```  
   
-#### Table Service (Shared Key Authentication)  
- You must use Shared Key authentication to authenticate a request made against the Table service if your service is using the REST API to make the request. The format of the signature string for Shared Key against the Table service is the same for all versions.  
+#### Table Service (Shared Key authorization)  
+ You must use Shared Key authorization to authorize a request made against the Table service if your service is using the REST API to make the request. The format of the signature string for Shared Key against the Table service is the same for all versions.  
   
  The Shared Key signature string for a request against the Table service differs slightly from that for a request against the Blob or Queue service, in that it does not include the `CanonicalizedHeaders` portion of the string. Additionally, the `Date` header in this case is never empty even if the request sets the `x-ms-date` header. If the request sets `x-ms-date`, that value is also used for the value of the `Date` header.  
   
@@ -201,10 +201,10 @@ StringToSign = VERB + "\n" +
 > [!NOTE]
 >  Beginning with version 2009-09-19, the Table service requires that all REST calls include the `DataServiceVersion` and `MaxDataServiceVersion` headers. See [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md) for more information.  
   
-#### Blob, Queue, and File Service (Shared Key Lite Authentication)  
- You may use Shared Key Lite authentication to authenticate a request made against the 2009-09-19 version and later of the Blob and Queue services, and version 2014-02-14 and later of the File services.  
+#### Blob, Queue, and File Service (Shared Key Lite authorization)  
+ You may use Shared Key Lite authorization to authorize a request made against the 2009-09-19 version and later of the Blob and Queue services, and version 2014-02-14 and later of the File services.  
   
- The signature string for Shared Key Lite is identical to the signature string required for Shared Key authentication in versions of the Blob and Queue services prior to 2009-09-19. So if you wish to migrate your code with the least number of changes to version 2009-09-19 of the Blob and Queue services, you can modify your code to use Shared Key Lite, without changing the signature string itself. By using Shared Key Lite, you will not gain the enhanced security functionality provided by using Shared Key with version 2009-09-19 and later.  
+ The signature string for Shared Key Lite is identical to the signature string required for Shared Key authorization in versions of the Blob and Queue services prior to 2009-09-19. So if you wish to migrate your code with the least number of changes to version 2009-09-19 of the Blob and Queue services, you can modify your code to use Shared Key Lite, without changing the signature string itself. By using Shared Key Lite, you will not gain the enhanced security functionality provided by using Shared Key with version 2009-09-19 and later.  
   
  To encode the signature string for a request against the Blob or Queue service, use the following format:  
   
@@ -229,8 +229,8 @@ PUT\n\ntext/plain; charset=UTF-8\n\nx-ms-date:Sun, 20 Sep 2009 20:36:40 GMT\nx-m
 Authorization: SharedKeyLite myaccount:ctzMq410TV3wS7upTBcunJTDLEJwMAZuFPfr0mrrA08=  
 ```  
   
-#### Table Service (Shared Key Lite Authentication)  
- You can use Shared Key Lite authentication to authenticate a request made against any version of the Table service.  
+#### Table Service (Shared Key Lite authorization)  
+ You can use Shared Key Lite authorization to authorize a request made against any version of the Table service.  
   
  To encode the signature string for a request against the Table service using Shared Key Lite, use the following format:  
   
@@ -283,7 +283,7 @@ Authorization: SharedKeyLite testaccount1:uay+rilMVayH/SVI8X+a3fL8k/NxCnIePdyZSk
   
  There are two supported formats for the `CanonicalizedResource` string:  
   
--   A format that supports Shared Key authentication for version 2009-09-19 and later of the Blob and Queue services, and for version 2014-02-14 and later of the File service.  
+-   A format that supports Shared Key authorization for version 2009-09-19 and later of the Blob and Queue services, and for version 2014-02-14 and later of the File service.  
   
 -   A format that supports Shared Key and Shared Key Lite for all versions of the Table service, and Shared Key Lite for version 2009-09-19 and later of the Blob and Queue services. This format is identical to that used with previous versions of the storage services.  
   
@@ -301,11 +301,11 @@ Authorization: SharedKeyLite testaccount1:uay+rilMVayH/SVI8X+a3fL8k/NxCnIePdyZSk
 >  If your storage account is replicated with read-access geo-replication (RA-GRS), and you are accessing a resource in the secondary location, do not include the `–secondary` designation in the `CanonicalizedResource` string. The resource URI used in the `CanonicalizedResource` string URI should be the URI of the resource at the primary location.  
   
 > [!NOTE]
->  If you are authenticating against the storage emulator, the account name will appear twice in the `CanonicalizedResource` string. This is expected. If you are authenticating against Azure storage services, the account name will appear only one time in the `CanonicalizedResource` string.  
+>  If you are authorizing against the storage emulator, the account name will appear twice in the `CanonicalizedResource` string. This is expected. If you are authorizing against Azure storage services, the account name will appear only one time in the `CanonicalizedResource` string.  
   
  **2009-09-19 and later Shared Key Format**  
   
- This format supports Shared Key authentication for the 2009-09-19 version and later of the Blob and Queue services, and the 2014-02-14 version and later of the File services. Construct the `CanonicalizedResource` string in this format as follows:  
+ This format supports Shared Key authorization for the 2009-09-19 version and later of the Blob and Queue services, and the 2014-02-14 version and later of the File services. Construct the `CanonicalizedResource` string in this format as follows:  
   
 1.  Beginning with an empty string (""), append a forward slash (/), followed by the name of the account that owns the resource being accessed.  
   
