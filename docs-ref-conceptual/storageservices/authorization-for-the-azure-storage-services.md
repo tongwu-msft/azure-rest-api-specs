@@ -1,7 +1,7 @@
 ﻿---
 title: "Authorization for the Azure Storage Services"
 ms.custom: na
-ms.date: 05/20/2018
+ms.date: 05/21/2018
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
