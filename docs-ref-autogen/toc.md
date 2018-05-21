@@ -1490,6 +1490,8 @@
 ### [Get price sheet](../docs-ref-conceptual/billing/enterprise/billing-enterprise-api-pricesheet.md)
 ### [Get billing periods](../docs-ref-conceptual/billing/enterprise/billing-enterprise-api-billing-periods.md)
 ### [Get reserved instance recommendations](../docs-ref-conceptual/billing/enterprise/billing-enterprise-api-reserved-instance-recommendation.md)
+### [Get reserved instance charges](../docs-ref-conceptual/billing/enterprise/billing-enterprise-api-reserved-instance-charges.md)
+### [Get reserved instance usage](../docs-ref-conceptual/billing/enterprise/billing-enterprise-api-reserved-instance-usage.md)
 ## Reference
 ### [Billing Periods](billing/BillingPeriods.yml)
 #### [Get](billing/BillingPeriods/Get.yml)
