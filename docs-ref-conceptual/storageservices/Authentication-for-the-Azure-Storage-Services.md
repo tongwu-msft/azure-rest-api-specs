@@ -1,5 +1,5 @@
 ﻿---
-title: "Authorization for the Azure Storage Services"
+title: "Authentication for the Azure Storage Services"
 ms.custom: na
 ms.date: 05/21/2018
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Authorization for the Azure Storage Services
+# Authentication for the Azure Storage Services
 
 Every request made against a secured resource in the Blob, File, Queue, or Table service must be authorized. Authorization ensures that resources in your storage account are accessible only when you want them to be, and only to those users or applications to whom you grant access. 
 
