@@ -1,0 +1,301 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.softwareupdateconfigurations.list
+name: List
+service: Automation
+groupName: Software Update Configurations
+apiVersion: 2017-05-15-preview
+summary: Get all software update configurations for the account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations?api-version=2017-05-15-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations?api-version=2017-05-15-preview&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure Resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The name of the automation account.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Return list of software update configurations.
+  types:
+  - uid: softwareUpdateConfigurationListResult
+- name: 404 Not Found
+  description: Resource group, or account doesn't exist.
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: clientRequestId
+  in: header
+  description: Identifies this specific client request.
+  types:
+  - uid: string
+definitions:
+- name: softwareUpdateConfigurationListResult
+  description: result of listing all software update configuration
+  kind: object
+  properties:
+  - name: value
+    description: outer object returned when listing all software update configurations
+    types:
+    - uid: softwareUpdateConfigurationCollectionItem
+      isArray: true
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: softwareUpdateConfigurationCollectionItem
+  description: Software update configuration collection item properties.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the software update configuration.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id of the software update configuration
+    types:
+    - uid: string
+  - name: properties.updateConfiguration
+    description: Update specific properties of the software update configuration.
+    types:
+    - uid: collectionItemUpdateConfiguration
+  - name: properties.frequency
+    description: execution frequency of the schedule associated with the software update configuration
+    types:
+    - uid: ScheduleFrequency
+  - name: properties.startTime
+    description: the start time of the update.
+    types:
+    - uid: string
+  - name: properties.creationTime
+    isReadyOnly: true
+    description: Creation time of the software update configuration, which only appears in the response.
+    types:
+    - uid: string
+  - name: properties.lastModifiedTime
+    isReadyOnly: true
+    description: Last time software update configuration was modified, which only appears in the response.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state for the software update configuration, which only appears in the response.
+    types:
+    - uid: string
+  - name: properties.nextRun
+    description: ext run time of the update.
+    types:
+    - uid: string
+- name: collectionItemUpdateConfiguration
+  description: object returned when requesting a collection of software update configuration
+  kind: object
+  properties:
+  - name: azureVirtualMachines
+    description: List of azure resource Ids for azure virtual machines targeted by the software update configuration.
+    types:
+    - uid: string
+      isArray: true
+  - name: duration
+    description: Maximum time allowed for the software update configuration run. Duration needs to be specified using the format PT[n]H[n]M[n]S as per ISO8601
+    types:
+    - uid: string
+- name: ScheduleFrequency
+  description: execution frequency of the schedule associated with the software update configuration
+  kind: enum
+  properties:
+  - name: OneTime
+    types:
+    - uid: string
+  - name: Day
+    types:
+    - uid: string
+  - name: Hour
+    types:
+    - uid: string
+  - name: Week
+    types:
+    - uid: string
+  - name: Month
+    types:
+    - uid: string
+examples:
+- name: List software update configurations
+  request:
+    uri: GET https://management.azure.com/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurations?api-version=2017-05-15-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "testpatch-01",
+            "id": "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/Mo-Resources-WCUS/providers/Microsoft.Automation/automationAccounts/Mo-AAA-WCUS/softwareUpdateConfigurations/testpatch-01",
+            "properties": {
+              "updateConfiguration": {
+                "operatingSystem": "Windows",
+                "windows": {
+                  "includedUpdateClassifications": "Critical, Security, UpdateRollup, FeaturePack, ServicePack, Definition, Tools, Updates",
+                  "excludedKbNumbers": null
+                },
+                "linux": null,
+                "duration": "PT2H",
+                "azureVirtualMachines": [
+                  "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-01",
+                  "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-02",
+                  "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-03"
+                ],
+                "nonAzureComputerNames": null
+              },
+              "frequency": "Week",
+              "startTime": "2017-10-19T19:22:00+00:00",
+              "creationTime": "2017-10-19T18:54:50.5233333+00:00",
+              "lastModifiedTime": "2017-10-19T18:54:50.68+00:00",
+              "provisioningState": "Succeeded",
+              "nextRun": "2017-10-23T19:22:00+00:00"
+            }
+          },
+          {
+            "name": "testpatch-02",
+            "id": "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/Mo-Resources-WCUS/providers/Microsoft.Automation/automationAccounts/Mo-AAA-WCUS/softwareUpdateConfigurations/testpatch-02",
+            "properties": {
+              "updateConfiguration": {
+                "operatingSystem": "Windows",
+                "windows": {
+                  "includedUpdateClassifications": "Critical, FeaturePack",
+                  "excludedKbNumbers": null
+                },
+                "linux": null,
+                "duration": "PT2H30M",
+                "azureVirtualMachines": [
+                  "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-04",
+                  "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-05",
+                  "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-06"
+                ],
+                "nonAzureComputerNames": null
+              },
+              "frequency": "Hour",
+              "startTime": "2018-05-05T19:26:00+00:00",
+              "creationTime": "2017-08-11T21:52:02.7733333+00:00",
+              "lastModifiedTime": "2017-08-11T21:52:22.88+00:00",
+              "provisioningState": "Succeeded",
+              "nextRun": "2018-05-05T19:26:00+00:00"
+            }
+          }
+        ]
+      }
+  - statusCode: "404"
+- name: List software update configurations Targeting a specific azure virtual machine
+  request:
+    uri: "GET https://management.azure.com/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurations?api-version=2017-05-15-preview&$filter=properties/updateConfiguration/azureVirtualMachines/any(m: m eq '/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-01')"
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "testpatch-01",
+            "id": "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/Mo-Resources-WCUS/providers/Microsoft.Automation/automationAccounts/Mo-AAA-WCUS/softwareUpdateConfigurations/testpatch-01",
+            "properties": {
+              "updateConfiguration": {
+                "operatingSystem": "Windows",
+                "windows": {
+                  "includedUpdateClassifications": "Critical, Security, UpdateRollup, FeaturePack, ServicePack, Definition, Tools, Updates",
+                  "excludedKbNumbers": null
+                },
+                "linux": null,
+                "duration": "PT2H",
+                "azureVirtualMachines": [
+                  "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-01",
+                  "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-02",
+                  "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-03"
+                ],
+                "nonAzureComputerNames": null
+              },
+              "frequency": "Week",
+              "startTime": "2017-10-19T19:22:00+00:00",
+              "creationTime": "2017-10-19T18:54:50.5233333+00:00",
+              "lastModifiedTime": "2017-10-19T18:54:50.68+00:00",
+              "provisioningState": "Succeeded",
+              "nextRun": "2017-10-23T19:22:00+00:00"
+            }
+          },
+          {
+            "name": "testpatch-02",
+            "id": "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/Mo-Resources-WCUS/providers/Microsoft.Automation/automationAccounts/Mo-AAA-WCUS/softwareUpdateConfigurations/testpatch-02",
+            "properties": {
+              "updateConfiguration": {
+                "operatingSystem": "Windows",
+                "windows": {
+                  "includedUpdateClassifications": "Critical, FeaturePack",
+                  "excludedKbNumbers": null
+                },
+                "linux": null,
+                "duration": "PT2H30M",
+                "azureVirtualMachines": [
+                  "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-01",
+                  "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-05",
+                  "/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-06"
+                ],
+                "nonAzureComputerNames": null
+              },
+              "frequency": "Hour",
+              "startTime": "2018-05-05T19:26:00+00:00",
+              "creationTime": "2017-08-11T21:52:02.7733333+00:00",
+              "lastModifiedTime": "2017-08-11T21:52:22.88+00:00",
+              "provisioningState": "Succeeded",
+              "nextRun": "2018-05-05T19:26:00+00:00"
+            }
+          }
+        ]
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

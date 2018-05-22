@@ -1,0 +1,106 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.network-gateway.virtualnetworkgateways.vpndeviceconfigurationscript
+name: Vpn Device Configuration Script
+service: Network Gateway
+groupName: Virtual Network Gateways
+apiVersion: 2018-02-01
+summary: Gets a xml format representation for vpn device configuration script.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/vpndeviceconfigurationscript?api-version=2018-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: virtualNetworkGatewayConnectionName
+  in: path
+  isRequired: true
+  description: The name of the virtual network gateway connection for which the configuration script is generated.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Xml format representation for vpn device configuration script.
+  types:
+  - uid: string
+requestBody:
+- parameters:
+  - name: vendor
+    in: body
+    description: The vendor for the vpn device.
+    types:
+    - uid: string
+  - name: deviceFamily
+    in: body
+    description: The device family for the vpn device.
+    types:
+    - uid: string
+  - name: firmwareVersion
+    in: body
+    description: The firmware version for the vpn device.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: VpnDeviceScriptParameters
+  description: Vpn device configuration script generation parameters
+  kind: object
+  properties:
+  - name: vendor
+    description: The vendor for the vpn device.
+    types:
+    - uid: string
+  - name: deviceFamily
+    description: The device family for the vpn device.
+    types:
+    - uid: string
+  - name: firmwareVersion
+    description: The firmware version for the vpn device.
+    types:
+    - uid: string
+examples:
+- name: GetVPNDeviceConfigurationScript
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/vpndeviceconfigurationscript?api-version=2018-02-01
+    body: >-
+      {
+        "properties": {
+          "vendor": "Cisco",
+          "deviceFamily": "ISR",
+          "firmwareVersion": "IOS 15.1 (Preview)"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "string": "! Microsoft Corporation\r\n! ---------------------------------------------------------------------------------------------------------------------\r\n! Sample VPN tunnel configuration template for IOS-based devices\r\n!\r\n! This configuration template applies to Cisco VPN devices running IOS 15.1 or beyond (ISR or ASR)\r\n!\r\n\r\n\r\n\t\t\r\n\r\n! ---------------------------------------------------------------------------------------------------------------------\r\n! ACL rules\r\n!\r\n! Some VPN devices require explicit ACL rules to allow cross-premises traffic:\r\n!\r\n! 1. Allow traffic between on premises address ranges and VNet address ranges\r\n! 2. Allow IKE traffic (UDP:500) between on premises VPN devices and Azure VPN gateway\r\n! 3. Allow IPsec traffic (Proto:ESP) between on premises VPN devices and Azure VPN gateway\r\n!\r\n\t\t\r\naccess-list 101 permit ip 10.1.0.0 0.0.255.255 10.0.0.0 0.0.255.255\r\n\r\n! ---------------------------------------------------------------------------------------------------------------------\r\n! Internet Key Exchange (IKE) configuration\r\n!\r\n! This section specifies the authentication, encryption, hashing, and Diffie-Hellman group parameters for IKE\r\n! main mode or phase 1\r\n!\r\n\r\ncrypto ikev2 proposal SwaggerS2S-proposal\r\n  encryption DES3\r\n  integrity  SHA384\r\n  group      DHGroup24\r\n  lifetime   3600\r\n exit\r\n\r\ncrypto ikev2 policy SwaggerS2S-policy\r\n  proposal SwaggerS2S-proposal\r\n  exit\r\n\r\ncrypto ikev2 keyring SwaggerBranch-keyring\r\n\t\t\r\n\t\tpeer 52.173.199.254\r\n\t\taddress        52.173.199.254\r\n\t\tpre-shared-key lALEHuppeopJmA94exRNiRr2QzuZ6lOsvzu5IlJUEA6LthbTc8g5MTT86MCsGNMzGkTAaLuLnEJoD1Cn4cIlr94qKZm9drsgllzWvsPNezS71stAkaW1Bb7h6GBnDlDP\r\n  exit\r\n\r\ncrypto ikev2 profile  SwaggerS2S-profile\r\n  match address  local 10.3.0.0\r\n\tmatch identity remote address 52.173.199.254 255.255.255.255\r\n\t\t\r\n  authentication remote pre-share\r\n  authentication local  pre-share\r\n  keyring        SwaggerBranch-keyring\r\n  exit\r\n\r\n! ---------------------------------------------------------------------------------------------------------------------\r\n! IPsec configuration\r\n!\r\n! This section specifies encryption, authentication, tunnel mode properties for the Phase 2 negotiation\r\n!\r\ncrypto ipsec transform-set SwaggerS2S-TransformSet DES3 DES3\r\n mode  tunnel\r\n exit\r\n\r\n! ---------------------------------------------------------------------------------------------------------------------\r\n! Crypto map configuration\r\n!\r\n! This section defines a crypto profile that binds the cross-premises network traffic to the IPsec and IKE\r\n! policy profiles for this connection. Then defines the VTI (virtual tunnel interface) with the crypto\r\n! profile. A random interface number (tunnel 1) was used with a random link local address (169.254.0.1/28)\r\n! for the tunnel interface. If either selection is already used in the VPN device, please select another\r\n! interface number or address.  The only requirement is that they must not overlap with another interface\r\n! on the same VPN device.\r\n!\r\ncrypto ipsec profile SwaggerS2S-IPsecProfile\r\n  set transform-set  SwaggerS2S-TransformSet\r\n  set ikev2-profile  SwaggerS2S-profile\r\n  set pfs            None\r\n  set security-association lifetime 3600\r\n exit\r\n\r\n\r\nint tunnel 52.173.199.254\r\n  ip address 169.254.0.1 255.255.255.252\r\n  ip tcp adjust-mss 1350\r\n  tunnel source 10.3.0.0\r\n  tunnel mode ipsec ipv4\r\n  tunnel destination 52.173.199.254\r\n  tunnel protection ipsec profile SwaggerS2S-IPsecProfile\r\n  exit\r\n\r\n\tip route 10.0.0.0 255.255.0.0 tunnel 52.173.199.254 "
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

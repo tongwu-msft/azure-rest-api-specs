@@ -1,0 +1,193 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storsimple.bandwidthsettings.get
+name: Get
+service: StorSimple
+groupName: Bandwidth Settings
+apiVersion: 2017-06-01
+summary: Returns the properties of the specified bandwidth setting name.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/bandwidthSettings/{bandwidthSettingName}?api-version=2017-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription id
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name
+  types:
+  - uid: string
+- name: managerName
+  in: path
+  isRequired: true
+  description: The manager name
+  types:
+  - uid: string
+- name: bandwidthSettingName
+  in: path
+  isRequired: true
+  description: The name of bandwidth setting to be fetched.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The bandwidth setting.
+  types:
+  - uid: BandwidthSetting
+requestHeader: []
+definitions:
+- name: BandwidthSetting
+  description: The bandwidth setting.
+  kind: object
+  properties:
+  - name: properties.schedules
+    description: The schedules.
+    types:
+    - uid: BandwidthSchedule
+      isArray: true
+  - name: properties.volumeCount
+    isReadyOnly: true
+    description: The number of volumes that uses the bandwidth setting.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the object.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+  - name: kind
+    description: The Kind of the object. Currently only Series8000 is supported
+    types:
+    - uid: Kind
+- name: BandwidthSchedule
+  description: The schedule for bandwidth setting.
+  kind: object
+  properties:
+  - name: start
+    description: The start time of the schdule.
+    types:
+    - uid: Time
+  - name: stop
+    description: The stop time of the schedule.
+    types:
+    - uid: Time
+  - name: rateInMbps
+    description: The rate in Mbps.
+    types:
+    - uid: integer
+  - name: days
+    description: The days of the week when this schedule is applicable.
+    types:
+    - uid: string
+      isArray: true
+- name: Kind
+  description: The Kind of the object. Currently only Series8000 is supported
+  kind: enum
+  properties:
+  - name: Series8000
+    types:
+    - uid: string
+- name: Time
+  description: The time.
+  kind: object
+  properties:
+  - name: hours
+    description: The hour.
+    types:
+    - uid: integer
+  - name: minutes
+    description: The minute.
+    types:
+    - uid: integer
+  - name: seconds
+    description: The second.
+    types:
+    - uid: integer
+examples:
+- name: BandwidthSettingsGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/bandwidthSettings/bandwidthSetting1?api-version=2017-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "schedules": [
+            {
+              "start": {
+                "hours": 10,
+                "minutes": 0,
+                "seconds": 0
+              },
+              "stop": {
+                "hours": 22,
+                "minutes": 0,
+                "seconds": 0
+              },
+              "rateInMbps": 150,
+              "days": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+              ]
+            },
+            {
+              "start": {
+                "hours": 8,
+                "minutes": 0,
+                "seconds": 0
+              },
+              "stop": {
+                "hours": 10,
+                "minutes": 0,
+                "seconds": 0
+              },
+              "rateInMbps": 100,
+              "days": [
+                "Saturday",
+                "Sunday"
+              ]
+            }
+          ],
+          "volumeCount": 1
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/bandwidthSettings/bandwidthSetting1",
+        "name": "bandwidthSetting1",
+        "type": "Microsoft.StorSimple/managers/bandwidthSettings",
+        "kind": "Series8000"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

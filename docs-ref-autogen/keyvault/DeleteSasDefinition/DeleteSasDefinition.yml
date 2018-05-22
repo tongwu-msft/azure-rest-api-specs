@@ -1,0 +1,160 @@
+### YamlMime:RESTOperation
+uid: keyvault.deletesasdefinition.deletesasdefinition
+name: Delete Sas Definition
+service: Key Vault
+groupName: Delete Sas Definition
+apiVersion: 2016-10-01
+summary: Deletes a SAS definition from a specified storage account. This operation requires the storage/deletesas permission.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE {vaultBaseUrl}/storage/{storage-account-name}/sas/{sas-definition-name}?api-version=2016-10-01
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: storage-account-name
+  in: path
+  isRequired: true
+  description: The name of the storage account.
+  types:
+  - uid: string
+  pattern: ^[0-9a-zA-Z]+$
+- name: sas-definition-name
+  in: path
+  isRequired: true
+  description: The name of the SAS definition.
+  types:
+  - uid: string
+  pattern: ^[0-9a-zA-Z]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The deleted SAS definition.
+  types:
+  - uid: SasDefinitionBundle
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestHeader: []
+definitions:
+- name: SasDefinitionBundle
+  description: A SAS definition bundle consists of key vault SAS definition details plus its attributes.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The SAS definition id.
+    types:
+    - uid: string
+  - name: sid
+    isReadyOnly: true
+    description: Storage account SAS definition secret id.
+    types:
+    - uid: string
+  - name: parameters
+    isReadyOnly: true
+    description: The SAS definition metadata in the form of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: attributes
+    isReadyOnly: true
+    description: The SAS definition attributes.
+    types:
+    - uid: SasDefinitionAttributes
+  - name: tags
+    isReadyOnly: true
+    description: Application specific metadata in the form of key-value pairs
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: SasDefinitionAttributes
+  description: The SAS definition management attributes.
+  kind: object
+  properties:
+  - name: enabled
+    description: the enabled state of the object.
+    types:
+    - uid: boolean
+  - name: created
+    isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+  - name: updated
+    isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+examples:
+- name: Delete Storage Sas Definition
+  request:
+    uri: DELETE {vaultBaseUrl}/storage/deletesas01/sas/deleteStrgSasDef01?api-version=2016-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/deletesas01/sas/deleteStrgSasDef01",
+        "sid": "https://storage-sdk-test.vault-int.azure-int.net/secrets/deletesas01-deleteStrgSasDef01",
+        "parameters": {
+          "sasType": "account",
+          "signedProtocols": "https",
+          "signedServices": "bq",
+          "signedResourceTypes": "sco",
+          "signedPermissions": "rw",
+          "signedVersion": "2016-05-31",
+          "validityPeriod": "PT10H"
+        },
+        "attributes": {
+          "enabled": true,
+          "created": 1490738438,
+          "updated": 1490738438
+        }
+      }
+security: []

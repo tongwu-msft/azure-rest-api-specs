@@ -1,0 +1,362 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.network-watcher.networkwatchers.gettopology
+name: Get Topology
+service: Network Watcher
+groupName: Network Watchers
+apiVersion: 2018-02-01
+summary: Gets the current network topology by resource group.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/topology?api-version=2018-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: networkWatcherName
+  in: path
+  isRequired: true
+  description: The name of the network watcher.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns the topology of resource group.
+  types:
+  - uid: Topology
+requestBody:
+- parameters:
+  - name: targetResourceGroupName
+    in: body
+    description: The name of the target resource group to perform topology on.
+    types:
+    - uid: string
+  - name: targetVirtualNetwork
+    in: body
+    description: The reference of the Virtual Network resource.
+    types:
+    - uid: SecurityRule
+    typesTitle: SubResource
+  - name: targetSubnet
+    in: body
+    description: The reference of the Subnet resource.
+    types:
+    - uid: SecurityRule
+    typesTitle: SubResource
+requestHeader: []
+definitions:
+- name: Topology
+  description: Topology of the specified resource group.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: GUID representing the operation id.
+    types:
+    - uid: string
+  - name: createdDateTime
+    isReadyOnly: true
+    description: The datetime when the topology was initially created for the resource group.
+    types:
+    - uid: string
+  - name: lastModified
+    isReadyOnly: true
+    description: The datetime when the topology was last modified.
+    types:
+    - uid: string
+  - name: resources
+    description: The network resource topology information for the given resource group.
+    types:
+    - uid: TopologyResource
+      isArray: true
+- name: TopologyParameters
+  description: Parameters that define the representation of topology.
+  kind: object
+  properties:
+  - name: targetResourceGroupName
+    description: The name of the target resource group to perform topology on.
+    types:
+    - uid: string
+  - name: targetVirtualNetwork
+    description: The reference of the Virtual Network resource.
+    types:
+    - uid: SecurityRule
+    typesTitle: SubResource
+  - name: targetSubnet
+    description: The reference of the Subnet resource.
+    types:
+    - uid: SecurityRule
+    typesTitle: SubResource
+- name: SecurityRule
+  description: Network security rule.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.description
+    description: A description for this rule. Restricted to 140 chars.
+    types:
+    - uid: string
+  - name: properties.protocol
+    description: Network protocol this rule applies to. Possible values are 'Tcp', 'Udp', and '*'.
+    types:
+    - uid: SecurityRuleProtocol
+  - name: properties.sourcePortRange
+    description: The source port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports.
+    types:
+    - uid: string
+  - name: properties.destinationPortRange
+    description: The destination port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports.
+    types:
+    - uid: string
+  - name: properties.sourceAddressPrefix
+    description: "The CIDR or source IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. "
+    types:
+    - uid: string
+  - name: properties.sourceAddressPrefixes
+    description: The CIDR or source IP ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.sourceApplicationSecurityGroups
+    description: The application security group specified as source.
+    types:
+    - uid: ApplicationSecurityGroup
+      isArray: true
+  - name: properties.destinationAddressPrefix
+    description: The destination address prefix. CIDR or destination IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
+    types:
+    - uid: string
+  - name: properties.destinationAddressPrefixes
+    description: The destination address prefixes. CIDR or destination IP ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.destinationApplicationSecurityGroups
+    description: The application security group specified as destination.
+    types:
+    - uid: ApplicationSecurityGroup
+      isArray: true
+  - name: properties.sourcePortRanges
+    description: The source port ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.destinationPortRanges
+    description: The destination port ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.access
+    description: "The network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+    types:
+    - uid: SecurityRuleAccess
+  - name: properties.priority
+    description: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.
+    types:
+    - uid: integer
+  - name: properties.direction
+    description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outcoming traffic. Possible values are: 'Inbound' and 'Outbound'."
+    types:
+    - uid: SecurityRuleDirection
+  - name: properties.provisioningState
+    description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: TopologyResource
+  description: The network resource topology information for the given resource group.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: id
+    description: ID of the resource.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: associations
+    description: Holds the associations the resource has with other resources in the resource group.
+    types:
+    - uid: TopologyAssociation
+      isArray: true
+- name: SecurityRuleProtocol
+  description: Network protocol this rule applies to. Possible values are 'Tcp', 'Udp', and '*'.
+  kind: enum
+  properties:
+  - name: Tcp
+    types:
+    - uid: string
+  - name: Udp
+    types:
+    - uid: string
+  - name: '*'
+    types:
+    - uid: string
+- name: ApplicationSecurityGroup
+  description: An application security group in a resource group.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the application security group resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: SecurityRuleAccess
+  description: "The network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+- name: SecurityRuleDirection
+  description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outcoming traffic. Possible values are: 'Inbound' and 'Outbound'."
+  kind: enum
+  properties:
+  - name: Inbound
+    types:
+    - uid: string
+  - name: Outbound
+    types:
+    - uid: string
+- name: TopologyAssociation
+  description: Resources that have an association with the parent resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is associated with the parent resource.
+    types:
+    - uid: string
+  - name: resourceId
+    description: The ID of the resource that is associated with the parent resource.
+    types:
+    - uid: string
+  - name: associationType
+    description: The association type of the child resource to the parent resource.
+    types:
+    - uid: AssociationType
+- name: AssociationType
+  description: The association type of the child resource to the parent resource.
+  kind: enum
+  properties:
+  - name: Associated
+    types:
+    - uid: string
+  - name: Contains
+    types:
+    - uid: string
+examples:
+- name: Get Topology
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/topology?api-version=2018-02-01
+    body: >-
+      {
+        "targetResourceGroupName": "rg2"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "ce592f46-8164-4bf2-ad36-b8e4acf6fb68",
+        "createdDateTime": "2017-08-02T19:31:55.9461781Z",
+        "lastModified": "2017-05-27T00:00:13.2005337Z",
+        "resources": [
+          {
+            "name": "MultiTierApp0",
+            "id": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/MultiTierApp0",
+            "location": "westus",
+            "associations": [
+              {
+                "name": "appNic0",
+                "resourceId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/networkInterfaces/appNic0",
+                "associationType": "Contains"
+              },
+              {
+                "name": "appNic10",
+                "resourceId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/networkInterfaces/appNic10",
+                "associationType": "Contains"
+              }
+            ]
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,201 @@
+### YamlMime:RESTOperation
+uid: text.analytics.cognitiveservices.keyphrases.keyphrases
+name: Key Phrases
+service: Cognitive Services
+groupName: Key Phrases
+apiVersion: v2.0
+summary: "The API returns a list of strings denoting the key talking points in the input text.  \nSee the <a href=\"https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/overview#supported-languages\">Text Analytics Documentation</a> for details about the languages that are supported by key phrase extraction."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/text/analytics/v2.0/keyPhrases
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A successful response results in 0 or more key phrases identified in each valid document
+  types:
+  - uid: KeyPhraseBatchResult
+- name: Other Status Codes
+  description: Error Response
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: documents
+    in: body
+    description: ''
+    types:
+    - uid: MultiLanguageInput
+      isArray: true
+requestHeader: []
+definitions:
+- name: MultiLanguageInput
+  kind: object
+  properties:
+  - name: language
+    description: This is the 2 letter ISO 639-1 representation of a language. For example, use "en" for English; "es" for Spanish etc.,
+    types:
+    - uid: string
+  - name: id
+    description: Unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: text
+    description: ''
+    types:
+    - uid: string
+- name: KeyPhraseBatchResult
+  kind: object
+  properties:
+  - name: documents
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: KeyPhraseBatchResultItem
+      isArray: true
+  - name: errors
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: ErrorRecord
+      isArray: true
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: innerError
+    description: ''
+    types:
+    - uid: InternalError
+- name: MultiLanguageBatchInput
+  kind: object
+  properties:
+  - name: documents
+    description: ''
+    types:
+    - uid: MultiLanguageInput
+      isArray: true
+- name: KeyPhraseBatchResultItem
+  kind: object
+  properties:
+  - name: keyPhrases
+    isReadyOnly: true
+    description: A list of representative words or phrases. The number of key phrases returned is proportional to the number of words in the input document.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Unique document identifier.
+    types:
+    - uid: string
+- name: ErrorRecord
+  kind: object
+  properties:
+  - name: id
+    description: Input document unique identifier the error refers to.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+- name: InternalError
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: innerError
+    description: ''
+    types:
+    - uid: InternalError
+examples:
+- name: Successful Key Phrase request
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/keyPhrases
+    body: >-
+      {
+        "documents": [
+          {
+            "id": "1",
+            "text": "If this demo doesn't work I will be super sad",
+            "language": "en"
+          },
+          {
+            "id": "2",
+            "text": "Español es muy difícil de aprender",
+            "language": "es"
+          },
+          {
+            "id": "3",
+            "text": "I really really love machine learning",
+            "language": "en"
+          },
+          {
+            "id": "4",
+            "text": "Le soleil se lève à l'Est",
+            "language": "fr"
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "documents": [
+          {
+            "keyPhrases": [
+              "demo"
+            ],
+            "id": "1"
+          },
+          {
+            "keyPhrases": [
+              "Español"
+            ],
+            "id": "2"
+          },
+          {
+            "keyPhrases": [
+              "machine"
+            ],
+            "id": "3"
+          },
+          {
+            "keyPhrases": [
+              "soleil"
+            ],
+            "id": "4"
+          }
+        ],
+        "errors": []
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

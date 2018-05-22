@@ -1,0 +1,292 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicebus.subscriptions.listbytopic
+name: List By Topic
+service: Service Bus
+groupName: Subscriptions
+apiVersion: 2017-04-01
+summary: List all the subscriptions under a specified topic.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions?api-version=2017-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions?api-version=2017-04-01&$skip={$skip}&$top={$top}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: namespaceName
+  in: path
+  isRequired: true
+  description: The namespace name
+  types:
+  - uid: string
+- name: topicName
+  in: path
+  isRequired: true
+  description: The topic name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+- name: $skip
+  in: query
+  description: Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls.
+  types:
+  - uid: integer
+- name: $top
+  in: query
+  description: May be used to limit the number of results to the most recent N usageDetails.
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: Successfully retrieved list of subscriptions.
+  types:
+  - uid: SBSubscriptionListResult
+- name: Other Status Codes
+  description: ServiceBus error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: SBSubscriptionListResult
+  description: The response to the List Subscriptions operation.
+  kind: object
+  properties:
+  - name: value
+    description: Result of the List Subscriptions operation.
+    types:
+    - uid: SBSubscription
+      isArray: true
+  - name: nextLink
+    description: Link to the next set of results. Not empty if Value contains incomplete list of subscriptions.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: SBSubscription
+  description: Description of subscription resource.
+  kind: object
+  properties:
+  - name: properties.messageCount
+    isReadyOnly: true
+    description: Number of messages.
+    types:
+    - uid: integer
+  - name: properties.createdAt
+    isReadyOnly: true
+    description: Exact time the message was created.
+    types:
+    - uid: string
+  - name: properties.accessedAt
+    isReadyOnly: true
+    description: Last time there was a receive request to this subscription.
+    types:
+    - uid: string
+  - name: properties.updatedAt
+    isReadyOnly: true
+    description: The exact time the message was updated.
+    types:
+    - uid: string
+  - name: properties.countDetails
+    isReadyOnly: true
+    description: Message count details
+    types:
+    - uid: MessageCountDetails
+  - name: properties.lockDuration
+    description: ISO 8061 lock duration timespan for the subscription. The default value is 1 minute.
+    types:
+    - uid: string
+  - name: properties.requiresSession
+    description: Value indicating if a subscription supports the concept of sessions.
+    types:
+    - uid: boolean
+  - name: properties.defaultMessageTimeToLive
+    description: ISO 8061 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.
+    types:
+    - uid: string
+  - name: properties.deadLetteringOnFilterEvaluationExceptions
+    description: Value that indicates whether a subscription has dead letter support on filter evaluation exceptions.
+    types:
+    - uid: boolean
+  - name: properties.deadLetteringOnMessageExpiration
+    description: Value that indicates whether a subscription has dead letter support when a message expires.
+    types:
+    - uid: boolean
+  - name: properties.duplicateDetectionHistoryTimeWindow
+    description: ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.
+    types:
+    - uid: string
+  - name: properties.maxDeliveryCount
+    description: Number of maximum deliveries.
+    types:
+    - uid: integer
+  - name: properties.status
+    description: Enumerates the possible values for the status of a messaging entity.
+    types:
+    - uid: EntityStatus
+  - name: properties.enableBatchedOperations
+    description: Value that indicates whether server-side batched operations are enabled.
+    types:
+    - uid: boolean
+  - name: properties.autoDeleteOnIdle
+    description: ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.
+    types:
+    - uid: string
+  - name: properties.forwardTo
+    description: Queue/Topic name to forward the messages
+    types:
+    - uid: string
+  - name: properties.forwardDeadLetteredMessagesTo
+    description: Queue/Topic name to forward the Dead Letter message
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: MessageCountDetails
+  description: Message Count Details.
+  kind: object
+  properties:
+  - name: activeMessageCount
+    isReadyOnly: true
+    description: Number of active messages in the queue, topic, or subscription.
+    types:
+    - uid: integer
+  - name: deadLetterMessageCount
+    isReadyOnly: true
+    description: Number of messages that are dead lettered.
+    types:
+    - uid: integer
+  - name: scheduledMessageCount
+    isReadyOnly: true
+    description: Number of scheduled messages.
+    types:
+    - uid: integer
+  - name: transferMessageCount
+    isReadyOnly: true
+    description: Number of messages transferred to another queue, topic, or subscription.
+    types:
+    - uid: integer
+  - name: transferDeadLetterMessageCount
+    isReadyOnly: true
+    description: Number of messages transferred into dead letters.
+    types:
+    - uid: integer
+- name: EntityStatus
+  description: Entity status.
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Restoring
+    types:
+    - uid: string
+  - name: SendDisabled
+    types:
+    - uid: string
+  - name: ReceiveDisabled
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Renaming
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+examples:
+- name: SubscriptionListByTopic
+  request:
+    uri: GET https://management.azure.com/subscriptions/5{Subscriptionid}/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1349/topics/sdk-Topics-8740/subscriptions?api-version=2017-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/Subscriptionid/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1349/topics/sdk-Topics-8740/subscriptions/sdk-Subscriptions-2178",
+            "name": "sdk-Subscriptions-2178",
+            "type": "Microsoft.ServiceBus/Namespaces/Topics/Subscriptions",
+            "properties": {
+              "lockDuration": "PT1M",
+              "requiresSession": false,
+              "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
+              "deadLetteringOnMessageExpiration": true,
+              "deadLetteringOnFilterEvaluationExceptions": true,
+              "messageCount": 0,
+              "maxDeliveryCount": 10,
+              "status": "Active",
+              "enableBatchedOperations": true,
+              "createdAt": "2018-01-04T18:02:20.5992764Z",
+              "updatedAt": "2018-01-04T18:02:20.5992764Z",
+              "accessedAt": "2018-01-04T18:02:20.5992764Z",
+              "countDetails": {
+                "activeMessageCount": 0,
+                "deadLetterMessageCount": 0,
+                "scheduledMessageCount": 0,
+                "transferMessageCount": 0,
+                "transferDeadLetterMessageCount": 0
+              },
+              "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+              "forwardTo": "sdk-Topics-3065",
+              "forwardDeadLetteredMessagesTo": "sdk-Topics-3065"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,206 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.media.liveoutputs.get
+name: Get
+service: Media Services
+groupName: Live Outputs
+apiVersion: 2018-03-30-preview
+summary: "Get Live Output  \nGets a Live Output."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/liveOutputs/{liveOutputName}?api-version=2018-03-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Media Services account name.
+  types:
+  - uid: string
+- name: liveEventName
+  in: path
+  isRequired: true
+  description: The name of the Live Event.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$
+- name: liveOutputName
+  in: path
+  isRequired: true
+  description: The name of the Live Output.
+  types:
+  - uid: string
+  pattern: ^([a-zA-Z0-9])+(-*[a-zA-Z0-9])*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: LiveOutput
+- name: 404 Not Found
+  description: NotFound
+- name: Other Status Codes
+  description: The streaming error response describing why the operation failed.
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: LiveOutput
+  description: The Live Output.
+  kind: object
+  properties:
+  - name: properties.description
+    description: The description of the Live Output.
+    types:
+    - uid: string
+  - name: properties.assetName
+    description: The asset name.
+    types:
+    - uid: string
+  - name: properties.archiveWindowLength
+    description: ISO 8601 timespan duration of the archive window length. This is duration that customer want to retain the recorded content.
+    types:
+    - uid: string
+  - name: properties.manifestName
+    description: The manifest file name.
+    types:
+    - uid: string
+  - name: properties.hls
+    description: The HLS configuration.
+    types:
+    - uid: Hls
+  - name: properties.outputSnapTime
+    description: The output snapshot time.
+    types:
+    - uid: integer
+  - name: properties.created
+    isReadyOnly: true
+    description: The exact time the Live Output was created.
+    types:
+    - uid: string
+  - name: properties.lastModified
+    isReadyOnly: true
+    description: The exact time the Live Output was last modified.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the Live Output.
+    types:
+    - uid: string
+  - name: properties.resourceState
+    isReadyOnly: true
+    description: The resource state of the Live Output.
+    types:
+    - uid: LiveOutputResourceState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ApiError
+  description: The API error.
+  kind: object
+  properties:
+  - name: error
+    description: "ApiError  \nThe error properties."
+    types:
+    - uid: ODataError
+- name: Hls
+  description: The HLS configuration.
+  kind: object
+  properties:
+  - name: fragmentsPerTsSegment
+    description: The amount of fragments per HTTP Live Streaming (HLS) segment.
+    types:
+    - uid: integer
+- name: LiveOutputResourceState
+  description: The resource state of the Live Output.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+- name: ODataError
+  description: Information about an error.
+  kind: object
+  properties:
+  - name: code
+    description: A language-independent error name.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: The error details.
+    types:
+    - uid: ODataError
+      isArray: true
+examples:
+- name: Get a LiveOutput by name
+  request:
+    uri: GET https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1/liveOutputs/myLiveOutput1?api-version=2018-03-30-preview
+  responses:
+  - statusCode: "404"
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "myLiveOutput1",
+        "id": "/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveevents/myLiveEvent1/liveoutputs/myLiveOutput1",
+        "type": "Microsoft.Media/mediaservices/liveevents/liveoutputs",
+        "properties": {
+          "description": null,
+          "assetName": "cb2ae0bc-677a-4830-9c8e-06ce4c4cb607",
+          "archiveWindowLength": "PT30S",
+          "manifestName": "fc7096f5-c488-4b86-8302-f3bfde53fc27",
+          "outputSnapTime": 0,
+          "resourceState": "Running",
+          "provisioningState": "Succeeded",
+          "created": "0001-01-01T08:00:00+00:00",
+          "lastModified": "0001-01-01T08:00:00+00:00",
+          "hls": {
+            "fragmentsPerTsSegment": 5
+          }
+        }
+      }
+security: []

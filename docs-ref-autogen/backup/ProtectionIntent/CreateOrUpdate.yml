@@ -1,0 +1,242 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.backup.protectionintent.createorupdate
+name: Create Or Update
+service: Recovery Services - Backup
+groupName: Protection Intent
+apiVersion: 2017-07-01
+summary: Create Intent for Enabling backup of an item. This is a synchronous operation.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}?api-version=2017-07-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: fabricName
+  in: path
+  isRequired: true
+  description: Fabric name associated with the backup item.
+  types:
+  - uid: string
+- name: intentObjectName
+  in: path
+  isRequired: true
+  description: Intent object name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ProtectionIntentResource
+requestBody:
+- parameters:
+  - name: properties
+    in: body
+    description: ProtectionIntentResource properties
+    types:
+    - uid: AzureResourceProtectionIntent
+    typesTitle: ProtectionIntent
+  - name: location
+    in: body
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    in: body
+    description: Optional ETag.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ProtectionIntentResource
+  description: Base class for backup ProtectionIntent.
+  kind: object
+  properties:
+  - name: properties
+    description: ProtectionIntentResource properties
+    types:
+    - uid: AzureResourceProtectionIntent
+    typesTitle: ProtectionIntent
+  - name: id
+    isReadyOnly: true
+    description: Resource Id represents the complete path to the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name associated with the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    description: Optional ETag.
+    types:
+    - uid: string
+- name: AzureResourceProtectionIntent
+  description: IaaS VM specific backup protection intent item.
+  kind: object
+  properties:
+  - name: friendlyName
+    description: Friendly name of the VM represented by this backup item.
+    types:
+    - uid: string
+  - name: protectionIntentItemType
+    description: backup protectionIntent type.
+    types:
+    - uid: AzureResourceItem
+    typesTitle: string
+  - name: backupManagementType
+    description: Type of backup managemenent for the backed up item.
+    types:
+    - uid: BackupManagementType
+  - name: sourceResourceId
+    description: ARM ID of the resource to be backed up.
+    types:
+    - uid: string
+  - name: itemId
+    description: ID of the item which is getting protected, In case of Azure Vm , it is ProtectedItemId
+    types:
+    - uid: string
+  - name: policyId
+    description: ID of the backup policy with which this item is backed up.
+    types:
+    - uid: string
+  - name: protectionState
+    description: Backup state of this backup item.
+    types:
+    - uid: ProtectionStatus
+- name: BackupManagementType
+  description: Type of backup managemenent for the backed up item.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AzureIaasVM
+    types:
+    - uid: string
+  - name: MAB
+    types:
+    - uid: string
+  - name: DPM
+    types:
+    - uid: string
+  - name: AzureBackupServer
+    types:
+    - uid: string
+  - name: AzureSql
+    types:
+    - uid: string
+  - name: AzureStorage
+    types:
+    - uid: string
+  - name: AzureWorkload
+    types:
+    - uid: string
+  - name: DefaultBackup
+    types:
+    - uid: string
+- name: ProtectionStatus
+  description: Backup state of this backup item.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: NotProtected
+    types:
+    - uid: string
+  - name: Protecting
+    types:
+    - uid: string
+  - name: Protected
+    types:
+    - uid: string
+  - name: ProtectionFailed
+    types:
+    - uid: string
+examples:
+- name: Create or Update Azure Vm Protection Intent
+  request:
+    uri: PUT https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myRG/providers/Microsoft.RecoveryServices/vaults/myVault/backupFabrics/Azure/backupProtectionIntent/vm;iaasvmcontainerv2;chamsrgtest;chamscandel?api-version=2017-07-01
+    body: >-
+      {
+        "properties": {
+          "sourceResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/chamsrgtest/providers/Microsoft.Compute/virtualMachines/chamscandel",
+          "protectionIntentItemType": "AzureResourceItem",
+          "friendlyName": "oneboxTestVmIntent",
+          "policyId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myRG/providers/Microsoft.RecoveryServices/vaults/myVault/backupPolicies/myPolicy"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myRG/providers/Microsoft.RecoveryServices/vaults/myVault/backupFabrics/Azure/backupProtectionIntent/vm;iaasvmcontainerv2;chamsrgtest;chamscandel",
+        "name": "vm;iaasvmcontainerv2;chamsrgtest;chamscandel",
+        "type": "Microsoft.RecoveryServices/vaults/backupProtectionIntent",
+        "properties": {
+          "friendlyName": "",
+          "backupManagementType": "AzureIaasVM",
+          "policyId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myRG/providers/Microsoft.RecoveryServices/vaults/myVault/backupPolicies/myPolicy",
+          "protectionState": "Protected"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.

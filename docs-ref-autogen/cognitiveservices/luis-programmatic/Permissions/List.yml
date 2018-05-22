@@ -1,0 +1,74 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.permissions.list
+name: List
+service: Cognitive Services
+groupName: Permissions
+apiVersion: v2.0 preview
+summary: Gets the list of user emails that have permissions to access your application.
+produces:
+- application/json
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/permissions
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 200 OK
+  description: The list includes a single owner. All collaborators are listed in the emails array.
+  types:
+  - uid: UserAccessList
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: UserAccessList
+  description: List of user permissions.
+  kind: object
+  properties:
+  - name: owner
+    description: The email address of owner of the application.
+    types:
+    - uid: string
+  - name: emails
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Successful Get Application User Access List
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/363187f1-c573-46b3-bc4c-ae01d686e68e/permissions
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "owner": "owner@email.com",
+        "emails": [
+          "yourname@outlook.com"
+        ]
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

@@ -1,0 +1,140 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.eventhub.disasterrecoveryconfigs.checknameavailability
+name: Check Name Availability
+service: Event Hubs
+groupName: Disaster Recovery Configs
+apiVersion: 2017-04-01
+summary: Check the give Namespace name availability.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/CheckNameAvailability?api-version=2017-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group within the azure subscription.
+  types:
+  - uid: string
+- name: namespaceName
+  in: path
+  isRequired: true
+  description: The Namespace name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: check availability returned successfully.
+  types:
+  - uid: CheckNameAvailabilityResult
+- name: Other Status Codes
+  description: Eventhub error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    isRequired: true
+    description: Name to check the namespace name availability
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CheckNameAvailabilityResult
+  description: The Result of the CheckNameAvailability operation
+  kind: object
+  properties:
+  - name: message
+    isReadyOnly: true
+    description: The detailed info regarding the reason associated with the Namespace.
+    types:
+    - uid: string
+  - name: nameAvailable
+    description: Value indicating Namespace is availability, true if the Namespace is available; otherwise, false.
+    types:
+    - uid: boolean
+  - name: reason
+    description: The reason for unavailability of a Namespace.
+    types:
+    - uid: UnavailableReason
+- name: ErrorResponse
+  description: Error reponse indicates EventHub service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: CheckNameAvailabilityParameter
+  description: 'Parameter supplied to check Namespace name availability operation '
+  kind: object
+  properties:
+  - name: name
+    description: Name to check the namespace name availability
+    types:
+    - uid: string
+- name: UnavailableReason
+  description: Specifies the reason for the unavailability of the service.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: InvalidName
+    types:
+    - uid: string
+  - name: SubscriptionIsDisabled
+    types:
+    - uid: string
+  - name: NameInUse
+    types:
+    - uid: string
+  - name: NameInLockdown
+    types:
+    - uid: string
+  - name: TooManyNamespaceInCurrentSubscription
+    types:
+    - uid: string
+examples:
+- name: NamespacesCheckNameAvailability
+  request:
+    uri: POST https://management.azure.com/subscriptions/exampleSubscriptionId/resourceGroups/exampleResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-9080/disasterRecoveryConfigs/CheckNameAvailability?api-version=2017-04-01
+    body: >-
+      {
+        "name": "sdk-DisasterRecovery-9474"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": true,
+        "reason": "None",
+        "message": ""
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

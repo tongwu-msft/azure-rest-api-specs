@@ -1,0 +1,118 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.media.mediaservice.regeneratekey
+name: Regenerate Key
+service: Media Services
+groupName: Media Service
+apiVersion: 2015-10-01
+summary: Regenerates a primary or secondary key for a Media Service.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{mediaServiceName}/regenerateKey?api-version=2015-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: mediaServiceName
+  in: path
+  isRequired: true
+  description: Name of the Media Service.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9]{3,24}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2015-10-01.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The Media Services key specified in the input was regenerated.
+  types:
+  - uid: RegenerateKeyOutput
+- name: Other Status Codes
+  description: Regenerate Media Service key failed.
+  types:
+  - uid: ApiError
+requestBody:
+- parameters:
+  - name: keyType
+    in: body
+    isRequired: true
+    description: The keyType indicating which key you want to regenerate, Primary or Secondary.
+    types:
+    - uid: KeyType
+requestHeader: []
+definitions:
+- name: RegenerateKeyOutput
+  description: The response body for a RegenerateKey API.
+  kind: object
+  properties:
+  - name: key
+    description: The new value of either the primary or secondary key.
+    types:
+    - uid: string
+- name: ApiError
+  description: The error returned from a failed Media Services REST API call.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+- name: RegenerateKeyInput
+  description: The request body for a RegenerateKey API.
+  kind: object
+  properties:
+  - name: keyType
+    description: The keyType indicating which key you want to regenerate, Primary or Secondary.
+    types:
+    - uid: KeyType
+- name: KeyType
+  description: The keyType indicating which key you want to regenerate, Primary or Secondary.
+  kind: enum
+  properties:
+  - name: Primary
+    types:
+    - uid: string
+  - name: Secondary
+    types:
+    - uid: string
+examples:
+- name: MediaServiceRegenerateKey
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosmedia/regenerateKey?api-version=2015-10-01
+    body: >-
+      {
+        "keyType": "Primary"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "key": "<key value>"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,701 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagerp.storageaccounts.update
+name: Update
+service: Storage Resource Provider
+groupName: Storage Accounts
+apiVersion: 2017-06-01
+summary: The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
+consumes:
+- application/json
+produces:
+- application/json
+- text/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2017-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- storage account properties updated successfully.
+  types:
+  - uid: StorageAccount
+requestBody:
+- parameters:
+  - name: sku
+    in: body
+    description: Gets or sets the SKU name. Note that the SKU name cannot be updated to Standard_ZRS or Premium_LRS, nor can accounts of those sku names be updated to any other value.
+    types:
+    - uid: Sku
+  - name: tags
+    in: body
+    description: Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: identity
+    in: body
+    description: The identity of the resource.
+    types:
+    - uid: Identity
+  - name: properties.customDomain
+    in: body
+    description: Custom domain assigned to the storage account by the user. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property.
+    types:
+    - uid: CustomDomain
+  - name: properties.encryption
+    in: body
+    description: Provides the encryption settings on the account. The default setting is unencrypted.
+    types:
+    - uid: Encryption
+  - name: properties.accessTier
+    in: body
+    description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
+    types:
+    - uid: AccessTier
+  - name: properties.supportsHttpsTrafficOnly
+    in: body
+    description: Allows https traffic only to storage service if sets to true.
+    types:
+    - uid: boolean
+  - name: properties.networkAcls
+    in: body
+    description: Network rule set
+    types:
+    - uid: NetworkRuleSet
+requestHeader: []
+definitions:
+- name: Sku
+  description: The SKU of the storage account.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the sku name. Required for account creation; optional for update. Note that in older versions, sku name was called accountType.
+    types:
+    - uid: SkuName
+  - name: tier
+    isReadyOnly: true
+    description: Gets the sku tier. This is based on the SKU name.
+    types:
+    - uid: SkuTier
+  - name: resourceType
+    isReadyOnly: true
+    description: The type of the resource, usually it is 'storageAccounts'.
+    types:
+    - uid: string
+  - name: kind
+    isReadyOnly: true
+    description: Indicates the type of storage account.
+    types:
+    - uid: Kind
+  - name: locations
+    isReadyOnly: true
+    description: The set of locations that the SKU is available. This will be supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.).
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    isReadyOnly: true
+    description: The capability information in the specified sku, including file encryption, network acls, change notification, etc.
+    types:
+    - uid: SKUCapability
+      isArray: true
+  - name: restrictions
+    description: The restrictions because of which SKU cannot be used. This is empty if there are no restrictions.
+    types:
+    - uid: Restriction
+      isArray: true
+- name: Identity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: IdentityType
+- name: CustomDomain
+  description: The custom domain assigned to this storage account. This can be set via Update.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.
+    types:
+    - uid: string
+  - name: useSubDomain
+    description: Indicates whether indirect CName validation is enabled. Default value is false. This should only be set on updates.
+    types:
+    - uid: boolean
+- name: Encryption
+  description: The encryption settings on the storage account.
+  kind: object
+  properties:
+  - name: services
+    description: List of services which support encryption.
+    types:
+    - uid: EncryptionServices
+  - name: keySource
+    description: 'The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage, Microsoft.Keyvault'
+    types:
+    - uid: KeySource
+  - name: keyvaultproperties
+    description: Properties provided by key vault.
+    types:
+    - uid: KeyVaultProperties
+- name: NetworkRuleSet
+  description: Network rule set
+  kind: object
+  properties:
+  - name: bypass
+    description: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
+    types:
+    - uid: Bypass
+  - name: virtualNetworkRules
+    description: Sets the virtual network rules
+    types:
+    - uid: VirtualNetworkRule
+      isArray: true
+  - name: ipRules
+    description: Sets the IP ACL rules
+    types:
+    - uid: IPRule
+      isArray: true
+  - name: defaultAction
+    description: Specifies the default action of allow or deny when no other rules match.
+    types:
+    - uid: DefaultAction
+- name: StorageAccount
+  description: The storage account.
+  kind: object
+  properties:
+  - name: sku
+    isReadyOnly: true
+    description: Gets the SKU.
+    types:
+    - uid: Sku
+  - name: kind
+    isReadyOnly: true
+    description: Gets the Kind.
+    types:
+    - uid: Kind
+  - name: identity
+    description: The identity of the resource.
+    types:
+    - uid: Identity
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Gets the status of the storage account at the time the operation was called.
+    types:
+    - uid: ProvisioningState
+  - name: properties.primaryEndpoints
+    isReadyOnly: true
+    description: Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object. Note that Standard_ZRS and Premium_LRS accounts only return the blob endpoint.
+    types:
+    - uid: Endpoints
+  - name: properties.primaryLocation
+    isReadyOnly: true
+    description: Gets the location of the primary data center for the storage account.
+    types:
+    - uid: string
+  - name: properties.statusOfPrimary
+    isReadyOnly: true
+    description: Gets the status indicating whether the primary location of the storage account is available or unavailable.
+    types:
+    - uid: AccountStatus
+  - name: properties.lastGeoFailoverTime
+    isReadyOnly: true
+    description: Gets the timestamp of the most recent instance of a failover to the secondary location. Only the most recent timestamp is retained. This element is not returned if there has never been a failover instance. Only available if the accountType is Standard_GRS or Standard_RAGRS.
+    types:
+    - uid: string
+  - name: properties.secondaryLocation
+    isReadyOnly: true
+    description: Gets the location of the geo-replicated secondary for the storage account. Only available if the accountType is Standard_GRS or Standard_RAGRS.
+    types:
+    - uid: string
+  - name: properties.statusOfSecondary
+    isReadyOnly: true
+    description: Gets the status indicating whether the secondary location of the storage account is available or unavailable. Only available if the SKU name is Standard_GRS or Standard_RAGRS.
+    types:
+    - uid: AccountStatus
+  - name: properties.creationTime
+    isReadyOnly: true
+    description: Gets the creation date and time of the storage account in UTC.
+    types:
+    - uid: string
+  - name: properties.customDomain
+    isReadyOnly: true
+    description: Gets the custom domain the user assigned to this storage account.
+    types:
+    - uid: CustomDomain
+  - name: properties.secondaryEndpoints
+    isReadyOnly: true
+    description: Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object from the secondary location of the storage account. Only available if the SKU name is Standard_RAGRS.
+    types:
+    - uid: Endpoints
+  - name: properties.encryption
+    isReadyOnly: true
+    description: Gets the encryption settings on the account. If unspecified, the account is unencrypted.
+    types:
+    - uid: Encryption
+  - name: properties.accessTier
+    isReadyOnly: true
+    description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
+    types:
+    - uid: AccessTier
+  - name: properties.supportsHttpsTrafficOnly
+    description: Allows https traffic only to storage service if sets to true.
+    types:
+    - uid: boolean
+  - name: properties.networkAcls
+    isReadyOnly: true
+    description: Network rule set
+    types:
+    - uid: NetworkRuleSet
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Tags assigned to a resource; can be used for viewing and grouping a resource (across resource groups).
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: StorageAccountUpdateParameters
+  description: The parameters that can be provided when updating the storage account properties.
+  kind: object
+  properties:
+  - name: sku
+    description: Gets or sets the SKU name. Note that the SKU name cannot be updated to Standard_ZRS or Premium_LRS, nor can accounts of those sku names be updated to any other value.
+    types:
+    - uid: Sku
+  - name: tags
+    description: Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: identity
+    description: The identity of the resource.
+    types:
+    - uid: Identity
+  - name: properties.customDomain
+    description: Custom domain assigned to the storage account by the user. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property.
+    types:
+    - uid: CustomDomain
+  - name: properties.encryption
+    description: Provides the encryption settings on the account. The default setting is unencrypted.
+    types:
+    - uid: Encryption
+  - name: properties.accessTier
+    description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
+    types:
+    - uid: AccessTier
+  - name: properties.supportsHttpsTrafficOnly
+    description: Allows https traffic only to storage service if sets to true.
+    types:
+    - uid: boolean
+  - name: properties.networkAcls
+    description: Network rule set
+    types:
+    - uid: NetworkRuleSet
+- name: SkuName
+  description: Gets or sets the sku name. Required for account creation; optional for update. Note that in older versions, sku name was called accountType.
+  kind: enum
+  properties:
+  - name: Standard_LRS
+    types:
+    - uid: string
+  - name: Standard_GRS
+    types:
+    - uid: string
+  - name: Standard_RAGRS
+    types:
+    - uid: string
+  - name: Standard_ZRS
+    types:
+    - uid: string
+  - name: Premium_LRS
+    types:
+    - uid: string
+- name: SkuTier
+  description: Gets the sku tier. This is based on the SKU name.
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+- name: Kind
+  description: Indicates the type of storage account.
+  kind: enum
+  properties:
+  - name: Storage
+    types:
+    - uid: string
+  - name: BlobStorage
+    types:
+    - uid: string
+- name: SKUCapability
+  description: The capability information in the specified sku, including file encryption, network acls, change notification, etc.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The name of capability, The capability information in the specified sku, including file encryption, network acls, change notification, etc.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: A string value to indicate states of given capability. Possibly 'true' or 'false'.
+    types:
+    - uid: string
+- name: Restriction
+  description: The restriction because of which SKU cannot be used.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of restrictions. As of now only possible value for this is location.
+    types:
+    - uid: string
+  - name: values
+    isReadyOnly: true
+    description: The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted.
+    types:
+    - uid: string
+      isArray: true
+  - name: reasonCode
+    description: The reason for the restriction. As of now this can be “QuotaId” or “NotAvailableForSubscription”. Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The “NotAvailableForSubscription” is related to capacity at DC.
+    types:
+    - uid: ReasonCode
+- name: IdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+- name: EncryptionServices
+  description: A list of services that support encryption.
+  kind: object
+  properties:
+  - name: blob
+    description: The encryption function of the blob storage service.
+    types:
+    - uid: EncryptionService
+  - name: file
+    description: The encryption function of the file storage service.
+    types:
+    - uid: EncryptionService
+  - name: table
+    isReadyOnly: true
+    description: The encryption function of the table storage service.
+    types:
+    - uid: EncryptionService
+  - name: queue
+    isReadyOnly: true
+    description: The encryption function of the queue storage service.
+    types:
+    - uid: EncryptionService
+- name: KeySource
+  description: 'The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage, Microsoft.Keyvault'
+  kind: enum
+  properties:
+  - name: Microsoft.Storage
+    types:
+    - uid: string
+  - name: Microsoft.Keyvault
+    types:
+    - uid: string
+- name: KeyVaultProperties
+  description: Properties of key vault.
+  kind: object
+  properties:
+  - name: keyname
+    description: The name of KeyVault key.
+    types:
+    - uid: string
+  - name: keyversion
+    description: The version of KeyVault key.
+    types:
+    - uid: string
+  - name: keyvaulturi
+    description: The Uri of KeyVault.
+    types:
+    - uid: string
+- name: Bypass
+  description: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Logging
+    types:
+    - uid: string
+  - name: Metrics
+    types:
+    - uid: string
+  - name: AzureServices
+    types:
+    - uid: string
+- name: VirtualNetworkRule
+  description: Virtual Network rule.
+  kind: object
+  properties:
+  - name: id
+    description: 'Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.'
+    types:
+    - uid: string
+  - name: action
+    description: The action of virtual network rule.
+    types:
+    - uid: Action
+  - name: state
+    description: Gets the state of virtual network rule.
+    types:
+    - uid: State
+- name: IPRule
+  description: IP rule with specific IP or IP range in CIDR format.
+  kind: object
+  properties:
+  - name: value
+    description: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
+    types:
+    - uid: string
+  - name: action
+    description: The action of IP ACL rule.
+    types:
+    - uid: Action
+- name: DefaultAction
+  description: Specifies the default action of allow or deny when no other rules match.
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Gets the status of the storage account at the time the operation was called.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: ResolvingDNS
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+- name: Endpoints
+  description: The URIs that are used to perform a retrieval of a public blob, queue, or table object.
+  kind: object
+  properties:
+  - name: blob
+    isReadyOnly: true
+    description: Gets the blob endpoint.
+    types:
+    - uid: string
+  - name: queue
+    isReadyOnly: true
+    description: Gets the queue endpoint.
+    types:
+    - uid: string
+  - name: table
+    isReadyOnly: true
+    description: Gets the table endpoint.
+    types:
+    - uid: string
+  - name: file
+    isReadyOnly: true
+    description: Gets the file endpoint.
+    types:
+    - uid: string
+- name: AccountStatus
+  description: Gets the status indicating whether the primary location of the storage account is available or unavailable.
+  kind: enum
+  properties:
+  - name: available
+    types:
+    - uid: string
+  - name: unavailable
+    types:
+    - uid: string
+- name: AccessTier
+  description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
+  kind: enum
+  properties:
+  - name: Hot
+    types:
+    - uid: string
+  - name: Cool
+    types:
+    - uid: string
+- name: ReasonCode
+  description: The reason for the restriction. As of now this can be “QuotaId” or “NotAvailableForSubscription”. Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The “NotAvailableForSubscription” is related to capacity at DC.
+  kind: enum
+  properties:
+  - name: QuotaId
+    types:
+    - uid: string
+  - name: NotAvailableForSubscription
+    types:
+    - uid: string
+- name: EncryptionService
+  description: A service that allows server-side encryption to be used.
+  kind: object
+  properties:
+  - name: enabled
+    description: A boolean indicating whether or not the service encrypts the data as it is stored.
+    types:
+    - uid: boolean
+  - name: lastEnabledTime
+    isReadyOnly: true
+    description: Gets a rough estimate of the date/time when the encryption was last enabled by the user. Only returned when encryption is enabled. There might be some unencrypted blobs which were written after this time, as it is just a rough estimate.
+    types:
+    - uid: string
+- name: Action
+  description: The action of virtual network rule.
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+- name: State
+  description: Gets the state of virtual network rule.
+  kind: enum
+  properties:
+  - name: provisioning
+    types:
+    - uid: string
+  - name: deprovisioning
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+  - name: networkSourceDeleted
+    types:
+    - uid: string
+examples:
+- name: StorageAccountUpdate
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/45b60d85-fd72-427a-a708-f994d26e593e/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2017-06-01
+    body: >-
+      {
+        "properties": {
+          "networkAcls": {
+            "defaultAction": "Allow"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/45b60d85-fd72-427a-a708-f994d26e593e/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596",
+        "kind": "Storage",
+        "location": "eastus2(stage)",
+        "name": "sto8596",
+        "properties": {
+          "creationTime": "2017-06-01T02:42:41.7633306Z",
+          "networkAcls": {
+            "bypass": "AzureServices",
+            "defaultAction": "Allow",
+            "ipRules": [],
+            "virtualNetworkRules": []
+          },
+          "primaryEndpoints": {
+            "blob": "https://sto8596.blob.core.windows.net/",
+            "file": "https://sto8596.file.core.windows.net/",
+            "queue": "https://sto8596.queue.core.windows.net/",
+            "table": "https://sto8596.table.core.windows.net/"
+          },
+          "primaryLocation": "eastus2(stage)",
+          "provisioningState": "Succeeded",
+          "secondaryLocation": "northcentralus(stage)",
+          "statusOfPrimary": "available",
+          "statusOfSecondary": "available",
+          "supportsHttpsTrafficOnly": false
+        },
+        "sku": {
+          "name": "Standard_GRS",
+          "tier": "Standard"
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "type": "Microsoft.Storage/storageAccounts"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

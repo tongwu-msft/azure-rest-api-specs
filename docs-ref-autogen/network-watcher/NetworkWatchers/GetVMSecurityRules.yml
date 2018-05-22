@@ -1,0 +1,394 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.network-watcher.networkwatchers.getvmsecurityrules
+name: Get VM Security Rules
+service: Network Watcher
+groupName: Network Watchers
+apiVersion: 2018-02-01
+summary: Gets the configured and effective security group rules on the specified VM.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/securityGroupView?api-version=2018-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: networkWatcherName
+  in: path
+  isRequired: true
+  description: The name of the network watcher.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns security group rules on the VM.
+  types:
+  - uid: SecurityGroupViewResult
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+  types:
+  - uid: SecurityGroupViewResult
+requestBody:
+- parameters:
+  - name: targetResourceId
+    in: body
+    isRequired: true
+    description: ID of the target VM.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: SecurityGroupViewResult
+  description: The information about security rules applied to the specified VM.
+  kind: object
+  properties:
+  - name: networkInterfaces
+    description: List of network interfaces on the specified VM.
+    types:
+    - uid: SecurityGroupNetworkInterface
+      isArray: true
+- name: SecurityGroupViewParameters
+  description: Parameters that define the VM to check security groups for.
+  kind: object
+  properties:
+  - name: targetResourceId
+    description: ID of the target VM.
+    types:
+    - uid: string
+- name: SecurityGroupNetworkInterface
+  description: Network interface and all its associated security rules.
+  kind: object
+  properties:
+  - name: id
+    description: ID of the network interface.
+    types:
+    - uid: string
+  - name: securityRuleAssociations
+    description: All security rules associated with the network interface.
+    types:
+    - uid: SecurityRuleAssociations
+- name: SecurityRuleAssociations
+  description: All security rules associated with the network interface.
+  kind: object
+  properties:
+  - name: networkInterfaceAssociation
+    description: Network interface and its custom security rules.
+    types:
+    - uid: NetworkInterfaceAssociation
+  - name: subnetAssociation
+    description: Network interface and its custom security rules.
+    types:
+    - uid: SubnetAssociation
+  - name: defaultSecurityRules
+    description: Collection of default security rules of the network security group.
+    types:
+    - uid: SecurityRule
+      isArray: true
+  - name: effectiveSecurityRules
+    description: Collection of effective security rules.
+    types:
+    - uid: EffectiveNetworkSecurityRule
+      isArray: true
+- name: NetworkInterfaceAssociation
+  description: Network interface and its custom security rules.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Network interface ID.
+    types:
+    - uid: string
+  - name: securityRules
+    description: Collection of custom security rules.
+    types:
+    - uid: SecurityRule
+      isArray: true
+- name: SubnetAssociation
+  description: Network interface and its custom security rules.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Subnet ID.
+    types:
+    - uid: string
+  - name: securityRules
+    description: Collection of custom security rules.
+    types:
+    - uid: SecurityRule
+      isArray: true
+- name: SecurityRule
+  description: Network security rule.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.description
+    description: A description for this rule. Restricted to 140 chars.
+    types:
+    - uid: string
+  - name: properties.protocol
+    description: Network protocol this rule applies to. Possible values are 'Tcp', 'Udp', and '*'.
+    types:
+    - uid: SecurityRuleProtocol
+  - name: properties.sourcePortRange
+    description: The source port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports.
+    types:
+    - uid: string
+  - name: properties.destinationPortRange
+    description: The destination port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports.
+    types:
+    - uid: string
+  - name: properties.sourceAddressPrefix
+    description: "The CIDR or source IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. "
+    types:
+    - uid: string
+  - name: properties.sourceAddressPrefixes
+    description: The CIDR or source IP ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.sourceApplicationSecurityGroups
+    description: The application security group specified as source.
+    types:
+    - uid: ApplicationSecurityGroup
+      isArray: true
+  - name: properties.destinationAddressPrefix
+    description: The destination address prefix. CIDR or destination IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
+    types:
+    - uid: string
+  - name: properties.destinationAddressPrefixes
+    description: The destination address prefixes. CIDR or destination IP ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.destinationApplicationSecurityGroups
+    description: The application security group specified as destination.
+    types:
+    - uid: ApplicationSecurityGroup
+      isArray: true
+  - name: properties.sourcePortRanges
+    description: The source port ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.destinationPortRanges
+    description: The destination port ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.access
+    description: "The network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+    types:
+    - uid: SecurityRuleAccess
+  - name: properties.priority
+    description: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.
+    types:
+    - uid: integer
+  - name: properties.direction
+    description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outcoming traffic. Possible values are: 'Inbound' and 'Outbound'."
+    types:
+    - uid: SecurityRuleDirection
+  - name: properties.provisioningState
+    description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: EffectiveNetworkSecurityRule
+  description: Effective network security rules.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the security rule specified by the user (if created by the user).
+    types:
+    - uid: string
+  - name: protocol
+    description: "The network protocol this rule applies to. Possible values are: 'Tcp', 'Udp', and 'All'."
+    types:
+    - uid: EffectiveSecurityRuleProtocol
+  - name: sourcePortRange
+    description: The source port or range.
+    types:
+    - uid: string
+  - name: destinationPortRange
+    description: The destination port or range.
+    types:
+    - uid: string
+  - name: sourcePortRanges
+    description: The source port ranges. Expected values include a single integer between 0 and 65535, a range using '-' as seperator (e.g. 100-400), or an asterix (*)
+    types:
+    - uid: string
+      isArray: true
+  - name: destinationPortRanges
+    description: The destination port ranges. Expected values include a single integer between 0 and 65535, a range using '-' as seperator (e.g. 100-400), or an asterix (*)
+    types:
+    - uid: string
+      isArray: true
+  - name: sourceAddressPrefix
+    description: The source address prefix.
+    types:
+    - uid: string
+  - name: destinationAddressPrefix
+    description: The destination address prefix.
+    types:
+    - uid: string
+  - name: sourceAddressPrefixes
+    description: The source address prefixes. Expected values include CIDR IP ranges, Default Tags (VirtualNetwork, AureLoadBalancer, Internet), System Tags, and the asterix (*).
+    types:
+    - uid: string
+      isArray: true
+  - name: destinationAddressPrefixes
+    description: The destination address prefixes. Expected values include CIDR IP ranges, Default Tags (VirtualNetwork, AureLoadBalancer, Internet), System Tags, and the asterix (*).
+    types:
+    - uid: string
+      isArray: true
+  - name: expandedSourceAddressPrefix
+    description: The expanded source address prefix.
+    types:
+    - uid: string
+      isArray: true
+  - name: expandedDestinationAddressPrefix
+    description: Expanded destination address prefix.
+    types:
+    - uid: string
+      isArray: true
+  - name: access
+    description: "Whether network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+    types:
+    - uid: SecurityRuleAccess
+  - name: priority
+    description: The priority of the rule.
+    types:
+    - uid: integer
+  - name: direction
+    description: "The direction of the rule. Possible values are: 'Inbound and Outbound'."
+    types:
+    - uid: SecurityRuleDirection
+- name: SecurityRuleProtocol
+  description: Network protocol this rule applies to. Possible values are 'Tcp', 'Udp', and '*'.
+  kind: enum
+  properties:
+  - name: Tcp
+    types:
+    - uid: string
+  - name: Udp
+    types:
+    - uid: string
+  - name: '*'
+    types:
+    - uid: string
+- name: ApplicationSecurityGroup
+  description: An application security group in a resource group.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the application security group resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: SecurityRuleAccess
+  description: "The network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+- name: SecurityRuleDirection
+  description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outcoming traffic. Possible values are: 'Inbound' and 'Outbound'."
+  kind: enum
+  properties:
+  - name: Inbound
+    types:
+    - uid: string
+  - name: Outbound
+    types:
+    - uid: string
+- name: EffectiveSecurityRuleProtocol
+  description: "The network protocol this rule applies to. Possible values are: 'Tcp', 'Udp', and 'All'."
+  kind: enum
+  properties:
+  - name: Tcp
+    types:
+    - uid: string
+  - name: Udp
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

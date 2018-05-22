@@ -1,0 +1,151 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.model.updateclosedlist
+name: Update Closed List
+service: Cognitive Services
+groupName: Model
+apiVersion: v2.0 preview
+summary: Updates the closed list model.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+- name: clEntityId
+  in: path
+  isRequired: true
+  description: The closed list model ID.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 200 OK
+  description: Successfully updated Closed List name and words list.
+  types:
+  - uid: OperationStatus
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: subLists
+    in: body
+    description: The new sublists for the feature.
+    types:
+    - uid: WordListObject
+      isArray: true
+  - name: name
+    in: body
+    description: The new name of the closed list feature.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: WordListObject
+  description: Sublist of items for a Closed list.
+  kind: object
+  properties:
+  - name: canonicalForm
+    description: The standard form that the list represents.
+    types:
+    - uid: string
+  - name: list
+    description: List of synonym words.
+    types:
+    - uid: string
+      isArray: true
+- name: OperationStatus
+  description: Response of an Operation status.
+  kind: object
+  properties:
+  - name: code
+    description: Status Code.
+    types:
+    - uid: OperationStatusType
+  - name: message
+    description: Status details.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: ClosedListModelUpdateObject
+  description: Object model for updating a closed list.
+  kind: object
+  properties:
+  - name: subLists
+    description: The new sublists for the feature.
+    types:
+    - uid: WordListObject
+      isArray: true
+  - name: name
+    description: The new name of the closed list feature.
+    types:
+    - uid: string
+- name: OperationStatusType
+  description: Status Code.
+  kind: enum
+  properties:
+  - name: Failed
+    types:
+    - uid: string
+  - name: FAILED
+    types:
+    - uid: string
+  - name: Success
+    types:
+    - uid: string
+examples:
+- name: Successful Update Closed List Entity Info request
+  request:
+    uri: PUT https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/86226c53-b7a6-416f-876b-226b2b5ab07b/versions/0.1/closedlists/d1f95436-57ac-4524-ae81-5bdd32668ccf
+    body: >-
+      {
+        "name": "States",
+        "subLists": [
+          {
+            "canonicalForm": "Texas",
+            "list": [
+              "TX",
+              "Texas"
+            ]
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "code": "Success",
+        "message": "Operation Successful"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

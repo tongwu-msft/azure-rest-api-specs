@@ -1,0 +1,244 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.backup.protecteditemoperationstatuses.get
+name: Get
+service: Recovery Services - Backup
+groupName: Protected Item Operation Statuses
+apiVersion: 2016-12-01
+summary: Fetches the status of an operation such as triggering a backup, restore. The status can be in progress, completed or failed. You can refer to the OperationStatus enum for all the possible states of the operation. Some operations create jobs. This method returns the list of jobs associated with the operation.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/operationsStatus/{operationId}?api-version=2016-12-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: fabricName
+  in: path
+  isRequired: true
+  description: Fabric name associated with the backup item.
+  types:
+  - uid: string
+- name: containerName
+  in: path
+  isRequired: true
+  description: Container name associated with the backup item.
+  types:
+  - uid: string
+- name: protectedItemName
+  in: path
+  isRequired: true
+  description: Backup item name whose details are to be fetched.
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: OperationID represents the operation whose status needs to be fetched.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: OperationStatus
+requestHeader: []
+definitions:
+- name: OperationStatus
+  description: Operation status.
+  kind: object
+  properties:
+  - name: id
+    description: ID of the operation.
+    types:
+    - uid: string
+  - name: name
+    description: Name of the operation.
+    types:
+    - uid: string
+  - name: status
+    description: Operation status.
+    types:
+    - uid: OperationStatusValues
+  - name: startTime
+    description: 'Operation start time. Format: ISO-8601.'
+    types:
+    - uid: string
+  - name: endTime
+    description: 'Operation end time. Format: ISO-8601.'
+    types:
+    - uid: string
+  - name: error
+    description: Error information related to this operation.
+    types:
+    - uid: OperationStatusError
+  - name: properties
+    description: Additional information associated with this operation.
+    types:
+    - uid: OperationStatusJobExtendedInfo
+    - uid: OperationStatusJobsExtendedInfo
+    - uid: OperationStatusProvisionILRExtendedInfo
+    typesTitle: OperationStatusExtendedInfo
+- name: OperationStatusValues
+  description: Operation status.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: OperationStatusError
+  description: Error information associated with operation status call.
+  kind: object
+  properties:
+  - name: code
+    description: Error code of the operation failure.
+    types:
+    - uid: string
+  - name: message
+    description: Error message displayed if the operation failure.
+    types:
+    - uid: string
+- name: OperationStatusJobExtendedInfo
+  description: Operation status job extended info.
+  kind: object
+  properties:
+  - name: jobId
+    description: ID of the job created for this protected item.
+    types:
+    - uid: string
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: OperationStatusJobExtendedInfo
+    typesTitle: string
+- name: OperationStatusJobsExtendedInfo
+  description: Operation status extended info for list of jobs.
+  kind: object
+  properties:
+  - name: jobIds
+    description: IDs of the jobs created for the protected item.
+    types:
+    - uid: string
+      isArray: true
+  - name: failedJobsError
+    description: Stores all the failed jobs along with the corresponding error codes.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: OperationStatusJobsExtendedInfo
+    typesTitle: string
+- name: OperationStatusProvisionILRExtendedInfo
+  description: Operation status extended info for ILR provision action.
+  kind: object
+  properties:
+  - name: recoveryTarget
+    description: Target details for file / folder restore.
+    types:
+    - uid: InstantItemRecoveryTarget
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: OperationStatusProvisionILRExtendedInfo
+    typesTitle: string
+- name: InstantItemRecoveryTarget
+  description: Target details for file / folder restore.
+  kind: object
+  properties:
+  - name: clientScripts
+    description: List of client scripts.
+    types:
+    - uid: ClientScriptForConnect
+      isArray: true
+- name: ClientScriptForConnect
+  description: Client script details for file / folder restore.
+  kind: object
+  properties:
+  - name: scriptContent
+    description: File content of the client script for file / folder restore.
+    types:
+    - uid: string
+  - name: scriptExtension
+    description: File extension of the client script for file / folder restore - .ps1 , .sh , etc.
+    types:
+    - uid: string
+  - name: osType
+    description: OS type - Windows, Linux etc. for which this file / folder restore client script works.
+    types:
+    - uid: string
+  - name: url
+    description: URL of Executable from where to source the content. If this is not null then ScriptContent should not be used
+    types:
+    - uid: string
+  - name: scriptNameSuffix
+    description: >-
+      Mandator suffix that should be added to the name of script that is given for download to user.
+                  If its null or empty then , ignore it.
+    types:
+    - uid: string
+examples:
+- name: Get Operation Status of Protected Vm
+  request:
+    uri: GET https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SwaggerTestRg/providers/Microsoft.RecoveryServices/vaults/NetSDKTestRsVault/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1/protectedItems/VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1/operationsStatus/00000000-0000-0000-0000-000000000000?api-version=2016-12-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "name": "00000000-0000-0000-0000-000000000000",
+        "status": "Succeeded",
+        "startTime": "2017-10-29T06:04:18.207325Z",
+        "endTime": "2017-10-29T06:04:18.207325Z",
+        "properties": {
+          "objectType": "OperationStatusJobExtendedInfo",
+          "jobId": "00000000-0000-0000-0000-000000000000"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.

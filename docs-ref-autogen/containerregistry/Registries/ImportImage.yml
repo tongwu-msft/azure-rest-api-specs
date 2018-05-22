@@ -1,0 +1,169 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerregistry.registries.importimage
+name: Import Image
+service: Container Registry
+groupName: Registries
+apiVersion: 2017-10-01
+summary: Copies an image to this container registry from the specified container registry.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importImage?api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: registryName
+  in: path
+  isRequired: true
+  description: The name of the container registry.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the operation has completed successfully.
+- name: 202 Accepted
+  description: The request was successful; the operation will complete asynchronously.
+requestBody:
+- parameters:
+  - name: source
+    in: body
+    isRequired: true
+    description: The source of the image.
+    types:
+    - uid: ImportSource
+  - name: targetTags
+    in: body
+    description: List of strings of the form repo[:tag]. When tag is omitted the source will be used (or 'latest' if source tag is also omitted).
+    types:
+    - uid: string
+      isArray: true
+  - name: untaggedTargetRepositories
+    in: body
+    description: List of strings of repository names to do a manifest only copy. No tag will be created.
+    types:
+    - uid: string
+      isArray: true
+  - name: mode
+    in: body
+    description: When Force, any existing target tags will be overwritten. When NoForce, any existing target tags will fail the operation before any copying begins.
+    types:
+    - uid: ImportMode
+requestHeader: []
+definitions:
+- name: ImportSource
+  kind: object
+  properties:
+  - name: resourceId
+    description: The resource identifier of the target Azure Container Registry.
+    types:
+    - uid: string
+  - name: sourceImage
+    description: >-
+      Repository name of the source image.
+
+      Specify an image by repository ('hello-world'). This will use the 'latest' tag.
+
+      Specify an image by tag ('hello-world:latest').
+
+      Specify an image by sha256-based manifest digest ('hello-world@sha256:abc123').
+    types:
+    - uid: string
+- name: ImportImageParameters
+  kind: object
+  properties:
+  - name: source
+    description: The source of the image.
+    types:
+    - uid: ImportSource
+  - name: targetTags
+    description: List of strings of the form repo[:tag]. When tag is omitted the source will be used (or 'latest' if source tag is also omitted).
+    types:
+    - uid: string
+      isArray: true
+  - name: untaggedTargetRepositories
+    description: List of strings of repository names to do a manifest only copy. No tag will be created.
+    types:
+    - uid: string
+      isArray: true
+  - name: mode
+    description: When Force, any existing target tags will be overwritten. When NoForce, any existing target tags will fail the operation before any copying begins.
+    types:
+    - uid: ImportMode
+- name: ImportMode
+  description: When Force, any existing target tags will be overwritten. When NoForce, any existing target tags will fail the operation before any copying begins.
+  kind: enum
+  properties:
+  - name: NoForce
+    types:
+    - uid: string
+  - name: Force
+    types:
+    - uid: string
+examples:
+- name: ImportImageByTag
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/importImage?api-version=2017-10-01
+    body: >-
+      {
+        "source": {
+          "resourceId": "/subscriptions/10000000-0000-0000-0000-000000000000/resourceGroups/sourceResourceGroup/providers/Microsoft.ContainerRegistry/registries/sourceRegistry",
+          "sourceImage": "sourceRepository:sourceTag"
+        },
+        "targetTags": [
+          "targetRepository:targetTag"
+        ],
+        "untaggedTargetRepositories": [
+          "targetRepository1"
+        ],
+        "mode": "Force"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+- name: ImportImageByManifestDigest
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/importImage?api-version=2017-10-01
+    body: >-
+      {
+        "source": {
+          "resourceId": "/subscriptions/10000000-0000-0000-0000-000000000000/resourceGroups/sourceResourceGroup/providers/Microsoft.ContainerRegistry/registries/sourceRegistry",
+          "sourceImage": "sourceRepository@sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "targetTags": [
+          "targetRepository:targetTag"
+        ],
+        "untaggedTargetRepositories": [
+          "targetRepository1"
+        ],
+        "mode": "Force"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

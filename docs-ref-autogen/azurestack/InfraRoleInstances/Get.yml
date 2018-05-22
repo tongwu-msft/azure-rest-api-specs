@@ -1,0 +1,160 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.infraroleinstances.get
+name: Get
+service: Azure Stack Admin
+groupName: Infra Role Instances
+apiVersion: 2016-05-01
+summary: Return the requested infrastructure role instance.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/infraRoleInstances/{infraRoleInstance}?api-version=2016-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Location of the resource.
+  types:
+  - uid: string
+- name: infraRoleInstance
+  in: path
+  isRequired: true
+  description: Name of an infrastructure role instance.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: InfraRoleInstance
+- name: 404 Not Found
+  description: NOT FOUND
+requestHeader: []
+definitions:
+- name: InfraRoleInstance
+  description: The virtual machine resource is used to represent an infrastructure virtual machine in the Azure Stack environment. The fabric resource provider only surfaces infrastructure virtual machines. These machines are never created directly by the admin, but rather as a side effect of expanding admin services.
+  kind: object
+  properties:
+  - name: properties.scaleUnit
+    description: The cluster that the virtual machine's host is part of.
+    types:
+    - uid: string
+  - name: properties.scaleUnitNode
+    description: URI to the scale unit node.
+    types:
+    - uid: string
+  - name: properties.size
+    description: Size of the virtual machine.
+    types:
+    - uid: InfraRoleInstanceSize
+  - name: properties.state
+    description: The current state of the virtual machine.
+    types:
+    - uid: InfraRoleInstanceState
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: The region where the resource is located.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: InfraRoleInstanceSize
+  description: The capacity information for a virtual machine.
+  kind: object
+  properties:
+  - name: memoryGb
+    description: The amount of memory, in GB, currently assigned to the virtual machine.
+    types:
+    - uid: number
+  - name: cores
+    description: The number of cores assigned to the virtual machine.
+    types:
+    - uid: integer
+- name: InfraRoleInstanceState
+  description: The current state of the virtual machine.
+  kind: enum
+  properties:
+  - name: Stopped
+    types:
+    - uid: string
+  - name: Starting
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Stopping
+    types:
+    - uid: string
+examples:
+- name: Return the requested infrastructure role instance.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/infraRoleInstances/AzS-NC01?api-version=2016-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/23a94a7f-64b3-42d8-807c-733284339015/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/infraRoleInstances/AzS-BGPNAT01",
+        "name": "local/AzS-BGPNAT01",
+        "type": "Microsoft.Fabric.Admin/fabricLocations/infraRoleInstances",
+        "location": "local",
+        "tags": {},
+        "properties": {
+          "scaleUnit": "/subscriptions/23a94a7f-64b3-42d8-807c-733284339015/resourceGroups/system.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/scaleUnits/S-Cluster",
+          "scaleUnitNode": "/subscriptions/23a94a7f-64b3-42d8-807c-733284339015/resourceGroups/system.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/scaleUnitNodes/HC1u15a2437",
+          "size": {
+            "memoryGb": 2,
+            "cores": 2
+          },
+          "state": "Running"
+        }
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

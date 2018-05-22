@@ -1,0 +1,265 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.site-recovery.replicationprotectioncontainers.switchprotection
+name: Switch Protection
+service: Recovery Services - Site Recovery
+groupName: Replication Protection Containers
+apiVersion: 2016-08-10
+summary: "Switches protection from one container to another or one replication provider to another.  \nOperation to switch protection from one container to another or one replication provider to another."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/switchprotection?api-version=2016-08-10
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: fabricName
+  in: path
+  isRequired: true
+  description: Unique fabric name.
+  types:
+  - uid: string
+- name: protectionContainerName
+  in: path
+  isRequired: true
+  description: Protection container name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ProtectionContainer
+- name: 202 Accepted
+  description: Accepted
+requestBody:
+- parameters:
+  - name: properties
+    in: body
+    description: Switch protection properties
+    types:
+    - uid: SwitchProtectionInputProperties
+requestHeader: []
+definitions:
+- name: SwitchProtectionInputProperties
+  description: Switch protection input properties.
+  kind: object
+  properties:
+  - name: replicationProtectedItemName
+    description: The unique replication protected item name.
+    types:
+    - uid: string
+  - name: providerSpecificDetails
+    description: Provider specific switch protection input.
+    types:
+    - uid: A2ASwitchProtectionInput
+    typesTitle: SwitchProtectionProviderSpecificInput
+- name: ProtectionContainer
+  description: Protection container details.
+  kind: object
+  properties:
+  - name: properties
+    description: The custom data.
+    types:
+    - uid: ProtectionContainerProperties
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource Type
+    types:
+    - uid: string
+  - name: location
+    description: Resource Location
+    types:
+    - uid: string
+- name: SwitchProtectionInput
+  description: Switch protection input.
+  kind: object
+  properties:
+  - name: properties
+    description: Switch protection properties
+    types:
+    - uid: SwitchProtectionInputProperties
+- name: ProtectionContainerProperties
+  description: Protection profile custom data details.
+  kind: object
+  properties:
+  - name: fabricFriendlyName
+    description: Fabric friendly name.
+    types:
+    - uid: string
+  - name: friendlyName
+    description: The name.
+    types:
+    - uid: string
+  - name: fabricType
+    description: The fabric type.
+    types:
+    - uid: string
+  - name: protectedItemCount
+    description: Number of protected PEs
+    types:
+    - uid: integer
+  - name: pairingStatus
+    description: The pairing status of this cloud.
+    types:
+    - uid: string
+  - name: role
+    description: The role of this cloud.
+    types:
+    - uid: string
+  - name: fabricSpecificDetails
+    description: Fabric specific details.
+    types:
+    - uid: ProtectionContainerFabricSpecificDetails
+- name: A2ASwitchProtectionInput
+  description: A2A specific switch protection input.
+  kind: object
+  properties:
+  - name: recoveryContainerId
+    description: The recovery container Id.
+    types:
+    - uid: string
+  - name: vmDisks
+    description: The list of vm disk details.
+    types:
+    - uid: A2AVmDiskInputDetails
+      isArray: true
+  - name: vmManagedDisks
+    description: The list of vm managed disk details.
+    types:
+    - uid: A2AVmManagedDiskInputDetails
+      isArray: true
+  - name: recoveryResourceGroupId
+    description: The recovery resource group Id. Valid for V2 scenarios.
+    types:
+    - uid: string
+  - name: recoveryCloudServiceId
+    description: The recovery cloud service Id. Valid for V1 scenarios.
+    types:
+    - uid: string
+  - name: recoveryAvailabilitySetId
+    description: The recovery availability set.
+    types:
+    - uid: string
+  - name: policyId
+    description: The Policy Id.
+    types:
+    - uid: string
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the Instance type.
+    types:
+    - uid: A2A
+    typesTitle: string
+- name: ProtectionContainerFabricSpecificDetails
+  description: Base class for fabric specific details of container.
+  kind: object
+  properties:
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the class type. Overriden in derived classes.
+    types:
+    - uid: string
+- name: A2AVmDiskInputDetails
+  description: Azure VM disk input details.
+  kind: object
+  properties:
+  - name: diskUri
+    description: The disk Uri.
+    types:
+    - uid: string
+  - name: recoveryAzureStorageAccountId
+    description: The recovery VHD storage account Id.
+    types:
+    - uid: string
+  - name: primaryStagingAzureStorageAccountId
+    description: The primary staging storage account Id.
+    types:
+    - uid: string
+- name: A2AVmManagedDiskInputDetails
+  description: Azure VM managed disk input details.
+  kind: object
+  properties:
+  - name: diskId
+    description: The disk Id.
+    types:
+    - uid: string
+  - name: primaryStagingAzureStorageAccountId
+    description: The primary staging storage account Arm Id.
+    types:
+    - uid: string
+  - name: recoveryResourceGroupId
+    description: The target resource group Arm Id.
+    types:
+    - uid: string
+examples:
+- name: Switches protection from one container to another or one replication provider to another.
+  request:
+    uri: POST https://management.azure.com/Subscriptions/42195872-7e70-4f8a-837f-84b28ecbb78b/resourceGroups/priyanprg/providers/Microsoft.RecoveryServices/vaults/priyanponeboxvault/replicationFabrics/CentralUSCanSite/replicationProtectionContainers/CentralUSCancloud/switchprotection?api-version=2016-08-10
+    body: >-
+      {
+        "properties": {
+          "replicationProtectedItemName": "a2aSwapOsVm",
+          "providerSpecificDetails": {
+            "instanceType": "A2A"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/Subscriptions/42195872-7e70-4f8a-837f-84b28ecbb78b/resourceGroups/priyanprg/providers/Microsoft.RecoveryServices/vaults/priyanponeboxvault/replicationFabrics/EUSCanSite/replicationProtectionContainers/euscancloud",
+        "name": "euscancloud",
+        "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers",
+        "properties": {
+          "fabricFriendlyName": "East US 2 EUAP",
+          "friendlyName": "euscancloud",
+          "fabricType": "Azure",
+          "protectedItemCount": 0,
+          "pairingStatus": "Paired",
+          "role": "Primary"
+        }
+      }
+  - statusCode: "202"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.

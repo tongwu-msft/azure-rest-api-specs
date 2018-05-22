@@ -1,0 +1,181 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothub.certificates.listbyiothub
+name: List By Iot Hub
+service: IoT Hub
+groupName: Certificates
+apiVersion: 2018-04-01
+summary: "Get the certificate list.  \nReturns the list of certificates."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the IoT hub.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the IoT hub.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The body contains all the certificate list.
+  types:
+  - uid: CertificateListDescription
+- name: Other Status Codes
+  description: DefaultErrorResponse
+  types:
+  - uid: ErrorDetails
+requestHeader: []
+definitions:
+- name: CertificateListDescription
+  description: The JSON-serialized array of Certificate objects.
+  kind: object
+  properties:
+  - name: value
+    description: The array of Certificate objects.
+    types:
+    - uid: CertificateDescription
+      isArray: true
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: httpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+- name: CertificateDescription
+  description: The X509 Certificate.
+  kind: object
+  properties:
+  - name: properties
+    description: The description of an X509 CA Certificate.
+    types:
+    - uid: CertificateProperties
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the certificate.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: The entity tag.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+- name: CertificateProperties
+  description: The description of an X509 CA Certificate.
+  kind: object
+  properties:
+  - name: subject
+    isReadyOnly: true
+    description: The certificate's subject name.
+    types:
+    - uid: string
+  - name: expiry
+    isReadyOnly: true
+    description: The certificate's expiration date and time.
+    types:
+    - uid: string
+  - name: thumbprint
+    isReadyOnly: true
+    description: The certificate's thumbprint.
+    types:
+    - uid: string
+  - name: isVerified
+    isReadyOnly: true
+    description: Determines whether certificate has been verified.
+    types:
+    - uid: boolean
+  - name: created
+    isReadyOnly: true
+    description: The certificate's create date and time.
+    types:
+    - uid: string
+  - name: updated
+    isReadyOnly: true
+    description: The certificate's last update date and time.
+    types:
+    - uid: string
+  - name: certificate
+    description: The certificate content
+    types:
+    - uid: string
+examples:
+- name: Certificates_ListByIotHub
+  request:
+    uri: GET https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/testhub/certificates?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "subject": "CN=testdevice1",
+              "expiry": "Sat, 31 Dec 2039 23:59:59 GMT",
+              "thumbprint": "97388663832D0393C9246CAB4FBA2C8677185A25",
+              "isVerified": false,
+              "created": "Thu, 12 Oct 2017 19:23:50 GMT",
+              "updated": "Thu, 12 Oct 2017 19:23:50 GMT"
+            },
+            "id": "/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/andbuc-hub/certificates/cert",
+            "name": "cert",
+            "type": "Microsoft.Devices/IotHubs/Certificates",
+            "etag": "AAAAAAExpNs="
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

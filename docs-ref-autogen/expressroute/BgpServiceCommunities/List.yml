@@ -1,0 +1,175 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.expressroute.bgpservicecommunities.list
+name: List
+service: ExpressRoute
+groupName: Bgp Service Communities
+apiVersion: 2018-02-01
+summary: Gets all the available bgp service communities.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/bgpServiceCommunities?api-version=2018-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns a list of BgpServiceCommunity resources.
+  types:
+  - uid: BgpServiceCommunityListResult
+requestHeader: []
+definitions:
+- name: BgpServiceCommunityListResult
+  description: Response for the ListServiceCommunity API service call.
+  kind: object
+  properties:
+  - name: value
+    description: A list of service community resources.
+    types:
+    - uid: BgpServiceCommunity
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: BgpServiceCommunity
+  description: Service Community Properties.
+  kind: object
+  properties:
+  - name: properties.serviceName
+    description: The name of the bgp community. e.g. Skype.
+    types:
+    - uid: string
+  - name: properties.bgpCommunities
+    description: Get a list of bgp communities.
+    types:
+    - uid: BGPCommunity
+      isArray: true
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: BGPCommunity
+  description: Contains bgp community information offered in Service Community resources.
+  kind: object
+  properties:
+  - name: serviceSupportedRegion
+    description: The region which the service support. e.g. For O365, region is Global.
+    types:
+    - uid: string
+  - name: communityName
+    description: The name of the bgp community. e.g. Skype.
+    types:
+    - uid: string
+  - name: communityValue
+    description: 'The value of the bgp community. For more information: https://docs.microsoft.com/en-us/azure/expressroute/expressroute-routing.'
+    types:
+    - uid: string
+  - name: communityPrefixes
+    description: The prefixes that the bgp community contains.
+    types:
+    - uid: string
+      isArray: true
+  - name: isAuthorizedToUse
+    description: Customer is authorized to use bgp community or not.
+    types:
+    - uid: boolean
+  - name: serviceGroup
+    description: The service group of the bgp community contains.
+    types:
+    - uid: string
+examples:
+- name: ServiceCommunityList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/bgpServiceCommunities?api-version=2018-02-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsofot.Network/bgpServiceCommunities/skype",
+            "name": "skype",
+            "type": "Microsofot.Network/bgpServiceCommunities",
+            "properties": {
+              "serviceName": "skype",
+              "bgpCommunities": [
+                {
+                  "serviceSupportedRegion": "Global",
+                  "communityName": "Skype For Business Online",
+                  "communityValue": "12076:5030",
+                  "communityPrefixes": [
+                    "13.67.56.225/32",
+                    "13.67.186.105/32"
+                  ],
+                  "isAuthorizedToUse": true,
+                  "serviceGroup": "O365"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsofot.Network/bgpServiceCommunities/exchange",
+            "name": "exchange",
+            "type": "Microsofot.Network/bgpServiceCommunities",
+            "properties": {
+              "serviceName": "exchange",
+              "bgpCommunities": [
+                {
+                  "serviceSupportedRegion": "Global",
+                  "communityName": "Exchange Online",
+                  "communityValue": "12076:5040",
+                  "communityPrefixes": [
+                    "13.67.56.225/32",
+                    "13.67.186.105/32"
+                  ],
+                  "isAuthorizedToUse": true,
+                  "serviceGroup": "O365"
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

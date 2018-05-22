@@ -1,0 +1,211 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.backup.protectionintent.validate
+name: Validate
+service: Recovery Services - Backup
+groupName: Protection Intent
+apiVersion: 2017-07-01
+summary: >-
+  It will validate followings
+
+              1. Vault capacity
+
+              2. VM is already protected
+
+              3. Any VM related configuration passed in properties.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupPreValidateProtection?api-version=2017-07-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: azureRegion
+  in: path
+  isRequired: true
+  description: Azure region to hit Api
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PreValidateEnableBackupResponse
+requestBody:
+- parameters:
+  - name: resourceType
+    in: body
+    description: Container Type - VM, SQLPaaS, DPM etc
+    types:
+    - uid: DataSourceType
+  - name: resourceId
+    in: body
+    description: Entire ARM VM Id
+    types:
+    - uid: string
+  - name: vaultId
+    in: body
+    description: Entire vault id of the resource
+    types:
+    - uid: string
+  - name: properties
+    in: body
+    description: Configuration of VM if any needs to be validated like OS type etc
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: PreValidateEnableBackupResponse
+  description: Response contract for enable backup validation request
+  kind: object
+  properties:
+  - name: status
+    description: Validation Status
+    types:
+    - uid: ValidationStatus
+  - name: errorCode
+    description: Response error code
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Response error message
+    types:
+    - uid: string
+  - name: recommendation
+    description: Recommended action for user
+    types:
+    - uid: string
+  - name: containerName
+    description: Specifies the product specific container name. E.g. iaasvmcontainer;iaasvmcontainer;rgname;vmname. This is required for portal
+    types:
+    - uid: string
+  - name: protectedItemName
+    description: Specifies the product specific ds name. E.g. vm;iaasvmcontainer;rgname;vmname. This is required for portal
+    types:
+    - uid: string
+- name: PreValidateEnableBackupRequest
+  description: >-
+    Contract to validate if backup can be enabled on the given resource in a given vault and given configuration.
+
+                It will validate followings
+
+                1. Vault capacity
+
+                2. VM is already protected
+
+                3. Any VM related configuration passed in properties.
+  kind: object
+  properties:
+  - name: resourceType
+    description: Container Type - VM, SQLPaaS, DPM etc
+    types:
+    - uid: DataSourceType
+  - name: resourceId
+    description: Entire ARM VM Id
+    types:
+    - uid: string
+  - name: vaultId
+    description: Entire vault id of the resource
+    types:
+    - uid: string
+  - name: properties
+    description: Configuration of VM if any needs to be validated like OS type etc
+    types:
+    - uid: string
+- name: ValidationStatus
+  description: Validation Status
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: DataSourceType
+  description: Type of workload this item represents.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: VM
+    types:
+    - uid: string
+  - name: FileFolder
+    types:
+    - uid: string
+  - name: AzureSqlDb
+    types:
+    - uid: string
+  - name: SQLDB
+    types:
+    - uid: string
+  - name: Exchange
+    types:
+    - uid: string
+  - name: Sharepoint
+    types:
+    - uid: string
+  - name: VMwareVM
+    types:
+    - uid: string
+  - name: SystemState
+    types:
+    - uid: string
+  - name: Client
+    types:
+    - uid: string
+  - name: GenericDataSource
+    types:
+    - uid: string
+  - name: SQLDataBase
+    types:
+    - uid: string
+  - name: AzureFileShare
+    types:
+    - uid: string
+examples:
+- name: Validate Enable Protection on Azure Vm
+  request:
+    uri: POST https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.RecoveryServices/locations/southeastasia/backupPreValidateProtection?api-version=2017-07-01
+    body: >-
+      {
+        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/arunaupgrade/providers/Microsoft.Compute/VirtualMachines/upgrade1",
+        "resourceType": "VM",
+        "vaultId": "/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myRG/providers/Microsoft.RecoveryServices/Vaults/myVault",
+        "properties": ""
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "Failed",
+        "errorCode": "VirtualMachineAlreadyProtected",
+        "errorMessage": "Virtual machine with same name and same resource group is already protected. Please select `Disable' choice above for backup and go to backup item corresponding to this VM in the vault",
+        "recommendation": "Please do not enable protection again.",
+        "containerName": "iaasvmcontainer;iaasvmcontainerv2;arunaupgrade;upgrade1",
+        "protectedItemName": "vm;iaasvmcontainerv2;arunaupgrade;upgrade1"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.

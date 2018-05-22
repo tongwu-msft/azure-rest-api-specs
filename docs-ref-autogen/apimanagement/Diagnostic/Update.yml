@@ -1,0 +1,148 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.diagnostic.update
+name: Update
+service: API Management
+groupName: Diagnostic
+apiVersion: 2018-01-01
+summary: Updates the details of the Diagnostic specified by its identifier.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/diagnostics/{diagnosticId}?api-version=2018-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: diagnosticId
+  in: path
+  isRequired: true
+  description: Diagnostic identifier. Must be unique in the current API Management service instance.
+  types:
+  - uid: string
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: The Diagnostic was successfully updated.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: properties.enabled
+    in: body
+    isRequired: true
+    description: Indicates whether a diagnostic should receive data or not.
+    types:
+    - uid: boolean
+requestHeader:
+- name: If-Match
+  in: header
+  isRequired: true
+  description: ETag of the Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
+  types:
+  - uid: string
+definitions:
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: error.message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: DiagnosticContract
+  description: Diagnostic details.
+  kind: object
+  properties:
+  - name: properties.enabled
+    description: Indicates whether a diagnostic should receive data or not.
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementUpdateDiagnostic
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/diagnostics/default?api-version=2018-01-01
+    body: >-
+      {
+        "properties": {
+          "enabled": false
+        }
+      }
+    headers:
+    - name: If-Match
+      value: '*'
+  responses:
+  - statusCode: "204"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,242 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.network-watcher.packetcaptures.create
+name: Create
+service: Network Watcher
+groupName: Packet Captures
+apiVersion: 2018-02-01
+summary: Create and start a packet capture on the specified VM.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}?api-version=2018-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: networkWatcherName
+  in: path
+  isRequired: true
+  description: The name of the network watcher.
+  types:
+  - uid: string
+- name: packetCaptureName
+  in: path
+  isRequired: true
+  description: The name of the packet capture session.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Request successful. The operation returns the resulting packet capture session.
+  types:
+  - uid: PacketCaptureResult
+requestBody:
+- parameters:
+  - name: properties.target
+    in: body
+    isRequired: true
+    description: The ID of the targeted resource, only VM is currently supported.
+    types:
+    - uid: string
+  - name: properties.bytesToCapturePerPacket
+    in: body
+    description: Number of bytes captured per packet, the remaining bytes are truncated.
+    types:
+    - uid: integer
+  - name: properties.totalBytesPerSession
+    in: body
+    description: Maximum size of the capture output.
+    types:
+    - uid: integer
+  - name: properties.timeLimitInSeconds
+    in: body
+    description: Maximum duration of the capture session in seconds.
+    types:
+    - uid: integer
+  - name: properties.storageLocation
+    in: body
+    isRequired: true
+    description: Describes the storage location for a packet capture session.
+    types:
+    - uid: PacketCaptureStorageLocation
+  - name: properties.filters
+    in: body
+    description: Filter that is applied to packet capture request. Multiple filters can be applied.
+    types:
+    - uid: PacketCaptureFilter
+      isArray: true
+requestHeader: []
+definitions:
+- name: PacketCaptureStorageLocation
+  description: Describes the storage location for a packet capture session.
+  kind: object
+  properties:
+  - name: storageId
+    description: The ID of the storage account to save the packet capture session. Required if no local file path is provided.
+    types:
+    - uid: string
+  - name: storagePath
+    description: The URI of the storage path to save the packet capture. Must be a well-formed URI describing the location to save the packet capture.
+    types:
+    - uid: string
+  - name: filePath
+    description: A valid local path on the targeting VM. Must include the name of the capture file (*.cap). For linux virtual machine it must start with /var/captures. Required if no storage ID is provided, otherwise optional.
+    types:
+    - uid: string
+- name: PacketCaptureFilter
+  description: Filter that is applied to packet capture request. Multiple filters can be applied.
+  kind: object
+  properties:
+  - name: protocol
+    description: Protocol to be filtered on.
+    types:
+    - uid: PcProtocol
+  - name: localIPAddress
+    description: 'Local IP Address to be filtered on. Notation: "127.0.0.1" for single address entry. "127.0.0.1-127.0.0.255" for range. "127.0.0.1;127.0.0.5"? for multiple entries. Multiple ranges not currently supported. Mixing ranges with multiple entries not currently supported. Default = null.'
+    types:
+    - uid: string
+  - name: remoteIPAddress
+    description: 'Local IP Address to be filtered on. Notation: "127.0.0.1" for single address entry. "127.0.0.1-127.0.0.255" for range. "127.0.0.1;127.0.0.5;" for multiple entries. Multiple ranges not currently supported. Mixing ranges with multiple entries not currently supported. Default = null.'
+    types:
+    - uid: string
+  - name: localPort
+    description: 'Local port to be filtered on. Notation: "80" for single port entry."80-85" for range. "80;443;" for multiple entries. Multiple ranges not currently supported. Mixing ranges with multiple entries not currently supported. Default = null.'
+    types:
+    - uid: string
+  - name: remotePort
+    description: 'Remote port to be filtered on. Notation: "80" for single port entry."80-85" for range. "80;443;" for multiple entries. Multiple ranges not currently supported. Mixing ranges with multiple entries not currently supported. Default = null.'
+    types:
+    - uid: string
+- name: PacketCaptureResult
+  description: Information about packet capture session.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the packet capture session.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: ID of the packet capture operation.
+    types:
+    - uid: string
+  - name: etag
+    description: ''
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: The provisioning state of the packet capture session.
+    types:
+    - uid: ProvisioningState
+  - name: properties.target
+    description: The ID of the targeted resource, only VM is currently supported.
+    types:
+    - uid: string
+  - name: properties.bytesToCapturePerPacket
+    description: Number of bytes captured per packet, the remaining bytes are truncated.
+    types:
+    - uid: integer
+  - name: properties.totalBytesPerSession
+    description: Maximum size of the capture output.
+    types:
+    - uid: integer
+  - name: properties.timeLimitInSeconds
+    description: Maximum duration of the capture session in seconds.
+    types:
+    - uid: integer
+  - name: properties.storageLocation
+    description: Describes the storage location for a packet capture session.
+    types:
+    - uid: PacketCaptureStorageLocation
+  - name: properties.filters
+    description: Filter that is applied to packet capture request. Multiple filters can be applied.
+    types:
+    - uid: PacketCaptureFilter
+      isArray: true
+- name: PacketCapture
+  description: Parameters that define the create packet capture operation.
+  kind: object
+  properties:
+  - name: properties.target
+    description: The ID of the targeted resource, only VM is currently supported.
+    types:
+    - uid: string
+  - name: properties.bytesToCapturePerPacket
+    description: Number of bytes captured per packet, the remaining bytes are truncated.
+    types:
+    - uid: integer
+  - name: properties.totalBytesPerSession
+    description: Maximum size of the capture output.
+    types:
+    - uid: integer
+  - name: properties.timeLimitInSeconds
+    description: Maximum duration of the capture session in seconds.
+    types:
+    - uid: integer
+  - name: properties.storageLocation
+    description: Describes the storage location for a packet capture session.
+    types:
+    - uid: PacketCaptureStorageLocation
+  - name: properties.filters
+    description: Filter that is applied to packet capture request. Multiple filters can be applied.
+    types:
+    - uid: PacketCaptureFilter
+      isArray: true
+- name: PcProtocol
+  description: Protocol to be filtered on.
+  kind: enum
+  properties:
+  - name: TCP
+    types:
+    - uid: string
+  - name: UDP
+    types:
+    - uid: string
+  - name: Any
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The provisioning state of the resource.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

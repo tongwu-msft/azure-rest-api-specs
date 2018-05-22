@@ -1,0 +1,215 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.reports.listbyrequest
+name: List By Request
+service: API Management
+groupName: Reports
+apiVersion: 2018-01-01
+summary: Lists report records by Request.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byRequest?$filter={$filter}&api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byRequest?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-01-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: $filter
+  in: query
+  isRequired: true
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: Number of records to return.
+  types:
+  - uid: integer
+  format: int32
+- name: $skip
+  in: query
+  description: Number of records to skip.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Lists a collection of Report record.
+  types:
+  - uid: RequestReportCollection
+requestHeader: []
+definitions:
+- name: RequestReportCollection
+  description: Paged Report records list representation.
+  kind: object
+  properties:
+  - name: value
+    description: Page values.
+    types:
+    - uid: RequestReportRecordContract
+      isArray: true
+  - name: count
+    description: Total record count number across all pages.
+    types:
+    - uid: integer
+- name: RequestReportRecordContract
+  description: Request Report data.
+  kind: object
+  properties:
+  - name: apiId
+    description: API identifier path. /apis/{apiId}
+    types:
+    - uid: string
+  - name: operationId
+    description: Operation identifier path. /apis/{apiId}/operations/{operationId}
+    types:
+    - uid: string
+  - name: productId
+    isReadyOnly: true
+    description: Product identifier path. /products/{productId}
+    types:
+    - uid: string
+  - name: userId
+    isReadyOnly: true
+    description: User identifier path. /users/{userId}
+    types:
+    - uid: string
+  - name: method
+    description: The HTTP method associated with this request..
+    types:
+    - uid: string
+  - name: url
+    description: The full URL associated with this request.
+    types:
+    - uid: string
+  - name: ipAddress
+    description: The client IP address associated with this request.
+    types:
+    - uid: string
+  - name: backendResponseCode
+    description: The HTTP status code received by the gateway as a result of forwarding this request to the backend.
+    types:
+    - uid: string
+  - name: responseCode
+    description: The HTTP status code returned by the gateway.
+    types:
+    - uid: integer
+  - name: responseSize
+    description: The size of the response returned by the gateway.
+    types:
+    - uid: integer
+  - name: timestamp
+    description: The date and time when this request was received by the gateway in ISO 8601 format.
+    types:
+    - uid: string
+  - name: cache
+    description: Specifies if response cache was involved in generating the response. If the value is none, the cache was not used. If the value is hit, cached response was returned. If the value is miss, the cache was used but lookup resulted in a miss and request was fullfilled by the backend.
+    types:
+    - uid: string
+  - name: apiTime
+    description: The total time it took to process this request.
+    types:
+    - uid: number
+  - name: serviceTime
+    description: he time it took to forward this request to the backend and get the response back.
+    types:
+    - uid: number
+  - name: apiRegion
+    description: Azure region where the gateway that processed this request is located.
+    types:
+    - uid: string
+  - name: subscriptionId
+    description: Subscription identifier path. /subscriptions/{subscriptionId}
+    types:
+    - uid: string
+  - name: requestId
+    description: Request Identifier.
+    types:
+    - uid: string
+  - name: requestSize
+    description: The size of this request..
+    types:
+    - uid: integer
+examples:
+- name: ApiManagementGetReportsByRequest
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/reports/byRequest?$filter=timestamp ge datetime'2017-06-01T00:00:00' and timestamp le datetime'2017-06-04T00:00:00'&api-version=2018-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "apiId": "/apis/5931a75ae4bbd512a88c680b",
+            "operationId": "/apis/5931a75ae4bbd512a88c680b/operations/-",
+            "productId": "/products/-",
+            "userId": "/users/1",
+            "method": "GET",
+            "url": "https://apimService1.azure-api.net/echo/resource?param1=sample",
+            "ipAddress": "207.xx.155.xx",
+            "responseCode": 404,
+            "responseSize": 405,
+            "timestamp": "2017-06-03T00:17:00.1649134Z",
+            "cache": "none",
+            "apiTime": 221.1544,
+            "serviceTime": 0,
+            "apiRegion": "East Asia",
+            "subscriptionId": "/subscriptions/5600b59475ff190048070002",
+            "requestId": "63e7119c-26aa-433c-96d7-f6f3267ff52f",
+            "requestSize": 0
+          },
+          {
+            "apiId": "/apis/5931a75ae4bbd512a88c680b",
+            "operationId": "/apis/5931a75ae4bbd512a88c680b/operations/-",
+            "productId": "/products/-",
+            "userId": "/users/1",
+            "method": "POST",
+            "url": "https://apimService1.azure-api.net/echo/resource",
+            "ipAddress": "207.xx.155.xx",
+            "responseCode": 404,
+            "responseSize": 403,
+            "timestamp": "2017-06-03T00:17:20.5255131Z",
+            "cache": "none",
+            "apiTime": 6.6754000000000007,
+            "serviceTime": 0,
+            "apiRegion": "East Asia",
+            "subscriptionId": "/subscriptions/5600b59475ff190048070002",
+            "requestId": "e581b7f7-c9ec-4fc6-8ab9-3855d9b00b04",
+            "requestSize": 0
+          }
+        ],
+        "count": 2
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,152 @@
+### YamlMime:RESTOperation
+uid: media.assets.listcontainersas
+name: List Container Sas
+service: Media Services
+groupName: Assets
+apiVersion: 2018-03-30-preview
+summary: "List the Asset URLs  \nLists storage container URLs with shared access signatures (SAS) for uploading and downloading Asset content. The signatures are derived from the storage account keys."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https:///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/listContainerSas?api-version=2018-03-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Media Services account name.
+  types:
+  - uid: string
+- name: assetName
+  in: path
+  isRequired: true
+  description: The Asset name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: AssetContainerSas
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ApiError
+requestBody:
+- parameters:
+  - name: permissions
+    in: body
+    description: The permissions to set on the SAS URL.
+    types:
+    - uid: AssetContainerPermission
+  - name: expiryTime
+    in: body
+    description: The SAS URL expiration time.  This must be less than 24 hours from the current time.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: AssetContainerSas
+  description: The Asset Storage container SAS URLs.
+  kind: object
+  properties:
+  - name: assetContainerSasUrls
+    description: The list of Asset container SAS URLs.
+    types:
+    - uid: string
+      isArray: true
+- name: ApiError
+  description: The API error.
+  kind: object
+  properties:
+  - name: error
+    description: The error properties.
+    types:
+    - uid: ODataError
+- name: ListContainerSasInput
+  description: The parameters to the list SAS requet.
+  kind: object
+  properties:
+  - name: permissions
+    description: The permissions to set on the SAS URL.
+    types:
+    - uid: AssetContainerPermission
+  - name: expiryTime
+    description: The SAS URL expiration time.  This must be less than 24 hours from the current time.
+    types:
+    - uid: string
+- name: ODataError
+  description: Information about an error.
+  kind: object
+  properties:
+  - name: code
+    description: A language-independent error name.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: The error details.
+    types:
+    - uid: ODataError
+      isArray: true
+- name: AssetContainerPermission
+  description: The permissions to set on the SAS URL.
+  kind: enum
+  properties:
+  - name: Read
+    description: The SAS URL will allow read access to the container.
+    types:
+    - uid: string
+  - name: ReadWrite
+    description: The SAS URL will allow read and write access to the container.
+    types:
+    - uid: string
+  - name: ReadWriteDelete
+    description: The SAS URL will allow read, write and delete access to the container.
+    types:
+    - uid: string
+examples:
+- name: List Asset SAS URLs
+  request:
+    uri: POST https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/assets/ClimbingMountBaker/listContainerSas?api-version=2018-03-30-preview
+    body: >-
+      {
+        "permissions": "ReadWrite",
+        "expiryTime": "2018-01-01T10:00:00.007Z"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "assetContainerSasUrls": [
+          "https://storage0.blob.core.windows.net/asset-89af1750-e681-4fbe-8c4c-9a5567867a6b?sr=b&sig=<secret-value-from-key-1>&se=2018-01-01T10:00:00Z&sp=lrw",
+          "https://storage0.blob.core.windows.net/asset-89af1750-e681-4fbe-8c4c-9a5567867a6b?sr=b&sig=<secret-value-from-key-2>&se=2018-01-01T10:00:00Z&sp=lrw"
+        ]
+      }
+security: []

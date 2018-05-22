@@ -1,0 +1,288 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.virtualmachinescalesets.getosupgradehistory
+name: Get OS Upgrade History
+service: Compute
+groupName: Virtual Machine Scale Sets
+apiVersion: 2017-12-01
+summary: Gets list of OS upgrades on a VM scale set instance.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osUpgradeHistory?api-version=2017-12-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: vmScaleSetName
+  in: path
+  isRequired: true
+  description: The name of the VM scale set.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: VirtualMachineScaleSetListOSUpgradeHistory
+requestHeader: []
+definitions:
+- name: VirtualMachineScaleSetListOSUpgradeHistory
+  description: List of Virtual Machine Scale Set OS Upgrade History operation response.
+  kind: object
+  properties:
+  - name: value
+    description: The list of OS upgrades performed on the virtual machine scale set.
+    types:
+    - uid: UpgradeOperationHistoricalStatusInfo
+      isArray: true
+  - name: nextLink
+    description: The uri to fetch the next page of OS Upgrade History. Call ListNext() with this to fetch the next page of history of upgrades.
+    types:
+    - uid: string
+- name: UpgradeOperationHistoricalStatusInfo
+  description: Virtual Machine Scale Set OS Upgrade History operation response.
+  kind: object
+  properties:
+  - name: properties
+    isReadyOnly: true
+    description: Information about the properties of the upgrade operation.
+    types:
+    - uid: UpgradeOperationHistoricalStatusInfoProperties
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Resource location
+    types:
+    - uid: string
+- name: UpgradeOperationHistoricalStatusInfoProperties
+  description: Describes each OS upgrade on the Virtual Machine Scale Set.
+  kind: object
+  properties:
+  - name: runningStatus
+    isReadyOnly: true
+    description: Information about the overall status of the upgrade operation.
+    types:
+    - uid: UpgradeOperationHistoryStatus
+  - name: progress
+    isReadyOnly: true
+    description: Counts of the VM's in each state.
+    types:
+    - uid: RollingUpgradeProgressInfo
+  - name: error
+    isReadyOnly: true
+    description: Error Details for this upgrade if there are any.
+    types:
+    - uid: ApiError
+  - name: startedBy
+    isReadyOnly: true
+    description: Invoker of the Upgrade Operation
+    types:
+    - uid: UpgradeOperationInvoker
+  - name: targetImageReference
+    isReadyOnly: true
+    description: Image Reference details
+    types:
+    - uid: ImageReference
+  - name: rollbackInfo
+    isReadyOnly: true
+    description: Information about OS rollback if performed
+    types:
+    - uid: RollbackStatusInfo
+- name: UpgradeOperationHistoryStatus
+  description: Information about the current running state of the overall upgrade.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Code indicating the current status of the upgrade.
+    types:
+    - uid: UpgradeState
+  - name: startTime
+    isReadyOnly: true
+    description: Start time of the upgrade.
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: End time of the upgrade.
+    types:
+    - uid: string
+- name: RollingUpgradeProgressInfo
+  description: Information about the number of virtual machine instances in each upgrade state.
+  kind: object
+  properties:
+  - name: successfulInstanceCount
+    isReadyOnly: true
+    description: The number of instances that have been successfully upgraded.
+    types:
+    - uid: integer
+  - name: failedInstanceCount
+    isReadyOnly: true
+    description: The number of instances that have failed to be upgraded successfully.
+    types:
+    - uid: integer
+  - name: inProgressInstanceCount
+    isReadyOnly: true
+    description: The number of instances that are currently being upgraded.
+    types:
+    - uid: integer
+  - name: pendingInstanceCount
+    isReadyOnly: true
+    description: The number of instances that have not yet begun to be upgraded.
+    types:
+    - uid: integer
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: UpgradeOperationInvoker
+  description: Invoker of the Upgrade Operation
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: User
+    types:
+    - uid: string
+  - name: Platform
+    types:
+    - uid: string
+- name: ImageReference
+  description: Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.
+  kind: object
+  properties:
+  - name: publisher
+    description: The image publisher.
+    types:
+    - uid: string
+  - name: offer
+    description: Specifies the offer of the platform image or marketplace image used to create the virtual machine.
+    types:
+    - uid: string
+  - name: sku
+    description: The image SKU.
+    types:
+    - uid: string
+  - name: version
+    description: Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available.
+    types:
+    - uid: string
+  - name: id
+    description: Resource Id
+    types:
+    - uid: string
+- name: RollbackStatusInfo
+  description: Information about rollback on failed VM instances after a OS Upgrade operation
+  kind: object
+  properties:
+  - name: successfullyRolledbackInstanceCount
+    isReadyOnly: true
+    description: The number of instances which have been successfully rolled back.
+    types:
+    - uid: integer
+  - name: failedRolledbackInstanceCount
+    isReadyOnly: true
+    description: The number of instances which failed to rollback.
+    types:
+    - uid: integer
+  - name: rollbackError
+    isReadyOnly: true
+    description: Error Details if OS rollback failed.
+    types:
+    - uid: ApiError
+- name: UpgradeState
+  description: Code indicating the current status of the upgrade.
+  kind: enum
+  properties:
+  - name: RollingForward
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+  - name: Faulted
+    types:
+    - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

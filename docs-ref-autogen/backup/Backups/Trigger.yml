@@ -1,0 +1,226 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.backup.backups.trigger
+name: Trigger
+service: Recovery Services - Backup
+groupName: Backups
+apiVersion: 2016-12-01
+summary: Triggers backup for specified backed up item. This is an asynchronous operation. To know the status of the operation, call GetProtectedItemOperationResult API.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/backup?api-version=2016-12-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: fabricName
+  in: path
+  isRequired: true
+  description: Fabric name associated with the backup item.
+  types:
+  - uid: string
+- name: containerName
+  in: path
+  isRequired: true
+  description: Container name associated with the backup item.
+  types:
+  - uid: string
+- name: protectedItemName
+  in: path
+  isRequired: true
+  description: Backup item for which backup needs to be triggered.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted
+requestBody:
+- parameters:
+  - name: properties
+    in: body
+    description: BackupRequestResource properties
+    types:
+    - uid: AzureFileShareBackupRequest
+    - uid: AzureWorkloadBackupRequest
+    - uid: IaasVMBackupRequest
+    typesTitle: BackupRequest
+  - name: location
+    in: body
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    in: body
+    description: Optional ETag.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: BackupRequestResource
+  description: Base class for backup request. Workload-specific backup requests are derived from this class.
+  kind: object
+  properties:
+  - name: properties
+    description: BackupRequestResource properties
+    types:
+    - uid: AzureFileShareBackupRequest
+    - uid: AzureWorkloadBackupRequest
+    - uid: IaasVMBackupRequest
+    typesTitle: BackupRequest
+  - name: id
+    isReadyOnly: true
+    description: Resource Id represents the complete path to the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name associated with the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    description: Optional ETag.
+    types:
+    - uid: string
+- name: AzureFileShareBackupRequest
+  description: AzureFileShare workload-specific backup request.
+  kind: object
+  properties:
+  - name: recoveryPointExpiryTimeInUTC
+    description: Backup copy will expire after the time specified (UTC).
+    types:
+    - uid: string
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: AzureFileShareBackupRequest
+    typesTitle: string
+- name: AzureWorkloadBackupRequest
+  description: AzureWorkload workload-specific backup request.
+  kind: object
+  properties:
+  - name: backupType
+    description: Type of backup, viz. Full, Differential, Log or CopyOnlyFull
+    types:
+    - uid: backupType
+  - name: enableCompression
+    description: Bool for Compression setting
+    types:
+    - uid: boolean
+  - name: recoveryPointExpiryTimeInUTC
+    description: Backup copy will expire after the time specified (UTC).
+    types:
+    - uid: string
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: AzureWorkloadBackupRequest
+    typesTitle: string
+- name: IaasVMBackupRequest
+  description: IaaS VM workload-specific backup request.
+  kind: object
+  properties:
+  - name: recoveryPointExpiryTimeInUTC
+    description: Backup copy will expire after the time specified (UTC).
+    types:
+    - uid: string
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: IaasVMBackupRequest
+    typesTitle: string
+- name: backupType
+  description: Type of backup, viz. Full, Differential, Log or CopyOnlyFull
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Full
+    types:
+    - uid: string
+  - name: Differential
+    types:
+    - uid: string
+  - name: Log
+    types:
+    - uid: string
+  - name: CopyOnlyFull
+    types:
+    - uid: string
+examples:
+- name: Trigger Backup
+  request:
+    uri: POST https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/linuxRsVaultRG/providers/Microsoft.RecoveryServices/vaults/linuxRsVault/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainerv2;testrg;v1win2012r/protectedItems/VM;iaasvmcontainerv2;testrg;v1win2012r/backup?api-version=2016-12-01
+    body: >-
+      {
+        "properties": {
+          "objectType": "IaasVMBackupRequest"
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/linuxRsVaultRG/providers/Microsoft.RecoveryServices/vaults/linuxRsVault/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainer;testrg;v1win2012r/protectedItems/VM;iaasvmcontainer;testrg;v1win2012r/operationResults/00000000-0000-0000-0000-000000000000?api-version=2016-12-01
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/linuxRsVaultRG/providers/Microsoft.RecoveryServices/vaults/linuxRsVault/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainer;testrg;v1win2012r/protectedItems/VM;iaasvmcontainer;testrg;v1win2012r/operationsStatus/00000000-0000-0000-0000-000000000000?api-version=2016-12-01
+    - name: Retry-After
+      value: "60"
+    body: '{}'
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.

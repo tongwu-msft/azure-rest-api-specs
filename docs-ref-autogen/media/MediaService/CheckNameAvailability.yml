@@ -1,0 +1,136 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.media.mediaservice.checknameavailability
+name: Check Name Availability
+service: Media Services
+groupName: Media Service
+apiVersion: 2015-10-01
+summary: Checks whether the Media Service resource name is available. The name must be globally unique.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Media/CheckNameAvailability?api-version=2015-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2015-10-01.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. Returns details about whether a Media Service resource name is available.
+  types:
+  - uid: CheckNameAvailabilityOutput
+- name: Other Status Codes
+  description: CheckNameAvailability of a Media Service failed.
+  types:
+  - uid: ApiError
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    isRequired: true
+    description: The name of the resource. A name must be globally unique.
+    types:
+    - uid: string
+  - name: type
+    in: body
+    isRequired: true
+    description: The type of the resource - mediaservices.
+    types:
+    - uid: ResourceType
+requestHeader: []
+definitions:
+- name: CheckNameAvailabilityOutput
+  description: The response body for CheckNameAvailability API.
+  kind: object
+  properties:
+  - name: nameAvailable
+    description: Specifies if the name is available.
+    types:
+    - uid: boolean
+  - name: reason
+    description: Specifies the reason if the name is not available.
+    types:
+    - uid: EntityNameUnavailabilityReason
+  - name: message
+    description: Specifies the detailed reason if the name is not available.
+    types:
+    - uid: string
+- name: ApiError
+  description: The error returned from a failed Media Services REST API call.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+- name: CheckNameAvailabilityInput
+  description: The request body for CheckNameAvailability API.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource. A name must be globally unique.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the resource - mediaservices.
+    types:
+    - uid: ResourceType
+- name: EntityNameUnavailabilityReason
+  description: Specifies the reason if the name is not available.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AlreadyExists
+    types:
+    - uid: string
+- name: ResourceType
+  description: Type of MediaService resource.
+  kind: enum
+  properties:
+  - name: mediaservices
+    types:
+    - uid: string
+examples:
+- name: MediaServiceCheckNameAvailability
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Media/CheckNameAvailability?api-version=2015-10-01
+    body: >-
+      {
+        "name": "contosomedia",
+        "type": "mediaservices"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": true,
+        "reason": "None",
+        "message": ""
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

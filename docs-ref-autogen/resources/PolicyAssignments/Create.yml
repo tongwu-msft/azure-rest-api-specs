@@ -1,0 +1,232 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resources.policyassignments.create
+name: Create
+service: Resource Management
+groupName: Policy Assignments
+apiVersion: 2017-06-01-preview
+summary: "Creates a policy assignment.  \nPolicy assignments are inherited by child resources. For example, when you apply a policy to a resource group that policy is assigned to all resources in the group."
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}?api-version=2017-06-01-preview
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: The scope of the policy assignment.
+  types:
+  - uid: string
+- name: policyAssignmentName
+  in: path
+  isRequired: true
+  description: The name of the policy assignment.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the operation.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Created - Returns information about the new policy assignment.
+  types:
+  - uid: PolicyAssignment
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: sku
+    in: body
+    description: The policy sku.
+    types:
+    - uid: PolicySku
+  - name: properties.displayName
+    in: body
+    description: The display name of the policy assignment.
+    types:
+    - uid: string
+  - name: properties.policyDefinitionId
+    in: body
+    description: The ID of the policy definition.
+    types:
+    - uid: string
+  - name: properties.scope
+    in: body
+    description: The scope for the policy assignment.
+    types:
+    - uid: string
+  - name: properties.notScopes
+    in: body
+    description: The policy's excluded scopes.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.parameters
+    in: body
+    description: Required if a parameter is used in policy rule.
+    types:
+    - uid: object
+  - name: properties.description
+    in: body
+    description: This message will be part of response in case of policy violation.
+    types:
+    - uid: string
+  - name: properties.metadata
+    in: body
+    description: The policy assignment metadata.
+    types:
+    - uid: object
+requestHeader: []
+definitions:
+- name: PolicySku
+  description: The policy sku.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the policy sku. Possible values are A0 and A1.
+    types:
+    - uid: string
+  - name: tier
+    description: The policy sku tier. Possible values are Free and Standard.
+    types:
+    - uid: string
+- name: PolicyAssignment
+  description: The policy assignment.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ID of the policy assignment.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the policy assignment.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the policy assignment.
+    types:
+    - uid: string
+  - name: sku
+    description: The policy sku.
+    types:
+    - uid: PolicySku
+  - name: properties.displayName
+    description: The display name of the policy assignment.
+    types:
+    - uid: string
+  - name: properties.policyDefinitionId
+    description: The ID of the policy definition.
+    types:
+    - uid: string
+  - name: properties.scope
+    description: The scope for the policy assignment.
+    types:
+    - uid: string
+  - name: properties.notScopes
+    description: The policy's excluded scopes.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.parameters
+    description: Required if a parameter is used in policy rule.
+    types:
+    - uid: object
+  - name: properties.description
+    description: This message will be part of response in case of policy violation.
+    types:
+    - uid: string
+  - name: properties.metadata
+    description: The policy assignment metadata.
+    types:
+    - uid: object
+- name: ErrorResponse
+  description: Error reponse indicates ARM is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: httpStatus
+    description: Http status code.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: Put a policy assignment
+  request:
+    uri: PUT https://management.azure.com//subscriptions/subId/providers/Microsoft.Authorization/policyAssignments/costManagement?api-version=2017-06-01-preview
+    body: >-
+      {
+        "properties": {
+          "displayName": "Storage Cost Management",
+          "description": "Policies required to minimize the risk of accidental cost overruns",
+          "metadata": {
+            "category": "Cost Management"
+          },
+          "policyDefinitionId": "/subscriptions/subId/providers/Microsoft.Authorization/policyDefinitions/storageSkus",
+          "parameters": {
+            "allowedSkus": {
+              "type": "Array"
+            }
+          },
+          "notScopes": [
+            "/subscriptions/subId/resourcegroups/testingResourceGroup"
+          ]
+        },
+        "sku": {
+          "name": "A0",
+          "tier": "Free"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subId/providers/Microsoft.Authorization/policyAssignments/costManagement",
+        "type": "Microsoft.Authorization/policyAssignments",
+        "name": "costManagement",
+        "properties": {
+          "displayName": "Storage Cost Management",
+          "description": "Policies required to minimize the risk of accidental cost overruns",
+          "metadata": {
+            "category": "Cost Management"
+          },
+          "policyDefinitionId": "/subscriptions/subId/providers/Microsoft.Authorization/policyDefinitions/storageSkus",
+          "parameters": {
+            "allowedSkus": {
+              "type": "Array"
+            }
+          },
+          "notScopes": [
+            "/subscriptions/subId/resourcegroups/testingResourceGroup"
+          ],
+          "scope": "/subscriptions/subId"
+        },
+        "sku": {
+          "name": "A0",
+          "tier": "Free"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,111 @@
+### YamlMime:RESTOperation
+uid: face.v1.0.cognitiveservices.facelist.get
+name: Get
+service: Cognitive Services
+groupName: Face List
+apiVersion: "1.0"
+summary: Retrieve a face list's information.
+produces:
+- application/json
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/facelists/{faceListId}
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: faceListId
+  in: path
+  isRequired: true
+  description: Id referencing a particular face list.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9-_]+$
+responses:
+- name: 200 OK
+  description: A successful call returns the face list's information.
+  types:
+  - uid: FaceList
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader: []
+definitions:
+- name: FaceList
+  description: Face list object.
+  kind: object
+  properties:
+  - name: faceListId
+    description: FaceListId of the target face list.
+    types:
+    - uid: string
+  - name: persistedFaces
+    description: Persisted faces within the face list.
+    types:
+    - uid: PersistedFace
+      isArray: true
+  - name: name
+    description: User defined name, maximum length is 128.
+    types:
+    - uid: string
+  - name: userData
+    description: User specified data. Length should not exceed 16KB.
+    types:
+    - uid: string
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: PersistedFace
+  description: PersonFace object.
+  kind: object
+  properties:
+  - name: persistedFaceId
+    description: The persistedFaceId of the target face, which is persisted and will not expire. Different from faceId created by Face - Detect and will expire in 24 hours after the detection call.
+    types:
+    - uid: string
+  - name: userData
+    description: User-provided data attached to the face. The size limit is 1KB.
+    types:
+    - uid: string
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Get Face list example
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/face/v1.0/facelists/sample_face_list
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "faceListId": "sample_list",
+        "name": "list1",
+        "userData": "User-provided data attached to the face list",
+        "persistedFaces": [
+          {
+            "persistedFaceId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBD",
+            "userData": "User-provided data attached to the face"
+          }
+        ]
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

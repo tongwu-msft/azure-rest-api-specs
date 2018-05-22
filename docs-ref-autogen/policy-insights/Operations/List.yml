@@ -1,0 +1,141 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.policy-insights.operations.list
+name: List
+service: Policy Insights
+groupName: Operations
+apiVersion: 2018-04-04
+summary: Lists available operations.
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.PolicyInsights/operations?api-version=2018-04-04
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version to use with the client requests.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: List of available operations.
+  types:
+  - uid: OperationsListResults
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: QueryFailure
+requestHeader: []
+definitions:
+- name: OperationsListResults
+  description: List of available operations.
+  kind: object
+  properties:
+  - name: '@odata.count'
+    description: OData entity count; represents the number of operations returned.
+    types:
+    - uid: integer
+  - name: value
+    description: List of available operations.
+    types:
+    - uid: Operation
+      isArray: true
+- name: QueryFailure
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: Error definition.
+    types:
+    - uid: Error
+- name: Operation
+  description: Operation definition.
+  kind: object
+  properties:
+  - name: name
+    description: Operation name.
+    types:
+    - uid: string
+  - name: display
+    description: Display metadata associated with the operation.
+    types:
+    - uid: Display
+- name: Error
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    description: Description of the error.
+    types:
+    - uid: string
+- name: Display
+  description: Display metadata associated with the operation.
+  kind: object
+  properties:
+  - name: provider
+    description: Resource provider name.
+    types:
+    - uid: string
+  - name: resource
+    description: Resource name on which the operation is performed.
+    types:
+    - uid: string
+  - name: operation
+    description: Operation name.
+    types:
+    - uid: string
+  - name: description
+    description: Operation description.
+    types:
+    - uid: string
+examples:
+- name: List operations
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.PolicyInsights/operations?api-version=2018-04-04
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@odata.count": 3,
+        "value": [
+          {
+            "name": "Microsoft.PolicyInsights/policyEvents/queryResults/action",
+            "display": {
+              "provider": "Microsoft Policy Insights",
+              "resource": "Policy Events",
+              "operation": "Query Policy Events",
+              "description": "Query information about policy events."
+            }
+          },
+          {
+            "name": "Microsoft.PolicyInsights/policyStates/queryResults/action",
+            "display": {
+              "provider": "Microsoft Policy Insights",
+              "resource": "Policy States",
+              "operation": "Query Policy States",
+              "description": "Query information about policy states."
+            }
+          },
+          {
+            "name": "Microsoft.PolicyInsights/policyStates/summarize/action",
+            "display": {
+              "provider": "Microsoft Policy Insights",
+              "resource": "Policy States",
+              "operation": "Query Policy Latest States Summary",
+              "description": "Query summary information about policy latest states."
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

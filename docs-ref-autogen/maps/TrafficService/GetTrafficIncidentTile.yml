@@ -1,0 +1,203 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.trafficservice.gettrafficincidenttile
+name: Get Traffic Incident Tile
+service: Maps
+groupName: Traffic Service
+apiVersion: "1.0"
+summary: __Traffic Incident Tile__ <br/><br/>This API provides information on traffic incidents inside a given bounding box, based on the current Traffic Model ID. The Traffic Model ID is available to grant synchronization of data between calls and API's. The Traffic Model ID is a key value for determining the currency of traffic incidents. It is updated every minute, and is valid for two minutes before it times out. It is used in rendering [traffic tiles](https://docs.microsoft.com/en-us/rest/api/location-based-services/traffic/gettrafficincidenttile). It can be obtained from the [Viewport API](https://docs.microsoft.com/en-us/rest/api/location-based-services/traffic/gettrafficincidentviewport).
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: GET https://atlas.microsoft.com/traffic/incident/tile/png?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}
+- content: GET https://atlas.microsoft.com/traffic/incident/tile/png?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}&t={t}
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: 'Desired format of the response. Possible value: png.'
+  types:
+  - uid: RasterTileFormat
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+- name: style
+  in: query
+  isRequired: true
+  description: The style to be used to render the tile.
+  types:
+  - uid: TrafficIncidentTileStyle
+- name: zoom
+  in: query
+  isRequired: true
+  description: 'Zoom level for the desired tile. Zoom value must be in the range: 0-18 (inclusive).<br><br>Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.'
+  types:
+  - uid: integer
+- name: x
+  in: query
+  isRequired: true
+  description: X coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].<br><br>Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+  types:
+  - uid: integer
+- name: y
+  in: query
+  isRequired: true
+  description: Y coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].<br><br>Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+  types:
+  - uid: integer
+- name: t
+  in: query
+  description: 'Reference value for the state of traffic at a particular time, obtained from the Viewport API call. It is updated every minute, and is valid for two minutes before it times out. Use -1 to get the most recent traffic information. Default: most recent traffic information'
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: TrafficIncidentTileResult
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
+  types:
+  - uid: ErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: RasterTileFormat
+  description: 'Desired format of the response. Possible value: png.'
+  kind: enum
+  properties:
+  - name: png
+    description: An image in the png format. Supports zoom levels 0 through 18.
+    types:
+    - uid: string
+- name: TrafficIncidentTileStyle
+  description: The style to be used to render the tile.
+  kind: enum
+  properties:
+  - name: s1
+    description: Creates traffic lines with colored chevrons indicating severity.
+    types:
+    - uid: string
+  - name: s2
+    description: Creates plain lines with certain degree of glow.
+    types:
+    - uid: string
+  - name: s3
+    description: Creates plain lines with certain degree of glow.
+    types:
+    - uid: string
+  - name: night
+    description: Night style.
+    types:
+    - uid: string
+- name: TrafficIncidentTileResult
+  description: This object is returned from a successful Traffic Incident Tile call
+  kind: object
+  properties:
+  - name: image
+    isReadyOnly: true
+    description: Image property
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+examples:
+- name: GetTrafficIncidentTile
+  request:
+    uri: GET https://atlas.microsoft.com/traffic/incident/tile/png?subscription-key=[subscription-key]&api-version=1.0&style=s3&zoom=12&x=2044&y=1360
+  responses:
+  - statusCode: "200"
+    body: '{}'
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: subscription-key
+  type: apiKey
+  in: query

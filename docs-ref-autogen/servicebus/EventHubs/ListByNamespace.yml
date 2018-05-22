@@ -1,0 +1,262 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicebus.eventhubs.listbynamespace
+name: List By Namespace
+service: Service Bus
+groupName: Event Hubs
+apiVersion: 2017-04-01
+summary: Gets all the Event Hubs in a service bus Namespace.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/eventhubs?api-version=2017-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: namespaceName
+  in: path
+  isRequired: true
+  description: The namespace name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of Event Hubs.
+  types:
+  - uid: EventHubListResult
+- name: Other Status Codes
+  description: Eventhub error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: EventHubListResult
+  description: The result of the List EventHubs operation.
+  kind: object
+  properties:
+  - name: value
+    description: Result of the List EventHubs operation.
+    types:
+    - uid: Eventhub
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to the next set of results. Not empty if Value contains incomplete list of EventHubs.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: Eventhub
+  description: Single item in List or Get Event Hub operation
+  kind: object
+  properties:
+  - name: properties.partitionIds
+    isReadyOnly: true
+    description: Current number of shards on the Event Hub.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.createdAt
+    isReadyOnly: true
+    description: Exact time the Event Hub was created.
+    types:
+    - uid: string
+  - name: properties.updatedAt
+    isReadyOnly: true
+    description: The exact time the message was updated.
+    types:
+    - uid: string
+  - name: properties.messageRetentionInDays
+    description: Number of days to retain the events for this Event Hub, value should be 1 to 7 days
+    types:
+    - uid: integer
+  - name: properties.partitionCount
+    description: Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
+    types:
+    - uid: integer
+  - name: properties.status
+    description: Enumerates the possible values for the status of the Event Hub.
+    types:
+    - uid: EntityStatus
+  - name: properties.captureDescription
+    description: Properties of capture description
+    types:
+    - uid: CaptureDescription
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: EntityStatus
+  description: Entity status.
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Restoring
+    types:
+    - uid: string
+  - name: SendDisabled
+    types:
+    - uid: string
+  - name: ReceiveDisabled
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Renaming
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+- name: CaptureDescription
+  description: Properties to configure capture description for eventhub
+  kind: object
+  properties:
+  - name: enabled
+    description: 'A value that indicates whether capture description is enabled. '
+    types:
+    - uid: boolean
+  - name: encoding
+    description: Enumerates the possible values for the encoding format of capture description.
+    types:
+    - uid: EncodingCaptureDescription
+  - name: intervalInSeconds
+    description: The time window allows you to set the frequency with which the capture to Azure Blobs will happen, value should between 60 to 900 seconds
+    types:
+    - uid: integer
+  - name: sizeLimitInBytes
+    description: The size window defines the amount of data built up in your Event Hub before an capture operation, value should be between 10485760 and 524288000 bytes
+    types:
+    - uid: integer
+  - name: destination
+    description: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
+    types:
+    - uid: Destination
+- name: EncodingCaptureDescription
+  description: Enumerates the possible values for the encoding format of capture description.
+  kind: enum
+  properties:
+  - name: Avro
+    types:
+    - uid: string
+  - name: AvroDeflate
+    types:
+    - uid: string
+- name: Destination
+  description: Capture storage details for capture description
+  kind: object
+  properties:
+  - name: name
+    description: Name for capture destination
+    types:
+    - uid: string
+  - name: properties.storageAccountResourceId
+    description: Resource id of the storage account to be used to create the blobs
+    types:
+    - uid: string
+  - name: properties.blobContainer
+    description: Blob container Name
+    types:
+    - uid: string
+  - name: properties.archiveNameFormat
+    description: Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order
+    types:
+    - uid: string
+examples:
+- name: RulesCreateOrUpdate
+  request:
+    uri: GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-3174/eventhubs?api-version=2017-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-716/eventhubs/sdk-eventhub-10",
+            "name": "sdk-eventhub-10",
+            "type": "Microsoft.ServiceBus/Namespaces/EventHubs",
+            "properties": {
+              "messageRetentionInDays": 4,
+              "partitionCount": 4,
+              "status": "Active",
+              "createdAt": "2017-06-28T02:45:55.877Z",
+              "updatedAt": "2017-06-28T02:46:05.877Z",
+              "partitionIds": [
+                "0",
+                "1",
+                "2",
+                "3"
+              ],
+              "captureDescription": {
+                "enabled": true,
+                "encoding": "Avro",
+                "destination": {
+                  "name": "EventHubArchive.AzureBlockBlob",
+                  "properties": {
+                    "storageAccountResourceId": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ClassicStorage/storageAccounts/arjunteststorage",
+                    "blobContainer": "container",
+                    "archiveNameFormat": "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}"
+                  }
+                },
+                "intervalInSeconds": 120,
+                "sizeLimitInBytes": 10485763
+              }
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

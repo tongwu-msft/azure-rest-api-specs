@@ -1,0 +1,257 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.monitor.logprofiles.update
+name: Update
+service: Monitor
+groupName: Log Profiles
+apiVersion: 2016-03-01
+summary: Updates an existing LogProfilesResource. To update other fields use the CreateOrUpdate method.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/providers/microsoft.insights/logprofiles/{logProfileName}?api-version=2016-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription Id.
+  types:
+  - uid: string
+- name: logProfileName
+  in: path
+  isRequired: true
+  description: The name of the log profile.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+- name: 200 OK
+  description: An existing log profile was successfully updated.
+  types:
+  - uid: LogProfileResource
+requestBody:
+- parameters:
+  - name: tags
+    in: body
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.storageAccountId
+    in: body
+    description: the resource id of the storage account to which you would like to send the Activity Log.
+    types:
+    - uid: string
+  - name: properties.serviceBusRuleId
+    in: body
+    description: "The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'."
+    types:
+    - uid: string
+  - name: properties.locations
+    in: body
+    isRequired: true
+    description: List of regions for which Activity Log events should be stored or streamed. It is a comma separated list of valid ARM locations including the 'global' location.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.categories
+    in: body
+    isRequired: true
+    description: "the categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.'"
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.retentionPolicy
+    in: body
+    isRequired: true
+    description: the retention policy for the events in the log.
+    types:
+    - uid: RetentionPolicy
+requestHeader: []
+definitions:
+- name: RetentionPolicy
+  description: Specifies the retention policy for the log.
+  kind: object
+  properties:
+  - name: enabled
+    description: a value indicating whether the retention policy is enabled.
+    types:
+    - uid: boolean
+  - name: days
+    description: the number of days for the retention in days. A value of 0 will retain the events indefinitely.
+    types:
+    - uid: integer
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: LogProfileResource
+  description: The log profile resource.
+  kind: object
+  properties:
+  - name: properties.storageAccountId
+    description: the resource id of the storage account to which you would like to send the Activity Log.
+    types:
+    - uid: string
+  - name: properties.serviceBusRuleId
+    description: "The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'."
+    types:
+    - uid: string
+  - name: properties.locations
+    description: List of regions for which Activity Log events should be stored or streamed. It is a comma separated list of valid ARM locations including the 'global' location.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.categories
+    description: "the categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.'"
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.retentionPolicy
+    description: the retention policy for the events in the log.
+    types:
+    - uid: RetentionPolicy
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Azure resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Azure resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: LogProfileResourcePatch
+  description: The log profile resource for patch operations.
+  kind: object
+  properties:
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.storageAccountId
+    description: the resource id of the storage account to which you would like to send the Activity Log.
+    types:
+    - uid: string
+  - name: properties.serviceBusRuleId
+    description: "The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'."
+    types:
+    - uid: string
+  - name: properties.locations
+    description: List of regions for which Activity Log events should be stored or streamed. It is a comma separated list of valid ARM locations including the 'global' location.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.categories
+    description: "the categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.'"
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.retentionPolicy
+    description: the retention policy for the events in the log.
+    types:
+    - uid: RetentionPolicy
+examples:
+- name: Patch a log profile
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/providers/microsoft.insights/logprofiles/Rac46PostSwapRG?api-version=2016-03-01
+    body: >-
+      {
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "locations": [
+            "global"
+          ],
+          "categories": [
+            "Write",
+            "Delete",
+            "Action"
+          ],
+          "retentionPolicy": {
+            "enabled": true,
+            "days": 3
+          },
+          "storageAccountId": "/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/JohnKemTest/providers/Microsoft.Storage/storageAccounts/johnkemtest8162",
+          "serviceBusRuleId": ""
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/providers/microsoft.insights/logprofiles/default",
+        "type": "",
+        "name": "default",
+        "location": "",
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "storageAccountId": "/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/JohnKemTest/providers/Microsoft.Storage/storageAccounts/johnkemtest8162",
+          "serviceBusRuleId": "",
+          "locations": [
+            "global"
+          ],
+          "categories": [
+            "Delete",
+            "Write",
+            "Action"
+          ],
+          "retentionPolicy": {
+            "enabled": true,
+            "days": 3
+          }
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,149 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.agentregistrationinformation.regeneratekey
+name: Regenerate Key
+service: Automation
+groupName: Agent Registration Information
+apiVersion: 2018-01-15
+summary: Regenerate a primary or secondary agent registration key
+consumes:
+- application/json
+produces:
+- application/json
+- text/plain
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/agentRegistrationInformation/regenerateKey?api-version=2018-01-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure Resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The name of the automation account.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: AgentRegistration
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: keyName
+    in: body
+    isRequired: true
+    description: Gets or sets the agent registration key name - primary or secondary.
+    types:
+    - uid: AgentRegistrationKeyName
+requestHeader: []
+definitions:
+- name: AgentRegistration
+  description: Definition of the agent registration infomration type.
+  kind: object
+  properties:
+  - name: dscMetaConfiguration
+    description: Gets or sets the dsc meta configuration.
+    types:
+    - uid: string
+  - name: endpoint
+    description: Gets or sets the dsc server endpoint.
+    types:
+    - uid: string
+  - name: keys
+    description: Gets or sets the agent registration keys.
+    types:
+    - uid: AgentRegistrationKeys
+  - name: id
+    description: Gets or sets the id.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: AgentRegistrationRegenerateKeyParameter
+  description: The parameters supplied to the regenerate keys operation.
+  kind: object
+  properties:
+  - name: keyName
+    description: Gets or sets the agent registration key name - primary or secondary.
+    types:
+    - uid: AgentRegistrationKeyName
+- name: AgentRegistrationKeys
+  description: Definition of the agent registration keys.
+  kind: object
+  properties:
+  - name: primary
+    description: Gets or sets the primary key.
+    types:
+    - uid: string
+  - name: secondary
+    description: Gets or sets the secondary key.
+    types:
+    - uid: string
+- name: AgentRegistrationKeyName
+  description: Gets or sets the agent registration key name - primary or secondary.
+  kind: enum
+  properties:
+  - name: primary
+    types:
+    - uid: string
+  - name: secondary
+    types:
+    - uid: string
+examples:
+- name: Regenerate registration key
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount18/agentRegistrationInformation/regenerateKey?api-version=2018-01-15
+    body: >-
+      {
+        "keyName": "primary"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": null,
+        "keys": {
+          "primary": "5ci0000000000000000000000000000000000000000000000000000000000000000000000000000Y5H/8wFg==",
+          "secondary": "rVp0000000000000000000000000000000000000000000000000000000000000000000000000000f8cbmrOA=="
+        },
+        "endpoint": "https://eus2-agentservice-prod-1.azure-automation.net/accounts/bd8fac9e-0000-0000-0000-0000f474fbf6",
+        "dscMetaConfiguration": null
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

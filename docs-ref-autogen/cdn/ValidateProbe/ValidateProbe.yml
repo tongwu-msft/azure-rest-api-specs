@@ -1,0 +1,110 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cdn.validateprobe.validateprobe
+name: Validate Probe
+service: CDN
+groupName: Validate Probe
+apiVersion: 2017-10-12
+summary: Check if the probe path is a valid path and the file can be accessed. Probe path is the path to a file hosted on the origin server to help accelerate the delivery of dynamic content via the CDN endpoint. This path is relative to the origin path specified in the endpoint configuration.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/validateProbe?api-version=2017-10-12
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2017-04-02.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ValidateProbeOutput
+- name: Other Status Codes
+  description: CDN error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: probeURL
+    in: body
+    isRequired: true
+    description: The probe URL to validate.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ValidateProbeOutput
+  description: Output of the validate probe API.
+  kind: object
+  properties:
+  - name: isValid
+    isReadyOnly: true
+    description: Indicates whether the probe URL is accepted or not.
+    types:
+    - uid: boolean
+  - name: errorCode
+    isReadyOnly: true
+    description: Specifies the error code when the probe url is not accepted.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The detailed error message describing why the probe URL is not accepted.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ValidateProbeInput
+  description: Input of the validate probe API.
+  kind: object
+  properties:
+  - name: probeURL
+    description: The probe URL to validate.
+    types:
+    - uid: string
+examples:
+- name: ValidateProbe
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/validateProbe?api-version=2017-10-12
+    body: >-
+      {
+        "probeURL": "https://www.bing.com/image"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "isValid": true,
+        "errorCode": "None",
+        "message": null
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

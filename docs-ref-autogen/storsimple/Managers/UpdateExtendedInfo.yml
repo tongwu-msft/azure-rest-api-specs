@@ -1,0 +1,189 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storsimple.managers.updateextendedinfo
+name: Update Extended Info
+service: StorSimple
+groupName: Managers
+apiVersion: 2017-06-01
+summary: Updates the extended info of the manager.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/extendedInformation/vaultExtendedInfo?api-version=2017-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription id
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name
+  types:
+  - uid: string
+- name: managerName
+  in: path
+  isRequired: true
+  description: The manager name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The extended information on the manager has been successfully created
+  types:
+  - uid: ManagerExtendedInfo
+requestBody:
+- parameters:
+  - name: etag
+    in: body
+    description: The etag of the resource.
+    types:
+    - uid: string
+  - name: properties.version
+    in: body
+    description: The version of the extended info being persisted.
+    types:
+    - uid: string
+  - name: properties.integrityKey
+    in: body
+    isRequired: true
+    description: Represents the CIK of the resource.
+    types:
+    - uid: string
+  - name: properties.encryptionKey
+    in: body
+    description: Represents the CEK of the resource.
+    types:
+    - uid: string
+  - name: properties.encryptionKeyThumbprint
+    in: body
+    description: Represents the Cert thumbprint that was used to encrypt the CEK.
+    types:
+    - uid: string
+  - name: properties.portalCertificateThumbprint
+    in: body
+    description: Represents the portal thumbprint which can be used optionally to encrypt the entire data before storing it.
+    types:
+    - uid: string
+  - name: properties.algorithm
+    in: body
+    isRequired: true
+    description: Represents the encryption algorithm used to encrypt the keys. None - if Key is saved in plain text format. Algorithm name - if key is encrypted
+    types:
+    - uid: string
+  - name: kind
+    in: body
+    description: The Kind of the object. Currently only Series8000 is supported
+    types:
+    - uid: Kind
+requestHeader:
+- name: If-Match
+  in: header
+  isRequired: true
+  description: Pass the ETag of ExtendedInfo fetched from GET call
+  types:
+  - uid: string
+definitions:
+- name: ManagerExtendedInfo
+  description: The extended info of the manager.
+  kind: object
+  properties:
+  - name: etag
+    description: The etag of the resource.
+    types:
+    - uid: string
+  - name: properties.version
+    description: The version of the extended info being persisted.
+    types:
+    - uid: string
+  - name: properties.integrityKey
+    description: Represents the CIK of the resource.
+    types:
+    - uid: string
+  - name: properties.encryptionKey
+    description: Represents the CEK of the resource.
+    types:
+    - uid: string
+  - name: properties.encryptionKeyThumbprint
+    description: Represents the Cert thumbprint that was used to encrypt the CEK.
+    types:
+    - uid: string
+  - name: properties.portalCertificateThumbprint
+    description: Represents the portal thumbprint which can be used optionally to encrypt the entire data before storing it.
+    types:
+    - uid: string
+  - name: properties.algorithm
+    description: Represents the encryption algorithm used to encrypt the keys. None - if Key is saved in plain text format. Algorithm name - if key is encrypted
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the object.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+  - name: kind
+    description: The Kind of the object. Currently only Series8000 is supported
+    types:
+    - uid: Kind
+- name: Kind
+  description: The Kind of the object. Currently only Series8000 is supported
+  kind: enum
+  properties:
+  - name: Series8000
+    types:
+    - uid: string
+examples:
+- name: ManagersUpdateExtendedInfo
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest2/extendedInformation/vaultExtendedInfo?api-version=2017-06-01
+    body: >-
+      {
+        "properties": {
+          "integrityKey": "BIl+RHqO8PZ6DRvuXTTK7g==",
+          "algorithm": "SHA256"
+        },
+        "etag": "674ab9df-af56-4c5c-a5ca-2bddcf1b781a"
+      }
+    headers:
+    - name: If-Match
+      value: 674ab9df-af56-4c5c-a5ca-2bddcf1b781a
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "vaultExtendedInfo",
+        "etag": "7d062cd9-c325-422b-8bff-0e702b8659ed",
+        "properties": {
+          "integrityKey": "BIl+RHqO8PZ6DRvuXTTK7g==",
+          "algorithm": "SHA256"
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/Managers/ManagerForSDKTest2extendedInformation/vaultExtendedInfo",
+        "type": "Microsoft.StorSimple/Managers/extendedInformation"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

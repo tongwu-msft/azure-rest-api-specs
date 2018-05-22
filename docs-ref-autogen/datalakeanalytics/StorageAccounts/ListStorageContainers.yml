@@ -1,0 +1,118 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datalakeanalytics.storageaccounts.liststoragecontainers
+name: List Storage Containers
+service: Data Lake Analytics
+groupName: Storage Accounts
+apiVersion: 2016-11-01
+summary: Lists the Azure Storage containers, if any, associated with the specified Data Lake Analytics and Azure Storage account combination. The response includes a link to the next page of results, if any.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}/storageAccounts/{storageAccountName}/containers?api-version=2016-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the Azure resource group.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the Data Lake Analytics account.
+  types:
+  - uid: string
+- name: storageAccountName
+  in: path
+  isRequired: true
+  description: The name of the Azure storage account from which to list blob containers.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of Azure Storage containers under the specified Azure Data Lake Analytics account.
+  types:
+  - uid: StorageContainerListResult
+requestHeader: []
+definitions:
+- name: StorageContainerListResult
+  description: The list of blob containers associated with the storage account attached to the Data Lake Analytics account.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The results of the list operation.
+    types:
+    - uid: StorageContainer
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+- name: StorageContainer
+  description: Azure Storage blob container information.
+  kind: object
+  properties:
+  - name: properties.lastModifiedTime
+    isReadyOnly: true
+    description: The last modified time of the blob container.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+examples:
+- name: Lists the Azure Storage containers
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/storageAccounts/test_storage/containers?api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+            "name": "test_storage",
+            "type": "test_type",
+            "properties": {
+              "lastModifiedTime": "2017-04-14T20:21:56.6819037+00:00"
+            }
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosorg/providers/Microsoft.DataLakeAnalytics/accounts/contosoadla/jobPolicies?api-version=2016-11-01&%24skiptoken=<token>"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

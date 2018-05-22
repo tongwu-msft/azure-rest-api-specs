@@ -1,0 +1,317 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.backup.backupworkloaditems.list
+name: List
+service: Recovery Services - Backup
+groupName: Backup Workload Items
+apiVersion: 2016-12-01
+summary: Provides a pageable list of workload item of a specific container according to the query filter and the pagination parameters.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/items?api-version=2016-12-01
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/items?api-version=2016-12-01&$filter={$filter}&$skipToken={$skipToken}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: fabricName
+  in: path
+  isRequired: true
+  description: Fabric name associated with the container.
+  types:
+  - uid: string
+- name: containerName
+  in: path
+  isRequired: true
+  description: Name of the container.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter options.
+  types:
+  - uid: string
+- name: $skipToken
+  in: query
+  description: skipToken Filter.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: WorkloadItemResourceList
+requestHeader: []
+definitions:
+- name: WorkloadItemResourceList
+  description: List of WorkloadItem resources
+  kind: object
+  properties:
+  - name: value
+    description: List of resources.
+    types:
+    - uid: WorkloadItemResource
+      isArray: true
+  - name: nextLink
+    description: The uri to fetch the next page of resources. Call ListNext() fetches next page of resources.
+    types:
+    - uid: string
+- name: WorkloadItemResource
+  description: Base class for backup item. Workload-specific backup items are derived from this class.
+  kind: object
+  properties:
+  - name: properties
+    description: WorkloadItemResource properties
+    types:
+    - uid: AzureVmWorkloadItem
+    typesTitle: WorkloadItem
+  - name: id
+    isReadyOnly: true
+    description: Resource Id represents the complete path to the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name associated with the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    description: Optional ETag.
+    types:
+    - uid: string
+- name: AzureVmWorkloadSQLDatabaseWorkloadItem
+  description: Azure VM workload-specific workload item representing SQL Database.
+  kind: object
+  properties:
+  - name: parentName
+    description: Name for instance or AG
+    types:
+    - uid: string
+  - name: serverName
+    description: Host/Cluster Name for instance or AG
+    types:
+    - uid: string
+  - name: isAutoProtectable
+    description: Indicates if workload item is auto-protectable
+    types:
+    - uid: boolean
+  - name: subinquireditemcount
+    description: For instance or AG, indicates number of DB's present
+    types:
+    - uid: integer
+  - name: subWorkloadItemCount
+    description: For instance or AG, indicates number of DB's to be protected
+    types:
+    - uid: integer
+  - name: backupManagementType
+    description: Type of backup managemenent to backup an item.
+    types:
+    - uid: string
+  - name: workloadType
+    description: Type of workload for the backup management
+    types:
+    - uid: string
+  - name: workloadItemType
+    description: Type of the backup item.
+    types:
+    - uid: SQLDataBase
+    typesTitle: string
+  - name: friendlyName
+    description: Friendly name of the backup item.
+    types:
+    - uid: string
+  - name: protectionState
+    description: State of the back up item.
+    types:
+    - uid: ProtectionStatus
+- name: AzureVmWorkloadSQLInstanceWorkloadItem
+  description: Azure VM workload-specific workload item representing SQL Instance.
+  kind: object
+  properties:
+  - name: dataDirectoryPaths
+    description: Data Directory Paths for default directories
+    types:
+    - uid: SQLDataDirectory
+      isArray: true
+  - name: parentName
+    description: Name for instance or AG
+    types:
+    - uid: string
+  - name: serverName
+    description: Host/Cluster Name for instance or AG
+    types:
+    - uid: string
+  - name: isAutoProtectable
+    description: Indicates if workload item is auto-protectable
+    types:
+    - uid: boolean
+  - name: subinquireditemcount
+    description: For instance or AG, indicates number of DB's present
+    types:
+    - uid: integer
+  - name: subWorkloadItemCount
+    description: For instance or AG, indicates number of DB's to be protected
+    types:
+    - uid: integer
+  - name: backupManagementType
+    description: Type of backup managemenent to backup an item.
+    types:
+    - uid: string
+  - name: workloadType
+    description: Type of workload for the backup management
+    types:
+    - uid: string
+  - name: workloadItemType
+    description: Type of the backup item.
+    types:
+    - uid: SQLInstance
+    typesTitle: string
+  - name: friendlyName
+    description: Friendly name of the backup item.
+    types:
+    - uid: string
+  - name: protectionState
+    description: State of the back up item.
+    types:
+    - uid: ProtectionStatus
+- name: ProtectionStatus
+  description: State of the back up item.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: NotProtected
+    types:
+    - uid: string
+  - name: Protecting
+    types:
+    - uid: string
+  - name: Protected
+    types:
+    - uid: string
+  - name: ProtectionFailed
+    types:
+    - uid: string
+- name: SQLDataDirectory
+  description: SQLDataDirectory info
+  kind: object
+  properties:
+  - name: type
+    description: Type of data directory mapping
+    types:
+    - uid: SQLDataDirectoryType
+  - name: path
+    description: File path
+    types:
+    - uid: string
+  - name: logicalName
+    description: Logical name of the file
+    types:
+    - uid: string
+- name: SQLDataDirectoryType
+  description: Type of data directory mapping
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Data
+    types:
+    - uid: string
+  - name: Log
+    types:
+    - uid: string
+examples:
+- name: List Workload Items in Container
+  request:
+    uri: GET https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRg/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/{fabricName}/protectionContainers/{containerName}/items?api-version=2016-12-01&$filter=backupManagementType eq 'AzureWorkload'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "backupManagementType": "AzureWorkload",
+            "dataDirectoryPaths": [
+              {
+                "type": "Data",
+                "path": "F:\\Data\\",
+                "logicalName": null
+              },
+              {
+                "type": "Log",
+                "path": "F:\\Log\\",
+                "logicalName": null
+              }
+            ],
+            "name": null,
+            "id": null,
+            "status": {
+              "name": null,
+              "displayName": null,
+              "infoText": null,
+              "severity": null,
+              "operationState": null
+            },
+            "type": null,
+            "location": null,
+            "friendlyName": "MSSQLSERVER",
+            "resourceGroup": null,
+            "resourceName": null,
+            "subscriptionId": null,
+            "providerName": null,
+            "resourceType": null
+          }
+        ],
+        "nextLink": null
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.

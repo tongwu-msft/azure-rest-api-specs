@@ -1,0 +1,164 @@
+### YamlMime:RESTOperation
+uid: face.v1.0.cognitiveservices.face.identify
+name: Identify
+service: Cognitive Services
+groupName: Face
+apiVersion: "1.0"
+summary: Identify unknown faces from a person group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/identify
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A successful call returns the identified candidate person(s) for each query face.
+  types:
+  - uid: IdentifyResult
+    isArray: true
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestBody:
+- parameters:
+  - name: personGroupId
+    in: body
+    isRequired: true
+    description: PersonGroupId of the target person group, created by PersonGroups.Create
+    types:
+    - uid: string
+  - name: faceIds
+    in: body
+    isRequired: true
+    description: Array of query faces faceIds, created by the Face - Detect. Each of the faces are identified independently. The valid number of faceIds is between [1, 10].
+    types:
+    - uid: string
+      isArray: true
+  - name: maxNumOfCandidatesReturned
+    in: body
+    description: The range of maxNumOfCandidatesReturned is between 1 and 5 (default is 1).
+    types:
+    - uid: integer
+  - name: confidenceThreshold
+    in: body
+    description: Confidence threshold of identification, used to judge whether one face belong to one person. The range of confidenceThreshold is [0, 1] (default specified by algorithm).
+    types:
+    - uid: number
+requestHeader: []
+definitions:
+- name: IdentifyResult
+  description: Response body for identify face operation.
+  kind: object
+  properties:
+  - name: faceId
+    description: FaceId of the query face
+    types:
+    - uid: string
+  - name: candidates
+    description: Identified person candidates for that face (ranked by confidence). Array size should be no larger than input maxNumOfCandidatesReturned. If no person is identified, will return an empty array.
+    types:
+    - uid: IdentifyCandidate
+      isArray: true
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: IdentifyRequest
+  description: Request body for identify face operation.
+  kind: object
+  properties:
+  - name: personGroupId
+    description: PersonGroupId of the target person group, created by PersonGroups.Create
+    types:
+    - uid: string
+  - name: faceIds
+    description: Array of query faces faceIds, created by the Face - Detect. Each of the faces are identified independently. The valid number of faceIds is between [1, 10].
+    types:
+    - uid: string
+      isArray: true
+  - name: maxNumOfCandidatesReturned
+    description: The range of maxNumOfCandidatesReturned is between 1 and 5 (default is 1).
+    types:
+    - uid: integer
+  - name: confidenceThreshold
+    description: Confidence threshold of identification, used to judge whether one face belong to one person. The range of confidenceThreshold is [0, 1] (default specified by algorithm).
+    types:
+    - uid: number
+- name: IdentifyCandidate
+  description: All possible faces that may qualify.
+  kind: object
+  properties:
+  - name: personId
+    description: Id of candidate
+    types:
+    - uid: string
+  - name: confidence
+    description: Confidence threshold of identification, used to judge whether one face belong to one person. The range of confidenceThreshold is [0, 1] (default specified by algorithm).
+    types:
+    - uid: number
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Identiy example
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/face/v1.0/identify
+    body: >-
+      {
+        "personGroupId": "sample_group",
+        "faceIds": [
+          "c5c24a82-6845-4031-9d5d-978df9175426",
+          "65d083d4-9447-47d1-af30-b626144bf0fb"
+        ],
+        "maxNumOfCandidatesReturned": 1,
+        "confidenceThreshold": 0.5
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "faceId": "c5c24a82-6845-4031-9d5d-978df9175426",
+          "candidates": [
+            {
+              "personId": "25985303-c537-4467-b41d-bdb45cd95ca1",
+              "confidence": 0.92
+            }
+          ]
+        },
+        {
+          "faceId": "65d083d4-9447-47d1-af30-b626144bf0fb",
+          "candidates": [
+            {
+              "personId": "2ae4935b-9659-44c3-977f-61fac20d0538",
+              "confidence": 0.89
+            }
+          ]
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

@@ -1,0 +1,107 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.redis.redis.exportdata
+name: Export Data
+service: Redis Cache
+groupName: Redis
+apiVersion: 2016-04-01
+summary: Export data from the redis cache to blobs in a container.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/export?api-version=2016-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the Redis cache.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Export operation successfully enqueued; follow the Location header to poll for final outcome.
+- name: 200 OK
+  description: Export operation succeeded.
+- name: 204 No Content
+  description: Export operation succeeded.
+requestBody:
+- parameters:
+  - name: format
+    in: body
+    description: File format.
+    types:
+    - uid: string
+  - name: prefix
+    in: body
+    isRequired: true
+    description: Prefix to use for exported files.
+    types:
+    - uid: string
+  - name: container
+    in: body
+    isRequired: true
+    description: Container name to export to.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ExportRDBParameters
+  description: Parameters for Redis export operation.
+  kind: object
+  properties:
+  - name: format
+    description: File format.
+    types:
+    - uid: string
+  - name: prefix
+    description: Prefix to use for exported files.
+    types:
+    - uid: string
+  - name: container
+    description: Container name to export to.
+    types:
+    - uid: string
+examples:
+- name: RedisCacheExport
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/export?api-version=2016-04-01
+    body: >-
+      {
+        "format": "RDB",
+        "prefix": "datadump1",
+        "container": "https://contosostorage.blob.core.window.net/urltoBlobContainer?sasKeyParameters"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Cache/...pathToOperationResult...
+  - statusCode: "204"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

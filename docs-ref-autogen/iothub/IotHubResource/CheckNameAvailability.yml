@@ -1,0 +1,129 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothub.iothubresource.checknameavailability
+name: Check Name Availability
+service: IoT Hub
+groupName: Iot Hub Resource
+apiVersion: 2018-04-01
+summary: "Check if an IoT hub name is available  \nCheck if an IoT hub name is available."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Devices/checkNameAvailability?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: This is a synchronous operation. The body contains a JSON-serialized response that specifies whether the IoT hub name is available. If the name is not available, the body contains the reason.
+  types:
+  - uid: IotHubNameAvailabilityInfo
+- name: Other Status Codes
+  description: DefaultErrorResponse
+  types:
+  - uid: ErrorDetails
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    isRequired: true
+    description: The name of the IoT hub to check.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: IotHubNameAvailabilityInfo
+  description: The properties indicating whether a given IoT hub name is available.
+  kind: object
+  properties:
+  - name: nameAvailable
+    isReadyOnly: true
+    description: The value which indicates whether the provided name is available.
+    types:
+    - uid: boolean
+  - name: reason
+    isReadyOnly: true
+    description: The reason for unavailability.
+    types:
+    - uid: IotHubNameUnavailabilityReason
+  - name: message
+    description: The detailed reason message.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: httpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+- name: OperationInputs
+  description: Input values.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the IoT hub to check.
+    types:
+    - uid: string
+- name: IotHubNameUnavailabilityReason
+  description: The reason for unavailability.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AlreadyExists
+    types:
+    - uid: string
+examples:
+- name: IotHubResource_CheckNameAvailability
+  request:
+    uri: POST https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/providers/Microsoft.Devices/checkNameAvailability?api-version=2018-04-01
+    body: >-
+      {
+        "name": "test-request"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": true,
+        "reason": "Invalid",
+        "message": ""
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

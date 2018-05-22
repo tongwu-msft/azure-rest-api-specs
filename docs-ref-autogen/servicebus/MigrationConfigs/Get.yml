@@ -1,0 +1,131 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.servicebus.migrationconfigs.get
+name: Get
+service: Service Bus
+groupName: Migration Configs
+apiVersion: 2017-04-01
+summary: Retrieves Migration Config
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/$default?api-version=2017-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: namespaceName
+  in: path
+  isRequired: true
+  description: The namespace name
+  types:
+  - uid: string
+- name: configName
+  in: path
+  isRequired: true
+  description: The configuration name. Should always be "$default".
+  types:
+  - uid: MigrationConfigurationName
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved Migration Config)
+  types:
+  - uid: MigrationConfigProperties
+- name: Other Status Codes
+  description: ServiceBus error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: MigrationConfigurationName
+  description: The configuration name. Should always be "$default".
+  kind: enum
+  properties:
+  - name: $default
+    types:
+    - uid: string
+- name: MigrationConfigProperties
+  description: Single item in List or Get Migration Config operation
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: 'Provisioning state of Migration Configuration '
+    types:
+    - uid: string
+  - name: properties.targetNamespace
+    description: Existing premium Namespace ARM Id name which has no entities, will be used for migration
+    types:
+    - uid: string
+  - name: properties.postMigrationName
+    description: Name to access Standard Namespace after migration
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error reponse indicates ServiceBus service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: MigrationConfigurationsGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/SubscriptionId/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-41/migrationConfigurations/$default?api-version=2017-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/SubscriptionId/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-41/migrationConfigs/$default",
+        "name": "sdk-Namespace-41",
+        "type": "Microsoft.ServiceBus/Namespaces/disasterrecoveryconfigs",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "targetNamespace": "/subscriptions/SubscriptionId/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-4028",
+          "postMigrationName": "sdk-PostMigration-5919"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

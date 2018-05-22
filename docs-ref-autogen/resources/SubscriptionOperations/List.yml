@@ -1,0 +1,103 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resources.subscriptionoperations.list
+name: List
+service: Resource Management
+groupName: Subscription Operations
+apiVersion: 2018-03-01-preview
+summary: Lists all of the available pending Microsoft.Subscription API operations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Subscription/subscriptionOperations?api-version=2018-03-01-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2015-06-01
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: SubscriptionOperationListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: SubscriptionOperationListResult
+  description: A list of pending subscription operations.
+  kind: object
+  properties:
+  - name: value
+    description: A list of pending SubscriptionOperations
+    types:
+    - uid: SubscriptionOperation
+      isArray: true
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: SubscriptionOperation
+  description: status of the subscription POST operation.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The operation Id.
+    types:
+    - uid: string
+  - name: status
+    description: Status of the pending subscription
+    types:
+    - uid: string
+  - name: statusDetail
+    description: Status Detail of the pending subscription
+    types:
+    - uid: string
+examples:
+- name: getPendingSubscriptionOperations
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Subscription/subscriptionOperations?api-version=2018-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Subscription/subscriptionOperations/c03acf6e-5295-44c2-92d3-cb1daa4c701c",
+            "status": "Pending",
+            "statusDetail": "Subscription Creation in Progress"
+          },
+          {
+            "id": "/providers/Microsoft.Subscription/subscriptionOperations/d46dcd37-f8b3-43a4-aed6-41de9131412d",
+            "status": "Pending",
+            "statusDetail": "Subscription Creation in Progress"
+          },
+          {
+            "id": "/providers/Microsoft.Subscription/subscriptionOperations/54e3cde0-2420-451c-969d-f538d5349834",
+            "status": "Completed",
+            "statusDetail": "Subscription Created Successfully"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

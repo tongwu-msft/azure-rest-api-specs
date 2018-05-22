@@ -1,0 +1,613 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.integrationruntimes.start
+name: Start
+service: Data Factory
+groupName: Integration Runtimes
+apiVersion: 2017-09-01-preview
+summary: Starts a ManagedReserved type integration runtime.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/start?api-version=2017-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: integrationRuntimeName
+  in: path
+  isRequired: true
+  description: The integration runtime name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: IntegrationRuntimeStatusResponse
+- name: 202 Accepted
+  description: Accepted.
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: IntegrationRuntimeStatusResponse
+  description: Integration runtime status response.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The integration runtime name.
+    types:
+    - uid: string
+  - name: properties
+    description: Integration runtime properties.
+    types:
+    - uid: SelfHostedIntegrationRuntimeStatus
+    - uid: ManagedIntegrationRuntimeStatus
+    typesTitle: IntegrationRuntimeStatus
+- name: ErrorResponse
+  description: The object that defines the structure of an Azure Data Factory response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: details
+    description: Array with additional error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+- name: SelfHostedIntegrationRuntimeStatus
+  description: Self-hosted integration runtime status.
+  kind: object
+  properties:
+  - name: typeProperties.createTime
+    isReadyOnly: true
+    description: The time at which the integration runtime was created, in ISO8601 format.
+    types:
+    - uid: string
+  - name: typeProperties.taskQueueId
+    isReadyOnly: true
+    description: The task queue id of the integration runtime.
+    types:
+    - uid: string
+  - name: typeProperties.internalChannelEncryption
+    isReadyOnly: true
+    description: It is used to set the encryption mode for node-node communication channel (when more than 2 self-hosted integration runtime nodes exist).
+    types:
+    - uid: IntegrationRuntimeInternalChannelEncryptionMode
+  - name: typeProperties.version
+    isReadyOnly: true
+    description: Version of the integration runtime.
+    types:
+    - uid: string
+  - name: typeProperties.nodes
+    description: The list of nodes for this integration runtime.
+    types:
+    - uid: SelfHostedIntegrationRuntimeNode
+      isArray: true
+  - name: typeProperties.scheduledUpdateDate
+    isReadyOnly: true
+    description: The date at which the integration runtime will be scheduled to update, in ISO8601 format.
+    types:
+    - uid: string
+  - name: typeProperties.updateDelayOffset
+    isReadyOnly: true
+    description: The time in the date scheduled by service to update the integration runtime, e.g., PT03H is 3 hours
+    types:
+    - uid: string
+  - name: typeProperties.localTimeZoneOffset
+    isReadyOnly: true
+    description: The local time zone offset in hours.
+    types:
+    - uid: string
+  - name: typeProperties.capabilities
+    isReadyOnly: true
+    description: Object with additional information about integration runtime capabilities.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: typeProperties.serviceUrls
+    isReadyOnly: true
+    description: The URLs for the services used in integration runtime backend service.
+    types:
+    - uid: string
+      isArray: true
+  - name: typeProperties.autoUpdate
+    isReadyOnly: true
+    description: Whether Self-hosted integration runtime auto update has been turned on.
+    types:
+    - uid: IntegrationRuntimeAutoUpdate
+  - name: typeProperties.versionStatus
+    isReadyOnly: true
+    description: Status of the integration runtime version.
+    types:
+    - uid: string
+  - name: typeProperties.links
+    description: The list of linked integration runtimes that are created to share with this integration runtime.
+    types:
+    - uid: LinkedIntegrationRuntime
+      isArray: true
+  - name: type
+    description: Type of integration runtime.
+    types:
+    - uid: SelfHosted
+    typesTitle: string
+  - name: dataFactoryName
+    isReadyOnly: true
+    description: The data factory name which the integration runtime belong to.
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: The state of integration runtime.
+    types:
+    - uid: IntegrationRuntimeState
+- name: ManagedIntegrationRuntimeStatus
+  description: Managed integration runtime status.
+  kind: object
+  properties:
+  - name: typeProperties.createTime
+    isReadyOnly: true
+    description: The time at which the integration runtime was created, in ISO8601 format.
+    types:
+    - uid: string
+  - name: typeProperties.nodes
+    isReadyOnly: true
+    description: The list of nodes for managed integration runtime.
+    types:
+    - uid: ManagedIntegrationRuntimeNode
+      isArray: true
+  - name: typeProperties.otherErrors
+    isReadyOnly: true
+    description: The errors that occurred on this integration runtime.
+    types:
+    - uid: ManagedIntegrationRuntimeError
+      isArray: true
+  - name: typeProperties.lastOperation
+    isReadyOnly: true
+    description: The last operation result that occurred on this integration runtime.
+    types:
+    - uid: ManagedIntegrationRuntimeOperationResult
+  - name: type
+    description: Type of integration runtime.
+    types:
+    - uid: Managed
+    typesTitle: string
+  - name: dataFactoryName
+    isReadyOnly: true
+    description: The data factory name which the integration runtime belong to.
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: The state of integration runtime.
+    types:
+    - uid: IntegrationRuntimeState
+- name: IntegrationRuntimeInternalChannelEncryptionMode
+  description: It is used to set the encryption mode for node-node communication channel (when more than 2 self-hosted integration runtime nodes exist).
+  kind: enum
+  properties:
+  - name: NotSet
+    types:
+    - uid: string
+  - name: SslEncrypted
+    types:
+    - uid: string
+  - name: NotEncrypted
+    types:
+    - uid: string
+- name: SelfHostedIntegrationRuntimeNode
+  description: Properties of Self-hosted integration runtime node.
+  kind: object
+  properties:
+  - name: nodeName
+    isReadyOnly: true
+    description: Name of the integration runtime node.
+    types:
+    - uid: string
+  - name: machineName
+    isReadyOnly: true
+    description: Machine name of the integration runtime node.
+    types:
+    - uid: string
+  - name: hostServiceUri
+    isReadyOnly: true
+    description: URI for the host machine of the integration runtime.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Status of the integration runtime node.
+    types:
+    - uid: SelfHostedIntegrationRuntimeNodeStatus
+  - name: capabilities
+    isReadyOnly: true
+    description: The integration runtime capabilities dictionary
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: versionStatus
+    isReadyOnly: true
+    description: Status of the integration runtime node version.
+    types:
+    - uid: string
+  - name: version
+    isReadyOnly: true
+    description: Version of the integration runtime node.
+    types:
+    - uid: string
+  - name: registerTime
+    isReadyOnly: true
+    description: The time at which the integration runtime node was registered in ISO8601 format.
+    types:
+    - uid: string
+  - name: lastConnectTime
+    isReadyOnly: true
+    description: The most recent time at which the integration runtime was connected in ISO8601 format.
+    types:
+    - uid: string
+  - name: expiryTime
+    isReadyOnly: true
+    description: The time at which the integration runtime will expire in ISO8601 format.
+    types:
+    - uid: string
+  - name: lastStartTime
+    isReadyOnly: true
+    description: The time the node last started up.
+    types:
+    - uid: string
+  - name: lastStopTime
+    isReadyOnly: true
+    description: The integration runtime node last stop time.
+    types:
+    - uid: string
+  - name: lastUpdateResult
+    isReadyOnly: true
+    description: The result of the last integration runtime node update.
+    types:
+    - uid: IntegrationRuntimeUpdateResult
+  - name: lastStartUpdateTime
+    isReadyOnly: true
+    description: The last time for the integration runtime node update start.
+    types:
+    - uid: string
+  - name: lastEndUpdateTime
+    isReadyOnly: true
+    description: The last time for the integration runtime node update end.
+    types:
+    - uid: string
+  - name: isActiveDispatcher
+    isReadyOnly: true
+    description: Indicates whether this node is the active dispatcher for integration runtime requests.
+    types:
+    - uid: boolean
+  - name: concurrentJobsLimit
+    isReadyOnly: true
+    description: Maximum concurrent jobs on the integration runtime node.
+    types:
+    - uid: integer
+  - name: maxConcurrentJobs
+    isReadyOnly: true
+    description: The maximum concurrent jobs in this integration runtime.
+    types:
+    - uid: integer
+- name: IntegrationRuntimeAutoUpdate
+  description: The state of integration runtime auto update.
+  kind: enum
+  properties:
+  - name: On
+    types:
+    - uid: string
+  - name: Off
+    types:
+    - uid: string
+- name: LinkedIntegrationRuntime
+  description: The linked integration runtime information.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The name of the linked integration runtime.
+    types:
+    - uid: string
+  - name: subscriptionId
+    isReadyOnly: true
+    description: The subscription ID for which the linked integration runtime belong to.
+    types:
+    - uid: string
+  - name: dataFactoryName
+    isReadyOnly: true
+    description: The name of the data factory for which the linked integration runtime belong to.
+    types:
+    - uid: string
+  - name: dataFactoryLocation
+    isReadyOnly: true
+    description: The location of the data factory for which the linked integration runtime belong to.
+    types:
+    - uid: string
+  - name: createTime
+    isReadyOnly: true
+    description: The creating time of the linked integration runtime.
+    types:
+    - uid: string
+- name: IntegrationRuntimeType
+  description: The type of integration runtime.
+  kind: enum
+  properties:
+  - name: Managed
+    types:
+    - uid: string
+  - name: SelfHosted
+    types:
+    - uid: string
+- name: IntegrationRuntimeState
+  description: The state of integration runtime.
+  kind: enum
+  properties:
+  - name: Initial
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
+  - name: Started
+    types:
+    - uid: string
+  - name: Starting
+    types:
+    - uid: string
+  - name: Stopping
+    types:
+    - uid: string
+  - name: NeedRegistration
+    types:
+    - uid: string
+  - name: Online
+    types:
+    - uid: string
+  - name: Limited
+    types:
+    - uid: string
+  - name: Offline
+    types:
+    - uid: string
+- name: ManagedIntegrationRuntimeNode
+  description: Properties of integration runtime node.
+  kind: object
+  properties:
+  - name: nodeId
+    isReadyOnly: true
+    description: The managed integration runtime node id.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: The managed integration runtime node status.
+    types:
+    - uid: ManagedIntegrationRuntimeNodeStatus
+  - name: errors
+    description: The errors that occurred on this integration runtime node.
+    types:
+    - uid: ManagedIntegrationRuntimeError
+      isArray: true
+- name: ManagedIntegrationRuntimeError
+  description: Error definition for managed integration runtime.
+  kind: object
+  properties:
+  - name: time
+    isReadyOnly: true
+    description: The time when the error occurred.
+    types:
+    - uid: string
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: parameters
+    isReadyOnly: true
+    description: Managed integration runtime error parameters.
+    types:
+    - uid: string
+      isArray: true
+  - name: message
+    isReadyOnly: true
+    description: Error message.
+    types:
+    - uid: string
+- name: ManagedIntegrationRuntimeOperationResult
+  description: Properties of managed integration runtime operation result.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The operation type. Could be start or stop.
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: The start time of the operation.
+    types:
+    - uid: string
+  - name: result
+    isReadyOnly: true
+    description: The operation result.
+    types:
+    - uid: string
+  - name: errorCode
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: parameters
+    isReadyOnly: true
+    description: Managed integration runtime error parameters.
+    types:
+    - uid: string
+      isArray: true
+  - name: activityId
+    isReadyOnly: true
+    description: The activity id for the operation request.
+    types:
+    - uid: string
+- name: SelfHostedIntegrationRuntimeNodeStatus
+  description: Status of the integration runtime node.
+  kind: enum
+  properties:
+  - name: NeedRegistration
+    types:
+    - uid: string
+  - name: Online
+    types:
+    - uid: string
+  - name: Limited
+    types:
+    - uid: string
+  - name: Offline
+    types:
+    - uid: string
+  - name: Upgrading
+    types:
+    - uid: string
+  - name: Initializing
+    types:
+    - uid: string
+  - name: InitializeFailed
+    types:
+    - uid: string
+- name: IntegrationRuntimeUpdateResult
+  description: The result of the last integration runtime node update.
+  kind: enum
+  properties:
+  - name: Succeed
+    types:
+    - uid: string
+  - name: Fail
+    types:
+    - uid: string
+- name: ManagedIntegrationRuntimeNodeStatus
+  description: The managed integration runtime node status.
+  kind: enum
+  properties:
+  - name: Starting
+    types:
+    - uid: string
+  - name: Available
+    types:
+    - uid: string
+  - name: Recycling
+    types:
+    - uid: string
+  - name: Unavailable
+    types:
+    - uid: string
+examples:
+- name: IntegrationRuntimes_Start
+  request:
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleManagedIntegrationRuntime/start?api-version=2017-09-01-preview
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Date
+      value: Tue, 28 Nov 2017 07:17:56 GMT
+    - name: Location
+      value: https://adfrpnightly.svc.datafactory-test.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleManagedIntegrationRuntime/start/operationresults/9a070152cddb4c839d482ccfb76a7537?api-version=2017-09-01-preview
+    - name: Retry-After
+      value: "15"
+    - name: x-ms-request-id
+      value: aa8a8ed1-7b2e-40eb-b734-9b7a5f393aed
+    - name: X-Content-Type-Options
+      value: nosniff
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Tue, 28 Nov 2017 07:39:18 GMT
+    - name: x-ms-request-id
+      value: a0190274-060e-43a0-84ea-403d1c0c4a06
+    - name: X-Content-Type-Options
+      value: nosniff
+    body: >-
+      {
+        "name": "exampleManagedIntegrationRuntime",
+        "properties": {
+          "state": "Started",
+          "type": "Managed",
+          "typeProperties": {
+            "nodes": [
+              {
+                "nodeId": "tvm-1650185656_1-20171128t071919z",
+                "status": "Unavailable",
+                "errors": [
+                  {
+                    "time": "2017-11-28T07:38:41.50199Z",
+                    "code": "AzureSqlConnectionFailure",
+                    "parameters": [],
+                    "message": "Sql Error Number: 18456"
+                  }
+                ]
+              }
+            ],
+            "otherErrors": [],
+            "lastOperation": {
+              "type": "Start",
+              "startTime": "2017-11-28T07:17:58.6556933Z",
+              "result": "Succeeded",
+              "parameters": []
+            },
+            "state": "Started",
+            "createTime": "2017-11-28T07:17:56.5930407Z"
+          }
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

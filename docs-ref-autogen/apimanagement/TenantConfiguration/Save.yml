@@ -1,0 +1,220 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.tenantconfiguration.save
+name: Save
+service: API Management
+groupName: Tenant Configuration
+apiVersion: 2018-01-01
+summary: This operation creates a commit with the current configuration snapshot to the specified branch in the repository. This is a long running operation and could take several minutes to complete.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/configuration/save?api-version=2018-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: configurationName
+  in: path
+  isRequired: true
+  description: The identifier of the Git Configuration Operation.
+  types:
+  - uid: configurationIdName
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: 'Accepted: Location header contains the URL where the status of the long running operation can be checked.'
+- name: 200 OK
+  description: Result of creating a commit in the repository.
+  types:
+  - uid: OperationResultContract
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: branch
+    in: body
+    isRequired: true
+    description: The name of the Git branch in which to commit the current configuration snapshot.
+    types:
+    - uid: string
+  - name: force
+    in: body
+    description: The value if true, the current configuration database is committed to the Git repository, even if the Git repository has newer changes that would be overwritten.
+    types:
+    - uid: boolean
+requestHeader: []
+definitions:
+- name: configurationIdName
+  description: The identifier of the Git Configuration Operation.
+  kind: enum
+  properties:
+  - name: configuration
+    types:
+    - uid: string
+- name: OperationResultContract
+  description: Operation Result.
+  kind: object
+  properties:
+  - name: id
+    description: Operation result identifier.
+    types:
+    - uid: string
+  - name: status
+    description: Status of an async operation.
+    types:
+    - uid: AsyncOperationStatus
+  - name: started
+    description: 'Start time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+    types:
+    - uid: string
+  - name: updated
+    description: 'Last update time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+    types:
+    - uid: string
+  - name: resultInfo
+    description: Optional result info.
+    types:
+    - uid: string
+  - name: error
+    description: Error Body Contract
+    types:
+    - uid: ErrorResponse
+  - name: actionLog
+    isReadyOnly: true
+    description: This property if only provided as part of the TenantConfiguration_Validate operation. It contains the log the entities which will be updated/created/deleted as part of the TenantConfiguration_Deploy operation.
+    types:
+    - uid: OperationResultLogItemContract
+      isArray: true
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: error.message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: SaveConfigurationParameter
+  description: Parameters supplied to the Save Tenant Configuration operation.
+  kind: object
+  properties:
+  - name: branch
+    description: The name of the Git branch in which to commit the current configuration snapshot.
+    types:
+    - uid: string
+  - name: force
+    description: The value if true, the current configuration database is committed to the Git repository, even if the Git repository has newer changes that would be overwritten.
+    types:
+    - uid: boolean
+- name: AsyncOperationStatus
+  description: Status of an async operation.
+  kind: enum
+  properties:
+  - name: Started
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: OperationResultLogItemContract
+  description: Log of the entity being created, updated or deleted.
+  kind: object
+  properties:
+  - name: objectType
+    description: The type of entity contract.
+    types:
+    - uid: string
+  - name: action
+    description: Action like create/update/delete.
+    types:
+    - uid: string
+  - name: objectKey
+    description: Identifier of the entity being created/updated/deleted.
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementTenantConfigurationSave
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/configuration/save?api-version=2018-01-01
+    body: >-
+      {
+        "branch": "master"
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/operationResults/5a1af57d2a6d2e0b688d751b?api-version=2018-01-01
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "5a1af57d2a6d2e0b688d751b",
+        "status": "Succeeded",
+        "started": "2017-11-26T17:10:21.957Z",
+        "updated": "2017-11-26T17:10:36.06Z",
+        "resultInfo": "The configuration was successfully saved to master as commit cdb6878db80159cc0e9a53f5ad38581883882974.",
+        "actionLog": []
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
