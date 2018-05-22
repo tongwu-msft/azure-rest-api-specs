@@ -1,0 +1,256 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.examples.list
+name: List
+service: Cognitive Services
+groupName: Examples
+apiVersion: v2.0 preview
+summary: Returns examples to be reviewed.
+produces:
+- application/json
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/examples
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/examples?skip={skip}&take={take}
+  isOptional: true
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+- name: skip
+  in: query
+  description: The number of entries to skip. Default value is 0.
+  types:
+  - uid: integer
+- name: take
+  in: query
+  description: The number of entries to return. Maximum page size is 500. Default is 100.
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: A list of predictions and label pairs for every example in the application.
+  types:
+  - uid: LabeledUtterance
+    isArray: true
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: LabeledUtterance
+  description: A prediction and label pair of an example.
+  kind: object
+  properties:
+  - name: id
+    description: ID of Labeled Utterance.
+    types:
+    - uid: integer
+  - name: text
+    description: "The utterance. E.g.: what's the weather like in seattle?"
+    types:
+    - uid: string
+  - name: tokenizedText
+    description: The utterance tokenized.
+    types:
+    - uid: string
+      isArray: true
+  - name: intentLabel
+    description: The intent matching the example.
+    types:
+    - uid: string
+  - name: entityLabels
+    description: The entities matching the example.
+    types:
+    - uid: EntityLabel
+      isArray: true
+  - name: intentPredictions
+    description: List of suggested intents.
+    types:
+    - uid: IntentPrediction
+      isArray: true
+  - name: entityPredictions
+    description: List of suggested entities.
+    types:
+    - uid: EntityPrediction
+      isArray: true
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: EntityLabel
+  description: Defines the entity type and position of the extracted entity within the example.
+  kind: object
+  properties:
+  - name: entityName
+    description: The entity type.
+    types:
+    - uid: string
+  - name: startTokenIndex
+    description: The index within the utterance where the extracted entity starts.
+    types:
+    - uid: integer
+  - name: endTokenIndex
+    description: The index within the utterance where the extracted entity ends.
+    types:
+    - uid: integer
+- name: IntentPrediction
+  description: A suggested intent.
+  kind: object
+  properties:
+  - name: name
+    description: The intent's name
+    types:
+    - uid: string
+  - name: score
+    description: The intent's score, based on the prediction model.
+    types:
+    - uid: number
+- name: EntityPrediction
+  description: A suggested entity.
+  kind: object
+  properties:
+  - name: entityName
+    description: The entity's name
+    types:
+    - uid: string
+  - name: startTokenIndex
+    description: The index within the utterance where the extracted entity starts.
+    types:
+    - uid: integer
+  - name: endTokenIndex
+    description: The index within the utterance where the extracted entity ends.
+    types:
+    - uid: integer
+  - name: phrase
+    description: The actual token(s) that comprise the entity.
+    types:
+    - uid: string
+examples:
+- name: Successful Review Labeled Examples request
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/86226c53-b7a6-416f-876b-226b2b5ab07b/versions/0.1/examples?
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "id": -12,
+          "text": "what's the weather like in seattle?",
+          "tokenizedText": [
+            "what",
+            "'",
+            "s",
+            "the",
+            "weather",
+            "like",
+            "in",
+            "seattle",
+            "?"
+          ],
+          "intentLabel": "GetWeather",
+          "entityLabels": [
+            {
+              "entityName": "Location",
+              "startTokenIndex": 7,
+              "endTokenIndex": 7
+            }
+          ],
+          "intentPredictions": [
+            {
+              "name": "GetWeather",
+              "score": 1
+            },
+            {
+              "name": "None",
+              "score": 0.21
+            },
+            {
+              "name": "BookFlight",
+              "score": 0
+            }
+          ],
+          "entityPredictions": [
+            {
+              "entityName": "Location",
+              "startTokenIndex": 7,
+              "endTokenIndex": 7,
+              "phrase": "seattle"
+            }
+          ]
+        },
+        {
+          "id": -11,
+          "text": "book me a flight from cairo to redmond next thursday",
+          "tokenizedText": [
+            "book",
+            "me",
+            "a",
+            "flight",
+            "from",
+            "cairo",
+            "to",
+            "redmond",
+            "next",
+            "thursday"
+          ],
+          "intentLabel": "BookFlight",
+          "entityLabels": [
+            {
+              "entityName": "Location::To",
+              "startTokenIndex": 7,
+              "endTokenIndex": 7
+            },
+            {
+              "entityName": "Location::From",
+              "startTokenIndex": 5,
+              "endTokenIndex": 5
+            }
+          ],
+          "intentPredictions": [
+            {
+              "name": "BookFlight",
+              "score": 0.93
+            },
+            {
+              "name": "None",
+              "score": 0.41
+            },
+            {
+              "name": "GetWeather",
+              "score": 0
+            }
+          ],
+          "entityPredictions": [
+            {
+              "entityName": "datetime",
+              "startTokenIndex": 8,
+              "endTokenIndex": 9,
+              "phrase": "next thursday"
+            }
+          ]
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

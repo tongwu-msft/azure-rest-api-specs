@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.sqldatabase.elasticpools.delete
+uid: management.azure.com.sql.elasticpools.delete
 name: Delete
 service: SQL Database
 groupName: Elastic Pools
-apiVersion: 2014-04-01
-summary: Deletes the elastic pool.
+apiVersion: 2017-10-01-preview
+summary: Deletes an elastic pool.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}?api-version=2014-04-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}?api-version=2017-10-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,7 +33,7 @@ uriParameters:
 - name: elasticPoolName
   in: path
   isRequired: true
-  description: The name of the elastic pool to be deleted.
+  description: The name of the elastic pool.
   types:
   - uid: string
 - name: api-version
@@ -44,20 +44,96 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
-- name: 204 No Content
+  description: Deleted the elastic pool
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 ElasticPoolStorageBelowLimitMB - Attempting to set the elastic pool storage limit below the supported limit.
+
+     * 400 ProvisioningDisabled - Displays error message from resources operation authorizer as is, without changes
+
+     * 400 ElasticPoolStorageNotAllowedMB - Attempting to set the elastic pool storage limit in mb which doesn't match the allowed values.
+
+     * 400 ElasticPoolStorageAboveLimitMB - Attempting to set the elastic pool storage limit below the supported limit.
+
+     * 400 ElasticPoolUpdateHkNotAllowed - The elastic pool cannot lower its service tier from Premium to Standard or Basic since one or more of its databases use memory-optimized objects.
+
+     * 400 ElasticPoolOverFileSpace - Insufficient file space in the elastic pool.
+
+     * 400 InvalidTier - The user specified an invalid tier.
+
+     * 400 ServerQuotaExceeded - Server cannot be added to a subscription because it will exceed quota.
+
+     * 400 ElasticPoolAlreadyExists - The server already contains an elastic pool with the specified name.
+
+     * 400 InvalidInputValueForEdition - Specified edition is not supported for elastic pool provisioning.
+
+     * 400 ElasticPoolDtuBelowLimit - The requested DTU value is too low for the requested elastic pool service tier.
+
+     * 400 ElasticPoolDtuAboveLimit - The requested DTU value is too high for the requested elastic pool service tier.
+
+     * 400 ElasticPoolDbDtuMaxBelowLimit - The requested per database DTU max is too low for the requested elastic pool service tier.
+
+     * 400 ElasticPoolDbDtuMaxAboveLimit - The requested per database DTU max is too high for the requested elastic pool service tier.
+
+     * 400 InvalidInputValueForDatabaseDtuMax - Attempting to set the DTU max per database for the Resource Pool which doesn't match the allowed values.
+
+     * 400 ElasticPoolDbDtuMinAboveLimit - The requested DTU min per database is too high for the requested service tier.
+
+     * 400 InvalidInputValueForDatabaseDtuMin - Attempting to set the DTU min per database for the Resource Pool which doesn't match the allowed values.
+
+     * 400 ElasticPoolStorageAboveLimitGB - Attempting to set the elastic pool storage limit below the supported limit.
+
+     * 400 ElasticPoolOverStorageUsage - Attempting to write data to a database when the storage limit of the elastic pool has been reached.
+
+     * 400 ElasticPoolsNotEnabled - Elastic pools have not been enabled in this region.
+
+     * 400 ElasticPoolNotEmpty - Request to delete an elastic pool that is not empty.
+
+     * 400 ElasticPoolStorageBelowLimitGB - Attempting to set the elastic pool storage limit below the supported limit.
+
+     * 400 ElasticPoolStorageNotAllowedGB - Attempting to set the elastic pool storage limit in gb which doesn't match the allowed values.
+
+     * 400 ElasticPoolDatabaseLimit - The elastic pool has reached its limit for number of databases.
+
+     * 400 ElasticPoolStorageDecreasePrecondition - There was an attempt to decrease the storage limit of the elastic pool below its storage usage.
+
+     * 400 ElasticPoolBusy - A management operation was attempted on an elastic pool which is busy.
+
+     * 400 InvalidInputValueDatabaseDtuMinLargerThanMax - Attempting to set the DTU min per database higher than the DTU max per database.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ElasticPoolNotFound - The specified elastic pool does not exist for the specified server.
+
+     * 404 OperationIdNotFound - The operation with Id does not exist.
+
+     * 405 NotSupported - This functionality is not supported.
+
+     * 409 ServerDisabled - Server is disabled.
+
+     * 409 OperationCancelled - The operation has been cancelled by user.
+
+     * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.
+
+     * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation.
+
+     * 503 ServiceTemporarilyUnavailable - Feature temporarily unavailable.
+- name: 202 Accepted
   description: Accepted
+- name: 204 No Content
+  description: Elastic pool did not exist
 requestHeader: []
 definitions: []
 examples:
-- name: Delete elastic pool
+- name: Delete an elastic pool
   request:
-    uri: DELETE https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-3129/providers/Microsoft.Sql/servers/sqlcrudtest-228/elasticPools/sqlcrudtest-3851?api-version=2014-04-01
+    uri: DELETE https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-3129/providers/Microsoft.Sql/servers/sqlcrudtest-228/elasticPools/sqlcrudtest-3851?api-version=2017-10-01-preview
   responses:
   - statusCode: "200"
     body: "\"\""
   - statusCode: "202"
-    body: "\"\""
   - statusCode: "204"
     body: "\"\""
 security: []

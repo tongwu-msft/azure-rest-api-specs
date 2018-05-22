@@ -1,0 +1,966 @@
+### YamlMime:RESTOperation
+uid: media.transforms.list
+name: List
+service: Media Services
+groupName: Transforms
+apiVersion: 2018-03-30-preview
+summary: "List Transforms  \nLists the Transforms in the account."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https:///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms?api-version=2018-03-30-preview
+- content: GET https:///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms?api-version=2018-03-30-preview&$filter={$filter}&$top={$top}&$skip={$skip}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Media Services account name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Version of the API to be used with the client request.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: Restricts the set of items returned.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n.
+  types:
+  - uid: integer
+- name: $skip
+  in: query
+  description: Specifies a non-negative integer n that excludes the first n items of the queried collection from the result. The service returns items starting at position n+1.
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: TransformCollection
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: TransformCollection
+  description: A collection of Transform items.
+  kind: object
+  properties:
+  - name: value
+    description: A collection of Transform items.
+    types:
+    - uid: Transform
+      isArray: true
+  - name: '@odata.nextLink'
+    description: A link to the next page of the collection (when the collection contains too many results to return in one response).
+    types:
+    - uid: string
+- name: ApiError
+  description: The API error.
+  kind: object
+  properties:
+  - name: error
+    description: The error properties.
+    types:
+    - uid: ODataError
+- name: Transform
+  description: A Transform encapsulates the rules or instructions for generating desired outputs from input media, such as by transcoding or by extracting insights. After the Transform is created, it can be applied to input media by creating Jobs.
+  kind: object
+  properties:
+  - name: properties.created
+    isReadyOnly: true
+    description: The UTC date and time when the Transform was created, in 'YYYY-MM-DDThh:mm:ssZ' format.
+    types:
+    - uid: string
+  - name: properties.description
+    description: An optional verbose description of the Transform.
+    types:
+    - uid: string
+  - name: properties.lastModified
+    isReadyOnly: true
+    description: The UTC date and time when the Transform was last updated, in 'YYYY-MM-DDThh:mm:ssZ' format.
+    types:
+    - uid: string
+  - name: properties.outputs
+    description: An array of one or more TransformOutputs that the Transform should generate.
+    types:
+    - uid: TransformOutput
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ODataError
+  description: Information about an error.
+  kind: object
+  properties:
+  - name: code
+    description: A language-independent error name.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: The error details.
+    types:
+    - uid: ODataError
+      isArray: true
+- name: TransformOutput
+  description: Describes the properties of a TransformOutput, which are the rules to be applied while generating the desired output.
+  kind: object
+  properties:
+  - name: onError
+    description: A Transform can define more than one outputs. This property defines what the service should do when one output fails - either continue to produce other outputs, or, stop the other outputs. The default is stop.
+    types:
+    - uid: OnErrorType
+  - name: relativePriority
+    description: Sets the relative priority of the TransformOutputs within a Transform. This sets the priority that the service uses for processing TransformOutputs. The default priority is Normal.
+    types:
+    - uid: Priority
+  - name: preset
+    description: Preset that describes the operations that will be used to modify, transcode, or extract insights from the source file to generate the output.
+    types:
+    - uid: AudioAnalyzerPreset
+    - uid: BuiltInStandardEncoderPreset
+    - uid: StandardEncoderPreset
+    typesTitle: Preset
+- name: OnErrorType
+  description: A Transform can define more than one outputs. This property defines what the service should do when one output fails - either continue to produce other outputs, or, stop the other outputs. The default is stop.
+  kind: enum
+  properties:
+  - name: StopProcessingJob
+    description: Tells the service that if this TransformOutput fails, then any other incomplete TransformOutputs can be stopped.
+    types:
+    - uid: string
+  - name: ContinueJob
+    description: Tells the service that if this TransformOutput fails, then allow any other TransformOutput to continue.
+    types:
+    - uid: string
+- name: Priority
+  description: Sets the relative priority of the TransformOutputs within a Transform. This sets the priority that the service uses for processing TransformOutputs. The default priority is Normal.
+  kind: enum
+  properties:
+  - name: Low
+    description: Used for TransformOutputs that can be generated after Normal and High priority TransformOutputs.
+    types:
+    - uid: string
+  - name: Normal
+    description: Used for TransformOutputs that can be generated at Normal priority.
+    types:
+    - uid: string
+  - name: High
+    description: Used for TransformOutputs that should take precedence over others.
+    types:
+    - uid: string
+- name: BuiltInStandardEncoderPreset
+  description: Describes a built-in preset for encoding the input video with the Standard Encoder.
+  kind: object
+  properties:
+  - name: presetName
+    description: The built-in preset to be used for encoding videos.
+    types:
+    - uid: EncoderNamedPreset
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.BuiltInStandardEncoderPreset'
+    typesTitle: string
+- name: StandardEncoderPreset
+  description: Describes all the settings to be used when encoding the input video with the Standard Encoder.
+  kind: object
+  properties:
+  - name: filters
+    description: One or more filtering operations that are applied to the input media before encoding.
+    types:
+    - uid: Filters
+  - name: codecs
+    description: The list of codecs to be used when encoding the input video.
+    types:
+    - uid: Audio
+      isArray: true
+    - uid: CopyVideo
+      isArray: true
+    - uid: Video
+      isArray: true
+    - uid: CopyAudio
+      isArray: true
+    typesTitle: Codec[]
+  - name: formats
+    description: The list of outputs to be produced by the encoder.
+    types:
+    - uid: ImageFormat
+      isArray: true
+    - uid: MultiBitrateFormat
+      isArray: true
+    typesTitle: Format[]
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.StandardEncoderPreset'
+    typesTitle: string
+- name: VideoAnalyzerPreset
+  description: A video analyzer preset that extracts insights (rich metadata) from both audio and video, and outputs a JSON format file.
+  kind: object
+  properties:
+  - name: audioInsightsOnly
+    description: Whether to only extract audio insights when processing a video file.
+    types:
+    - uid: boolean
+  - name: audioLanguage
+    description: "The language for the audio payload in the input using the BCP-47 format of 'language tag-region' (e.g: 'en-US'). The list of supported languages are, 'en-US', 'en-GB', 'es-ES', 'es-MX', 'fr-FR', 'it-IT', 'ja-JP', 'pt-BR', 'zh-CN'."
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.AudioAnalyzerPreset'
+    typesTitle: string
+- name: EncoderNamedPreset
+  description: The built-in preset to be used for encoding videos.
+  kind: enum
+  properties:
+  - name: AdaptiveStreaming
+    description: Produces a set of GOP aligned MP4 files with H.264 video and stereo AAC audio. Auto-generates a bitrate ladder based on the input resolution and bitrate. The auto-generated preset will never exceed the input resolution and bitrate. For example, if the input is 720p at 3 Mbps, output will remain 720p at best, and will start at rates lower than 3 Mbps. The output will will have video and audio in separate MP4 files, which is optimal for adaptive streaming.
+    types:
+    - uid: string
+  - name: AACGoodQualityAudio
+    description: Produces a single MP4 file containing only stereo audio encoded at 192 kbps.
+    types:
+    - uid: string
+  - name: H264MultipleBitrate1080p
+    description: Produces a set of 8 GOP-aligned MP4 files, ranging from 6000 kbps to 400 kbps, and stereo AAC audio. Resolution starts at 1080p and goes down to 360p.
+    types:
+    - uid: string
+  - name: H264MultipleBitrate720p
+    description: Produces a set of 6 GOP-aligned MP4 files, ranging from 3400 kbps to 400 kbps, and stereo AAC audio. Resolution starts at 720p and goes down to 360p.
+    types:
+    - uid: string
+  - name: H264MultipleBitrateSD
+    description: Produces a set of 5 GOP-aligned MP4 files, ranging from 1600kbps to 400 kbps, and stereo AAC audio. Resolution starts at 480p and goes down to 360p.
+    types:
+    - uid: string
+- name: Filters
+  description: Describes all the filtering operations, such as de-interlacing, rotation etc. that are to be applied to the input media before encoding.
+  kind: object
+  properties:
+  - name: deinterlace
+    description: The de-interlacing settings.
+    types:
+    - uid: Deinterlace
+  - name: rotation
+    description: The rotation, if any, to be applied to the input video, before it is encoded. Default is Auto
+    types:
+    - uid: Rotation
+  - name: crop
+    description: The parameters for the rectangular window with which to crop the input video.
+    types:
+    - uid: Rectangle
+  - name: overlays
+    description: The properties of overlays to be applied to the input video. These could be audio, image or video overlays.
+    types:
+    - uid: AudioOverlay
+      isArray: true
+    - uid: VideoOverlay
+      isArray: true
+    typesTitle: Overlay[]
+- name: Deinterlace
+  description: Describes the de-interlacing settings.
+  kind: object
+  properties:
+  - name: parity
+    description: The field parity for de-interlacing, defaults to Auto.
+    types:
+    - uid: DeinterlaceParity
+  - name: mode
+    description: The deinterlacing mode. Defaults to AutoPixelAdaptive.
+    types:
+    - uid: DeinterlaceMode
+- name: Rotation
+  description: The rotation, if any, to be applied to the input video, before it is encoded. Default is Auto
+  kind: enum
+  properties:
+  - name: Auto
+    description: Automatically detect and rotate as needed.
+    types:
+    - uid: string
+  - name: None
+    description: Do not rotate the video.  If the output format supports it, any metadata about rotation is kept intact.
+    types:
+    - uid: string
+  - name: Rotate0
+    description: Do not rotate the video but remove any metadata about the rotation.
+    types:
+    - uid: string
+  - name: Rotate90
+    description: Rotate 90 degrees clockwise.
+    types:
+    - uid: string
+  - name: Rotate180
+    description: Rotate 180 degrees clockwise.
+    types:
+    - uid: string
+  - name: Rotate270
+    description: Rotate 270 degrees clockwise.
+    types:
+    - uid: string
+- name: Rectangle
+  description: Describes the properties of a rectangular window applied to the input media before processing it.
+  kind: object
+  properties:
+  - name: left
+    description: The number of pixels from the left-margin. This can be absolute pixel value (e.g 100), or relative to the size of the video (For example, 50%).
+    types:
+    - uid: string
+  - name: top
+    description: The number of pixels from the top-margin. This can be absolute pixel value (e.g 100), or relative to the size of the video (For example, 50%).
+    types:
+    - uid: string
+  - name: width
+    description: The width of the rectangular region in pixels. This can be absolute pixel value (e.g 100), or relative to the size of the video (For example, 50%).
+    types:
+    - uid: string
+  - name: height
+    description: The height of the rectangular region in pixels. This can be absolute pixel value (e.g 100), or relative to the size of the video (For example, 50%).
+    types:
+    - uid: string
+- name: CopyVideo
+  description: A codec flag, which tells the encoder to copy the input video bitstream without re-encoding.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.CopyVideo'
+    typesTitle: string
+  - name: label
+    description: An optional label for the codec. The label can be used to control muxing behavior.
+    types:
+    - uid: string
+- name: CopyAudio
+  description: A codec flag, which tells the encoder to copy the input audio bitstream.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.CopyAudio'
+    typesTitle: string
+  - name: label
+    description: An optional label for the codec. The label can be used to control muxing behavior.
+    types:
+    - uid: string
+- name: DeinterlaceParity
+  description: The field parity for de-interlacing, defaults to Auto.
+  kind: enum
+  properties:
+  - name: Auto
+    description: Automatically detect the order of fields
+    types:
+    - uid: string
+  - name: TopFieldFirst
+    description: Apply top field first processing of input video.
+    types:
+    - uid: string
+  - name: BottomFieldFirst
+    description: Apply bottom field first processing of input video.
+    types:
+    - uid: string
+- name: DeinterlaceMode
+  description: The deinterlacing mode. Defaults to AutoPixelAdaptive.
+  kind: enum
+  properties:
+  - name: Off
+    description: Disables de-interlacing of the source video.
+    types:
+    - uid: string
+  - name: AutoPixelAdaptive
+    description: Apply automatic pixel adaptive de-interlacing on each frame in the input video.
+    types:
+    - uid: string
+- name: AudioOverlay
+  description: Describes the properties of an audio overlay.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.AudioOverlay'
+    typesTitle: string
+  - name: inputLabel
+    description: The label of the job input which is to be used as an overlay. The Input must specify exactly one file. You can specify an image file in JPG or PNG formats, or an audio file (such as a WAV, MP3, WMA or M4A file), or a video file. See https://aka.ms/mesformats for the complete list of supported audio and video file formats.
+    types:
+    - uid: string
+  - name: start
+    description: The start position, with reference to the input video, at which the overlay starts. The value should be in ISO 8601 format. For example, PT05S to start the overlay at 5 seconds in to the input video. If not specified the overlay starts from the beginning of the input video.
+    types:
+    - uid: string
+  - name: end
+    description: The position in the input video at which the overlay ends. The value should be in ISO 8601 duration format. For example, PT30S to end the overlay at 30 seconds in to the input video. If not specified the overlay will be applied until the end of the input video if inputLoop is true. Else, if inputLoop is false, then overlay will last as long as the duration of the overlay media.
+    types:
+    - uid: string
+  - name: fadeInDuration
+    description: The duration over which the overlay fades in onto the input video. The value should be in ISO 8601 duration format. If not specified the default behavior is to have no fade in (same as PT0S).
+    types:
+    - uid: string
+  - name: fadeOutDuration
+    description: The duration over which the overlay fades out of the input video. The value should be in ISO 8601 duration format. If not specified the default behavior is to have no fade out (same as PT0S).
+    types:
+    - uid: string
+  - name: audioGainLevel
+    description: The gain level of audio in the overlay. The value should be in the range [0, 1.0]. The default is 1.0.
+    types:
+    - uid: number
+- name: VideoOverlay
+  description: Describes the properties of a video overlay.
+  kind: object
+  properties:
+  - name: position
+    description: The location in the input video where the overlay is applied.
+    types:
+    - uid: Rectangle
+  - name: opacity
+    description: The opacity of the overlay. This is a value in the range [0 - 1.0]. Default is 1.0 which mean the overlay is opaque.
+    types:
+    - uid: number
+  - name: cropRectangle
+    description: An optional rectangular window used to crop the overlay image or video.
+    types:
+    - uid: Rectangle
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.VideoOverlay'
+    typesTitle: string
+  - name: inputLabel
+    description: The label of the job input which is to be used as an overlay. The Input must specify exactly one file. You can specify an image file in JPG or PNG formats, or an audio file (such as a WAV, MP3, WMA or M4A file), or a video file. See https://aka.ms/mesformats for the complete list of supported audio and video file formats.
+    types:
+    - uid: string
+  - name: start
+    description: The start position, with reference to the input video, at which the overlay starts. The value should be in ISO 8601 format. For example, PT05S to start the overlay at 5 seconds in to the input video. If not specified the overlay starts from the beginning of the input video.
+    types:
+    - uid: string
+  - name: end
+    description: The position in the input video at which the overlay ends. The value should be in ISO 8601 duration format. For example, PT30S to end the overlay at 30 seconds in to the input video. If not specified the overlay will be applied until the end of the input video if inputLoop is true. Else, if inputLoop is false, then overlay will last as long as the duration of the overlay media.
+    types:
+    - uid: string
+  - name: fadeInDuration
+    description: The duration over which the overlay fades in onto the input video. The value should be in ISO 8601 duration format. If not specified the default behavior is to have no fade in (same as PT0S).
+    types:
+    - uid: string
+  - name: fadeOutDuration
+    description: The duration over which the overlay fades out of the input video. The value should be in ISO 8601 duration format. If not specified the default behavior is to have no fade out (same as PT0S).
+    types:
+    - uid: string
+  - name: audioGainLevel
+    description: The gain level of audio in the overlay. The value should be in the range [0, 1.0]. The default is 1.0.
+    types:
+    - uid: number
+- name: AacAudio
+  description: Describes Advanced Audio Codec (AAC) audio encoding settings.
+  kind: object
+  properties:
+  - name: profile
+    description: The encoding profile to be used when encoding audio with AAC.
+    types:
+    - uid: AacAudioProfile
+  - name: channels
+    description: The number of channels in the audio.
+    types:
+    - uid: integer
+  - name: samplingRate
+    description: The sampling rate to use for encoding in hertz.
+    types:
+    - uid: integer
+  - name: bitrate
+    description: The bitrate, in bits per second, of the output encoded audio.
+    types:
+    - uid: integer
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.Audio'
+    typesTitle: string
+  - name: label
+    description: An optional label for the codec. The label can be used to control muxing behavior.
+    types:
+    - uid: string
+- name: H264Video
+  description: Describes all the properties for encoding a video with the H.264 codec.
+  kind: object
+  properties:
+  - name: sceneChangeDetection
+    description: Whether or not the encoder should insert key frames at scene changes. If not specified, the default is false. This flag should be set to true only when the encoder is being configured to produce a single output video.
+    types:
+    - uid: boolean
+  - name: complexity
+    description: Tells the encoder how to choose its encoding settings. The default value is Balanced.
+    types:
+    - uid: H264Complexity
+  - name: layers
+    description: The collection of output H.264 layers to be produced by the encoder.
+    types:
+    - uid: H264Layer
+      isArray: true
+  - name: keyFrameInterval
+    description: The distance between two key frames, thereby defining a group of pictures (GOP). The value should be a non-zero integer in the range [1, 30] seconds, specified in ISO 8601 format. The default is 2 seconds (PT2S).
+    types:
+    - uid: string
+  - name: stretchMode
+    description: The resizing mode - how the input video will be resized to fit the desired output resolution(s). Default is AutoSize
+    types:
+    - uid: StretchMode
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.Video'
+    typesTitle: string
+  - name: label
+    description: An optional label for the codec. The label can be used to control muxing behavior.
+    types:
+    - uid: string
+- name: JpgFormat
+  description: Describes the settings for producing JPEG thumbnails.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.ImageFormat'
+    typesTitle: string
+  - name: filenamePattern
+    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - The base name of the input video {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and removed from the filename.'
+    types:
+    - uid: string
+- name: PngFormat
+  description: Describes the settings for producing PNG thumbnails.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.ImageFormat'
+    typesTitle: string
+  - name: filenamePattern
+    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - The base name of the input video {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and removed from the filename.'
+    types:
+    - uid: string
+- name: Mp4Format
+  description: Describes the properties for an output ISO MP4 file.
+  kind: object
+  properties:
+  - name: outputFiles
+    description: The list of output files to produce.  Each entry in the list is a set of audio and video layer labels to be muxed together .
+    types:
+    - uid: OutputFile
+      isArray: true
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.MultiBitrateFormat'
+    typesTitle: string
+  - name: filenamePattern
+    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - The base name of the input video {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and removed from the filename.'
+    types:
+    - uid: string
+- name: TransportStreamFormat
+  description: Describes the properties for generating an MPEG-2 Transport Stream (ISO/IEC 13818-1) output video file(s).
+  kind: object
+  properties:
+  - name: outputFiles
+    description: The list of output files to produce.  Each entry in the list is a set of audio and video layer labels to be muxed together .
+    types:
+    - uid: OutputFile
+      isArray: true
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.MultiBitrateFormat'
+    typesTitle: string
+  - name: filenamePattern
+    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - The base name of the input video {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and removed from the filename.'
+    types:
+    - uid: string
+- name: AacAudioProfile
+  description: The encoding profile to be used when encoding audio with AAC.
+  kind: enum
+  properties:
+  - name: AacLc
+    description: Specifies that the output audio is to be encoded into AAC Low Complexity profile (AAC-LC).
+    types:
+    - uid: string
+  - name: HeAacV1
+    description: Specifies that the output audio is to be encoded into HE-AAC v1 profile.
+    types:
+    - uid: string
+  - name: HeAacV2
+    description: Specifies that the output audio is to be encoded into HE-AAC v2 profile.
+    types:
+    - uid: string
+- name: JpgImage
+  description: Describes the properties for producing a series of JPEG images from the input video.
+  kind: object
+  properties:
+  - name: layers
+    description: A collection of output JPEG image layers to be produced by the encoder.
+    types:
+    - uid: JpgLayer
+      isArray: true
+  - name: start
+    description: 'The position in the input video from where to start generating thumbnails. The value can be in absolute timestamp (ISO 8601, e.g: PT05S), or a frame count (For example, 10 for the 10th frame), or a relative value (For example, 1%). Also supports a macro {Best}, which tells the encoder to select the best thumbnail from the first few seconds of the video.'
+    types:
+    - uid: string
+  - name: step
+    description: 'The intervals at which thumbnails are generated. The value can be in absolute timestamp (ISO 8601, e.g: PT05S for one image every 5 seconds), or a frame count (For example, 30 for every 30 frames), or a relative value (For example, 1%).'
+    types:
+    - uid: string
+  - name: range
+    description: 'The position in the input video at which to stop generating thumbnails. The value can be in absolute timestamp (ISO 8601, e.g: PT5M30S to stop at 5 minutes and 30 seconds), or a frame count (For example, 300 to stop at the 300th frame), or a relative value (For example, 100%).'
+    types:
+    - uid: string
+  - name: keyFrameInterval
+    description: The distance between two key frames, thereby defining a group of pictures (GOP). The value should be a non-zero integer in the range [1, 30] seconds, specified in ISO 8601 format. The default is 2 seconds (PT2S).
+    types:
+    - uid: string
+  - name: stretchMode
+    description: The resizing mode - how the input video will be resized to fit the desired output resolution(s). Default is AutoSize
+    types:
+    - uid: StretchMode
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.Video'
+    typesTitle: string
+  - name: label
+    description: An optional label for the codec. The label can be used to control muxing behavior.
+    types:
+    - uid: string
+- name: PngImage
+  description: Describes the properties for producing a series of PNG images from the input video.
+  kind: object
+  properties:
+  - name: layers
+    description: A collection of output PNG image layers to be produced by the encoder.
+    types:
+    - uid: PngLayer
+      isArray: true
+  - name: start
+    description: 'The position in the input video from where to start generating thumbnails. The value can be in absolute timestamp (ISO 8601, e.g: PT05S), or a frame count (For example, 10 for the 10th frame), or a relative value (For example, 1%). Also supports a macro {Best}, which tells the encoder to select the best thumbnail from the first few seconds of the video.'
+    types:
+    - uid: string
+  - name: step
+    description: 'The intervals at which thumbnails are generated. The value can be in absolute timestamp (ISO 8601, e.g: PT05S for one image every 5 seconds), or a frame count (For example, 30 for every 30 frames), or a relative value (For example, 1%).'
+    types:
+    - uid: string
+  - name: range
+    description: 'The position in the input video at which to stop generating thumbnails. The value can be in absolute timestamp (ISO 8601, e.g: PT5M30S to stop at 5 minutes and 30 seconds), or a frame count (For example, 300 to stop at the 300th frame), or a relative value (For example, 100%).'
+    types:
+    - uid: string
+  - name: keyFrameInterval
+    description: The distance between two key frames, thereby defining a group of pictures (GOP). The value should be a non-zero integer in the range [1, 30] seconds, specified in ISO 8601 format. The default is 2 seconds (PT2S).
+    types:
+    - uid: string
+  - name: stretchMode
+    description: The resizing mode - how the input video will be resized to fit the desired output resolution(s). Default is AutoSize
+    types:
+    - uid: StretchMode
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.Video'
+    typesTitle: string
+  - name: label
+    description: An optional label for the codec. The label can be used to control muxing behavior.
+    types:
+    - uid: string
+- name: H264Complexity
+  description: Tells the encoder how to choose its encoding settings. The default value is Balanced.
+  kind: enum
+  properties:
+  - name: Speed
+    description: Tells the encoder to use settings that are optimized for faster encoding. Quality is sacrificed to decrease encoding time.
+    types:
+    - uid: string
+  - name: Balanced
+    description: Tells the encoder to use settings that achieve a balance between speed and quality.
+    types:
+    - uid: string
+  - name: Quality
+    description: Tells the encoder to use settings that are optimized to produce higher quality output at the expense of slower overall encode time.
+    types:
+    - uid: string
+- name: H264Layer
+  description: Describes the settings to be used when encoding the input video into a desired output bitrate layer with the H.264 video codec.
+  kind: object
+  properties:
+  - name: profile
+    description: Which profile of the H.264 standard should be used when encoding this layer. Default is Auto.
+    types:
+    - uid: H264VideoProfile
+  - name: level
+    description: Which level of the H.264 standard should be used when encoding this layer. The value can be Auto, or a number that matches the H.264 profile. If not specified, the default is Auto, which lets the encoder choose the Level that is appropriate for this layer.
+    types:
+    - uid: string
+  - name: bufferWindow
+    description: The VBV buffer window length. The value should be in ISO 8601 format. The value should be in the range [0.1-100] seconds. The default is 5 seconds (for example, PT5S).
+    types:
+    - uid: string
+  - name: referenceFrames
+    description: The number of reference frames to be used when encoding this layer. If not specified, the encoder determines an appropriate number based on the encoder complexity setting.
+    types:
+    - uid: integer
+  - name: entropyMode
+    description: The entropy mode to be used for this layer. If not specified, the encoder chooses the mode that is appropriate for the profile and level.
+    types:
+    - uid: EntropyMode
+  - name: bitrate
+    description: The average bitrate in bits per second at which to encode the input video when generating this layer. This is a required field.
+    types:
+    - uid: integer
+  - name: maxBitrate
+    description: The maximum bitrate (in bits per second), at which the VBV buffer should be assumed to refill. If not specified, defaults to the same value as bitrate.
+    types:
+    - uid: integer
+  - name: bFrames
+    description: The number of B-frames to be used when encoding this layer.  If not specified, the encoder chooses an appropriate number based on the video profile and level.
+    types:
+    - uid: integer
+  - name: frameRate
+    description: The frame rate (in frames per second) at which to encode this layer. The value can be in the form of M/N where M and N are integers (For example, 30000/1001), or in the form of a number (For example, 30, or 29.97). The encoder enforces constraints on allowed frame rates based on the profile and level. If it is not specified, the encoder will use the same frame rate as the input video.
+    types:
+    - uid: string
+  - name: slices
+    description: The number of slices to be used when encoding this layer. If not specified, default is zero, which means that encoder will use a single slice for each frame.
+    types:
+    - uid: integer
+  - name: adaptiveBFrame
+    description: Whether or not adaptive B-frames are to be used when encoding this layer. If not specified, the encoder will turn it on whenever the video profile permits its use.
+    types:
+    - uid: boolean
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.VideoLayer'
+    typesTitle: string
+  - name: width
+    description: The width of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in width as the input.
+    types:
+    - uid: string
+  - name: height
+    description: The height of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in height as the input.
+    types:
+    - uid: string
+  - name: label
+    description: The alphanumeric label for this layer, which can be used in multiplexing different video and audio layers, or in naming the output file.
+    types:
+    - uid: string
+- name: StretchMode
+  description: The resizing mode - how the input video will be resized to fit the desired output resolution(s). Default is AutoSize
+  kind: enum
+  properties:
+  - name: None
+    description: Strictly respect the output resolution without considering the pixel aspect ratio or display aspect ratio of the input video.
+    types:
+    - uid: string
+  - name: AutoSize
+    description: Override the output resolution, and change it to match the display aspect ratio of the input, without padding. For example, if the input is 1920x1080 and the encoding preset asks for 1280x1280, then the value in the preset is overridden, and the output will be at 1280x720, which maintains the input aspect ratio of 16:9.
+    types:
+    - uid: string
+  - name: AutoFit
+    description: Pad the output (with either letterbox or pillar box) to honor the output resolution, while ensuring that the active video region in the output has the same aspect ratio as the input. For example, if the input is 1920x1080 and the encoding preset asks for 1280x1280, then the output will be at 1280x1280, which contains an inner rectangle of 1280x720 at aspect ratio of 16:9, and pillar box regions 280 pixels wide at the left and right.
+    types:
+    - uid: string
+- name: OutputFile
+  description: Represents an output file produced.
+  kind: object
+  properties:
+  - name: labels
+    description: The list of labels that describe how the encoder should multiplex video and audio into an output file. For example, if the encoder is producing two video layers with labels v1 and v2, and one audio layer with label a1, then an array like '[v1, a1]' tells the encoder to produce an output file with the video track represented by v1 and the audio track represented by a1.
+    types:
+    - uid: string
+      isArray: true
+- name: JpgLayer
+  description: Describes the settings to produce a JPEG image from the input video.
+  kind: object
+  properties:
+  - name: quality
+    description: The compression quality of the JPEG output. Range is from 0-100 and the default is 70.
+    types:
+    - uid: integer
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.JpgLayer'
+    typesTitle: string
+  - name: width
+    description: The width of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in width as the input.
+    types:
+    - uid: string
+  - name: height
+    description: The height of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in height as the input.
+    types:
+    - uid: string
+  - name: label
+    description: The alphanumeric label for this layer, which can be used in multiplexing different video and audio layers, or in naming the output file.
+    types:
+    - uid: string
+- name: PngLayer
+  description: Describes the settings to produce a PNG image from the input video.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.PngLayer'
+    typesTitle: string
+  - name: width
+    description: The width of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in width as the input.
+    types:
+    - uid: string
+  - name: height
+    description: The height of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in height as the input.
+    types:
+    - uid: string
+  - name: label
+    description: The alphanumeric label for this layer, which can be used in multiplexing different video and audio layers, or in naming the output file.
+    types:
+    - uid: string
+- name: H264VideoProfile
+  description: Which profile of the H.264 standard should be used when encoding this layer. Default is Auto.
+  kind: enum
+  properties:
+  - name: Auto
+    description: Tells the encoder to automatically determine the appropriate H.264 profile.
+    types:
+    - uid: string
+  - name: Baseline
+    description: Baseline profile
+    types:
+    - uid: string
+  - name: Main
+    description: Main profile
+    types:
+    - uid: string
+  - name: High
+    description: High profile.
+    types:
+    - uid: string
+  - name: High422
+    description: High 4:2:2 profile.
+    types:
+    - uid: string
+  - name: High444
+    description: High 4:4:4 predictive profile.
+    types:
+    - uid: string
+- name: EntropyMode
+  description: The entropy mode to be used for this layer. If not specified, the encoder chooses the mode that is appropriate for the profile and level.
+  kind: enum
+  properties:
+  - name: Cabac
+    description: Context Adaptive Binary Arithmetic Coder (CABAC) entropy encoding.
+    types:
+    - uid: string
+  - name: Cavlc
+    description: Context Adaptive Variable Length Coder (CAVLC) entropy encoding.
+    types:
+    - uid: string
+examples:
+- name: Lists the Transforms
+  request:
+    uri: GET https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms?api-version=2018-03-30-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "SampleEncode",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/SampleEncode",
+            "type": "Microsoft.Media/mediaservices/transforms",
+            "properties": {
+              "created": "2018-03-20T17:33:29.4642953+00:00",
+              "description": "A sample transform using the standard encoder with a built in preset.",
+              "lastModified": "2018-03-20T17:33:29.4642953+00:00",
+              "outputs": [
+                {
+                  "onError": "StopProcessingJob",
+                  "relativePriority": "Normal",
+                  "preset": {
+                    "@odata.type": "#Microsoft.Media.BuiltInStandardEncoderPreset",
+                    "presetName": "AdaptiveStreaming"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "SampleEncodeAndVideoIndex",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/SampleEncodeAndVideoIndex",
+            "type": "Microsoft.Media/mediaservices/transforms",
+            "properties": {
+              "created": "2018-03-20T17:33:29.4682947+00:00",
+              "description": "A sample transform using the standard encoder with a built in preset and the video indexer.",
+              "lastModified": "2018-03-20T17:33:29.4682947+00:00",
+              "outputs": [
+                {
+                  "onError": "StopProcessingJob",
+                  "relativePriority": "Normal",
+                  "preset": {
+                    "@odata.type": "#Microsoft.Media.BuiltInStandardEncoderPreset",
+                    "presetName": "AdaptiveStreaming"
+                  }
+                },
+                {
+                  "onError": "StopProcessingJob",
+                  "relativePriority": "Normal",
+                  "preset": {
+                    "@odata.type": "#Microsoft.Media.VideoAnalyzerPreset",
+                    "audioLanguage": "en-US",
+                    "audioInsightsOnly": false
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+security: []

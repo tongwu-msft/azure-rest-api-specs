@@ -1,0 +1,265 @@
+### YamlMime:RESTOperation
+uid: media.streaminglocators.listpaths
+name: List Paths
+service: Media Services
+groupName: Streaming Locators
+apiVersion: 2018-03-30-preview
+summary: "List Paths  \nList Paths supported by this Streaming Locator"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https:///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingLocators/{streamingLocatorName}/listPaths?api-version=2018-03-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Media Services account name.
+  types:
+  - uid: string
+- name: streamingLocatorName
+  in: path
+  isRequired: true
+  description: The Streaming Locator name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ListPathsResponse
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: ListPathsResponse
+  description: Class of response for listPaths action
+  kind: object
+  properties:
+  - name: streamingPaths
+    description: Streaming Paths supported by current Streaming Locator
+    types:
+    - uid: StreamingPath
+      isArray: true
+  - name: downloadPaths
+    description: Download Paths supported by current Streaming Locator
+    types:
+    - uid: string
+      isArray: true
+- name: ApiError
+  description: The API error.
+  kind: object
+  properties:
+  - name: error
+    description: The error properties.
+    types:
+    - uid: ODataError
+- name: StreamingPath
+  description: Class of paths for streaming
+  kind: object
+  properties:
+  - name: streamingProtocol
+    description: Streaming protocol
+    types:
+    - uid: StreamingPolicyStreamingProtocol
+  - name: encryptionScheme
+    description: Encryption scheme
+    types:
+    - uid: EncryptionScheme
+  - name: paths
+    description: Streaming paths for each protocol and encryptionScheme pair
+    types:
+    - uid: string
+      isArray: true
+- name: ODataError
+  description: Information about an error.
+  kind: object
+  properties:
+  - name: code
+    description: A language-independent error name.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: The error details.
+    types:
+    - uid: ODataError
+      isArray: true
+- name: StreamingPolicyStreamingProtocol
+  description: Streaming protocol
+  kind: enum
+  properties:
+  - name: Hls
+    description: HLS protocol
+    types:
+    - uid: string
+  - name: Dash
+    description: DASH protocol
+    types:
+    - uid: string
+  - name: SmoothStreaming
+    description: SmoothStreaming protocol
+    types:
+    - uid: string
+  - name: Download
+    description: Download protocol
+    types:
+    - uid: string
+- name: EncryptionScheme
+  description: Encryption scheme
+  kind: enum
+  properties:
+  - name: NoEncryption
+    description: NoEncryption scheme
+    types:
+    - uid: string
+  - name: EnvelopeEncryption
+    description: EnvelopeEncryption scheme
+    types:
+    - uid: string
+  - name: CommonEncryptionCenc
+    description: CommonEncryptionCenc scheme
+    types:
+    - uid: string
+  - name: CommonEncryptionCbcs
+    description: CommonEncryptionCbcs scheme
+    types:
+    - uid: string
+examples:
+- name: List Paths which has streaming paths only
+  request:
+    uri: POST https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingLocators/secureStreamingLocator/listPaths?api-version=2018-03-30-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "streamingPaths": [
+          {
+            "streamingProtocol": "Hls",
+            "encryptionScheme": "EnvelopeEncryption",
+            "paths": [
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest1.ism/manifest(format=m3u8-aapl,encryption=cbc)",
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest2.ism/manifest(format=m3u8-aapl,encryption=cbc)",
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest3.ism/manifest(format=m3u8-aapl,encryption=cbc)"
+            ]
+          },
+          {
+            "streamingProtocol": "Dash",
+            "encryptionScheme": "EnvelopeEncryption",
+            "paths": [
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest1.ism/manifest(format=mpd-time-csf,encryption=cbc)",
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest2.ism/manifest(format=mpd-time-csf,encryption=cbc)",
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest3.ism/manifest(format=mpd-time-csf,encryption=cbc)"
+            ]
+          },
+          {
+            "streamingProtocol": "SmoothStreaming",
+            "encryptionScheme": "EnvelopeEncryption",
+            "paths": [
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest1.ism/manifest(encryption=cbc)",
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest2.ism/manifest(encryption=cbc)",
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest3.ism/manifest(encryption=cbc)"
+            ]
+          },
+          {
+            "streamingProtocol": "Dash",
+            "encryptionScheme": "CommonEncryptionCenc",
+            "paths": [
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest1.ism/manifest(format=mpd-time-csf,encryption=cenc)",
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest2.ism/manifest(format=mpd-time-csf,encryption=cenc)",
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest3.ism/manifest(format=mpd-time-csf,encryption=cenc)"
+            ]
+          },
+          {
+            "streamingProtocol": "SmoothStreaming",
+            "encryptionScheme": "CommonEncryptionCenc",
+            "paths": [
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest1.ism/manifest(encryption=cenc)",
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest2.ism/manifest(encryption=cenc)",
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest3.ism/manifest(encryption=cenc)"
+            ]
+          },
+          {
+            "streamingProtocol": "Hls",
+            "encryptionScheme": "CommonEncryptionCbcs",
+            "paths": [
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest1.ism/manifest(format=m3u8-aapl,encryption=cbcs-aapl)",
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest2.ism/manifest(format=m3u8-aapl,encryption=cbcs-aapl)",
+              "/3b077902-e89d-48bc-b8e5-61e9b3c0f7e1/videoManifest3.ism/manifest(format=m3u8-aapl,encryption=cbcs-aapl)"
+            ]
+          }
+        ],
+        "downloadPaths": []
+      }
+- name: List Paths which has streaming paths and download paths
+  request:
+    uri: POST https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingLocators/clearStreamingLocator/listPaths?api-version=2018-03-30-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "streamingPaths": [
+          {
+            "streamingProtocol": "Hls",
+            "encryptionScheme": "NoEncryption",
+            "paths": [
+              "/4388089d-846d-4eed-83e3-9a227cd44c33/videoManifest1.ism/manifest(format=m3u8-aapl)",
+              "/4388089d-846d-4eed-83e3-9a227cd44c33/videoManifest2.ism/manifest(format=m3u8-aapl)",
+              "/4388089d-846d-4eed-83e3-9a227cd44c33/videoManifest3.ism/manifest(format=m3u8-aapl)"
+            ]
+          },
+          {
+            "streamingProtocol": "Dash",
+            "encryptionScheme": "NoEncryption",
+            "paths": [
+              "/4388089d-846d-4eed-83e3-9a227cd44c33/videoManifest1.ism/manifest(format=mpd-time-csf)",
+              "/4388089d-846d-4eed-83e3-9a227cd44c33/videoManifest2.ism/manifest(format=mpd-time-csf)",
+              "/4388089d-846d-4eed-83e3-9a227cd44c33/videoManifest3.ism/manifest(format=mpd-time-csf)"
+            ]
+          },
+          {
+            "streamingProtocol": "SmoothStreaming",
+            "encryptionScheme": "NoEncryption",
+            "paths": [
+              "/4388089d-846d-4eed-83e3-9a227cd44c33/videoManifest1.ism/manifest",
+              "/4388089d-846d-4eed-83e3-9a227cd44c33/videoManifest2.ism/manifest",
+              "/4388089d-846d-4eed-83e3-9a227cd44c33/videoManifest3.ism/manifest"
+            ]
+          }
+        ],
+        "downloadPaths": [
+          "/4388089d-846d-4eed-83e3-9a227cd44c33/textTrack.vtt",
+          "/4388089d-846d-4eed-83e3-9a227cd44c33/video1.mp4",
+          "/4388089d-846d-4eed-83e3-9a227cd44c33/video2.mp4",
+          "/4388089d-846d-4eed-83e3-9a227cd44c33/video3.mp4"
+        ]
+      }
+security: []

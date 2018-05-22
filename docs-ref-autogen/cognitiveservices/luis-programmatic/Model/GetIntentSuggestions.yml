@@ -1,0 +1,330 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.model.getintentsuggestions
+name: Get Intent Suggestions
+service: Cognitive Services
+groupName: Model
+apiVersion: v2.0 preview
+summary: Suggests examples that would improve the accuracy of the intent model.
+produces:
+- application/json
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}/suggest
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/intents/{intentId}/suggest?take={take}
+  isOptional: true
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+- name: intentId
+  in: path
+  isRequired: true
+  description: The intent classifier ID.
+  types:
+  - uid: string
+  format: uuid
+- name: take
+  in: query
+  description: The number of entries to return. Maximum page size is 500. Default is 100.
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: If there's no trained model, nothing is returned in the response. If there's a trained model and the active learning algorithm finds any relevant queries, they are returned with the model predictions. If there's a trained model but the active learning algorithm didn't find any relevant queries, an empty list is returned in the response.
+  types:
+  - uid: IntentsSuggestionExample
+    isArray: true
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: IntentsSuggestionExample
+  description: Predicted/suggested intent.
+  kind: object
+  properties:
+  - name: text
+    description: "The utterance. E.g.: what's the weather like in seattle?"
+    types:
+    - uid: string
+  - name: tokenizedText
+    description: The utterance tokenized.
+    types:
+    - uid: string
+      isArray: true
+  - name: intentPredictions
+    description: Predicted/suggested intents.
+    types:
+    - uid: IntentPrediction
+      isArray: true
+  - name: entityPredictions
+    description: Predicted/suggested entities.
+    types:
+    - uid: EntityPrediction
+      isArray: true
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: IntentPrediction
+  description: A suggested intent.
+  kind: object
+  properties:
+  - name: name
+    description: The intent's name
+    types:
+    - uid: string
+  - name: score
+    description: The intent's score, based on the prediction model.
+    types:
+    - uid: number
+- name: EntityPrediction
+  description: A suggested entity.
+  kind: object
+  properties:
+  - name: entityName
+    description: The entity's name
+    types:
+    - uid: string
+  - name: startTokenIndex
+    description: The index within the utterance where the extracted entity starts.
+    types:
+    - uid: integer
+  - name: endTokenIndex
+    description: The index within the utterance where the extracted entity ends.
+    types:
+    - uid: integer
+  - name: phrase
+    description: The actual token(s) that comprise the entity.
+    types:
+    - uid: string
+examples:
+- name: Successful Get Intents Suggestion Examples
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/86226c53-b7a6-416f-876b-226b2b5ab07b/versions/0.1/intents/3d73462d-98f0-4dcd-8d30-fab9e65f2e73/suggest?take={take}
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "text": "hey",
+          "tokenizedText": [
+            "hey"
+          ],
+          "intentPredictions": [
+            {
+              "name": "None",
+              "score": 0.65
+            },
+            {
+              "name": "FindAirportByCode",
+              "score": 0.02
+            },
+            {
+              "name": "WeatherInPlace",
+              "score": 0.01
+            },
+            {
+              "name": "TimeInPlace",
+              "score": 0
+            },
+            {
+              "name": "FindHotels-ChangeLocation",
+              "score": 0
+            },
+            {
+              "name": "FindHotels",
+              "score": 0
+            }
+          ],
+          "entityPredictions": []
+        },
+        {
+          "text": "2-2-2017",
+          "tokenizedText": [
+            "2",
+            "-",
+            "2",
+            "-",
+            "2017"
+          ],
+          "intentPredictions": [
+            {
+              "name": "None",
+              "score": 0.88
+            },
+            {
+              "name": "TimeInPlace",
+              "score": 0
+            },
+            {
+              "name": "FindAirportByCode",
+              "score": 0
+            },
+            {
+              "name": "FindHotels-ChangeLocation",
+              "score": 0
+            },
+            {
+              "name": "FindHotels",
+              "score": 0
+            },
+            {
+              "name": "WeatherInPlace",
+              "score": 0
+            }
+          ],
+          "entityPredictions": [
+            {
+              "entityName": "datetime",
+              "startTokenIndex": 0,
+              "endTokenIndex": 4,
+              "phrase": "2-2-2017"
+            }
+          ]
+        },
+        {
+          "text": "maybe find me an airport first",
+          "tokenizedText": [
+            "maybe",
+            "find",
+            "me",
+            "an",
+            "airport",
+            "first"
+          ],
+          "intentPredictions": [
+            {
+              "name": "FindAirportByCode",
+              "score": 0.99
+            },
+            {
+              "name": "FindHotels",
+              "score": 0.01
+            },
+            {
+              "name": "TimeInPlace",
+              "score": 0
+            },
+            {
+              "name": "None",
+              "score": 0
+            },
+            {
+              "name": "FindHotels-ChangeLocation",
+              "score": 0
+            },
+            {
+              "name": "WeatherInPlace",
+              "score": 0
+            }
+          ],
+          "entityPredictions": []
+        },
+        {
+          "text": "as",
+          "tokenizedText": [
+            "as"
+          ],
+          "intentPredictions": [
+            {
+              "name": "None",
+              "score": 0.98
+            },
+            {
+              "name": "FindAirportByCode",
+              "score": 0.01
+            },
+            {
+              "name": "WeatherInPlace",
+              "score": 0.01
+            },
+            {
+              "name": "TimeInPlace",
+              "score": 0
+            },
+            {
+              "name": "FindHotels-ChangeLocation",
+              "score": 0
+            },
+            {
+              "name": "FindHotels",
+              "score": 0
+            }
+          ],
+          "entityPredictions": []
+        },
+        {
+          "text": "find hotel in barcelona",
+          "tokenizedText": [
+            "find",
+            "hotel",
+            "in",
+            "barcelona"
+          ],
+          "intentPredictions": [
+            {
+              "name": "FindHotels",
+              "score": 1
+            },
+            {
+              "name": "TimeInPlace",
+              "score": 0
+            },
+            {
+              "name": "None",
+              "score": 0
+            },
+            {
+              "name": "FindAirportByCode",
+              "score": 0
+            },
+            {
+              "name": "FindHotels-ChangeLocation",
+              "score": 0
+            },
+            {
+              "name": "WeatherInPlace",
+              "score": 0
+            }
+          ],
+          "entityPredictions": [
+            {
+              "entityName": "Renamed Entity",
+              "startTokenIndex": 3,
+              "endTokenIndex": 3,
+              "phrase": "barcelona"
+            },
+            {
+              "entityName": "geography",
+              "startTokenIndex": 3,
+              "endTokenIndex": 3,
+              "phrase": "barcelona"
+            }
+          ]
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

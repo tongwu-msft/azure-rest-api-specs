@@ -1,0 +1,358 @@
+### YamlMime:RESTOperation
+uid: vision.v1.0.cognitiveservices.analyzeimageinstream.analyzeimageinstream
+name: Analyze Image In Stream
+service: Cognitive Services
+groupName: Analyze Image In Stream
+apiVersion: "1.0"
+summary: This operation extracts a rich set of visual features based on the image content.
+consumes:
+- application/octet-stream
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/analyze
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/analyze?overload=stream&visualFeatures={visualFeatures}&details={details}&language={language}
+  isOptional: true
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: visualFeatures
+  in: query
+  description: A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include:Categories - categorizes image content according to a taxonomy defined in documentation. Tags - tags the image with a detailed list of words related to the image content. Description - describes the image content with a complete English sentence. Faces - detects if faces are present. If present, generate coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color - determines the accent color, dominant color, and whether an image is black&white.Adult - detects if the image is pornographic in nature (depicts nudity or a sex act).  Sexually suggestive content is also detected.
+  types:
+  - uid: array
+- name: details
+  in: query
+  description: A string indicating which domain-specific details to return. Multiple values should be comma-separated. Valid visual feature types include:Celebrities - identifies celebrities if detected in the image.
+  types:
+  - uid: string
+- name: language
+  in: query
+  description: A string indicating which language to return. The service will return recognition results in specified language. If this parameter is not specified, the default value is &quot;en&quot;.Supported languages:en - English, Default.zh - Simplified Chinese.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The response include the extracted features in JSON format. Here is the definitions for enumeration types clipart = 0, ambiguous = 1, normal-clipart = 2, good-clipart = 3. Non-LineDrawing = 0,LineDrawing = 1.
+  types:
+  - uid: ImageAnalysis
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: ComputerVisionError
+requestBody:
+- parameters:
+  - name: Image
+    in: body
+    types:
+    - uid: object
+requestHeader: []
+definitions:
+- name: ImageAnalysis
+  description: Result of AnalyzeImage operation.
+  kind: object
+  properties:
+  - name: categories
+    description: An array indicating identified categories.
+    types:
+    - uid: Category
+      isArray: true
+  - name: adult
+    description: A property scoring on whether the image is adult-oriented and/or racy.
+    types:
+    - uid: AdultInfo
+  - name: color
+    description: A property scoring on color spectrums.
+    types:
+    - uid: ColorInfo
+  - name: imageType
+    description: A property indicating type of image (whether it's clipart or line drawing)
+    types:
+    - uid: ImageType
+  - name: tags
+    description: A list of tags with confidence level.
+    types:
+    - uid: ImageTag
+      isArray: true
+  - name: description
+    description: Description of the image.
+    types:
+    - uid: ImageDescriptionDetails
+  - name: faces
+    description: An array of possible faces within the image.
+    types:
+    - uid: FaceDescription
+      isArray: true
+  - name: requestId
+    description: Id of the request for tracking purposes.
+    types:
+    - uid: string
+  - name: metadata
+    description: Image metadata
+    types:
+    - uid: ImageMetadata
+- name: ComputerVisionError
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: ComputerVisionErrorCodes
+  - name: message
+    description: A message explaining the error reported by the service.
+    types:
+    - uid: string
+  - name: requestId
+    description: A unique request identifier.
+    types:
+    - uid: string
+- name: Category
+  description: An object describing identified category.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the category.
+    types:
+    - uid: string
+  - name: score
+    description: Scoring of the category.
+    types:
+    - uid: number
+  - name: detail
+    description: Additional category detail if available.
+    types:
+    - uid: CategoryDetail
+- name: AdultInfo
+  description: An object describing whether the image contains adult-oriented content and/or is racy.
+  kind: object
+  properties:
+  - name: isAdultContent
+    description: A value indicating if the image contains adult-oriented content.
+    types:
+    - uid: boolean
+  - name: isRacyContent
+    description: A value indicating if the image is race.
+    types:
+    - uid: boolean
+  - name: adultScore
+    description: Score from 0 to 1 that indicates how much of adult content is within the image.
+    types:
+    - uid: number
+  - name: racyScore
+    description: Score from 0 to 1 that indicates how suggestive is the image.
+    types:
+    - uid: number
+- name: ColorInfo
+  description: An object providing additional metadata describing color attributes.
+  kind: object
+  properties:
+  - name: dominantColorForeground
+    description: Possible dominant foreground color.
+    types:
+    - uid: string
+  - name: dominantColorBackground
+    description: Possible dominant background color.
+    types:
+    - uid: string
+  - name: dominantColors
+    description: An array of possible dominant colors.
+    types:
+    - uid: string
+      isArray: true
+  - name: accentColor
+    description: Possible accent color.
+    types:
+    - uid: string
+  - name: isBWImg
+    description: A value indicating if the image is black and white.
+    types:
+    - uid: boolean
+- name: ImageType
+  description: An object providing possible image types and matching confidence levels.
+  kind: object
+  properties:
+  - name: clipArtType
+    description: Confidence level that the image is a clip art.
+    types:
+    - uid: number
+  - name: lineDrawingType
+    description: Confidence level that the image is a line drawing.
+    types:
+    - uid: number
+- name: ImageTag
+  description: An image caption, i.e. a brief description of what the image depicts.
+  kind: object
+  properties:
+  - name: name
+    description: The tag value
+    types:
+    - uid: string
+  - name: confidence
+    description: The level of confidence the service has in the caption
+    types:
+    - uid: number
+- name: ImageDescriptionDetails
+  description: A collection of content tags, along with a list of captions sorted by confidence level, and image metadata.
+  kind: object
+  properties:
+  - name: tags
+    description: A collection of image tags.
+    types:
+    - uid: string
+      isArray: true
+  - name: captions
+    description: A list of captions, sorted by confidence level.
+    types:
+    - uid: ImageCaption
+      isArray: true
+  - name: requestId
+    description: Id of the REST API request.
+    types:
+    - uid: string
+  - name: metadata
+    description: Image metadata
+    types:
+    - uid: ImageMetadata
+- name: FaceDescription
+  description: An object describing a face identified in the image.
+  kind: object
+  properties:
+  - name: age
+    description: Possible age of the face.
+    types:
+    - uid: integer
+  - name: gender
+    description: Possible gender of the face.
+    types:
+    - uid: Male
+    - uid: Female
+    typesTitle: enum
+  - name: faceRectangle
+    description: An object describing face rectangle.
+    types:
+    - uid: FaceRectangle
+- name: ImageMetadata
+  description: Image metadata
+  kind: object
+  properties:
+  - name: width
+    description: Image width
+    types:
+    - uid: integer
+  - name: height
+    description: Image height
+    types:
+    - uid: integer
+  - name: format
+    description: Image format
+    types:
+    - uid: string
+- name: ComputerVisionErrorCodes
+  description: The error code.
+  kind: enum
+  properties:
+  - name: InvalidImageUrl
+    types:
+    - uid: string
+  - name: InvalidImageFormat
+    types:
+    - uid: string
+  - name: InvalidImageSize
+    types:
+    - uid: string
+  - name: NotSupportedVisualFeature
+    types:
+    - uid: string
+  - name: NotSupportedImage
+    types:
+    - uid: string
+  - name: InvalidDetails
+    types:
+    - uid: string
+  - name: NotSupportedLanguage
+    types:
+    - uid: string
+  - name: BadArgument
+    types:
+    - uid: string
+  - name: FailedToProcess
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: StorageException
+    types:
+    - uid: string
+- name: CategoryDetail
+  description: An object describing additional category details.
+  kind: object
+  properties:
+  - name: celebrities
+    description: An array of celebrities if any identified.
+    types:
+    - uid: CelebritiesModel
+      isArray: true
+- name: ImageCaption
+  description: An image caption, i.e. a brief description of what the image depicts.
+  kind: object
+  properties:
+  - name: text
+    description: The text of the caption
+    types:
+    - uid: string
+  - name: confidence
+    description: The level of confidence the service has in the caption
+    types:
+    - uid: number
+- name: FaceRectangle
+  description: An object describing face rectangle.
+  kind: object
+  properties:
+  - name: left
+    description: X-coordinate of the top left point of the face.
+    types:
+    - uid: integer
+  - name: top
+    description: Y-coordinate of the top left point of the face.
+    types:
+    - uid: integer
+  - name: width
+    description: Width measured from the top-left point of the face.
+    types:
+    - uid: integer
+  - name: height
+    description: Height measured from the top-left point of the face.
+    types:
+    - uid: integer
+- name: CelebritiesModel
+  description: An object describing possible celebrity identification.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the celebrity.
+    types:
+    - uid: string
+  - name: confidence
+    description: Level of confidence ranging from 0 to 1.
+    types:
+    - uid: number
+  - name: faceRectangle
+    description: An object describing face rectangle.
+    types:
+    - uid: FaceRectangle
+examples: []
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

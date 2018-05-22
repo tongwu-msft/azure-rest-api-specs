@@ -1,0 +1,243 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.postgresql.serversecurityalertpolicies.createorupdate
+name: Create Or Update
+service: PostgreSQL
+groupName: Server Security Alert Policies
+apiVersion: 2017-12-01
+summary: Creates or updates a threat detection policy.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}/securityAlertPolicies/Default?api-version=2017-12-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: securityAlertPolicyName
+  in: path
+  isRequired: true
+  description: The name of the threat detection policy.
+  types:
+  - uid: SecurityAlertPolicyName
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully updated the threat detection policy.
+  types:
+  - uid: ServerSecurityAlertPolicy
+- name: Other Status Codes
+  description: Error response describing why the operation of setting security alert policies failed.
+- name: 202 Accepted
+  description: Created request to set the server threat detection policy.
+requestBody:
+- parameters:
+  - name: properties.state
+    in: body
+    isRequired: true
+    description: Specifies the state of the policy, whether it is enabled or disabled.
+    types:
+    - uid: ServerSecurityAlertPolicyState
+  - name: properties.disabledAlerts
+    in: body
+    description: 'Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly'
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.emailAddresses
+    in: body
+    description: Specifies an array of e-mail addresses to which the alert is sent.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.emailAccountAdmins
+    in: body
+    description: Specifies that the alert is sent to the account administrators.
+    types:
+    - uid: boolean
+  - name: properties.storageEndpoint
+    in: body
+    description: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs.
+    types:
+    - uid: string
+  - name: properties.storageAccountAccessKey
+    in: body
+    description: Specifies the identifier key of the Threat Detection audit storage account.
+    types:
+    - uid: string
+  - name: properties.retentionDays
+    in: body
+    description: Specifies the number of days to keep in the Threat Detection audit logs.
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: SecurityAlertPolicyName
+  description: The name of the threat detection policy.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+- name: ServerSecurityAlertPolicy
+  description: A server security alert policy.
+  kind: object
+  properties:
+  - name: properties.state
+    description: Specifies the state of the policy, whether it is enabled or disabled.
+    types:
+    - uid: ServerSecurityAlertPolicyState
+  - name: properties.disabledAlerts
+    description: 'Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly'
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.emailAddresses
+    description: Specifies an array of e-mail addresses to which the alert is sent.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.emailAccountAdmins
+    description: Specifies that the alert is sent to the account administrators.
+    types:
+    - uid: boolean
+  - name: properties.storageEndpoint
+    description: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs.
+    types:
+    - uid: string
+  - name: properties.storageAccountAccessKey
+    description: Specifies the identifier key of the Threat Detection audit storage account.
+    types:
+    - uid: string
+  - name: properties.retentionDays
+    description: Specifies the number of days to keep in the Threat Detection audit logs.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: Resource ID
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ServerSecurityAlertPolicyState
+  description: Specifies the state of the policy, whether it is enabled or disabled.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+examples:
+- name: Update a server's threat detection policy with all parameters
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforPostgreSQL/servers/securityalert-6440/securityAlertPolicies/Default?api-version=2017-12-01
+    body: >-
+      {
+        "properties": {
+          "state": "Enabled",
+          "emailAccountAdmins": true,
+          "emailAddresses": [
+            "testSecurityAlert@microsoft.com"
+          ],
+          "disabledAlerts": [
+            "Access_Anomaly",
+            "Usage_Anomaly"
+          ],
+          "retentionDays": 5,
+          "storageAccountAccessKey": "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforPostgreSQL/servers/securityalert-6440/securityAlertPolicies/default",
+        "name": "Default",
+        "type": "Microsoft.DBforPostgreSQL/servers/securityAlertPolicies",
+        "properties": {
+          "state": "Enabled",
+          "emailAccountAdmins": true,
+          "emailAddresses": [
+            "testSecurityAlert@microsoft.com"
+          ],
+          "disabledAlerts": [
+            "Access_Anomaly",
+            "Usage_Anomaly"
+          ],
+          "retentionDays": 5,
+          "storageEndpoint": "https://mystorage.blob.core.windows.net"
+        }
+      }
+  - statusCode: "202"
+- name: Update a server's threat detection policy with minimal parameters
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforPostgreSQL/servers/securityalert-6440/securityAlertPolicies/Default?api-version=2017-12-01
+    body: >-
+      {
+        "properties": {
+          "state": "Disabled",
+          "emailAccountAdmins": true
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.DBforPostgreSQL/servers/securityalert-6440/securityAlertPolicies/default",
+        "name": "Default",
+        "type": "Microsoft.DBforPostgreSQL/servers/securityAlertPolicies",
+        "properties": {
+          "state": "Enabled",
+          "emailAccountAdmins": true,
+          "emailAddresses": [
+            ""
+          ],
+          "disabledAlerts": [
+            ""
+          ],
+          "retentionDays": 0,
+          "storageEndpoint": ""
+        }
+      }
+  - statusCode: "202"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

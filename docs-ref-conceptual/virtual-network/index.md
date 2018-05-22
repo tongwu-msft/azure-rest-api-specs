@@ -17,15 +17,15 @@ An Azure virtual network (VNet) is a representation of your own network in the c
 
 |Operation Group|Description|
 |---|---|
-|[Network Interface Cards](xref:management.azure.com.virtualnetworks.networkinterfaces) |Provides operations for managing Network Interface Cards.|
-|[Network Security Groups](xref:management.azure.com.virtualnetworks.networksecuritygroups)   | Provides operations for managing Network Security Groups.|
-|[Network Security Rules](xref:management.azure.com.virtualnetworks.securityrules)   |Provides operations for managing Network Security Rules.|
-|[Public IP Addresses](xref:management.azure.com.virtualnetworks.publicipaddresses)   | Provides operations for managing Public IP Addresses.|
-|[Subnets](xref:management.azure.com.virtualnetworks.subnets)  |Provides operations for managing Subnets.|
-|[Virtual Networks](xref:management.azure.com.virtualnetworks.virtualnetworks)  |Provides operations for managing Virtual Networks.|
-|[Route Tables](xref:management.azure.com.virtualnetworks.routetables)   |Provides operations for managing Route Tables.|
-|[Routes](xref:management.azure.com.virtualnetworks.routes)   |Provides operations for managing Routes.|
-|[Virtual Network Peerings](xref:management.azure.com.virtualnetworks.virtualnetworkpeerings)   |Provides operations for managing Virtual Network Peerings.|
-|[Check DNS Name Availability](xref:management.azure.com.virtualnetworks.checkdnsnameavailability)   |Provides an operation for checking DNS name availability.|
-|[Usages](xref:management.azure.com.virtualnetworks.usages)   |Provides an operation for listing usages.|
+|[Network Interface Cards](xref:management.azure.com.virtualnetwork.networkinterfaces) |Provides operations for managing Network Interface Cards.|
+|[Network Security Groups](xref:management.azure.com.virtualnetwork.networksecuritygroups)   | Provides operations for managing Network Security Groups.|
+|[Network Security Rules](xref:management.azure.com.virtualnetwork.securityrules)   |Provides operations for managing Network Security Rules.|
+|[Public IP Addresses](xref:management.azure.com.virtualnetwork.publicipaddresses)   | Provides operations for managing Public IP Addresses.|
+|[Subnets](xref:management.azure.com.virtualnetwork.subnets)  |Provides operations for managing Subnets.|
+|[Virtual Networks](xref:management.azure.com.virtualnetwork.virtualnetworks)  |Provides operations for managing Virtual Networks.|
+|[Route Tables](xref:management.azure.com.virtualnetwork.routetables)   |Provides operations for managing Route Tables.|
+|[Routes](xref:management.azure.com.virtualnetwork.routes)   |Provides operations for managing Routes.|
+|[Virtual Network Peerings](xref:management.azure.com.virtualnetwork.virtualnetworkpeerings)   |Provides operations for managing Virtual Network Peerings.|
+|[Check DNS Name Availability](xref:management.azure.com.virtualnetwork.checkdnsnameavailability)   |Provides an operation for checking DNS name availability.|
+|[Usages](xref:management.azure.com.virtualnetwork.usages)   |Provides an operation for listing usages.|
 

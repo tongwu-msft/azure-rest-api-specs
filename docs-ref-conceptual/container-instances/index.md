@@ -18,10 +18,10 @@ The Container Instances REST API provides operations for working with the follow
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-|[Container Group Usage](xref:management.azure.com.containerinstances.containergroupusage)| Get usage information for the container groups in a subscription. |
-|[Container Groups](xref:management.azure.com.containerinstances.containergroups)| Create, read, update, and delete [container groups](/azure/container-instances/container-instances-container-groups), the top-level resource in Azure Container Instances. |
-|[Container Logs](xref:management.azure.com.containerinstances.containerlogs)| Get container instance logs. |
-|[Operations](xref:management.azure.com.containerinstances.operations)| Get information about Azure Container Instances REST API operations. |
+|[Container Group Usage](xref:management.azure.com.container-instances.containergroupusage)| Get usage information for the container groups in a subscription. |
+|[Container Groups](xref:management.azure.com.container-instances.containergroups)| Create, read, update, and delete [container groups](/azure/container-instances/container-instances-container-groups), the top-level resource in Azure Container Instances. |
+|[Container Logs](xref:management.azure.com.container-instances.containerlogs)| Get container instance logs. |
+|[Operations](xref:management.azure.com.container-instances.operations)| Get information about Azure Container Instances REST API operations. |
 
 ## See also
 

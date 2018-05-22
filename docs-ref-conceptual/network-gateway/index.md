@@ -16,6 +16,6 @@ Network Gateway is a type of virtual network gateway that sends encrypted traffi
 
 |Operation Group|Description|
 |---|---|
-|[Connections](xref:management.azure.com.networkgateway.virtualnetworkgatewayconnections)  |Provides operations for managing connections|
-|[Local Network Gateways](xref:management.azure.com.networkgateway.localnetworkgateways) | Provides operations for managing local network gateways|
-|[Virtual Network Gateways](xref:management.azure.com.networkgateway.virtualnetworkgateways) |Provides operations for managing virtual network gateways|
+|[Connections](xref:management.azure.com.network-gateway.virtualnetworkgatewayconnections)  |Provides operations for managing connections|
+|[Local Network Gateways](xref:management.azure.com.network-gateway.localnetworkgateways) | Provides operations for managing local network gateways|
+|[Virtual Network Gateways](xref:management.azure.com.network-gateway.virtualnetworkgateways) |Provides operations for managing virtual network gateways|

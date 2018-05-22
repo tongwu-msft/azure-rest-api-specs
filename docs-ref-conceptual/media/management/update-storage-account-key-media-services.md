@@ -27,7 +27,7 @@ translation.priority.mt:
 # Update Storage Account Key (Media Services)
 
 > [!NOTE]
->  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services management REST API reference](xref:management.azure.com.mediaservices.mediaservice).
+>  It is now recommended to use  the Azure Resource Manager (ARM) REST API endpoints, as described in [Media Services management REST API reference](xref:management.azure.com.media.mediaservice).
   
   
  The `PUT` request method described in this topic synchronizes Media Services storage account records with the storage account key. The new key is returned in the request body.  

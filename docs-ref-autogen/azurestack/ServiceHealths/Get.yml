@@ -1,0 +1,161 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.servicehealths.get
+name: Get
+service: Azure Stack Admin
+groupName: Service Healths
+apiVersion: 2016-05-01
+summary: Returns the requested service health object.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.InfrastructureInsights.Admin/regionHealths/{location}/serviceHealths/{serviceHealth}?api-version=2016-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Name of the region
+  types:
+  - uid: string
+- name: serviceHealth
+  in: path
+  isRequired: true
+  description: Service Health name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ServiceHealth
+requestHeader: []
+definitions:
+- name: ServiceHealth
+  description: Holds information about the health of a service.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: Name of the service.
+    types:
+    - uid: string
+  - name: properties.serviceLocation
+    description: Location of the service.
+    types:
+    - uid: string
+  - name: properties.infraURI
+    description: The route prefix to the service.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The Azure Region where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: properties.alertSummary
+    description: Alert summary.
+    types:
+    - uid: AlertSummary
+  - name: properties.healthState
+    description: Health state.
+    types:
+    - uid: string
+  - name: properties.namespace
+    description: Namespace of the health resource.
+    types:
+    - uid: string
+  - name: properties.registrationId
+    description: Registration ID.
+    types:
+    - uid: string
+  - name: properties.routePrefix
+    description: Route prefix.
+    types:
+    - uid: string
+- name: AlertSummary
+  description: Summary of the alerts.
+  kind: object
+  properties:
+  - name: criticalAlertCount
+    description: The number of critical alerts for the service.
+    types:
+    - uid: integer
+  - name: warningAlertCount
+    description: The number of warning alerts for the service.
+    types:
+    - uid: integer
+examples:
+- name: Returns the requested service health object.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.InfrastructureInsights.Admin/regionHealths/local/serviceHealths/c720a7de-4812-4b58-969d-c2e2a5cd89ec?api-version=2016-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.InfrastructureInsights.Admin/regionHealths/local/serviceHealths/c720a7de-4812-4b58-969d-c2e2a5cd89ec",
+        "name": "c720a7de-4812-4b58-969d-c2e2a5cd89ec",
+        "type": "Microsoft.InfrastructureInsights.Admin/regionHealths/serviceHealths",
+        "location": "local",
+        "tags": {},
+        "properties": {
+          "registrationId": "c720a7de-4812-4b58-969d-c2e2a5cd89ec",
+          "displayName": "Compute",
+          "namespace": "Microsoft.Compute.Admin",
+          "routePrefix": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/system.local/providers/Microsoft.Compute.Admin/",
+          "serviceLocation": "local",
+          "infraURI": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/system.local/providers/Microsoft.Compute.Admin/infraRoles/Compute",
+          "alertSummary": {
+            "criticalAlertCount": 0,
+            "warningAlertCount": 0
+          },
+          "healthState": "Unknown"
+        }
+      }
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

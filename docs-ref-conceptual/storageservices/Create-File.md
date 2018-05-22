@@ -69,7 +69,7 @@ The `Create File` operation creates a new file or replaces a file. Note that cal
 |`x-ms-content-md5`|Optional. Sets the file's MD5 hash.|  
 |`x-ms-content-disposition`|Optional. Sets the file’s `Content-Disposition` header.|  
 |`x-ms-type: file`|Required. Set this header to `file`.|  
-|`x-ms-meta-name:value`|Optional. Name-value pairs associated with the file as metadata. Metadata names must adhere to the naming rules for [C# identifiers](http://msdn.microsoft.com/library/aa664670%28VS.71%29.aspx).<br /><br /> Note that file metadata specified via the File service is not accessible from an SMB client.|  
+|`x-ms-meta-name:value`|Optional. Name-value pairs associated with the file as metadata. Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).<br /><br /> Note that file metadata specified via the File service is not accessible from an SMB client.|  
   
 ### Request Body  
  None.  

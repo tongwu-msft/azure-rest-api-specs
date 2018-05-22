@@ -1,0 +1,181 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.longtermretentionbackups.listbylocation
+name: List By Location
+service: SQL Database
+groupName: Long Term Retention Backups
+apiVersion: 2017-03-01-preview
+summary: Lists the long term retention backups for a given location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionBackups?api-version=2017-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionBackups?onlyLatestPerDatabase={onlyLatestPerDatabase}&databaseState={databaseState}&api-version=2017-03-01-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: locationName
+  in: path
+  isRequired: true
+  description: The location of the database
+  types:
+  - uid: string
+- name: onlyLatestPerDatabase
+  in: query
+  description: Whether or not to only get the latest backup for each database.
+  types:
+  - uid: boolean
+- name: databaseState
+  in: query
+  description: Whether to query against just live databases, just deleted databases, or all databases.
+  types:
+  - uid: longTermRetentionDatabaseState
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of backups.
+  types:
+  - uid: LongTermRetentionBackupListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+requestHeader: []
+definitions:
+- name: longTermRetentionDatabaseState
+  description: Whether to query against just live databases, just deleted databases, or all databases.
+  kind: enum
+  properties:
+  - name: All
+    types:
+    - uid: string
+  - name: Live
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+- name: LongTermRetentionBackupListResult
+  description: A list of long term retention bacukps.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: LongTermRetentionBackup
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: LongTermRetentionBackup
+  description: A long term retention backup.
+  kind: object
+  properties:
+  - name: properties.serverName
+    isReadyOnly: true
+    description: The server name that the backup database belong to.
+    types:
+    - uid: string
+  - name: properties.serverCreateTime
+    isReadyOnly: true
+    description: The create time of the server.
+    types:
+    - uid: string
+  - name: properties.databaseName
+    isReadyOnly: true
+    description: The name of the database the backup belong to
+    types:
+    - uid: string
+  - name: properties.databaseDeletionTime
+    isReadyOnly: true
+    description: The delete time of the database
+    types:
+    - uid: string
+  - name: properties.backupTime
+    isReadyOnly: true
+    description: The time the backup was taken
+    types:
+    - uid: string
+  - name: properties.backupExpirationTime
+    isReadyOnly: true
+    description: The time the long term retention backup will expire.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: Get all long term retention backups under the location.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/locations/japaneast/longTermRetentionBackups?api-version=2017-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/locations/japaneast/longTermRetentionServers/testserver1/longTermRetentionDatabases/testDatabase1/longTermRetentionBackups/55555555-6666-7777-8888-999999999999;131637960820000000",
+            "name": "55555555-6666-7777-8888-999999999999;2017-08-23T08:00:00.000Z",
+            "type": "Microsoft.Sql/locations/longTermRetentionServers/longTermRetentionDatabases/longTermRetentionBackups",
+            "properties": {
+              "serverName": "testserver1",
+              "serverCreateTime": "2017-03-10T08:00:00Z",
+              "databaseName": "testDatabase1",
+              "databaseDeletionTime": null,
+              "backupTime": "2017-08-23T08:00:00Z"
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/locations/japaneast/longTermRetentionServers/testserver2/longTermRetentionDatabases/testDatabase2/longTermRetentionBackups/12341234-1234-1234-1234-123123123123;131657960820000000",
+            "name": "12341234-1234-1234-1234-123123123123;2017-08-30T08:00:00.000Z",
+            "type": "Microsoft.Sql/locations/longTermRetentionServers/longTermRetentionDatabases/longTermRetentionBackups",
+            "properties": {
+              "serverName": "testserver2",
+              "serverCreateTime": "2017-04-10T08:00:00Z",
+              "databaseName": "testDatabase2",
+              "databaseDeletionTime": null,
+              "backupTime": "2017-08-30T08:00:00Z"
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/locations/japaneast/longTermRetentionServers/testserver3/longTermRetentionDatabases/testDatabase3/longTermRetentionBackups/43214321-4321-4321-4321-321321321321;131677960820000000",
+            "name": "43214321-4321-4321-4321-321321321321;2017-09-06T08:00:00.000Z",
+            "type": "Microsoft.Sql/locations/longTermRetentionServers/longTermRetentionDatabases/longTermRetentionBackups",
+            "properties": {
+              "serverName": "testserver3",
+              "serverCreateTime": "2017-05-10T08:00:00Z",
+              "databaseName": "testDatabase3",
+              "databaseDeletionTime": null,
+              "backupTime": "2017-09-06T08:00:00Z"
+            }
+          }
+        ]
+      }
+security: []

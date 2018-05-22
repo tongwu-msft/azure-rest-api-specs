@@ -1,0 +1,114 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.quotas(compute).get
+name: Get
+service: Azure Stack Admin
+groupName: Quotas (Compute)
+apiVersion: 2015-12-01-preview
+summary: "Returns the requested quota.  \nGet an existing Quota."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/providers/Microsoft.Compute.Admin/locations/{location}/quotas/{quotaName}?api-version=2015-12-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Location of the resource.
+  types:
+  - uid: string
+- name: quotaName
+  in: path
+  isRequired: true
+  description: Name of the quota.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Quota
+- name: 404 Not Found
+  description: NOT FOUND
+requestHeader: []
+definitions:
+- name: Quota
+  description: Holds quota information used to control resource allocation.
+  kind: object
+  properties:
+  - name: properties.availabilitySetCount
+    description: Maximum number of availability sets allowed.
+    types:
+    - uid: integer
+  - name: properties.coresLimit
+    description: Maximum number of core allowed.
+    types:
+    - uid: integer
+  - name: properties.virtualMachineCount
+    description: Maximum number of virtual machines allowed.
+    types:
+    - uid: integer
+  - name: properties.vmScaleSetCount
+    description: Maximum number of scale sets allowed.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: ID of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of Resource.
+    types:
+    - uid: string
+  - name: location
+    description: Location of the resource.
+    types:
+    - uid: string
+examples:
+- name: Get an existing Quota.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Compute.Admin/locations/local/quotas/testQuotaCreateUpdateDelete?api-version=2015-12-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Compute.Admin/locations/local/quotas/testQuotaCreateUpdateDelete",
+        "name": "testQuotaCreateUpdateDelete",
+        "type": "Microsoft.Compute.Admin/quotas",
+        "location": "local",
+        "properties": {
+          "virtualMachineCount": 1,
+          "coresLimit": 1,
+          "availabilitySetCount": 1,
+          "vmScaleSetCount": 1
+        }
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

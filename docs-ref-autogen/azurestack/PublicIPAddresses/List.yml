@@ -1,0 +1,175 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.publicipaddresses.list
+name: List
+service: Azure Stack Admin
+groupName: Public IP Addresses
+apiVersion: 2015-06-15
+summary: List of public ip addresses.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/providers/Microsoft.Network.Admin/adminPublicIpAddresses?api-version=2015-06-15
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/providers/Microsoft.Network.Admin/adminPublicIpAddresses?api-version=2015-06-15&$filter={$filter}&$orderBy={$orderBy}&$top={$top}&$skip={$skip}&$inlineCount={$inlineCount}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter parameter.
+  types:
+  - uid: string
+- name: $orderBy
+  in: query
+  description: OData orderBy parameter.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: OData top parameter.
+  types:
+  - uid: string
+- name: $skip
+  in: query
+  description: OData skip parameter.
+  types:
+  - uid: string
+- name: $inlineCount
+  in: query
+  description: OData inline count parameter.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PublicIpAddressList
+requestHeader: []
+definitions:
+- name: PublicIpAddressList
+  description: Pageable list of public ip addresses.
+  kind: object
+  properties:
+  - name: value
+    description: List of public ip addresses for this page.
+    types:
+    - uid: PublicIpAddress
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: PublicIpAddress
+  description: This resource represents an IP Address.
+  kind: object
+  properties:
+  - name: properties.ipAddress
+    description: The IP address.
+    types:
+    - uid: string
+  - name: properties.ipPool
+    description: The IP pool.
+    types:
+    - uid: string
+  - name: properties.allocationMethod
+    description: The allocation method.
+    types:
+    - uid: AllocationMethodType
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Region location of resource.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state.
+    types:
+    - uid: string
+  - name: properties.subscriptionId
+    isReadyOnly: true
+    description: The subscription ID.
+    types:
+    - uid: string
+  - name: properties.tenantResourceUri
+    isReadyOnly: true
+    description: The tenant resource URI.
+    types:
+    - uid: string
+- name: AllocationMethodType
+  description: The allocation method.
+  kind: enum
+  properties:
+  - name: Dynamic
+    types:
+    - uid: string
+  - name: Static
+    types:
+    - uid: string
+examples:
+- name: List of public ip addresses
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/fc8456aa-4843-4079-a152-f3497c63aa73/providers/Microsoft.Network.Admin/adminPublicIpAddresses?api-version=2015-06-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "192.168.1.2",
+            "type": "Microsoft.Network.Admin/adminPublicIPAddresses",
+            "location": "",
+            "id": "/subscriptions/fc8456aa-4843-4079-a152-f3497c63aa73/providers/Microsoft.Network.Admin/adminPublicIPAddresses/192.168.1.2",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "ipAddress": "192.168.102.32",
+              "ipPool": "5e85a60b-1da2-45e2-8780-11617421a708",
+              "allocationMethod": "Static",
+              "subscriptionId": "fc8456aa-4843-4079-a152-f3497c63aa73",
+              "tenantResourceUri": "/subscriptions/fc8456aa-4843-4079-a152-f3497c63aa73/resourceGroups/GreatResource/providers/Microsoft.Network/publicIPAddresses/192.168.1.2"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

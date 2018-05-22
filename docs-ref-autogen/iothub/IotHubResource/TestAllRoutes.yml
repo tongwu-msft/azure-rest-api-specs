@@ -1,0 +1,220 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothub.iothubresource.testallroutes
+name: Test All Routes
+service: IoT Hub
+groupName: Iot Hub Resource
+apiVersion: 2018-04-01
+summary: "Test all routes  \nTest all routes configured in this Iot Hub"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{iotHubName}/routing/routes/$testall?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: resource group which Iot Hub belongs to
+  types:
+  - uid: string
+- name: iotHubName
+  in: path
+  isRequired: true
+  description: IotHub to be tested
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: TestAllRoutesResult
+- name: Other Status Codes
+  description: DefaultErrorResponse
+  types:
+  - uid: ErrorDetails
+requestBody:
+- parameters:
+  - name: routingSource
+    in: body
+    description: Routing source
+    types:
+    - uid: RoutingSource
+  - name: message
+    in: body
+    description: Routing message
+    types:
+    - uid: RoutingMessage
+requestHeader: []
+definitions:
+- name: RoutingMessage
+  description: Routing message
+  kind: object
+  properties:
+  - name: body
+    description: Body of routing message
+    types:
+    - uid: string
+  - name: appProperties
+    description: App properties
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: systemProperties
+    description: System properties
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: TestAllRoutesResult
+  description: Result of testing all routes
+  kind: object
+  properties:
+  - name: routes
+    description: JSON-serialized array of matched routes
+    types:
+    - uid: MatchedRoute
+      isArray: true
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: httpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+- name: TestAllRoutesInput
+  description: Input for testing all routes
+  kind: object
+  properties:
+  - name: routingSource
+    description: Routing source
+    types:
+    - uid: RoutingSource
+  - name: message
+    description: Routing message
+    types:
+    - uid: RoutingMessage
+- name: MatchedRoute
+  description: Routes that matched
+  kind: object
+  properties:
+  - name: properties
+    description: Properties of routes that matched
+    types:
+    - uid: RouteProperties
+- name: RoutingSource
+  description: The source that the routing rule is to be applied to, such as DeviceMessages.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: DeviceMessages
+    types:
+    - uid: string
+  - name: TwinChangeEvents
+    types:
+    - uid: string
+  - name: DeviceLifecycleEvents
+    types:
+    - uid: string
+  - name: DeviceJobLifecycleEvents
+    types:
+    - uid: string
+- name: RouteProperties
+  description: The properties of a routing rule that your IoT hub uses to route messages to endpoints.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the route. The name can only include alphanumeric characters, periods, underscores, hyphens, has a maximum length of 64 characters, and must be unique.
+    types:
+    - uid: string
+  - name: source
+    description: The source that the routing rule is to be applied to, such as DeviceMessages.
+    types:
+    - uid: RoutingSource
+  - name: condition
+    description: 'The condition that is evaluated to apply the routing rule. If no condition is provided, it evaluates to true by default. For grammar, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language'
+    types:
+    - uid: string
+  - name: endpointNames
+    description: The list of endpoints to which messages that satisfy the condition are routed. Currently only one endpoint is allowed.
+    types:
+    - uid: string
+      isArray: true
+  - name: isEnabled
+    description: Used to specify whether a route is enabled.
+    types:
+    - uid: boolean
+examples:
+- name: IotHubResource_TestAllRoutes
+  request:
+    uri: POST https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/testHub/routing/routes/$testall?api-version=2018-04-01
+    body: >-
+      {
+        "routingSource": "DeviceMessages",
+        "message": {
+          "body": "Body of message",
+          "appProperties": "App Properties",
+          "systemProperties": "System Properties"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "routes": [
+          {
+            "properties": {
+              "name": "Routeid",
+              "source": "DeviceMessages",
+              "endpointNames": [
+                "id1"
+              ],
+              "isEnabled": true
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

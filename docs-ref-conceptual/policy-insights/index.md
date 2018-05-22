@@ -13,8 +13,8 @@ Policy Insights REST API allows querying policy evaluation events and compliance
 
 | Operation Group | Description |
 |-----------------|-------------|
-| [Policy Events](xref:management.azure.com.policyinsights.policyevents) | Query policy evaluation events generated as resources are created or updated. |
-| [Policy States](xref:management.azure.com.policyinsights.policystates) | Query policy compliance states for resources. |
+| [Policy Events](xref:management.azure.com.policy-insights.policyevents) | Query policy evaluation events generated as resources are created or updated. |
+| [Policy States](xref:management.azure.com.policy-insights.policystates) | Query policy compliance states for resources. |
 
 ## See Also
 

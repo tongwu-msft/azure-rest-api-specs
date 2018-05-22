@@ -14,8 +14,8 @@ This API provides a RESTful set of web services that enables you to create, retr
 
 | Operation groups                                                                  | Description                                                                       |
 |-----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| [Capacities](xref:management.azure.com.powerbiembedded.capacities) | Provides operations for managing capacities for use with Power BI. |
-| [Operations](xref:management.azure.com.powerbiembedded.operations) | Indicates which operations can be performed by the Power BI Resource Provider. |
+| [Capacities](xref:management.azure.com.power-bi-embedded.capacities) | Provides operations for managing capacities for use with Power BI. |
+| [Operations](xref:management.azure.com.power-bi-embedded.operations) | Indicates which operations can be performed by the Power BI Resource Provider. |
 
 ## See also
 

@@ -1,0 +1,334 @@
+### YamlMime:RESTOperation
+uid: vision.v1.0.cognitiveservices.recognizeprintedtext.recognizeprintedtext
+name: Recognize Printed Text
+service: Cognitive Services
+groupName: Recognize Printed Text
+apiVersion: "1.0"
+summary: Optical Character Recognition (OCR) detects printed text in an image and extracts the recognized characters into a machine-usable character stream.   Upon success, the OCR results will be returned. Upon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage,  NotSupportedLanguage, or InternalServerError.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/ocr?overload=url&detectOrientation={detectOrientation}
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/ocr?overload=url&detectOrientation={detectOrientation}&language={language}
+  isOptional: true
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: detectOrientation
+  in: query
+  isRequired: true
+  description: "Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it's upside-down). "
+  types:
+  - uid: boolean
+- name: language
+  in: query
+  description: The BCP-47 language code of the text to be detected in the image. The default value is 'unk'
+  types:
+  - uid: OcrLanguages
+responses:
+- name: 200 OK
+  description: The OCR results in the hierarchy of region/line/word. The results include text, bounding box for regions, lines and words.textAngleThe angle, in degrees, of the detected text with respect to the closest horizontal or vertical direction. After rotating the input image clockwise by this angle, the recognized text lines become horizontal or vertical. In combination with the orientation property it can be used to overlay recognition results correctly on the original image, by rotating either the original image or recognition results by a suitable angle around the center of the original image. If the angle cannot be confidently detected, this property is not present. If the image contains text at different angles, only part of the text will be recognized correctly.
+  types:
+  - uid: OcrResult
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: ComputerVisionError
+requestBody:
+- parameters:
+  - name: url
+    in: body
+    isRequired: true
+    description: ''
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: OcrLanguages
+  description: The BCP-47 language code of the text to be detected in the image. The default value is 'unk'
+  kind: enum
+  properties:
+  - name: unk
+    types:
+    - uid: string
+  - name: zh-Hans
+    types:
+    - uid: string
+  - name: zh-Hant
+    types:
+    - uid: string
+  - name: cs
+    types:
+    - uid: string
+  - name: da
+    types:
+    - uid: string
+  - name: nl
+    types:
+    - uid: string
+  - name: en
+    types:
+    - uid: string
+  - name: fi
+    types:
+    - uid: string
+  - name: fr
+    types:
+    - uid: string
+  - name: de
+    types:
+    - uid: string
+  - name: el
+    types:
+    - uid: string
+  - name: hu
+    types:
+    - uid: string
+  - name: it
+    types:
+    - uid: string
+  - name: ja
+    types:
+    - uid: string
+  - name: ko
+    types:
+    - uid: string
+  - name: nb
+    types:
+    - uid: string
+  - name: pl
+    types:
+    - uid: string
+  - name: pt
+    types:
+    - uid: string
+  - name: ru
+    types:
+    - uid: string
+  - name: es
+    types:
+    - uid: string
+  - name: sv
+    types:
+    - uid: string
+  - name: tr
+    types:
+    - uid: string
+  - name: ar
+    types:
+    - uid: string
+  - name: ro
+    types:
+    - uid: string
+  - name: sr-Cyrl
+    types:
+    - uid: string
+  - name: sr-Latn
+    types:
+    - uid: string
+  - name: sk
+    types:
+    - uid: string
+- name: OcrResult
+  kind: object
+  properties:
+  - name: language
+    description: ''
+    types:
+    - uid: OcrResult
+  - name: textAngle
+    description: The angle, in degrees, of the detected text with respect to the closest horizontal or vertical direction. After rotating the input image clockwise by this angle, the recognized text lines become horizontal or vertical. In combination with the orientation property it can be used to overlay recognition results correctly on the original image, by rotating either the original image or recognition results by a suitable angle around the center of the original image. If the angle cannot be confidently detected, this property is not present. If the image contains text at different angles, only part of the text will be recognized correctly.
+    types:
+    - uid: number
+  - name: orientation
+    description: Orientation of the text recognized in the image. The value (up,down,left, or right) refers to the direction that the top of the recognized text is facing, after the image has been rotated around its center according to the detected text angle (see textAngle property).
+    types:
+    - uid: string
+  - name: regions
+    description: An array of objects, where each object represents a region of recognized text.
+    types:
+    - uid: OcrRegion
+      isArray: true
+- name: ComputerVisionError
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: ComputerVisionErrorCodes
+  - name: message
+    description: A message explaining the error reported by the service.
+    types:
+    - uid: string
+  - name: requestId
+    description: A unique request identifier.
+    types:
+    - uid: string
+- name: ImageUrl
+  kind: object
+  properties:
+  - name: url
+    description: ''
+    types:
+    - uid: string
+- name: OcrRegion
+  description: A region consists of multiple lines (e.g. a column of text in a multi-column document).
+  kind: object
+  properties:
+  - name: boundingBox
+    description: Bounding box of a recognized region. The four integers represent the x-coordinate of the left edge, the y-coordinate of the top edge, width, and height of the bounding box, in the coordinate system of the input image, after it has been rotated around its center according to the detected text angle (see textAngle property), with the origin at the top-left corner, and the y-axis pointing down.
+    types:
+    - uid: string
+  - name: lines
+    description: An object describing a single recognized line of text.
+    types:
+    - uid: OcrLine
+      isArray: true
+- name: ComputerVisionErrorCodes
+  description: The error code.
+  kind: enum
+  properties:
+  - name: InvalidImageUrl
+    types:
+    - uid: string
+  - name: InvalidImageFormat
+    types:
+    - uid: string
+  - name: InvalidImageSize
+    types:
+    - uid: string
+  - name: NotSupportedVisualFeature
+    types:
+    - uid: string
+  - name: NotSupportedImage
+    types:
+    - uid: string
+  - name: InvalidDetails
+    types:
+    - uid: string
+  - name: NotSupportedLanguage
+    types:
+    - uid: string
+  - name: BadArgument
+    types:
+    - uid: string
+  - name: FailedToProcess
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: StorageException
+    types:
+    - uid: string
+- name: OcrLine
+  description: An object describing a single recognized line of text.
+  kind: object
+  properties:
+  - name: boundingBox
+    description: Bounding box of a recognized line. The four integers represent the x-coordinate of the left edge, the y-coordinate of the top edge, width, and height of the bounding box, in the coordinate system of the input image, after it has been rotated around its center according to the detected text angle (see textAngle property), with the origin at the top-left corner, and the y-axis pointing down.
+    types:
+    - uid: string
+  - name: words
+    description: An array of objects, where each object represents a recognized word.
+    types:
+    - uid: OcrWord
+      isArray: true
+- name: OcrWord
+  description: Information on a recognized word.
+  kind: object
+  properties:
+  - name: boundingBox
+    description: Bounding box of a recognized word. The four integers represent the x-coordinate of the left edge, the y-coordinate of the top edge, width, and height of the bounding box, in the coordinate system of the input image, after it has been rotated around its center according to the detected text angle (see textAngle property), with the origin at the top-left corner, and the y-axis pointing down.
+    types:
+    - uid: string
+  - name: text
+    description: String value of a recognized word.
+    types:
+    - uid: string
+examples:
+- name: Successful Ocr request
+  request:
+    uri: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/ocr?overload=url&detectOrientation=true&language=en
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "language": "en",
+        "textAngle": -2.0000000000000338,
+        "orientation": "Up",
+        "regions": [
+          {
+            "boundingBox": "462,379,497,258",
+            "lines": [
+              {
+                "boundingBox": "462,379,497,74",
+                "words": [
+                  {
+                    "boundingBox": "462,379,41,73",
+                    "text": "A"
+                  },
+                  {
+                    "boundingBox": "523,379,153,73",
+                    "text": "GOAL"
+                  },
+                  {
+                    "boundingBox": "694,379,265,74",
+                    "text": "WITHOUT"
+                  }
+                ]
+              },
+              {
+                "boundingBox": "565,471,289,74",
+                "words": [
+                  {
+                    "boundingBox": "565,471,41,73",
+                    "text": "A"
+                  },
+                  {
+                    "boundingBox": "626,471,150,73",
+                    "text": "PLAN"
+                  },
+                  {
+                    "boundingBox": "801,472,53,73",
+                    "text": "IS"
+                  }
+                ]
+              },
+              {
+                "boundingBox": "519,563,375,74",
+                "words": [
+                  {
+                    "boundingBox": "519,563,149,74",
+                    "text": "JUST"
+                  },
+                  {
+                    "boundingBox": "683,564,41,72",
+                    "text": "A"
+                  },
+                  {
+                    "boundingBox": "741,564,153,73",
+                    "text": "WISH"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
