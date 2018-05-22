@@ -1,6 +1,6 @@
 ---
 title: "ServiceStatus"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,10 +35,10 @@ The status of the application.
 
 Possible values are: 
 
-  - Unknown - Indicates the service status is unknown. The value is zero.
-  - Active - Indicates the service status is active. The value is 1.
-  - Upgrading - Indicates the service is upgrading. The value is 2.
-  - Deleting - Indicates the service is being deleted. The value is 3.
-  - Creating - Indicates the service is being created. The value is 4.
-  - Failed - Indicates creation or deletion was terminated due to persistent failures. Another create/delete request can be accepted. The value is 5.
+  - `Unknown` - Indicates the service status is unknown. The value is zero.
+  - `Active` - Indicates the service status is active. The value is 1.
+  - `Upgrading` - Indicates the service is upgrading. The value is 2.
+  - `Deleting` - Indicates the service is being deleted. The value is 3.
+  - `Creating` - Indicates the service is being created. The value is 4.
+  - `Failed` - Indicates creation or deletion was terminated due to persistent failures. Another create/delete request can be accepted. The value is 5.
 

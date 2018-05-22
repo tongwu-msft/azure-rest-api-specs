@@ -1,6 +1,6 @@
 ---
 title: "FabricErrorError"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,11 +34,11 @@ Error object containing error code and error message.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Code](#code) | string (enum) | Yes |
-| [Message](#message) | string | No |
+| [`Code`](#code) | string (enum) | Yes |
+| [`Message`](#message) | string | No |
 
 ____
-### Code
+### `Code`
 __Type__: string (enum) <br/>
 __Required__: Yes<br/>
 <br/>
@@ -61,6 +61,11 @@ Defines the fabric error codes that be returned as part of the error object in r
     - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
     - "FABRIC_E_INVALID_ATOMIC_GROUP"
     - "FABRIC_E_VALUE_EMPTY"
+    - "FABRIC_E_BACKUP_IS_ENABLED"
+    - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+    - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+    - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+    - "E_INVALIDARG"
 
   - Possible values of the error code for HTTP status code 404 (Not Found)
     - "FABRIC_E_NODE_NOT_FOUND"
@@ -83,6 +88,9 @@ Defines the fabric error codes that be returned as part of the error object in r
     - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
     - "FABRIC_E_KEY_NOT_FOUND"
     - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+    - "FABRIC_E_BACKUP_NOT_ENABLED"
+    - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+    - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
 
   - Possible values of the error code for HTTP status code 409 (Conflict)
     - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
@@ -106,12 +114,16 @@ Defines the fabric error codes that be returned as part of the error object in r
     - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
     - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
     - "FABRIC_E_INSTANCE_ID_MISMATCH"
+    - "FABRIC_E_BACKUP_IN_PROGRESS"
+    - "FABRIC_E_RESTORE_IN_PROGRESS"
+    - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
 
   - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)
     - "FABRIC_E_VALUE_TOO_LARGE"
 
   - Possible values of the error code for HTTP status code 500 (Internal Server Error)
     - "FABRIC_E_NODE_IS_UP"
+    - "E_FAIL"
 
   - Possible values of the error code for HTTP status code 503 (Service Unavailable)
     - "FABRIC_E_NO_WRITE_QUORUM"
@@ -130,7 +142,7 @@ Defines the fabric error codes that be returned as part of the error object in r
 
 
 ____
-### Message
+### `Message`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

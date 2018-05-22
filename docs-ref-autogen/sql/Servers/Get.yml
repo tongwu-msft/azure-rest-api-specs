@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.sqldatabase.servers.get
+uid: management.azure.com.sql.servers.get
 name: Get
 service: SQL Database
 groupName: Servers
-apiVersion: 2014-04-01
+apiVersion: 2015-05-01-preview
 summary: Gets a server.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}?api-version=2014-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}?api-version=2015-05-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,18 +38,44 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
+  description: Successfully retrieved the specified server.
   types:
   - uid: Server
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 404 ResourceNotFound - The requested resource was not found.
 requestHeader: []
 definitions:
 - name: Server
-  description: Represents a server.
+  description: An Azure SQL Database server.
   kind: object
   properties:
+  - name: identity
+    description: The Azure Active Directory identity of the server.
+    types:
+    - uid: ResourceIdentity
   - name: kind
     isReadyOnly: true
-    description: Kind of sql server.  This is metadata used for the Azure portal experience.
+    description: Kind of sql server. This is metadata used for the Azure portal experience.
+    types:
+    - uid: string
+  - name: properties.administratorLogin
+    description: Administrator username for the server. Once created it cannot be changed.
+    types:
+    - uid: string
+  - name: properties.administratorLoginPassword
+    description: The administrator login password (required for server creation).
+    types:
+    - uid: string
+  - name: properties.version
+    description: The version of the server.
+    types:
+    - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: The state of the server.
     types:
     - uid: string
   - name: properties.fullyQualifiedDomainName
@@ -57,33 +83,10 @@ definitions:
     description: The fully qualified domain name of the server.
     types:
     - uid: string
-  - name: properties.version
-    description: The version of the server.
-    types:
-    - uid: ServerVersion
-  - name: properties.administratorLogin
-    description: Administrator username for the server. Can only be specified when the server is being created (and is required for creation).
+  - name: location
+    description: Resource location.
     types:
     - uid: string
-  - name: properties.administratorLoginPassword
-    description: The administrator login password (required for server creation).
-    types:
-    - uid: string
-  - name: properties.externalAdministratorSid
-    isReadyOnly: true
-    description: The ID of the Active Azure Directory object with admin permissions on this server. Legacy parameter, always null. To check for Active Directory admin, query .../servers/{serverName}/administrators.
-    types:
-    - uid: string
-  - name: properties.externalAdministratorLogin
-    isReadyOnly: true
-    description: The display name of the Azure Active Directory object with admin permissions on this server. Legacy parameter, always null. To check for Active Directory admin, query .../servers/{serverName}/administrators
-    types:
-    - uid: string
-  - name: properties.state
-    isReadyOnly: true
-    description: The state of the server.
-    types:
-    - uid: ServerState
   - name: tags
     description: Resource tags.
     types:
@@ -92,10 +95,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -111,30 +110,35 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-- name: ServerVersion
-  description: The version of the server.
+- name: ResourceIdentity
+  description: Azure Active Directory identity configuration for a resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The Azure Active Directory principal id.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+    types:
+    - uid: IdentityType
+  - name: tenantId
+    isReadyOnly: true
+    description: The Azure Active Directory tenant id.
+    types:
+    - uid: string
+- name: IdentityType
+  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
   kind: enum
   properties:
-  - name: "2.0"
-    types:
-    - uid: string
-  - name: "12.0"
-    types:
-    - uid: string
-- name: ServerState
-  description: The state of the server.
-  kind: enum
-  properties:
-  - name: Ready
-    types:
-    - uid: string
-  - name: Disabled
+  - name: SystemAssigned
     types:
     - uid: string
 examples:
-- name: Get Server
+- name: Get server
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2014-04-01
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2015-05-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -145,14 +149,11 @@ examples:
         "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
         "name": "sqlcrudtest-4645",
         "type": "Microsoft.Sql/servers",
-        "location": "Japan East",
+        "location": "japaneast",
         "kind": "v12.0",
         "properties": {
           "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
           "administratorLogin": "dummylogin",
-          "administratorLoginPassword": null,
-          "externalAdministratorLogin": null,
-          "externalAdministratorSid": null,
           "version": "12.0",
           "state": "Ready"
         }

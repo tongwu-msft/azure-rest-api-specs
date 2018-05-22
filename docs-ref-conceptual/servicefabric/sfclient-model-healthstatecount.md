@@ -1,6 +1,6 @@
 ---
 title: "HealthStateCount"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,30 +35,30 @@ Represents information about how many health entities are in Ok, Warning and Err
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [OkCount](#okcount) | integer (int64) | No |
-| [WarningCount](#warningcount) | integer (int64) | No |
-| [ErrorCount](#errorcount) | integer (int64) | No |
+| [`OkCount`](#okcount) | integer (int64) | No |
+| [`WarningCount`](#warningcount) | integer (int64) | No |
+| [`ErrorCount`](#errorcount) | integer (int64) | No |
 
 ____
-### OkCount
+### `OkCount`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__InclusiveMinimum__: 0 <br/>
+__InclusiveMinimum__: `0` <br/>
 <br/>
 The number of health entities with aggregated health state Ok.
 
 ____
-### WarningCount
+### `WarningCount`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__InclusiveMinimum__: 0 <br/>
+__InclusiveMinimum__: `0` <br/>
 <br/>
 The number of health entities with aggregated health state Warning.
 
 ____
-### ErrorCount
+### `ErrorCount`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__InclusiveMinimum__: 0 <br/>
+__InclusiveMinimum__: `0` <br/>
 <br/>
 The number of health entities with aggregated health state Error.

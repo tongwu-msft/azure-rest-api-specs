@@ -36,12 +36,12 @@ Azure Logic Apps scales up automatically to meet demand.
 
 | Resource Groups                                                                          | Description                                                    |
 |------------------------------------------------------------------------------------------|----------------------------------------------------------------|
-| [Workflow Run Actions](xref:management.azure.com.logicapps.workflowrunactions)                 | Lists workflow run actions.                                    |
-| [Workflow Runs](xref:management.azure.com.logicapps.workflowruns)                              | Provides operations for listing and canceling workflow runs.   |
-| [Workflow Trigger Histories](xref:management.azure.com.logicapps.workflowtriggerhistories)     | Lists workflow trigger histories.                              |
-| [Workflow Triggers](xref:management.azure.com.logicapps.workflowtriggers)                      | Provides operations for listing and running workflow triggers. |
-| [Workflow Versions](xref:management.azure.com.logicapps.workflowversions)                      | Lists workflow versions.                                       |
-| [Workflows](xref:management.azure.com.logicapps.workflows)	                                  | Provides operations for creating and managing workflows.       |
+| [Workflow Run Actions](xref:management.azure.com.logic.workflowrunactions)                 | Lists workflow run actions.                                    |
+| [Workflow Runs](xref:management.azure.com.logic.workflowruns)                              | Provides operations for listing and canceling workflow runs.   |
+| [Workflow Trigger Histories](xref:management.azure.com.logic.workflowtriggerhistories)     | Lists workflow trigger histories.                              |
+| [Workflow Triggers](xref:management.azure.com.logic.workflowtriggers)                      | Provides operations for listing and running workflow triggers. |
+| [Workflow Versions](xref:management.azure.com.logic.workflowversions)                      | Lists workflow versions.                                       |
+| [Workflows](xref:management.azure.com.logic.workflows)	                                  | Provides operations for creating and managing workflows.       |
 
 
 ## See Also

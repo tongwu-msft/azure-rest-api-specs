@@ -1,6 +1,6 @@
 ---
 title: "KeyValueStoreReplicaStatus"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,12 +34,12 @@ Key value store related information for the replica.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [DatabaseRowCountEstimate](#databaserowcountestimate) | string | No |
-| [DatabaseLogicalSizeEstimate](#databaselogicalsizeestimate) | string | No |
-| [CopyNotificationCurrentKeyFilter](#copynotificationcurrentkeyfilter) | string | No |
-| [CopyNotificationCurrentProgress](#copynotificationcurrentprogress) | string | No |
-| [StatusDetails](#statusdetails) | string | No |
+| [`Kind`](#kind) | string | Yes |
+| [`DatabaseRowCountEstimate`](#databaserowcountestimate) | string | No |
+| [`DatabaseLogicalSizeEstimate`](#databaselogicalsizeestimate) | string | No |
+| [`CopyNotificationCurrentKeyFilter`](#copynotificationcurrentkeyfilter) | string | No |
+| [`CopyNotificationCurrentProgress`](#copynotificationcurrentprogress) | string | No |
+| [`StatusDetails`](#statusdetails) | string | No |
 
 ____
 ### Kind
@@ -49,35 +49,35 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'KeyValueStore' for objects of type 'KeyValueStoreReplicaStatus'.
 
 ____
-### DatabaseRowCountEstimate
+### `DatabaseRowCountEstimate`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Value indicating the estimated number of rows in the underlying database.
 
 ____
-### DatabaseLogicalSizeEstimate
+### `DatabaseLogicalSizeEstimate`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Value indicating the estimated size of the underlying database.
 
 ____
-### CopyNotificationCurrentKeyFilter
+### `CopyNotificationCurrentKeyFilter`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Value indicating the latest key-prefix filter applied to enumeration during the callback. Null if there is no pending callback.
 
 ____
-### CopyNotificationCurrentProgress
+### `CopyNotificationCurrentProgress`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Value indicating the latest number of keys enumerated during the callback. 0 if there is no pending callback.
 
 ____
-### StatusDetails
+### `StatusDetails`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

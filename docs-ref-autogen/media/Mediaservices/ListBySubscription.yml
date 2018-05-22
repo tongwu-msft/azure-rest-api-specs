@@ -1,0 +1,213 @@
+### YamlMime:RESTOperation
+uid: media.mediaservices.listbysubscription
+name: List By Subscription
+service: Media Services
+groupName: Mediaservices
+apiVersion: 2018-03-30-preview
+summary: "List Media Services accounts  \nList Media Services accounts in the subscription."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https:///subscriptions/{subscriptionId}/providers/Microsoft.Media/mediaservices?api-version=2018-03-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SubscriptionMediaServiceCollection
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: SubscriptionMediaServiceCollection
+  description: A collection of SubscriptionMediaService items.
+  kind: object
+  properties:
+  - name: value
+    description: A collection of SubscriptionMediaService items.
+    types:
+    - uid: SubscriptionMediaService
+      isArray: true
+  - name: '@odata.nextLink'
+    description: A link to the next page of the collection (when the collection contains too many results to return in one response).
+    types:
+    - uid: string
+- name: ApiError
+  description: The API error.
+  kind: object
+  properties:
+  - name: error
+    description: The error properties.
+    types:
+    - uid: ODataError
+- name: SubscriptionMediaService
+  description: A Media Services account.
+  kind: object
+  properties:
+  - name: properties.mediaServiceId
+    isReadyOnly: true
+    description: The Media Services account ID.
+    types:
+    - uid: string
+  - name: properties.storageAccounts
+    description: The storage accounts for this resource.
+    types:
+    - uid: StorageAccount
+      isArray: true
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The Azure Region of the resource.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ODataError
+  description: Information about an error.
+  kind: object
+  properties:
+  - name: code
+    description: A language-independent error name.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: The error details.
+    types:
+    - uid: ODataError
+      isArray: true
+- name: StorageAccount
+  description: The storage account details.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the storage account resource. Media Services relies on tables and queues as well as blobs, so the primary storage account must be a Standard Storage account (either Microsoft.ClassicStorage or Microsoft.Storage). Blob only storage accounts can be added as secondary storage accounts.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the storage account.
+    types:
+    - uid: StorageAccountType
+- name: StorageAccountType
+  description: The type of the storage account.
+  kind: enum
+  properties:
+  - name: Primary
+    description: The primary storage account for the Media Services account.
+    types:
+    - uid: string
+  - name: Secondary
+    description: A secondary storage account for the Media Services account.
+    types:
+    - uid: string
+examples:
+- name: List all Media Services accounts
+  request:
+    uri: GET https:///subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Media/mediaservices?api-version=2018-03-30-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "contosotv",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosotv",
+            "type": "Microsoft.Media/mediaservices",
+            "location": "South Central US",
+            "tags": {
+              "key1": "value1",
+              "key2": "value2"
+            },
+            "properties": {
+              "mediaServiceId": "6ac94f91-283c-4492-85a7-57976928c17d",
+              "storageAccounts": [
+                {
+                  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Storage/storageAccounts/contosotvstore",
+                  "type": "Primary"
+                }
+              ]
+            }
+          },
+          {
+            "name": "contosomovies",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomovies",
+            "type": "Microsoft.Media/mediaservices",
+            "location": "South Central US",
+            "tags": {
+              "key1": "value1",
+              "key2": "value2"
+            },
+            "properties": {
+              "mediaServiceId": "72681c0f-9dd1-4f1c-95c9-8a8d7d31c4ee",
+              "storageAccounts": [
+                {
+                  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Storage/storageAccounts/contosomoviesstore",
+                  "type": "Primary"
+                }
+              ]
+            }
+          },
+          {
+            "name": "fabrikamnews",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/fabrikamnews",
+            "type": "Microsoft.Media/mediaservices",
+            "location": "East US",
+            "tags": {
+              "key1": "value1",
+              "key2": "value2"
+            },
+            "properties": {
+              "mediaServiceId": "d96036f9-4e37-491d-8c29-5bc53a29dfcd",
+              "storageAccounts": [
+                {
+                  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/fabrikam/providers/Microsoft.Storage/storageAccounts/fabrikamnewsstore",
+                  "type": "Primary"
+                }
+              ]
+            }
+          }
+        ]
+      }
+security: []

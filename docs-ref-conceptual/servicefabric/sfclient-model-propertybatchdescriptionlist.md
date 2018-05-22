@@ -1,6 +1,6 @@
 ---
 title: "PropertyBatchDescriptionList"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Describes a list of property batch operations to be executed. Either all or none
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Operations](#operations) | array of [PropertyBatchOperation](sfclient-model-propertybatchoperation.md) | No |
+| [`Operations`](#operations) | array of [PropertyBatchOperation](sfclient-model-propertybatchoperation.md) | No |
 
 ____
-### Operations
+### `Operations`
 __Type__: array of [PropertyBatchOperation](sfclient-model-propertybatchoperation.md) <br/>
 __Required__: No<br/>
 <br/>

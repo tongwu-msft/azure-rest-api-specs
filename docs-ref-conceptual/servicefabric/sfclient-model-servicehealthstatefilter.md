@@ -1,6 +1,6 @@
 ---
 title: "ServiceHealthStateFilter"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,12 +37,12 @@ One filter can match zero, one or multiple services, depending on its properties
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServiceNameFilter](#servicenamefilter) | string | No |
-| [HealthStateFilter](#healthstatefilter) | integer | No |
-| [PartitionFilters](#partitionfilters) | array of [PartitionHealthStateFilter](sfclient-model-partitionhealthstatefilter.md) | No |
+| [`ServiceNameFilter`](#servicenamefilter) | string | No |
+| [`HealthStateFilter`](#healthstatefilter) | integer | No |
+| [`PartitionFilters`](#partitionfilters) | array of [PartitionHealthStateFilter](sfclient-model-partitionhealthstatefilter.md) | No |
 
 ____
-### ServiceNameFilter
+### `ServiceNameFilter`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -53,10 +53,10 @@ If not specified, all services that match the parent filters (if any) are taken 
 
 
 ____
-### HealthStateFilter
+### `HealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The filter for the health state of the services. It allows selecting services if they match the desired health states.
 The possible values are integer value of one of the following health states. Only services that match the filter are returned. All services are used to evaluate the cluster aggregated health state.
@@ -73,12 +73,12 @@ For example, if the provided value is 6, it matches services with HealthState va
 
 
 ____
-### PartitionFilters
+### `PartitionFilters`
 __Type__: array of [PartitionHealthStateFilter](sfclient-model-partitionhealthstatefilter.md) <br/>
 __Required__: No<br/>
 <br/>
 Defines a list of filters that specify which partitions to be included in the returned cluster health chunk as children of the service. The partitions are returned only if the parent service matches a filter.
 If the list is empty, no partitions are returned. All the partitions are used to evaluate the parent service aggregated health state, regardless of the input filters.
 The service filter may specify multiple partition filters.
-For example, it can specify a filter to return all partitions with health state Error and another filter to always include a partition identified by its partition id.
+For example, it can specify a filter to return all partitions with health state Error and another filter to always include a partition identified by its partition ID.
 

@@ -1,6 +1,6 @@
 ---
 title: "UpgradeDomainState"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,8 +35,8 @@ The state of the upgrade domain.
 
 Possible values are: 
 
-  - Invalid - Indicates the upgrade domain state is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Pending - The upgrade domain has not started upgrading yet. The value is 1
-  - InProgress - The upgrade domain is being upgraded but not complete yet. The value is 2
-  - Completed - The upgrade domain has completed upgrade. The value is 3
+  - `Invalid` - Indicates the upgrade domain state is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Pending` - The upgrade domain has not started upgrading yet. The value is 1
+  - `InProgress` - The upgrade domain is being upgraded but not complete yet. The value is 2
+  - `Completed` - The upgrade domain has completed upgrade. The value is 3
 

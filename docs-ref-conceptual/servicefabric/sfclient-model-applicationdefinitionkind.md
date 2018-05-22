@@ -1,6 +1,6 @@
 ---
 title: "ApplicationDefinitionKind"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,7 +36,7 @@ The mechanism used to define a Service Fabric application.
 
 Possible values are: 
 
-  - Invalid - Indicates the application definition kind is invalid. All Service Fabric enumerations have the invalid type. The value is 65535.
-  - ServiceFabricApplicationDescription - Indicates the application is defined by a Service Fabric application description. The value is 0.
-  - Compose - Indicates the application is defined by compose file(s). The value is 1.
+  - `Invalid` - Indicates the application definition kind is invalid. All Service Fabric enumerations have the invalid type. The value is 65535.
+  - `ServiceFabricApplicationDescription` - Indicates the application is defined by a Service Fabric application description. The value is 0.
+  - `Compose` - Indicates the application is defined by compose file(s). The value is 1.
 

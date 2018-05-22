@@ -1,6 +1,6 @@
 ---
 title: "InvokeDataLossResult"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,18 @@ Represents information about an operation in a terminal state (Completed or Faul
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ErrorCode](#errorcode) | integer (int32) | No |
-| [SelectedPartition](#selectedpartition) | [SelectedPartition](sfclient-model-selectedpartition.md) | No |
+| [`ErrorCode`](#errorcode) | integer (int32) | No |
+| [`SelectedPartition`](#selectedpartition) | [SelectedPartition](sfclient-model-selectedpartition.md) | No |
 
 ____
-### ErrorCode
+### `ErrorCode`
 __Type__: integer (int32) <br/>
 __Required__: No<br/>
 <br/>
 If OperationState is Completed, this is 0.  If OperationState is Faulted, this is an error code indicating the reason.
 
 ____
-### SelectedPartition
+### `SelectedPartition`
 __Type__: [SelectedPartition](sfclient-model-selectedpartition.md) <br/>
 __Required__: No<br/>
 <br/>

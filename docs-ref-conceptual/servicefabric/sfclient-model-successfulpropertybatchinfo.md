@@ -1,6 +1,6 @@
 ---
 title: "SuccessfulPropertyBatchInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,8 +34,8 @@ Derived from PropertyBatchInfo. Represents the property batch succeeding. Contai
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [Properties](#properties) | map of string to [PropertyInfo](sfclient-model-propertyinfo.md) | No |
+| [`Kind`](#kind) | string | Yes |
+| [`Properties`](#properties) | map of string to [PropertyInfo](sfclient-model-propertyinfo.md) | No |
 
 ____
 ### Kind
@@ -45,7 +45,7 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Successful' for objects of type 'SuccessfulPropertyBatchInfo'.
 
 ____
-### Properties
+### `Properties`
 __Type__: map of string to [PropertyInfo](sfclient-model-propertyinfo.md) <br/>
 __Required__: No<br/>
 <br/>

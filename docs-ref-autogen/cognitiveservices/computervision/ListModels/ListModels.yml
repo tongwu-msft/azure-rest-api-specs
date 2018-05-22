@@ -1,0 +1,137 @@
+### YamlMime:RESTOperation
+uid: vision.v1.0.cognitiveservices.listmodels.listmodels
+name: List Models
+service: Cognitive Services
+groupName: List Models
+apiVersion: "1.0"
+summary: 'This operation returns the list of domain-specific models that are supported by the Computer Vision API.  Currently, the API only supports one domain-specific model: a celebrity recognizer. A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong.'
+produces:
+- application/json
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/models
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: List of available domain models.
+  types:
+  - uid: ListModelsResult
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: ComputerVisionError
+requestHeader: []
+definitions:
+- name: ListModelsResult
+  description: Result of the List Domain Models operation.
+  kind: object
+  properties:
+  - name: models
+    isReadyOnly: true
+    description: An array of supported models.
+    types:
+    - uid: ModelDescription
+      isArray: true
+- name: ComputerVisionError
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: ComputerVisionErrorCodes
+  - name: message
+    description: A message explaining the error reported by the service.
+    types:
+    - uid: string
+  - name: requestId
+    description: A unique request identifier.
+    types:
+    - uid: string
+- name: ModelDescription
+  description: An object describing supported model by name and categories.
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: categories
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: ComputerVisionErrorCodes
+  description: The error code.
+  kind: enum
+  properties:
+  - name: InvalidImageUrl
+    types:
+    - uid: string
+  - name: InvalidImageFormat
+    types:
+    - uid: string
+  - name: InvalidImageSize
+    types:
+    - uid: string
+  - name: NotSupportedVisualFeature
+    types:
+    - uid: string
+  - name: NotSupportedImage
+    types:
+    - uid: string
+  - name: InvalidDetails
+    types:
+    - uid: string
+  - name: NotSupportedLanguage
+    types:
+    - uid: string
+  - name: BadArgument
+    types:
+    - uid: string
+  - name: FailedToProcess
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: StorageException
+    types:
+    - uid: string
+examples:
+- name: Successful List Domains request
+  request:
+    uri: GET https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/models
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "models": [
+          {
+            "name": "celebrities",
+            "categories": [
+              "people_"
+            ]
+          },
+          {
+            "name": "landmarks",
+            "categories": [
+              "building_"
+            ]
+          }
+        ]
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

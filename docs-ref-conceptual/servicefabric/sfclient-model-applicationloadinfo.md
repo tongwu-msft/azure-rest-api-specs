@@ -1,6 +1,6 @@
 ---
 title: "ApplicationLoadInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,14 +34,14 @@ Load Information about a Service Fabric application.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Id](#id) | string | No |
-| [MinimumNodes](#minimumnodes) | integer (int64) | No |
-| [MaximumNodes](#maximumnodes) | integer (int64) | No |
-| [NodeCount](#nodecount) | integer (int64) | No |
-| [ApplicationLoadMetricInformation](#applicationloadmetricinformation) | array of [ApplicationMetricDescription](sfclient-model-applicationmetricdescription.md) | No |
+| [`Id`](#id) | string | No |
+| [`MinimumNodes`](#minimumnodes) | integer (int64) | No |
+| [`MaximumNodes`](#maximumnodes) | integer (int64) | No |
+| [`NodeCount`](#nodecount) | integer (int64) | No |
+| [`ApplicationLoadMetricInformation`](#applicationloadmetricinformation) | array of [ApplicationMetricDescription](sfclient-model-applicationmetricdescription.md) | No |
 
 ____
-### Id
+### `Id`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -51,7 +51,7 @@ the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in prev
 
 
 ____
-### MinimumNodes
+### `MinimumNodes`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
@@ -61,7 +61,7 @@ For applications that do not have application capacity defined this value will b
 
 
 ____
-### MaximumNodes
+### `MaximumNodes`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
@@ -71,7 +71,7 @@ For applications that do not have application capacity defined this value will b
 
 
 ____
-### NodeCount
+### `NodeCount`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
@@ -80,7 +80,7 @@ For applications that do not have application capacity defined this value will b
 
 
 ____
-### ApplicationLoadMetricInformation
+### `ApplicationLoadMetricInformation`
 __Type__: array of [ApplicationMetricDescription](sfclient-model-applicationmetricdescription.md) <br/>
 __Required__: No<br/>
 <br/>

@@ -1,6 +1,6 @@
 ---
 title: "RepairTaskApproveDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,19 +37,19 @@ This type supports the Service Fabric platform; it is not meant to be used direc
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [TaskId](#taskid) | string | Yes |
-| [Version](#version) | string (int64) | No |
+| [`TaskId`](#taskid) | string | Yes |
+| [`Version`](#version) | string | No |
 
 ____
-### TaskId
+### `TaskId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The ID of the repair task.
 
 ____
-### Version
-__Type__: string (int64) <br/>
+### `Version`
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The current version number of the repair task. If non-zero, then the request will only succeed if this value matches the actual current version of the repair task. If zero, then no version check is performed.

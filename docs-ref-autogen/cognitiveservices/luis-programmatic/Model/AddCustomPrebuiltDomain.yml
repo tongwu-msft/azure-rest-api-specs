@@ -1,0 +1,89 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.model.addcustomprebuiltdomain
+name: Add Custom Prebuilt Domain
+service: Cognitive Services
+groupName: Model
+apiVersion: v2.0 preview
+summary: Adds a customizable prebuilt domain along with all of its models to this application.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/customprebuiltdomains
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: An array of the created custom prebuilt domain model Ids.
+  types:
+  - uid: string
+    isArray: true
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: domainName
+    in: body
+    description: The domain name.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: PrebuiltDomainCreateBaseObject
+  description: A model object containing the name of the custom prebuilt entity and the name of the domain to which this model belongs.
+  kind: object
+  properties:
+  - name: domainName
+    description: The domain name.
+    types:
+    - uid: string
+examples:
+- name: Successful Add Custom Prebuilt Domain to Application request
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/363187f1-c573-46b3-bc4c-ae01d686e68e/versions/0.1/customprebuiltdomains
+    body: >-
+      {
+        "domainName": "Web"
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      [
+        "2639049a-e41d-4285-a3c6-8a17ed299473",
+        "200d6173-ecfa-4967-bf95-3c319902dc52",
+        "f80aa9ba-64c8-4a36-8cc5-92010d0aadf1",
+        "f50d6f0f-b2dd-4973-9270-c114312b3a10"
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

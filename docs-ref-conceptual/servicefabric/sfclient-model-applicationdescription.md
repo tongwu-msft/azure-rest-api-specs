@@ -1,6 +1,6 @@
 ---
 title: "ApplicationDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,42 +34,42 @@ Describes a Service Fabric application.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Name](#name) | string | Yes |
-| [TypeName](#typename) | string | Yes |
-| [TypeVersion](#typeversion) | string | Yes |
-| [ParameterList](#parameterlist) | array of [ApplicationParameter](sfclient-model-applicationparameter.md) | No |
-| [ApplicationCapacity](#applicationcapacity) | [ApplicationCapacityDescription](sfclient-model-applicationcapacitydescription.md) | No |
+| [`Name`](#name) | string | Yes |
+| [`TypeName`](#typename) | string | Yes |
+| [`TypeVersion`](#typeversion) | string | Yes |
+| [`ParameterList`](#parameterlist) | array of [ApplicationParameter](sfclient-model-applicationparameter.md) | No |
+| [`ApplicationCapacity`](#applicationcapacity) | [ApplicationCapacityDescription](sfclient-model-applicationcapacitydescription.md) | No |
 
 ____
-### Name
+### `Name`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the application, including the 'fabric:' URI scheme.
 
 ____
-### TypeName
+### `TypeName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The application type name as defined in the application manifest.
 
 ____
-### TypeVersion
+### `TypeVersion`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The version of the application type as defined in the application manifest.
 
 ____
-### ParameterList
+### `ParameterList`
 __Type__: array of [ApplicationParameter](sfclient-model-applicationparameter.md) <br/>
 __Required__: No<br/>
 <br/>
 List of application parameters with overridden values from their default values specified in the application manifest.
 
 ____
-### ApplicationCapacity
+### `ApplicationCapacity`
 __Type__: [ApplicationCapacityDescription](sfclient-model-applicationcapacitydescription.md) <br/>
 __Required__: No<br/>
 <br/>

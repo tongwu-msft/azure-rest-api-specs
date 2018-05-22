@@ -1,6 +1,6 @@
 ---
 title: "ReplicatorQueueStatus"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,29 +37,29 @@ Depending on the role of the replicator, the properties in this type imply diffe
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [QueueUtilizationPercentage](#queueutilizationpercentage) | integer (int32) | No |
-| [QueueMemorySize](#queuememorysize) | string | No |
-| [FirstSequenceNumber](#firstsequencenumber) | string | No |
-| [CompletedSequenceNumber](#completedsequencenumber) | string | No |
-| [CommittedSequenceNumber](#committedsequencenumber) | string | No |
-| [LastSequenceNumber](#lastsequencenumber) | string | No |
+| [`QueueUtilizationPercentage`](#queueutilizationpercentage) | integer (int32) | No |
+| [`QueueMemorySize`](#queuememorysize) | string | No |
+| [`FirstSequenceNumber`](#firstsequencenumber) | string | No |
+| [`CompletedSequenceNumber`](#completedsequencenumber) | string | No |
+| [`CommittedSequenceNumber`](#committedsequencenumber) | string | No |
+| [`LastSequenceNumber`](#lastsequencenumber) | string | No |
 
 ____
-### QueueUtilizationPercentage
+### `QueueUtilizationPercentage`
 __Type__: integer (int32) <br/>
 __Required__: No<br/>
 <br/>
 Represents the utilization of the queue. A value of 0 indicates that the queue is empty and a value of 100 indicates the queue is full.
 
 ____
-### QueueMemorySize
+### `QueueMemorySize`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Represents the virtual memory consumed by the queue in bytes.
 
 ____
-### FirstSequenceNumber
+### `FirstSequenceNumber`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -68,7 +68,7 @@ On a secondary replicator, this is the smallest sequence number of the operation
 
 
 ____
-### CompletedSequenceNumber
+### `CompletedSequenceNumber`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -77,7 +77,7 @@ On a secondary replicator, this is semantically the highest sequence number that
 
 
 ____
-### CommittedSequenceNumber
+### `CommittedSequenceNumber`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -86,7 +86,7 @@ On a secondary replicator, this is semantically the highest sequence number of t
 
 
 ____
-### LastSequenceNumber
+### `LastSequenceNumber`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

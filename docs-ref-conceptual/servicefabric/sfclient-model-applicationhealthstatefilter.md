@@ -1,6 +1,6 @@
 ---
 title: "ApplicationHealthStateFilter"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,14 +36,14 @@ One filter can match zero, one or multiple applications, depending on its proper
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ApplicationNameFilter](#applicationnamefilter) | string | No |
-| [ApplicationTypeNameFilter](#applicationtypenamefilter) | string | No |
-| [HealthStateFilter](#healthstatefilter) | integer | No |
-| [ServiceFilters](#servicefilters) | array of [ServiceHealthStateFilter](sfclient-model-servicehealthstatefilter.md) | No |
-| [DeployedApplicationFilters](#deployedapplicationfilters) | array of [DeployedApplicationHealthStateFilter](sfclient-model-deployedapplicationhealthstatefilter.md) | No |
+| [`ApplicationNameFilter`](#applicationnamefilter) | string | No |
+| [`ApplicationTypeNameFilter`](#applicationtypenamefilter) | string | No |
+| [`HealthStateFilter`](#healthstatefilter) | integer | No |
+| [`ServiceFilters`](#servicefilters) | array of [ServiceHealthStateFilter](sfclient-model-servicehealthstatefilter.md) | No |
+| [`DeployedApplicationFilters`](#deployedapplicationfilters) | array of [DeployedApplicationHealthStateFilter](sfclient-model-deployedapplicationhealthstatefilter.md) | No |
 
 ____
-### ApplicationNameFilter
+### `ApplicationNameFilter`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -54,7 +54,7 @@ If not specified, all applications are matched against the other filter members,
 
 
 ____
-### ApplicationTypeNameFilter
+### `ApplicationTypeNameFilter`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -66,10 +66,10 @@ If not specified, all applications are matched against the other filter members,
 
 
 ____
-### HealthStateFilter
+### `HealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The filter for the health state of the applications. It allows selecting applications if they match the desired health states.
 The possible values are integer value of one of the following health states. Only applications that match the filter are returned. All applications are used to evaluate the cluster aggregated health state.
@@ -86,7 +86,7 @@ For example, if the provided value is 6, it matches applications with HealthStat
 
 
 ____
-### ServiceFilters
+### `ServiceFilters`
 __Type__: array of [ServiceHealthStateFilter](sfclient-model-servicehealthstatefilter.md) <br/>
 __Required__: No<br/>
 <br/>
@@ -97,7 +97,7 @@ For example, it can specify a filter to return all services with health state Er
 
 
 ____
-### DeployedApplicationFilters
+### `DeployedApplicationFilters`
 __Type__: array of [DeployedApplicationHealthStateFilter](sfclient-model-deployedapplicationhealthstatefilter.md) <br/>
 __Required__: No<br/>
 <br/>

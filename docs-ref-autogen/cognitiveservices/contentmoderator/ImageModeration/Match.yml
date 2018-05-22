@@ -1,0 +1,166 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.imagemoderation.match
+name: Match
+service: Cognitive Services
+groupName: Image Moderation
+apiVersion: "1.0"
+summary: "Fuzzily match an image against one of your custom Image Lists. You can create and manage your custom image lists using <a href=\"/docs/services/578ff44d2703741568569ab9/operations/578ff7b12703741568569abe\">this</a> API. \r\n\r\nReturns ID and tags of matching image.<br/>\r\n<br/>\r\nNote: Refresh Index must be run on the corresponding Image List before additions and removals are reflected in the response."
+consumes:
+- application/json
+- image/gif
+- image/jpeg
+- image/png
+- image/bmp
+- image/tiff
+produces:
+- application/json
+paths:
+- content: POST https://{baseUrl}/contentmoderator/moderate/v1.0/ProcessImage/Match
+- content: POST https://{baseUrl}/contentmoderator/moderate/v1.0/ProcessImage/Match?listId={listId}&CacheImage={CacheImage}
+  isOptional: true
+uriParameters:
+- name: baseUrl
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Content Moderator endpoints
+  types:
+  - uid: string
+- name: listId
+  in: query
+  description: The list Id.
+  types:
+  - uid: string
+- name: CacheImage
+  in: query
+  description: Whether to retain the submitted image for future use; defaults to false if omitted.
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: >-
+    Supported values for tags are:
+
+    <ul>
+
+    <li>101: Nudity</li>
+
+    <li>102: Sexual Content</li>
+
+    <li>201: Alcohol</li>
+
+    <li>202: Tobacco</li>
+
+    <li>203: Drugs</li>
+
+    <li>301: Child Exploitation</li>
+
+    <li>401: Violence</li>
+
+    <li>402: Weapons</li>
+
+    <li>403: Gore</li>
+
+    <li>501: Profanity</li>
+
+    <li>502: Vulgarity</li>
+
+    </ul>.
+  types:
+  - uid: MatchResponse
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader: []
+definitions:
+- name: MatchResponse
+  description: The response for a Match request.
+  kind: object
+  properties:
+  - name: TrackingId
+    description: The tracking id.
+    types:
+    - uid: string
+  - name: CacheID
+    description: The cache id.
+    types:
+    - uid: string
+  - name: IsMatch
+    description: Indicates if there is a match.
+    types:
+    - uid: boolean
+  - name: Matches
+    description: The match details.
+    types:
+    - uid: Match
+      isArray: true
+  - name: Status
+    description: The evaluate status
+    types:
+    - uid: Status
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: Error
+    description: Error body.
+    types:
+    - uid: Error
+- name: Match
+  description: The match details.
+  kind: object
+  properties:
+  - name: Score
+    description: Confidence score of the image match.
+    types:
+    - uid: number
+  - name: MatchId
+    description: The match id.
+    types:
+    - uid: integer
+  - name: Source
+    description: The source.
+    types:
+    - uid: string
+  - name: Tags
+    description: The tags for match details.
+    types:
+    - uid: integer
+      isArray: true
+  - name: Label
+    description: The label.
+    types:
+    - uid: string
+- name: Status
+  description: Status properties.
+  kind: object
+  properties:
+  - name: Code
+    description: Status code.
+    types:
+    - uid: integer
+  - name: Description
+    description: Status description.
+    types:
+    - uid: string
+  - name: Exception
+    description: Exception status.
+    types:
+    - uid: string
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: Code
+    description: ''
+    types:
+    - uid: string
+  - name: Message
+    description: ''
+    types:
+    - uid: string
+examples: []
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

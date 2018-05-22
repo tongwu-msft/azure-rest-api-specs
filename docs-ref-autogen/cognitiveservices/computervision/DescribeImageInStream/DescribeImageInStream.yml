@@ -1,0 +1,157 @@
+### YamlMime:RESTOperation
+uid: vision.v1.0.cognitiveservices.describeimageinstream.describeimageinstream
+name: Describe Image In Stream
+service: Cognitive Services
+groupName: Describe Image In Stream
+apiVersion: "1.0"
+summary: This operation generates a description of an image in human readable language with complete sentences.  The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image.  Descriptions are ordered by their confidence score. All descriptions are in English. Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong.
+consumes:
+- application/octet-stream
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/describe
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/describe?overload=stream&maxCandidates={maxCandidates}
+  isOptional: true
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: maxCandidates
+  in: query
+  description: Maximum number of candidate descriptions to be returned.  The default is 1.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Image description object.
+  types:
+  - uid: ImageDescription
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: ComputerVisionError
+requestBody:
+- parameters:
+  - name: Image
+    in: body
+    types:
+    - uid: object
+requestHeader: []
+definitions:
+- name: ImageDescription
+  description: A collection of content tags, along with a list of captions sorted by confidence level, and image metadata.
+  kind: object
+  properties:
+  - name: description.tags
+    description: A collection of image tags.
+    types:
+    - uid: string
+      isArray: true
+  - name: description.captions
+    description: A list of captions, sorted by confidence level.
+    types:
+    - uid: ImageCaption
+      isArray: true
+  - name: description.requestId
+    description: Id of the REST API request.
+    types:
+    - uid: string
+  - name: description.metadata
+    description: Image metadata
+    types:
+    - uid: ImageMetadata
+- name: ComputerVisionError
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: ComputerVisionErrorCodes
+  - name: message
+    description: A message explaining the error reported by the service.
+    types:
+    - uid: string
+  - name: requestId
+    description: A unique request identifier.
+    types:
+    - uid: string
+- name: ImageCaption
+  description: An image caption, i.e. a brief description of what the image depicts.
+  kind: object
+  properties:
+  - name: text
+    description: The text of the caption
+    types:
+    - uid: string
+  - name: confidence
+    description: The level of confidence the service has in the caption
+    types:
+    - uid: number
+- name: ImageMetadata
+  description: Image metadata
+  kind: object
+  properties:
+  - name: width
+    description: Image width
+    types:
+    - uid: integer
+  - name: height
+    description: Image height
+    types:
+    - uid: integer
+  - name: format
+    description: Image format
+    types:
+    - uid: string
+- name: ComputerVisionErrorCodes
+  description: The error code.
+  kind: enum
+  properties:
+  - name: InvalidImageUrl
+    types:
+    - uid: string
+  - name: InvalidImageFormat
+    types:
+    - uid: string
+  - name: InvalidImageSize
+    types:
+    - uid: string
+  - name: NotSupportedVisualFeature
+    types:
+    - uid: string
+  - name: NotSupportedImage
+    types:
+    - uid: string
+  - name: InvalidDetails
+    types:
+    - uid: string
+  - name: NotSupportedLanguage
+    types:
+    - uid: string
+  - name: BadArgument
+    types:
+    - uid: string
+  - name: FailedToProcess
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: StorageException
+    types:
+    - uid: string
+examples: []
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

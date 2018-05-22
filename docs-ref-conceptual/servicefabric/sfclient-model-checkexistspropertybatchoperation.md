@@ -1,6 +1,6 @@
 ---
 title: "CheckExistsPropertyBatchOperation"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -39,9 +39,9 @@ the entire batch fails and cannot be committed in a transactional manner.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [PropertyName](#propertyname) | string | Yes |
-| [Exists](#exists) | boolean | Yes |
+| [`Kind`](#kind) | string | Yes |
+| [`PropertyName`](#propertyname) | string | Yes |
+| [`Exists`](#exists) | boolean | Yes |
 
 ____
 ### Kind
@@ -51,14 +51,14 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'CheckExists' for objects of type 'CheckExistsPropertyBatchOperation'.
 
 ____
-### PropertyName
+### `PropertyName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the Service Fabric property.
 
 ____
-### Exists
+### `Exists`
 __Type__: boolean <br/>
 __Required__: Yes<br/>
 <br/>

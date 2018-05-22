@@ -1,0 +1,196 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.imagemoderation.ocrurlinput
+name: OCR Url Input
+service: Cognitive Services
+groupName: Image Moderation
+apiVersion: "1.0"
+summary: Returns any text found in the image for the language specified. If no language is specified in input then the detection defaults to English.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{baseUrl}/contentmoderator/moderate/v1.0/ProcessImage/OCR?overload=url&language={language}
+- content: POST https://{baseUrl}/contentmoderator/moderate/v1.0/ProcessImage/OCR?overload=url&language={language}&CacheImage={CacheImage}&enhanced={enhanced}
+  isOptional: true
+uriParameters:
+- name: baseUrl
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Content Moderator endpoints
+  types:
+  - uid: string
+- name: language
+  in: query
+  isRequired: true
+  description: Language of the terms.
+  types:
+  - uid: string
+- name: CacheImage
+  in: query
+  description: Whether to retain the submitted image for future use; defaults to false if omitted.
+  types:
+  - uid: boolean
+- name: enhanced
+  in: query
+  description: >-
+    When set to True, the image goes through additional processing to come with additional candidates.
+
+
+    image/tiff is not supported when enhanced is set to true
+
+
+    Note: This impacts the response time.
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: The found text and list of candidate text.
+  types:
+  - uid: OCR
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader:
+- name: Content-Type
+  in: header
+  isRequired: true
+  description: The content type.
+  types:
+  - uid: string
+definitions:
+- name: OCR
+  description: Contains the text found in image for the language specified.
+  kind: object
+  properties:
+  - name: Status
+    description: The evaluate status
+    types:
+    - uid: Status
+  - name: Metadata
+    description: Array of KeyValue.
+    types:
+    - uid: KeyValuePair
+      isArray: true
+  - name: TrackingId
+    description: The tracking id.
+    types:
+    - uid: string
+  - name: CacheId
+    description: The cache id.
+    types:
+    - uid: string
+  - name: Language
+    description: The ISO 639-3 code.
+    types:
+    - uid: string
+  - name: Text
+    description: The found text.
+    types:
+    - uid: string
+  - name: Candidates
+    description: The list of candidate text.
+    types:
+    - uid: Candidate
+      isArray: true
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: Error
+    description: Error body.
+    types:
+    - uid: Error
+- name: Status
+  description: Status properties.
+  kind: object
+  properties:
+  - name: Code
+    description: Status code.
+    types:
+    - uid: integer
+  - name: Description
+    description: Status description.
+    types:
+    - uid: string
+  - name: Exception
+    description: Exception status.
+    types:
+    - uid: string
+- name: KeyValuePair
+  description: The key value pair object properties.
+  kind: object
+  properties:
+  - name: Key
+    description: The key parameter.
+    types:
+    - uid: string
+  - name: Value
+    description: The value parameter.
+    types:
+    - uid: string
+- name: Candidate
+  description: OCR candidate text.
+  kind: object
+  properties:
+  - name: Text
+    description: The text found.
+    types:
+    - uid: string
+  - name: Confidence
+    description: The confidence level.
+    types:
+    - uid: number
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: Code
+    description: ''
+    types:
+    - uid: string
+  - name: Message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Image OCR request
+  request:
+    uri: POST https://southeastasia.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0/ProcessImage/OCR?overload=url&language=eng&CacheImage=False&enhanced=False
+    body: >-
+      {
+        "DataRepresentation": "URL",
+        "Value": "https://moderatorsampleimages.blob.core.windows.net/samples/img_300.jpg"
+      }
+    headers:
+    - name: Content-Type
+      value: application/json
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "Metadata": [
+          {
+            "Key": "ImageDownloadTimeInMs",
+            "Value": "2239"
+          },
+          {
+            "Key": "ImageSizeInBytes",
+            "Value": "273405"
+          }
+        ],
+        "Language": "eng",
+        "Text": "IF WE DID \r\nALL \r\nTHE THINGS \r\nWE ARE \r\nCAPABLE \r\nOF DOING, \r\nWE WOULD \r\nLITERALLY \r\nASTOUND \r\nOURSELVE \r\n",
+        "Candidates": [],
+        "Status": {
+          "Code": 3000,
+          "Description": "OK",
+          "Exception": ""
+        },
+        "TrackingId": "SEA_ad975eeae1f24f81bebb40be0c3ba4fd_ContentModerator.Preview_e68fa0d1-6c83-499d-958c-9abd96263e10"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

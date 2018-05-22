@@ -1,0 +1,139 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothub.iothubresource.getendpointhealth
+name: Get Endpoint Health
+service: IoT Hub
+groupName: Iot Hub Resource
+apiVersion: 2018-04-01
+summary: "Get the health for routing endpoints  \nGet the health for routing endpoints."
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{iotHubName}/routingEndpointsHealth?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: iotHubName
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: EndpointHealthDataListResult
+- name: Other Status Codes
+  description: DefaultErrorResponse
+  types:
+  - uid: ErrorDetails
+requestHeader: []
+definitions:
+- name: EndpointHealthDataListResult
+  description: The JSON-serialized array of EndpointHealthData objects with a next link.
+  kind: object
+  properties:
+  - name: value
+    description: JSON-serialized array of Endpoint health data
+    types:
+    - uid: EndpointHealthData
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to more results
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: httpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+- name: EndpointHealthData
+  description: The health data for an endpoint
+  kind: object
+  properties:
+  - name: endpointId
+    description: Id of the endpoint
+    types:
+    - uid: string
+  - name: healthStatus
+    description: Health status
+    types:
+    - uid: EndpointHealthStatus
+- name: EndpointHealthStatus
+  description: Health status
+  kind: enum
+  properties:
+  - name: unknown
+    types:
+    - uid: string
+  - name: healthy
+    types:
+    - uid: string
+  - name: unhealthy
+    types:
+    - uid: string
+  - name: dead
+    types:
+    - uid: string
+examples:
+- name: IotHubResource_GetEndpointHealth
+  request:
+    uri: GET https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/testHub/routingEndpointsHealth?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "endpointId": "id1",
+            "healthStatus": "healthy"
+          },
+          {
+            "endpointId": "id2",
+            "healthStatus": "unknown"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

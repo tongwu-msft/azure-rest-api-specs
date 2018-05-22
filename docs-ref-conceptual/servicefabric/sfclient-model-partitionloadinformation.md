@@ -1,6 +1,6 @@
 ---
 title: "PartitionLoadInformation"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,26 +37,26 @@ For default loads, LoadMetricReport's LastReportedUtc is set to 0.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [PartitionId](#partitionid) | string (uuid) | No |
-| [PrimaryLoadMetricReports](#primaryloadmetricreports) | array of [LoadMetricReport](sfclient-model-loadmetricreport.md) | No |
-| [SecondaryLoadMetricReports](#secondaryloadmetricreports) | array of [LoadMetricReport](sfclient-model-loadmetricreport.md) | No |
+| [`PartitionId`](#partitionid) | string (uuid) | No |
+| [`PrimaryLoadMetricReports`](#primaryloadmetricreports) | array of [LoadMetricReport](sfclient-model-loadmetricreport.md) | No |
+| [`SecondaryLoadMetricReports`](#secondaryloadmetricreports) | array of [LoadMetricReport](sfclient-model-loadmetricreport.md) | No |
 
 ____
-### PartitionId
+### `PartitionId`
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
 <br/>
 Id of the partition.
 
 ____
-### PrimaryLoadMetricReports
+### `PrimaryLoadMetricReports`
 __Type__: array of [LoadMetricReport](sfclient-model-loadmetricreport.md) <br/>
 __Required__: No<br/>
 <br/>
 Array of load reports from the primary replica for this partition.
 
 ____
-### SecondaryLoadMetricReports
+### `SecondaryLoadMetricReports`
 __Type__: array of [LoadMetricReport](sfclient-model-loadmetricreport.md) <br/>
 __Required__: No<br/>
 <br/>

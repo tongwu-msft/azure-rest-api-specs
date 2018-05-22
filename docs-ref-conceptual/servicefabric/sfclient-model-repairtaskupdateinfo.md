@@ -1,6 +1,6 @@
 ---
 title: "RepairTaskUpdateInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,11 +37,11 @@ This type supports the Service Fabric platform; it is not meant to be used direc
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Version](#version) | string (int64) | Yes |
+| [`Version`](#version) | string | Yes |
 
 ____
-### Version
-__Type__: string (int64) <br/>
+### `Version`
+__Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The new version of the repair task.

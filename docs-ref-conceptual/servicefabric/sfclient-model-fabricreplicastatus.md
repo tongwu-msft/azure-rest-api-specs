@@ -1,6 +1,6 @@
 ---
 title: "FabricReplicaStatus"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Specifies the status of the replica.
 
 Possible values are: 
 
-  - Invalid - Indicates that the read or write operation access status is not valid. This value is not returned to the caller.
-  - Down - Indicates that the replica is down.
-  - Up - Indicates that the replica is up.
+  - `Invalid` - Indicates that the read or write operation access status is not valid. This value is not returned to the caller.
+  - `Down` - Indicates that the replica is down.
+  - `Up` - Indicates that the replica is up.
 

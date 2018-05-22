@@ -1,6 +1,6 @@
 ---
 title: "Create Compose Deployment"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -41,30 +41,30 @@ Compose is a file format that describes multi-container applications. This API a
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [api-version](#api-version) | string | Yes | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
-| [CreateComposeDeploymentDescription](#createcomposedeploymentdescription) | [CreateComposeDeploymentDescription](sfclient-model-createcomposedeploymentdescription.md) | Yes | Body |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
+| [`CreateComposeDeploymentDescription`](#createcomposedeploymentdescription) | [CreateComposeDeploymentDescription](sfclient-model-createcomposedeploymentdescription.md) | Yes | Body |
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0-preview <br/>
+__Default__: `6.0-preview` <br/>
 <br/>
-The version of the API. This is a required parameter and its value must be "6.0-preview".
+The version of the API. This parameter is required and its value must be '"6.0-preview'.
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
-### CreateComposeDeploymentDescription
+### `CreateComposeDeploymentDescription`
 __Type__: [CreateComposeDeploymentDescription](sfclient-model-createcomposedeploymentdescription.md) <br/>
 __Required__: Yes<br/>
 <br/>

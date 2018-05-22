@@ -1,6 +1,6 @@
 ---
 title: "ExternalStoreProvisionApplicationTypeDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,11 +34,11 @@ Describes the operation to register or provision an application type using an ap
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [Async](#async) | boolean | Yes |
-| [ApplicationPackageDownloadUri](#applicationpackagedownloaduri) | string | No |
-| [ApplicationTypeName](#applicationtypename) | string | No |
-| [ApplicationTypeVersion](#applicationtypeversion) | string | No |
+| [`Kind`](#kind) | string | Yes |
+| [`Async`](#async) | boolean | Yes |
+| [`ApplicationPackageDownloadUri`](#applicationpackagedownloaduri) | string | Yes |
+| [`ApplicationTypeName`](#applicationtypename) | string | Yes |
+| [`ApplicationTypeVersion`](#applicationtypeversion) | string | Yes |
 
 ____
 ### Kind
@@ -48,29 +48,29 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'ExternalStore' for objects of type 'ExternalStoreProvisionApplicationTypeDescription'.
 
 ____
-### Async
+### `Async`
 __Type__: boolean <br/>
 __Required__: Yes<br/>
 <br/>
 Indicates whether or not provisioning should occur asynchronously. When set to true, the provision operation returns when the request is accepted by the system, and the provision operation continues without any timeout limit. The default value is false. For large application packages, we recommend setting the value to true.
 
 ____
-### ApplicationPackageDownloadUri
+### `ApplicationPackageDownloadUri`
 __Type__: string <br/>
-__Required__: No<br/>
+__Required__: Yes<br/>
 <br/>
 The path to the '.sfpkg' application package from where the application package can be downloaded using HTTP or HTTPS protocols. The application package can be stored in an external store that provides GET operation to download the file. Supported protocols are HTTP and HTTPS, and the path must allow READ access.
 
 ____
-### ApplicationTypeName
+### `ApplicationTypeName`
 __Type__: string <br/>
-__Required__: No<br/>
+__Required__: Yes<br/>
 <br/>
 The application type name represents the name of the application type found in the application manifest.
 
 ____
-### ApplicationTypeVersion
+### `ApplicationTypeVersion`
 __Type__: string <br/>
-__Required__: No<br/>
+__Required__: Yes<br/>
 <br/>
 The application type version represents the version of the application type found in the application manifest.

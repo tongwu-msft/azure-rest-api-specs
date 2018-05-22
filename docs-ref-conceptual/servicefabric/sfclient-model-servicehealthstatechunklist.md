@@ -1,6 +1,6 @@
 ---
 title: "ServiceHealthStateChunkList"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,10 +35,10 @@ The list of service health state chunks that respect the input filters in the ch
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Items](#items) | array of [ServiceHealthStateChunk](sfclient-model-servicehealthstatechunk.md) | No |
+| [`Items`](#items) | array of [ServiceHealthStateChunk](sfclient-model-servicehealthstatechunk.md) | No |
 
 ____
-### Items
+### `Items`
 __Type__: array of [ServiceHealthStateChunk](sfclient-model-servicehealthstatechunk.md) <br/>
 __Required__: No<br/>
 <br/>

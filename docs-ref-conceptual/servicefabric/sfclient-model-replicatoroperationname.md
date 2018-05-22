@@ -1,6 +1,6 @@
 ---
 title: "ReplicatorOperationName"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,14 +35,14 @@ Specifies the operation currently being executed by the Replicator.
 
 Possible values are: 
 
-  - Invalid - Default value if the replicator is not yet ready.
-  - None - Replicator is not running any operation from Service Fabric perspective.
-  - Open - Replicator is opening.
-  - ChangeRole - Replicator is in the process of changing its role.
-  - UpdateEpoch - Due to a change in the replica set, replicator is being updated with its Epoch.
-  - Close - Replicator is closing.
-  - Abort - Replicator is being aborted.
-  - OnDataLoss - Replicator is handling the data loss condition, where the user service may potentially be recovering state from an external source.
-  - WaitForCatchup - Replicator is waiting for a quorum of replicas to be caught up to the latest state.
-  - Build - Replicator is in the process of building one or more replicas.
+  - `Invalid` - Default value if the replicator is not yet ready.
+  - `None` - Replicator is not running any operation from Service Fabric perspective.
+  - `Open` - Replicator is opening.
+  - `ChangeRole` - Replicator is in the process of changing its role.
+  - `UpdateEpoch` - Due to a change in the replica set, replicator is being updated with its Epoch.
+  - `Close` - Replicator is closing.
+  - `Abort` - Replicator is being aborted.
+  - `OnDataLoss` - Replicator is handling the data loss condition, where the user service may potentially be recovering state from an external source.
+  - `WaitForCatchup` - Replicator is waiting for a quorum of replicas to be caught up to the latest state.
+  - `Build` - Replicator is in the process of building one or more replicas.
 

@@ -1,6 +1,6 @@
 ---
 title: "UniformInt64RangePartitionSchemeDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Describes a partitioning scheme where an integer range is allocated evenly acros
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [PartitionScheme](#partitionscheme) | string | Yes |
-| [Count](#count) | integer | Yes |
-| [LowKey](#lowkey) | string | Yes |
-| [HighKey](#highkey) | string | Yes |
+| [`PartitionScheme`](#partitionscheme) | string | Yes |
+| [`Count`](#count) | integer | Yes |
+| [`LowKey`](#lowkey) | string | Yes |
+| [`HighKey`](#highkey) | string | Yes |
 
 ____
 ### PartitionScheme
@@ -47,26 +47,26 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'UniformInt64Range' for objects of type 'UniformInt64RangePartitionSchemeDescription'.
 
 ____
-### Count
+### `Count`
 __Type__: integer <br/>
 __Required__: Yes<br/>
 <br/>
 The number of partitions.
 
 ____
-### LowKey
+### `LowKey`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 String indicating the lower bound of the partition key range that
-should be split between the partition ‘Count’
+should be split between the partitions.
 
 
 ____
-### HighKey
+### `HighKey`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 String indicating the upper bound of the partition key range that
-should be split between the partition ‘Count’
+should be split between the partitions.
 

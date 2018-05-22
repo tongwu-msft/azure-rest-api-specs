@@ -1,6 +1,6 @@
 ---
 title: "ResumeApplicationUpgradeDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Describes the parameters for resuming an unmonitored manual Service Fabric appli
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [UpgradeDomainName](#upgradedomainname) | string | Yes |
+| [`UpgradeDomainName`](#upgradedomainname) | string | Yes |
 
 ____
-### UpgradeDomainName
+### `UpgradeDomainName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
