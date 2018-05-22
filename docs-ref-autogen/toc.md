@@ -2509,6 +2509,8 @@
 #### [List Types](datalakeanalytics/Catalog/ListTypes.yml)
 #### [List Views](datalakeanalytics/Catalog/ListViews.yml)
 #### [List Views By Database](datalakeanalytics/Catalog/ListViewsByDatabase.yml)
+#### [Preview Table](datalakeanalytics/Catalog/PreviewTable.yml)
+#### [Preview Table Partition](datalakeanalytics/Catalog/PreviewTablePartition.yml)
 #### [Revoke Acl](datalakeanalytics/Catalog/RevokeAcl.yml)
 #### [Revoke Acl From Database](datalakeanalytics/Catalog/RevokeAclFromDatabase.yml)
 #### [Update Credential](datalakeanalytics/Catalog/UpdateCredential.yml)
