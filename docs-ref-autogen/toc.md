@@ -17,6 +17,7 @@
 ### [Create Or Update](aks/ManagedClusters/CreateOrUpdate.yml)
 ### [Delete](aks/ManagedClusters/Delete.yml)
 ### [Get](aks/ManagedClusters/Get.yml)
+### [Get Access Profile](aks/ManagedClusters/GetAccessProfile.yml)
 ### [Get Access Profiles](aks/ManagedClusters/GetAccessProfiles.yml)
 ### [Get Upgrade Profile](aks/ManagedClusters/GetUpgradeProfile.yml)
 ### [List](aks/ManagedClusters/List.yml)
