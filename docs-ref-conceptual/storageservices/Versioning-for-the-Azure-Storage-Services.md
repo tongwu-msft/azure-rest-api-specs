@@ -33,8 +33,8 @@ The Microsoft Azure storage services support multiple versions. To make a reques
 
 Version 2017-11-09 includes these changes:
 
-- Requests may now be authenticated with an Active Directory identity using the OAuth protocol. See [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md) for more information.
-- The [Get Container Properties](Get-Container-Properties.md) and [List Containers](List-Containers2.md) APIs now return two new properties indicating whether the container has an immutability policy or a legal hold. For more information about these new features see <<link>>.
+- Requests may now be authenticated with an Active Directory identity using the OAuth protocol. This feature is available in preview.
+- The [Get Container Properties](Get-Container-Properties.md) and [List Containers](List-Containers2.md) APIs now return two new properties indicating whether the container has an immutability policy or a legal hold. These policies are available in preview.
 - The [Get Blob Properties](Get-Blob-Properties.md) and [List Blobs](List-Blobs.md) APIs now return the creation time of the blob as a property.
 
 ## Specifying Storage Service Versions in Requests  
