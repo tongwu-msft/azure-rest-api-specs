@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.sqldatabase.databases.listbyserver
+uid: management.azure.com.sql.databases.listbyserver
 name: List By Server
 service: SQL Database
 groupName: Databases
-apiVersion: 2014-04-01
-summary: Returns a list of databases in a server.
+apiVersion: 2017-10-01-preview
+summary: Gets a list of databases.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases?api-version=2014-04-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases?api-version=2014-04-01&$expand={$expand}&$filter={$filter}
-  isOptional: true
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases?api-version=2017-10-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,68 +36,49 @@ uriParameters:
   description: The API version to use for the request.
   types:
   - uid: string
-- name: $expand
-  in: query
-  description: 'A comma separated list of child objects to expand in the response. Possible properties: serviceTierAdvisors, transparentDataEncryption.'
-  types:
-  - uid: string
-- name: $filter
-  in: query
-  description: An OData filter expression that describes a subset of databases to return.
-  types:
-  - uid: string
 responses:
 - name: 200 OK
-  description: OK
+  description: Successfully retrieved the list of databases.
   types:
   - uid: DatabaseListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
 requestHeader: []
 definitions:
 - name: DatabaseListResult
-  description: Represents the response to a list database request.
+  description: A list of databases.
   kind: object
   properties:
   - name: value
-    description: The list of databases housed in the server.
+    isReadyOnly: true
+    description: Array of results.
     types:
     - uid: Database
       isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
 - name: Database
-  description: Represents a database.
+  description: A database resource.
   kind: object
   properties:
+  - name: sku
+    description: The name and tier of the SKU.
+    types:
+    - uid: Sku
   - name: kind
     isReadyOnly: true
-    description: Kind of database.  This is metadata used for the Azure portal experience.
+    description: Kind of database. This is metadata used for the Azure portal experience.
     types:
     - uid: string
-  - name: properties.collation
-    description: The collation of the database. If createMode is not Default, this value is ignored.
-    types:
-    - uid: string
-  - name: properties.creationDate
+  - name: managedBy
     isReadyOnly: true
-    description: The creation date of the database (ISO8601 format).
-    types:
-    - uid: string
-  - name: properties.containmentState
-    isReadyOnly: true
-    description: The containment state of the database.
-    types:
-    - uid: integer
-  - name: properties.currentServiceObjectiveId
-    isReadyOnly: true
-    description: The current service level objective ID of the database. This is the ID of the service level objective that is currently active.
-    types:
-    - uid: string
-  - name: properties.databaseId
-    isReadyOnly: true
-    description: The ID of the database.
-    types:
-    - uid: string
-  - name: properties.earliestRestoreDate
-    isReadyOnly: true
-    description: This records the earliest start date and time that restore is available for this database (ISO8601 format).
+    description: Resource that manages the database.
     types:
     - uid: string
   - name: properties.createMode
@@ -113,7 +92,7 @@ definitions:
       Copy: creates a database as a copy of an existing database. sourceDatabaseId must be specified as the resource ID of the source database.
 
 
-      OnlineSecondary/NonReadableSecondary: creates a database as a (readable or nonreadable) secondary replica of an existing database. sourceDatabaseId must be specified as the resource ID of the existing primary database.
+      Secondary: creates a database as a secondary replica of an existing database. sourceDatabaseId must be specified as the resource ID of the existing primary database.
 
 
       PointInTimeRestore: Creates a database by restoring a point in time backup of an existing database. sourceDatabaseId must be specified as the resource ID of the existing database, and restorePointInTime must be specified.
@@ -128,53 +107,52 @@ definitions:
       RestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault. recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID.
 
 
-      Copy, NonReadableSecondary, OnlineSecondary and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
+      Copy, Secondary, and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
     types:
     - uid: CreateMode
-  - name: properties.sourceDatabaseId
-    description: Conditional. If createMode is Copy, NonReadableSecondary, OnlineSecondary, PointInTimeRestore, Recovery, or Restore, then this value is required. Specifies the resource ID of the source database. If createMode is NonReadableSecondary or OnlineSecondary, the name of the source database must be the same as the new database being created.
+  - name: properties.collation
+    description: The collation of the database.
     types:
     - uid: string
-  - name: properties.sourceDatabaseDeletionDate
-    description: Conditional. If createMode is Restore and sourceDatabaseId is the deleted database's original resource id when it existed (as opposed to its current restorable dropped database id), then this value is required. Specifies the time that the database was deleted.
-    types:
-    - uid: string
-  - name: properties.restorePointInTime
-    description: Conditional. If createMode is PointInTimeRestore, this value is required. If createMode is Restore, this value is optional. Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value.
-    types:
-    - uid: string
-  - name: properties.recoveryServicesRecoveryPointResourceId
-    description: Conditional. If createMode is RestoreLongTermRetentionBackup, then this value is required. Specifies the resource ID of the recovery point to restore from.
-    types:
-    - uid: string
-  - name: properties.edition
-    description: 'The edition of the database. The DatabaseEditions enumeration contains all the valid editions. If createMode is NonReadableSecondary or OnlineSecondary, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation." or use the Azure CLI command `az sql db list-editions -l westus --query [].name` .'
-    types:
-    - uid: DatabaseEdition
   - name: properties.maxSizeBytes
-    description: 'The max size of the database expressed in bytes. If createMode is not Default, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation."'
+    description: The max size of the database expressed in bytes.
+    types:
+    - uid: integer
+  - name: properties.sampleName
+    description: The name of the sample schema to apply when creating this database.
+    types:
+    - uid: SampleName
+  - name: properties.elasticPoolId
+    description: The resource identifier of the elastic pool containing this database.
     types:
     - uid: string
-  - name: properties.requestedServiceObjectiveId
-    description: 'The configured service level objective ID of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of currentServiceObjectiveId property. If requestedServiceObjectiveId and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveId overrides the value of requestedServiceObjectiveName. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation." or use the Azure CLI command `az sql db list-editions --location <location> --query [].supportedServiceLevelObjectives[].name` .'
+  - name: properties.sourceDatabaseId
+    description: The resource identifier of the source database associated with create operation of this database.
     types:
     - uid: string
-  - name: properties.requestedServiceObjectiveName
-    description: 'The name of the configured service level objective of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of serviceLevelObjective property. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation." or use the Azure CLI command `az sql db list-editions --location <location> --query [].supportedServiceLevelObjectives[].name` .'
-    types:
-    - uid: ServiceObjectiveName
-  - name: properties.serviceLevelObjective
-    isReadyOnly: true
-    description: The current service level objective of the database.
-    types:
-    - uid: ServiceObjectiveName
   - name: properties.status
     isReadyOnly: true
     description: The status of the database.
     types:
+    - uid: DatabaseStatus
+  - name: properties.databaseId
+    isReadyOnly: true
+    description: The ID of the database.
+    types:
     - uid: string
-  - name: properties.elasticPoolName
-    description: The name of the elastic pool the database is in. If elasticPoolName and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveName is ignored. Not supported for DataWarehouse edition.
+  - name: properties.creationDate
+    isReadyOnly: true
+    description: The creation date of the database (ISO8601 format).
+    types:
+    - uid: string
+  - name: properties.currentServiceObjectiveName
+    isReadyOnly: true
+    description: The current service level objective name of the database.
+    types:
+    - uid: string
+  - name: properties.requestedServiceObjectiveName
+    isReadyOnly: true
+    description: The requested service level objective name of the database.
     types:
     - uid: string
   - name: properties.defaultSecondaryLocation
@@ -182,41 +160,70 @@ definitions:
     description: The default secondary region for this database.
     types:
     - uid: string
-  - name: properties.serviceTierAdvisors
-    isReadyOnly: true
-    description: The list of service tier advisors for this database. Expanded property
-    types:
-    - uid: ServiceTierAdvisor
-      isArray: true
-  - name: properties.transparentDataEncryption
-    isReadyOnly: true
-    description: The transparent data encryption info for this database.
-    types:
-    - uid: TransparentDataEncryption
-      isArray: true
-  - name: properties.recommendedIndex
-    isReadyOnly: true
-    description: The recommended indices for this database.
-    types:
-    - uid: RecommendedIndex
-      isArray: true
   - name: properties.failoverGroupId
     isReadyOnly: true
-    description: The resource identifier of the failover group containing this database.
+    description: Failover Group resource identifier that this database belongs to.
     types:
     - uid: string
-  - name: properties.readScale
-    description: Conditional. If the database is a geo-secondary, readScale indicates whether read-only connections are allowed to this database or not. Not supported for DataWarehouse edition.
+  - name: properties.restorePointInTime
+    description: Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database.
     types:
-    - uid: ReadScale
-  - name: properties.sampleName
-    description: Indicates the name of the sample schema to apply when creating this database. If createMode is not Default, this value is ignored. Not supported for DataWarehouse edition.
+    - uid: string
+  - name: properties.sourceDatabaseDeletionDate
+    description: Specifies the time that the database was deleted.
     types:
-    - uid: SampleName
+    - uid: string
+  - name: properties.recoveryServicesRecoveryPointId
+    description: The resource identifier of the recovery point associated with create operation of this database.
+    types:
+    - uid: string
+  - name: properties.longTermRetentionBackupResourceId
+    description: The resource identifier of the long term retention backup associated with create operation of this database.
+    types:
+    - uid: string
+  - name: properties.recoverableDatabaseId
+    description: The resource identifier of the recoverable database associated with create operation of this database.
+    types:
+    - uid: string
+  - name: properties.restorableDroppedDatabaseId
+    description: The resource identifier of the restorable dropped database associated with create operation of this database.
+    types:
+    - uid: string
+  - name: properties.catalogCollation
+    description: Collation of the metadata catalog.
+    types:
+    - uid: CatalogCollationType
   - name: properties.zoneRedundant
     description: Whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones.
     types:
     - uid: boolean
+  - name: properties.licenseType
+    description: The license type to apply for this database.
+    types:
+    - uid: DatabaseLicenseType
+  - name: properties.maxLogSizeBytes
+    isReadyOnly: true
+    description: The max log size for this database.
+    types:
+    - uid: integer
+  - name: properties.earliestRestoreDate
+    isReadyOnly: true
+    description: This records the earliest start date and time that restore is available for this database (ISO8601 format).
+    types:
+    - uid: string
+  - name: properties.readScale
+    description: The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region.
+    types:
+    - uid: DatabaseReadScale
+  - name: properties.currentSku
+    isReadyOnly: true
+    description: The name and tier of the SKU.
+    types:
+    - uid: Sku
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
   - name: tags
     description: Resource tags.
     types:
@@ -225,10 +232,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -244,559 +247,190 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: Sku
+  description: An ARM Resource SKU.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU, typically, a letter + Number code, e.g. P3.
+    types:
+    - uid: string
+  - name: tier
+    description: The tier of the particular SKU, e.g. Basic, Premium.
+    types:
+    - uid: string
+  - name: size
+    description: Size of the particular SKU
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: Capacity of the particular SKU.
+    types:
+    - uid: integer
 - name: CreateMode
   description: >-
     Specifies the mode of database creation.
 
 
+
     Default: regular database creation.
+
 
 
     Copy: creates a database as a copy of an existing database. sourceDatabaseId must be specified as the resource ID of the source database.
 
 
-    OnlineSecondary/NonReadableSecondary: creates a database as a (readable or nonreadable) secondary replica of an existing database. sourceDatabaseId must be specified as the resource ID of the existing primary database.
+
+    Secondary: creates a database as a secondary replica of an existing database. sourceDatabaseId must be specified as the resource ID of the existing primary database.
+
 
 
     PointInTimeRestore: Creates a database by restoring a point in time backup of an existing database. sourceDatabaseId must be specified as the resource ID of the existing database, and restorePointInTime must be specified.
 
 
+
     Recovery: Creates a database by restoring a geo-replicated backup. sourceDatabaseId must be specified as the recoverable database resource ID to restore.
+
 
 
     Restore: Creates a database by restoring a backup of a deleted database. sourceDatabaseId must be specified. If sourceDatabaseId is the database's original resource ID, then sourceDatabaseDeletionDate must be specified. Otherwise sourceDatabaseId must be the restorable dropped database resource ID and sourceDatabaseDeletionDate is ignored. restorePointInTime may also be specified to restore from an earlier point in time.
 
 
+
     RestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault. recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID.
 
 
-    Copy, NonReadableSecondary, OnlineSecondary and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
+
+    Copy, Secondary, and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
   kind: enum
   properties:
-  - name: Copy
-    types:
-    - uid: string
   - name: Default
     types:
     - uid: string
-  - name: NonReadableSecondary
+  - name: Copy
     types:
     - uid: string
-  - name: OnlineSecondary
+  - name: Secondary
     types:
     - uid: string
   - name: PointInTimeRestore
     types:
     - uid: string
+  - name: Restore
+    types:
+    - uid: string
   - name: Recovery
     types:
     - uid: string
-  - name: Restore
+  - name: RestoreExternalBackup
+    types:
+    - uid: string
+  - name: RestoreExternalBackupSecondary
     types:
     - uid: string
   - name: RestoreLongTermRetentionBackup
     types:
     - uid: string
-- name: DatabaseEdition
-  description: 'The edition of the database. The DatabaseEditions enumeration contains all the valid editions. If createMode is NonReadableSecondary or OnlineSecondary, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation." or use the Azure CLI command `az sql db list-editions -l westus --query [].name` .'
-  kind: enum
-  properties:
-  - name: Web
-    types:
-    - uid: string
-  - name: Business
-    types:
-    - uid: string
-  - name: Basic
-    types:
-    - uid: string
-  - name: Standard
-    types:
-    - uid: string
-  - name: Premium
-    types:
-    - uid: string
-  - name: PremiumRS
-    types:
-    - uid: string
-  - name: Free
-    types:
-    - uid: string
-  - name: Stretch
-    types:
-    - uid: string
-  - name: DataWarehouse
-    types:
-    - uid: string
-  - name: System
-    types:
-    - uid: string
-  - name: System2
-    types:
-    - uid: string
-- name: ServiceObjectiveName
-  description: 'The name of the configured service level objective of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of serviceLevelObjective property. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation." or use the Azure CLI command `az sql db list-editions --location <location> --query [].supportedServiceLevelObjectives[].name` .'
-  kind: enum
-  properties:
-  - name: System
-    types:
-    - uid: string
-  - name: System0
-    types:
-    - uid: string
-  - name: System1
-    types:
-    - uid: string
-  - name: System2
-    types:
-    - uid: string
-  - name: System3
-    types:
-    - uid: string
-  - name: System4
-    types:
-    - uid: string
-  - name: System2L
-    types:
-    - uid: string
-  - name: System3L
-    types:
-    - uid: string
-  - name: System4L
-    types:
-    - uid: string
-  - name: Free
-    types:
-    - uid: string
-  - name: Basic
-    types:
-    - uid: string
-  - name: S0
-    types:
-    - uid: string
-  - name: S1
-    types:
-    - uid: string
-  - name: S2
-    types:
-    - uid: string
-  - name: S3
-    types:
-    - uid: string
-  - name: S4
-    types:
-    - uid: string
-  - name: S6
-    types:
-    - uid: string
-  - name: S7
-    types:
-    - uid: string
-  - name: S9
-    types:
-    - uid: string
-  - name: S12
-    types:
-    - uid: string
-  - name: P1
-    types:
-    - uid: string
-  - name: P2
-    types:
-    - uid: string
-  - name: P3
-    types:
-    - uid: string
-  - name: P4
-    types:
-    - uid: string
-  - name: P6
-    types:
-    - uid: string
-  - name: P11
-    types:
-    - uid: string
-  - name: P15
-    types:
-    - uid: string
-  - name: PRS1
-    types:
-    - uid: string
-  - name: PRS2
-    types:
-    - uid: string
-  - name: PRS4
-    types:
-    - uid: string
-  - name: PRS6
-    types:
-    - uid: string
-  - name: DW100
-    types:
-    - uid: string
-  - name: DW200
-    types:
-    - uid: string
-  - name: DW300
-    types:
-    - uid: string
-  - name: DW400
-    types:
-    - uid: string
-  - name: DW500
-    types:
-    - uid: string
-  - name: DW600
-    types:
-    - uid: string
-  - name: DW1000
-    types:
-    - uid: string
-  - name: DW1200
-    types:
-    - uid: string
-  - name: DW1000c
-    types:
-    - uid: string
-  - name: DW1500
-    types:
-    - uid: string
-  - name: DW1500c
-    types:
-    - uid: string
-  - name: DW2000
-    types:
-    - uid: string
-  - name: DW2000c
-    types:
-    - uid: string
-  - name: DW3000
-    types:
-    - uid: string
-  - name: DW2500c
-    types:
-    - uid: string
-  - name: DW3000c
-    types:
-    - uid: string
-  - name: DW6000
-    types:
-    - uid: string
-  - name: DW5000c
-    types:
-    - uid: string
-  - name: DW6000c
-    types:
-    - uid: string
-  - name: DW7500c
-    types:
-    - uid: string
-  - name: DW10000c
-    types:
-    - uid: string
-  - name: DW15000c
-    types:
-    - uid: string
-  - name: DW30000c
-    types:
-    - uid: string
-  - name: DS100
-    types:
-    - uid: string
-  - name: DS200
-    types:
-    - uid: string
-  - name: DS300
-    types:
-    - uid: string
-  - name: DS400
-    types:
-    - uid: string
-  - name: DS500
-    types:
-    - uid: string
-  - name: DS600
-    types:
-    - uid: string
-  - name: DS1000
-    types:
-    - uid: string
-  - name: DS1200
-    types:
-    - uid: string
-  - name: DS1500
-    types:
-    - uid: string
-  - name: DS2000
-    types:
-    - uid: string
-  - name: ElasticPool
-    types:
-    - uid: string
-- name: ServiceTierAdvisor
-  description: Represents a Service Tier Advisor.
-  kind: object
-  properties:
-  - name: properties.observationPeriodStart
-    isReadyOnly: true
-    description: The observation period start (ISO8601 format).
-    types:
-    - uid: string
-  - name: properties.observationPeriodEnd
-    isReadyOnly: true
-    description: The observation period start (ISO8601 format).
-    types:
-    - uid: string
-  - name: properties.activeTimeRatio
-    isReadyOnly: true
-    description: The activeTimeRatio for service tier advisor.
-    types:
-    - uid: number
-  - name: properties.minDtu
-    isReadyOnly: true
-    description: Gets or sets minDtu for service tier advisor.
-    types:
-    - uid: number
-  - name: properties.avgDtu
-    isReadyOnly: true
-    description: Gets or sets avgDtu for service tier advisor.
-    types:
-    - uid: number
-  - name: properties.maxDtu
-    isReadyOnly: true
-    description: Gets or sets maxDtu for service tier advisor.
-    types:
-    - uid: number
-  - name: properties.maxSizeInGB
-    isReadyOnly: true
-    description: Gets or sets maxSizeInGB for service tier advisor.
-    types:
-    - uid: number
-  - name: properties.serviceLevelObjectiveUsageMetrics
-    isReadyOnly: true
-    description: Gets or sets serviceLevelObjectiveUsageMetrics for the service tier advisor.
-    types:
-    - uid: SloUsageMetric
-      isArray: true
-  - name: properties.currentServiceLevelObjective
-    isReadyOnly: true
-    description: Gets or sets currentServiceLevelObjective for service tier advisor.
-    types:
-    - uid: string
-  - name: properties.currentServiceLevelObjectiveId
-    isReadyOnly: true
-    description: Gets or sets currentServiceLevelObjectiveId for service tier advisor.
-    types:
-    - uid: string
-  - name: properties.usageBasedRecommendationServiceLevelObjective
-    isReadyOnly: true
-    description: Gets or sets usageBasedRecommendationServiceLevelObjective for service tier advisor.
-    types:
-    - uid: string
-  - name: properties.usageBasedRecommendationServiceLevelObjectiveId
-    isReadyOnly: true
-    description: Gets or sets usageBasedRecommendationServiceLevelObjectiveId for service tier advisor.
-    types:
-    - uid: string
-  - name: properties.databaseSizeBasedRecommendationServiceLevelObjective
-    isReadyOnly: true
-    description: Gets or sets databaseSizeBasedRecommendationServiceLevelObjective for service tier advisor.
-    types:
-    - uid: string
-  - name: properties.databaseSizeBasedRecommendationServiceLevelObjectiveId
-    isReadyOnly: true
-    description: Gets or sets databaseSizeBasedRecommendationServiceLevelObjectiveId for service tier advisor.
-    types:
-    - uid: string
-  - name: properties.disasterPlanBasedRecommendationServiceLevelObjective
-    isReadyOnly: true
-    description: Gets or sets disasterPlanBasedRecommendationServiceLevelObjective for service tier advisor.
-    types:
-    - uid: string
-  - name: properties.disasterPlanBasedRecommendationServiceLevelObjectiveId
-    isReadyOnly: true
-    description: Gets or sets disasterPlanBasedRecommendationServiceLevelObjectiveId for service tier advisor.
-    types:
-    - uid: string
-  - name: properties.overallRecommendationServiceLevelObjective
-    isReadyOnly: true
-    description: Gets or sets overallRecommendationServiceLevelObjective for service tier advisor.
-    types:
-    - uid: string
-  - name: properties.overallRecommendationServiceLevelObjectiveId
-    isReadyOnly: true
-    description: Gets or sets overallRecommendationServiceLevelObjectiveId for service tier advisor.
-    types:
-    - uid: string
-  - name: properties.confidence
-    isReadyOnly: true
-    description: Gets or sets confidence for service tier advisor.
-    types:
-    - uid: number
-  - name: id
-    isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-- name: TransparentDataEncryption
-  description: Represents a database transparent data encryption configuration.
-  kind: object
-  properties:
-  - name: location
-    isReadyOnly: true
-    description: Resource location.
-    types:
-    - uid: string
-  - name: properties.status
-    description: The status of the database transparent data encryption.
-    types:
-    - uid: TransparentDataEncryptionStatus
-  - name: id
-    isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-- name: RecommendedIndex
-  description: Represents a database recommended index.
-  kind: object
-  properties:
-  - name: properties.action
-    isReadyOnly: true
-    description: The proposed index action. You can create a missing index, drop an unused index, or rebuild an existing index to improve its performance.
-    types:
-    - uid: RecommendedIndexAction
-  - name: properties.state
-    isReadyOnly: true
-    description: The current recommendation state.
-    types:
-    - uid: RecommendedIndexState
-  - name: properties.created
-    isReadyOnly: true
-    description: The UTC datetime showing when this resource was created (ISO8601 format).
-    types:
-    - uid: string
-  - name: properties.lastModified
-    isReadyOnly: true
-    description: The UTC datetime of when was this resource last changed (ISO8601 format).
-    types:
-    - uid: string
-  - name: properties.indexType
-    isReadyOnly: true
-    description: The type of index (CLUSTERED, NONCLUSTERED, COLUMNSTORE, CLUSTERED COLUMNSTORE)
-    types:
-    - uid: RecommendedIndexType
-  - name: properties.schema
-    isReadyOnly: true
-    description: The schema where table to build index over resides
-    types:
-    - uid: string
-  - name: properties.table
-    isReadyOnly: true
-    description: The table on which to build index.
-    types:
-    - uid: string
-  - name: properties.columns
-    isReadyOnly: true
-    description: Columns over which to build index
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.includedColumns
-    isReadyOnly: true
-    description: The list of column names to be included in the index
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.indexScript
-    isReadyOnly: true
-    description: The full build index script
-    types:
-    - uid: string
-  - name: properties.estimatedImpact
-    isReadyOnly: true
-    description: The estimated impact of doing recommended index action.
-    types:
-    - uid: OperationImpact
-      isArray: true
-  - name: properties.reportedImpact
-    isReadyOnly: true
-    description: The values reported after index action is complete.
-    types:
-    - uid: OperationImpact
-      isArray: true
-  - name: id
-    isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-- name: ReadScale
-  description: Conditional. If the database is a geo-secondary, readScale indicates whether read-only connections are allowed to this database or not. Not supported for DataWarehouse edition.
-  kind: enum
-  properties:
-  - name: Enabled
-    types:
-    - uid: string
-  - name: Disabled
+  - name: OnlineSecondary
     types:
     - uid: string
 - name: SampleName
-  description: Indicates the name of the sample schema to apply when creating this database. If createMode is not Default, this value is ignored. Not supported for DataWarehouse edition.
+  description: The name of the sample schema to apply when creating this database.
   kind: enum
   properties:
   - name: AdventureWorksLT
     types:
     - uid: string
-- name: SloUsageMetric
-  description: A Slo Usage Metric.
-  kind: object
-  properties:
-  - name: serviceLevelObjective
-    isReadyOnly: true
-    description: The serviceLevelObjective for SLO usage metric.
-    types:
-    - uid: ServiceObjectiveName
-  - name: serviceLevelObjectiveId
-    isReadyOnly: true
-    description: The serviceLevelObjectiveId for SLO usage metric.
+  - name: WideWorldImportersStd
     types:
     - uid: string
-  - name: inRangeTimeRatio
-    isReadyOnly: true
-    description: Gets or sets inRangeTimeRatio for SLO usage metric.
+  - name: WideWorldImportersFull
     types:
-    - uid: number
-- name: TransparentDataEncryptionStatus
-  description: The status of the database transparent data encryption.
+    - uid: string
+- name: DatabaseStatus
+  description: The status of the database.
+  kind: enum
+  properties:
+  - name: Online
+    types:
+    - uid: string
+  - name: Restoring
+    types:
+    - uid: string
+  - name: RecoveryPending
+    types:
+    - uid: string
+  - name: Recovering
+    types:
+    - uid: string
+  - name: Suspect
+    types:
+    - uid: string
+  - name: Offline
+    types:
+    - uid: string
+  - name: Standby
+    types:
+    - uid: string
+  - name: Shutdown
+    types:
+    - uid: string
+  - name: EmergencyMode
+    types:
+    - uid: string
+  - name: AutoClosed
+    types:
+    - uid: string
+  - name: Copying
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Inaccessible
+    types:
+    - uid: string
+  - name: OfflineSecondary
+    types:
+    - uid: string
+  - name: Pausing
+    types:
+    - uid: string
+  - name: Paused
+    types:
+    - uid: string
+  - name: Resuming
+    types:
+    - uid: string
+  - name: Scaling
+    types:
+    - uid: string
+- name: CatalogCollationType
+  description: Collation of the metadata catalog.
+  kind: enum
+  properties:
+  - name: DATABASE_DEFAULT
+    types:
+    - uid: string
+  - name: SQL_Latin1_General_CP1_CI_AS
+    types:
+    - uid: string
+- name: DatabaseLicenseType
+  description: The license type to apply for this database.
+  kind: enum
+  properties:
+  - name: LicenseIncluded
+    types:
+    - uid: string
+  - name: BasePrice
+    types:
+    - uid: string
+- name: DatabaseReadScale
+  description: The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region.
   kind: enum
   properties:
   - name: Enabled
@@ -805,270 +439,59 @@ definitions:
   - name: Disabled
     types:
     - uid: string
-- name: RecommendedIndexAction
-  description: The proposed index action. You can create a missing index, drop an unused index, or rebuild an existing index to improve its performance.
-  kind: enum
-  properties:
-  - name: Create
-    types:
-    - uid: string
-  - name: Drop
-    types:
-    - uid: string
-  - name: Rebuild
-    types:
-    - uid: string
-- name: RecommendedIndexState
-  description: The current recommendation state.
-  kind: enum
-  properties:
-  - name: Active
-    types:
-    - uid: string
-  - name: Pending
-    types:
-    - uid: string
-  - name: Executing
-    types:
-    - uid: string
-  - name: Verifying
-    types:
-    - uid: string
-  - name: Pending Revert
-    types:
-    - uid: string
-  - name: Reverting
-    types:
-    - uid: string
-  - name: Reverted
-    types:
-    - uid: string
-  - name: Ignored
-    types:
-    - uid: string
-  - name: Expired
-    types:
-    - uid: string
-  - name: Blocked
-    types:
-    - uid: string
-  - name: Success
-    types:
-    - uid: string
-- name: RecommendedIndexType
-  description: The type of index (CLUSTERED, NONCLUSTERED, COLUMNSTORE, CLUSTERED COLUMNSTORE)
-  kind: enum
-  properties:
-  - name: CLUSTERED
-    types:
-    - uid: string
-  - name: NONCLUSTERED
-    types:
-    - uid: string
-  - name: COLUMNSTORE
-    types:
-    - uid: string
-  - name: CLUSTERED COLUMNSTORE
-    types:
-    - uid: string
-- name: OperationImpact
-  description: The impact of an operation, both in absolute and relative terms.
-  kind: object
-  properties:
-  - name: name
-    isReadyOnly: true
-    description: The name of the impact dimension.
-    types:
-    - uid: string
-  - name: unit
-    isReadyOnly: true
-    description: The unit in which estimated impact to dimension is measured.
-    types:
-    - uid: string
-  - name: changeValueAbsolute
-    isReadyOnly: true
-    description: The absolute impact to dimension.
-    types:
-    - uid: number
-  - name: changeValueRelative
-    isReadyOnly: true
-    description: The relative impact to dimension (null if not applicable)
-    types:
-    - uid: number
 examples:
-- name: List databases by server
+- name: Gets a list of databases.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6845/providers/Microsoft.Sql/servers/sqlcrudtest-7177/databases?api-version=2014-04-01
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases?api-version=2017-10-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6845/providers/Microsoft.Sql/servers/sqlcrudtest-7177/databases/master",
-            "name": "master",
-            "type": "Microsoft.Sql/servers/databases",
-            "location": "Japan East",
+            "sku": {
+              "name": "BC_Gen4_2",
+              "tier": "BusinessCritical",
+              "capacity": 2
+            },
+            "kind": "v12.0,user,vcore",
+            "properties": {
+              "collation": "SQL_Latin1_General_CP1_CI_AS",
+              "maxSizeBytes": 268435456000,
+              "status": "Online",
+              "databaseId": "6c764297-577b-470f-9af4-96d3d41e2ba3",
+              "creationDate": "2017-06-07T04:41:33.937Z",
+              "currentServiceObjectiveName": "BC_Gen4_2",
+              "defaultSecondaryLocation": "North Europe",
+              "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+              "licenseType": "LicenseIncluded",
+              "maxLogSizeBytes": 104857600
+            },
+            "location": "southeastasia",
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb",
+            "name": "testdb",
+            "type": "Microsoft.Sql/servers/databases"
+          },
+          {
+            "sku": {
+              "name": "System0",
+              "tier": "System"
+            },
             "kind": "v12.0,system",
             "properties": {
-              "databaseId": "e760a51c-3dce-4d8c-976b-a2b929a73e08",
-              "edition": "System",
-              "status": "Online",
-              "serviceLevelObjective": "System2",
               "collation": "SQL_Latin1_General_CP1_CI_AS",
-              "maxSizeBytes": "32212254720",
-              "creationDate": "2017-02-10T00:59:33.483Z",
-              "currentServiceObjectiveId": "620323bf-2879-4807-b30d-c2e6d7b3b3aa",
-              "requestedServiceObjectiveId": "620323bf-2879-4807-b30d-c2e6d7b3b3aa",
-              "requestedServiceObjectiveName": "System2",
-              "sampleName": null,
-              "defaultSecondaryLocation": "Japan West",
-              "earliestRestoreDate": null,
-              "elasticPoolName": null,
-              "containmentState": 2,
-              "readScale": "Disabled",
-              "failoverGroupId": null
-            }
-          },
-          {
-            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6845/providers/Microsoft.Sql/servers/sqlcrudtest-7177/databases/sqlcrudtest-1142",
-            "name": "sqlcrudtest-1142",
-            "type": "Microsoft.Sql/servers/databases",
-            "location": "Japan East",
-            "kind": "v12.0,user",
-            "properties": {
-              "databaseId": "11c1813c-52db-4d17-95d7-119eda1850b1",
-              "edition": "Standard",
+              "maxSizeBytes": 32212254720,
               "status": "Online",
-              "serviceLevelObjective": "S0",
-              "collation": "SQL_Latin1_General_CP1_CI_AS",
-              "maxSizeBytes": "268435456000",
-              "creationDate": "2017-02-10T01:03:34.04Z",
-              "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
-              "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
-              "requestedServiceObjectiveName": "S0",
-              "sampleName": null,
-              "defaultSecondaryLocation": "Japan West",
-              "earliestRestoreDate": "2017-02-10T01:14:10.233Z",
-              "elasticPoolName": null,
-              "containmentState": 2,
-              "readScale": "Disabled",
-              "failoverGroupId": null
-            }
-          },
-          {
-            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6845/providers/Microsoft.Sql/servers/sqlcrudtest-7177/databases/sqlcrudtest-2788",
-            "name": "sqlcrudtest-2788",
-            "type": "Microsoft.Sql/servers/databases",
-            "location": "Japan East",
-            "kind": "v12.0,user",
-            "properties": {
-              "databaseId": "d63e118b-41cf-49b9-8dac-aa6ef6f91731",
-              "edition": "Standard",
-              "status": "Online",
-              "serviceLevelObjective": "S0",
-              "collation": "SQL_Latin1_General_CP1_CI_AS",
-              "maxSizeBytes": "268435456000",
-              "creationDate": "2017-02-10T01:00:21.067Z",
-              "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
-              "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
-              "requestedServiceObjectiveName": "S0",
-              "sampleName": null,
-              "defaultSecondaryLocation": "Japan West",
-              "earliestRestoreDate": "2017-02-10T01:10:52.25Z",
-              "elasticPoolName": null,
-              "containmentState": 2,
-              "readScale": "Disabled",
-              "failoverGroupId": null
-            }
-          },
-          {
-            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6845/providers/Microsoft.Sql/servers/sqlcrudtest-7177/databases/sqlcrudtest-6877",
-            "name": "sqlcrudtest-6877",
-            "type": "Microsoft.Sql/servers/databases",
-            "location": "Japan East",
-            "kind": "v12.0,user",
-            "properties": {
-              "databaseId": "40ac16e8-855c-439c-b495-c97e918a771c",
-              "edition": "Standard",
-              "status": "Online",
-              "serviceLevelObjective": "S0",
-              "collation": "SQL_Latin1_General_CP1_CI_AS",
-              "maxSizeBytes": "268435456000",
-              "creationDate": "2017-02-10T01:02:28.853Z",
-              "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
-              "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
-              "requestedServiceObjectiveName": "S0",
-              "sampleName": null,
-              "defaultSecondaryLocation": "Japan West",
-              "earliestRestoreDate": "2017-02-10T01:13:21.66Z",
-              "elasticPoolName": null,
-              "containmentState": 2,
-              "readScale": "Disabled",
-              "failoverGroupId": null
-            }
-          },
-          {
-            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6845/providers/Microsoft.Sql/servers/sqlcrudtest-7177/databases/sqlcrudtest-9888",
-            "name": "sqlcrudtest-9888",
-            "type": "Microsoft.Sql/servers/databases",
-            "location": "Japan East",
-            "kind": "v12.0,user",
-            "properties": {
-              "databaseId": "59daf4ad-082f-4ac5-b38a-ed656b937980",
-              "edition": "Standard",
-              "status": "Online",
-              "serviceLevelObjective": "S0",
-              "collation": "SQL_Latin1_General_CP1_CI_AS",
-              "maxSizeBytes": "268435456000",
-              "creationDate": "2017-02-10T01:01:25.347Z",
-              "currentServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
-              "requestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
-              "requestedServiceObjectiveName": "S0",
-              "sampleName": null,
-              "defaultSecondaryLocation": "Japan West",
-              "earliestRestoreDate": "2017-02-10T01:12:05.303Z",
-              "elasticPoolName": null,
-              "containmentState": 2,
-              "readScale": "Disabled",
-              "failoverGroupId": null
-            }
-          }
-        ]
-      }
-- name: List databases by server with filter
-  request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6845/providers/Microsoft.Sql/servers/sqlcrudtest-7177/databases?api-version=2014-04-01&$filter=properties/edition eq 'System'
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "value": [
-          {
-            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6845/providers/Microsoft.Sql/servers/sqlcrudtest-7177/databases/master",
+              "databaseId": "e6be351f-2cc9-4604-9e52-b0b28b2710b0",
+              "creationDate": "2017-06-07T04:23:42.537Z",
+              "currentServiceObjectiveName": "System0",
+              "defaultSecondaryLocation": "North Europe",
+              "catalogCollation": "SQL_Latin1_General_CP1_CI_AS"
+            },
+            "location": "southeastasia",
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/master",
             "name": "master",
-            "type": "Microsoft.Sql/servers/databases",
-            "location": "Japan East",
-            "kind": "v12.0,system",
-            "properties": {
-              "databaseId": "e760a51c-3dce-4d8c-976b-a2b929a73e08",
-              "edition": "System",
-              "status": "Online",
-              "serviceLevelObjective": "System2",
-              "collation": "SQL_Latin1_General_CP1_CI_AS",
-              "maxSizeBytes": "32212254720",
-              "creationDate": "2017-02-10T00:59:33.483Z",
-              "currentServiceObjectiveId": "620323bf-2879-4807-b30d-c2e6d7b3b3aa",
-              "requestedServiceObjectiveId": "620323bf-2879-4807-b30d-c2e6d7b3b3aa",
-              "requestedServiceObjectiveName": "System2",
-              "sampleName": null,
-              "defaultSecondaryLocation": "Japan West",
-              "earliestRestoreDate": null,
-              "elasticPoolName": null,
-              "containmentState": 2,
-              "readScale": "Disabled",
-              "failoverGroupId": null
-            }
+            "type": "Microsoft.Sql/servers/databases"
           }
         ]
       }

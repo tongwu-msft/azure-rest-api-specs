@@ -1,6 +1,6 @@
 ---
 title: "NamedPartitionInformation"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,9 +34,9 @@ Describes the partition information for the name as a string that is based on pa
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServicePartitionKind](#servicepartitionkind) | string | Yes |
-| [Id](#id) | string (uuid) | No |
-| [Name](#name) | string | No |
+| [`ServicePartitionKind`](#servicepartitionkind) | string | Yes |
+| [`Id`](#id) | string (uuid) | No |
+| [`Name`](#name) | string | No |
 
 ____
 ### ServicePartitionKind
@@ -46,14 +46,14 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Named' for objects of type 'NamedPartitionInformation'.
 
 ____
-### Id
+### `Id`
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
 <br/>
-An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition id is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the ids of its partitions would be different.
+An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
 
 ____
-### Name
+### `Name`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

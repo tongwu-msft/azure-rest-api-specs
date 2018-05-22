@@ -1,0 +1,158 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.listmanagementimage.addimageurlinput
+name: Add Image Url Input
+service: Cognitive Services
+groupName: List Management Image
+apiVersion: "1.0"
+summary: Add an image to the list with list Id equal to list Id passed.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{baseUrl}/contentmoderator/lists/v1.0/imagelists/{listId}/images
+- content: POST https://{baseUrl}/contentmoderator/lists/v1.0/imagelists/{listId}/images?overload=url&tag={tag}&label={label}
+  isOptional: true
+uriParameters:
+- name: baseUrl
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Content Moderator endpoints
+  types:
+  - uid: string
+- name: listId
+  in: path
+  isRequired: true
+  description: List Id of the image list.
+  types:
+  - uid: string
+- name: tag
+  in: query
+  description: Tag for the image.
+  types:
+  - uid: integer
+- name: label
+  in: query
+  description: The image label.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Image
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader:
+- name: Content-Type
+  in: header
+  isRequired: true
+  description: The content type.
+  types:
+  - uid: string
+definitions:
+- name: Image
+  description: Image Properties.
+  kind: object
+  properties:
+  - name: ContentId
+    description: Content Id.
+    types:
+    - uid: string
+  - name: AdditionalInfo
+    description: Advanced info list.
+    types:
+    - uid: AdditionalInfo
+      isArray: true
+  - name: Status
+    description: Status details.
+    types:
+    - uid: Status
+  - name: TrackingId
+    description: Tracking Id.
+    types:
+    - uid: string
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: Error
+    description: Error body.
+    types:
+    - uid: Error
+- name: AdditionalInfo
+  description: Advanced info list.
+  kind: object
+  properties:
+  - name: Key
+    description: Key parameter.
+    types:
+    - uid: string
+  - name: Value
+    description: Value parameter.
+    types:
+    - uid: string
+- name: Status
+  description: Status properties.
+  kind: object
+  properties:
+  - name: Code
+    description: Status code.
+    types:
+    - uid: integer
+  - name: Description
+    description: Status description.
+    types:
+    - uid: string
+  - name: Exception
+    description: Exception status.
+    types:
+    - uid: string
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: Code
+    description: ''
+    types:
+    - uid: string
+  - name: Message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Add Image request
+  request:
+    uri: POST https://southeastasia.api.cognitive.microsoft.com/contentmoderator/lists/v1.0/imagelists/89003/images?overload=url&label=test
+    body: >-
+      {
+        "DataRepresentation": "URL",
+        "Value": "https://moderatorsampleimages.blob.core.windows.net/samples/img_300.jpg"
+      }
+    headers:
+    - name: Content-Type
+      value: application/json
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "ContentId": "90102",
+        "AdditionalInfo": [
+          {
+            "Key": "Source",
+            "Value": "81117"
+          }
+        ],
+        "Status": {
+          "Code": 3000,
+          "Description": "OK",
+          "Exception": ""
+        },
+        "TrackingId": "WE_7be12265b8274274baea18e6b6b1b0_ContentModerator.Preview_e7dfcfe4-af54-2b1c-8a43-e1400c10893b9"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

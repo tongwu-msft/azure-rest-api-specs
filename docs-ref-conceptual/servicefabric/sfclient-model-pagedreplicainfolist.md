@@ -1,6 +1,6 @@
 ---
 title: "PagedReplicaInfoList"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,18 @@ The list of replicas in the cluster for a given partition. The list is paged whe
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ContinuationToken](#continuationtoken) | string | No |
-| [Items](#items) | array of [ReplicaInfo](sfclient-model-replicainfo.md) | No |
+| [`ContinuationToken`](#continuationtoken) | string | No |
+| [`Items`](#items) | array of [ReplicaInfo](sfclient-model-replicainfo.md) | No |
 
 ____
-### ContinuationToken
+### `ContinuationToken`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The continuation token parameter is used to obtain next set of results. The continuation token is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results then the continuation token is not included in the response.
 
 ____
-### Items
+### `Items`
 __Type__: array of [ReplicaInfo](sfclient-model-replicainfo.md) <br/>
 __Required__: No<br/>
 <br/>

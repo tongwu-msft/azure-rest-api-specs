@@ -1,6 +1,6 @@
 ---
 title: "DeployedApplicationHealthStateChunkList"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,10 +35,10 @@ The list of deployed application health state chunks that respect the input filt
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Items](#items) | array of [DeployedApplicationHealthStateChunk](sfclient-model-deployedapplicationhealthstatechunk.md) | No |
+| [`Items`](#items) | array of [DeployedApplicationHealthStateChunk](sfclient-model-deployedapplicationhealthstatechunk.md) | No |
 
 ____
-### Items
+### `Items`
 __Type__: array of [DeployedApplicationHealthStateChunk](sfclient-model-deployedapplicationhealthstatechunk.md) <br/>
 __Required__: No<br/>
 <br/>

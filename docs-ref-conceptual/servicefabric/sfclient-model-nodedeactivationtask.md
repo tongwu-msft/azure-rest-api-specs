@@ -1,6 +1,6 @@
 ---
 title: "NodeDeactivationTask"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,18 @@ The task representing the deactivation operation on the node.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [NodeDeactivationTaskId](#nodedeactivationtaskid) | [NodeDeactivationTaskId](sfclient-model-nodedeactivationtaskid.md) | No |
-| [NodeDeactivationIntent](#nodedeactivationintent) | string (enum) | No |
+| [`NodeDeactivationTaskId`](#nodedeactivationtaskid) | [NodeDeactivationTaskId](sfclient-model-nodedeactivationtaskid.md) | No |
+| [`NodeDeactivationIntent`](#nodedeactivationintent) | string (enum) | No |
 
 ____
-### NodeDeactivationTaskId
+### `NodeDeactivationTaskId`
 __Type__: [NodeDeactivationTaskId](sfclient-model-nodedeactivationtaskid.md) <br/>
 __Required__: No<br/>
 <br/>
 Identity of the task related to deactivation operation on the node.
 
 ____
-### NodeDeactivationIntent
+### `NodeDeactivationIntent`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -55,10 +55,10 @@ The intent or the reason for deactivating the node. Following are the possible v
 
 Possible values are: 
 
-  - Invalid - Indicates the node deactivation intent is invalid. All Service Fabric enumerations have the invalid type. The value is zero. This value is not used.
-  - Pause - Indicates that the node should be paused. The value is 1.
-  - Restart - Indicates that the intent is for the node to be restarted after a short period of time. Service Fabric does not restart the node, this action is done outside of Service Fabric. The value is 2.
-  - RemoveData - Indicates that the intent is to reimage the node. Service Fabric does not reimage the node, this action is done outside of Service Fabric. The value is 3.
-  - RemoveNode - Indicates that the node is being decommissioned and is not expected to return. Service Fabric does not decommission the node, this action is done outside of Service Fabric. The value is 4.
+  - `Invalid` - Indicates the node deactivation intent is invalid. All Service Fabric enumerations have the invalid type. The value is zero. This value is not used.
+  - `Pause` - Indicates that the node should be paused. The value is 1.
+  - `Restart` - Indicates that the intent is for the node to be restarted after a short period of time. Service Fabric does not restart the node, this action is done outside of Service Fabric. The value is 2.
+  - `RemoveData` - Indicates that the intent is to reimage the node. Service Fabric does not reimage the node, this action is done outside of Service Fabric. The value is 3.
+  - `RemoveNode` - Indicates that the node is being decommissioned and is not expected to return. Service Fabric does not decommission the node, this action is done outside of Service Fabric. The value is 4.
 
 

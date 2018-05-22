@@ -1,6 +1,6 @@
 ---
 title: "ServicePlacementRequiredDomainPolicyDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,18 @@ Describes the policy to be used for placement of a Service Fabric service where 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Type](#type) | string | Yes |
-| [DomainName](#domainname) | string | No |
+| [`Type`](#type) | string | Yes |
+| [`DomainName`](#domainname) | string | No |
 
 ____
 ### Type
 __Type__: string <br/>
 __Required__: Yes <br/>
 <br/>
-A discriminator property. Its value must be 'RequireDomain' for objects of type 'ServicePlacementRequiredDomainPolicyDescription'.
+A discriminator property. Its value must be 'RequiredDomain' for objects of type 'ServicePlacementRequiredDomainPolicyDescription'.
 
 ____
-### DomainName
+### `DomainName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

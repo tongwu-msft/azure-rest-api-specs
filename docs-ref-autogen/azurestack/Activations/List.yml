@@ -1,0 +1,164 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.activations.list
+name: List
+service: Azure Stack Admin
+groupName: Activations
+apiVersion: 2016-01-01
+summary: Returns the list of activations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}/providers/Microsoft.AzureBridge.Admin/activations?api-version=2016-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription.The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroup
+  in: path
+  isRequired: true
+  description: The resource group the resource is located under.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ActivationResourcesPage
+requestHeader: []
+definitions:
+- name: ActivationResourcesPage
+  description: Holds an array of activation resources and the next link.
+  kind: object
+  properties:
+  - name: value
+    description: List of activation resources.
+    types:
+    - uid: ActivationResource
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: ActivationResource
+  description: Published activation resource.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: Name displayed for the product.
+    types:
+    - uid: string
+  - name: properties.azureRegistrationResourceIdentifier
+    description: Azure registration resource identifier.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: Provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.expiration
+    description: The activation expiration.
+    types:
+    - uid: string
+  - name: properties.marketplaceSyndicationEnabled
+    description: Value indicating whether the marketplace syndication feature is enabled.
+    types:
+    - uid: boolean
+  - name: properties.usageReportingEnabled
+    description: Value indicating whether the usage reporting feature is enabled.
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Location of the resource
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: List of key value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ProvisioningState
+  description: The provisioning state of the resource.
+  kind: enum
+  properties:
+  - name: Stopped
+    types:
+    - uid: string
+  - name: Starting
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Stopping
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Downloading
+    types:
+    - uid: string
+examples:
+- name: Return product name.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/azurestack/providers/Microsoft.AzureBridge.Admin/activations?api-version=2016-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/b7a57872-f429-4eb3-b26a-5108178380a5/resourceGroups/azurestack-activation/providers/Microsoft.AzureBridge.Admin/activations/default",
+            "name": "default",
+            "type": "Microsoft.AzureBridge.Admin/activations",
+            "location": "local",
+            "properties": {
+              "azureRegistrationResourceIdentifier": "/subscriptions/4e9319a5-1cf7-4099-80ea-9aa2f09cb1e7/resourceGroups/azurestack/providers/Microsoft.AzureStack/registrations/AzureStack-57632d6b-90c2-4280-a2cd-2c0a0cfa7d71",
+              "displayName": "Azure Stack Activation",
+              "expiration": "9999-12-30T15:59:59",
+              "marketplaceSyndicationEnabled": true,
+              "usageReportingEnabled": true,
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

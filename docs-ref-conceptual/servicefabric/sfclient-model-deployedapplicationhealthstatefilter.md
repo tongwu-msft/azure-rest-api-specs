@@ -1,6 +1,6 @@
 ---
 title: "DeployedApplicationHealthStateFilter"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,12 +37,12 @@ One filter can match zero, one or multiple deployed applications, depending on i
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [NodeNameFilter](#nodenamefilter) | string | No |
-| [HealthStateFilter](#healthstatefilter) | integer | No |
-| [DeployedServicePackageFilters](#deployedservicepackagefilters) | array of [DeployedServicePackageHealthStateFilter](sfclient-model-deployedservicepackagehealthstatefilter.md) | No |
+| [`NodeNameFilter`](#nodenamefilter) | string | No |
+| [`HealthStateFilter`](#healthstatefilter) | integer | No |
+| [`DeployedServicePackageFilters`](#deployedservicepackagefilters) | array of [DeployedServicePackageHealthStateFilter](sfclient-model-deployedservicepackagehealthstatefilter.md) | No |
 
 ____
-### NodeNameFilter
+### `NodeNameFilter`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -54,10 +54,10 @@ If not specified, all deployed applications that match the parent filters (if an
 
 
 ____
-### HealthStateFilter
+### `HealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The filter for the health state of the deployed applications. It allows selecting deployed applications if they match the desired health states.
 The possible values are integer value of one of the following health states. Only deployed applications that match the filter are returned. All deployed applications are used to evaluate the cluster aggregated health state.
@@ -74,7 +74,7 @@ For example, if the provided value is 6, it matches deployed applications with H
 
 
 ____
-### DeployedServicePackageFilters
+### `DeployedServicePackageFilters`
 __Type__: array of [DeployedServicePackageHealthStateFilter](sfclient-model-deployedservicepackagehealthstatefilter.md) <br/>
 __Required__: No<br/>
 <br/>

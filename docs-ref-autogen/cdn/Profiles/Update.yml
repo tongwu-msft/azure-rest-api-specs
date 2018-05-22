@@ -3,14 +3,14 @@ uid: management.azure.com.cdn.profiles.update
 name: Update
 service: CDN
 groupName: Profiles
-apiVersion: 2016-10-02
+apiVersion: 2017-10-12
 summary: Updates an existing CDN profile with the specified profile name under the specified subscription and resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}?api-version=2016-10-02
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}?api-version=2017-10-12
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,7 +34,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. Current version is 2016-10-02.
+  description: Version of the API to be used with the client request. Current version is 2017-04-02.
   types:
   - uid: string
 responses:
@@ -54,7 +54,6 @@ requestBody:
 - parameters:
   - name: tags
     in: body
-    isRequired: true
     description: Profile tags
     types:
     - uid: object
@@ -65,7 +64,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: Profile
-  description: CDN profile represents the top level resource and the entry point into the CDN API. This allows users to set up a logical grouping of endpoints in addition to creating shared configuration settings and selecting pricing tiers and providers.
+  description: CDN profile is a logical grouping of endpoints that share the same settings, such as CDN provider and pricing tier.
   kind: object
   properties:
   - name: sku
@@ -82,6 +81,18 @@ definitions:
     description: Provisioning status of the profile.
     types:
     - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -97,27 +108,17 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: ErrorResponse
   description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
   - name: code
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: Error message indicating why the operation failed.
     types:
     - uid: string
@@ -176,7 +177,35 @@ definitions:
   - name: Standard_ChinaCdn
     types:
     - uid: string
-examples: []
+examples:
+- name: Profiles_Update
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1?api-version=2017-10-12
+    body: >-
+      {
+        "tags": {
+          "additionalProperties": "Tag1"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "profile1",
+        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1",
+        "type": "Microsoft.Cdn/profiles",
+        "tags": {
+          "additionalProperties": "Tag1"
+        },
+        "location": "WestCentralUs",
+        "sku": {
+          "name": "Standard_Verizon"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "resourceState": "Active"
+        }
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.

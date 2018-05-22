@@ -1,6 +1,6 @@
 ---
 title: "NodeResult"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,18 @@ Contains information about a node that was targeted by a user-induced operation.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [NodeName](#nodename) | string | No |
-| [NodeInstanceId](#nodeinstanceid) | string | No |
+| [`NodeName`](#nodename) | string | No |
+| [`NodeInstanceId`](#nodeinstanceid) | string | No |
 
 ____
-### NodeName
+### `NodeName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of a Service Fabric node.
 
 ____
-### NodeInstanceId
+### `NodeInstanceId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

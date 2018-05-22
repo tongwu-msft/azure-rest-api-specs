@@ -1,6 +1,6 @@
 ---
 title: "ProvisionApplicationTypeKind"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ The kind of application type registration or provision requested. The applicatio
 
 Possible values are: 
 
-  - Invalid - Indicates that the provision kind is invalid. This value is default and should not be used. The value is zero.
-  - ImageStorePath - Indicates that the provision is for a package that was previously uploaded to the image store. The value is 1.
-  - ExternalStore - Indicates that the provision is for an application package that was previously uploaded to an external store. The application package ends with the extension *.sfpkg. The value is 2.
+  - `Invalid` - Indicates that the provision kind is invalid. This value is default and should not be used. The value is zero.
+  - `ImageStorePath` - Indicates that the provision is for a package that was previously uploaded to the image store. The value is 1.
+  - `ExternalStore` - Indicates that the provision is for an application package that was previously uploaded to an external store. The application package ends with the extension *.sfpkg. The value is 2.
 

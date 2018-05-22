@@ -1,6 +1,6 @@
 ---
 title: "FailureUpgradeDomainProgressInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,18 @@ Information about the upgrade domain progress at the time of upgrade failure.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [DomainName](#domainname) | string | No |
-| [NodeUpgradeProgressList](#nodeupgradeprogresslist) | array of [NodeUpgradeProgressInfo](sfclient-model-nodeupgradeprogressinfo.md) | No |
+| [`DomainName`](#domainname) | string | No |
+| [`NodeUpgradeProgressList`](#nodeupgradeprogresslist) | array of [NodeUpgradeProgressInfo](sfclient-model-nodeupgradeprogressinfo.md) | No |
 
 ____
-### DomainName
+### `DomainName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of the upgrade domain
 
 ____
-### NodeUpgradeProgressList
+### `NodeUpgradeProgressList`
 __Type__: array of [NodeUpgradeProgressInfo](sfclient-model-nodeupgradeprogressinfo.md) <br/>
 __Required__: No<br/>
 <br/>

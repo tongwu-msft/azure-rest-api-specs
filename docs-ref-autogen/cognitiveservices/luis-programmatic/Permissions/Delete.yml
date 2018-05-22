@@ -1,0 +1,104 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.permissions.delete
+name: Delete
+service: Cognitive Services
+groupName: Permissions
+apiVersion: v2.0 preview
+summary: Removes a user from the allowed list of users to access this LUIS application. Users are removed using their email address.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/permissions
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 200 OK
+  description: Successful operation.
+  types:
+  - uid: OperationStatus
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: email
+    in: body
+    description: The email address of the user.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: OperationStatus
+  description: Response of an Operation status.
+  kind: object
+  properties:
+  - name: code
+    description: Status Code.
+    types:
+    - uid: OperationStatusType
+  - name: message
+    description: Status details.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: UserCollaborator
+  kind: object
+  properties:
+  - name: email
+    description: The email address of the user.
+    types:
+    - uid: string
+- name: OperationStatusType
+  description: Status Code.
+  kind: enum
+  properties:
+  - name: Failed
+    types:
+    - uid: string
+  - name: FAILED
+    types:
+    - uid: string
+  - name: Success
+    types:
+    - uid: string
+examples:
+- name: Successful Remove User From Access List
+  request:
+    uri: DELETE https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/363187f1-c573-46b3-bc4c-ae01d686e68e/permissions
+    body: >-
+      {
+        "email": "guest@outlook.com"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "code": "Success",
+        "message": "Operation Successful"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

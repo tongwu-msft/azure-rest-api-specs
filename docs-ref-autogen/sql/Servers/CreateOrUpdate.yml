@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.sqldatabase.servers.createorupdate
+uid: management.azure.com.sql.servers.createorupdate
 name: Create Or Update
 service: SQL Database
 groupName: Servers
-apiVersion: 2014-04-01
-summary: Creates or updates a new server.
+apiVersion: 2015-05-01-preview
+summary: Creates or updates a server.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}?api-version=2014-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}?api-version=2015-05-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,28 +38,96 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
+  description: Successfully updated the server.
   types:
   - uid: Server
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 NameAlreadyExists - The provided name already exists.
+
+     * 400 RegionDoesNotSupportVersion - A user attempted to create a server of a specified version in a location where that server version isn't supported.
+
+     * 400 ServerNotFound - The requested server was not found.
+
+     * 400 InvalidUsername - Supplied user name contains invalid characters.
+
+     * 400 InvalidParameterValue - An invalid value was given to a parameter.
+
+     * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.
+
+     * 400 TokenTooLong - The provided token is too long.
+
+     * 400 InvalidLoginName - The provided login name is invalid.
+
+     * 400 PasswordTooShort - The provided password is too short
+
+     * 400 PasswordTooLong - The provided password is too long.
+
+     * 400 PasswordNotComplex - The provided password is not complex enough.
+
+     * 400 SubscriptionNotFound - The requested subscription was not found.
+
+     * 400 InvalidLocation - An invalid location was specified.
+
+     * 400 InvalidServerName - Invalid server name specified.
+
+     * 400 RegionDoesNotAllowProvisioning - The selected location is not accepting new Windows Azure SQL Database servers. This may change at a later time.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 OperationIdNotFound - The operation with Id does not exist.
+
+     * 409 OperationCancelled - The operation has been cancelled by user.
+
+     * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.
+
+     * 409 ServerAlreadyExists - Duplicate server name.
+
+     * 409 SubscriptionDisabled - Subscription is disabled.
+
+     * 409 ServerDisabled - Server is disabled.
+
+     * 409 ServerQuotaExceeded - Server cannot be added to a subscription because it will exceed quota.
+
+     * 429 ConflictingSubscriptionOperation - An operation is currently in progress for the subscription.
+
+     * 429 ConflictingServerOperation - An operation is currently in progress for the server.
+
+     * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation.
+- name: 202 Accepted
+  description: Accepted
 - name: 201 Created
-  description: Created
+  description: Successfully created the server.
   types:
   - uid: Server
 requestBody:
 - parameters:
-  - name: properties.version
+  - name: identity
     in: body
-    description: The version of the server.
+    description: The Azure Active Directory identity of the server.
     types:
-    - uid: ServerVersion
+    - uid: ResourceIdentity
   - name: properties.administratorLogin
     in: body
-    description: Administrator username for the server. Can only be specified when the server is being created (and is required for creation).
+    description: Administrator username for the server. Once created it cannot be changed.
     types:
     - uid: string
   - name: properties.administratorLoginPassword
     in: body
     description: The administrator login password (required for server creation).
+    types:
+    - uid: string
+  - name: properties.version
+    in: body
+    description: The version of the server.
+    types:
+    - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: Resource location.
     types:
     - uid: string
   - name: tags
@@ -71,21 +139,54 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: location
-    in: body
-    isRequired: true
-    description: Resource location.
-    types:
-    - uid: string
 requestHeader: []
 definitions:
-- name: Server
-  description: Represents a server.
+- name: ResourceIdentity
+  description: Azure Active Directory identity configuration for a resource.
   kind: object
   properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The Azure Active Directory principal id.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+    types:
+    - uid: IdentityType
+  - name: tenantId
+    isReadyOnly: true
+    description: The Azure Active Directory tenant id.
+    types:
+    - uid: string
+- name: Server
+  description: An Azure SQL Database server.
+  kind: object
+  properties:
+  - name: identity
+    description: The Azure Active Directory identity of the server.
+    types:
+    - uid: ResourceIdentity
   - name: kind
     isReadyOnly: true
-    description: Kind of sql server.  This is metadata used for the Azure portal experience.
+    description: Kind of sql server. This is metadata used for the Azure portal experience.
+    types:
+    - uid: string
+  - name: properties.administratorLogin
+    description: Administrator username for the server. Once created it cannot be changed.
+    types:
+    - uid: string
+  - name: properties.administratorLoginPassword
+    description: The administrator login password (required for server creation).
+    types:
+    - uid: string
+  - name: properties.version
+    description: The version of the server.
+    types:
+    - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: The state of the server.
     types:
     - uid: string
   - name: properties.fullyQualifiedDomainName
@@ -93,33 +194,10 @@ definitions:
     description: The fully qualified domain name of the server.
     types:
     - uid: string
-  - name: properties.version
-    description: The version of the server.
-    types:
-    - uid: ServerVersion
-  - name: properties.administratorLogin
-    description: Administrator username for the server. Can only be specified when the server is being created (and is required for creation).
+  - name: location
+    description: Resource location.
     types:
     - uid: string
-  - name: properties.administratorLoginPassword
-    description: The administrator login password (required for server creation).
-    types:
-    - uid: string
-  - name: properties.externalAdministratorSid
-    isReadyOnly: true
-    description: The ID of the Active Azure Directory object with admin permissions on this server. Legacy parameter, always null. To check for Active Directory admin, query .../servers/{serverName}/administrators.
-    types:
-    - uid: string
-  - name: properties.externalAdministratorLogin
-    isReadyOnly: true
-    description: The display name of the Azure Active Directory object with admin permissions on this server. Legacy parameter, always null. To check for Active Directory admin, query .../servers/{serverName}/administrators
-    types:
-    - uid: string
-  - name: properties.state
-    isReadyOnly: true
-    description: The state of the server.
-    types:
-    - uid: ServerState
   - name: tags
     description: Resource tags.
     types:
@@ -128,10 +206,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -147,30 +221,72 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-- name: ServerVersion
-  description: The version of the server.
+- name: IdentityType
+  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
   kind: enum
   properties:
-  - name: "2.0"
-    types:
-    - uid: string
-  - name: "12.0"
-    types:
-    - uid: string
-- name: ServerState
-  description: The state of the server.
-  kind: enum
-  properties:
-  - name: Ready
-    types:
-    - uid: string
-  - name: Disabled
+  - name: SystemAssigned
     types:
     - uid: string
 examples:
-- name: Create server min
+- name: Create server with all properties
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2014-04-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2015-05-01-preview
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "location": "Japan East",
+        "properties": {
+          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "administratorLoginPassword": "Un53cuRE!",
+          "version": "12.0",
+          "state": "Ready"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
+        "name": "sqlcrudtest-4645",
+        "type": "Microsoft.Sql/servers",
+        "location": "japaneast",
+        "kind": "v12.0",
+        "properties": {
+          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "version": "12.0",
+          "state": "Ready"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
+        "name": "sqlcrudtest-4645",
+        "type": "Microsoft.Sql/servers",
+        "location": "japaneast",
+        "kind": "v12.0",
+        "properties": {
+          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "version": "12.0",
+          "state": "Ready"
+        }
+      }
+  - statusCode: "202"
+- name: Create server with minimal properties
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2015-05-01-preview
     body: >-
       {
         "properties": {
@@ -186,14 +302,11 @@ examples:
         "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
         "name": "sqlcrudtest-4645",
         "type": "Microsoft.Sql/servers",
-        "location": "Japan East",
+        "location": "japaneast",
         "kind": "v12.0",
         "properties": {
           "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
           "administratorLogin": "dummylogin",
-          "administratorLoginPassword": "Un53cuRE!",
-          "externalAdministratorLogin": null,
-          "externalAdministratorSid": null,
           "version": "12.0",
           "state": "Ready"
         }
@@ -204,76 +317,14 @@ examples:
         "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
         "name": "sqlcrudtest-4645",
         "type": "Microsoft.Sql/servers",
-        "location": "Japan East",
+        "location": "japaneast",
         "kind": "v12.0",
         "properties": {
           "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
           "administratorLogin": "dummylogin",
-          "administratorLoginPassword": "Un53cuRE!",
-          "externalAdministratorLogin": null,
-          "externalAdministratorSid": null,
           "version": "12.0",
           "state": "Ready"
         }
       }
-- name: Create server max
-  request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645?api-version=2014-04-01
-    body: >-
-      {
-        "tags": {
-          "tagKey1": "TagValue1"
-        },
-        "location": "Japan East",
-        "properties": {
-          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
-          "administratorLogin": "dummylogin",
-          "administratorLoginPassword": "Un53cuRE!",
-          "version": "12.0",
-          "state": "Ready"
-        }
-      }
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "tags": {
-          "tagKey1": "TagValue1"
-        },
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
-        "name": "sqlcrudtest-4645",
-        "type": "Microsoft.Sql/servers",
-        "location": "Japan East",
-        "kind": "v12.0",
-        "properties": {
-          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
-          "administratorLogin": "dummylogin",
-          "administratorLoginPassword": "Un53cuRE!",
-          "externalAdministratorLogin": null,
-          "externalAdministratorSid": null,
-          "version": "12.0",
-          "state": "Ready"
-        }
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "tags": {
-          "tagKey1": "TagValue1"
-        },
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645",
-        "name": "sqlcrudtest-4645",
-        "type": "Microsoft.Sql/servers",
-        "location": "Japan East",
-        "kind": "v12.0",
-        "properties": {
-          "fullyQualifiedDomainName": "sqlcrudtest-4645.database.windows.net",
-          "administratorLogin": "dummylogin",
-          "administratorLoginPassword": "Un53cuRE!",
-          "externalAdministratorLogin": null,
-          "externalAdministratorSid": null,
-          "version": "12.0",
-          "state": "Ready"
-        }
-      }
+  - statusCode: "202"
 security: []

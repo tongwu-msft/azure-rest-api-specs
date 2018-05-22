@@ -1,6 +1,6 @@
 ---
 title: "RepairTaskHealthCheckState"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,9 +35,9 @@ Specifies the workflow state of a repair task's health check. This type supports
 
 Possible values are: 
 
-  - NotStarted - Indicates that the health check has not started.
-  - InProgress - Indicates that the health check is in progress.
-  - Succeeded - Indicates that the health check succeeded.
-  - Skipped - Indicates that the health check was skipped.
-  - TimedOut - Indicates that the health check timed out.
+  - `NotStarted` - Indicates that the health check has not started.
+  - `InProgress` - Indicates that the health check is in progress.
+  - `Succeeded` - Indicates that the health check succeeded.
+  - `Skipped` - Indicates that the health check was skipped.
+  - `TimedOut` - Indicates that the health check timed out.
 

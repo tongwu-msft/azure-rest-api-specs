@@ -1,6 +1,6 @@
 ---
 title: "ServicePlacementInvalidDomainPolicyDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,8 +34,8 @@ Describes the policy to be used for placement of a Service Fabric service where 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Type](#type) | string | Yes |
-| [DomainName](#domainname) | string | No |
+| [`Type`](#type) | string | Yes |
+| [`DomainName`](#domainname) | string | No |
 
 ____
 ### Type
@@ -45,7 +45,7 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'InvalidDomain' for objects of type 'ServicePlacementInvalidDomainPolicyDescription'.
 
 ____
-### DomainName
+### `DomainName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

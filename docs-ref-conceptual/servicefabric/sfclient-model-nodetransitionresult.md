@@ -1,6 +1,6 @@
 ---
 title: "NodeTransitionResult"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,18 @@ Represents information about an operation in a terminal state (Completed or Faul
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ErrorCode](#errorcode) | integer (int32) | No |
-| [NodeResult](#noderesult) | [NodeResult](sfclient-model-noderesult.md) | No |
+| [`ErrorCode`](#errorcode) | integer (int32) | No |
+| [`NodeResult`](#noderesult) | [NodeResult](sfclient-model-noderesult.md) | No |
 
 ____
-### ErrorCode
+### `ErrorCode`
 __Type__: integer (int32) <br/>
 __Required__: No<br/>
 <br/>
 If OperationState is Completed, this is 0.  If OperationState is Faulted, this is an error code indicating the reason.
 
 ____
-### NodeResult
+### `NodeResult`
 __Type__: [NodeResult](sfclient-model-noderesult.md) <br/>
 __Required__: No<br/>
 <br/>

@@ -1,6 +1,6 @@
 ---
 title: "FailureAction"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -32,10 +32,13 @@ translation.priority.mt:
 type: string
 
 The compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations.
+Invalid indicates the failure action is invalid. Rollback specifies that the upgrade will start rolling back automatically.
+Manual indicates that the upgrade will switch to UnmonitoredManual upgrade mode.
+
 
 Possible values are: 
 
-  - Invalid - Indicates the failure action is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Rollback - The upgrade will start rolling back automatically. The value is 1
-  - Manual - The upgrade will switch to UnmonitoredManual upgrade mode. The value is 2
+  - `Invalid` - Indicates the failure action is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Rollback` - The upgrade will start rolling back automatically. The value is 1
+  - `Manual` - The upgrade will switch to UnmonitoredManual upgrade mode. The value is 2
 

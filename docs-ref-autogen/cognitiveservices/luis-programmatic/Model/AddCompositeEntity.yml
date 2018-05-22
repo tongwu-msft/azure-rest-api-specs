@@ -1,0 +1,97 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.model.addcompositeentity
+name: Add Composite Entity
+service: Cognitive Services
+groupName: Model
+apiVersion: v2.0 preview
+summary: Adds a composite entity extractor to the application.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: The ID of the created Model.
+  types:
+  - uid: string
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: children
+    in: body
+    description: Child entities.
+    types:
+    - uid: string
+      isArray: true
+  - name: name
+    in: body
+    description: Entity name.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: CompositeEntityModel
+  description: A composite entity.
+  kind: object
+  properties:
+  - name: children
+    description: Child entities.
+    types:
+    - uid: string
+      isArray: true
+  - name: name
+    description: Entity name.
+    types:
+    - uid: string
+examples:
+- name: Successful Create Composite Entity Extractor
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/compositeentities
+    body: >-
+      {
+        "name": "Reservation",
+        "children": [
+          "Location::To",
+          "datetime"
+        ]
+      }
+  responses:
+  - statusCode: "201"
+    body: "\"bc1bae43-7904-48ad-a165-88b1910174f9\""
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

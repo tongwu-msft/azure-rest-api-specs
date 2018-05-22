@@ -1,0 +1,134 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.apps.publish
+name: Publish
+service: Cognitive Services
+groupName: Apps
+apiVersion: v2.0 preview
+summary: Publishes a specific version of the application.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/publish
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 201 Created
+  description: An object containing the application endpoint URL and its assigned endpoint key.
+  types:
+  - uid: ProductionOrStagingEndpointInfo
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: versionId
+    in: body
+    description: The version ID to publish.
+    types:
+    - uid: string
+  - name: isStaging
+    in: body
+    description: Indicates if the staging slot should be used, instead of the Production one.
+    types:
+    - uid: boolean
+  - name: region
+    in: body
+    description: The target region that the application is published to.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ProductionOrStagingEndpointInfo
+  kind: object
+  properties:
+  - name: versionId
+    description: The version ID to publish.
+    types:
+    - uid: string
+  - name: isStaging
+    description: Indicates if the staging slot should be used, instead of the Production one.
+    types:
+    - uid: boolean
+  - name: endpointUrl
+    description: The Runtime endpoint URL for this model version.
+    types:
+    - uid: string
+  - name: region
+    description: The target region that the application is published to.
+    types:
+    - uid: string
+  - name: assignedEndpointKey
+    description: The endpoint key.
+    types:
+    - uid: string
+  - name: endpointRegion
+    description: The endpoint's region.
+    types:
+    - uid: string
+  - name: publishedDateTime
+    description: Timestamp when was last published.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: ApplicationPublishObject
+  description: Object model for publishing a specific application version.
+  kind: object
+  properties:
+  - name: versionId
+    description: The version ID to publish.
+    types:
+    - uid: string
+  - name: isStaging
+    description: Indicates if the staging slot should be used, instead of the Production one.
+    types:
+    - uid: boolean
+  - name: region
+    description: The target region that the application is published to.
+    types:
+    - uid: string
+examples:
+- name: Successful Publish Application request
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/11be6373fca44ded80fbe2afa8597c18/publish
+    body: >-
+      {
+        "versionId": "0.1",
+        "isStaging": false,
+        "region": "westus"
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "isStaging": false,
+        "endpointUrl": "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/11be6373fca44ded80fbe2afa8597c18",
+        "assignedEndpointKey": "11be6373fca44ded80fbe2afa8597c18",
+        "endpointRegion": "westus",
+        "publishedDateTime": "2017-11-28T19:20:28Z"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

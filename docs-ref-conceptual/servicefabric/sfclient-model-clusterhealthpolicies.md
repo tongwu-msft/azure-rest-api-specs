@@ -1,6 +1,6 @@
 ---
 title: "ClusterHealthPolicies"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,11 +34,11 @@ Health policies to evaluate cluster health.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ApplicationHealthPolicyMap](#applicationhealthpolicymap) | array of [ApplicationHealthPolicyMapItem](sfclient-model-applicationhealthpolicymapitem.md) | No |
-| [ClusterHealthPolicy](#clusterhealthpolicy) | [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) | No |
+| [`ApplicationHealthPolicyMap`](#applicationhealthpolicymap) | array of [ApplicationHealthPolicyMapItem](sfclient-model-applicationhealthpolicymapitem.md) | No |
+| [`ClusterHealthPolicy`](#clusterhealthpolicy) | [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) | No |
 
 ____
-### ApplicationHealthPolicyMap
+### `ApplicationHealthPolicyMap`
 __Type__: array of [ApplicationHealthPolicyMapItem](sfclient-model-applicationhealthpolicymapitem.md) <br/>
 __Required__: No<br/>
 <br/>
@@ -49,7 +49,7 @@ The map is empty by default.
 
 
 ____
-### ClusterHealthPolicy
+### `ClusterHealthPolicy`
 __Type__: [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) <br/>
 __Required__: No<br/>
 <br/>

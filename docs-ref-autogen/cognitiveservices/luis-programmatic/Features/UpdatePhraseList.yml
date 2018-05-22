@@ -1,0 +1,147 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.features.updatephraselist
+name: Update Phrase List
+service: Cognitive Services
+groupName: Features
+apiVersion: v2.0 preview
+summary: Updates the phrases, the state and the name of the phraselist feature.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/phraselists/{phraselistId}
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+- name: phraselistId
+  in: path
+  isRequired: true
+  description: The ID of the feature to be updated.
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: Successfully updated phraselist.
+  types:
+  - uid: OperationStatus
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: phrases
+    in: body
+    description: List of comma-separated phrases that represent the Phraselist.
+    types:
+    - uid: string
+  - name: name
+    in: body
+    description: The Phraselist name.
+    types:
+    - uid: string
+  - name: isActive
+    in: body
+    description: Indicates if the Phraselist is enabled.
+    types:
+    - uid: boolean
+  - name: isExchangeable
+    in: body
+    description: An exchangeable phrase list feature are serves as single feature to the LUIS underlying training algorithm. It is used as a lexicon lookup feature where its value is 1 if the lexicon contains a given word or 0 if it doesn’t. Think of an exchangeable as a synonyms list. A non-exchangeable phrase list feature has all the phrases in the list serve as separate features to the underlying training algorithm. So, if you your phrase list feature contains 5 phrases, they will be mapped to 5 separate features. You can think of the non-exchangeable phrase list feature as an additional bag of words that you are willing to add to LUIS existing vocabulary features. Think of a non-exchangeable as set of different words. Default value is true.
+    types:
+    - uid: boolean
+requestHeader: []
+definitions:
+- name: OperationStatus
+  description: Response of an Operation status.
+  kind: object
+  properties:
+  - name: code
+    description: Status Code.
+    types:
+    - uid: OperationStatusType
+  - name: message
+    description: Status details.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: PhraselistUpdateObject
+  description: Object model for updating a Phraselist.
+  kind: object
+  properties:
+  - name: phrases
+    description: List of comma-separated phrases that represent the Phraselist.
+    types:
+    - uid: string
+  - name: name
+    description: The Phraselist name.
+    types:
+    - uid: string
+  - name: isActive
+    description: Indicates if the Phraselist is enabled.
+    types:
+    - uid: boolean
+  - name: isExchangeable
+    description: An exchangeable phrase list feature are serves as single feature to the LUIS underlying training algorithm. It is used as a lexicon lookup feature where its value is 1 if the lexicon contains a given word or 0 if it doesn’t. Think of an exchangeable as a synonyms list. A non-exchangeable phrase list feature has all the phrases in the list serve as separate features to the underlying training algorithm. So, if you your phrase list feature contains 5 phrases, they will be mapped to 5 separate features. You can think of the non-exchangeable phrase list feature as an additional bag of words that you are willing to add to LUIS existing vocabulary features. Think of a non-exchangeable as set of different words. Default value is true.
+    types:
+    - uid: boolean
+- name: OperationStatusType
+  description: Status Code.
+  kind: enum
+  properties:
+  - name: Failed
+    types:
+    - uid: string
+  - name: FAILED
+    types:
+    - uid: string
+  - name: Success
+    types:
+    - uid: string
+examples:
+- name: Successful Update Phraselist Feature Info request
+  request:
+    uri: PUT https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/86226c53-b7a6-416f-876b-226b2b5ab07b/versions/0.1/phraselists/178384
+    body: >-
+      {
+        "name": "DaysOfWeek",
+        "phrases": "monday,tuesday,wednesday,thursday,friday,saturday,sunday",
+        "isActive": false,
+        "isExchangeable": true
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "code": "Success",
+        "message": "Operation Successful"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

@@ -16,6 +16,6 @@ Network Watcher is the resource that exposes networking diagnostic APIs in Azure
 
 |Operation Group|Description|
 |---|---|
-|[Network Watchers](xref:management.azure.com.networkwatcher.networkwatchers) |Provides the ability to manage Network Watchers.|
-|[Packet Captures](xref:management.azure.com.networkwatcher.packetcaptures)   |Provides the ability to capture network traffic on a virtual machine.| 
+|[Network Watchers](xref:management.azure.com.network-watcher.networkwatchers) |Provides the ability to manage Network Watchers.|
+|[Packet Captures](xref:management.azure.com.network-watcher.packetcaptures)   |Provides the ability to capture network traffic on a virtual machine.| 
 

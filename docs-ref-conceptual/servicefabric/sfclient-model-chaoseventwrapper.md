@@ -1,6 +1,6 @@
 ---
 title: "ChaosEventWrapper"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Wrapper object for Chaos event.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ChaosEvent](#chaosevent) | [ChaosEvent](sfclient-model-chaosevent.md) | No |
+| [`ChaosEvent`](#chaosevent) | [ChaosEvent](sfclient-model-chaosevent.md) | No |
 
 ____
-### ChaosEvent
+### `ChaosEvent`
 __Type__: [ChaosEvent](sfclient-model-chaosevent.md) <br/>
 __Required__: No<br/>
 <br/>

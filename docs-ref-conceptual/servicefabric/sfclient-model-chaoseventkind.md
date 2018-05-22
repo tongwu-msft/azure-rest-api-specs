@@ -1,6 +1,6 @@
 ---
 title: "ChaosEventKind"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,11 +36,11 @@ The kind of Chaos event.
 
 Possible values are: 
 
-  - Invalid - Indicates an invalid Chaos event kind. All Service Fabric enumerations have the invalid type.
-  - Started - Indicates a Chaos event that gets generated when Chaos is started.
-  - ExecutingFaults - Indicates a Chaos event that gets generated when Chaos has decided on the faults for an iteration. This Chaos event contains the details of the faults as a list of strings.
-  - Waiting - Indicates a Chaos event that gets generated when Chaos is waiting for the cluster to become ready for faulting, for example, Chaos may be waiting for the on-going upgrade to finish.
-  - ValidationFailed - Indicates a Chaos event that gets generated when the cluster entities do not become stable and healthy within ChaosParameters.MaxClusterStabilizationTimeoutInSeconds.
-  - TestError - Indicates a Chaos event that gets generated when an unexpected event has occurred in the Chaos engine, for example, due to the cluster snapshot being inconsistent, while faulting a faultable entity Chaos found that the entity was already faulted.
-  - Stopped - Indicates a Chaos event that gets generated when Chaos stops because either the user issued a stop or the time to run was up.
+  - `Invalid` - Indicates an invalid Chaos event kind. All Service Fabric enumerations have the invalid type.
+  - `Started` - Indicates a Chaos event that gets generated when Chaos is started.
+  - `ExecutingFaults` - Indicates a Chaos event that gets generated when Chaos has decided on the faults for an iteration. This Chaos event contains the details of the faults as a list of strings.
+  - `Waiting` - Indicates a Chaos event that gets generated when Chaos is waiting for the cluster to become ready for faulting, for example, Chaos may be waiting for the on-going upgrade to finish.
+  - `ValidationFailed` - Indicates a Chaos event that gets generated when the cluster entities do not become stable and healthy within ChaosParameters.MaxClusterStabilizationTimeoutInSeconds.
+  - `TestError` - Indicates a Chaos event that gets generated when an unexpected event has occurred in the Chaos engine, for example, due to the cluster snapshot being inconsistent, while faulting a faultable entity Chaos found that the entity was already faulted.
+  - `Stopped` - Indicates a Chaos event that gets generated when Chaos stops because either the user issued a stop or the time to run was up.
 

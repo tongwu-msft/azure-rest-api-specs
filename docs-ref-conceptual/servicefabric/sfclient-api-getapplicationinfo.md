@@ -1,6 +1,6 @@
 ---
 title: "Get Application Info"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -41,13 +41,13 @@ Returns the information about the application that was created or in the process
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [applicationId](#applicationid) | string | Yes | Path |
-| [api-version](#api-version) | string | Yes | Query |
-| [ExcludeApplicationParameters](#excludeapplicationparameters) | boolean | No | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
+| [`applicationId`](#applicationid) | string | Yes | Path |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`ExcludeApplicationParameters`](#excludeapplicationparameters) | boolean | No | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
 
 ____
-### applicationId
+### `applicationId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
@@ -57,12 +57,12 @@ For example, if the application name is "fabric:/myapp/app1", the application id
 
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0 <br/>
+__Default__: `6.0` <br/>
 <br/>
-The version of this API. This is a required parameter and its value must be "6.0".
+The version of the API. This parameter is required and its value must be '6.0'.
 
 Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
 
@@ -70,22 +70,22 @@ Additionally the runtime accept any version that is higher than the latest suppo
 
 
 ____
-### ExcludeApplicationParameters
+### `ExcludeApplicationParameters`
 __Type__: boolean <br/>
 __Required__: No<br/>
-__Default__: false <br/>
+__Default__: `false` <br/>
 <br/>
 The flag that specifies whether application parameters will be excluded from the result.
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 
@@ -99,7 +99,7 @@ The server timeout for performing the operation in seconds. This specifies the t
 
 ### Get a specific application by application id
 
-This example shows how to get information about an application by application ID.
+This example shows how to get information about an application using it's identifier. If the application is found, information about it is returned with 200 status code. If the application is not found, empty content is returned with 204 status code.
 
 #### Request
 ```
@@ -121,3 +121,7 @@ GET http://localhost:19080/Applications/samples~CalculatorApp?api-version=6.0
 }
 ```
 
+
+#### 204 Response
+##### Body
+The response body is empty.

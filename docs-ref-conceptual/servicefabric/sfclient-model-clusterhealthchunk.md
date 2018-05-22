@@ -1,6 +1,6 @@
 ---
 title: "ClusterHealthChunk"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,12 +36,12 @@ Contains the cluster aggregated health state, and the cluster entities that resp
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [HealthState](#healthstate) | string (enum) | No |
-| [NodeHealthStateChunks](#nodehealthstatechunks) | [NodeHealthStateChunkList](sfclient-model-nodehealthstatechunklist.md) | No |
-| [ApplicationHealthStateChunks](#applicationhealthstatechunks) | [ApplicationHealthStateChunkList](sfclient-model-applicationhealthstatechunklist.md) | No |
+| [`HealthState`](#healthstate) | string (enum) | No |
+| [`NodeHealthStateChunks`](#nodehealthstatechunks) | [NodeHealthStateChunkList](sfclient-model-nodehealthstatechunklist.md) | No |
+| [`ApplicationHealthStateChunks`](#applicationhealthstatechunks) | [ApplicationHealthStateChunkList](sfclient-model-applicationhealthstatechunklist.md) | No |
 
 ____
-### HealthState
+### `HealthState`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -54,16 +54,16 @@ The health state of a Service Fabric entity such as Cluster, Node, Application, 
 
 Possible values are: 
 
-  - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Ok - Indicates the health state is okay. The value is 1.
-  - Warning - Indicates the health state is at a warning level. The value is 2.
-  - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
-  - Unknown - Indicates an unknown health status. The value is 65535.
+  - `Invalid` - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Ok` - Indicates the health state is okay. The value is 1.
+  - `Warning` - Indicates the health state is at a warning level. The value is 2.
+  - `Error` - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+  - `Unknown` - Indicates an unknown health status. The value is 65535.
 
 
 
 ____
-### NodeHealthStateChunks
+### `NodeHealthStateChunks`
 __Type__: [NodeHealthStateChunkList](sfclient-model-nodehealthstatechunklist.md) <br/>
 __Required__: No<br/>
 <br/>
@@ -71,7 +71,7 @@ The list of node health state chunks in the cluster that respect the filters in 
 
 
 ____
-### ApplicationHealthStateChunks
+### `ApplicationHealthStateChunks`
 __Type__: [ApplicationHealthStateChunkList](sfclient-model-applicationhealthstatechunklist.md) <br/>
 __Required__: No<br/>
 <br/>

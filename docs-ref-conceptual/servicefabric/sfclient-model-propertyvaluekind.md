@@ -1,6 +1,6 @@
 ---
 title: "PropertyValueKind"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,10 +35,10 @@ The kind of property, determined by the type of data. Following are the possible
 
 Possible values are: 
 
-  - Invalid - Indicates the property is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Binary - The data inside the property is a binary blob. The value is 1.
-  - Int64 - The data inside the property is an int64. The value is 2.
-  - Double - The data inside the property is a double. The value is 3.
-  - String - The data inside the property is a string. The value is 4.
-  - Guid - The data inside the property is a guid. The value is 5.
+  - `Invalid` - Indicates the property is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Binary` - The data inside the property is a binary blob. The value is 1.
+  - `Int64` - The data inside the property is an int64. The value is 2.
+  - `Double` - The data inside the property is a double. The value is 3.
+  - `String` - The data inside the property is a string. The value is 4.
+  - `Guid` - The data inside the property is a guid. The value is 5.
 

@@ -1,6 +1,6 @@
 ---
 title: "FileVersion"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,26 +34,26 @@ Information about the version of image store file.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [VersionNumber](#versionnumber) | string | No |
-| [EpochDataLossNumber](#epochdatalossnumber) | string | No |
-| [EpochConfigurationNumber](#epochconfigurationnumber) | string | No |
+| [`VersionNumber`](#versionnumber) | string | No |
+| [`EpochDataLossNumber`](#epochdatalossnumber) | string | No |
+| [`EpochConfigurationNumber`](#epochconfigurationnumber) | string | No |
 
 ____
-### VersionNumber
+### `VersionNumber`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The current image store version number for the file is used in image store for checking whether it need to be updated.
 
 ____
-### EpochDataLossNumber
+### `EpochDataLossNumber`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The epoch data loss number of image store replica when this file entry was updated or created.
 
 ____
-### EpochConfigurationNumber
+### `EpochConfigurationNumber`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

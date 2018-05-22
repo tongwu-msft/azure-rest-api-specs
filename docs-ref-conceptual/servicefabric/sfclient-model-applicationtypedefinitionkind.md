@@ -1,6 +1,6 @@
 ---
 title: "ApplicationTypeDefinitionKind"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,7 +36,7 @@ The mechanism used to define a Service Fabric application type.
 
 Possible values are: 
 
-  - Invalid - Indicates the application type definition kind is invalid. All Service Fabric enumerations have the invalid type. The value is 0.
-  - ServiceFabricApplicationPackage - Indicates the application type is defined and created by a Service Fabric application package provided by the user. The value is 1.
-  - Compose - Indicates the application type is defined and created implicitly as part of a compose deployment. The value is 2.
+  - `Invalid` - Indicates the application type definition kind is invalid. All Service Fabric enumerations have the invalid type. The value is 0.
+  - `ServiceFabricApplicationPackage` - Indicates the application type is defined and created by a Service Fabric application package provided by the user. The value is 1.
+  - `Compose` - Indicates the application type is defined and created implicitly as part of a compose deployment. The value is 2.
 

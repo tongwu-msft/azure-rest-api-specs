@@ -1,0 +1,137 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.logic.workflowrunactionrepetitions.listexpressiontraces
+name: List Expression Traces
+service: Logic Apps
+groupName: Workflow Run Action Repetitions
+apiVersion: 2016-06-01
+summary: Lists a workflow run expression trace.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions/{repetitionName}/listExpressionTraces?api-version=2016-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: workflowName
+  in: path
+  isRequired: true
+  description: The workflow name.
+  types:
+  - uid: string
+- name: runName
+  in: path
+  isRequired: true
+  description: The workflow run name.
+  types:
+  - uid: string
+- name: actionName
+  in: path
+  isRequired: true
+  description: The workflow action name.
+  types:
+  - uid: string
+- name: repetitionName
+  in: path
+  isRequired: true
+  description: The workflow repetition.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ExpressionTraces
+requestHeader: []
+definitions:
+- name: ExpressionTraces
+  kind: object
+  properties:
+  - name: inputs
+    description: ''
+    types:
+    - uid: ExpressionRoot
+      isArray: true
+- name: ExpressionRoot
+  kind: object
+  properties:
+  - name: path
+    description: The path.
+    types:
+    - uid: string
+  - name: text
+    description: ''
+    types:
+    - uid: string
+  - name: value
+    description: ''
+    types:
+    - {}
+  - name: subexpressions
+    description: ''
+    types:
+    - uid: ExpressionRoot
+      isArray: true
+    typesTitle: Expression[]
+  - name: error
+    description: The azure resource error info.
+    types:
+    - uid: AzureResourceErrorInfo
+- name: AzureResourceErrorInfo
+  description: The azure resource error info.
+  kind: object
+  properties:
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    description: The error details.
+    types:
+    - uid: AzureResourceErrorInfo
+      isArray: true
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+examples:
+- name: List expression traces
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Logic/workflows/testFlow/runs/08586776228332053161046300351/actions/testAction/repetitions/000001/listExpressionTraces?api-version=2016-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "inputs": [
+          {
+            "path": "",
+            "text": "add(4, 4)",
+            "value": 8
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

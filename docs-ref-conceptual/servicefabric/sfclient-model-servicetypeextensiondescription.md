@@ -1,6 +1,6 @@
 ---
 title: "ServiceTypeExtensionDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,18 @@ Describes extension of a service type defined in the service manifest.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Key](#key) | string | No |
-| [Value](#value) | string | No |
+| [`Key`](#key) | string | No |
+| [`Value`](#value) | string | No |
 
 ____
-### Key
+### `Key`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of the extension.
 
 ____
-### Value
+### `Value`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

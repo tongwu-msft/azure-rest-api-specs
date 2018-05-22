@@ -1,6 +1,6 @@
 ---
 title: "HostIsolationMode"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Specifies the isolation mode of main entry point of a code package when it's hos
 
 Possible values are: 
 
-  - None - Indicates the isolation mode is not applicable for given HostType. The value is 0.
-  - Process - This is the default isolation mode for a ContainerHost. The value is 1.
-  - HyperV - Indicates the ContainerHost is a Hyper-V container. This applies to only Windows containers. The value is 2.
+  - `None` - Indicates the isolation mode is not applicable for given HostType. The value is 0.
+  - `Process` - This is the default isolation mode for a ContainerHost. The value is 1.
+  - `HyperV` - Indicates the ContainerHost is a Hyper-V container. This applies to only Windows containers. The value is 2.
 

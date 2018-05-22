@@ -1,6 +1,6 @@
 ---
 title: "NodeDeactivationTaskType"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,8 +35,8 @@ The type of the task that performed the node deactivation. Following are the pos
 
 Possible values are: 
 
-  - Invalid - Indicates the node deactivation task type is invalid. All Service Fabric enumerations have the invalid type. The value is zero. This value is not used.
-  - Infrastructure - Specifies the task created by Infrastructure hosting the nodes. The value is 1.
-  - Repair - Specifies the task that was created by the Repair Manager service. The value is 2.
-  - Client - Specifies that the task was created by using the public API. The value is 3.
+  - `Invalid` - Indicates the node deactivation task type is invalid. All Service Fabric enumerations have the invalid type. The value is zero. This value is not used.
+  - `Infrastructure` - Specifies the task created by Infrastructure hosting the nodes. The value is 1.
+  - `Repair` - Specifies the task that was created by the Repair Manager service. The value is 2.
+  - `Client` - Specifies that the task was created by using the public API. The value is 3.
 

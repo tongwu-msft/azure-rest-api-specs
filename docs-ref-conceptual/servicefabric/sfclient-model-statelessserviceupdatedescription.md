@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceUpdateDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,14 +34,15 @@ Describes an update for a stateless service.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServiceKind](#servicekind) | string | Yes |
-| [Flags](#flags) | string | No |
-| [PlacementConstraints](#placementconstraints) | string | No |
-| [CorrelationScheme](#correlationscheme) | array of [ServiceCorrelationDescription](sfclient-model-servicecorrelationdescription.md) | No |
-| [LoadMetrics](#loadmetrics) | array of [ServiceLoadMetricDescription](sfclient-model-serviceloadmetricdescription.md) | No |
-| [ServicePlacementPolicies](#serviceplacementpolicies) | array of [ServicePlacementPolicyDescription](sfclient-model-serviceplacementpolicydescription.md) | No |
-| [DefaultMoveCost](#defaultmovecost) | string (enum) | No |
-| [InstanceCount](#instancecount) | integer | No |
+| [`ServiceKind`](#servicekind) | string | Yes |
+| [`Flags`](#flags) | string | No |
+| [`PlacementConstraints`](#placementconstraints) | string | No |
+| [`CorrelationScheme`](#correlationscheme) | array of [ServiceCorrelationDescription](sfclient-model-servicecorrelationdescription.md) | No |
+| [`LoadMetrics`](#loadmetrics) | array of [ServiceLoadMetricDescription](sfclient-model-serviceloadmetricdescription.md) | No |
+| [`ServicePlacementPolicies`](#serviceplacementpolicies) | array of [ServicePlacementPolicyDescription](sfclient-model-serviceplacementpolicydescription.md) | No |
+| [`DefaultMoveCost`](#defaultmovecost) | string (enum) | No |
+| [`ScalingPolicies`](#scalingpolicies) | array of [ScalingPolicyDescription](sfclient-model-scalingpolicydescription.md) | No |
+| [`InstanceCount`](#instancecount) | integer | No |
 
 ____
 ### ServiceKind
@@ -51,7 +52,7 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Stateless' for objects of type 'StatelessServiceUpdateDescription'.
 
 ____
-### Flags
+### `Flags`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -70,38 +71,39 @@ For example, if the provided value is 6 then the flags for ReplicaRestartWaitDur
 - Correlation - Indicates the CorrelationScheme property is set. The value is 128.
 - Metrics - Indicates the ServiceLoadMetrics property is set. The value is 256.
 - DefaultMoveCost - Indicates the DefaultMoveCost property is set. The value is 512.
+- ScalingPolicy - Indicates the ScalingPolicies property is set. The value is 1024.
 
 
 ____
-### PlacementConstraints
+### `PlacementConstraints`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)".
 
 ____
-### CorrelationScheme
+### `CorrelationScheme`
 __Type__: array of [ServiceCorrelationDescription](sfclient-model-servicecorrelationdescription.md) <br/>
 __Required__: No<br/>
 <br/>
 The correlation scheme.
 
 ____
-### LoadMetrics
+### `LoadMetrics`
 __Type__: array of [ServiceLoadMetricDescription](sfclient-model-serviceloadmetricdescription.md) <br/>
 __Required__: No<br/>
 <br/>
 The service load metrics.
 
 ____
-### ServicePlacementPolicies
+### `ServicePlacementPolicies`
 __Type__: array of [ServicePlacementPolicyDescription](sfclient-model-serviceplacementpolicydescription.md) <br/>
 __Required__: No<br/>
 <br/>
 The service placement policies.
 
 ____
-### DefaultMoveCost
+### `DefaultMoveCost`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -111,17 +113,24 @@ Specifies the move cost for the service.
 
 Possible values are: 
 
-  - Zero - Zero move cost. This value is zero.
-  - Low - Specifies the move cost of the service as Low. The value is 1.
-  - Medium - Specifies the move cost of the service as Medium. The value is 2.
-  - High - Specifies the move cost of the service as High. The value is 3.
+  - `Zero` - Zero move cost. This value is zero.
+  - `Low` - Specifies the move cost of the service as Low. The value is 1.
+  - `Medium` - Specifies the move cost of the service as Medium. The value is 2.
+  - `High` - Specifies the move cost of the service as High. The value is 3.
 
 
 
 ____
-### InstanceCount
+### `ScalingPolicies`
+__Type__: array of [ScalingPolicyDescription](sfclient-model-scalingpolicydescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Scaling policies for this service.
+
+____
+### `InstanceCount`
 __Type__: integer <br/>
 __Required__: No<br/>
-__InclusiveMinimum__: -1 <br/>
+__InclusiveMinimum__: `-1` <br/>
 <br/>
 The instance count.

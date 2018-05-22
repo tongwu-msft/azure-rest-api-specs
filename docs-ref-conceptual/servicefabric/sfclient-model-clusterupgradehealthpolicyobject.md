@@ -1,6 +1,6 @@
 ---
 title: "ClusterUpgradeHealthPolicyObject"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,23 +34,23 @@ Defines a health policy used to evaluate the health of the cluster during a clus
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [MaxPercentDeltaUnhealthyNodes](#maxpercentdeltaunhealthynodes) | integer | No |
-| [MaxPercentUpgradeDomainDeltaUnhealthyNodes](#maxpercentupgradedomaindeltaunhealthynodes) | integer | No |
+| [`MaxPercentDeltaUnhealthyNodes`](#maxpercentdeltaunhealthynodes) | integer | No |
+| [`MaxPercentUpgradeDomainDeltaUnhealthyNodes`](#maxpercentupgradedomaindeltaunhealthynodes) | integer | No |
 
 ____
-### MaxPercentDeltaUnhealthyNodes
+### `MaxPercentDeltaUnhealthyNodes`
 __Type__: integer <br/>
 __Required__: No<br/>
-__InclusiveMaximum__: 100 <br/>
-__InclusiveMinimum__: 0 <br/>
+__InclusiveMaximum__: `100` <br/>
+__InclusiveMinimum__: `0` <br/>
 <br/>
 The maximum allowed percentage of nodes health degradation allowed during cluster upgrades. The delta is measured between the state of the nodes at the beginning of upgrade and the state of the nodes at the time of the health evaluation. The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits. The default value is 10%.
 
 ____
-### MaxPercentUpgradeDomainDeltaUnhealthyNodes
+### `MaxPercentUpgradeDomainDeltaUnhealthyNodes`
 __Type__: integer <br/>
 __Required__: No<br/>
-__InclusiveMaximum__: 100 <br/>
-__InclusiveMinimum__: 0 <br/>
+__InclusiveMaximum__: `100` <br/>
+__InclusiveMinimum__: `0` <br/>
 <br/>
 The maximum allowed percentage of upgrade domain nodes health degradation allowed during cluster upgrades. The delta is measured between the state of the upgrade domain nodes at the beginning of upgrade and the state of the upgrade domain nodes at the time of the health evaluation. The check is performed after every upgrade domain upgrade completion for all completed upgrade domains to make sure the state of the upgrade domains is within tolerated limits. The default value is 15%.

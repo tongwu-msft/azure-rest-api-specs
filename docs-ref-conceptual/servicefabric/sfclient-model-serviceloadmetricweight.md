@@ -1,6 +1,6 @@
 ---
 title: "ServiceLoadMetricWeight"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,8 +35,8 @@ Determines the metric weight relative to the other metrics that are configured f
 
 Possible values are: 
 
-  - Zero - Disables resource balancing for this metric. This value is zero.
-  - Low - Specifies the metric weight of the service load as Low. The value is 1.
-  - Medium - Specifies the metric weight of the service load as Medium. The value is 2.
-  - High - Specifies the metric weight of the service load as High. The value is 3.
+  - `Zero` - Disables resource balancing for this metric. This value is zero.
+  - `Low` - Specifies the metric weight of the service load as Low. The value is 1.
+  - `Medium` - Specifies the metric weight of the service load as Medium. The value is 2.
+  - `High` - Specifies the metric weight of the service load as High. The value is 3.
 

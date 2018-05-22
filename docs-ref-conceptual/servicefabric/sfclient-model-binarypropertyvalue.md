@@ -1,6 +1,6 @@
 ---
 title: "BinaryPropertyValue"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,8 +34,8 @@ Describes a Service Fabric property value of type Binary.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [Data](#data) | array of integer | Yes |
+| [`Kind`](#kind) | string | Yes |
+| [`Data`](#data) | array of integer | Yes |
 
 ____
 ### Kind
@@ -45,7 +45,7 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Binary' for objects of type 'BinaryPropertyValue'.
 
 ____
-### Data
+### `Data`
 __Type__: array of integer <br/>
 __Required__: Yes<br/>
 <br/>

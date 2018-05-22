@@ -1,0 +1,106 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.model.examples
+name: Examples
+service: Cognitive Services
+groupName: Model
+apiVersion: v2.0 preview
+summary: Gets the utterances for the given model in the given app version.
+produces:
+- application/json
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/models/{modelId}/examples
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/models/{modelId}/examples?skip={skip}&take={take}
+  isOptional: true
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+- name: modelId
+  in: path
+  isRequired: true
+  description: The ID (GUID) of the model.
+  types:
+  - uid: string
+- name: skip
+  in: query
+  description: The number of entries to skip. Default value is 0.
+  types:
+  - uid: integer
+- name: take
+  in: query
+  description: The number of entries to return. Maximum page size is 500. Default is 100.
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: A list of examples for the model.
+  types:
+  - uid: LabelTextObject
+    isArray: true
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: LabelTextObject
+  description: An object containing the example's text.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the Label.
+    types:
+    - uid: integer
+  - name: text
+    description: The text of the label.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Successful Get Examples Per Model Request
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/86226c53-b7a6-416f-876b-226b2b5ab07b/versions/0.1/models/e4770e43-233a-48ad-a1fa-54f4f97eff9f/examples?
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "id": 10002,
+          "text": "Lorem ipsum dolor sit amet"
+        },
+        {
+          "id": 10003,
+          "text": "consectetur adipiscing elit"
+        },
+        {
+          "id": 10004,
+          "text": "sed do eiusmod tempor incididunt"
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

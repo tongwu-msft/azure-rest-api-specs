@@ -1,0 +1,87 @@
+### YamlMime:RESTOperation
+uid: southcentralus.api.cognitive.microsoft.com.customvision.v1.2.training.cognitiveservices.exportiteration.exportiteration
+name: Export Iteration
+service: Cognitive Services
+groupName: Export Iteration
+apiVersion: "1.2"
+summary: Export a trained iteration
+consumes: []
+produces:
+- application/json
+- text/json
+- application/xml
+- text/xml
+paths:
+- content: POST https://southcentralus.api.cognitive.microsoft.com/customvision/v1.2/Training/projects/{projectId}/iterations/{iterationId}/export?platform={platform}
+uriParameters:
+- name: projectId
+  in: path
+  isRequired: true
+  description: The project id
+  types:
+  - uid: string
+  format: uuid
+- name: iterationId
+  in: path
+  isRequired: true
+  description: The iteration id
+  types:
+  - uid: string
+  format: uuid
+- name: platform
+  in: query
+  isRequired: true
+  description: The target platform (coreml or tensorflow)
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Export
+requestHeader:
+- name: Training-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: Export
+  kind: object
+  properties:
+  - name: Platform
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: CoreML
+    - uid: TensorFlow
+    typesTitle: enum
+  - name: Status
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: Exporting
+    - uid: Failed
+    - uid: Done
+    typesTitle: enum
+  - name: DownloadUri
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Successful ExportIteration request
+  request:
+    uri: POST https://southcentralus.api.cognitive.microsoft.com/customvision/v1.2/Training/projects/64b822c5-8082-4b36-a426-27225f4aa18c/iterations/e31a14ab-5d78-4f7b-a267-3a1e4fd8a758/export?platform=tensorflow
+    headers:
+    - name: Training-Key
+      value: '{API Key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "Platform": "TensorFlow",
+        "Status": "Exporting",
+        "DownloadUri": null
+      }
+security: []

@@ -1,6 +1,6 @@
 ---
 title: "DeployedApplicationStatus"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,10 +36,10 @@ The status of the application deployed on the node. Following are the possible v
 
 Possible values are: 
 
-  - Invalid - Indicates that deployment status is not valid. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Downloading - Indicates that the package is downloading from the ImageStore. The value is 1.
-  - Activating - Indicates that the package is activating. The value is 2.
-  - Active - Indicates that the package is active. The value is 3.
-  - Upgrading - Indicates that the package is upgrading. The value is 4.
-  - Deactivating - Indicates that the package is deactivating. The value is 5.
+  - `Invalid` - Indicates that deployment status is not valid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Downloading` - Indicates that the package is downloading from the ImageStore. The value is 1.
+  - `Activating` - Indicates that the package is activating. The value is 2.
+  - `Active` - Indicates that the package is active. The value is 3.
+  - `Upgrading` - Indicates that the package is upgrading. The value is 4.
+  - `Deactivating` - Indicates that the package is deactivating. The value is 5.
 
