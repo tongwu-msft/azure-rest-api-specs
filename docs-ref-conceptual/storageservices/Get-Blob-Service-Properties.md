@@ -140,10 +140,10 @@ The `Get Blob Service Properties` operation gets the properties of a storage acc
     <Cors>  
         <CorsRule>  
             <AllowedOrigins>comma-separated-list-of-allowed-origins</AllowedOrigins>  
-            <AllowedMethods>comma-separated-list-of-HTTP-verb</AllowedMethods>  
+            <AllowedMethods>comma-separated-list-of-HTTP-verbs</AllowedMethods>  
             <MaxAgeInSeconds>max-caching-age-in-seconds</MaxAgeInSeconds>  
-            <ExposedHeaders>comma-seperated-list-of-response-headers</ExposedHeaders>  
-            <AllowedHeaders> comma-seperated-list-of-request-headers </AllowedHeaders>  
+            <ExposedHeaders>comma-separated-list-of-response-headers</ExposedHeaders>  
+            <AllowedHeaders>comma-separated-list-of-request-headers</AllowedHeaders>  
         </CorsRule>  
     </Cors>  
     <DefaultServiceVersion>default-service-version-string</DefaultServiceVersion>  
@@ -188,10 +188,10 @@ The `Get Blob Service Properties` operation gets the properties of a storage acc
     <Cors>  
         <CorsRule>  
             <AllowedOrigins>comma-separated-list-of-allowed-origins</AllowedOrigins>  
-            <AllowedMethods>comma-separated-list-of-HTTP-verb</AllowedMethods>  
+            <AllowedMethods>comma-separated-list-of-HTTP-verbs</AllowedMethods>  
             <MaxAgeInSeconds>max-caching-age-in-seconds</MaxAgeInSeconds>  
-            <ExposedHeaders>comma-seperated-list-of-response-headers</ExposedHeaders>  
-            <AllowedHeaders> comma-seperated-list-of-request-headers </AllowedHeaders>  
+            <ExposedHeaders>comma-separated-list-of-response-headers</ExposedHeaders>  
+            <AllowedHeaders>comma-separated-list-of-request-headers</AllowedHeaders>  
         </CorsRule>  
     </Cors>  
     <DefaultServiceVersion>default-service-version-string</DefaultServiceVersion>  
@@ -202,6 +202,61 @@ The `Get Blob Service Properties` operation gets the properties of a storage acc
     </DeleteRetentionPolicy>
 </StorageServiceProperties>  
   
+```  
+
+  Beginning with 2018-03-28, the format of the response body is as follows:  
+
+```  
+<?xml version="1.0" encoding="utf-8"?>  
+<StorageServiceProperties>  
+    <Logging>  
+        <Version>version-number</Version>  
+        <Delete>true|false</Delete>  
+        <Read>true|false</Read>  
+        <Write>true|false</Write>  
+        <RetentionPolicy>  
+            <Enabled>true|false</Enabled>  
+            <Days>number-of-days</Days>  
+        </RetentionPolicy>  
+    </Logging>  
+    <HourMetrics>  
+        <Version>version-number</Version>  
+        <Enabled>true|false</Enabled>  
+        <IncludeAPIs>true|false</IncludeAPIs>  
+        <RetentionPolicy>  
+            <Enabled>true|false</Enabled>  
+            <Days>number-of-days</Days>  
+        </RetentionPolicy>  
+    </HourMetrics>  
+    <MinuteMetrics>  
+        <Version>version-number</Version>  
+        <Enabled>true|false</Enabled>  
+        <IncludeAPIs>true|false</IncludeAPIs>  
+        <RetentionPolicy>  
+            <Enabled>true|false</Enabled>  
+            <Days>number-of-days</Days>  
+        </RetentionPolicy>  
+    </MinuteMetrics>  
+    <Cors>  
+        <CorsRule>  
+            <AllowedOrigins>comma-separated-list-of-allowed-origins</AllowedOrigins>  
+            <AllowedMethods>comma-separated-list-of-HTTP-verbs</AllowedMethods>  
+            <MaxAgeInSeconds>max-caching-age-in-seconds</MaxAgeInSeconds>  
+            <ExposedHeaders>comma-separated-list-of-response-headers</ExposedHeaders>  
+            <AllowedHeaders>comma-separated-list-of-request-headers</AllowedHeaders>  
+        </CorsRule>  
+    </Cors>    
+    <DefaultServiceVersion>default-service-version-string</DefaultServiceVersion>
+    <DeleteRetentionPolicy>
+        <Enabled>true|false</Enabled>
+        <Days>number-of-days</Days>
+    </DeleteRetentionPolicy>
+    <StaticWebsite>
+        <Enabled>true|false</Enabled>
+        <IndexDocument>default-name-of-index-page-under-each-directory</IndexDocument>
+        <ErrorDocument404Path>absolute-path-of-the-custom-404-page</ErrorDocument404Path>
+    </StaticWebsite>
+</StorageServiceProperties>  
 ```  
   
  The following table describes the elements of the response body:  
@@ -232,6 +287,10 @@ The `Get Blob Service Properties` operation gets the properties of a storage acc
 |**Enabled**|Indicates whether deleted blob or snapshot is retained or immediately removed by delete operation.| 
 |**Days**|Indicates the number of days that deleted blob be retained. All data older than this value will be permanently deleted.| 
 |**RetainedVersionsPerBlob**|Indicates the number of deleted version of each blob should be retained. After reaching this limit blob service permanently deletes the oldest deleted version of blob.| 
+|**StaticWebsite**|Groups the **staticwebsite** settings. Applies only to the Blob service. |
+|**StaticWebsite/Enabled**|Indicates whether **staticwebsite** support is enabled for the given account.| 
+|**StaticWebsite/IndexDocument**|The webpage that Azure Storage serves for requests to the root of a website or any subfolder. For example, `index.html`. The value is case-sensitive. |
+|**StaticWebsite/ErrorDocument404Path**|The absolute path to a webpage that Azure Storage serves for requests that do not correspond to an existing file. For example, `error/404.html`. The value is case-sensitive. |
   
 ## Authorization  
  Only the storage account owner may call this operation.  
@@ -246,8 +305,8 @@ GET https://myaccount.blob.core.windows.net/?restype=service&comp=properties&tim
  The request is sent with the following headers:  
   
 ```  
-x-ms-version: 2017-07-29
-x-ms-date: Tue, 12 Sep 2017 23:38:36 GMT
+x-ms-version: 2018-03-28
+x-ms-date: Tue, 12 Sep 2018 23:38:36 GMT
 Authorization: SharedKey myaccount:Z1lTLDwtq5o1UYQluucdsXk6/iB7YxEu0m6VofAEkUE=  
 Host: myaccount.blob.core.windows.net
 
@@ -261,8 +320,8 @@ Transfer-Encoding: chunked
 Content-Type: application/xml
 Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 x-ms-request-id: cb939a31-0cc6-49bb-9fe5-3327691f2a30  
-x-ms-version: 2017-07-29
-Date: Tue, 12 Sep 2017 23:38:35 GMT  
+x-ms-version: 2018-03-28
+Date: Tue, 12 Sep 2018 23:38:35 GMT  
 ```  
   
  The response includes the following XML body:  
@@ -312,7 +371,12 @@ Date: Tue, 12 Sep 2017 23:38:35 GMT
         <Enabled>true</Enabled>
         <Days>5</Days>
         <RetainedVersionsPerBlob>2</RetainedVersionsPerBlob>
-    </DeleteRetentionPolicy>    
+    </DeleteRetentionPolicy>
+    <StaticWebsite>  
+        <Enabled>true</Enabled>  
+        <IndexDocument>index.html</IndexDocument>  
+        <ErrorDocument404Path>error/404.html</ErrorDocument404Path>  
+    </StaticWebsite>      
 </StorageServiceProperties>    
   
 ```  

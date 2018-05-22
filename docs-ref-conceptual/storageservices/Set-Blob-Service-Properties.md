@@ -123,10 +123,10 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
     <Cors>  
         <CorsRule>  
             <AllowedOrigins>comma-separated-list-of-allowed-origins</AllowedOrigins>  
-            <AllowedMethods>comma-separated-list-of-HTTP-verb</AllowedMethods>  
+            <AllowedMethods>comma-separated-list-of-HTTP-verbs</AllowedMethods>  
             <MaxAgeInSeconds>max-caching-age-in-seconds</MaxAgeInSeconds>  
-            <ExposedHeaders>comma-seperated-list-of-response-headers</ExposedHeaders>  
-            <AllowedHeaders> comma-seperated-list-of-request-headers </AllowedHeaders>  
+            <ExposedHeaders>comma-separated-list-of-response-headers</ExposedHeaders>  
+            <AllowedHeaders>comma-separated-list-of-request-headers</AllowedHeaders>  
         </CorsRule>  
     </Cors>  
     <!-- The DefaultServiceVersion element can only be set for the Blob service and the request must be made using version 2011-08-18 or later -->  
@@ -170,10 +170,10 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
     <Cors>  
         <CorsRule>  
             <AllowedOrigins>comma-separated-list-of-allowed-origins</AllowedOrigins>  
-            <AllowedMethods>comma-separated-list-of-HTTP-verb</AllowedMethods>  
+            <AllowedMethods>comma-separated-list-of-HTTP-verbs</AllowedMethods>  
             <MaxAgeInSeconds>max-caching-age-in-seconds</MaxAgeInSeconds>  
-            <ExposedHeaders>comma-seperated-list-of-response-headers</ExposedHeaders>  
-            <AllowedHeaders> comma-seperated-list-of-request-headers </AllowedHeaders>  
+            <ExposedHeaders>comma-separated-list-of-response-headers</ExposedHeaders>  
+            <AllowedHeaders>comma-separated-list-of-request-headers</AllowedHeaders>  
         </CorsRule>  
     </Cors>    
     <DefaultServiceVersion>default-service-version-string</DefaultServiceVersion>
@@ -181,6 +181,61 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
         <Enabled>true|false</Enabled>
         <Days>number-of-days</Days>
     </DeleteRetentionPolicy>   
+</StorageServiceProperties>  
+```  
+  
+ For version 2018-03-28 or later, the format of the request body is as follows:  
+
+```  
+<?xml version="1.0" encoding="utf-8"?>  
+<StorageServiceProperties>  
+    <Logging>  
+        <Version>version-number</Version>  
+        <Delete>true|false</Delete>  
+        <Read>true|false</Read>  
+        <Write>true|false</Write>  
+        <RetentionPolicy>  
+            <Enabled>true|false</Enabled>  
+            <Days>number-of-days</Days>  
+        </RetentionPolicy>  
+    </Logging>  
+    <HourMetrics>  
+        <Version>version-number</Version>  
+        <Enabled>true|false</Enabled>  
+        <IncludeAPIs>true|false</IncludeAPIs>  
+        <RetentionPolicy>  
+            <Enabled>true|false</Enabled>  
+            <Days>number-of-days</Days>  
+        </RetentionPolicy>  
+    </HourMetrics>  
+    <MinuteMetrics>  
+        <Version>version-number</Version>  
+        <Enabled>true|false</Enabled>  
+        <IncludeAPIs>true|false</IncludeAPIs>  
+        <RetentionPolicy>  
+            <Enabled>true|false</Enabled>  
+            <Days>number-of-days</Days>  
+        </RetentionPolicy>  
+    </MinuteMetrics>  
+    <Cors>  
+        <CorsRule>  
+            <AllowedOrigins>comma-separated-list-of-allowed-origins</AllowedOrigins>  
+            <AllowedMethods>comma-separated-list-of-HTTP-verbs</AllowedMethods>  
+            <MaxAgeInSeconds>max-caching-age-in-seconds</MaxAgeInSeconds>  
+            <ExposedHeaders>comma-separated-list-of-response-headers</ExposedHeaders>  
+            <AllowedHeaders>comma-separated-list-of-request-headers</AllowedHeaders>  
+        </CorsRule>  
+    </Cors>    
+    <DefaultServiceVersion>default-service-version-string</DefaultServiceVersion>
+    <DeleteRetentionPolicy>
+        <Enabled>true|false</Enabled>
+        <Days>number-of-days</Days>
+    </DeleteRetentionPolicy>
+    <StaticWebsite>
+        <Enabled>true|false</Enabled>
+        <IndexDocument>default-name-of-index-page-under-each-directory</IndexDocument>
+        <ErrorDocument404Path>absolute-path-of-the-custom-404-page</ErrorDocument404Path>
+    </StaticWebsite>
 </StorageServiceProperties>  
 ```  
   
@@ -197,6 +252,8 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
 -   **DefaultServiceVersion**
   
 -   **DeleteRetentionPolicy** – For version 2017-07-29 or newer.
+  
+-   **StaticWebsite** - For version 2018-03-28 or later.
 
   
  It is no longer necessary to specify every root element on the request. If you omit a root element, the existing settings for the service for that functionality are preserved. However, if you do specify a given root element, you must specify every child element for that element.  
@@ -228,6 +285,10 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
 |**DeleteRetentionPolicy**|Optional. To set **DeleteRetentionPolicy**, you must call `Set Blob Service Properties` using version 2017-07-29  or later. Groups the Soft Delete settings. Applies only to the Blob service.|
 |**DeleteRetentionPolicy/Enabled**|Required. Indicates whether deleted blob or snapshot is retained or immediately removed by delete operation.| 
 |**DeleteRetentionPolicy/Days**|Required only if **DeleteRetentionPolicy/Enabled** is true. Indicates the number of days that deleted blob be retained. All data older than this value will be permanently deleted. The minimum value you can specify is `1`; the largest value is `365`.|
+|**StaticWebsite**|Optional. To set **StaticWebsite** properties, you must call `Set Blob Service Properties` using version 2018-03-28  or later. Applies only to the Blob service. |
+|**StaticWebsite/Enabled**|Required. Indicates whether static website support is enabled for the given account.| 
+|**StaticWebsite/IndexDocument**|Optional. The webpage that Azure Storage serves for requests to the root of a website or any subfolder. For example, `index.html`. The value is case-sensitive. |
+|**StaticWebsite/ErrorDocument404Path**|Optional. The absolute path to a webpage that Azure Storage serves for requests that do not correspond to an existing file. For example, `error/404.html`. Only a single custom 404 page is supported in each static website. The value is case-sensitive. |
   
 ## Response  
  The response includes an HTTP status code and a set of response headers.  
@@ -288,8 +349,8 @@ PUT https://myaccount.blob.core.windows.net/?restype=service&comp=properties HTT
  The request is sent with the following headers:  
   
 ```  
-x-ms-version: 2017-07-29
-x-ms-date: Tue, 12 Sep 2017 23:38:35 GMT 
+x-ms-version: 2018-03-28
+x-ms-date: Tue, 12 Sep 2018 23:38:35 GMT 
 Authorization: SharedKey myaccount:Z1lTLDwtq5o1UYQluucdsXk6/iB7YxEu0m6VofAEkUE=  
 Host: myaccount.blob.core.windows.net  
 ```  
@@ -340,7 +401,12 @@ Host: myaccount.blob.core.windows.net
         <Enabled>true</Enabled>
         <Days>5</Days>
     </DeleteRetentionPolicy>  
-    <DefaultServiceVersion>2017-07-29</DefaultServiceVersion>  
+    <StaticWebsite>  
+        <Enabled>true</Enabled>  
+        <IndexDocument>index.html</IndexDocument>  
+        <ErrorDocument404Path>error/404.html</ErrorDocument404Path>  
+    </StaticWebsite>  
+    <DefaultServiceVersion>2018-03-28</DefaultServiceVersion>  
 </StorageServiceProperties>  
 ```  
   
@@ -351,8 +417,8 @@ HTTP/1.1 202 Accepted
 Transfer-Encoding: chunked
 Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 x-ms-request-id: cb939a31-0cc6-49bb-9fe5-3327691f2a30 
-x-ms-version: 2017-07-29
-Date: Tue, 12 Sep 2017 23:38:35 GMT
+x-ms-version: 2018-03-28
+Date: Tue, 12 Sep 2018 23:38:35 GMT
   
 ```  
   
