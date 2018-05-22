@@ -478,14 +478,129 @@ JSON example:
     }
 }
 ```
+**First** and **Last** measure expressions allow users to get the specific value of a given property A corresponding to the minimum or maximum value of another value of property B.
+
+```json
+{   
+                "first": { 
+                    "input": { "property": "propertyA", "type":"String" } 
+                    "orderBy": { "property": "propertyB","type": "Double"  } 
+                } 
+            }
+
+      {   
+                "last": { 
+                    "input": { "property": "propertyA", "type":"Double" } 
+                    "orderBy": { "property": "propertyB","type": "DateTime"  } 
+                } 
+}
+```
+
+Clause "orderBy" is optional and defaults to timestamp built-in property $ts. Input can be of any type, "orderBy" clause supports only *Double* and *DateTime* types. If property B is a *dateTime*, the user will get the latest or the earliest value of property A.
+
+One can use **First** and **Last** expressions to understand the earliest or latest value of a specific property. For example, if a user has a property called *deviceID* and they want to understand the latest *deviceID* that sent an event, last is the most efficient expression operator to use to identify that information.   
+
+```json
+{
+	"last": {
+		"input": {
+			"property": "deviceID",
+			"type": "String"
+		}
+	}
+},
+
+```
+
+Another example is to use **Last** to find the last reported location of a particular object, like a ship, vehicle, or other moving object.    
+ 
+To illustrate a query that produces the last known location of the ships in a fleet, a user could author a query similar to the following: 
+
+```json
+{
+	"searchSpan": {
+		"from": "2018-05-05T12:00:00.000Z",
+		"to": "2018-05-15T12:01:00.000Z"
+	},
+	"aggregates": [{
+			"dimension": {
+
+				"uniqueValues": {
+					"input": {
+						"property": "shipId",
+						"type": "string"
+					},
+					"take": 150000
+				}
+			},
+			"measures": [{
+					"last": {
+						"input": {
+							"property": "Latitude",
+							"type": "Double"
+						}
+					}
+				}, {
+					"last": {
+						"input": {
+							"property": "Longitude",
+							"type": "Double"
+						}
+					}
+				},
+			]
+		}
+	]
+}
+
+```
+
+One more example is to use **First** to find a device reporting the lowest pressure for every plant:
+
+```json
+{
+	"searchSpan": {
+		"from": "2018-05-05T12:00:00.000Z",
+		"to": "2018-05-15T12:01:00.000Z"
+	},
+	"aggregates": [{
+			"dimension": {
+
+				"uniqueValues": {
+					"input": {
+						"property": "plantId",
+						"type": "String"
+					},
+					"take": 150000
+				}
+			},
+			"measures": [{
+					"first": {
+						"input": {
+							"property": "deviceId",
+							"type": "String"
+						}
+						"orderBy":   {
+							  "property":   "pressure",
+							"type":   "Double"   
+						}
+					}
+				},
+			]
+		}
+	]
+}
+}
+```
+
 
 Supported dimension and measure expressions depending on property type:
 | Property Type | Supported Dimension Expressions | Supported Measure Expressions |
 |-|-|-|-|
-| Bool | `"uniqueValues"` | - |
-| DateTime | `"uniqueValues"`, `"dateHistogram"` | `"min"`, `"max"` |
-| Double | `"uniqueValues"`, `"numericHistogram"` | `"sum"`, `"avg"`, `"min"`, `"max"` |
-| String | `"uniqueValues"` | - |
+| Bool | `"uniqueValues"` | `"first"` (input), `"last"` (input) |
+| DateTime | `"uniqueValues"`, `"dateHistogram"` | `"min"`, `"max"`, `"first"` (orderBy, input), `"last”` (orderBy, input)|
+| Double | `"uniqueValues"`, `"numericHistogram"` | `"sum"`, `"avg"`, `"min"`, `"max"`,`"first"` (orderBy, input), `"last”` (orderBy, input) |
+| String | `"uniqueValues"` | `"first"` (input), `"last"` (input) |
 
 ## Clauses
 
