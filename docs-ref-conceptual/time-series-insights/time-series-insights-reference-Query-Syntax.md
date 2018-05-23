@@ -14,7 +14,7 @@ ms.devlang: na
 ms.topic: data-acesss-api
 ms.tgt_pltfrm: na
 ms.workload: big-data
-ms.date: 11/27/2017
+ms.date: 05/23/2017
 ms.author: v-mamcge
 ---
 # Azure Time Series Insights query syntax
@@ -78,37 +78,72 @@ Schema contains the name of the event source and ordered set of properties for t
 
 Null literal is typed in JSON and is represented as a nested object with type property.
 
-JSON example:
+JSON examples:
+
 ```json
-{"string": null}
-{"double": null}
-{"bool": null}
-{"dateTime": null}
-{"timeSpan": null}
+{
+    "string": null
+}
+```
+
+```json
+{
+    "double": null
+}
+```
+
+```json
+{
+    "bool": null
+}
+```
+
+```json
+{
+    "dateTime": null
+}
+```
+
+```json
+{
+    "timeSpan": null
+}
 ```
 
 A **Property reference expression** is used to access values of non-built-in properties of an event.
 Result type of a property reference expression is the primitive type of the property.
 Properties in the event schema are uniquely identified by name and type and the reference expression requires both to be specified.
 
-JSON example:
+JSON examples:
 ```json
 {
     "property": "p1",
     "type": "Bool"
 }
+```
+
+```json
 {
     "property": "p1",
     "type": "DateTime"
 }
+```
+
+```json
 {
     "property": "p1",
     "type": "Double"
 }
+```
+
+```json
 {
     "property": "p1",
     "type": "String"
 }
+```
+
+```json
 {
     "property": "p1",
     "type": "TimeSpan"
@@ -121,7 +156,9 @@ Built-in properties are referenced by name only; therefore, no type is needed in
 
 JSON example:
 ```json
-{ "builtInProperty": "$esn" }
+{
+    "builtInProperty": "$esn"
+}
 ```
 
 Time Series Insights supports the following **boolean comparison expressions**:
@@ -140,12 +177,14 @@ All types implicitly cast only to themselves and explicit casts are not supporte
 
 JSON example:
 ```json
-"eq": {
-    "left": {
-        "property": "p1",
-        "type": "String"
-    },
-    "right": "abc"
+{
+    "eq": {
+        "left": {
+            "property": "p1",
+            "type": "String"
+        },
+        "right": "abc"
+    }
 }
 ```
 
@@ -173,28 +212,30 @@ Time Series Insights supports the following **boolean logical expressions**:
 
 JSON example:
 ```json
-"and": [
-    {
-		"eq": {
-			"left": {
-				"property": "p1",
-				"type": "String"
-			},
-			"right": "abc"
-		}
-	},
-    {
-		"not": {
-			"lt": {
-				"left": {
-					"property": "p1",
-					"type": "Double"
-				},
-				"right": 1.0
-			}
-		}
-	}
-]
+{
+    "and": [
+        {
+            "eq": {
+                "left": {
+                    "property": "p1",
+                    "type": "String"
+                },
+                "right": "abc"
+            }
+        },
+        {
+            "not": {
+                "lt": {
+                    "left": {
+                        "property": "p1",
+                        "type": "Double"
+                    },
+                    "right": 1
+                }
+            }
+        }
+    ]
+}
 ```
 
 Time Series Insights supports the following **arithmetic expressions**:
@@ -211,12 +252,14 @@ All types implicitly cast only to themselves and explicit casts are not supporte
 
 JSON example:
 ```json
-"add": {
-    "left": {
-        "property": "p1",
-        "type": "Double"
-    },
-    "right": 1.0
+{
+    "add": {
+        "left": {
+            "property": "p1",
+            "type": "Double"
+        },
+        "right": 1
+    }
 }
 ```
 
@@ -249,7 +292,9 @@ Examples of predicate string:
 
 JSON example:
 ```json
-"predicateString": "PointValue.Double = 3.14"
+{
+    "predicateString": "PointValue.Double = 3.14"
+}
 ```
 
 ### Predicate String
@@ -389,7 +434,9 @@ Here are examples given properties "p1" of type String and Double and properties
 
 JSON example:
 ```json
-"utcNow": {}
+{
+    "utcNow": {}
+}
 ```
 
 ## Aggregate Expressions
@@ -416,12 +463,14 @@ Evaluation of this JSON expression results in up to 100 records grouped by `sens
 
 JSON example:
 ```json
-"uniqueValues": {
-    "input": {
-        "property": "sensorId",
-        "type": "String"
-    },
-    "take": 100
+{
+    "uniqueValues": {
+        "input": {
+            "property": "sensorId",
+            "type": "String"
+        },
+        "take": 100
+    }
 }
 ```
 
@@ -431,12 +480,14 @@ Evaluation of this JSON expression results in a set of Timestamp records floor-r
 
 JSON example:
 ```json
-"dateHistogram": {
-    "input": {
-        "builtInProperty": "$ts"
-    },
-    "breaks": {
-        "size": "1m"
+{
+    "dateHistogram": {
+        "input": {
+            "builtInProperty": "$ts"
+        },
+        "breaks": {
+            "size": "1m"
+        }
     }
 }
 ```
@@ -447,13 +498,15 @@ Evaluation of this JSON expression results in 10 records, so the range between m
 
 JSON example:
 ```json
-"numericHistogram": {
-    "input": {
-        "property": "p1",
-        "type": "Double"
-    },
-    "breaks": {
-        "count": 10
+{
+    "numericHistogram": {
+        "input": {
+            "property": "p1",
+            "type": "Double"
+        },
+        "breaks": {
+            "count": 10
+        }
     }
 }
 ```
@@ -464,28 +517,161 @@ Count expression is used to calculate number of events within corresponding buck
 
 JSON example:
 ```json
-"count": {}
+{
+    "count": {}
+}
 ```
 
 Min, Max, Avg, Sum expressions are used to calculate minimum, maximum, average of sum of values for given property within corresponding bucket.
 
 JSON example:
 ```json
-"min": {
-    "input": {
-        "property": "temperature",
-        "type": "Double"
+{
+    "min": {
+        "input": {
+            "property": "temperature",
+            "type": "Double"
+        }
+    }
+}
+```
+**First** and **Last** measure expressions allow users to get the specific value of a given property A corresponding to the minimum or maximum value of another value of property B.
+
+```json
+{
+    "first": {
+        "input": {
+            "property": "propertyA",
+            "type": "String"
+        },
+        "orderBy": {
+            "property": "propertyB",
+            "type": "Double"
+        }
     }
 }
 ```
 
+```json
+{
+    "last": {
+        "input": {
+            "property": "propertyA",
+            "type": "Double"
+        },
+        "orderBy": {
+            "property": "propertyB",
+            "type": "DateTime"
+        }
+    }
+}
+```
+
+Clause "orderBy" is optional and defaults to timestamp built-in property $ts. Input can be of any type, "orderBy" clause supports only *Double* and *DateTime* types. If property B is a *dateTime*, the user will get the latest or the earliest value of property A.
+
+One can use **First** and **Last** expressions to understand the earliest or latest value of a specific property. For example, if a user has a property called *deviceID* and they want to understand the latest *deviceID* that sent an event, last is the most efficient expression operator to use to identify that information.   
+
+```json
+{
+    "last": {
+        "input": {
+            "property": "deviceID",
+            "type": "String"
+        }
+    }
+}
+```
+
+Another example is to use **Last** to find the last reported location of a particular object, like a ship, vehicle, or other moving object.    
+ 
+To illustrate a query that produces the last known location of the ships in a fleet, a user could author a query similar to the following: 
+
+```json
+{
+    "searchSpan": {
+        "from": "2018-05-05T12:00:00.000Z",
+        "to": "2018-05-15T12:01:00.000Z"
+    },
+    "aggregates": [
+        {
+            "dimension": {
+                "uniqueValues": {
+                    "input": {
+                        "property": "shipId",
+                        "type": "string"
+                    },
+                    "take": 150000
+                }
+            },
+            "measures": [
+                {
+                    "last": {
+                        "input": {
+                            "property": "Latitude",
+                            "type": "Double"
+                        }
+                    }
+                },
+                {
+                    "last": {
+                        "input": {
+                            "property": "Longitude",
+                            "type": "Double"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
+One more example is to use **First** to find a device reporting the lowest pressure for every plant:
+
+```json
+{
+    "searchSpan": {
+        "from": "2018-05-05T12:00:00.000Z",
+        "to": "2018-05-15T12:01:00.000Z"
+    },
+    "aggregates": [
+        {
+            "dimension": {
+                "uniqueValues": {
+                    "input": {
+                        "property": "plantId",
+                        "type": "String"
+                    },
+                    "take": 150000
+                }
+            },
+            "measures": [
+                {
+                    "first": {
+                        "input": {
+                            "property": "deviceId",
+                            "type": "String"
+                        },
+                        "orderBy": {
+                            "property": "pressure",
+                            "type": "Double"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
+
 Supported dimension and measure expressions depending on property type:
 | Property Type | Supported Dimension Expressions | Supported Measure Expressions |
 |-|-|-|-|
-| Bool | `"uniqueValues"` | - |
-| DateTime | `"uniqueValues"`, `"dateHistogram"` | `"min"`, `"max"` |
-| Double | `"uniqueValues"`, `"numericHistogram"` | `"sum"`, `"avg"`, `"min"`, `"max"` |
-| String | `"uniqueValues"` | - |
+| Bool | `"uniqueValues"` | `"first"` (input), `"last"` (input) |
+| DateTime | `"uniqueValues"`, `"dateHistogram"` | `"min"`, `"max"`, `"first"` (orderBy, input), `"last”` (orderBy, input)|
+| Double | `"uniqueValues"`, `"numericHistogram"` | `"sum"`, `"avg"`, `"min"`, `"max"`,`"first"` (orderBy, input), `"last”` (orderBy, input) |
+| String | `"uniqueValues"` | `"first"` (input), `"last"` (input) |
 
 ## Clauses
 
@@ -493,9 +679,15 @@ Supported dimension and measure expressions depending on property type:
 
 JSON example:
 ```json
-"searchSpan": {
-    "from": {"dateTime":"2016-08-01T00:00:00.000Z"},
-    "to": {"dateTime":"2016-08-31T00:00:00.000Z"}
+{
+    "searchSpan": {
+        "from": {
+            "dateTime": "2016-08-01T00:00:00.000Z"
+        },
+        "to": {
+            "dateTime": "2016-08-31T00:00:00.000Z"
+        }
+    }
 }
 ```
 `from` and `to` properties in search span clause should be valid expressions of DateTime resulted type. These expressions are evaluated prior to query execution, which means they should not contain any property references.
@@ -504,13 +696,15 @@ JSON example:
 
 JSON example:
 ```json
-"predicate": {
-    "eq": {
-        "left": {
-            "property": "p1",
-            "type": "String"
-        },
-        "right": "abc"
+{
+    "predicate": {
+        "eq": {
+            "left": {
+                "property": "p1",
+                "type": "String"
+            },
+            "right": "abc"
+        }
     }
 }
 ```
@@ -522,29 +716,35 @@ In addition to predicate expression, events are always filtered by search span.
 
 JSON example:
 ```json
-"sort": [
-    {
-        "input": {
-            "builtInProperty": "$ts"
-        },
-        "order": "Asc"
-    }
-],
-"count": 10
+{
+    "sort": [
+        {
+            "input": {
+                "builtInProperty": "$ts"
+            },
+            "order": "Asc"
+        }
+    ],
+    "count": 10
+}
 ```
 
 **Limit take clause** is used as a quick way to get a set of values not in any particular order. The number of values returned are limited by the input specified.
 
 JSON example:
 ```json
-"take": 10
+{
+    "take": 10
+}
 ```
 
 **Limit sample clause** is used to get a statistically representative sample from a set of values. The number of values returned are limited by the input specified.
 
 JSON example:
 ```json
-"sample": 10
+{
+    "sample": 10
+}
 ```
 
 **Breaks clause** is used in histogram expressions to specify how a range should be divided.
@@ -552,16 +752,22 @@ JSON example:
   - Interval boundaries are optional and can be used. For example, "where boundaries are determined based on search span if interval boundaries are omitted".
 * For numeric histogram one should specify number of breaks. Interval boundaries are determined based on minimum and maximum values of a property.
 
-JSON example:
+JSON examples:
 ```json
-"breaks": {
-    "size": "1d",
-    "from": "2000-01-02T03:04:05.0000000",
-    "to": "2000-01-02T03:04:05.0000000",
+{
+    "breaks": {
+        "size": "1d",
+        "from": "2000-01-02T03:04:05.0000000",
+        "to": "2000-01-02T03:04:05.0000000"
+    }
 }
+```
 
-"breaks": {
-    "count": 10
+```json
+{
+    "breaks": {
+        "count": 10
+    }
 }
 ```
 
@@ -572,33 +778,47 @@ This JSON expression computes average, min, and max temperatures per sensor ID:
 
 JSON example:
 ```json
-"aggregates": [
-    {
-        "dimension": {
-            "uniqueValues": {
-                "input": { "property": "sensorId", "type": "String" },
-                "take": 100
-            }
-        },
-        "measures": [
-            {
-                "avg": {
-                    "input": { "property": "temperature", "type": "Double" }
+{
+    "aggregates": [
+        {
+            "dimension": {
+                "uniqueValues": {
+                    "input": {
+                        "property": "sensorId",
+                        "type": "String"
+                    },
+                    "take": 100
                 }
             },
-            {
-                "min": {
-                    "input": { "property": "temperature", "type": "Double" }
+            "measures": [
+                {
+                    "avg": {
+                        "input": {
+                            "property": "temperature",
+                            "type": "Double"
+                        }
+                    }
+                },
+                {
+                    "min": {
+                        "input": {
+                            "property": "temperature",
+                            "type": "Double"
+                        }
+                    }
+                },
+                {
+                    "max": {
+                        "input": {
+                            "property": "temperature",
+                            "type": "Double"
+                        }
+                    }
                 }
-            },
-            {
-                "max": {
-                    "input": { "property": "temperature", "type": "Double" }
-                }
-            }
-        ]
-    }
-]
+            ]
+        }
+    ]
+}
 ```
 
 Aggregates clause is an array that allows specifying more than one aggregation at the topmost level.
@@ -607,36 +827,52 @@ This JSON expression computes average temperature per city and per manufacturer 
 
 JSON example:
 ```json
-"aggregates": [
-    {
-        "dimension": {
-            "uniqueValues": {
-                "input": { "property": "city", "type": "String" },
-                "take": 100
-            }
-        },
-        "measures": [
-            {
-                "avg": {
-                    "input": { "property": "temperature", "type": "Double" }
+{
+    "aggregates": [
+        {
+            "dimension": {
+                "uniqueValues": {
+                    "input": {
+                        "property": "city",
+                        "type": "String"
+                    },
+                    "take": 100
                 }
-            }]
-    },
-    {
-        "dimension": {
-            "uniqueValues": {
-                "input": { "property": "manufacturer", "type": "String" },
-                "take": 100
-            }
-        },
-        "measures": [
-            {
-                "avg": {
-                    "input": { "property": "temperature", "type": "Double" }
+            },
+            "measures": [
+                {
+                    "avg": {
+                        "input": {
+                            "property": "temperature",
+                            "type": "Double"
+                        }
+                    }
                 }
-            }]
-    }
-]
+            ]
+        },
+        {
+            "dimension": {
+                "uniqueValues": {
+                    "input": {
+                        "property": "manufacturer",
+                        "type": "String"
+                    },
+                    "take": 100
+                }
+            },
+            "measures": [
+                {
+                    "avg": {
+                        "input": {
+                            "property": "temperature",
+                            "type": "Double"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
 ```
 
 > [!NOTE]
@@ -648,28 +884,41 @@ This JSON expression computes average temperature per sensor ID, per minute:
 
 JSON example:
 ```json
-"aggregates": [
-    {
-        "dimension": {
-            "uniqueValues": {
-                "input": { "property": "sensorId", "type": "String" },
-                "take": 100
-            }
-        },
-        "aggregate": {
+{
+    "aggregates": [
+        {
             "dimension": {
-                "dateHistogram": {
-                    "input": { "builtInProperty": "$ts" },
-                    "breaks": { "size": "1m" }
+                "uniqueValues": {
+                    "input": {
+                        "property": "sensorId",
+                        "type": "String"
+                    },
+                    "take": 100
                 }
             },
-            "measures": [
-                {
-                    "avg": {
-                        "input": { "property": "temperature", "type": "Double" }
+            "aggregate": {
+                "dimension": {
+                    "dateHistogram": {
+                        "input": {
+                            "builtInProperty": "$ts"
+                        },
+                        "breaks": {
+                            "size": "1m"
+                        }
                     }
-                }]
+                },
+                "measures": [
+                    {
+                        "avg": {
+                            "input": {
+                                "property": "temperature",
+                                "type": "Double"
+                            }
+                        }
+                    }
+                ]
+            }
         }
-    }
-]
+    ]
+}
 ```
