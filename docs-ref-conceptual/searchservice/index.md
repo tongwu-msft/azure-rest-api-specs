@@ -29,7 +29,7 @@ Version 2017-11-11 is the most current generally available release of the Azure 
 
   - [Synonyms](https://docs.microsoft.com/azure/search/search-synonyms). The new synonyms feature allows you to define equivalent terms and expand the scope of the query.
   - [Support for efficiently indexing text blobs](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-blob-storage#IndexingPlainText). The new `text` parsing mode for Azure Blob indexers significantly improves indexing performance.
-  - [Service Statistics API](https://aka.ms/azure-search-stats). View the current usage and limits of resources in Azure Search with this new API.
+  - [Service Statistics API](get-service-statistics.md). View the current usage and limits of resources in Azure Search with this new API.
 
 For details on how to upgrade from a previous GA version, see [Upgrading to the latest Azure Search Service REST API version](https://docs.microsoft.com/azure/search/search-api-migration).
 
