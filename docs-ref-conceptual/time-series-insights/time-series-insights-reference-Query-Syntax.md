@@ -14,7 +14,7 @@ ms.devlang: na
 ms.topic: data-acesss-api
 ms.tgt_pltfrm: na
 ms.workload: big-data
-ms.date: 11/27/2017
+ms.date: 05/23/2017
 ms.author: v-mamcge
 ---
 # Azure Time Series Insights query syntax
@@ -78,37 +78,72 @@ Schema contains the name of the event source and ordered set of properties for t
 
 Null literal is typed in JSON and is represented as a nested object with type property.
 
-JSON example:
+JSON examples:
+
 ```json
-{"string": null}
-{"double": null}
-{"bool": null}
-{"dateTime": null}
-{"timeSpan": null}
+{
+    "string": null
+}
+```
+
+```json
+{
+    "double": null
+}
+```
+
+```json
+{
+    "bool": null
+}
+```
+
+```json
+{
+    "dateTime": null
+}
+```
+
+```json
+{
+    "timeSpan": null
+}
 ```
 
 A **Property reference expression** is used to access values of non-built-in properties of an event.
 Result type of a property reference expression is the primitive type of the property.
 Properties in the event schema are uniquely identified by name and type and the reference expression requires both to be specified.
 
-JSON example:
+JSON examples:
 ```json
 {
     "property": "p1",
     "type": "Bool"
 }
+```
+
+```json
 {
     "property": "p1",
     "type": "DateTime"
 }
+```
+
+```json
 {
     "property": "p1",
     "type": "Double"
 }
+```
+
+```json
 {
     "property": "p1",
     "type": "String"
 }
+```
+
+```json
 {
     "property": "p1",
     "type": "TimeSpan"
@@ -121,7 +156,9 @@ Built-in properties are referenced by name only; therefore, no type is needed in
 
 JSON example:
 ```json
-{ "builtInProperty": "$esn" }
+{
+    "builtInProperty": "$esn"
+}
 ```
 
 Time Series Insights supports the following **boolean comparison expressions**:
@@ -140,12 +177,14 @@ All types implicitly cast only to themselves and explicit casts are not supporte
 
 JSON example:
 ```json
-"eq": {
-    "left": {
-        "property": "p1",
-        "type": "String"
-    },
-    "right": "abc"
+{
+    "eq": {
+        "left": {
+            "property": "p1",
+            "type": "String"
+        },
+        "right": "abc"
+    }
 }
 ```
 
