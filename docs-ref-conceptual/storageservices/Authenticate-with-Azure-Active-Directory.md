@@ -29,7 +29,7 @@ translation.priority.mt:
 
 Azure Storage provides integration with [Azure Active Directory (Azure AD)](https://docs.microsoft.com/azure/active-directory/active-directory-whatis) for identity-based authentication of requests to the Blob and Queue services. With Azure AD, you can use role-based access control (RBAC) to grant access to your Azure Storage resources to users, groups, or applications. You can grant permissions that are scoped to the level of an individual container or queue. 
 
-To learn more about Azure AD integration in Azure Storage and about the preview, see [Authenticating requests to Azure Storage using Azure Active Directory (Preview)](https://docs.microsoft.com/azure/storage/common/storage-authentication-aad).
+To learn more about Azure AD integration in Azure Storage and about the preview, see [Authenticating requests to Azure Storage using Azure Active Directory (Preview)](https://docs.microsoft.com/azure/storage/common/storage-auth-aad).
 
 For more information on the advantages of using Azure AD in your application, see [Integrating with Azure Active Directory](https://docs.microsoft.com/azure/active-directory/develop/active-directory-how-to-integrate). 
 
