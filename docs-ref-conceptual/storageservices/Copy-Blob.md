@@ -169,23 +169,23 @@ Date: <date>
   
 -   You can copy a snapshot to a destination blob with a different name. The resulting destination blob is a writeable blob and not a snapshot.  
   
- When copying from a page blob, the Blob service creates a destination page blob of the source blob’s length, initially containing all zeroes. Then the source page ranges are enumerated, and non-empty ranges are copied.  
+When copying from a page blob, the Blob service creates a destination page blob of the source blob’s length, initially containing all zeroes. Then the source page ranges are enumerated, and non-empty ranges are copied.  
   
- For a block blob or an append blob, the Blob service creates a committed blob of zero length before returning from this operation.  
+For a block blob or an append blob, the Blob service creates a committed blob of zero length before returning from this operation.  
   
- When copying from a block blob, all committed blocks and their block IDs are copied. Uncommitted blocks are not copied. At the end of the copy operation, the destination blob will have the same committed block count as the source.  
+When copying from a block blob, all committed blocks and their block IDs are copied. Uncommitted blocks are not copied. At the end of the copy operation, the destination blob will have the same committed block count as the source.  
   
- When copying from an append blob, all committed blocks are copied. At the end of the copy operation, the destination blob will have the same committed block count as the source.  
+When copying from an append blob, all committed blocks are copied. At the end of the copy operation, the destination blob will have the same committed block count as the source.  
   
- For all blob types, you can call `Get Blob` or `Get Blob Properties` on the destination blob to check the status of the copy operation. The final blob will be committed when the copy completes.  
+For all blob types, you can call `Get Blob` or `Get Blob Properties` on the destination blob to check the status of the copy operation. The final blob will be committed when the copy completes.  
   
- When the source of a copy operation provides ETags, if there are any changes to the source while the copy is in progress, the copy will fail. An attempt to change the destination blob while a copy is in progress will fail with 409 Conflict. If the destination blob has an infinite lease, the lease ID must be passed to `Copy Blob`. Finite-duration leases are not allowed.  
+When the source of a copy operation provides ETags, if there are any changes to the source while the copy is in progress, the copy will fail. An attempt to change the destination blob while a copy is in progress will fail with 409 Conflict. If the destination blob has an infinite lease, the lease ID must be passed to `Copy Blob`. Finite-duration leases are not allowed.  
   
- The ETag for a block blob changes when the `Copy Blob` operation is initiated and when the copy finishes.  The ETag for a page blob changes when the `Copy Blob` operation is initiated, and continues to change frequently during the copy. The contents of a block blob are only visible using a GET after the full copy completes.  
+The ETag for a block blob changes when the `Copy Blob` operation is initiated and when the copy finishes.  The ETag for a page blob changes when the `Copy Blob` operation is initiated, and continues to change frequently during the copy. The contents of a block blob are only visible using a GET after the full copy completes.  
   
- **Copying Blob Properties and Metadata**  
+**Copying Blob Properties and Metadata**  
   
- When a blob is copied, the following system properties are copied to the destination blob with the same values:  
+When a blob is copied, the following system properties are copied to the destination blob with the same values:  
   
 -   `Content-Type`  
   
@@ -205,27 +205,27 @@ Date: <date>
   
 -   `x-ms- committed-block-count (for append blobs only, and for version 2015-02-21 only)`  
   
- The source blob's committed block list is also copied to the destination blob, if the blob is a block blob. Any uncommitted blocks are not copied.  
+The source blob's committed block list is also copied to the destination blob, if the blob is a block blob. Any uncommitted blocks are not copied.  
   
- The destination blob is always the same size as the source blob, so the value of the `Content-Length` header for the destination blob matches that for the source blob.  
+The destination blob is always the same size as the source blob, so the value of the `Content-Length` header for the destination blob matches that for the source blob.  
   
- When the source blob and destination blob are the same, `Copy Blob` removes any uncommitted blocks. If metadata is specified in this case, the existing metadata is overwritten with the new metadata.  
+When the source blob and destination blob are the same, `Copy Blob` removes any uncommitted blocks. If metadata is specified in this case, the existing metadata is overwritten with the new metadata.  
   
- **Copying a Leased Blob**  
+**Copying a Leased Blob**  
   
- The `Copy Blob` operation only reads from the source blob so the lease state of the source blob does not matter. However, the `Copy Blob` operation saves the ETag of the source blob when the copy is initiated. If the ETag value changes before the copy completes, the copy fails. You can prevent changes to the source blob by leasing it during the copy operation.  
+The `Copy Blob` operation only reads from the source blob so the lease state of the source blob does not matter. However, the `Copy Blob` operation saves the ETag of the source blob when the copy is initiated. If the ETag value changes before the copy completes, the copy fails. You can prevent changes to the source blob by leasing it during the copy operation.  
   
- If the destination blob has an active infinite lease, you must specify its lease ID in the call to the `Copy Blob` operation. If the lease you specify is an active finite-duration lease, this call fails with a status code 412 (Precondition Failed). While the copy is pending, any lease operation on the destination blob will fail with status code 409 (Conflict).  An infinite lease on the destination blob is locked in this way during the copy operation whether you are copying to a destination blob with a different name from the source, copying to a destination blob with the same name as the source, or promoting a snapshot over its base blob. If the client specifies a lease ID on a blob that does not yet exist, the Blob service will return status code 412 (Precondition Failed) for requests made against version 2013-08-15 and later; for prior versions the Blob service will return status code 201 (Created).  
+If the destination blob has an active infinite lease, you must specify its lease ID in the call to the `Copy Blob` operation. If the lease you specify is an active finite-duration lease, this call fails with a status code 412 (Precondition Failed). While the copy is pending, any lease operation on the destination blob will fail with status code 409 (Conflict).  An infinite lease on the destination blob is locked in this way during the copy operation whether you are copying to a destination blob with a different name from the source, copying to a destination blob with the same name as the source, or promoting a snapshot over its base blob. If the client specifies a lease ID on a blob that does not yet exist, the Blob service will return status code 412 (Precondition Failed) for requests made against version 2013-08-15 and later; for prior versions the Blob service will return status code 201 (Created).  
   
- **Copying Snapshots**  
+**Copying Snapshots**  
   
- When a source blob is copied, any snapshots of the source blob are not copied to the destination. When a destination blob is overwritten with a copy, any snapshots associated with the destination blob stay intact under its name.  
+When a source blob is copied, any snapshots of the source blob are not copied to the destination. When a destination blob is overwritten with a copy, any snapshots associated with the destination blob stay intact under its name.  
   
- You can perform a copy operation to promote a snapshot blob over its base blob. In this way you can restore an earlier version of a blob. The snapshot remains, but its destination is overwritten with a copy that can be both read and written.  
+You can perform a copy operation to promote a snapshot blob over its base blob. In this way you can restore an earlier version of a blob. The snapshot remains, but its destination is overwritten with a copy that can be both read and written.  
   
- **Working with a Pending Copy (version 2012-02-12 and newer)**  
+**Working with a Pending Copy (version 2012-02-12 and newer)**  
   
- If the `Copy Blob` operation completes the copy asynchronously, use the following table to determine the next step based on the status code returned by `Copy Blob`:  
+If the `Copy Blob` operation completes the copy asynchronously, use the following table to determine the next step based on the status code returned by `Copy Blob`:  
   
 |Status Code|Meaning|  
 |-----------------|-------------|  
