@@ -255,7 +255,8 @@ JSON example:
 ```json
 {
     "predicateString": "PointValue.Double = 3.14"
-}```
+}
+```
 
 ### Predicate String
 
@@ -431,7 +432,8 @@ JSON example:
         },
         "take": 100
     }
-}```
+}
+```
 
 **Date histogram expression** is used to group DateTime property values into buckets of given size.
 
@@ -448,7 +450,8 @@ JSON example:
             "size": "1m"
         }
     }
-}```
+}
+```
 
 **Numeric histogram expression** is used to group Double property values into given number of buckets.
 
@@ -466,7 +469,8 @@ JSON example:
             "count": 10
         }
     }
-}```
+}
+```
 
 **Measure expression** is used inside *aggregates clause* to compute a scalar value on a set of events. For example, measure expression is the calculation of the maximum value of a temperature sensor during the last 24 hours.
 
@@ -505,7 +509,12 @@ JSON example:
             "property": "propertyB",
             "type": "Double"
         }
-    },
+    }
+}
+```
+
+```json
+{
     "last": {
         "input": {
             "property": "propertyA",
@@ -704,13 +713,20 @@ JSON example:
   - Interval boundaries are optional and can be used. For example, "where boundaries are determined based on search span if interval boundaries are omitted".
 * For numeric histogram one should specify number of breaks. Interval boundaries are determined based on minimum and maximum values of a property.
 
-JSON example:
+JSON examples:
 ```json
 {
     "breaks": {
         "size": "1d",
         "from": "2000-01-02T03:04:05.0000000",
-        "to": "2000-01-02T03:04:05.0000000",
+        "to": "2000-01-02T03:04:05.0000000"
+    }
+}
+```
+
+```json
+{
+    "breaks": {
         "count": 10
     }
 }
