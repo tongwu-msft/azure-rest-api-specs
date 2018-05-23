@@ -7,6 +7,7 @@ apiVersion: "1.0"
 summary: 'This operation recognizes content within an image by applying a domain-specific model.  The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request.  Currently, the API only provides a single domain-specific model: celebrities. Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong.'
 consumes:
 - application/octet-stream
+- multipart/form-data
 produces:
 - application/json
 paths:
@@ -50,7 +51,7 @@ definitions:
     types:
     - uid: string
   - name: metadata
-    description: Additional image metadata
+    description: Image metadata
     types:
     - uid: ImageMetadata
   - name: result.celebrities
@@ -168,7 +169,35 @@ definitions:
     description: Height measured from the top-left point of the face.
     types:
     - uid: integer
-examples: []
+examples:
+- name: Successful Domain Model analysis request
+  request:
+    uri: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/models/{model}/analyze
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "requestId": "f0027b4b-dc0d-4082-9228-1545ed246b03",
+        "metadata": {
+          "width": 1500,
+          "height": 1000,
+          "format": "Jpeg"
+        },
+        "result": {
+          "celebrities": [
+            {
+              "name": "Satya Nadella",
+              "faceRectangle": {
+                "left": 597,
+                "top": 162,
+                "width": 248,
+                "height": 248
+              },
+              "confidence": 0.999028444
+            }
+          ]
+        }
+      }
 security:
 - name: Ocp-Apim-Subscription-Key
   type: apiKey

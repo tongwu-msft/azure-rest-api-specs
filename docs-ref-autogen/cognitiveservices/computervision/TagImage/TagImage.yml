@@ -4,18 +4,25 @@ name: Tag Image
 service: Cognitive Services
 groupName: Tag Image
 apiVersion: "1.0"
-summary: This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag “cello” may be accompanied by the hint “musical instrument”. All tags are in English.
+summary: This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag 'cello' may be accompanied by the hint 'musical instrument'. All tags are in English.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
 - content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/tag
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/tag?language={language}
+  isOptional: true
 uriParameters:
 - name: AzureRegion
   in: path
   isRequired: true
   description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: language
+  in: query
+  description: The desired language for output generation. If this parameter is not specified, the default value is &quot;en&quot;.Supported languages:en - English, Default.ja - Japanese pt - Portuguese zh - Simplified Chinese.
   types:
   - uid: string
 responses:
@@ -32,7 +39,7 @@ requestBody:
   - name: url
     in: body
     isRequired: true
-    description: ''
+    description: Publicly reachable URL of an image
     types:
     - uid: string
 requestHeader: []
@@ -73,7 +80,7 @@ definitions:
   kind: object
   properties:
   - name: url
-    description: ''
+    description: Publicly reachable URL of an image
     types:
     - uid: string
 - name: ImageTag
@@ -150,7 +157,7 @@ definitions:
 examples:
 - name: Successful Tag request
   request:
-    uri: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/tag
+    uri: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/tag?language={language}
   responses:
   - statusCode: "200"
     body: >-
