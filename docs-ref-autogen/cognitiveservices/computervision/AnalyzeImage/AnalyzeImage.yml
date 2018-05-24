@@ -11,7 +11,7 @@ produces:
 - application/json
 paths:
 - content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/analyze
-- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/analyze?overload=url&visualFeatures={visualFeatures}&details={details}&language={language}
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures={visualFeatures}&details={details}&language={language}
   isOptional: true
 uriParameters:
 - name: AzureRegion
@@ -32,9 +32,9 @@ uriParameters:
   - uid: array
 - name: language
   in: query
-  description: A string indicating which language to return. The service will return recognition results in specified language. If this parameter is not specified, the default value is &quot;en&quot;.Supported languages:en - English, Default.zh - Simplified Chinese.
+  description: The desired language for output generation. If this parameter is not specified, the default value is &quot;en&quot;.Supported languages:en - English, Default.ja - Japanese pt - Portuguese zh - Simplified Chinese.
   types:
-  - uid: Language
+  - uid: string
 responses:
 - name: 200 OK
   description: The response include the extracted features in JSON format.Here is the definitions for enumeration typesClipartTypeNon-clipart = 0,  ambiguous = 1, normal-clipart = 2, good-clipart = 3.LineDrawingTypeNon-LineDrawing = 0,LineDrawing = 1.
@@ -49,21 +49,11 @@ requestBody:
   - name: url
     in: body
     isRequired: true
-    description: ''
+    description: Publicly reachable URL of an image
     types:
     - uid: string
 requestHeader: []
 definitions:
-- name: Language
-  description: A string indicating which language to return. The service will return recognition results in specified language. If this parameter is not specified, the default value is &quot;en&quot;.Supported languages:en - English, Default.zh - Simplified Chinese.
-  kind: enum
-  properties:
-  - name: en
-    types:
-    - uid: string
-  - name: zh
-    types:
-    - uid: string
 - name: ImageAnalysis
   description: Result of AnalyzeImage operation.
   kind: object
@@ -74,15 +64,15 @@ definitions:
     - uid: Category
       isArray: true
   - name: adult
-    description: A property scoring on whether the image is adult-oriented and/or racy.
+    description: An object describing whether the image contains adult-oriented content and/or is racy.
     types:
     - uid: AdultInfo
   - name: color
-    description: A property scoring on color spectrums.
+    description: An object providing additional metadata describing color attributes.
     types:
     - uid: ColorInfo
   - name: imageType
-    description: A property indicating type of image (whether it's clipart or line drawing)
+    description: An object providing possible image types and matching confidence levels.
     types:
     - uid: ImageType
   - name: tags
@@ -91,7 +81,7 @@ definitions:
     - uid: ImageTag
       isArray: true
   - name: description
-    description: Description of the image.
+    description: A collection of content tags, along with a list of captions sorted by confidence level, and image metadata.
     types:
     - uid: ImageDescriptionDetails
   - name: faces
@@ -126,7 +116,7 @@ definitions:
   kind: object
   properties:
   - name: url
-    description: ''
+    description: Publicly reachable URL of an image
     types:
     - uid: string
 - name: Category
@@ -142,7 +132,7 @@ definitions:
     types:
     - uid: number
   - name: detail
-    description: Additional category detail if available.
+    description: An object describing additional category details.
     types:
     - uid: CategoryDetail
 - name: AdultInfo
@@ -247,9 +237,7 @@ definitions:
   - name: gender
     description: Possible gender of the face.
     types:
-    - uid: Male
-    - uid: Female
-    typesTitle: enum
+    - uid: Gender-
   - name: faceRectangle
     description: An object describing face rectangle.
     types:
@@ -334,6 +322,16 @@ definitions:
     description: The level of confidence the service has in the caption
     types:
     - uid: number
+- name: Gender-
+  description: Possible gender of the face.
+  kind: enum
+  properties:
+  - name: Male
+    types:
+    - uid: string
+  - name: Female
+    types:
+    - uid: string
 - name: FaceRectangle
   description: An object describing face rectangle.
   kind: object
@@ -373,7 +371,7 @@ definitions:
 examples:
 - name: Successful Analyze with Url request
   request:
-    uri: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/analyze?overload=url&visualFeatures=Categories,Adult,Tags,Description,Faces,Color,ImageType&details=Celebrities&language=en
+    uri: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=Categories,Adult,Tags,Description,Faces,Color,ImageType&details=Celebrities&language=en
   responses:
   - statusCode: "200"
     body: >-
