@@ -21,7 +21,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Data Source (Azure Search Service REST API)
-  In Azure Search, a data source is used with indexers, providing the connection information for ad hoc or scheduled data refresh of a target index. You can create a new data source within an Azure Search service using an HTTP POST request.  
+  In Azure Search, a data source is used with [indexers](create-indexer.md), providing the connection information for ad hoc or scheduled data refresh of a target index, pulling data from [supported Azure data sources](https://docs.microsoft.com/azure/search/search-indexer-overview#supported-data-sources). You can create a new data source within an Azure Search service using an HTTP POST or PUT request.  
 
 ```  
 POST https://[service name].search.windows.net/datasources?api-version=[api-version]  
@@ -41,7 +41,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 ## Request  
  HTTPS is required for all service requests. The **Create Data Source** request can be constructed using either a POST or PUT method. When using POST, you must provide a data source name in the request body along with the data source definition. With PUT, the name is part of the URL. If the data source doesn't exist, it is created. If it already exists, it is updated to the new definition  
 
- The data source name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the data source name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Search&#41;](naming-rules.md) for details.  
+ The data source name must be lower case, start with a letter or number, have no slashes or dots, and have fewer than 128 characters. After starting the data source name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Search&#41;](naming-rules.md) for details.  
 
  The **api-version** is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
@@ -58,7 +58,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 ### Request Body Syntax  
  The body of the request contains a data source definition, which includes type of the data source, credentials to read the data, as well as an optional data change detection and data deletion detection policies that are used to efficiently identify changed or deleted data in the data source when used with a periodically scheduled indexer  
 
- The syntax for structuring the request payload is as follows. A sample request is provided further on in this topic.  
+ The syntax for structuring the request payload is as follows. A sample request is provided further on in this article.  
 
 ```  
 {   
@@ -103,7 +103,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 
 -   Queries that use a filter clause similar to the following `WHERE [High Water Mark Column] > [Current High Water Mark Value]` can be executed efficiently.  
 
- For example, when using Azure SQL data sources, an indexed `rowversion` column is the ideal candidate for use with with the high water mark policy.  
+ For example, when using Azure SQL data sources, an indexed `rowversion` column is the ideal candidate for use with the high water mark policy.  
 
  This policy can be specified as follows:  
 
@@ -187,8 +187,9 @@ When using Azure Blob data sources, Azure Search automatically uses a high water
  For a successful request: 201 Created.  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
- [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
- [Data type map for indexers in Azure Search](data-type-map-for-indexers-in-azure-search.md)  
+
+ + [Azure Search Service REST](index.md)   
+ + [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
+ + [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
+ + [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
+ + [Data type map for indexers in Azure Search](data-type-map-for-indexers-in-azure-search.md)  
