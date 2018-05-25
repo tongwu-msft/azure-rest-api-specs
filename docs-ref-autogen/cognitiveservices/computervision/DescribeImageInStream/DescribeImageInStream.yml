@@ -7,11 +7,12 @@ apiVersion: "1.0"
 summary: This operation generates a description of an image in human readable language with complete sentences.  The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image.  Descriptions are ordered by their confidence score. All descriptions are in English. Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong.
 consumes:
 - application/octet-stream
+- multipart/form-data
 produces:
 - application/json
 paths:
 - content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/describe
-- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/describe?overload=stream&maxCandidates={maxCandidates}
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/describe?overload=stream&maxCandidates={maxCandidates}&language={language}
   isOptional: true
 uriParameters:
 - name: AzureRegion
@@ -23,6 +24,11 @@ uriParameters:
 - name: maxCandidates
   in: query
   description: Maximum number of candidate descriptions to be returned.  The default is 1.
+  types:
+  - uid: string
+- name: language
+  in: query
+  description: The desired language for output generation. If this parameter is not specified, the default value is &quot;en&quot;.Supported languages:en - English, Default.ja - Japanese pt - Portuguese zh - Simplified Chinese.
   types:
   - uid: string
 responses:
@@ -150,7 +156,44 @@ definitions:
   - name: StorageException
     types:
     - uid: string
-examples: []
+examples:
+- name: Successful Describe request
+  request:
+    uri: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/describe?overload=stream&maxCandidates=1
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "description": {
+          "tags": [
+            "person",
+            "man",
+            "outdoor",
+            "window",
+            "glasses"
+          ],
+          "captions": [
+            {
+              "text": "Satya Nadella sitting on a bench",
+              "confidence": 0.48293603002174407
+            },
+            {
+              "text": "Satya Nadella is sitting on a bench",
+              "confidence": 0.40037006815422832
+            },
+            {
+              "text": "Satya Nadella sitting in front of a building",
+              "confidence": 0.38035155997373377
+            }
+          ]
+        },
+        "requestId": "ed2de1c6-fb55-4686-b0da-4da6e05d283f",
+        "metadata": {
+          "width": 1500,
+          "height": 1000,
+          "format": "Jpeg"
+        }
+      }
 security:
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
