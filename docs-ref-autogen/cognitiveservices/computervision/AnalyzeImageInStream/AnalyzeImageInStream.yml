@@ -7,6 +7,7 @@ apiVersion: "1.0"
 summary: This operation extracts a rich set of visual features based on the image content.
 consumes:
 - application/octet-stream
+- multipart/form-data
 produces:
 - application/json
 paths:
@@ -32,7 +33,7 @@ uriParameters:
   - uid: string
 - name: language
   in: query
-  description: A string indicating which language to return. The service will return recognition results in specified language. If this parameter is not specified, the default value is &quot;en&quot;.Supported languages:en - English, Default.zh - Simplified Chinese.
+  description: The desired language for output generation. If this parameter is not specified, the default value is &quot;en&quot;.Supported languages:en - English, Default.ja - Japanese pt - Portuguese zh - Simplified Chinese.
   types:
   - uid: string
 responses:
@@ -62,15 +63,15 @@ definitions:
     - uid: Category
       isArray: true
   - name: adult
-    description: A property scoring on whether the image is adult-oriented and/or racy.
+    description: An object describing whether the image contains adult-oriented content and/or is racy.
     types:
     - uid: AdultInfo
   - name: color
-    description: A property scoring on color spectrums.
+    description: An object providing additional metadata describing color attributes.
     types:
     - uid: ColorInfo
   - name: imageType
-    description: A property indicating type of image (whether it's clipart or line drawing)
+    description: An object providing possible image types and matching confidence levels.
     types:
     - uid: ImageType
   - name: tags
@@ -79,7 +80,7 @@ definitions:
     - uid: ImageTag
       isArray: true
   - name: description
-    description: Description of the image.
+    description: A collection of content tags, along with a list of captions sorted by confidence level, and image metadata.
     types:
     - uid: ImageDescriptionDetails
   - name: faces
@@ -123,7 +124,7 @@ definitions:
     types:
     - uid: number
   - name: detail
-    description: Additional category detail if available.
+    description: An object describing additional category details.
     types:
     - uid: CategoryDetail
 - name: AdultInfo
@@ -228,9 +229,7 @@ definitions:
   - name: gender
     description: Possible gender of the face.
     types:
-    - uid: Male
-    - uid: Female
-    typesTitle: enum
+    - uid: Gender-
   - name: faceRectangle
     description: An object describing face rectangle.
     types:
@@ -315,6 +314,16 @@ definitions:
     description: The level of confidence the service has in the caption
     types:
     - uid: number
+- name: Gender-
+  description: Possible gender of the face.
+  kind: enum
+  properties:
+  - name: Male
+    types:
+    - uid: string
+  - name: Female
+    types:
+    - uid: string
 - name: FaceRectangle
   description: An object describing face rectangle.
   kind: object
@@ -351,7 +360,116 @@ definitions:
     description: An object describing face rectangle.
     types:
     - uid: FaceRectangle
-examples: []
+examples:
+- name: Successful Analyze with Url request
+  request:
+    uri: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/analyze?overload=stream&visualFeatures=Categories,Adult,Tags,Description,Faces,Color,ImageType&details=Celebrities&language=en
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "categories": [
+          {
+            "name": "abstract_",
+            "score": 0.00390625
+          },
+          {
+            "name": "people_",
+            "score": 0.83984375,
+            "detail": {
+              "celebrities": [
+                {
+                  "name": "Satya Nadella",
+                  "faceRectangle": {
+                    "left": 597,
+                    "top": 162,
+                    "width": 248,
+                    "height": 248
+                  },
+                  "confidence": 0.999028444
+                }
+              ],
+              "landmarks": [
+                {
+                  "name": "Forbidden City",
+                  "confidence": 0.9978346
+                }
+              ]
+            }
+          }
+        ],
+        "adult": {
+          "isAdultContent": false,
+          "isRacyContent": false,
+          "adultScore": 0.0934349000453949,
+          "racyScore": 0.068613491952419281
+        },
+        "tags": [
+          {
+            "name": "person",
+            "confidence": 0.98979085683822632
+          },
+          {
+            "name": "man",
+            "confidence": 0.94493889808654785
+          },
+          {
+            "name": "outdoor",
+            "confidence": 0.938492476940155
+          },
+          {
+            "name": "window",
+            "confidence": 0.89513939619064331
+          }
+        ],
+        "description": {
+          "tags": [
+            "person",
+            "man",
+            "outdoor",
+            "window",
+            "glasses"
+          ],
+          "captions": [
+            {
+              "text": "Satya Nadella sitting on a bench",
+              "confidence": 0.48293603002174407
+            }
+          ]
+        },
+        "requestId": "0dbec5ad-a3d3-4f7e-96b4-dfd57efe967d",
+        "metadata": {
+          "width": 1500,
+          "height": 1000,
+          "format": "Jpeg"
+        },
+        "faces": [
+          {
+            "age": 44,
+            "gender": "Male",
+            "faceRectangle": {
+              "left": 593,
+              "top": 160,
+              "width": 250,
+              "height": 250
+            }
+          }
+        ],
+        "color": {
+          "dominantColorForeground": "Brown",
+          "dominantColorBackground": "Brown",
+          "dominantColors": [
+            "Brown",
+            "Black"
+          ],
+          "accentColor": "873B59",
+          "isBWImg": false
+        },
+        "imageType": {
+          "clipArtType": 0,
+          "lineDrawingType": 0
+        }
+      }
 security:
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
