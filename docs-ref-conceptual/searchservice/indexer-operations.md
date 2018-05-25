@@ -81,19 +81,19 @@ Using an indexer is efficient, [removing the need to write code to index your da
 
  [Create Data Source](create-data-source.md)  
 
-```  
+```http   
 POST https://[service name].search.windows.net/datasources?api-version=[api-version]  
     Content-Type: application/json  
     api-key: [admin key]  
 ```  
 
-```  
+```http   
 PUT https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
 ```  
 
  [Update Data Source](update-data-source.md)  
 
-```  
+```http   
 PUT https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
     Content-Type: application/json  
     api-key: [admin key]  
@@ -101,40 +101,40 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 
  [List Data Sources](list-data-sources.md)  
 
-```  
+```http   
 GET https://[service name].search.windows.net/datasources?api-version=[api-version]  
     api-key: [admin key]  
 ```  
 
  [Get Data Source](get-data-source.md)  
 
-```  
+```http   
 GET https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
     api-key: [admin key]  
 ```  
 
  [Delete Data Source](delete-data-source.md)  
 
-```  
+```http   
 DELETE https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
     api-key: [admin key]  
 ```  
 
  [Create Indexer](create-indexer.md)  
 
-```  
+```http   
 POST https://[service name].search.windows.net/indexers?api-version=[api-version]  
     Content-Type: application/json  
     api-key: [admin key]  
 ```  
 
-```  
+```http   
 PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
 ```  
 
  [Update Indexer](update-indexer.md)  
 
-```  
+```http   
 PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
     Content-Type: application/json  
     api-key: [admin key]  
@@ -142,44 +142,52 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
 
  [List Indexers](list-indexers.md)  
 
-```  
+```http   
 GET https://[service name].search.windows.net/indexers?api-version=[api-version]  
     api-key: [admin key  
 ```  
 
  [Get Indexer](get-indexer.md)  
 
-```  
+```http   
 GET https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
     api-key: [admin key]  
 ```  
 
  [Delete Indexer](delete-indexer.md)  
 
-```  
+```http   
 DELETE https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
     api-key: [admin key]  
 ```  
 
  [Run Indexer](run-indexer.md)  
 
-```  
+```http   
 POST https://[service name].search.windows.net/indexers/[indexer name]/run?api-version=[api-version]  
     api-key: [admin key]  
 ```  
 
  [Get Indexer Status](get-indexer-status.md)  
 
-```  
+```http   
 GET https://[service name].search.windows.net/indexers/[indexer name]/status?api-version=[api-version]  
     api-key: [admin key]  
 ```  
 
  [Reset Indexer](reset-indexer.md)  
 
-```  
+```http   
 POST https://[service name].search.windows.net/indexers/[indexer name]/reset?api-version=[api-version]  
     api-key: [admin key]  
+```  
+
+ [Create Skillset](create-skillset.md)  
+
+```http  
+PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2017-11-11-Preview
+api-key: [admin key]
+Content-Type: application/json
 ```  
 
 ## See also  
