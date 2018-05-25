@@ -21,7 +21,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Data Source (Azure Search Service REST API)
-  In Azure Search, a data source is used with indexers, providing the connection information for ad hoc or scheduled data refresh of a target index. You can create a new data source within an Azure Search service using an HTTP POST request.  
+  In Azure Search, a data source is used with [indexers](create-indexer.md), providing the connection information for ad hoc or scheduled data refresh of a target index, pulling data from [supported Azure data sources](https://docs.microsoft.com/azure/search/search-indexer-overview#supported-data-sources). You can create a new data source within an Azure Search service using an HTTP POST or PUT request.  
 
 ```  
 POST https://[service name].search.windows.net/datasources?api-version=[api-version]  

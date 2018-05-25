@@ -25,13 +25,21 @@ service_description: To be added
 
 Azure Search is a fully managed cloud search service that provides a rich search experience to custom applications. One way to add search capability is through a REST API, with operations that create and manage indexes, load data, implement search features, execute queries, and handle results.
 
-Version 2017-11-11 is the most current generally available release of the Azure Search Service REST API. New features in this API version include:
+## Genenerally available and preview versions
+
+**2017-11-11** is the most current generally available release of the Azure Search Service REST API. New features in this API version include:
 
   - [Synonyms](https://docs.microsoft.com/azure/search/search-synonyms). The new synonyms feature allows you to define equivalent terms and expand the scope of the query.
   - [Support for efficiently indexing text blobs](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-blob-storage#IndexingPlainText). The new `text` parsing mode for Azure Blob indexers significantly improves indexing performance.
   - [Service Statistics API](get-service-statistics.md). View the current usage and limits of resources in Azure Search with this new API.
 
 For details on how to upgrade from a previous GA version, see [Upgrading to the latest Azure Search Service REST API version](https://docs.microsoft.com/azure/search/search-api-migration).
+
+**2017-11-11-Preview** is the most current preview version. Preview features include:
+
+  -  [cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) with new and updated REST APIs for enriching the indexing pipeline. [Create Skillset](create-skillset.md) specifies a collection of [predefined skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills) and [custom skills](https://docs.microsoft.com/azure/search/cognitive-search-create-custom-skill-example) that add natural language and image processing steps to indexing. [Create Indexer](create-indexer.md) called with `api-version=2017-11-11-Preview` adds a **skillSetName** element and **outputFieldMappings** for chaining inputs and outputs created through a skillset.
+
+For the full list of preview features, see [Preview APIs](https://docs.microsoft.com/azure/search/search-api-preview).
 
 ## Overview
 
