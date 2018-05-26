@@ -1,6 +1,6 @@
 ---
 title: "ApplicationHealthPolicy"
-ms.date: "2018-01-22"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -36,7 +36,7 @@ Defines a health policy used to evaluate the health of an application or one of 
 | [ConsiderWarningAsError](#considerwarningaserror) | boolean | No |
 | [MaxPercentUnhealthyDeployedApplications](#maxpercentunhealthydeployedapplications) | integer | No |
 | [DefaultServiceTypeHealthPolicy](#defaultservicetypehealthpolicy) | [ServiceTypeHealthPolicy](sfrp-2017-07-01-preview-model-servicetypehealthpolicy.md) | No |
-| [ServiceTypeHealthPolicyMap](#servicetypehealthpolicymap) | array of [ServiceTypeHealthPolicyMapItem](sfrp-2017-07-01-preview-model-servicetypehealthpolicymapitem.md) | No |
+| [ServiceTypeHealthPolicyMap](#servicetypehealthpolicymap) | map of string to [ServiceTypeHealthPolicy](sfrp-2017-07-01-preview-model-servicetypehealthpolicy.md) | No |
 
 ____
 ### ConsiderWarningAsError
@@ -67,7 +67,7 @@ The health policy used by default to evaluate the health of a service type.
 
 ____
 ### ServiceTypeHealthPolicyMap
-__Type__: array of [ServiceTypeHealthPolicyMapItem](sfrp-2017-07-01-preview-model-servicetypehealthpolicymapitem.md) <br/>
+__Type__: map of string to [ServiceTypeHealthPolicy](sfrp-2017-07-01-preview-model-servicetypehealthpolicy.md) <br/>
 __Required__: No<br/>
 <br/>
-The map with service type health policy per service type name. The map is empty be default.
+The map with service type health policy per service type name. The map is empty by default.

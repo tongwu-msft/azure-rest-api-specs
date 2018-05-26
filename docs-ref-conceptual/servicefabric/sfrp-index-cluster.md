@@ -1,6 +1,6 @@
 ---
 title: "Cluster"
-ms.date: "2017-05-16"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,10 +29,10 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
-| [Create](sfrp-api-clusters_create.md) | Create a ServiceFabric cluster<br/> |
-| [Delete](sfrp-api-clusters_delete.md) | Delete cluster resource<br/> |
-| [Get](sfrp-api-clusters_get.md) | Get cluster resource<br/> |
-| [Update](sfrp-api-clusters_update.md) | Update cluster configuration<br/> |
-| [List By Resource Group](sfrp-api-clusters_listbyresourcegroup.md) | List cluster resource by resource group<br/> |
-| [List](sfrp-api-clusters_list.md) | List cluster resource<br/> |
+| [Get](sfrp-api-clusters_get.md) | Gets a Service Fabric cluster resource.<br/> |
+| [Create](sfrp-api-clusters_create.md) | Creates or updates a Service Fabric cluster resource.<br/> |
+| [Update](sfrp-api-clusters_update.md) | Updates the configuration of a Service Fabric cluster resource.<br/> |
+| [Delete](sfrp-api-clusters_delete.md) | Deletes a Service Fabric cluster resource.<br/> |
+| [List By Resource Group](sfrp-api-clusters_listbyresourcegroup.md) | Gets the list of Service Fabric cluster resources created in the specified resource group.<br/> |
+| [List](sfrp-api-clusters_list.md) | Gets the list of Service Fabric cluster resources created in the specified subscription.<br/> |
 
