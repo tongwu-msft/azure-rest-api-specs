@@ -11,7 +11,7 @@ service_description: To be added
 
 # Azure Data Lake Analytics REST API
 
-Use the Azure Data Lake Analytics REST APIs to create and manage Data Lake Analytics resources through Azure Resource Manager. All task operations conform to the HTTP/1.1 protocol specification and most operations return an `x-ms-request-id` header that can be used to obtain information about the request. You must make sure that requests made to these resources are secure, using `https`. For more information on making secure requests, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).
+Use the Azure Data Lake Analytics REST APIs to create and manage Data Lake Analytics resources through Azure Resource Manager. All task operations conform to the HTTP/1.1 protocol specification and most operations return an `x-ms-request-id` header that can be used to obtain information about the request. You must make sure that requests made to these resources are secure, using `https`. For more information on making secure requests, see [Acquire an access token](/rest/api/azure/#acquire-an-access-token).
 
 ## REST Operation Groups
 
@@ -38,7 +38,7 @@ The following information is common to all tasks that you might do related to Da
 * Replace `{resource-group-name}` with the resource group. For more information, see [Using Resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).
 Replace `{account-name}` in the URI with your Data Lake Analytics account name.
 * Set the **Content-Type** header to **application/json**.
-* Set the **Authorization** header to a JSON Web Token that you obtain from Azure Active Directory. For job, pipeline, recurrence, and catalog operations, be sure to obtain a token for the resource URI / audience claim “https://datalake.azure.net/”, NOT “https://management.core.windows.net/” nor “https://management.azure.com/”. For more information, see Authenticating Azure Resource Manager requests.
+* Set the **Authorization** header to a JSON Web Token that you obtain from Azure Active Directory. For job, pipeline, recurrence, and catalog operations, be sure to obtain a token for the resource URI / audience claim “https://datalake.azure.net/”, NOT “https://management.core.windows.net/” nor “https://management.azure.com/”. For more information, see [Acquire an access token](/rest/api/azure/#acquire-an-access-token).
 
 ## See also
 
