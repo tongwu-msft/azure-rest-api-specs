@@ -46,7 +46,7 @@ x-ms-meta-name:string-value
   
  Names are case-insensitive. Note that metadata names preserve the case with which they were created, but are case-insensitive when set or read. If two or more metadata headers with the same name are submitted for a resource, the Blob service returns status code 400 (Bad Request).  
   
- The total size of the metadata, including both the name and value together, may not exceed 8 KB in size.  
+ The metadata consists of name/value pairs. The total size of all metadata pairs can be up to 8KB in size.  
   
  Metadata name/value pairs are valid HTTP headers, and so they adhere to all restrictions governing HTTP headers.  
   
