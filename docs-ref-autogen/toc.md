@@ -6520,6 +6520,8 @@
 ## [Data Masking Rules](sql/DataMaskingRules.yml)
 ### [Create Or Update](sql/DataMaskingRules/CreateOrUpdate.yml)
 ### [List By Database](sql/DataMaskingRules/ListByDatabase.yml)
+## [Data Warehouse User Activities](sql/DataWarehouseUserActivities.yml)
+### [Get](sql/DataWarehouseUserActivities/Get.yml)
 ## [Database Advisors](sql/DatabaseAdvisors.yml)
 ### [Get](sql/DatabaseAdvisors/Get.yml)
 ### [List By Database](sql/DatabaseAdvisors/ListByDatabase.yml)
