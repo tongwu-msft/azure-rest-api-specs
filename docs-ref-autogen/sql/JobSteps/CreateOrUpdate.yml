@@ -1,0 +1,435 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.jobsteps.createorupdate
+name: Create Or Update
+service: SQL Database
+groupName: Job Steps
+apiVersion: 2017-03-01-preview
+summary: Creates or updates a job step. This will implicitly create a new job version.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}?api-version=2017-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: jobAgentName
+  in: path
+  isRequired: true
+  description: The name of the job agent.
+  types:
+  - uid: string
+- name: jobName
+  in: path
+  isRequired: true
+  description: The name of the job.
+  types:
+  - uid: string
+- name: stepName
+  in: path
+  isRequired: true
+  description: The name of the job step.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully updated the job step.
+  types:
+  - uid: JobStep
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 JobStepIdMismatch - Step Id in the specified Job Step URI does not match step id in provided Job Step Resource.
+
+     * 400 InvalidResourceRequestBody - The resource or resource properties in the request body is empty or invalid.
+
+     * 400 InvalidResourceId - Invalid resource identifier.
+
+     * 400 MismatchingSubscriptionWithUrl - The provided subscription did not match the subscription in the Url.
+
+     * 400 MismatchingResourceGroupNameWithUrl - The provided resource group name did not match the name in the Url.
+
+     * 400 MismatchingServerNameWithUrl - The provided server name did not match the name in the Url.
+
+     * 400 MismatchingJobAccountNameWithUrl - The provided job account name did not match the name in the Url.
+
+     * 400 ElasticJobsOperationFailed - Elastic jobs management operation failed.
+
+     * 400 ElasticJobsOperationFailed - Elastic jobs management operation failed.
+
+     * 404 JobAgentNotFound - Specified job agent does not exist in the specified logical server.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+- name: 201 Created
+  description: Successfully added the job step.
+  types:
+  - uid: JobStep
+requestBody:
+- parameters:
+  - name: properties.stepId
+    in: body
+    description: The job step's index within the job. If not specified when creating the job step, it will be created as the last step. If not specified when updating the job step, the step id is not modified.
+    types:
+    - uid: integer
+  - name: properties.targetGroup
+    in: body
+    isRequired: true
+    description: The resource ID of the target group that the job step will be executed on.
+    types:
+    - uid: string
+  - name: properties.credential
+    in: body
+    isRequired: true
+    description: The resource ID of the job credential that will be used to connect to the targets.
+    types:
+    - uid: string
+  - name: properties.action
+    in: body
+    isRequired: true
+    description: The action payload of the job step.
+    types:
+    - uid: JobStepAction
+  - name: properties.output
+    in: body
+    description: Output destination properties of the job step.
+    types:
+    - uid: JobStepOutput
+  - name: properties.executionOptions
+    in: body
+    description: Execution options for the job step.
+    types:
+    - uid: JobStepExecutionOptions
+requestHeader: []
+definitions:
+- name: JobStepAction
+  description: The action to be executed by a job step.
+  kind: object
+  properties:
+  - name: type
+    description: Type of action being executed by the job step.
+    types:
+    - uid: JobStepActionType
+  - name: source
+    description: The source of the action to execute.
+    types:
+    - uid: JobStepActionSource
+  - name: value
+    description: The action value, for example the text of the T-SQL script to execute.
+    types:
+    - uid: string
+- name: JobStepOutput
+  description: The output configuration of a job step.
+  kind: object
+  properties:
+  - name: type
+    description: The output destination type.
+    types:
+    - uid: JobStepOutputType
+  - name: subscriptionId
+    description: The output destination subscription id.
+    types:
+    - uid: string
+  - name: resourceGroupName
+    description: The output destination resource group.
+    types:
+    - uid: string
+  - name: serverName
+    description: The output destination server name.
+    types:
+    - uid: string
+  - name: databaseName
+    description: The output destination database.
+    types:
+    - uid: string
+  - name: schemaName
+    description: The output destination schema.
+    types:
+    - uid: string
+  - name: tableName
+    description: The output destination table.
+    types:
+    - uid: string
+  - name: credential
+    description: The resource ID of the credential to use to connect to the output destination.
+    types:
+    - uid: string
+- name: JobStepExecutionOptions
+  description: The execution options of a job step.
+  kind: object
+  properties:
+  - name: timeoutSeconds
+    description: Execution timeout for the job step.
+    types:
+    - uid: integer
+  - name: retryAttempts
+    description: Maximum number of times the job step will be reattempted if the first attempt fails.
+    types:
+    - uid: integer
+  - name: initialRetryIntervalSeconds
+    description: Initial delay between retries for job step execution.
+    types:
+    - uid: integer
+  - name: maximumRetryIntervalSeconds
+    description: The maximum amount of time to wait between retries for job step execution.
+    types:
+    - uid: integer
+  - name: retryIntervalBackoffMultiplier
+    description: The backoff multiplier for the time between retries.
+    types:
+    - uid: number
+- name: JobStep
+  description: A job step.
+  kind: object
+  properties:
+  - name: properties.stepId
+    description: The job step's index within the job. If not specified when creating the job step, it will be created as the last step. If not specified when updating the job step, the step id is not modified.
+    types:
+    - uid: integer
+  - name: properties.targetGroup
+    description: The resource ID of the target group that the job step will be executed on.
+    types:
+    - uid: string
+  - name: properties.credential
+    description: The resource ID of the job credential that will be used to connect to the targets.
+    types:
+    - uid: string
+  - name: properties.action
+    description: The action payload of the job step.
+    types:
+    - uid: JobStepAction
+  - name: properties.output
+    description: Output destination properties of the job step.
+    types:
+    - uid: JobStepOutput
+  - name: properties.executionOptions
+    description: Execution options for the job step.
+    types:
+    - uid: JobStepExecutionOptions
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: JobStepActionType
+  description: Type of action being executed by the job step.
+  kind: enum
+  properties:
+  - name: TSql
+    types:
+    - uid: string
+- name: JobStepActionSource
+  description: The source of the action to execute.
+  kind: enum
+  properties:
+  - name: Inline
+    types:
+    - uid: string
+- name: JobStepOutputType
+  description: The output destination type.
+  kind: enum
+  properties:
+  - name: SqlDatabase
+    types:
+    - uid: string
+examples:
+- name: Create or update a job step with minimal properties specified.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1/steps/step1?api-version=2017-03-01-preview
+    body: >-
+      {
+        "properties": {
+          "targetGroup": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup0",
+          "credential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred0",
+          "action": {
+            "value": "select 1"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "stepId": 1,
+          "targetGroup": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup0",
+          "credential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred0",
+          "action": {
+            "type": "TSql",
+            "source": "Inline",
+            "value": "select 1"
+          },
+          "executionOptions": {
+            "timeoutSeconds": 43200,
+            "retryAttempts": 10,
+            "initialRetryIntervalSeconds": 1,
+            "maximumRetryIntervalSeconds": 120,
+            "retryIntervalBackoffMultiplier": 2
+          }
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1/steps/step1",
+        "name": "step1",
+        "type": "Microsoft.Sql/servers/jobAgents/jobs/steps"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "stepId": 1,
+          "targetGroup": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup0",
+          "credential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred0",
+          "action": {
+            "type": "TSql",
+            "source": "Inline",
+            "value": "select 1"
+          },
+          "executionOptions": {
+            "timeoutSeconds": 43200,
+            "retryAttempts": 10,
+            "initialRetryIntervalSeconds": 1,
+            "maximumRetryIntervalSeconds": 120,
+            "retryIntervalBackoffMultiplier": 2
+          }
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1/steps/step1",
+        "name": "step1",
+        "type": "Microsoft.Sql/servers/jobAgents/jobs/steps"
+      }
+- name: Create or update a job step with all properties specified.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1/steps/step1?api-version=2017-03-01-preview
+    body: >-
+      {
+        "properties": {
+          "stepId": 1,
+          "targetGroup": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup1",
+          "credential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred1",
+          "action": {
+            "type": "TSql",
+            "source": "Inline",
+            "value": "select 2"
+          },
+          "output": {
+            "type": "SqlDatabase",
+            "subscriptionId": "3501b905-a848-4b5d-96e8-b253f62d735a",
+            "resourceGroupName": "group3",
+            "serverName": "server3",
+            "databaseName": "database3",
+            "schemaName": "myschema1234",
+            "tableName": "mytable5678",
+            "credential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred0"
+          },
+          "executionOptions": {
+            "timeoutSeconds": 1234,
+            "retryAttempts": 42,
+            "initialRetryIntervalSeconds": 11,
+            "maximumRetryIntervalSeconds": 222,
+            "retryIntervalBackoffMultiplier": 3
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "stepId": 1,
+          "targetGroup": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup1",
+          "credential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred1",
+          "action": {
+            "type": "TSql",
+            "source": "Inline",
+            "value": "select 2"
+          },
+          "output": {
+            "type": "SqlDatabase",
+            "subscriptionId": "3501b905-a848-4b5d-96e8-b253f62d735a",
+            "resourceGroupName": "group3",
+            "serverName": "server3",
+            "databaseName": "database3",
+            "schemaName": "myschema1234",
+            "tableName": "mytable5678",
+            "credential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred0"
+          },
+          "executionOptions": {
+            "timeoutSeconds": 1234,
+            "retryAttempts": 42,
+            "initialRetryIntervalSeconds": 11,
+            "maximumRetryIntervalSeconds": 222,
+            "retryIntervalBackoffMultiplier": 3
+          }
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1/steps/step1",
+        "name": "step1",
+        "type": "Microsoft.Sql/servers/jobAgents/jobs/steps"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "stepId": 1,
+          "targetGroup": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup1",
+          "credential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred1",
+          "action": {
+            "type": "TSql",
+            "source": "Inline",
+            "value": "select 2"
+          },
+          "output": {
+            "type": "SqlDatabase",
+            "subscriptionId": "3501b905-a848-4b5d-96e8-b253f62d735a",
+            "resourceGroupName": "group3",
+            "serverName": "server3",
+            "databaseName": "database3",
+            "schemaName": "myschema1234",
+            "tableName": "mytable5678",
+            "credential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred0"
+          },
+          "executionOptions": {
+            "timeoutSeconds": 1234,
+            "retryAttempts": 42,
+            "initialRetryIntervalSeconds": 11,
+            "maximumRetryIntervalSeconds": 222,
+            "retryIntervalBackoffMultiplier": 3
+          }
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1/steps/step1",
+        "name": "step1",
+        "type": "Microsoft.Sql/servers/jobAgents/jobs/steps"
+      }
+security: []

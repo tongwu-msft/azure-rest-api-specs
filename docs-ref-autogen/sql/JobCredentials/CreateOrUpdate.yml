@@ -1,0 +1,148 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.jobcredentials.createorupdate
+name: Create Or Update
+service: SQL Database
+groupName: Job Credentials
+apiVersion: 2017-03-01-preview
+summary: Creates or updates a job credential.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}?api-version=2017-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: jobAgentName
+  in: path
+  isRequired: true
+  description: The name of the job agent.
+  types:
+  - uid: string
+- name: credentialName
+  in: path
+  isRequired: true
+  description: The name of the credential.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully updated the credential.
+  types:
+  - uid: JobCredential
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidResourceRequestBody - The resource or resource properties in the request body is empty or invalid.
+
+     * 400 InvalidJobCredentialUsername - Invalid credential username.
+
+     * 403 JobCredentialPermissionError - Azure Resource Manager does not have permission to use or manage the credential.
+
+     * 404 JobAgentNotFound - Specified job agent does not exist in the specified logical server.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+- name: 201 Created
+  description: Successfully created the credential.
+  types:
+  - uid: JobCredential
+requestBody:
+- parameters:
+  - name: properties.username
+    in: body
+    isRequired: true
+    description: The credential user name.
+    types:
+    - uid: string
+  - name: properties.password
+    in: body
+    isRequired: true
+    description: The credential password.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: JobCredential
+  description: A stored credential that can be used by a job to connect to target databases.
+  kind: object
+  properties:
+  - name: properties.username
+    description: The credential user name.
+    types:
+    - uid: string
+  - name: properties.password
+    description: The credential password.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: Create or update a credential
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred1?api-version=2017-03-01-preview
+    body: >-
+      {
+        "properties": {
+          "username": "myuser",
+          "password": "<password>"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred1",
+        "name": "cred1",
+        "type": "Microsoft.Sql/servers/jobAccounts/credentials",
+        "properties": {
+          "username": "myuser"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred1",
+        "name": "cred1",
+        "type": "Microsoft.Sql/servers/jobAccounts/credentials",
+        "properties": {
+          "username": "myuser"
+        }
+      }
+security: []
