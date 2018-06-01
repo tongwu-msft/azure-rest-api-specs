@@ -1,0 +1,498 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.manageddatabases.createorupdate
+name: Create Or Update
+service: SQL Database
+groupName: Managed Databases
+apiVersion: 2017-03-01-preview
+summary: Creates a new database or updates an existing database.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}?api-version=2017-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully updated the database.
+  types:
+  - uid: ManagedDatabase
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 CannotUseTrailingWhitespacesInDatabaseName - The database name validation failed.
+
+     * 400 SourceDatabaseNotFound - The source database does not exist.
+
+     * 400 RegionDoesNotSupportVersion - A user attempted to create a server of a specified version in a location where that server version isn't supported.
+
+     * 400 CannotUseReservedDatabaseName - Cannot use reserved database name in this operation.
+
+     * 400 SubscriptionNotFound - The requested subscription was not found.
+
+     * 400 InvalidServerName - Invalid server name specified.
+
+     * 400 SourceServerNotFound - The server part of a source database id provided in a CreateDatabaseAsCopy API call doesn't map to an existing server.
+
+     * 400 TokenTooLong - The provided token is too long.
+
+     * 400 CurrentDatabaseSizeExceedsMaxSize - User attempted to reduce the max size for a database to a size smaller than the current usage.
+
+     * 400 InvalidCollation - Collation is not recognized by the server.
+
+     * 400 ServerNotFound - The requested server was not found.
+
+     * 400 UnsupportedServiceName - The specified name is an invalid name because it contains one or more unsupported unicode characters.
+
+     * 400 CurrentDatabaseLogSizeExceedsMaxSize - User attempted to change the database to a sku with lower max log size than the current usage.
+
+     * 400 InvalidDatabaseCreateOrUpdateRequest - The request body for the create or update database operation is invalid.
+
+     * 400 InvalidResourceId - Invalid resource identifier.
+
+     * 400 InvalidSourceDatabaseId - Invalid source database identifier.
+
+     * 400 MismatchingResourceGroupNameWithUrl - The provided resource group name did not match the name in the Url.
+
+     * 400 MismatchingServerNameWithUrl - The provided server name did not match the name in the Url.
+
+     * 400 MismatchingSubscriptionWithUrl - The provided subscription did not match the subscription in the Url.
+
+     * 400 MissingCollation - Collation is required.
+
+     * 400 MissingSourceDatabaseId - Missing source database identifier.
+
+     * 400 MissingRestorePointInTime - Missing restore point in time
+
+     * 400 MissingStorageContainerSasToken - Missing storage container SAS token
+
+     * 400 MissingStorageContainerUri - Missing storage container URI
+
+     * 400 RestorableDroppedDatabaseIdGivenForRestoreWithSourceDatabaseId - Cannot specify restorableDroppedDatabaseId when sourceDatabaseId is already given in restore create mode
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 CannotFindObject - Cannot find the object because it does not exist or you do not have permissions
+
+     * 404 ServerNotInSubscription - Specified server does not exist on the specified subscription.
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 409 RemoteDatabaseExists - The destination database name already exists on the destination server.
+
+     * 409 ConflictingDatabaseOperation - There is already some operation on the database and the current operation should wait till it is done.
+
+     * 409 SubscriptionDisabled - Subscription is disabled.
+
+     * 409 ConflictingSystemOperationInProgress - A system maintenance operation is in progress on the database and further operations need to wait until it is completed.
+
+     * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 500 ActivateOrDeactivateWorkflowThrottling - Activation or deactivation workflow failed because there are too many concurrent workflows
+
+     * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 504 RequestTimeout - Service request exceeded the allowed timeout.
+- name: 202 Accepted
+  description: Accepted
+- name: 201 Created
+  description: Successfully created the database.
+  types:
+  - uid: ManagedDatabase
+requestBody:
+- parameters:
+  - name: properties.collation
+    in: body
+    description: Collation of the managed database.
+    types:
+    - uid: string
+  - name: properties.restorePointInTime
+    in: body
+    description: Conditional. If createMode is PointInTimeRestore, this value is required. Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database.
+    types:
+    - uid: string
+  - name: properties.catalogCollation
+    in: body
+    description: Collation of the metadata catalog.
+    types:
+    - uid: CatalogCollationType
+  - name: properties.createMode
+    in: body
+    description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified.'
+    types:
+    - uid: ManagedDatabaseCreateMode
+  - name: properties.storageContainerUri
+    in: body
+    description: Conditional. If createMode is RestoreExternalBackup, this value is required. Specifies the uri of the storage container where backups for this restore are stored.
+    types:
+    - uid: string
+  - name: properties.sourceDatabaseId
+    in: body
+    description: The resource identifier of the source database associated with create operation of this database.
+    types:
+    - uid: string
+  - name: properties.storageContainerSasToken
+    in: body
+    description: Conditional. If createMode is RestoreExternalBackup, this value is required. Specifies the storage container sas token.
+    types:
+    - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: ManagedDatabase
+  description: A managed database resource.
+  kind: object
+  properties:
+  - name: properties.collation
+    description: Collation of the managed database.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: Status for the database.
+    types:
+    - uid: ManagedDatabaseStatus
+  - name: properties.creationDate
+    isReadyOnly: true
+    description: Creation date of the database.
+    types:
+    - uid: string
+  - name: properties.earliestRestorePoint
+    isReadyOnly: true
+    description: Earliest restore point in time for point in time restore.
+    types:
+    - uid: string
+  - name: properties.restorePointInTime
+    description: Conditional. If createMode is PointInTimeRestore, this value is required. Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database.
+    types:
+    - uid: string
+  - name: properties.defaultSecondaryLocation
+    isReadyOnly: true
+    description: Geo paired region.
+    types:
+    - uid: string
+  - name: properties.catalogCollation
+    description: Collation of the metadata catalog.
+    types:
+    - uid: CatalogCollationType
+  - name: properties.createMode
+    description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified.'
+    types:
+    - uid: ManagedDatabaseCreateMode
+  - name: properties.storageContainerUri
+    description: Conditional. If createMode is RestoreExternalBackup, this value is required. Specifies the uri of the storage container where backups for this restore are stored.
+    types:
+    - uid: string
+  - name: properties.sourceDatabaseId
+    description: The resource identifier of the source database associated with create operation of this database.
+    types:
+    - uid: string
+  - name: properties.storageContainerSasToken
+    description: Conditional. If createMode is RestoreExternalBackup, this value is required. Specifies the storage container sas token.
+    types:
+    - uid: string
+  - name: properties.failoverGroupId
+    isReadyOnly: true
+    description: Instance Failover Group resource identifier that this managed database belongs to.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ManagedDatabaseStatus
+  description: Status for the database.
+  kind: enum
+  properties:
+  - name: Online
+    types:
+    - uid: string
+  - name: Offline
+    types:
+    - uid: string
+  - name: Shutdown
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Inaccessible
+    types:
+    - uid: string
+- name: CatalogCollationType
+  description: Collation of the metadata catalog.
+  kind: enum
+  properties:
+  - name: DATABASE_DEFAULT
+    types:
+    - uid: string
+  - name: SQL_Latin1_General_CP1_CI_AS
+    types:
+    - uid: string
+- name: ManagedDatabaseCreateMode
+  description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified.'
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: RestoreExternalBackup
+    types:
+    - uid: string
+  - name: PointInTimeRestore
+    types:
+    - uid: string
+examples:
+- name: Creates a new managed database by restoring from an external backup
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2017-03-01-preview
+    body: >-
+      {
+        "properties": {
+          "createMode": "RestoreExternalBackup",
+          "storageContainerUri": "https://myaccountname.blob.core.windows.net/backups",
+          "storageContainerSasToken": "sv=2015-12-11&sr=c&sp=rl&sig=1234",
+          "collation": "SQL_Latin1_General_CP1_CI_AS"
+        },
+        "location": "southeastasia"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb1",
+        "name": "testdb1",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "status": "Online",
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "defaultSecondaryLocation": "North Europe"
+        },
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb2",
+        "name": "testdb2",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "status": "Online",
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "defaultSecondaryLocation": "North Europe"
+        },
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "202"
+- name: Creates a new managed database with maximal properties
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2017-03-01-preview
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "location": "southeastasia"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb1",
+        "name": "testdb1",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "status": "Online",
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "defaultSecondaryLocation": "North Europe"
+        },
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb2",
+        "name": "testdb2",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "status": "Online",
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "defaultSecondaryLocation": "North Europe"
+        },
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "202"
+- name: Creates a new managed database with minimal properties
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2017-03-01-preview
+    body: >-
+      {
+        "location": "southeastasia"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb1",
+        "name": "testdb1",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "status": "Online",
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "defaultSecondaryLocation": "North Europe"
+        },
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb2",
+        "name": "testdb2",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "status": "Online",
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "defaultSecondaryLocation": "North Europe"
+        },
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "202"
+- name: Creates a new managed database using point in time restore
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2017-03-01-preview
+    body: >-
+      {
+        "location": "southeastasia",
+        "properties": {
+          "createMode": "PointInTimeRestore",
+          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/testsvr/databases/testdb",
+          "restorePointInTime": "2017-07-14T05:35:31.503Z"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb1",
+        "name": "testdb1",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "status": "Online",
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "defaultSecondaryLocation": "North Europe"
+        },
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb2",
+        "name": "testdb2",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "status": "Online",
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "defaultSecondaryLocation": "North Europe"
+        },
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "202"
+security: []
