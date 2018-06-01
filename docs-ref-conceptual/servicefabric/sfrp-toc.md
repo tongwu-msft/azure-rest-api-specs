@@ -46,5 +46,6 @@
 ### [ErrorModelError](sfrp-model-errormodelerror.md)
 ### [ErrorModel](sfrp-model-errormodel.md)
 ### [Cluster](sfrp-model-cluster.md)
+### [AddOnFeatures enum](sfrp-model-addonfeatures.md)
 ### [ProvisioningState enum](sfrp-model-provisioningstate.md)
 

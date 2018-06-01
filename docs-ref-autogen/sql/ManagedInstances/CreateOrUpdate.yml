@@ -1,0 +1,414 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.managedinstances.createorupdate
+name: Create Or Update
+service: SQL Database
+groupName: Managed Instances
+apiVersion: 2015-05-01-preview
+summary: Creates or updates a managed instance.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}?api-version=2015-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully updated the managed instance.
+  types:
+  - uid: ManagedInstance
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 SubscriptionNotFound - The requested subscription was not found.
+
+     * 400 RegionDoesNotAllowProvisioning - The selected location is not accepting new Windows Azure SQL Database servers. This may change at a later time.
+
+     * 400 VnetAddressRangeError - Virtual network address range is invalid.
+
+     * 400 VnetConfigIsNotAllowed - Virtual network configuration is not allowed.
+
+     * 400 InvalidParameterValue - An invalid value was given to a parameter.
+
+     * 400 InvalidLoginName - The provided login name is invalid.
+
+     * 400 PasswordTooShort - The provided password is too short
+
+     * 400 PasswordTooLong - The provided password is too long.
+
+     * 400 NameAlreadyExists - The provided name already exists.
+
+     * 400 PasswordNotComplex - The provided password is not complex enough.
+
+     * 400 RegionDoesNotSupportVersion - A user attempted to create a server of a specified version in a location where that server version isn't supported.
+
+     * 400 TokenTooLong - The provided token is too long.
+
+     * 400 InvalidLocation - An invalid location was specified.
+
+     * 400 InvalidServerName - Invalid server name specified.
+
+     * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.
+
+     * 400 InvalidSubnetResourceId - The provided subnet resource ID for the managed instance create or update is invalid.
+
+     * 400 VnetInWrongRegion - Virtual network is in wrong region.
+
+     * 400 ServerNotFound - The requested server was not found.
+
+     * 400 InvalidUsername - Supplied user name contains invalid characters.
+
+     * 404 ManagedInstanceNotInSubscriptionResourceGroup - Specified managed instance does not exist in the specified resource group and subscription.
+
+     * 404 SubscriptionDoesNotHaveManagedInstance - The requested managed instance was not found
+
+     * 404 OperationIdNotFound - The operation with Id does not exist.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 409 OperationCancelled - The operation has been cancelled by user.
+
+     * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.
+
+     * 409 SubscriptionDisabled - Subscription is disabled.
+
+     * 409 ServerDisabled - Server is disabled.
+
+     * 409 ServerQuotaExceeded - Server cannot be added to a subscription because it will exceed quota.
+
+     * 409 ServerAlreadyExists - Duplicate server name.
+
+     * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation.
+- name: 202 Accepted
+  description: Accepted
+- name: 201 Created
+  description: Successfully created the managed instance.
+  types:
+  - uid: ManagedInstance
+requestBody:
+- parameters:
+  - name: identity
+    in: body
+    description: The Azure Active Directory identity of the managed instance.
+    types:
+    - uid: ResourceIdentity
+  - name: sku
+    in: body
+    description: Managed instance sku
+    types:
+    - uid: Sku
+  - name: properties.administratorLogin
+    in: body
+    description: Administrator username for the managed instance. Can only be specified when the managed instance is being created (and is required for creation).
+    types:
+    - uid: string
+  - name: properties.administratorLoginPassword
+    in: body
+    description: The administrator login password (required for managed instance creation).
+    types:
+    - uid: string
+  - name: properties.subnetId
+    in: body
+    description: Subnet resource ID for the managed instance.
+    types:
+    - uid: string
+  - name: properties.licenseType
+    in: body
+    description: The license type. Possible values are 'LicenseIncluded' and 'BasePrice'.
+    types:
+    - uid: string
+  - name: properties.vCores
+    in: body
+    description: The number of VCores.
+    types:
+    - uid: integer
+  - name: properties.storageSizeInGB
+    in: body
+    description: The maximum storage size in GB.
+    types:
+    - uid: integer
+  - name: location
+    in: body
+    isRequired: true
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: ResourceIdentity
+  description: Azure Active Directory identity configuration for a resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The Azure Active Directory principal id.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+    types:
+    - uid: IdentityType
+  - name: tenantId
+    isReadyOnly: true
+    description: The Azure Active Directory tenant id.
+    types:
+    - uid: string
+- name: Sku
+  description: The resource model definition representing SKU
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU. Ex - P3. It is typically a letter+number code
+    types:
+    - uid: string
+  - name: tier
+    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    types:
+    - uid: string
+  - name: size
+    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
+- name: ManagedInstance
+  description: An Azure SQL managed instance.
+  kind: object
+  properties:
+  - name: identity
+    description: The Azure Active Directory identity of the managed instance.
+    types:
+    - uid: ResourceIdentity
+  - name: sku
+    description: Managed instance sku
+    types:
+    - uid: Sku
+  - name: properties.fullyQualifiedDomainName
+    isReadyOnly: true
+    description: The fully qualified domain name of the managed instance.
+    types:
+    - uid: string
+  - name: properties.administratorLogin
+    description: Administrator username for the managed instance. Can only be specified when the managed instance is being created (and is required for creation).
+    types:
+    - uid: string
+  - name: properties.administratorLoginPassword
+    description: The administrator login password (required for managed instance creation).
+    types:
+    - uid: string
+  - name: properties.subnetId
+    description: Subnet resource ID for the managed instance.
+    types:
+    - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: The state of the managed instance.
+    types:
+    - uid: string
+  - name: properties.licenseType
+    description: The license type. Possible values are 'LicenseIncluded' and 'BasePrice'.
+    types:
+    - uid: string
+  - name: properties.vCores
+    description: The number of VCores.
+    types:
+    - uid: integer
+  - name: properties.storageSizeInGB
+    description: The maximum storage size in GB.
+    types:
+    - uid: integer
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: IdentityType
+  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+examples:
+- name: Create managed instance with minimal properties
+  request:
+    uri: PUT https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance?api-version=2015-05-01-preview
+    body: >-
+      {
+        "properties": {
+          "administratorLogin": "dummylogin",
+          "administratorLoginPassword": "Un53cuRE!"
+        },
+        "location": "Japan East"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance",
+        "name": "testinstance",
+        "type": "Microsoft.Sql/managedInstances",
+        "location": "japaneast",
+        "sku": {
+          "name": "CLS3",
+          "tier": "Standard",
+          "capacity": 1
+        },
+        "properties": {
+          "fullyQualifiedDomainName": "testinstance.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "state": "Ready"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance",
+        "name": "testinstance",
+        "type": "Microsoft.Sql/managedInstances",
+        "location": "japaneast",
+        "sku": {
+          "name": "CLS3",
+          "tier": "Standard",
+          "capacity": 1
+        },
+        "properties": {
+          "fullyQualifiedDomainName": "testinstance.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "state": "Ready"
+        }
+      }
+  - statusCode: "202"
+- name: Create managed instance with all properties
+  request:
+    uri: PUT https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance?api-version=2015-05-01-preview
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "location": "Japan East",
+        "sku": {
+          "name": "CLS3",
+          "tier": "Standard",
+          "capacity": 1
+        },
+        "properties": {
+          "fullyQualifiedDomainName": "testinstance.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "administratorLoginPassword": "Un53cuRE!",
+          "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
+          "vCores": 8,
+          "storageSizeInGB": 1024,
+          "licenseType": "Full"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "id": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance1",
+        "name": "testinstance1",
+        "type": "Microsoft.Sql/managedInstances",
+        "location": "japaneast",
+        "sku": {
+          "name": "CLS3",
+          "tier": "Standard",
+          "capacity": 1
+        },
+        "properties": {
+          "fullyQualifiedDomainName": "testinstance.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
+          "state": "Ready"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "id": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance2",
+        "name": "testinstance2",
+        "type": "Microsoft.Sql/managedInstances",
+        "location": "japaneast",
+        "sku": {
+          "name": "CLS3",
+          "tier": "Standard",
+          "capacity": 1
+        },
+        "properties": {
+          "fullyQualifiedDomainName": "testinstance.database.windows.net",
+          "administratorLogin": "dummylogin",
+          "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
+          "state": "Ready"
+        }
+      }
+  - statusCode: "202"
+security: []

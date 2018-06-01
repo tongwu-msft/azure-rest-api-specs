@@ -25,9 +25,11 @@ translation.priority.mt:
   - zh-tw
 ---
 # Copy Blob
-The `Copy Blob` operation copies a blob to a destination within the storage account. In version 2012-02-12 and later, the source for a Copy Blob operation can be a committed blob in any Azure storage account.  
+ The `Copy Blob` operation copies a blob to a destination within the storage account.
+
+ In version 2012-02-12 and later, the source for a Copy Blob operation can be a committed blob in any Azure storage account.
   
- Beginning with version 2015-02-21, the source for a `Copy Blob` operation can be an Azure file in any Azure storage account.  
+ Beginning with version 2015-02-21, the source for a `Copy Blob` operation can be an Azure file in any Azure storage account.
   
 > [!NOTE]
 >  Only storage accounts created on or after June 7th, 2012 allow the `Copy Blob` operation to copy from another storage account.  
@@ -74,11 +76,11 @@ The `Copy Blob` operation copies a blob to a destination within the storage acco
 |`If-Unmodified-Since`|Optional. A `DateTime` value. Specify this conditional header to copy the blob only if the destination blob has not been modified since the specified date/time. If the destination blob has been modified, the Blob service returns status code 412 (Precondition Failed).|  
 |`If-Match`|Optional. An ETag value. Specify an ETag value for this conditional header to copy the blob only if the specified ETag value matches the `ETag` value for an existing destination blob. If the ETag for the destination blob does not match the ETag specified for `If-Match`, the Blob service returns status code 412 (Precondition Failed).|  
 |`If-None-Match`|Optional. An ETag value, or the wildcard character (*).<br /><br /> Specify an ETag value for this conditional header to copy the blob only if the specified ETag value does not match the ETag value for the destination blob.<br /><br /> Specify the wildcard character (\*) to perform the operation only if the destination blob does not exist.<br /><br /> If the specified condition isn't met, the Blob service returns status code 412 (Precondition Failed).|  
-|`x-ms-copy-source:name`|Required. Specifies the name of the source blob or file.<br /><br /> Beginning with version 2012-02-12, this value may be a URL of up to 2 KB in length that specifies a blob. A source blob in the same storage account can be authenticated via Shared Key. However, if the source is a blob in another account, the source blob must either be public or must be authenticated via a shared access signature. If the source blob is public, no authentication is required to perform the copy operation.<br /><br /> Beginning with version 2015-02-21, the source object may be a file in the Azure File service. If the source object is a file that is to be copied to a blob, then the source file must be authenticated using a shared access signature, whether it resides in the same account or in a different account.<br /><br /> Only storage accounts created on or after June 7th, 2012 allow the `Copy Blob` operation to copy from another storage account.<br /><br /> Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br /><br /> When the source object is a file in the Azure File service, the source URL uses the following format; note that the URL must include a valid SAS token for the file:<br /><br /> -   `https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sastoken`<br /><br /> In versions before 2012-02-12, blobs can only be copied within the same account, and a source name can use these formats:<br /><br /> -   Blob in named container: `/accountName/containerName/blobName`<br />-   Snapshot in named container: `/accountName/containerName/blobName?snapshot=<DateTime>`<br />-   Blob in root container: `/accountName/blobName`<br />-   Snapshot in root container: `/accountName/blobName?snapshot=<DateTime>`|  
+|`x-ms-copy-source:name`|Required. Specifies the name of the source blob or file.<br /><br /> Beginning with version 2012-02-12, this value may be a URL of up to 2 KB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. A source blob in the same storage account can be authenticated via Shared Key. However, if the source is a blob in another account, the source blob must either be public or must be authenticated via a shared access signature. If the source blob is public, no authentication is required to perform the copy operation.<br /><br /> Beginning with version 2015-02-21, the source object may be a file in the Azure File service. If the source object is a file that is to be copied to a blob, then the source file must be authenticated using a shared access signature, whether it resides in the same account or in a different account.<br /><br /> Only storage accounts created on or after June 7th, 2012 allow the `Copy Blob` operation to copy from another storage account.<br /><br /> Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br /><br /> When the source object is a file in the Azure File service, the source URL uses the following format; note that the URL must include a valid SAS token for the file:<br /><br /> -   `https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sastoken`<br /><br /> In versions before 2012-02-12, blobs can only be copied within the same account, and a source name can use these formats:<br /><br /> -   Blob in named container: `/accountName/containerName/blobName`<br />-   Snapshot in named container: `/accountName/containerName/blobName?snapshot=<DateTime>`<br />-   Blob in root container: `/accountName/blobName`<br />-   Snapshot in root container: `/accountName/blobName?snapshot=<DateTime>`|
 |`x-ms-lease-id:<ID>`|Required if the destination blob has an active lease. The lease ID specified for this header must match the lease ID of the destination blob. If the request does not include the lease ID or it is not valid, the operation fails with status code 412 (Precondition Failed).<br /><br /> If this header is specified and the destination blob does not currently have an active lease, the operation will also fail with status code 412 (Precondition Failed).<br /><br /> In version 2012-02-12 and newer, this value must specify an active, infinite lease for a leased blob. A finite-duration lease ID fails with 412 (Precondition Failed).|  
 |`x-ms-source-lease-id: <ID>`|Optional, versions before 2012-02-12 (unsupported in 2012-02-12 and newer). Specify this header to perform the `Copy Blob` operation only if the lease ID given matches the active lease ID of the source blob.<br /><br /> If this header is specified and the source blob does not currently have an active lease, the operation will also fail with status code 412 (Precondition Failed).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
-|`x-ms-access-tier`|Version 2017-04-17 and newer. For page blobs on a premium account only. Specifies the tier to be set on the target blob. Check [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features) for a full list of supported tiers. |  
+|`x-ms-access-tier`|Version 2017-04-17 and newer. For page blobs on a premium account only. Specifies the tier to be set on the target blob. Check [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features) for a full list of supported tiers. |
   
 ### Request Body  
  None.  
@@ -167,23 +169,23 @@ Date: <date>
   
 -   You can copy a snapshot to a destination blob with a different name. The resulting destination blob is a writeable blob and not a snapshot.  
   
- When copying from a page blob, the Blob service creates a destination page blob of the source blob’s length, initially containing all zeroes. Then the source page ranges are enumerated, and non-empty ranges are copied.  
+When copying from a page blob, the Blob service creates a destination page blob of the source blob’s length, initially containing all zeroes. Then the source page ranges are enumerated, and non-empty ranges are copied.  
   
- For a block blob or an append blob, the Blob service creates a committed blob of zero length before returning from this operation.  
+For a block blob or an append blob, the Blob service creates a committed blob of zero length before returning from this operation.  
   
- When copying from a block blob, all committed blocks and their block IDs are copied. Uncommitted blocks are not copied. At the end of the copy operation, the destination blob will have the same committed block count as the source.  
+When copying from a block blob, all committed blocks and their block IDs are copied. Uncommitted blocks are not copied. At the end of the copy operation, the destination blob will have the same committed block count as the source.  
   
- When copying from an append blob, all committed blocks are copied. At the end of the copy operation, the destination blob will have the same committed block count as the source.  
+When copying from an append blob, all committed blocks are copied. At the end of the copy operation, the destination blob will have the same committed block count as the source.  
   
- For all blob types, you can call `Get Blob` or `Get Blob Properties` on the destination blob to check the status of the copy operation. The final blob will be committed when the copy completes.  
+For all blob types, you can call `Get Blob` or `Get Blob Properties` on the destination blob to check the status of the copy operation. The final blob will be committed when the copy completes.  
   
- When the source of a copy operation provides ETags, if there are any changes to the source while the copy is in progress, the copy will fail. An attempt to change the destination blob while a copy is in progress will fail with 409 Conflict. If the destination blob has an infinite lease, the lease ID must be passed to `Copy Blob`. Finite-duration leases are not allowed.  
+When the source of a copy operation provides ETags, if there are any changes to the source while the copy is in progress, the copy will fail. An attempt to change the destination blob while a copy is in progress will fail with 409 Conflict. If the destination blob has an infinite lease, the lease ID must be passed to `Copy Blob`. Finite-duration leases are not allowed.  
   
- The ETag for a block blob changes when the `Copy Blob` operation is initiated and when the copy finishes.  The ETag for a page blob changes when the `Copy Blob` operation is initiated, and continues to change frequently during the copy. The contents of a block blob are only visible using a GET after the full copy completes.  
+The ETag for a block blob changes when the `Copy Blob` operation is initiated and when the copy finishes.  The ETag for a page blob changes when the `Copy Blob` operation is initiated, and continues to change frequently during the copy. The contents of a block blob are only visible using a GET after the full copy completes.  
   
- **Copying Blob Properties and Metadata**  
+**Copying Blob Properties and Metadata**  
   
- When a blob is copied, the following system properties are copied to the destination blob with the same values:  
+When a blob is copied, the following system properties are copied to the destination blob with the same values:  
   
 -   `Content-Type`  
   
@@ -203,27 +205,27 @@ Date: <date>
   
 -   `x-ms- committed-block-count (for append blobs only, and for version 2015-02-21 only)`  
   
- The source blob's committed block list is also copied to the destination blob, if the blob is a block blob. Any uncommitted blocks are not copied.  
+The source blob's committed block list is also copied to the destination blob, if the blob is a block blob. Any uncommitted blocks are not copied.  
   
- The destination blob is always the same size as the source blob, so the value of the `Content-Length` header for the destination blob matches that for the source blob.  
+The destination blob is always the same size as the source blob, so the value of the `Content-Length` header for the destination blob matches that for the source blob.  
   
- When the source blob and destination blob are the same, `Copy Blob` removes any uncommitted blocks. If metadata is specified in this case, the existing metadata is overwritten with the new metadata.  
+When the source blob and destination blob are the same, `Copy Blob` removes any uncommitted blocks. If metadata is specified in this case, the existing metadata is overwritten with the new metadata.  
   
- **Copying a Leased Blob**  
+**Copying a Leased Blob**  
   
- The `Copy Blob` operation only reads from the source blob so the lease state of the source blob does not matter. However, the `Copy Blob` operation saves the ETag of the source blob when the copy is initiated. If the ETag value changes before the copy completes, the copy fails. You can prevent changes to the source blob by leasing it during the copy operation.  
+The `Copy Blob` operation only reads from the source blob so the lease state of the source blob does not matter. However, the `Copy Blob` operation saves the ETag of the source blob when the copy is initiated. If the ETag value changes before the copy completes, the copy fails. You can prevent changes to the source blob by leasing it during the copy operation.  
   
- If the destination blob has an active infinite lease, you must specify its lease ID in the call to the `Copy Blob` operation. If the lease you specify is an active finite-duration lease, this call fails with a status code 412 (Precondition Failed). While the copy is pending, any lease operation on the destination blob will fail with status code 409 (Conflict).  An infinite lease on the destination blob is locked in this way during the copy operation whether you are copying to a destination blob with a different name from the source, copying to a destination blob with the same name as the source, or promoting a snapshot over its base blob. If the client specifies a lease ID on a blob that does not yet exist, the Blob service will return status code 412 (Precondition Failed) for requests made against version 2013-08-15 and later; for prior versions the Blob service will return status code 201 (Created).  
+If the destination blob has an active infinite lease, you must specify its lease ID in the call to the `Copy Blob` operation. If the lease you specify is an active finite-duration lease, this call fails with a status code 412 (Precondition Failed). While the copy is pending, any lease operation on the destination blob will fail with status code 409 (Conflict).  An infinite lease on the destination blob is locked in this way during the copy operation whether you are copying to a destination blob with a different name from the source, copying to a destination blob with the same name as the source, or promoting a snapshot over its base blob. If the client specifies a lease ID on a blob that does not yet exist, the Blob service will return status code 412 (Precondition Failed) for requests made against version 2013-08-15 and later; for prior versions the Blob service will return status code 201 (Created).  
   
- **Copying Snapshots**  
+**Copying Snapshots**  
   
- When a source blob is copied, any snapshots of the source blob are not copied to the destination. When a destination blob is overwritten with a copy, any snapshots associated with the destination blob stay intact under its name.  
+When a source blob is copied, any snapshots of the source blob are not copied to the destination. When a destination blob is overwritten with a copy, any snapshots associated with the destination blob stay intact under its name.  
   
- You can perform a copy operation to promote a snapshot blob over its base blob. In this way you can restore an earlier version of a blob. The snapshot remains, but its destination is overwritten with a copy that can be both read and written.  
+You can perform a copy operation to promote a snapshot blob over its base blob. In this way you can restore an earlier version of a blob. The snapshot remains, but its destination is overwritten with a copy that can be both read and written.  
   
- **Working with a Pending Copy (version 2012-02-12 and newer)**  
+**Working with a Pending Copy (version 2012-02-12 and newer)**  
   
- The `Copy Blob` operation completes the copy asynchronously. Use the following table to determine the next step based on the status code returned by `Copy Blob`:  
+If the `Copy Blob` operation completes the copy asynchronously, use the following table to determine the next step based on the status code returned by `Copy Blob`:  
   
 |Status Code|Meaning|  
 |-----------------|-------------|  
@@ -238,6 +240,13 @@ Date: <date>
  Any attempt to modify or snapshot the destination blob during the copy will fail with **409 (Conflict) Copy Blob in Progress**.  
   
  If you call the `Abort Copy Blob` operation, you will see a `x-ms-copy-status:aborted` header and the destination blob will have intact metadata and a blob length of zero bytes. You can repeat the original call to `Copy Blob` to try the copy again.  
+
+ If the `Copy Blob` operation completes synchronously, use the following table to determine the status of the copy operation:
+
+ |Status Code|Meaning|  
+|-----------------|-------------|  
+|202 (Accepted), x-ms-copy-status: success|Copy completed successfully.|  
+|4xx, 500, or 503|Copy failed.| 
 
  Tier is inherited for premium storage tiers. For block blobs, overwriting the destination blob will inherit Hot/Cool tier from the destination. Overwriting an archived blob will fail. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
   

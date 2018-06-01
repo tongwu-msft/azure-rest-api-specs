@@ -1,0 +1,101 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.subscriptions.movesubscriptions
+name: Move Subscriptions
+service: Azure Stack Admin
+groupName: Subscriptions
+apiVersion: 2015-11-01
+summary: Move subscriptions between delegated provider offers.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/providers/Microsoft.Subscriptions.Admin/moveSubscriptions?api-version=2015-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription.The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: No Content -- The subscriptions were successfully moved to the target delegated provider offer.
+- name: 202 Accepted
+  description: Accepted -- Move subscriptions request accepted; operation will complete asynchronously.
+requestBody:
+- parameters:
+  - name: targetDelegatedProviderOffer
+    in: body
+    description: The delegated provider offer identifier (from the Admin context) that the subscriptions to be moved to.
+    types:
+    - uid: string
+  - name: resources
+    in: body
+    isRequired: true
+    description: A collection of subscriptions to move to the target delegated provider offer.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: MoveSubscriptionsDefinition
+  description: The move subscriptions action definition
+  kind: object
+  properties:
+  - name: targetDelegatedProviderOffer
+    description: The delegated provider offer identifier (from the Admin context) that the subscriptions to be moved to.
+    types:
+    - uid: string
+  - name: resources
+    description: A collection of subscriptions to move to the target delegated provider offer.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: Move user subscriptions from the Default Provider to a Delegated Provider.
+  request:
+    uri: POST https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Subscriptions.Admin/moveSubscriptions?api-version=2015-11-01
+    body: >-
+      {
+        "properties": {
+          "targetDelegatedProviderOffer": "/subscriptions/36a6bf33-6df4-4acd-a30e-7b92c1c7b322/providers/Microsoft.Subscriptions.Admin/delegatedProviders/8bb14c82-7b09-40f4-ade3-e5c71308cfcd/offers/del1",
+          "resources": [
+            "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions.Admin/subscriptions/5144634d-7e4d-443b-a304-d27e44220fc6",
+            "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions.Admin/subscriptions/55049d1c-9727-4f79-95b6-50d1f3ee2b28"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "204"
+  - statusCode: "202"
+- name: Move user subscriptions from a Delegated Provider to the Default Provider.
+  request:
+    uri: POST https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Subscriptions.Admin/moveSubscriptions?api-version=2015-11-01
+    body: >-
+      {
+        "properties": {
+          "targetDelegatedProviderOffer": null,
+          "resources": [
+            "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions.Admin/subscriptions/5144634d-7e4d-443b-a304-d27e44220fc6",
+            "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions.Admin/subscriptions/55049d1c-9727-4f79-95b6-50d1f3ee2b28"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "204"
+  - statusCode: "202"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

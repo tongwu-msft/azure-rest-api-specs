@@ -1,0 +1,183 @@
+### YamlMime:RESTOperation
+uid: datalakeanalytics.pipeline.list
+name: List
+service: Data Lake Analytics
+groupName: Pipeline
+apiVersion: 2016-11-01
+summary: Lists all pipelines.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{accountName}.{adlaJobDnsSuffix}/pipelines?api-version=2016-11-01
+- content: GET https://{accountName}.{adlaJobDnsSuffix}/pipelines?startDateTime={startDateTime}&endDateTime={endDateTime}&api-version=2016-11-01
+  isOptional: true
+uriParameters:
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Data Lake Analytics account to execute job operations on.
+  types:
+  - uid: string
+- name: adlaJobDnsSuffix
+  in: path
+  isRequired: true
+  description: Gets the DNS suffix used as the base for all Azure Data Lake Analytics Job service requests.
+  types:
+  - uid: string
+- name: startDateTime
+  in: query
+  description: The start date for when to get the list of pipelines. The startDateTime and endDateTime can be no more than 30 days apart.
+  types:
+  - uid: string
+  format: date-time
+- name: endDateTime
+  in: query
+  description: The end date for when to get the list of pipelines. The startDateTime and endDateTime can be no more than 30 days apart.
+  types:
+  - uid: string
+  format: date-time
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of pipelines.
+  types:
+  - uid: JobPipelineInformationListResult
+requestHeader: []
+definitions:
+- name: JobPipelineInformationListResult
+  description: List of job pipeline information items.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: the list of job pipeline information items.
+    types:
+    - uid: JobPipelineInformation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: the link (url) to the next page of results.
+    types:
+    - uid: string
+- name: JobPipelineInformation
+  description: Job Pipeline Information, showing the relationship of jobs and recurrences of those jobs in a pipeline.
+  kind: object
+  properties:
+  - name: pipelineId
+    isReadyOnly: true
+    description: the job relationship pipeline identifier (a GUID).
+    types:
+    - uid: string
+  - name: pipelineName
+    isReadyOnly: true
+    description: the friendly name of the job relationship pipeline, which does not need to be unique.
+    types:
+    - uid: string
+  - name: pipelineUri
+    isReadyOnly: true
+    description: the pipeline uri, unique, links to the originating service for this pipeline.
+    types:
+    - uid: string
+  - name: numJobsFailed
+    isReadyOnly: true
+    description: the number of jobs in this pipeline that have failed.
+    types:
+    - uid: integer
+  - name: numJobsCanceled
+    isReadyOnly: true
+    description: the number of jobs in this pipeline that have been canceled.
+    types:
+    - uid: integer
+  - name: numJobsSucceeded
+    isReadyOnly: true
+    description: the number of jobs in this pipeline that have succeeded.
+    types:
+    - uid: integer
+  - name: auHoursFailed
+    isReadyOnly: true
+    description: the number of job execution hours that resulted in failed jobs.
+    types:
+    - uid: number
+  - name: auHoursCanceled
+    isReadyOnly: true
+    description: the number of job execution hours that resulted in canceled jobs.
+    types:
+    - uid: number
+  - name: auHoursSucceeded
+    isReadyOnly: true
+    description: the number of job execution hours that resulted in successful jobs.
+    types:
+    - uid: number
+  - name: lastSubmitTime
+    isReadyOnly: true
+    description: the last time a job in this pipeline was submitted.
+    types:
+    - uid: string
+  - name: runs
+    isReadyOnly: true
+    description: the list of run identifiers representing each run of this pipeline.
+    types:
+    - uid: JobPipelineRunInformation
+      isArray: true
+  - name: recurrences
+    isReadyOnly: true
+    description: the list of recurrence identifiers representing each recurrence in this pipeline.
+    types:
+    - uid: string
+      isArray: true
+- name: JobPipelineRunInformation
+  description: Run info for a specific job pipeline.
+  kind: object
+  properties:
+  - name: runId
+    isReadyOnly: true
+    description: the run identifier of an instance of pipeline executions (a GUID).
+    types:
+    - uid: string
+  - name: lastSubmitTime
+    isReadyOnly: true
+    description: the time this instance was last submitted.
+    types:
+    - uid: string
+examples:
+- name: Lists all pipelines
+  request:
+    uri: GET https://{accountName}.{adlaJobDnsSuffix}/pipelines?startDateTime=4/18/2017 6:16:49 PM&endDateTime=4/18/2017 6:16:49 PM&api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "pipelineId": "076713da-9018-41ae-a3bd-9eab14e54d09",
+            "pipelineName": "test_pipeline_name",
+            "pipelineUri": "https://account123.contosopipelineservice.com/076713da-9018-41ae-a3bd-9eab14e54d09",
+            "numJobsFailed": 1,
+            "numJobsCanceled": 1,
+            "numJobsSucceeded": 1,
+            "auHoursFailed": 1,
+            "auHoursCanceled": 1,
+            "auHoursSucceeded": 1,
+            "lastSubmitTime": "2017-04-18T18:16:49.0748958+00:00",
+            "runs": [
+              {
+                "runId": "67034c12-b250-468e-992d-39fb978bde2c",
+                "lastSubmitTime": "2017-04-18T18:16:49.0748958+00:00"
+              }
+            ],
+            "recurrences": [
+              "2ba01f6c-562d-4246-90ff-0b8c2d10e346",
+              "da8dc3de-2fd8-4641-8968-40dbbf11e95f"
+            ]
+          }
+        ],
+        "nextLink": "https://account123.contosopipelineservice.com/076713da-9018-41ae-a3bd-9eab14e54d09"
+      }
+security: []

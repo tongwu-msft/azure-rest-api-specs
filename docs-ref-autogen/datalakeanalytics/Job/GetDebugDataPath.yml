@@ -1,0 +1,82 @@
+### YamlMime:RESTOperation
+uid: datalakeanalytics.job.getdebugdatapath
+name: Get Debug Data Path
+service: Data Lake Analytics
+groupName: Job
+apiVersion: 2016-11-01
+summary: Gets the job debug data information specified by the job ID.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{accountName}.{adlaJobDnsSuffix}/Jobs/{jobIdentity}/GetDebugDataPath?api-version=2016-11-01
+uriParameters:
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Data Lake Analytics account to execute job operations on.
+  types:
+  - uid: string
+- name: adlaJobDnsSuffix
+  in: path
+  isRequired: true
+  description: Gets the DNS suffix used as the base for all Azure Data Lake Analytics Job service requests.
+  types:
+  - uid: string
+- name: jobIdentity
+  in: path
+  isRequired: true
+  description: Job identifier. Uniquely identifies the job across all jobs submitted to the service.
+  types:
+  - uid: string
+  format: uuid
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved debug data paths of the specified job.
+  types:
+  - uid: JobDataPath
+requestHeader: []
+definitions:
+- name: JobDataPath
+  description: A Data Lake Analytics job data path item.
+  kind: object
+  properties:
+  - name: jobId
+    isReadyOnly: true
+    description: the id of the job this data is for.
+    types:
+    - uid: string
+  - name: command
+    isReadyOnly: true
+    description: the command that this job data relates to.
+    types:
+    - uid: string
+  - name: paths
+    isReadyOnly: true
+    description: the list of paths to all of the job data.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: Gets the job debug data information specified by the job ID
+  request:
+    uri: GET https://{accountName}.{adlaJobDnsSuffix}/Jobs/076713da-9018-41ae-a3bd-9eab14e54d09/GetDebugDataPath?api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "jobId": "076713da-9018-41ae-a3bd-9eab14e54d09",
+        "command": "test_command",
+        "paths": [
+          "test_path_1",
+          "test_path_2"
+        ]
+      }
+security: []

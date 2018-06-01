@@ -1,6 +1,6 @@
 ---
 title: "ClusterProperties"
-ms.date: "2018-05-25"
+ms.date: "2018-06-04"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -32,7 +32,7 @@ Describes the cluster resource properties.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [addOnFeatures](#addonfeatures) | array of [enum](sfrp-model-enum.md) | No |
+| [addOnFeatures](#addonfeatures) | array of [AddOnFeatures](sfrp-model-addonfeatures.md) | No |
 | [availableClusterVersions](#availableclusterversions) | array of [ClusterVersionDetails](sfrp-model-clusterversiondetails.md) | No |
 | [azureActiveDirectory](#azureactivedirectory) | [AzureActiveDirectory](sfrp-model-azureactivedirectory.md) | No |
 | [certificate](#certificate) | [CertificateDescription](sfrp-model-certificatedescription.md) | No |
@@ -57,7 +57,7 @@ Describes the cluster resource properties.
 
 ____
 ### addOnFeatures
-__Type__: array of [enum](sfrp-model-enum.md) <br/>
+__Type__: array of [AddOnFeatures](sfrp-model-addonfeatures.md) <br/>
 __Required__: No<br/>
 <br/>
 The list of add-on features to enable in the cluster.

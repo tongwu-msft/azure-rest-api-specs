@@ -1,6 +1,6 @@
 ---
 title: "Create"
-ms.date: "2018-05-25"
+ms.date: "2018-06-04"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

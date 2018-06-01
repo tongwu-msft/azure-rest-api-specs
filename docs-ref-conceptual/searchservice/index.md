@@ -25,15 +25,23 @@ service_description: To be added
 
 Azure Search is a fully managed cloud search service that provides a rich search experience to custom applications. One way to add search capability is through a REST API, with operations that create and manage indexes, load data, implement search features, execute queries, and handle results.
 
-Version 2017-11-11 is the most current generally available release of the Azure Search Service REST API. New features in this API version include:
+## Generally available and preview versions
+
+**2017-11-11** is the most current generally available release of the Azure Search Service REST API. This version operates under an Azure service level agreement (SLA).  New features in this API version include:
 
   - [Synonyms](https://docs.microsoft.com/azure/search/search-synonyms). The new synonyms feature allows you to define equivalent terms and expand the scope of the query.
   - [Support for efficiently indexing text blobs](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-blob-storage#IndexingPlainText). The new `text` parsing mode for Azure Blob indexers significantly improves indexing performance.
-  - [Service Statistics API](https://aka.ms/azure-search-stats). View the current usage and limits of resources in Azure Search with this new API.
+  - [Service Statistics API](get-service-statistics.md). View the current usage and limits of resources in Azure Search with this new API.
 
 For details on how to upgrade from a previous GA version, see [Upgrading to the latest Azure Search Service REST API version](https://docs.microsoft.com/azure/search/search-api-migration).
 
-## Overview
+**2017-11-11-Preview** is the most current preview version. Preview features include:
+
+  -  [cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) with new and updated REST APIs for enriching the indexing pipeline. [Create Skillset](create-skillset.md) specifies a collection of [predefined skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills) and [custom skills](https://docs.microsoft.com/azure/search/cognitive-search-create-custom-skill-example) that add natural language and image processing steps to indexing. [Create Indexer](create-indexer.md) called with `api-version=2017-11-11-Preview` adds a **skillSetName** element and **outputFieldMappings** for chaining inputs and outputs created through a skillset.
+
+For the full list of preview features, see [Preview APIs](https://docs.microsoft.com/azure/search/search-api-preview).
+
+## Key concepts
 
   Azure Search has the concepts of *search services* and *indexes* and *documents*, where a search service contains one or more indexes that provides persistent storage of searchable data, and data is loaded in the form of JSON documents. Data is typically pushed to an index from an external data source, but if you use an *indexer*, it's possible to crawl a data source to extract and load data into an index.  
 
@@ -47,7 +55,9 @@ For details on how to upgrade from a previous GA version, see [Upgrading to the 
 
  A separate REST API is provided for service administration, including provisioning the service or altering capacity. For more information, see [Azure Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md).  
 
- The APIs documented in this section provide access to operations on search data, such as index creation and population, document upload, and queries. When calling the API, keep the following points in mind:  
+## Calling the APIs
+
+ The APIs documented in this section provide access to operations on search data, such as index creation and population, document upload, and queries. When calling APIs, keep the following points in mind:  
 
 -   All APIs must be issued over HTTPS (on the default port 443).  
 
@@ -63,11 +73,6 @@ For details on how to upgrade from a previous GA version, see [Upgrading to the 
 
 ## Endpoint  
  The endpoint for service operations is the URL of the Azure Search service you provisioned: https://\<yourService>.search.windows.net.  
-
-## Versions  
- `api-version=2017-11-11` is the general release version. This version operates under an Azure service level agreement (SLA).  
-
- Preview versions of the REST API are used to collect community feedback on new features before  adding them to the general release. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
 
 ## Authentication and Authorization  
  Every HTTP request to your search service is authenticated based on two pieces of information: a Search service URL and an **api-key** that provides proof the request is from a trusted entity. There are  two types of **api-keys** for different levels of operation.  

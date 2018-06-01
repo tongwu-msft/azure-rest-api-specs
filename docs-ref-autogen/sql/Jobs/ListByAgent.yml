@@ -1,0 +1,197 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.jobs.listbyagent
+name: List By Agent
+service: SQL Database
+groupName: Jobs
+apiVersion: 2017-03-01-preview
+summary: Gets a list of jobs.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs?api-version=2017-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: jobAgentName
+  in: path
+  isRequired: true
+  description: The name of the job agent.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of jobs.
+  types:
+  - uid: JobListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 404 JobAgentNotFound - Specified job agent does not exist in the specified logical server.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+requestHeader: []
+definitions:
+- name: JobListResult
+  description: A list of jobs.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: Job
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: Job
+  description: A job.
+  kind: object
+  properties:
+  - name: properties.description
+    description: User-defined description of the job.
+    types:
+    - uid: string
+  - name: properties.version
+    isReadyOnly: true
+    description: The job version number.
+    types:
+    - uid: integer
+  - name: properties.schedule
+    description: Schedule properties of the job.
+    types:
+    - uid: JobSchedule
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: JobSchedule
+  description: Scheduling properties of a job.
+  kind: object
+  properties:
+  - name: startTime
+    description: Schedule start time.
+    types:
+    - uid: string
+  - name: endTime
+    description: Schedule end time.
+    types:
+    - uid: string
+  - name: type
+    description: Schedule interval type
+    types:
+    - uid: JobScheduleType
+  - name: enabled
+    description: Whether or not the schedule is enabled.
+    types:
+    - uid: boolean
+  - name: interval
+    description: Value of the schedule's recurring interval, if the scheduletype is recurring. ISO8601 duration format.
+    types:
+    - uid: string
+- name: JobScheduleType
+  description: Schedule interval type
+  kind: enum
+  properties:
+  - name: Once
+    types:
+    - uid: string
+  - name: Recurring
+    types:
+    - uid: string
+examples:
+- name: List jobs in a job agent
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs?api-version=2017-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1",
+            "name": "job1",
+            "type": "Microsoft.Sql/servers/jobAccounts/jobs",
+            "properties": {
+              "description": "my favourite job",
+              "version": 0,
+              "schedule": {
+                "startTime": "2015-09-24T18:30:01Z",
+                "endTime": "2015-09-24T23:59:59Z",
+                "type": "Recurring",
+                "interval": "PT5M",
+                "enabled": true
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job3",
+            "name": "job3",
+            "type": "Microsoft.Sql/servers/jobAccounts/jobs",
+            "properties": {
+              "description": "this job will be scheduled once",
+              "version": 1,
+              "schedule": {
+                "startTime": "2017-07-01T03:45:00Z",
+                "endTime": "2017-12-27T06:00:00Z",
+                "type": "Once",
+                "enabled": true
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job2",
+            "name": "job2",
+            "type": "Microsoft.Sql/servers/jobAccounts/jobs",
+            "properties": {
+              "description": "this job will never be automatically scheduled",
+              "version": 1,
+              "schedule": {
+                "startTime": "2017-07-01T03:45:00Z",
+                "endTime": "2017-12-27T06:00:00Z",
+                "type": "Once",
+                "enabled": false
+              }
+            }
+          }
+        ]
+      }
+security: []
