@@ -1,0 +1,218 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.managedinstances.get
+name: Get
+service: SQL Database
+groupName: Managed Instances
+apiVersion: 2015-05-01-preview
+summary: Gets a managed instance.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}?api-version=2015-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the specified managed instance.
+  types:
+  - uid: ManagedInstance
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 SubscriptionNotFound - The requested subscription was not found.
+
+     * 404 ManagedInstanceNotInSubscriptionResourceGroup - Specified managed instance does not exist in the specified resource group and subscription.
+
+     * 404 SubscriptionDoesNotHaveManagedInstance - The requested managed instance was not found
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 409 ConflictingManagedInstanceOperation - An operation is currently in progress for the managed instance.
+
+     * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 ConflictingSubscriptionOperation - An operation is currently in progress for the subscription.
+
+     * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 504 RequestTimeout - Service request exceeded the allowed timeout.
+requestHeader: []
+definitions:
+- name: ManagedInstance
+  description: An Azure SQL managed instance.
+  kind: object
+  properties:
+  - name: identity
+    description: The Azure Active Directory identity of the managed instance.
+    types:
+    - uid: ResourceIdentity
+  - name: sku
+    description: Managed instance sku
+    types:
+    - uid: Sku
+  - name: properties.fullyQualifiedDomainName
+    isReadyOnly: true
+    description: The fully qualified domain name of the managed instance.
+    types:
+    - uid: string
+  - name: properties.administratorLogin
+    description: Administrator username for the managed instance. Can only be specified when the managed instance is being created (and is required for creation).
+    types:
+    - uid: string
+  - name: properties.administratorLoginPassword
+    description: The administrator login password (required for managed instance creation).
+    types:
+    - uid: string
+  - name: properties.subnetId
+    description: Subnet resource ID for the managed instance.
+    types:
+    - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: The state of the managed instance.
+    types:
+    - uid: string
+  - name: properties.licenseType
+    description: The license type. Possible values are 'LicenseIncluded' and 'BasePrice'.
+    types:
+    - uid: string
+  - name: properties.vCores
+    description: The number of VCores.
+    types:
+    - uid: integer
+  - name: properties.storageSizeInGB
+    description: The maximum storage size in GB.
+    types:
+    - uid: integer
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ResourceIdentity
+  description: Azure Active Directory identity configuration for a resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The Azure Active Directory principal id.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+    types:
+    - uid: IdentityType
+  - name: tenantId
+    isReadyOnly: true
+    description: The Azure Active Directory tenant id.
+    types:
+    - uid: string
+- name: Sku
+  description: The resource model definition representing SKU
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU. Ex - P3. It is typically a letter+number code
+    types:
+    - uid: string
+  - name: tier
+    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    types:
+    - uid: string
+  - name: size
+    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
+- name: IdentityType
+  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+examples:
+- name: Get managed instance
+  request:
+    uri: GET https://management.azure.com/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl?api-version=2015-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "name": "CLS3",
+          "tier": "Standard",
+          "capacity": 1,
+          "family": "Gen4"
+        },
+        "properties": {
+          "fullyQualifiedDomainName": "testcl.database.windows.net",
+          "administratorLogin": "cloudSA",
+          "state": "Ready",
+          "vCores": 8,
+          "storageSizeInGB": 1024,
+          "licenseType": "Full"
+        },
+        "location": "onebox",
+        "id": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl",
+        "name": "testcl",
+        "type": "Microsoft.Sql/managedInstances"
+      }
+security: []
