@@ -1,0 +1,222 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.managedinstances.list
+name: List
+service: SQL Database
+groupName: Managed Instances
+apiVersion: 2015-05-01-preview
+summary: Gets a list of all managed instances in the subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Sql/managedInstances?api-version=2015-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of managed instances.
+  types:
+  - uid: ManagedInstanceListResult
+- name: Other Status Codes
+  description: '*** Error Responses: ***'
+requestHeader: []
+definitions:
+- name: ManagedInstanceListResult
+  description: A list of managed instances.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: ManagedInstance
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: ManagedInstance
+  description: An Azure SQL managed instance.
+  kind: object
+  properties:
+  - name: identity
+    description: The Azure Active Directory identity of the managed instance.
+    types:
+    - uid: ResourceIdentity
+  - name: sku
+    description: Managed instance sku
+    types:
+    - uid: Sku
+  - name: properties.fullyQualifiedDomainName
+    isReadyOnly: true
+    description: The fully qualified domain name of the managed instance.
+    types:
+    - uid: string
+  - name: properties.administratorLogin
+    description: Administrator username for the managed instance. Can only be specified when the managed instance is being created (and is required for creation).
+    types:
+    - uid: string
+  - name: properties.administratorLoginPassword
+    description: The administrator login password (required for managed instance creation).
+    types:
+    - uid: string
+  - name: properties.subnetId
+    description: Subnet resource ID for the managed instance.
+    types:
+    - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: The state of the managed instance.
+    types:
+    - uid: string
+  - name: properties.licenseType
+    description: The license type. Possible values are 'LicenseIncluded' and 'BasePrice'.
+    types:
+    - uid: string
+  - name: properties.vCores
+    description: The number of VCores.
+    types:
+    - uid: integer
+  - name: properties.storageSizeInGB
+    description: The maximum storage size in GB.
+    types:
+    - uid: integer
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ResourceIdentity
+  description: Azure Active Directory identity configuration for a resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The Azure Active Directory principal id.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+    types:
+    - uid: IdentityType
+  - name: tenantId
+    isReadyOnly: true
+    description: The Azure Active Directory tenant id.
+    types:
+    - uid: string
+- name: Sku
+  description: The resource model definition representing SKU
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU. Ex - P3. It is typically a letter+number code
+    types:
+    - uid: string
+  - name: tier
+    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    types:
+    - uid: string
+  - name: size
+    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
+- name: IdentityType
+  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+examples:
+- name: List managed instances
+  request:
+    uri: GET https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/providers/Microsoft.Sql/managedInstances?api-version=2015-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "location": "onebox",
+            "id": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/Test1/providers/Microsoft.Sql/managedInstances/testcl",
+            "name": "testcl",
+            "type": "Microsoft.Sql/managedInstances",
+            "sku": {
+              "name": "CLS3",
+              "tier": "Standard",
+              "capacity": 1
+            },
+            "properties": {
+              "fullyQualifiedDomainName": "testcl.database.windows.net",
+              "administratorLogin": "cloudSA",
+              "state": "Ready",
+              "vCores": 8,
+              "storageSizeInGB": 1024,
+              "licenseType": "Full"
+            }
+          },
+          {
+            "location": "onebox",
+            "id": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/Test1/providers/Microsoft.Sql/managedInstances/testcl2",
+            "name": "testcl2",
+            "type": "Microsoft.Sql/managedInstances",
+            "sku": {
+              "name": "CLS15",
+              "tier": "Standard",
+              "capacity": 22
+            },
+            "properties": {
+              "fullyQualifiedDomainName": "testcl2.database.windows.net",
+              "administratorLogin": "cloudSA",
+              "state": "Ready",
+              "vCores": 8,
+              "storageSizeInGB": 1024,
+              "licenseType": "Full"
+            }
+          }
+        ]
+      }
+security: []
