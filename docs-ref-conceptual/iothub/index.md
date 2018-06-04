@@ -19,8 +19,7 @@ manager: "timlt"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
-  - "fr-fr"
-  - "it-it"
+  - "fr-fr"  - "it-it"
   - "ja-jp"
   - "ko-kr"
   - "pt-br"
@@ -40,10 +39,10 @@ The REST APIs for IoT Hub offer programmatic access to the device, messaging, an
   
 -   [Common error codes](common-error-codes.md)
 
-## Service:
->1.Use these APIs to manage device identities in the identity registry of an IoT hub. 
->2.Use these API to manage IoT Hub device twins. You can retrieve and update device twin properties and invoke direct methods on devices. 
->3.Use these API to manage Jobs in IoT Hub. You can schedule, cancel or get a job.
+## Service: 
+1.Use these APIs to manage device identities in the identity registry of an IoT hub. 
+2.Use these API to manage IoT Hub device twins. You can retrieve and update device twin properties and invoke direct methods on devices. 
+3.Use these API to manage Jobs in IoT Hub. You can schedule, cancel or get a job.
 All task operations conform to the HTTP/1.1 protocol specification and each operation returns an x-ms-request-id header that can be used to obtain information about the request. You must make sure that requests made to these resources are secure. For more information, see IoT Hub Developer Guide – Security for the specifics on how to create security tokens.
 
 ## Device Messaging
