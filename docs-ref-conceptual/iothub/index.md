@@ -1,3 +1,4 @@
+
 ---
 title: "IoT Hub REST"
 ms.custom: ""
@@ -31,23 +32,19 @@ service_description: To be added
 # IoT Hub REST
 The REST APIs for IoT Hub offer programmatic access to the device, messaging, and job services, as well as the resource provder, in IoT Hub.  You can access messaging services from within an IoT service running in Azure, or directly over the Internet from any application that can send an HTTPS request and receive an HTTPS response.  
   
--   [Device Identities](xref:<fully-qualifiediothubdomainname>.iothub.deviceapi)  
-  
--   [Device Twins](xref:<fully-qualifiediothubdomainname>.iothub.devicetwinapi)
+-   [Service](##Service)
 
 -   [Device Messaging](xref:<fully-qualifiediothubdomainname>.iothub.httpruntime)  
-
--   [Jobs](xref:<fully-qualifiediothubdomainname>.iothub.jobapi)
   
 -   [Resource Provider](xref:management.azure.com.iothub.iothubresource)  
   
 -   [Common error codes](common-error-codes.md)
 
-## Device Identities
-Use these APIs to manage device identities in the identity registry of an IoT hub. All task operations conform to the HTTP/1.1 protocol specification and each operation returns an `x-ms-request-id` header that can be used to obtain information about the request. You must make sure that requests made to these resources are secure. For more information, see [IoT Hub Developer Guide – Security](https://azure.microsoft.com/documentation/articles/iot-hub-devguide#security) for the specifics on how to create security tokens.
-
-## Device Twins
-Use this API to manage IoT Hub [device twins](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-device-twins). You can retrieve and update device twin properties and invoke [direct methods](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-direct-methods) on devices. All task operations conform to the HTTP/1.1 protocol specification. You must make sure that requests made to these resources are secure. For more information, see [IoT Hub Developer Guide - Security](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security) for specific information about how to create security tokens.
+## Service:
+>1.Use these APIs to manage device identities in the identity registry of an IoT hub. 
+>2.Use these API to manage IoT Hub device twins. You can retrieve and update device twin properties and invoke direct methods on devices. 
+>3.Use these API to manage Jobs in IoT Hub. You can schedule, cancel or get a job.
+All task operations conform to the HTTP/1.1 protocol specification and each operation returns an x-ms-request-id header that can be used to obtain information about the request. You must make sure that requests made to these resources are secure. For more information, see IoT Hub Developer Guide – Security for the specifics on how to create security tokens.
 
 ## Device Messaging
 Use these APIs from a device to send device-to-cloud messages to an IoT hub, and receive cloud-to-device messages from an IoT hub. All task operations conform to the HTTP/1.1 protocol specification. You must make sure that requests made to these resources are secure. For more information, see [IoT Hub Developer Guide - Security](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security) for specific information about how to create security tokens.
