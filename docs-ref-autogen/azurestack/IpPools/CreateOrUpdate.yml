@@ -1,0 +1,190 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.ippools.createorupdate
+name: Create Or Update
+service: Azure Stack Admin
+groupName: Ip Pools
+apiVersion: 2016-05-01
+summary: Create an IP pool.  Once created an IP pool cannot be deleted.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/ipPools/{ipPool}?api-version=2016-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Location of the resource.
+  types:
+  - uid: string
+- name: ipPool
+  in: path
+  isRequired: true
+  description: IP pool name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ProvisioningState
+- name: 202 Accepted
+  description: OK
+requestBody:
+- parameters:
+  - name: properties.startIpAddress
+    in: body
+    description: The starting IP address.
+    types:
+    - uid: string
+  - name: properties.endIpAddress
+    in: body
+    description: The ending IP address.
+    types:
+    - uid: string
+  - name: properties.addressPrefix
+    in: body
+    description: The address prefix.
+    types:
+    - uid: string
+  - name: properties.numberOfIpAddresses
+    in: body
+    description: The total number of IP addresses.
+    types:
+    - uid: integer
+  - name: properties.numberOfAllocatedIpAddresses
+    in: body
+    description: The number of currently allocated IP addresses.
+    types:
+    - uid: integer
+  - name: properties.numberOfIpAddressesInTransition
+    in: body
+    description: The current number of IP addresses in transition.
+    types:
+    - uid: integer
+  - name: location
+    in: body
+    description: The region where the resource is located.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: ProvisioningState
+  description: Provisioning status of the resource.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    description: Provisioning status of the resource.
+    types:
+    - uid: string
+- name: IpPool
+  description: This resource defines the range of IP addresses from which addresses are  allocated for nodes within a subnet.
+  kind: object
+  properties:
+  - name: properties.startIpAddress
+    description: The starting IP address.
+    types:
+    - uid: string
+  - name: properties.endIpAddress
+    description: The ending IP address.
+    types:
+    - uid: string
+  - name: properties.addressPrefix
+    description: The address prefix.
+    types:
+    - uid: string
+  - name: properties.numberOfIpAddresses
+    description: The total number of IP addresses.
+    types:
+    - uid: integer
+  - name: properties.numberOfAllocatedIpAddresses
+    description: The number of currently allocated IP addresses.
+    types:
+    - uid: integer
+  - name: properties.numberOfIpAddressesInTransition
+    description: The current number of IP addresses in transition.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: The region where the resource is located.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Create an IP pool.  Once created an IP pool cannot be deleted.
+  request:
+    uri: PUT https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/ipPools/myPool?api-version=2016-05-01
+    body: >-
+      {
+        "properties": {
+          "startIpAddress": "192.168.1.1",
+          "endIpAddress": "192.168.1.254"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Succeeded"
+        }
+      }
+  - statusCode: "202"
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

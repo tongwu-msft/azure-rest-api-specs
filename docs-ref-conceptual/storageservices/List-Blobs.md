@@ -110,7 +110,9 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
   
 -   `Content-Language` (previously `ContentLanguage`)  
 
-
+ 
+ `Creation-Time` appears only in version 2017-11-09 and later. It indicates the time at which this blob was created.
+  
 The `Content-MD5` element appears for blobs created with version 2009-09-19 and newer. In version 2012-02-12 and newer, the Blob service calculates the `Content-MD5` value when you upload a blob using [Put Blob](Put-Blob.md), but does not calculate this when you create a blob using [Put Block List](Put-Block-List.md). You can explicitly set the `Content-MD5` value when you create the blob, or by calling [Put Block List](Put-Block-List.md) or [Set Blob Properties](Set-Blob-Properties.md) operations.
 
 For versions from 2009-09-19 and newer but prior to version 2015-02-21, calling `List Blobs` on a container that includes append blobs will fail with status code 409 (FeatureVersionMismatch) if the result of listing contains an append blob.  
@@ -147,7 +149,8 @@ For version 2017-07-29 and above, `Deleted`, `DeletedTime` and `RemainingRetenti
       <Name>blob-name</name>    
       <Deleted>true</Deleted>
       <Snapshot>date-time-value</Snapshot>
-      <Properties>  
+      <Properties> 
+        <Creation-Time>date-time-value</Creation-Time>
         <Last-Modified>date-time-value</Last-Modified>  
         <Etag>etag</Etag>  
         <Content-Length>size-in-bytes</Content-Length>  
@@ -208,7 +211,7 @@ For version 2017-07-29 and above, `Deleted`, `DeletedTime` and `RemainingRetenti
   
  The `Metadata` element is present only if the `include=metadata` parameter was specified on the URI. Within the `Metadata` element, the value of each name-value pair is listed within an element corresponding to the pair's name.  
   
- Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of the Blob service. Beginning with this version, all metadata names must adhere to the naming conventions for [C# identifiers](http://msdn.microsoft.com/library/aa664670\(VS.71\).aspx).  
+ Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of the Blob service. Beginning with this version, all metadata names must adhere to the naming conventions for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).  
   
  If a metadata name-value pair violates the naming restrictions enforced by the 2009-09-19 version, the response body indicates the problematic name within an `x-ms-invalid-name` element, as shown in the following XML fragment:  
   

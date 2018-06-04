@@ -1,0 +1,142 @@
+### YamlMime:RESTOperation
+uid: datalakeanalytics.catalog.grantacltodatabase
+name: Grant Acl To Database
+service: Data Lake Analytics
+groupName: Catalog
+apiVersion: 2016-11-01
+summary: Grants an access control list (ACL) entry to the database from the Data Lake Analytics catalog.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{accountName}.{adlaCatalogDnsSuffix}/catalog/usql/databases/{databaseName}/acl?op=GRANTACE&api-version=2016-11-01
+uriParameters:
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Data Lake Analytics account upon which to execute catalog operations.
+  types:
+  - uid: string
+- name: adlaCatalogDnsSuffix
+  in: path
+  isRequired: true
+  description: Gets the DNS suffix used as the base for all Azure Data Lake Analytics Catalog service requests.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: op
+  in: query
+  isRequired: true
+  description: The constant value for the operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully granted the access control list (ACL) entry to the specified database.
+requestBody:
+- parameters:
+  - name: aceType
+    in: body
+    isRequired: true
+    description: the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively.
+    types:
+    - uid: AclType
+  - name: principalId
+    in: body
+    isRequired: true
+    description: the Azure AD object ID of the user or group being specified in the access control list (ACL) entry.
+    types:
+    - uid: string
+  - name: permission
+    in: body
+    isRequired: true
+    description: the permission type of the access control list (ACL) entry.
+    types:
+    - uid: PermissionType
+requestHeader: []
+definitions:
+- name: AclCreateOrUpdateParameters
+  description: The parameters used to create or update an access control list (ACL) entry.
+  kind: object
+  properties:
+  - name: aceType
+    description: the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively.
+    types:
+    - uid: AclType
+  - name: principalId
+    description: the Azure AD object ID of the user or group being specified in the access control list (ACL) entry.
+    types:
+    - uid: string
+  - name: permission
+    description: the permission type of the access control list (ACL) entry.
+    types:
+    - uid: PermissionType
+- name: AclType
+  description: the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively.
+  kind: enum
+  properties:
+  - name: UserObj
+    types:
+    - uid: string
+  - name: GroupObj
+    types:
+    - uid: string
+  - name: Other
+    types:
+    - uid: string
+  - name: User
+    types:
+    - uid: string
+  - name: Group
+    types:
+    - uid: string
+- name: PermissionType
+  description: the permission type of the access control list (ACL) entry.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Use
+    types:
+    - uid: string
+  - name: Create
+    types:
+    - uid: string
+  - name: Drop
+    types:
+    - uid: string
+  - name: Alter
+    types:
+    - uid: string
+  - name: Write
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
+examples:
+- name: Grants an access control list (ACL) entry to the database from the Data Lake Analytics catalog
+  request:
+    uri: POST https://contosoadla.azuredatalakeanalytics.net/catalog/usql/databases/master/acl?op=GRANTACE&api-version=2016-11-01
+    body: >-
+      {
+        "aceType": "User",
+        "principalId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        "permission": "Use"
+      }
+  responses:
+  - statusCode: "200"
+security: []

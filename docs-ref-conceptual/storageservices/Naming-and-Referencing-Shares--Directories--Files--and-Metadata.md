@@ -88,7 +88,7 @@ A storage account can contain zero or more Azure File shares. A share contains p
 4.  The same name cannot be used for a file and a directory that share the same parent directory. For example, a file and a directory that are each named `data` cannot exist under the same parent path.  
   
 ## Metadata Names  
- Metadata for a share or file resource is stored as name-value pairs associated with the resource. Directories do not have metadata. Metadata names must adhere to the naming rules for [C# identifiers](http://msdn.microsoft.com/library/aa664670\(VS.71\).aspx).  
+ Metadata for a share or file resource is stored as name-value pairs associated with the resource. Directories do not have metadata. Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).  
   
  Note that metadata names preserve the case with which they were created, but are case-insensitive when set or read. If two or more metadata headers with the same name are submitted for a resource, the Azure File service returns status code 400 (Bad Request).  
   

@@ -1,0 +1,891 @@
+### YamlMime:RESTOperation
+uid: datalakeanalytics.job.build
+name: Build
+service: Data Lake Analytics
+groupName: Job
+apiVersion: 2016-11-01
+summary: Builds (compiles) the specified job in the specified Data Lake Analytics account for job correctness and validation.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{accountName}.{adlaJobDnsSuffix}/BuildJob?api-version=2016-11-01
+uriParameters:
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Data Lake Analytics account to execute job operations on.
+  types:
+  - uid: string
+- name: adlaJobDnsSuffix
+  in: path
+  isRequired: true
+  description: Gets the DNS suffix used as the base for all Azure Data Lake Analytics Job service requests.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully built the job script.
+  types:
+  - uid: JobInformation
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    description: the friendly name of the job to build.
+    types:
+    - uid: string
+  - name: type
+    in: body
+    isRequired: true
+    description: the job type of the current job (Hive or USql).
+    types:
+    - uid: JobType
+  - name: properties
+    in: body
+    isRequired: true
+    description: the job specific properties.
+    types:
+    - uid: CreateUSqlJobProperties
+    typesTitle: CreateJobProperties
+requestHeader: []
+definitions:
+- name: JobInformation
+  description: The extended Data Lake Analytics job information properties returned when retrieving a specific job.
+  kind: object
+  properties:
+  - name: errorMessage
+    isReadyOnly: true
+    description: the error message details for the job, if the job failed.
+    types:
+    - uid: JobErrorDetails
+      isArray: true
+  - name: stateAuditRecords
+    isReadyOnly: true
+    description: the job state audit records, indicating when various operations have been performed on this job.
+    types:
+    - uid: JobStateAuditRecord
+      isArray: true
+  - name: properties
+    description: the job specific properties.
+    types:
+    - uid: USqlJobProperties
+    - uid: HiveJobProperties
+    typesTitle: JobProperties
+  - name: jobId
+    isReadyOnly: true
+    description: the job's unique identifier (a GUID).
+    types:
+    - uid: string
+  - name: name
+    description: the friendly name of the job.
+    types:
+    - uid: string
+  - name: type
+    description: the job type of the current job (Hive or USql).
+    types:
+    - uid: JobType
+  - name: submitter
+    isReadyOnly: true
+    description: the user or account that submitted the job.
+    types:
+    - uid: string
+  - name: degreeOfParallelism
+    description: the degree of parallelism used for this job. This must be greater than 0, if set to less than 0 it will default to 1.
+    types:
+    - uid: integer
+  - name: priority
+    description: the priority value for the current job. Lower numbers have a higher priority. By default, a job has a priority of 1000. This must be greater than 0.
+    types:
+    - uid: integer
+  - name: submitTime
+    isReadyOnly: true
+    description: the time the job was submitted to the service.
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: the start time of the job.
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: the completion time of the job.
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: the job state. When the job is in the Ended state, refer to Result and ErrorMessage for details.
+    types:
+    - uid: JobState
+  - name: result
+    isReadyOnly: true
+    description: the result of job execution or the current result of the running job.
+    types:
+    - uid: JobResult
+  - name: logFolder
+    isReadyOnly: true
+    description: 'the log folder path to use in the following format: adl://<accountName>.azuredatalakestore.net/system/jobservice/jobs/Usql/2016/03/13/17/18/5fe51957-93bc-4de0-8ddc-c5a4753b068b/logs/.'
+    types:
+    - uid: string
+  - name: logFilePatterns
+    description: "the list of log file name patterns to find in the logFolder. '*' is the only matching character allowed. Example format: jobExecution*.log or *mylog*.txt"
+    types:
+    - uid: string
+      isArray: true
+  - name: related
+    description: the recurring job relationship information properties.
+    types:
+    - uid: JobRelationshipProperties
+- name: BuildJobParameters
+  description: The parameters used to build a new Data Lake Analytics job.
+  kind: object
+  properties:
+  - name: name
+    description: the friendly name of the job to build.
+    types:
+    - uid: string
+  - name: type
+    description: the job type of the current job (Hive or USql).
+    types:
+    - uid: JobType
+  - name: properties
+    description: the job specific properties.
+    types:
+    - uid: CreateUSqlJobProperties
+    typesTitle: CreateJobProperties
+- name: CreateUSqlJobProperties
+  description: U-SQL job properties used when submitting U-SQL jobs.
+  kind: object
+  properties:
+  - name: compileMode
+    description: the specific compilation mode for the job used during execution. If this is not specified during submission, the server will determine the optimal compilation mode.
+    types:
+    - uid: CompileMode
+  - name: runtimeVersion
+    description: the runtime version of the Data Lake Analytics engine to use for the specific type of job being run.
+    types:
+    - uid: string
+  - name: script
+    description: the script to run. Please note that the maximum script size is 3 MB.
+    types:
+    - uid: string
+  - name: type
+    description: the job type of the current job (i.e. USql).
+    types:
+    - uid: USql
+    typesTitle: string
+- name: JobErrorDetails
+  description: The Data Lake Analytics job error details.
+  kind: object
+  properties:
+  - name: description
+    isReadyOnly: true
+    description: the error message description
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: the details of the error message.
+    types:
+    - uid: string
+  - name: endOffset
+    isReadyOnly: true
+    description: the end offset in the job where the error was found.
+    types:
+    - uid: integer
+  - name: errorId
+    isReadyOnly: true
+    description: the specific identifier for the type of error encountered in the job.
+    types:
+    - uid: string
+  - name: filePath
+    isReadyOnly: true
+    description: the path to any supplemental error files, if any.
+    types:
+    - uid: string
+  - name: helpLink
+    isReadyOnly: true
+    description: the link to MSDN or Azure help for this type of error, if any.
+    types:
+    - uid: string
+  - name: internalDiagnostics
+    isReadyOnly: true
+    description: the internal diagnostic stack trace if the user requesting the job error details has sufficient permissions it will be retrieved, otherwise it will be empty.
+    types:
+    - uid: string
+  - name: lineNumber
+    isReadyOnly: true
+    description: the specific line number in the job where the error occured.
+    types:
+    - uid: integer
+  - name: message
+    isReadyOnly: true
+    description: the user friendly error message for the failure.
+    types:
+    - uid: string
+  - name: resolution
+    isReadyOnly: true
+    description: the recommended resolution for the failure, if any.
+    types:
+    - uid: string
+  - name: innerError
+    isReadyOnly: true
+    description: the inner error of this specific job error message, if any.
+    types:
+    - uid: JobInnerError
+  - name: severity
+    isReadyOnly: true
+    description: the severity level of the failure.
+    types:
+    - uid: SeverityTypes
+  - name: source
+    isReadyOnly: true
+    description: the ultimate source of the failure (usually either SYSTEM or USER).
+    types:
+    - uid: string
+  - name: startOffset
+    isReadyOnly: true
+    description: the start offset in the job where the error was found
+    types:
+    - uid: integer
+- name: JobStateAuditRecord
+  description: The Data Lake Analytics job state audit records for tracking the lifecycle of a job.
+  kind: object
+  properties:
+  - name: newState
+    isReadyOnly: true
+    description: the new state the job is in.
+    types:
+    - uid: string
+  - name: timeStamp
+    isReadyOnly: true
+    description: the time stamp that the state change took place.
+    types:
+    - uid: string
+  - name: requestedByUser
+    isReadyOnly: true
+    description: the user who requests the change.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: the details of the audit log.
+    types:
+    - uid: string
+- name: JobType
+  description: the job type of the current job (Hive or USql).
+  kind: enum
+  properties:
+  - name: USql
+    types:
+    - uid: string
+  - name: Hive
+    types:
+    - uid: string
+- name: JobState
+  description: the job state. When the job is in the Ended state, refer to Result and ErrorMessage for details.
+  kind: enum
+  properties:
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Compiling
+    types:
+    - uid: string
+  - name: Ended
+    types:
+    - uid: string
+  - name: New
+    types:
+    - uid: string
+  - name: Queued
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Scheduling
+    types:
+    - uid: string
+  - name: Starting
+    types:
+    - uid: string
+  - name: Paused
+    types:
+    - uid: string
+  - name: WaitingForCapacity
+    types:
+    - uid: string
+- name: JobResult
+  description: the result of job execution or the current result of the running job.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: JobRelationshipProperties
+  description: Job relationship information properties including pipeline information, correlation information, etc.
+  kind: object
+  properties:
+  - name: pipelineId
+    description: the job relationship pipeline identifier (a GUID).
+    types:
+    - uid: string
+  - name: pipelineName
+    description: the friendly name of the job relationship pipeline, which does not need to be unique.
+    types:
+    - uid: string
+  - name: pipelineUri
+    description: the pipeline uri, unique, links to the originating service for this pipeline.
+    types:
+    - uid: string
+  - name: runId
+    description: the run identifier (a GUID), unique identifier of the iteration of this pipeline.
+    types:
+    - uid: string
+  - name: recurrenceId
+    description: the recurrence identifier (a GUID), unique per activity/script, regardless of iterations. This is something to link different occurrences of the same job together.
+    types:
+    - uid: string
+  - name: recurrenceName
+    description: the recurrence name, user friendly name for the correlation between jobs.
+    types:
+    - uid: string
+- name: CompileMode
+  description: the specific compilation mode for the job used during execution. If this is not specified during submission, the server will determine the optimal compilation mode.
+  kind: enum
+  properties:
+  - name: Semantic
+    types:
+    - uid: string
+  - name: Full
+    types:
+    - uid: string
+  - name: SingleBox
+    types:
+    - uid: string
+- name: JobInnerError
+  description: The Data Lake Analytics job error details.
+  kind: object
+  properties:
+  - name: diagnosticCode
+    isReadyOnly: true
+    description: the diagnostic error code.
+    types:
+    - uid: integer
+  - name: severity
+    isReadyOnly: true
+    description: the severity level of the failure.
+    types:
+    - uid: SeverityTypes
+  - name: details
+    isReadyOnly: true
+    description: the details of the error message.
+    types:
+    - uid: string
+  - name: component
+    isReadyOnly: true
+    description: the component that failed.
+    types:
+    - uid: string
+  - name: errorId
+    isReadyOnly: true
+    description: the specific identifier for the type of error encountered in the job.
+    types:
+    - uid: string
+  - name: helpLink
+    isReadyOnly: true
+    description: the link to MSDN or Azure help for this type of error, if any.
+    types:
+    - uid: string
+  - name: internalDiagnostics
+    isReadyOnly: true
+    description: the internal diagnostic stack trace if the user requesting the job error details has sufficient permissions it will be retrieved, otherwise it will be empty.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: the user friendly error message for the failure.
+    types:
+    - uid: string
+  - name: resolution
+    isReadyOnly: true
+    description: the recommended resolution for the failure, if any.
+    types:
+    - uid: string
+  - name: source
+    isReadyOnly: true
+    description: the ultimate source of the failure (usually either SYSTEM or USER).
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: the error message description
+    types:
+    - uid: string
+  - name: innerError
+    isReadyOnly: true
+    description: the inner error of this specific job error message, if any.
+    types:
+    - uid: JobInnerError
+- name: SeverityTypes
+  description: the severity of the error.
+  kind: enum
+  properties:
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+  - name: Info
+    types:
+    - uid: string
+  - name: SevereWarning
+    types:
+    - uid: string
+  - name: Deprecated
+    types:
+    - uid: string
+  - name: UserWarning
+    types:
+    - uid: string
+- name: USqlJobProperties
+  description: U-SQL job properties used when retrieving U-SQL jobs.
+  kind: object
+  properties:
+  - name: resources
+    isReadyOnly: true
+    description: the list of resources that are required by the job
+    types:
+    - uid: JobResource
+      isArray: true
+  - name: statistics
+    description: the job specific statistics.
+    types:
+    - uid: JobStatistics
+  - name: debugData
+    description: the job specific debug data locations.
+    types:
+    - uid: JobDataPath
+  - name: diagnostics
+    isReadyOnly: true
+    description: the diagnostics for the job.
+    types:
+    - uid: Diagnostics
+      isArray: true
+  - name: algebraFilePath
+    isReadyOnly: true
+    description: the algebra file path after the job has completed
+    types:
+    - uid: string
+  - name: totalCompilationTime
+    isReadyOnly: true
+    description: the total time this job spent compiling. This value should not be set by the user and will be ignored if it is.
+    types:
+    - uid: string
+  - name: totalPauseTime
+    isReadyOnly: true
+    description: the total time this job spent paused. This value should not be set by the user and will be ignored if it is.
+    types:
+    - uid: string
+  - name: totalQueuedTime
+    isReadyOnly: true
+    description: the total time this job spent queued. This value should not be set by the user and will be ignored if it is.
+    types:
+    - uid: string
+  - name: totalRunningTime
+    isReadyOnly: true
+    description: the total time this job spent executing. This value should not be set by the user and will be ignored if it is.
+    types:
+    - uid: string
+  - name: rootProcessNodeId
+    isReadyOnly: true
+    description: the ID used to identify the job manager coordinating job execution. This value should not be set by the user and will be ignored if it is.
+    types:
+    - uid: string
+  - name: yarnApplicationId
+    isReadyOnly: true
+    description: the ID used to identify the yarn application executing the job. This value should not be set by the user and will be ignored if it is.
+    types:
+    - uid: string
+  - name: yarnApplicationTimeStamp
+    isReadyOnly: true
+    description: the timestamp (in ticks) for the yarn application executing the job. This value should not be set by the user and will be ignored if it is.
+    types:
+    - uid: integer
+  - name: compileMode
+    isReadyOnly: true
+    description: the specific compilation mode for the job used during execution. If this is not specified during submission, the server will determine the optimal compilation mode.
+    types:
+    - uid: CompileMode
+  - name: runtimeVersion
+    description: the runtime version of the Data Lake Analytics engine to use for the specific type of job being run.
+    types:
+    - uid: string
+  - name: script
+    description: the script to run. Please note that the maximum script size is 3 MB.
+    types:
+    - uid: string
+  - name: type
+    description: the job type of the current job (i.e. Hive or USql).
+    types:
+    - uid: USql
+    typesTitle: string
+- name: HiveJobProperties
+  description: Hive job properties used when retrieving Hive jobs.
+  kind: object
+  properties:
+  - name: logsLocation
+    isReadyOnly: true
+    description: the Hive logs location
+    types:
+    - uid: string
+  - name: outputLocation
+    isReadyOnly: true
+    description: the location of Hive job output files (both execution output and results)
+    types:
+    - uid: string
+  - name: statementCount
+    isReadyOnly: true
+    description: the number of statements that will be run based on the script
+    types:
+    - uid: integer
+  - name: executedStatementCount
+    isReadyOnly: true
+    description: the number of statements that have been run based on the script
+    types:
+    - uid: integer
+  - name: runtimeVersion
+    description: the runtime version of the Data Lake Analytics engine to use for the specific type of job being run.
+    types:
+    - uid: string
+  - name: script
+    description: the script to run. Please note that the maximum script size is 3 MB.
+    types:
+    - uid: string
+  - name: type
+    description: the job type of the current job (i.e. Hive or USql).
+    types:
+    - uid: Hive
+    typesTitle: string
+- name: JobResource
+  description: The Data Lake Analytics job resources.
+  kind: object
+  properties:
+  - name: name
+    description: the name of the resource.
+    types:
+    - uid: string
+  - name: resourcePath
+    description: the path to the resource.
+    types:
+    - uid: string
+  - name: type
+    description: the job resource type.
+    types:
+    - uid: JobResourceType
+- name: JobStatistics
+  description: The Data Lake Analytics job execution statistics.
+  kind: object
+  properties:
+  - name: lastUpdateTimeUtc
+    isReadyOnly: true
+    description: the last update time for the statistics.
+    types:
+    - uid: string
+  - name: finalizingTimeUtc
+    isReadyOnly: true
+    description: the job finalizing start time.
+    types:
+    - uid: string
+  - name: stages
+    isReadyOnly: true
+    description: the list of stages for the job.
+    types:
+    - uid: JobStatisticsVertexStage
+      isArray: true
+- name: JobDataPath
+  description: A Data Lake Analytics job data path item.
+  kind: object
+  properties:
+  - name: jobId
+    isReadyOnly: true
+    description: the id of the job this data is for.
+    types:
+    - uid: string
+  - name: command
+    isReadyOnly: true
+    description: the command that this job data relates to.
+    types:
+    - uid: string
+  - name: paths
+    isReadyOnly: true
+    description: the list of paths to all of the job data.
+    types:
+    - uid: string
+      isArray: true
+- name: Diagnostics
+  description: Error diagnostic information for failed jobs.
+  kind: object
+  properties:
+  - name: columnNumber
+    isReadyOnly: true
+    description: the column where the error occured.
+    types:
+    - uid: integer
+  - name: end
+    isReadyOnly: true
+    description: the ending index of the error.
+    types:
+    - uid: integer
+  - name: lineNumber
+    isReadyOnly: true
+    description: the line number the error occured on.
+    types:
+    - uid: integer
+  - name: message
+    isReadyOnly: true
+    description: the error message.
+    types:
+    - uid: string
+  - name: severity
+    isReadyOnly: true
+    description: the severity of the error.
+    types:
+    - uid: SeverityTypes
+  - name: start
+    isReadyOnly: true
+    description: the starting index of the error.
+    types:
+    - uid: integer
+- name: JobResourceType
+  description: the job resource type.
+  kind: enum
+  properties:
+  - name: VertexResource
+    types:
+    - uid: string
+  - name: JobManagerResource
+    types:
+    - uid: string
+  - name: StatisticsResource
+    types:
+    - uid: string
+  - name: VertexResourceInUserFolder
+    types:
+    - uid: string
+  - name: JobManagerResourceInUserFolder
+    types:
+    - uid: string
+  - name: StatisticsResourceInUserFolder
+    types:
+    - uid: string
+- name: JobStatisticsVertexStage
+  description: The Data Lake Analytics job statistics vertex stage information.
+  kind: object
+  properties:
+  - name: dataRead
+    isReadyOnly: true
+    description: the amount of data read, in bytes.
+    types:
+    - uid: integer
+  - name: dataReadCrossPod
+    isReadyOnly: true
+    description: the amount of data read across multiple pods, in bytes.
+    types:
+    - uid: integer
+  - name: dataReadIntraPod
+    isReadyOnly: true
+    description: the amount of data read in one pod, in bytes.
+    types:
+    - uid: integer
+  - name: dataToRead
+    isReadyOnly: true
+    description: the amount of data remaining to be read, in bytes.
+    types:
+    - uid: integer
+  - name: dataWritten
+    isReadyOnly: true
+    description: the amount of data written, in bytes.
+    types:
+    - uid: integer
+  - name: duplicateDiscardCount
+    isReadyOnly: true
+    description: the number of duplicates that were discarded.
+    types:
+    - uid: integer
+  - name: failedCount
+    isReadyOnly: true
+    description: the number of failures that occured in this stage.
+    types:
+    - uid: integer
+  - name: maxVertexDataRead
+    isReadyOnly: true
+    description: the maximum amount of data read in a single vertex, in bytes.
+    types:
+    - uid: integer
+  - name: minVertexDataRead
+    isReadyOnly: true
+    description: the minimum amount of data read in a single vertex, in bytes.
+    types:
+    - uid: integer
+  - name: readFailureCount
+    isReadyOnly: true
+    description: the number of read failures in this stage.
+    types:
+    - uid: integer
+  - name: revocationCount
+    isReadyOnly: true
+    description: the number of vertices that were revoked during this stage.
+    types:
+    - uid: integer
+  - name: runningCount
+    isReadyOnly: true
+    description: the number of currently running vertices in this stage.
+    types:
+    - uid: integer
+  - name: scheduledCount
+    isReadyOnly: true
+    description: the number of currently scheduled vertices in this stage
+    types:
+    - uid: integer
+  - name: stageName
+    isReadyOnly: true
+    description: the name of this stage in job execution.
+    types:
+    - uid: string
+  - name: succeededCount
+    isReadyOnly: true
+    description: the number of vertices that succeeded in this stage.
+    types:
+    - uid: integer
+  - name: tempDataWritten
+    isReadyOnly: true
+    description: the amount of temporary data written, in bytes.
+    types:
+    - uid: integer
+  - name: totalCount
+    isReadyOnly: true
+    description: the total vertex count for this stage.
+    types:
+    - uid: integer
+  - name: totalFailedTime
+    isReadyOnly: true
+    description: the amount of time that failed vertices took up in this stage.
+    types:
+    - uid: string
+  - name: totalProgress
+    isReadyOnly: true
+    description: the current progress of this stage, as a percentage.
+    types:
+    - uid: integer
+  - name: totalSucceededTime
+    isReadyOnly: true
+    description: the amount of time all successful vertices took in this stage.
+    types:
+    - uid: string
+examples:
+- name: Builds (compiles) the specified job in the specified Data Lake Analytics account for job correctness and validation
+  request:
+    uri: POST https://{accountName}.{adlaJobDnsSuffix}/BuildJob?api-version=2016-11-01
+    body: >-
+      {
+        "type": "USql",
+        "properties": {
+          "runtimeVersion": "test_runtime_version",
+          "script": "test_script",
+          "type": "USql"
+        },
+        "name": "test_name"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "jobId": "076713da-9018-41ae-a3bd-9eab14e54d09",
+        "name": "test_name",
+        "type": "USql",
+        "submitter": "test_submitter",
+        "degreeOfParallelism": 1,
+        "priority": 1,
+        "submitTime": "2017-04-18T18:16:49.0748958+00:00",
+        "startTime": "2017-04-18T18:16:49.0748958+00:00",
+        "endTime": "2017-04-18T18:16:49.0748958+00:00",
+        "state": "Accepted",
+        "result": "Succeeded",
+        "logFolder": "adl://contosoadla.azuredatalakestore.net/system/jobservice/jobs/Usql/2016/03/13/17/18/5fe51957-93bc-4de0-8ddc-c5a4753b068b/logs/",
+        "logFilePatterns": [
+          "test_log_file_pattern_1",
+          "test_log_file_pattern_2"
+        ],
+        "related": {
+          "pipelineId": "076713da-9018-41ae-a3bd-9eab14e54d09",
+          "pipelineName": "test_pipeline_name",
+          "pipelineUri": "https://account123.contosopipelineservice.com/076713da-9018-41ae-a3bd-9eab14e54d09",
+          "runId": "67034c12-b250-468e-992d-39fb978bde2c",
+          "recurrenceId": "67034c12-b250-468e-992d-39fb978bde2d",
+          "recurrenceName": "test_recurrence_name"
+        },
+        "errorMessage": [
+          {
+            "description": "test_description",
+            "details": "test_details",
+            "endOffset": 1,
+            "errorId": "test_error_id",
+            "filePath": "adl://contosoadla.azuredatalakestore.net/system/jobservice/jobs/Usql/2016/03/13/17/18/5fe51957-93bc-4de0-8ddc-c5a4753b068b/test_file.txt",
+            "helpLink": "https://azure.microsoft.com/en-us/blog/introducing-azure-data-lake/",
+            "internalDiagnostics": "test_internal_diagnostics",
+            "lineNumber": 1,
+            "message": "test_message",
+            "resolution": "test_resolution",
+            "innerError": {
+              "diagnosticCode": 1,
+              "severity": "Warning",
+              "details": "test_details",
+              "component": "test_component",
+              "errorId": "test_error_id",
+              "helpLink": "https://azure.microsoft.com/en-us/blog/introducing-azure-data-lake/",
+              "internalDiagnostics": "test_internal_diagnostics",
+              "message": "test_message",
+              "resolution": "test_resolution",
+              "source": "SYSTEM",
+              "description": "test_description"
+            },
+            "severity": "Warning",
+            "source": "SYSTEM",
+            "startOffset": 1
+          }
+        ],
+        "stateAuditRecords": [
+          {
+            "newState": "test_new_state",
+            "timeStamp": "2017-04-18T18:16:49.0748958+00:00",
+            "requestedByUser": "test_requested_by_user",
+            "details": "test_details"
+          }
+        ],
+        "properties": {
+          "runtimeVersion": "test_runtime_version",
+          "script": "test_script",
+          "type": "USql"
+        }
+      }
+security: []

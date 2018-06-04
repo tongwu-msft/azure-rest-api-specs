@@ -1,0 +1,141 @@
+### YamlMime:RESTOperation
+uid: datalakeanalytics.recurrence.list
+name: List
+service: Data Lake Analytics
+groupName: Recurrence
+apiVersion: 2016-11-01
+summary: Lists all recurrences.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{accountName}.{adlaJobDnsSuffix}/recurrences?api-version=2016-11-01
+- content: GET https://{accountName}.{adlaJobDnsSuffix}/recurrences?startDateTime={startDateTime}&endDateTime={endDateTime}&api-version=2016-11-01
+  isOptional: true
+uriParameters:
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Data Lake Analytics account to execute job operations on.
+  types:
+  - uid: string
+- name: adlaJobDnsSuffix
+  in: path
+  isRequired: true
+  description: Gets the DNS suffix used as the base for all Azure Data Lake Analytics Job service requests.
+  types:
+  - uid: string
+- name: startDateTime
+  in: query
+  description: The start date for when to get the list of recurrences. The startDateTime and endDateTime can be no more than 30 days apart.
+  types:
+  - uid: string
+  format: date-time
+- name: endDateTime
+  in: query
+  description: The end date for when to get the list of recurrences. The startDateTime and endDateTime can be no more than 30 days apart.
+  types:
+  - uid: string
+  format: date-time
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of recurrences.
+  types:
+  - uid: JobRecurrenceInformationListResult
+requestHeader: []
+definitions:
+- name: JobRecurrenceInformationListResult
+  description: List of job recurrence information items.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: the list of job recurrence information items.
+    types:
+    - uid: JobRecurrenceInformation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: the link (url) to the next page of results.
+    types:
+    - uid: string
+- name: JobRecurrenceInformation
+  description: Recurrence job information for a specific recurrence.
+  kind: object
+  properties:
+  - name: recurrenceId
+    isReadyOnly: true
+    description: the recurrence identifier (a GUID), unique per activity/script, regardless of iterations. This is something to link different occurrences of the same job together.
+    types:
+    - uid: string
+  - name: recurrenceName
+    isReadyOnly: true
+    description: the recurrence name, user friendly name for the correlation between jobs.
+    types:
+    - uid: string
+  - name: numJobsFailed
+    isReadyOnly: true
+    description: the number of jobs in this recurrence that have failed.
+    types:
+    - uid: integer
+  - name: numJobsCanceled
+    isReadyOnly: true
+    description: the number of jobs in this recurrence that have been canceled.
+    types:
+    - uid: integer
+  - name: numJobsSucceeded
+    isReadyOnly: true
+    description: the number of jobs in this recurrence that have succeeded.
+    types:
+    - uid: integer
+  - name: auHoursFailed
+    isReadyOnly: true
+    description: the number of job execution hours that resulted in failed jobs.
+    types:
+    - uid: number
+  - name: auHoursCanceled
+    isReadyOnly: true
+    description: the number of job execution hours that resulted in canceled jobs.
+    types:
+    - uid: number
+  - name: auHoursSucceeded
+    isReadyOnly: true
+    description: the number of job execution hours that resulted in successful jobs.
+    types:
+    - uid: number
+  - name: lastSubmitTime
+    isReadyOnly: true
+    description: the last time a job in this recurrence was submitted.
+    types:
+    - uid: string
+examples:
+- name: Lists all recurrences
+  request:
+    uri: GET https://{accountName}.{adlaJobDnsSuffix}/recurrences?startDateTime=4/18/2017 6:16:49 PM&endDateTime=4/18/2017 6:16:49 PM&api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "recurrenceId": "076713da-9018-41ae-a3bd-9eab14e54d09",
+            "recurrenceName": "test_recurrence_name",
+            "numJobsFailed": 1,
+            "numJobsCanceled": 1,
+            "numJobsSucceeded": 1,
+            "auHoursFailed": 1,
+            "auHoursCanceled": 1,
+            "auHoursSucceeded": 1,
+            "lastSubmitTime": "2017-04-18T18:16:49.0748958+00:00"
+          }
+        ],
+        "nextLink": "https://account123.contosopipelineservice.com/076713da-9018-41ae-a3bd-9eab14e54d09"
+      }
+security: []

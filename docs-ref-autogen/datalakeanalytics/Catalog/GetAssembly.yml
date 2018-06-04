@@ -1,0 +1,199 @@
+### YamlMime:RESTOperation
+uid: datalakeanalytics.catalog.getassembly
+name: Get Assembly
+service: Data Lake Analytics
+groupName: Catalog
+apiVersion: 2016-11-01
+summary: Retrieves the specified assembly from the Data Lake Analytics catalog.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{accountName}.{adlaCatalogDnsSuffix}/catalog/usql/databases/{databaseName}/assemblies/{assemblyName}?api-version=2016-11-01
+uriParameters:
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Data Lake Analytics account upon which to execute catalog operations.
+  types:
+  - uid: string
+- name: adlaCatalogDnsSuffix
+  in: path
+  isRequired: true
+  description: Gets the DNS suffix used as the base for all Azure Data Lake Analytics Catalog service requests.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database containing the assembly.
+  types:
+  - uid: string
+- name: assemblyName
+  in: path
+  isRequired: true
+  description: The name of the assembly.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the details of the specified assembly in the specified database.
+  types:
+  - uid: USqlAssembly
+requestHeader: []
+definitions:
+- name: USqlAssembly
+  description: A Data Lake Analytics catalog U-SQL Assembly.
+  kind: object
+  properties:
+  - name: databaseName
+    description: the name of the database.
+    types:
+    - uid: string
+  - name: assemblyName
+    description: the name of the assembly.
+    types:
+    - uid: string
+  - name: clrName
+    description: the name of the CLR.
+    types:
+    - uid: string
+  - name: isVisible
+    description: the switch indicating if this assembly is visible or not.
+    types:
+    - uid: boolean
+  - name: isUserDefined
+    description: the switch indicating if this assembly is user defined or not.
+    types:
+    - uid: boolean
+  - name: files
+    description: the list of files associated with the assembly
+    types:
+    - uid: USqlAssemblyFileInfo
+      isArray: true
+  - name: dependencies
+    description: the list of dependencies associated with the assembly
+    types:
+    - uid: USqlAssemblyDependencyInfo
+      isArray: true
+  - name: computeAccountName
+    description: the name of the Data Lake Analytics account.
+    types:
+    - uid: string
+  - name: version
+    description: the version of the catalog item.
+    types:
+    - uid: string
+- name: USqlAssemblyFileInfo
+  description: A Data Lake Analytics catalog U-SQL assembly file information item.
+  kind: object
+  properties:
+  - name: type
+    description: the assembly file type.
+    types:
+    - uid: FileType
+  - name: originalPath
+    description: the the original path to the assembly file.
+    types:
+    - uid: string
+  - name: contentPath
+    description: the the content path to the assembly file.
+    types:
+    - uid: string
+- name: USqlAssemblyDependencyInfo
+  description: A Data Lake Analytics catalog U-SQL dependency information item.
+  kind: object
+  properties:
+  - name: entityId
+    description: the EntityId of the dependency.
+    types:
+    - uid: EntityId
+- name: FileType
+  description: the assembly file type.
+  kind: enum
+  properties:
+  - name: Assembly
+    types:
+    - uid: string
+  - name: Resource
+    types:
+    - uid: string
+  - name: Nodeploy
+    types:
+    - uid: string
+- name: EntityId
+  description: A Data Lake Analytics catalog entity identifier object.
+  kind: object
+  properties:
+  - name: name
+    description: the name of the external table associated with this database, schema and table.
+    types:
+    - uid: DdlName
+  - name: version
+    description: the version of the external data source.
+    types:
+    - uid: string
+- name: DdlName
+  description: A Data Lake Analytics DDL name item.
+  kind: object
+  properties:
+  - name: firstPart
+    description: the name of the table associated with this database and schema.
+    types:
+    - uid: string
+  - name: secondPart
+    description: the name of the table associated with this database and schema.
+    types:
+    - uid: string
+  - name: thirdPart
+    description: the name of the table associated with this database and schema.
+    types:
+    - uid: string
+  - name: server
+    description: the name of the table associated with this database and schema.
+    types:
+    - uid: string
+examples:
+- name: Retrieves the specified assembly from the Data Lake Analytics catalog
+  request:
+    uri: GET https://contosoadla.azuredatalakeanalytics.net/catalog/usql/databases/master/assemblies/test_assembly_name?api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "computeAccountName": "contosoadla",
+        "version": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        "databaseName": "master",
+        "assemblyName": "test_assembly_name",
+        "clrName": "test_clr_name",
+        "isVisible": false,
+        "isUserDefined": false,
+        "files": [
+          {
+            "type": "Assembly",
+            "originalPath": "test_original_path",
+            "contentPath": "test_content_path"
+          }
+        ],
+        "dependencies": [
+          {
+            "entityId": {
+              "name": {
+                "firstPart": "test_first_part",
+                "secondPart": "test_second_part",
+                "thirdPart": "test_third_part",
+                "server": "test_server"
+              },
+              "version": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345"
+            }
+          }
+        ]
+      }
+security: []

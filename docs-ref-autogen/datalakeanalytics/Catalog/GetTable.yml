@@ -1,0 +1,323 @@
+### YamlMime:RESTOperation
+uid: datalakeanalytics.catalog.gettable
+name: Get Table
+service: Data Lake Analytics
+groupName: Catalog
+apiVersion: 2016-11-01
+summary: Retrieves the specified table from the Data Lake Analytics catalog.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{accountName}.{adlaCatalogDnsSuffix}/catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}?api-version=2016-11-01
+uriParameters:
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Data Lake Analytics account upon which to execute catalog operations.
+  types:
+  - uid: string
+- name: adlaCatalogDnsSuffix
+  in: path
+  isRequired: true
+  description: Gets the DNS suffix used as the base for all Azure Data Lake Analytics Catalog service requests.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database containing the table.
+  types:
+  - uid: string
+- name: schemaName
+  in: path
+  isRequired: true
+  description: The name of the schema containing the table.
+  types:
+  - uid: string
+- name: tableName
+  in: path
+  isRequired: true
+  description: The name of the table.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the specified table from the underying database and schema combination
+  types:
+  - uid: USqlTable
+requestHeader: []
+definitions:
+- name: USqlTable
+  description: A Data Lake Analytics catalog U-SQL table item.
+  kind: object
+  properties:
+  - name: databaseName
+    description: the name of the database.
+    types:
+    - uid: string
+  - name: schemaName
+    description: the name of the schema associated with this table and database.
+    types:
+    - uid: string
+  - name: tableName
+    description: the name of the table.
+    types:
+    - uid: string
+  - name: columnList
+    description: the list of columns in this table
+    types:
+    - uid: USqlTableColumn
+      isArray: true
+  - name: indexList
+    description: the list of indices in this table
+    types:
+    - uid: USqlIndex
+      isArray: true
+  - name: partitionKeyList
+    description: the list of partition keys in the table
+    types:
+    - uid: string
+      isArray: true
+  - name: externalTable
+    description: the external table associated with the table.
+    types:
+    - uid: ExternalTable
+  - name: distributionInfo
+    description: the distributions info of the table
+    types:
+    - uid: USqlDistributionInfo
+  - name: computeAccountName
+    description: the name of the Data Lake Analytics account.
+    types:
+    - uid: string
+  - name: version
+    description: the version of the catalog item.
+    types:
+    - uid: string
+- name: USqlTableColumn
+  description: A Data Lake Analytics catalog U-SQL table column item.
+  kind: object
+  properties:
+  - name: name
+    description: the name of the column in the table.
+    types:
+    - uid: string
+  - name: type
+    description: the object type of the specified column (such as System.String).
+    types:
+    - uid: string
+- name: USqlIndex
+  description: A Data Lake Analytics catalog U-SQL table index item.
+  kind: object
+  properties:
+  - name: name
+    description: the name of the index in the table.
+    types:
+    - uid: string
+  - name: indexKeys
+    description: the list of directed columns in the index
+    types:
+    - uid: USqlDirectedColumn
+      isArray: true
+  - name: columns
+    description: the list of columns in the index
+    types:
+    - uid: string
+      isArray: true
+  - name: distributionInfo
+    description: the distributions info of the index
+    types:
+    - uid: USqlDistributionInfo
+  - name: partitionFunction
+    description: partition function ID for the index.
+    types:
+    - uid: string
+  - name: partitionKeyList
+    description: the list of partion keys in the index
+    types:
+    - uid: string
+      isArray: true
+  - name: streamNames
+    description: the list of full paths to the streams that contain this index in the DataLake account.
+    types:
+    - uid: string
+      isArray: true
+  - name: isColumnstore
+    description: the switch indicating if this index is a columnstore index.
+    types:
+    - uid: boolean
+  - name: indexId
+    description: the ID of this index within the table.
+    types:
+    - uid: integer
+  - name: isUnique
+    description: the switch indicating if this index is a unique index.
+    types:
+    - uid: boolean
+- name: ExternalTable
+  description: A Data Lake Analytics catalog external table item.
+  kind: object
+  properties:
+  - name: tableName
+    description: the name of the table associated with this database and schema.
+    types:
+    - uid: string
+  - name: dataSource
+    description: the data source associated with this external table.
+    types:
+    - uid: EntityId
+- name: USqlDistributionInfo
+  description: A Data Lake Analytics catalog U-SQL distribution information object.
+  kind: object
+  properties:
+  - name: type
+    description: the type of this distribution.
+    types:
+    - uid: integer
+  - name: keys
+    description: the list of directed columns in the distribution
+    types:
+    - uid: USqlDirectedColumn
+      isArray: true
+  - name: count
+    description: the count of indices using this distribution.
+    types:
+    - uid: integer
+  - name: dynamicCount
+    description: the dynamic count of indices using this distribution.
+    types:
+    - uid: integer
+- name: USqlDirectedColumn
+  description: A Data Lake Analytics catalog U-SQL directed column item.
+  kind: object
+  properties:
+  - name: name
+    description: the name of the index in the table.
+    types:
+    - uid: string
+  - name: descending
+    description: the switch indicating if the index is descending or not.
+    types:
+    - uid: boolean
+- name: EntityId
+  description: A Data Lake Analytics catalog entity identifier object.
+  kind: object
+  properties:
+  - name: name
+    description: the name of the external table associated with this database, schema and table.
+    types:
+    - uid: DdlName
+  - name: version
+    description: the version of the external data source.
+    types:
+    - uid: string
+- name: DdlName
+  description: A Data Lake Analytics DDL name item.
+  kind: object
+  properties:
+  - name: firstPart
+    description: the name of the table associated with this database and schema.
+    types:
+    - uid: string
+  - name: secondPart
+    description: the name of the table associated with this database and schema.
+    types:
+    - uid: string
+  - name: thirdPart
+    description: the name of the table associated with this database and schema.
+    types:
+    - uid: string
+  - name: server
+    description: the name of the table associated with this database and schema.
+    types:
+    - uid: string
+examples:
+- name: Retrieves the specified table from the Data Lake Analytics catalog
+  request:
+    uri: GET https://contosoadla.azuredatalakeanalytics.net/catalog/usql/databases/master/schemas/dbo/tables/test_table_name?api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "computeAccountName": "contosoadla",
+        "version": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        "databaseName": "master",
+        "schemaName": "dbo",
+        "tableName": "test_table_name",
+        "columnList": [
+          {
+            "name": "test_column_name",
+            "type": "test_type"
+          }
+        ],
+        "indexList": [
+          {
+            "name": "test_index_name",
+            "indexKeys": [
+              {
+                "name": "test_index_key",
+                "descending": false
+              }
+            ],
+            "columns": [
+              "test_column"
+            ],
+            "distributionInfo": {
+              "type": 1,
+              "keys": [
+                {
+                  "name": "test_key",
+                  "descending": false
+                }
+              ],
+              "count": 1,
+              "dynamicCount": 1
+            },
+            "partitionFunction": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab346",
+            "partitionKeyList": [
+              "test_partition_key"
+            ],
+            "streamNames": [
+              "test_stream_name"
+            ],
+            "isColumnstore": false,
+            "indexId": 1,
+            "isUnique": false
+          }
+        ],
+        "partitionKeyList": [
+          "test_partition_key"
+        ],
+        "externalTable": {
+          "tableName": "test_table_name",
+          "dataSource": {
+            "name": {
+              "firstPart": "test_first_part",
+              "secondPart": "test_second_part",
+              "thirdPart": "test_third_part",
+              "server": "test_server"
+            },
+            "version": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345"
+          }
+        },
+        "distributionInfo": {
+          "type": 1,
+          "keys": [
+            {
+              "name": "test_key",
+              "descending": false
+            }
+          ],
+          "count": 1,
+          "dynamicCount": 1
+        }
+      }
+security: []
