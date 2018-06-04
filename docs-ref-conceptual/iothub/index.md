@@ -18,7 +18,8 @@ manager: "timlt"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
-  - "fr-fr"  - "it-it"
+  - "fr-fr"  
+  - "it-it"
   - "ja-jp"
   - "ko-kr"
   - "pt-br"
@@ -30,7 +31,7 @@ service_description: To be added
 # IoT Hub REST
 The REST APIs for IoT Hub offer programmatic access to the device, messaging, and job services, as well as the resource provder, in IoT Hub.  You can access messaging services from within an IoT service running in Azure, or directly over the Internet from any application that can send an HTTPS request and receive an HTTPS response.  
   
--   [Service](#Service)
+-   [Service](##Service)
 
 -   [Device Messaging](xref:<fully-qualifiediothubdomainname>.iothub.httpruntime)  
   
