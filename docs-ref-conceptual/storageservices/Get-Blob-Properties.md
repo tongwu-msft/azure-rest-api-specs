@@ -1,7 +1,7 @@
 ---
 title: "Get Blob Properties"
 ms.custom: na
-ms.date: 2016-12-13
+ms.date: 06/04/2018
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage

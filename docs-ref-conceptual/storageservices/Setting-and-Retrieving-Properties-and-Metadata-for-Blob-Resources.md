@@ -1,7 +1,7 @@
 ---
 title: "Setting and Retrieving Properties and Metadata for Blob Resources"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 06/04/2018
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage

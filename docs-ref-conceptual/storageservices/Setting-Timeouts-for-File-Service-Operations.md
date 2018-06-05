@@ -1,7 +1,7 @@
 ---
 title: "Setting Timeouts for File Service Operations"
 ms.custom: na
-ms.date: 2017-04-27
+ms.date: 06/04/2018
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
