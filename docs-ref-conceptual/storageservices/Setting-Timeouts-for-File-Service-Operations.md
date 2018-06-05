@@ -29,7 +29,7 @@ A call to a File service API can include a server timeout interval, specified in
   
 For operations other than upload and download operations, the maximum timeout interval for File service operations is 30 seconds, and timeouts larger than 30 seconds are reduced to 30 seconds. 
 
-For upload and download operations, a transfer rate of 2min/MB and the size of the file are used to pre-calculate the timeout value before starting the upload or download operation.  
+For upload and download operations, a transfer rate of 2 min/MB and the size of the file are used to pre-calculate the timeout value before starting the upload or download operation.  
 
 ## Examples  
 The following example REST URI sets the timeout interval for the [List Shares](List-Shares.md) operation to 20 seconds:  
