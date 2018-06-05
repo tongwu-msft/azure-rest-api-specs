@@ -36,7 +36,9 @@ translation.priority.mt:
   
 ### Headers  
  See [Common Azure Cosmos DB REST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
-  
+
+ When [constructing the hashed signature for the master key token](access-control-on-cosmosdb-resources.md#constructkeytoken), the **ResourceType** should be "offers".  The **ResourceLink** should be *only* the _rid of the offer you wish to retrieve.  The value must be lowercase.  For example, when performing a GET on `https://querydemo.documents.azure.com/offers/uT2L`, the **ResourceLink** in the master key token should be "ut2l".
+
 ### Body  
  None.  
   
@@ -60,7 +62,7 @@ translation.priority.mt:
 |--------------|-----------------|  
 |**offerVersion**|**Required**. This can be V1 for pre-defined throughput levels and V2 for user-defined throughput levels.|  
 |**offerType**|**Required**. It is a user settable property, which must be set to **S1**, **S2**, or **S3** for pre-defined performance levels, and Invalid for user-defined performance levels.|  
-|**content**|**Optional**. Contains information about the offer – for V2 offers, this contains the throughput of the collection.|  
+|**content**|**Optional**. It contains information about the offer. For V2 offers, it contains the throughput of the collection.|  
 |**resource**|**Required**. When creating a new collection, this property is set to the self-link of the collection, for example, dbs/pLJdAA==/colls/pLJdAOlEdgA=/.|  
 |**offerResourceId**|**Required**. During creation of a collection, this property is automatically associated to the resource id, that is, **_rid** of the collection. In the example above, the **_rid** for the collection is pLJdAOlEdgA=.|  
 |**id**|It is a system generated property.  The **id** for the offer resource is automatically generated when it is created.  It has the same value as the **_rid** for the offer.|  
