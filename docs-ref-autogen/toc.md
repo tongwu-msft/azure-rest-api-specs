@@ -3713,6 +3713,8 @@
 #### [List By Subscription](monitor/ScheduledQueryRules/ListBySubscription.yml)
 ### [Tenant Activity Logs](monitor/TenantActivityLogs.yml)
 #### [List](monitor/TenantActivityLogs/List.yml)
+### [scheduled Query Rules](monitor/scheduledQueryRules.yml)
+#### [Update](monitor/scheduledQueryRules/Update.yml)
 # [MySQL](../docs-ref-conceptual/mysql/index.md)
 ## [Check Name Availability](mysql/CheckNameAvailability.yml)
 ### [Execute](mysql/CheckNameAvailability/Execute.yml)
