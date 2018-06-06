@@ -1,23 +1,33 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.monitor.scheduledqueryrules.listbysubscription
-name: List By Subscription
+uid: management.azure.com.monitor.scheduledqueryrules.update
+name: Update
 service: Monitor
-groupName: Scheduled Query Rules
+groupName: scheduled Query Rules
 apiVersion: 2018-04-16
-summary: List the Log Search rules within a subscription group.
+summary: Update log search Rule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/microsoft.insights/scheduledQueryRules?api-version=2018-04-16
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/microsoft.insights/scheduledQueryRules?api-version=2018-04-16&$filter={$filter}
-  isOptional: true
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/scheduledQueryRules/{ruleName}?api-version=2018-04-16
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: The Azure subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: ruleName
+  in: path
+  isRequired: true
+  description: The name of the rule.
   types:
   - uid: string
 - name: api-version
@@ -26,20 +36,31 @@ uriParameters:
   description: Client Api Version.
   types:
   - uid: string
-- name: $filter
-  in: query
-  description: The filter to apply on the operation. For more information please see https://msdn.microsoft.com/en-us/library/azure/dn931934.aspx
-  types:
-  - uid: string
 responses:
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 - name: 200 OK
-  description: Successful request for a list of alert rules
+  description: Successful request to update an Log Search rule
   types:
-  - uid: LogSearchRuleResourceCollection
+  - uid: LogSearchRuleResource
+requestBody:
+- parameters:
+  - name: tags
+    in: body
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.enabled
+    in: body
+    description: The flag which indicates whether the Log Search rule is enabled. Value should be true or false
+    types:
+    - uid: enabled
 requestHeader: []
 definitions:
 - name: ErrorResponse
@@ -54,15 +75,6 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-- name: LogSearchRuleResourceCollection
-  description: Represents a collection of Log Search rule resources.
-  kind: object
-  properties:
-  - name: value
-    description: The values for the Log Search Rule resources.
-    types:
-    - uid: LogSearchRuleResource
-      isArray: true
 - name: LogSearchRuleResource
   description: The Log Search Rule resource.
   kind: object
@@ -125,6 +137,22 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: LogSearchRuleResourcePatch
+  description: The log search rule resource for patch operations.
+  kind: object
+  properties:
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.enabled
+    description: The flag which indicates whether the Log Search rule is enabled. Value should be true or false
+    types:
+    - uid: enabled
 - name: enabled
   description: The flag which indicates whether the Log Search rule is enabled. Value should be true or false
   kind: enum
@@ -311,95 +339,60 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List rules
+- name: Patch Log Search Rule
   request:
-    uri: GET https://management.azure.com/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/providers/microsoft.insights/scheduledQueryRules?api-version=2018-04-16
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourcegroups/my-resource-group/providers/microsoft.insights/scheduledQueryRules/logalertfoo?api-version=2018-04-16
+    body: >-
+      {
+        "properties": {
+          "enabled": "true"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/scheduledQueryRules/logalertfoo",
-            "name": "logalertfoo",
-            "type": "Microsoft.Insights/scheduledQueryRules",
-            "location": "West US",
-            "tags": {
-              "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI": "Resource"
-            },
-            "properties": {
-              "description": "log alert description",
-              "enabled": "false",
-              "lastUpdatedTime": "2017-06-23T21:23:52.0221265Z",
-              "provisioningState": "Succeeded",
-              "source": {
-                "query": "requests",
-                "queryType": "ResultCount",
-                "dataSourceId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI"
-              },
-              "schedule": {
-                "frequencyInMinutes": 15,
-                "timeWindowInMinutes": 15
-              },
-              "action": {
-                "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction",
-                "severity": "1",
-                "trigger": {
-                  "thresholdOperator": "GreaterThan",
-                  "threshold": 2,
-                  "metricTrigger": {
-                    "thresholdOperator": "LessThan",
-                    "threshold": 2,
-                    "metricTriggerType": "Total",
-                    "metricColumn": "user_Id"
-                  }
-                },
-                "aznsAction": {
-                  "actionGroup": [],
-                  "emailSubject": "Email Header",
-                  "customWebhookPayload": "{}"
-                }
-              }
-            }
+        "id": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/scheduledQueryRules/logalertfoo",
+        "name": "logalertfoo",
+        "type": "Microsoft.Insights/scheduledQueryRules",
+        "location": "West US",
+        "tags": {
+          "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI": "Resource"
+        },
+        "properties": {
+          "description": "log alert description",
+          "enabled": "true",
+          "lastUpdatedTime": "2017-06-23T21:23:52.0221265Z",
+          "provisioningState": "Succeeded",
+          "source": {
+            "query": "requests",
+            "dataSourceId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI",
+            "queryType": "ResultCount"
           },
-          {
-            "id": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/scheduledQueryRules/logalertfoo",
-            "name": "logalertfoo",
-            "type": "Microsoft.Insights/scheduledQueryRules",
-            "location": "West US",
-            "tags": {
-              "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI": "Resource"
+          "schedule": {
+            "frequencyInMinutes": 15,
+            "timeWindowInMinutes": 15
+          },
+          "action": {
+            "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction",
+            "severity": "1",
+            "aznsAction": {
+              "actionGroup": [],
+              "emailSubject": "Email Header",
+              "customWebhookPayload": "{}"
             },
-            "properties": {
-              "description": "log alert description",
-              "enabled": "true",
-              "lastUpdatedTime": "2017-06-23T21:23:52.0221265Z",
-              "provisioningState": "Succeeded",
-              "source": {
-                "query": "requests",
-                "queryType": "ResultCount",
-                "dataSourceId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI"
-              },
-              "schedule": {
-                "frequencyInMinutes": 10,
-                "timeWindowInMinutes": 30
-              },
-              "action": {
-                "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction",
-                "severity": "1",
-                "trigger": {
-                  "thresholdOperator": "GreaterThan",
-                  "threshold": 3
-                },
-                "aznsAction": {
-                  "actionGroup": [],
-                  "emailSubject": "Email Header",
-                  "customWebhookPayload": "{}"
-                }
+            "trigger": {
+              "thresholdOperator": "GreaterThan",
+              "threshold": 3,
+              "metricTrigger": {
+                "thresholdOperator": "GreaterThan",
+                "threshold": 5,
+                "metricTriggerType": "Consecutive",
+                "metricColumn": "ColumnName"
               }
             }
           }
-        ]
+        }
       }
 security:
 - type: oauth2
