@@ -12,6 +12,8 @@ produces:
 - application/json
 paths:
 - content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/models/{model}/analyze
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/models/{model}/analyze?overload=stream&language={language}
+  isOptional: true
 uriParameters:
 - name: AzureRegion
   in: path
@@ -23,6 +25,11 @@ uriParameters:
   in: path
   isRequired: true
   description: The domain-specific content to recognize.
+  types:
+  - uid: string
+- name: language
+  in: query
+  description: The desired language for output generation. If this parameter is not specified, the default value is &quot;en&quot;.Supported languages:en - English, Default.ja - Japanese pt - Portuguese zh - Simplified Chinese.
   types:
   - uid: string
 responses:
@@ -54,11 +61,6 @@ definitions:
     description: Image metadata
     types:
     - uid: ImageMetadata
-  - name: result.celebrities
-    description: An array of possible celebritied identified in the image.
-    types:
-    - uid: CelebritiesModel
-      isArray: true
 - name: ComputerVisionError
   kind: object
   properties:
@@ -90,22 +92,6 @@ definitions:
     description: Image format
     types:
     - uid: string
-- name: CelebritiesModel
-  description: An object describing possible celebrity identification.
-  kind: object
-  properties:
-  - name: name
-    description: Name of the celebrity.
-    types:
-    - uid: string
-  - name: confidence
-    description: Level of confidence ranging from 0 to 1.
-    types:
-    - uid: number
-  - name: faceRectangle
-    description: An object describing face rectangle.
-    types:
-    - uid: FaceRectangle
 - name: ComputerVisionErrorCodes
   description: The error code.
   kind: enum
@@ -149,30 +135,10 @@ definitions:
   - name: StorageException
     types:
     - uid: string
-- name: FaceRectangle
-  description: An object describing face rectangle.
-  kind: object
-  properties:
-  - name: left
-    description: X-coordinate of the top left point of the face.
-    types:
-    - uid: integer
-  - name: top
-    description: Y-coordinate of the top left point of the face.
-    types:
-    - uid: integer
-  - name: width
-    description: Width measured from the top-left point of the face.
-    types:
-    - uid: integer
-  - name: height
-    description: Height measured from the top-left point of the face.
-    types:
-    - uid: integer
 examples:
 - name: Successful Domain Model analysis request
   request:
-    uri: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/models/{model}/analyze
+    uri: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/models/{model}/analyze?overload=stream
   responses:
   - statusCode: "200"
     body: >-
