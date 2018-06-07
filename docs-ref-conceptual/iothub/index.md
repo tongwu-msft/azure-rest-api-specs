@@ -33,7 +33,7 @@ The REST APIs for IoT Hub offer programmatic access to the device, messaging, an
   
 -   [Service](#service)
 
--   [Device Messaging](xref:<fully-qualifiediothubdomainname>.iothub.httpruntime)  
+-   [Device Messaging](#device-messaging)  
   
 -   [Resource Provider](xref:management.azure.com.iothub.iothubresource)  
   
