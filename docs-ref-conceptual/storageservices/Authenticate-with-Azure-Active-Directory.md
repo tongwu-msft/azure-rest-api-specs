@@ -143,4 +143,4 @@ For more details about the RBAC actions shown below, see [Management and data op
 ## See also
 
 - [Announcing the Preview of Azure AD Authentication for Azure Storage](https://azure.microsoft.com/blog/announcing-the-preview-of-aad-authentication-for-storage/).
-- [Authorization for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)
+- [Authorization for the Azure Storage Services](authorization-for-the-azure-storage-services.md)
