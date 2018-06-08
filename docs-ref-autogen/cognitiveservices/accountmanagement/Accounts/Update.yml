@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cognitiveservices.cognitiveservicesaccounts.create
-name: Create
+uid: management.azure.com.cognitiveservices.accounts.update
+name: Update
 service: Cognitive Services
-groupName: Cognitive Services Accounts
-apiVersion: 2016-02-01-preview
-summary: Create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.
+groupName: Accounts
+apiVersion: 2017-04-18
+summary: Updates a Cognitive Services account
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}?api-version=2016-02-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}?api-version=2017-04-18
 uriParameters:
 - name: subscriptionId
   in: path
@@ -29,49 +27,32 @@ uriParameters:
 - name: accountName
   in: path
   isRequired: true
-  description: The name of the cognitive services account within the specified resource group. Cognitive Services account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+  description: The name of Cognitive Services account.
   types:
   - uid: string
   pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]*$
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. Current version is 2016-02-01-preview
+  description: Version of the API to be used with the client request. Current version is 2017-04-18
   types:
   - uid: string
 responses:
 - name: 200 OK
-  description: If resource is created successfully or already existed, the service should return 200 (OK).
-  types:
-  - uid: CognitiveServicesAccount
-- name: 201 Created
-  description: If resource is created successfully, the service should return 201 (OK).
+  description: 'The resource provider should return 200 (OK) to indicate that the operation completed successfully. '
   types:
   - uid: CognitiveServicesAccount
 - name: Other Status Codes
-  description: Error response describing why the operation failed
+  description: Error response describing why the operation failed. If the resource group *or* resource does not exist, 404 (NotFound) should be returned.
   types:
   - uid: Error
 requestBody:
 - parameters:
   - name: sku
     in: body
-    isRequired: true
-    description: The SKU of the cognitive services account.
+    description: Gets or sets the SKU of the resource.
     types:
     - uid: Sku
-  - name: kind
-    in: body
-    isRequired: true
-    description: Required. Indicates the type of cognitive service account.
-    types:
-    - uid: Kind
-  - name: location
-    in: body
-    isRequired: true
-    description: Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is created, but if an identical geo region is specified on update the request will succeed.
-    types:
-    - uid: string
   - name: tags
     in: body
     description: Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters.
@@ -105,6 +86,7 @@ definitions:
     types:
     - uid: string
   - name: id
+    isReadyOnly: true
     description: The id of the created account
     types:
     - uid: string
@@ -117,11 +99,12 @@ definitions:
     types:
     - uid: string
   - name: name
+    isReadyOnly: true
     description: The name of the created account
     types:
     - uid: string
   - name: sku
-    description: The SKU of the cognitive services account.
+    description: The SKU of Cognitive Services account.
     types:
     - uid: Sku
   - name: tags
@@ -133,6 +116,7 @@ definitions:
       - uid: string
       - uid: string
   - name: type
+    isReadyOnly: true
     description: Resource type
     types:
     - uid: string
@@ -142,32 +126,29 @@ definitions:
     types:
     - uid: ProvisioningState
   - name: properties.endpoint
-    description: Endpoint of the created account
+    description: Endpoint of the created account.
+    types:
+    - uid: string
+  - name: properties.internalId
+    description: The internal identifier.
     types:
     - uid: string
 - name: Error
+  description: Cognitive Services error object.
   kind: object
   properties:
   - name: error
-    description: ''
+    description: The error body.
     types:
     - uid: ErrorBody
-- name: CognitiveServicesAccountCreateParameters
+- name: CognitiveServicesAccountUpdateParameters
   description: The parameters to provide for the account.
   kind: object
   properties:
   - name: sku
-    description: The SKU of the cognitive services account.
+    description: Gets or sets the SKU of the resource.
     types:
     - uid: Sku
-  - name: kind
-    description: Required. Indicates the type of cognitive service account.
-    types:
-    - uid: Kind
-  - name: location
-    description: Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is created, but if an identical geo region is specified on update the request will succeed.
-    types:
-    - uid: string
   - name: tags
     description: Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters.
     types:
@@ -177,7 +158,7 @@ definitions:
       - uid: string
       - uid: string
 - name: SkuName
-  description: Gets or sets the sku name. Required for account creation, optional for update.
+  description: The name of SKU.
   kind: enum
   properties:
   - name: F0
@@ -236,6 +217,12 @@ definitions:
   - name: ResolvingDNS
     types:
     - uid: string
+  - name: Moving
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
   - name: Succeeded
     types:
     - uid: string
@@ -243,6 +230,7 @@ definitions:
     types:
     - uid: string
 - name: ErrorBody
+  description: Cognitive Services error body.
   kind: object
   properties:
   - name: code
@@ -253,60 +241,33 @@ definitions:
     description: error message
     types:
     - uid: string
-- name: Kind
-  description: Required. Indicates the type of cognitive service account.
-  kind: enum
-  properties:
-  - name: Academic
-    types:
-    - uid: string
-  - name: Bing.Autosuggest
-    types:
-    - uid: string
-  - name: Bing.Search
-    types:
-    - uid: string
-  - name: Bing.Speech
-    types:
-    - uid: string
-  - name: Bing.SpellCheck
-    types:
-    - uid: string
-  - name: ComputerVision
-    types:
-    - uid: string
-  - name: ContentModerator
-    types:
-    - uid: string
-  - name: Emotion
-    types:
-    - uid: string
-  - name: Face
-    types:
-    - uid: string
-  - name: LUIS
-    types:
-    - uid: string
-  - name: Recommendations
-    types:
-    - uid: string
-  - name: SpeakerRecognition
-    types:
-    - uid: string
-  - name: Speech
-    types:
-    - uid: string
-  - name: SpeechTranslation
-    types:
-    - uid: string
-  - name: TextAnalytics
-    types:
-    - uid: string
-  - name: TextTranslation
-    types:
-    - uid: string
-  - name: WebLM
-    types:
-    - uid: string
-examples: []
+examples:
+- name: Get Account
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/f9b96b36-1f5e-4021-8959-51527e26e6d3/resourceGroups/bvttest/providers/Microsoft.CognitiveServices/accounts/bingSearch?api-version=2017-04-18
+    body: >-
+      {
+        "sku": {
+          "name": "S2"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/f9b96b36-1f5e-4021-8959-51527e26e6d3/resourceGroups/bvttest/providers/Microsoft.CognitiveServices/accounts/bingSearch",
+        "name": "bingSearch",
+        "type": "Microsoft.CognitiveServices/accounts",
+        "location": "global",
+        "sku": {
+          "name": "S2"
+        },
+        "kind": "Bing.Search",
+        "etag": "W/\"datetime'2017-04-10T07%3A46%3A21.5618831Z'\"",
+        "properties": {
+          "endpoint": "https://api.cognitive.microsoft.com/bing/v5.0",
+          "provisioningState": "Succeeded",
+          "internalId": "ceebe1e8e40f44e69554c1a759de4cf9"
+        }
+      }
 security: []
