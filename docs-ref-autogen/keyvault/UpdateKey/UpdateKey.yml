@@ -100,6 +100,31 @@ definitions:
     description: Last updated time in UTC.
     types:
     - uid: integer
+- name: KeyBundle
+  description: A KeyBundle consisting of a WebKey plus its attributes.
+  kind: object
+  properties:
+  - name: key
+    description: The Json web key.
+    types:
+    - uid: JsonWebKey
+  - name: attributes
+    description: The key management attributes.
+    types:
+    - uid: KeyAttributes
+  - name: tags
+    description: Application specific metadata in the form of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: managed
+    isReadyOnly: true
+    description: True if the key's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true.
+    types:
+    - uid: boolean
 - name: KeyVaultError
   description: The key vault error exception.
   kind: object
@@ -150,64 +175,6 @@ definitions:
     description: Soft-delete is enabled for this vault, and the subscription is protected against immediate deletion.
     types:
     - uid: string
-- name: DeletedKeyBundle
-  description: A DeletedKeyBundle consisting of a WebKey plus its Attributes and deletion info
-  kind: object
-  properties:
-  - name: recoveryId
-    description: The url of the recovery object, used to identify and recover the deleted key.
-    types:
-    - uid: string
-  - name: scheduledPurgeDate
-    isReadyOnly: true
-    description: The time when the key is scheduled to be purged, in UTC
-    types:
-    - uid: integer
-  - name: deletedDate
-    isReadyOnly: true
-    description: The time when the key was deleted, in UTC
-    types:
-    - uid: integer
-  - name: key
-    description: The Json web key.
-    types:
-    - uid: JsonWebKey
-  - name: attributes
-    description: The key management attributes.
-    types:
-    - uid: KeyAttributes
-  - name: tags
-    description: Application specific metadata in the form of key-value pairs.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: managed
-    isReadyOnly: true
-    description: True if the key's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true.
-    types:
-    - uid: boolean
-- name: Error
-  description: The key vault server error.
-  kind: object
-  properties:
-  - name: code
-    isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-  - name: innererror
-    isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
 - name: JsonWebKey
   description: As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18
   kind: object
@@ -277,6 +244,25 @@ definitions:
     description: Y component of an EC public key.
     types:
     - uid: string
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
 - name: JsonWebKeyType
   description: JsonWebKey key type (kty).
   kind: enum

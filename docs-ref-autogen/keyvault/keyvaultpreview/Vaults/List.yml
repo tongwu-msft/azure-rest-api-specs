@@ -1,0 +1,111 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.keyvault.vaults.list
+name: List
+service: Key Vault
+groupName: Vaults
+apiVersion: 2018-02-14-preview
+summary: The List operation gets information about the vaults associated with the subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resources?$filter=resourceType eq 'Microsoft.KeyVault/vaults'&api-version=2018-02-14-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resources?$filter=resourceType eq 'Microsoft.KeyVault/vaults'&$top={$top}&api-version=2018-02-14-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  isRequired: true
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: Maximum number of results to return.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Azure Resource Manager Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Get information about all key vaults in the subscription.
+  types:
+  - uid: ResourceListResult
+requestHeader: []
+definitions:
+- name: ResourceListResult
+  description: List of vault resources.
+  kind: object
+  properties:
+  - name: value
+    description: The list of vault resources.
+    types:
+    - uid: Resource
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of vault resources.
+    types:
+    - uid: string
+- name: Resource
+  description: Key Vault resource
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The Azure Resource Manager resource ID for the key vault.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the key vault.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type of the key vault.
+    types:
+    - uid: string
+  - name: location
+    description: The supported Azure location where the key vault should be created.
+    types:
+    - uid: string
+  - name: tags
+    description: 'The tags that will be assigned to the key vault. '
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: List vaults in the specified subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resources?$filter=resourceType eq 'Microsoft.KeyVault/vaults'&$top=1&api-version=2018-02-14-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault",
+            "name": "sample-vault",
+            "type": "Microsoft.KeyVault/vaults",
+            "location": "westus",
+            "tags": {}
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resources?%24filter=resourceType+eq+%27Microsoft.KeyVault%2fvaults%27&%24top=4&api-version=2015-11-01&%24skiptoken=eyJuZXh0UGFydGl0aW9uS2V5IjoiMSE4IVEwTTJNVGMtIiwibmV4dFJvd0tleSI6IjEhMTMyIU5rUTRSVEU1UXpJelFUWXdORGd4UmpoRlFrSXhNVGhFUXpNd01EZEROVVJmVkVkT1RDMU5TVU5TVDFOUFJsUTZNa1ZMUlZsV1FWVk1WRG95UmxaQlZVeFVVeTFUVTFKSExVcEpUVG95UkZSRlUxUTZNa1JXUVZWTVZDMVhSVk5VVlZNLSJ9"
+      }
+security: []
