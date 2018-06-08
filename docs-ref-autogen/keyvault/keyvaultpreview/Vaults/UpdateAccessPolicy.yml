@@ -1,0 +1,236 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.keyvault.vaults.updateaccesspolicy
+name: Update Access Policy
+service: Key Vault
+groupName: Vaults
+apiVersion: 2018-02-14-preview
+summary: Update access policies in a key vault in the specified subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/accessPolicies/{operationKind}?api-version=2018-02-14-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the Resource Group to which the vault belongs.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: Name of the vault
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9-]{3,24}$
+- name: operationKind
+  in: path
+  isRequired: true
+  description: Name of the operation
+  types:
+  - uid: AccessPolicyUpdateKind
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: The updated access policies
+  types:
+  - uid: VaultAccessPolicyParameters
+- name: 200 OK
+  description: The updated access policies
+  types:
+  - uid: VaultAccessPolicyParameters
+requestBody:
+- parameters:
+  - name: properties
+    in: body
+    isRequired: true
+    description: Properties of the access policy
+    types:
+    - uid: VaultAccessPolicyProperties
+requestHeader: []
+definitions:
+- name: AccessPolicyUpdateKind
+  description: Name of the operation
+  kind: enum
+  properties:
+  - name: add
+    types:
+    - uid: string
+  - name: replace
+    types:
+    - uid: string
+  - name: remove
+    types:
+    - uid: string
+- name: VaultAccessPolicyProperties
+  description: Properties of the vault access policy
+  kind: object
+  properties:
+  - name: accessPolicies
+    description: An array of 0 to 16 identities that have access to the key vault. All identities in the array must use the same tenant ID as the key vault's tenant ID.
+    types:
+    - uid: AccessPolicyEntry
+      isArray: true
+- name: VaultAccessPolicyParameters
+  description: Parameters for updating the access policy in a vault
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The resource id of the access policy.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name of the access policy.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource name of the access policy.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The resource type of the the access policy.
+    types:
+    - uid: string
+  - name: properties
+    description: Properties of the access policy
+    types:
+    - uid: VaultAccessPolicyProperties
+- name: AccessPolicyEntry
+  description: An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key vault's tenant ID.
+  kind: object
+  properties:
+  - name: tenantId
+    description: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
+    types:
+    - uid: string
+  - name: objectId
+    description: The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies.
+    types:
+    - uid: string
+  - name: applicationId
+    description: " Application ID of the client making request on behalf of a principal"
+    types:
+    - uid: string
+  - name: permissions
+    description: Permissions the identity has for keys, secrets and certificates.
+    types:
+    - uid: Permissions
+- name: Permissions
+  description: Permissions the identity has for keys, secrets, certificates and storage.
+  kind: object
+  properties:
+  - name: keys
+    description: Permissions to keys
+    types:
+    - uid: string
+      isArray: true
+  - name: secrets
+    description: Permissions to secrets
+    types:
+    - uid: string
+      isArray: true
+  - name: certificates
+    description: Permissions to certificates
+    types:
+    - uid: string
+      isArray: true
+  - name: storage
+    description: Permissions to storage accounts
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: Add an access policy, or update an access policy with new permissions
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault/accessPolicies/add?api-version=2018-02-14-preview
+    body: >-
+      {
+        "properties": {
+          "accessPolicies": [
+            {
+              "tenantId": "00000000-0000-0000-0000-000000000000",
+              "objectId": "00000000-0000-0000-0000-000000000000",
+              "permissions": {
+                "keys": [
+                  "encrypt"
+                ],
+                "secrets": [
+                  "get"
+                ],
+                "certificates": [
+                  "get"
+                ]
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault/accessPolicies/",
+        "type": "Microsoft.KeyVault/vaults/accessPolicies",
+        "properties": {
+          "accessPolicies": [
+            {
+              "tenantId": "00000000-0000-0000-0000-000000000000",
+              "objectId": "00000000-0000-0000-0000-000000000000",
+              "permissions": {
+                "keys": [
+                  "encrypt"
+                ],
+                "secrets": [
+                  "get"
+                ],
+                "certificates": [
+                  "get"
+                ]
+              }
+            }
+          ]
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault/accessPolicies/",
+        "type": "Microsoft.KeyVault/vaults/accessPolicies",
+        "properties": {
+          "accessPolicies": [
+            {
+              "tenantId": "00000000-0000-0000-0000-000000000000",
+              "objectId": "00000000-0000-0000-0000-000000000000",
+              "permissions": {
+                "keys": [
+                  "encrypt"
+                ],
+                "secrets": [
+                  "get"
+                ],
+                "certificates": [
+                  "get"
+                ]
+              }
+            }
+          ]
+        }
+      }
+security: []
