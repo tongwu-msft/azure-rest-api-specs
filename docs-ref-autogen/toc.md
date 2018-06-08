@@ -6825,6 +6825,8 @@
 ### [Poll Async Storage Operation](../docs-ref-conceptual/storagerp/SRP_Error_Codes_Poll_Async_Storage_Operation.md)
 ### [Regenerate Storage Account Keys](../docs-ref-conceptual/storagerp/SRP_Error_Codes_Regenerate_Storage_Account_Keys.md)
 ### [Update Storage Account](../docs-ref-conceptual/storagerp/SRP_Error_Codes_Update_Storage_Account.md)
+## Samples
+### [Create a new storage account](../docs-ref-conceptual/storagerp/storage-sample-create-account.md)
 ## Reference
 ### [Operations](storagerp/Operations.yml)
 #### [List](storagerp/Operations/List.yml)
