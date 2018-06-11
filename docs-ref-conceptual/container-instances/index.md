@@ -2,7 +2,7 @@
 title: Azure Container Instances REST API reference
 author: mmacy
 ms.author: marsma
-ms.date: 02/12/2018
+ms.date: 06/11/2018
 ms.topic: reference
 ms.service: container-instances
 ms.devlang: rest-api
@@ -27,6 +27,6 @@ The Container Instances REST API provides operations for working with the follow
 
 [Azure Container Registry](/azure/container-registry/) - Store and manage container images across all types of Azure deployments.
 
-[Azure Container Service (AKS)](/azure/aks/) - Easily deploy and manage containerized applications in a hosted Kubernetes environment.
+[Azure Kubernetes Service (AKS)](/azure/aks/) - Easily deploy and manage containerized applications in a hosted Kubernetes environment.
 
 [Azure Container Service (ACS)](/azure/container-service/) - Scale and orchestrate containers using Kubernetes, DC/OS, or Docker Swarm.
