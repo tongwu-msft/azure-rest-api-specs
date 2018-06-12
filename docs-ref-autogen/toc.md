@@ -6595,8 +6595,6 @@
 #### [Create Import Operation](sql/Databases - Import Export/CreateImportOperation.yml)
 #### [Export](sql/Databases - Import Export/Export.yml)
 #### [Import](sql/Databases - Import Export/Import.yml)
-### [Databases - Rename](sql/Databases - Rename.yml)
-#### [Rename](sql/Databases - Rename/Rename.yml)
 ### [Elastic Pool Activities](sql/ElasticPoolActivities.yml)
 #### [List By Elastic Pool](sql/ElasticPoolActivities/ListByElasticPool.yml)
 ### [Elastic Pool Database Activities](sql/ElasticPoolDatabaseActivities.yml)
