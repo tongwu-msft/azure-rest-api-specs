@@ -1,2 +1,2 @@
 # Samples
-## [Manage roles](storage-sample-create-account.md)
+## [Manage roles](role-assignment-rest-sample.md)
