@@ -1,6 +1,6 @@
 ---
 title: "ClusterCodeVersionsResult"
-ms.date: "2017-05-16"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # ClusterCodeVersionsResult
 
-The result of the ServiceFabric runtime versions
+The result of the Service Fabric runtime versions
 
 ## Properties
 | Name | Type | Required |

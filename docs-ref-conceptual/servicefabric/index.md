@@ -35,18 +35,18 @@ service_description: To be added
 
 The REST APIs fall into two main categories:
 
-- **Service Fabric Resource Manager APIs** perform resource manager operations are typically located at `management.azure.com` and have `/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric` in the request URI. 
+- **Service Fabric Resource Manager APIs** perform resource manager operations on Service Fabric cluster, application, service, and container resources through `management.azure.com`. 
   
 - **Service Fabric Client APIs** manage applications, services, and other elements of the Service Fabric cluster. These APIs are located directly at your cluster address, for example, `mycluster.westus.cloudapp.azure.com`.
 
 ## [Service Fabric Resource Manager APIs](sfrp-index.md)
 
- [Service Fabric Resource Manager APIs](sfrp-index.md) allows you to create and manage Service Fabric cluster in Azure. A Service Fabric cluster is a network-connected set of virtual or physical machines into which your microservices are deployed and managed.  Once a cluster is created, you can manage and deploy applications, services, and containers in the cluster using Service Fabric Client APIs. 
+ [Service Fabric Resource Manager APIs](sfrp-index.md) allows you to create and manage Service Fabric clusters in Azure. A Service Fabric cluster is a network-connected set of virtual or physical machines into which your microservices are deployed and managed.
 
  This is a current stable version of the Service Fabric Resource Manager APIs.
 
 ### [Service Fabric Resource Manager APIs (2017-07-01-Preview Version)](sfrp-2017-07-01-preview-index.md)
-This is a preview version of the Service Fabric Resource Manager APIs. In addition to managing the cluster resource, these APIs allow representing and managing applications and services resources.
+This is a preview version of the Service Fabric Resource Manager APIs. These APIs allow representing and managing application, service, and container resources.
 
 ## [Service Fabric Client APIs](sfclient-index.md)
 
