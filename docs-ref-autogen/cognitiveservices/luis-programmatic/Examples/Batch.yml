@@ -1,0 +1,232 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.examples.batch
+name: Batch
+service: Cognitive Services
+groupName: Examples
+apiVersion: v2.0 preview
+summary: Adds a batch of labeled examples to the application.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/examples
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: A string array determining which labels were added successfully.
+  types:
+  - uid: BatchLabelExample
+    isArray: true
+- name: Other Status Codes
+  description: Indicates that the request was partially successful. The response contains a string array indicating the status of each of the added labels.
+  types:
+  - uid: BatchLabelExample
+    isArray: true
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: text
+    in: body
+    description: The sample's utterance.
+    types:
+    - uid: string
+  - name: entityLabels
+    in: body
+    description: The idenfied entities within the utterance.
+    types:
+    - uid: EntityLabelObject
+      isArray: true
+  - name: intentName
+    in: body
+    description: The idenfitied intent representing the utterance.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: EntityLabelObject
+  description: Defines the entity type and position of the extracted entity within the example.
+  kind: object
+  properties:
+  - name: entityName
+    description: The entity type.
+    types:
+    - uid: string
+  - name: startCharIndex
+    description: The index within the utterance where the extracted entity starts.
+    types:
+    - uid: integer
+  - name: endCharIndex
+    description: The index within the utterance where the extracted entity ends.
+    types:
+    - uid: integer
+- name: BatchLabelExample
+  description: Response when adding a batch of labeled examples.
+  kind: object
+  properties:
+  - name: value
+    description: Response when adding a labeled example.
+    types:
+    - uid: LabelExampleResponse
+  - name: hasError
+    description: ''
+    types:
+    - uid: boolean
+  - name: error
+    description: Response of an Operation status.
+    types:
+    - uid: OperationStatus
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: ExampleLabelObject
+  description: A labeled example.
+  kind: object
+  properties:
+  - name: text
+    description: The sample's utterance.
+    types:
+    - uid: string
+  - name: entityLabels
+    description: The idenfied entities within the utterance.
+    types:
+    - uid: EntityLabelObject
+      isArray: true
+  - name: intentName
+    description: The idenfitied intent representing the utterance.
+    types:
+    - uid: string
+- name: LabelExampleResponse
+  description: Response when adding a labeled example.
+  kind: object
+  properties:
+  - name: UtteranceText
+    description: The sample's utterance.
+    types:
+    - uid: string
+  - name: ExampleId
+    description: The newly created sample ID.
+    types:
+    - uid: integer
+- name: OperationStatus
+  description: Response of an Operation status.
+  kind: object
+  properties:
+  - name: code
+    description: Status Code.
+    types:
+    - uid: OperationStatusType
+  - name: message
+    description: Status details.
+    types:
+    - uid: string
+- name: OperationStatusType
+  description: Status Code.
+  kind: enum
+  properties:
+  - name: Failed
+    types:
+    - uid: string
+  - name: FAILED
+    types:
+    - uid: string
+  - name: Success
+    types:
+    - uid: string
+examples:
+- name: Successful Batch Add Labels request
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/2370fb9d-7dbc-4898-a361-a742cf290766/versions/0.1/examples
+    body: >-
+      [
+        {
+          "text": "whats the weather in seattle?",
+          "entityLabels": [
+            {
+              "entityName": "Place",
+              "startCharIndex": 21,
+              "endCharIndex": 29
+            }
+          ],
+          "intentName": "WeatherInPlace"
+        },
+        {
+          "text": "whats the weather in buenos aires?",
+          "entityLabels": [
+            {
+              "entityName": "Place",
+              "startCharIndex": 21,
+              "endCharIndex": 34
+            }
+          ],
+          "intentName": "WeatherInPlace"
+        }
+      ]
+  responses:
+  - statusCode: "201"
+    body: >-
+      [
+        {
+          "value": {
+            "UtteranceText": "whats the weather in seattle?",
+            "ExampleId": -728104
+          },
+          "hasError": false
+        },
+        {
+          "value": {
+            "UtteranceText": "whats the weather in buenos aires?",
+            "ExampleId": -5313943
+          },
+          "hasError": false
+        }
+      ]
+  - statusCode: "207"
+    body: >-
+      [
+        {
+          "hasError": true,
+          "error": {
+            "code": "FAILED",
+            "message": "whats the weather in seattle?. Error: The intent classifier InvalidIntent does not exist in the selected application"
+          }
+        },
+        {
+          "value": {
+            "UtteranceText": "whats the weather in buenos aires?",
+            "ExampleId": -5313943
+          },
+          "hasError": false
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

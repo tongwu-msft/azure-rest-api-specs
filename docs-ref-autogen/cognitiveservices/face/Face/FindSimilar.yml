@@ -1,0 +1,156 @@
+### YamlMime:RESTOperation
+uid: face.v1.0.cognitiveservices.face.findsimilar
+name: Find Similar
+service: Cognitive Services
+groupName: Face
+apiVersion: "1.0"
+summary: Given query face's faceId, find the similar-looking faces from a faceId array or a faceListId.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/findsimilars
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A successful call returns an array of the most similar faces represented in faceId if the input parameter is faceIds or persistedFaceId if the input parameter is faceListId.
+  types:
+  - uid: SimilarFace
+    isArray: true
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestBody:
+- parameters:
+  - name: faceId
+    in: body
+    isRequired: true
+    description: FaceId of the query face. User needs to call Face - Detect first to get a valid faceId. Note that this faceId is not persisted and will expire 24 hours after the detection call
+    types:
+    - uid: string
+  - name: faceListId
+    in: body
+    description: An existing user-specified unique candidate face list, created in Face List - Create a Face List. Face list contains a set of persistedFaceIds which are persisted and will never expire. Parameter faceListId and faceIds should not be provided at the same time
+    types:
+    - uid: string
+  - name: faceIds
+    in: body
+    description: An array of candidate faceIds. All of them are created by Face - Detect and the faceIds will expire 24 hours after the detection call.
+    types:
+    - uid: string
+      isArray: true
+  - name: maxNumOfCandidatesReturned
+    in: body
+    description: The number of top similar faces returned. The valid range is [1, 1000].
+    types:
+    - uid: integer
+  - name: mode
+    in: body
+    description: Similar face searching mode. It can be "matchPerson" or "matchFace".
+    types:
+    - uid: FindSimilarMatchMode
+requestHeader: []
+definitions:
+- name: SimilarFace
+  description: Response body for find similar face operation.
+  kind: object
+  properties:
+  - name: faceId
+    description: FaceId of candidate face when find by faceIds. faceId is created by Face - Detect and will expire 24 hours after the detection call
+    types:
+    - uid: string
+  - name: persistedFaceId
+    description: PersistedFaceId of candidate face when find by faceListId. persistedFaceId in face list is persisted and will not expire. As showed in below response
+    types:
+    - uid: string
+  - name: confidence
+    description: Similarity confidence of the candidate face. The higher confidence, the more similar. Range between [0,1].
+    types:
+    - uid: number
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: FindSimilarRequest
+  description: Request body for find similar operation.
+  kind: object
+  properties:
+  - name: faceId
+    description: FaceId of the query face. User needs to call Face - Detect first to get a valid faceId. Note that this faceId is not persisted and will expire 24 hours after the detection call
+    types:
+    - uid: string
+  - name: faceListId
+    description: An existing user-specified unique candidate face list, created in Face List - Create a Face List. Face list contains a set of persistedFaceIds which are persisted and will never expire. Parameter faceListId and faceIds should not be provided at the same time
+    types:
+    - uid: string
+  - name: faceIds
+    description: An array of candidate faceIds. All of them are created by Face - Detect and the faceIds will expire 24 hours after the detection call.
+    types:
+    - uid: string
+      isArray: true
+  - name: maxNumOfCandidatesReturned
+    description: The number of top similar faces returned. The valid range is [1, 1000].
+    types:
+    - uid: integer
+  - name: mode
+    description: Similar face searching mode. It can be "matchPerson" or "matchFace".
+    types:
+    - uid: FindSimilarMatchMode
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+- name: FindSimilarMatchMode
+  description: Similar face searching mode. It can be "matchPerson" or "matchFace".
+  kind: enum
+  properties:
+  - name: matchPerson
+    types:
+    - uid: string
+  - name: matchFace
+    types:
+    - uid: string
+examples:
+- name: Find similar results example
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/face/v1.0/findsimilars
+    body: >-
+      {
+        "faceId": "c5c24a82-6845-4031-9d5d-978df9175426",
+        "faceListId": "sample_list",
+        "maxNumOfCandidatesReturned": 1,
+        "mode": "matchPerson"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "persistedFaceId": "015839fb-fbd9-4f79-ace9-7675fc2f1dd9",
+          "confidence": 0.82
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

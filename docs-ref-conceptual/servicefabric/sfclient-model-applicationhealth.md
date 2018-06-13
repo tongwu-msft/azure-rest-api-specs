@@ -1,6 +1,6 @@
 ---
 title: "ApplicationHealth"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,16 +34,16 @@ Represents the health of the application. Contains the application aggregated he
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |
-| [HealthEvents](#healthevents) | array of [HealthEvent](sfclient-model-healthevent.md) | No |
-| [UnhealthyEvaluations](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
-| [HealthStatistics](#healthstatistics) | [HealthStatistics](sfclient-model-healthstatistics.md) | No |
-| [Name](#name) | string | No |
-| [ServiceHealthStates](#servicehealthstates) | array of [ServiceHealthState](sfclient-model-servicehealthstate.md) | No |
-| [DeployedApplicationHealthStates](#deployedapplicationhealthstates) | array of [DeployedApplicationHealthState](sfclient-model-deployedapplicationhealthstate.md) | No |
+| [`AggregatedHealthState`](#aggregatedhealthstate) | string (enum) | No |
+| [`HealthEvents`](#healthevents) | array of [HealthEvent](sfclient-model-healthevent.md) | No |
+| [`UnhealthyEvaluations`](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
+| [`HealthStatistics`](#healthstatistics) | [HealthStatistics](sfclient-model-healthstatistics.md) | No |
+| [`Name`](#name) | string | No |
+| [`ServiceHealthStates`](#servicehealthstates) | array of [ServiceHealthState](sfclient-model-servicehealthstate.md) | No |
+| [`DeployedApplicationHealthStates`](#deployedapplicationhealthstates) | array of [DeployedApplicationHealthState](sfclient-model-deployedapplicationhealthstate.md) | No |
 
 ____
-### AggregatedHealthState
+### `AggregatedHealthState`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -56,51 +56,51 @@ The health state of a Service Fabric entity such as Cluster, Node, Application, 
 
 Possible values are: 
 
-  - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Ok - Indicates the health state is okay. The value is 1.
-  - Warning - Indicates the health state is at a warning level. The value is 2.
-  - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
-  - Unknown - Indicates an unknown health status. The value is 65535.
+  - `Invalid` - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Ok` - Indicates the health state is okay. The value is 1.
+  - `Warning` - Indicates the health state is at a warning level. The value is 2.
+  - `Error` - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+  - `Unknown` - Indicates an unknown health status. The value is 65535.
 
 
 
 ____
-### HealthEvents
+### `HealthEvents`
 __Type__: array of [HealthEvent](sfclient-model-healthevent.md) <br/>
 __Required__: No<br/>
 <br/>
 The list of health events reported on the entity.
 
 ____
-### UnhealthyEvaluations
+### `UnhealthyEvaluations`
 __Type__: array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) <br/>
 __Required__: No<br/>
 <br/>
 The unhealthy evaluations that show why the current aggregated health state was returned by Health Manager.
 
 ____
-### HealthStatistics
+### `HealthStatistics`
 __Type__: [HealthStatistics](sfclient-model-healthstatistics.md) <br/>
 __Required__: No<br/>
 <br/>
 Shows the health statistics for all children types of the queried entity.
 
 ____
-### Name
+### `Name`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of the application, including the 'fabric:' URI scheme.
 
 ____
-### ServiceHealthStates
+### `ServiceHealthStates`
 __Type__: array of [ServiceHealthState](sfclient-model-servicehealthstate.md) <br/>
 __Required__: No<br/>
 <br/>
 Service health states as found in the health store.
 
 ____
-### DeployedApplicationHealthStates
+### `DeployedApplicationHealthStates`
 __Type__: array of [DeployedApplicationHealthState](sfclient-model-deployedapplicationhealthstate.md) <br/>
 __Required__: No<br/>
 <br/>

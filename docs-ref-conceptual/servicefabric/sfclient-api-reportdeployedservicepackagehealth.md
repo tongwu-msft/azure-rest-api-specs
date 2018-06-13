@@ -1,6 +1,6 @@
 ---
 title: "Report Deployed Service Package Health"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -46,23 +46,23 @@ To see whether the report was applied in the health store, get deployed service 
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [nodeName](#nodename) | string | Yes | Path |
-| [applicationId](#applicationid) | string | Yes | Path |
-| [servicePackageName](#servicepackagename) | string | Yes | Path |
-| [api-version](#api-version) | string | Yes | Query |
-| [Immediate](#immediate) | boolean | No | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
-| [HealthInformation](#healthinformation) | [HealthInformation](sfclient-model-healthinformation.md) | Yes | Body |
+| [`nodeName`](#nodename) | string | Yes | Path |
+| [`applicationId`](#applicationid) | string | Yes | Path |
+| [`servicePackageName`](#servicepackagename) | string | Yes | Path |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`Immediate`](#immediate) | boolean | No | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
+| [`HealthInformation`](#healthinformation) | [HealthInformation](sfclient-model-healthinformation.md) | Yes | Body |
 
 ____
-### nodeName
+### `nodeName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the node.
 
 ____
-### applicationId
+### `applicationId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
@@ -72,19 +72,19 @@ For example, if the application name is "fabric:/myapp/app1", the application id
 
 
 ____
-### servicePackageName
+### `servicePackageName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the service package.
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0 <br/>
+__Default__: `6.0` <br/>
 <br/>
-The version of this API. This is a required parameter and its value must be "6.0".
+The version of the API. This parameter is required and its value must be '6.0'.
 
 Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
 
@@ -92,33 +92,33 @@ Additionally the runtime accept any version that is higher than the latest suppo
 
 
 ____
-### Immediate
+### `Immediate`
 __Type__: boolean <br/>
 __Required__: No<br/>
-__Default__: false <br/>
+__Default__: `false` <br/>
 <br/>
 A flag which indicates whether the report should be sent immediately.
 A health report is sent to a Service Fabric gateway Application, which forwards to the health store.
-If Immediate is set to true, the report is sent immediately from Http Gateway to the health store, regardless of the fabric client settings that the Http Gateway Application is using.
+If Immediate is set to true, the report is sent immediately from HTTP Gateway to the health store, regardless of the fabric client settings that the HTTP Gateway Application is using.
 This is useful for critical reports that should be sent as soon as possible.
-Depending on timing and other conditions, sending the report may still fail, for example if the Http Gateway is closed or the message doesn't reach the Gateway.
-If Immediate is set to false, the report is sent based on the health client settings from the Http Gateway. Therefore, it will be batched according to the HealthReportSendInterval configuration.
+Depending on timing and other conditions, sending the report may still fail, for example if the HTTP Gateway is closed or the message doesn't reach the Gateway.
+If Immediate is set to false, the report is sent based on the health client settings from the HTTP Gateway. Therefore, it will be batched according to the HealthReportSendInterval configuration.
 This is the recommended setting because it allows the health client to optimize health reporting messages to health store as well as health report processing.
 By default, reports are not sent immediately.
 
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
-### HealthInformation
+### `HealthInformation`
 __Type__: [HealthInformation](sfclient-model-healthinformation.md) <br/>
 __Required__: Yes<br/>
 <br/>

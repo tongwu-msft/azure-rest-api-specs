@@ -1,0 +1,284 @@
+### YamlMime:RESTOperation
+uid: datalakeanalytics.job.list
+name: List
+service: Data Lake Analytics
+groupName: Job
+apiVersion: 2016-11-01
+summary: Lists the jobs, if any, associated with the specified Data Lake Analytics account. The response includes a link to the next page of results, if any.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{accountName}.{adlaJobDnsSuffix}/Jobs?api-version=2016-11-01
+- content: GET https://{accountName}.{adlaJobDnsSuffix}/Jobs?$filter={$filter}&$top={$top}&$skip={$skip}&$select={$select}&$orderby={$orderby}&$count={$count}&api-version=2016-11-01
+  isOptional: true
+uriParameters:
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Data Lake Analytics account to execute job operations on.
+  types:
+  - uid: string
+- name: adlaJobDnsSuffix
+  in: path
+  isRequired: true
+  description: Gets the DNS suffix used as the base for all Azure Data Lake Analytics Job service requests.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter. Optional.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The number of items to return. Optional.
+  types:
+  - uid: integer
+  format: int32
+- name: $skip
+  in: query
+  description: The number of items to skip over before returning elements. Optional.
+  types:
+  - uid: integer
+  format: int32
+- name: $select
+  in: query
+  description: OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+  types:
+  - uid: string
+- name: $orderby
+  in: query
+  description: OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+  types:
+  - uid: string
+- name: $count
+  in: query
+  description: The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+  types:
+  - uid: boolean
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of jobs.
+  types:
+  - uid: JobInfoListResult
+requestHeader: []
+definitions:
+- name: JobInfoListResult
+  description: List of JobInfo items.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: the list of JobInfo items.
+    types:
+    - uid: JobInformationBasic
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: the link (url) to the next page of results.
+    types:
+    - uid: string
+- name: JobInformationBasic
+  description: The common Data Lake Analytics job information properties.
+  kind: object
+  properties:
+  - name: jobId
+    isReadyOnly: true
+    description: the job's unique identifier (a GUID).
+    types:
+    - uid: string
+  - name: name
+    description: the friendly name of the job.
+    types:
+    - uid: string
+  - name: type
+    description: the job type of the current job (Hive or USql).
+    types:
+    - uid: JobType
+  - name: submitter
+    isReadyOnly: true
+    description: the user or account that submitted the job.
+    types:
+    - uid: string
+  - name: degreeOfParallelism
+    description: the degree of parallelism used for this job. This must be greater than 0, if set to less than 0 it will default to 1.
+    types:
+    - uid: integer
+  - name: priority
+    description: the priority value for the current job. Lower numbers have a higher priority. By default, a job has a priority of 1000. This must be greater than 0.
+    types:
+    - uid: integer
+  - name: submitTime
+    isReadyOnly: true
+    description: the time the job was submitted to the service.
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: the start time of the job.
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: the completion time of the job.
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: the job state. When the job is in the Ended state, refer to Result and ErrorMessage for details.
+    types:
+    - uid: JobState
+  - name: result
+    isReadyOnly: true
+    description: the result of job execution or the current result of the running job.
+    types:
+    - uid: JobResult
+  - name: logFolder
+    isReadyOnly: true
+    description: 'the log folder path to use in the following format: adl://<accountName>.azuredatalakestore.net/system/jobservice/jobs/Usql/2016/03/13/17/18/5fe51957-93bc-4de0-8ddc-c5a4753b068b/logs/.'
+    types:
+    - uid: string
+  - name: logFilePatterns
+    description: "the list of log file name patterns to find in the logFolder. '*' is the only matching character allowed. Example format: jobExecution*.log or *mylog*.txt"
+    types:
+    - uid: string
+      isArray: true
+  - name: related
+    description: the recurring job relationship information properties.
+    types:
+    - uid: JobRelationshipProperties
+- name: JobType
+  description: the job type of the current job (Hive or USql).
+  kind: enum
+  properties:
+  - name: USql
+    types:
+    - uid: string
+  - name: Hive
+    types:
+    - uid: string
+- name: JobState
+  description: the job state. When the job is in the Ended state, refer to Result and ErrorMessage for details.
+  kind: enum
+  properties:
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Compiling
+    types:
+    - uid: string
+  - name: Ended
+    types:
+    - uid: string
+  - name: New
+    types:
+    - uid: string
+  - name: Queued
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Scheduling
+    types:
+    - uid: string
+  - name: Starting
+    types:
+    - uid: string
+  - name: Paused
+    types:
+    - uid: string
+  - name: WaitingForCapacity
+    types:
+    - uid: string
+- name: JobResult
+  description: the result of job execution or the current result of the running job.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: JobRelationshipProperties
+  description: Job relationship information properties including pipeline information, correlation information, etc.
+  kind: object
+  properties:
+  - name: pipelineId
+    description: the job relationship pipeline identifier (a GUID).
+    types:
+    - uid: string
+  - name: pipelineName
+    description: the friendly name of the job relationship pipeline, which does not need to be unique.
+    types:
+    - uid: string
+  - name: pipelineUri
+    description: the pipeline uri, unique, links to the originating service for this pipeline.
+    types:
+    - uid: string
+  - name: runId
+    description: the run identifier (a GUID), unique identifier of the iteration of this pipeline.
+    types:
+    - uid: string
+  - name: recurrenceId
+    description: the recurrence identifier (a GUID), unique per activity/script, regardless of iterations. This is something to link different occurrences of the same job together.
+    types:
+    - uid: string
+  - name: recurrenceName
+    description: the recurrence name, user friendly name for the correlation between jobs.
+    types:
+    - uid: string
+examples:
+- name: Lists the jobs, if any, associated with the specified Data Lake Analytics account
+  request:
+    uri: GET https://{accountName}.{adlaJobDnsSuffix}/Jobs?$filter=test_filter&$top=1&$skip=1&$select=test_select&$orderby=test_orderby&$count=False&api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "jobId": "076713da-9018-41ae-a3bd-9eab14e54d09",
+            "name": "test_name",
+            "type": "USql",
+            "submitter": "test_submitter",
+            "degreeOfParallelism": 1,
+            "priority": 1,
+            "submitTime": "2017-04-18T18:16:49.0748958+00:00",
+            "startTime": "2017-04-18T18:16:49.0748958+00:00",
+            "endTime": "2017-04-18T18:16:49.0748958+00:00",
+            "state": "Accepted",
+            "result": "Succeeded",
+            "logFolder": "adl://contosoadla.azuredatalakestore.net/system/jobservice/jobs/Usql/2016/03/13/17/18/5fe51957-93bc-4de0-8ddc-c5a4753b068b/logs/",
+            "logFilePatterns": [
+              "test_log_file_pattern_1",
+              "test_log_file_pattern_2"
+            ],
+            "related": {
+              "pipelineId": "076713da-9018-41ae-a3bd-9eab14e54d09",
+              "pipelineName": "test_pipeline_name",
+              "pipelineUri": "https://account123.contosopipelineservice.com/076713da-9018-41ae-a3bd-9eab14e54d09",
+              "runId": "67034c12-b250-468e-992d-39fb978bde2c",
+              "recurrenceId": "67034c12-b250-468e-992d-39fb978bde2d",
+              "recurrenceName": "test_recurrence_name"
+            }
+          }
+        ],
+        "nextLink": "https://account123.contosopipelineservice.com/076713da-9018-41ae-a3bd-9eab14e54d09"
+      }
+security: []

@@ -1,0 +1,261 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.consumption.getbalancesbybillingaccount.bybillingperiod
+name: By Billing Period
+service: Consumption
+groupName: Get Balances By Billing Account
+apiVersion: 2018-03-31
+summary: Gets the balances for a scope by billing period and billingAccountId. Balances are available via this API only for May 1, 2014 or later.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/balances?api-version=2018-03-31
+uriParameters:
+- name: billingAccountId
+  in: path
+  isRequired: true
+  description: BillingAccount ID
+  types:
+  - uid: string
+- name: billingPeriodName
+  in: path
+  isRequired: true
+  description: Billing Period Name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-03-31.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: Balance
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: Balance
+  description: A balance resource.
+  kind: object
+  properties:
+  - name: properties.currency
+    isReadyOnly: true
+    description: The ISO currency in which the meter is charged, for example, USD.
+    types:
+    - uid: string
+  - name: properties.beginningBalance
+    isReadyOnly: true
+    description: The beginning balance for the billing period.
+    types:
+    - uid: number
+  - name: properties.endingBalance
+    isReadyOnly: true
+    description: The ending balance for the billing period (for open periods this will be updated daily).
+    types:
+    - uid: number
+  - name: properties.newPurchases
+    isReadyOnly: true
+    description: Total new purchase amount.
+    types:
+    - uid: number
+  - name: properties.adjustments
+    isReadyOnly: true
+    description: Total adjustment amount.
+    types:
+    - uid: number
+  - name: properties.utilized
+    isReadyOnly: true
+    description: Total Commitment usage.
+    types:
+    - uid: number
+  - name: properties.serviceOverage
+    isReadyOnly: true
+    description: Overage for Azure services.
+    types:
+    - uid: number
+  - name: properties.chargesBilledSeparately
+    isReadyOnly: true
+    description: Charges Billed separately.
+    types:
+    - uid: number
+  - name: properties.totalOverage
+    isReadyOnly: true
+    description: serviceOverage + chargesBilledSeparately.
+    types:
+    - uid: number
+  - name: properties.totalUsage
+    isReadyOnly: true
+    description: Azure service commitment + total Overage.
+    types:
+    - uid: number
+  - name: properties.azureMarketplaceServiceCharges
+    isReadyOnly: true
+    description: Total charges for Azure Marketplace.
+    types:
+    - uid: number
+  - name: properties.billingFrequency
+    description: The billing frequency.
+    types:
+    - uid: BillingFrequency
+  - name: properties.priceHidden
+    isReadyOnly: true
+    description: Price is hidden or not.
+    types:
+    - uid: boolean
+  - name: properties.newPurchasesDetails
+    isReadyOnly: true
+    description: List of new purchases.
+    types:
+    - uid: NewPurchasesDetails
+      isArray: true
+  - name: properties.adjustmentDetails
+    isReadyOnly: true
+    description: List of Adjustments (Promo credit, SIE credit etc.).
+    types:
+    - uid: AdjustmentDetails
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: BillingFrequency
+  description: The billing frequency.
+  kind: enum
+  properties:
+  - name: Month
+    types:
+    - uid: string
+  - name: Quarter
+    types:
+    - uid: string
+  - name: Year
+    types:
+    - uid: string
+- name: NewPurchasesDetails
+  description: List of new purchases.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: the name of new purchase.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: the value of new purchase.
+    types:
+    - uid: number
+- name: AdjustmentDetails
+  description: List of Adjustments (Promo credit, SIE credit etc.).
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: the name of new adjustment.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: the value of new adjustment.
+    types:
+    - uid: number
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: Balances
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/123456/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/balances?api-version=2018-03-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "providers/Microsoft.Billing/billingAccounts/123456/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/balances/balanceId1",
+        "name": "balanceId1",
+        "type": "Microsoft.Consumption/balances",
+        "properties": {
+          "currency": "USD  ",
+          "beginningBalance": 3396469.19,
+          "endingBalance": 2922371.02,
+          "newPurchases": 0,
+          "adjustments": 0,
+          "utilized": 474098.17,
+          "serviceOverage": 0,
+          "chargesBilledSeparately": 0,
+          "totalOverage": 0,
+          "totalUsage": 474098.17,
+          "azureMarketplaceServiceCharges": 609.82,
+          "billingFrequency": "Month",
+          "priceHidden": false,
+          "newPurchasesDetails": [
+            {
+              "name": "Promo Purchase",
+              "value": 1
+            }
+          ],
+          "adjustmentDetails": [
+            {
+              "name": "Promo Credit",
+              "value": 1.1
+            },
+            {
+              "name": "SIE Credit",
+              "value": 1
+            }
+          ]
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

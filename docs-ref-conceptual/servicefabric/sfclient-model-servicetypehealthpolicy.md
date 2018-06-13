@@ -1,6 +1,6 @@
 ---
 title: "ServiceTypeHealthPolicy"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,15 +35,15 @@ Represents the health policy used to evaluate the health of services belonging t
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [MaxPercentUnhealthyPartitionsPerService](#maxpercentunhealthypartitionsperservice) | integer | No |
-| [MaxPercentUnhealthyReplicasPerPartition](#maxpercentunhealthyreplicasperpartition) | integer | No |
-| [MaxPercentUnhealthyServices](#maxpercentunhealthyservices) | integer | No |
+| [`MaxPercentUnhealthyPartitionsPerService`](#maxpercentunhealthypartitionsperservice) | integer | No |
+| [`MaxPercentUnhealthyReplicasPerPartition`](#maxpercentunhealthyreplicasperpartition) | integer | No |
+| [`MaxPercentUnhealthyServices`](#maxpercentunhealthyservices) | integer | No |
 
 ____
-### MaxPercentUnhealthyPartitionsPerService
+### `MaxPercentUnhealthyPartitionsPerService`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The maximum allowed percentage of unhealthy partitions per service. Allowed values are Byte values from zero to 100
 
@@ -54,10 +54,10 @@ The computation rounds up to tolerate one failure on small numbers of partitions
 
 
 ____
-### MaxPercentUnhealthyReplicasPerPartition
+### `MaxPercentUnhealthyReplicasPerPartition`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The maximum allowed percentage of unhealthy replicas per partition. Allowed values are Byte values from zero to 100.
 
@@ -68,10 +68,10 @@ The computation rounds up to tolerate one failure on small numbers of replicas. 
 
 
 ____
-### MaxPercentUnhealthyServices
+### `MaxPercentUnhealthyServices`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The maximum maximum allowed percentage of unhealthy services. Allowed values are Byte values from zero to 100.
 

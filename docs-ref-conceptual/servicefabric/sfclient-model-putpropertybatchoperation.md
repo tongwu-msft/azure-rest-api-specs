@@ -1,6 +1,6 @@
 ---
 title: "PutPropertyBatchOperation"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,10 +37,10 @@ the entire batch fails and cannot be committed in a transactional manner.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [PropertyName](#propertyname) | string | Yes |
-| [Value](#value) | [PropertyValue](sfclient-model-propertyvalue.md) | Yes |
-| [CustomTypeId](#customtypeid) | string | No |
+| [`Kind`](#kind) | string | Yes |
+| [`PropertyName`](#propertyname) | string | Yes |
+| [`Value`](#value) | [PropertyValue](sfclient-model-propertyvalue.md) | Yes |
+| [`CustomTypeId`](#customtypeid) | string | No |
 
 ____
 ### Kind
@@ -50,21 +50,21 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Put' for objects of type 'PutPropertyBatchOperation'.
 
 ____
-### PropertyName
+### `PropertyName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the Service Fabric property.
 
 ____
-### Value
+### `Value`
 __Type__: [PropertyValue](sfclient-model-propertyvalue.md) <br/>
 __Required__: Yes<br/>
 <br/>
 Describes a Service Fabric property value.
 
 ____
-### CustomTypeId
+### `CustomTypeId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

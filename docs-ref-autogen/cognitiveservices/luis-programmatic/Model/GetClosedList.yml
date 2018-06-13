@@ -1,0 +1,202 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.model.getclosedlist
+name: Get Closed List
+service: Cognitive Services
+groupName: Model
+apiVersion: v2.0 preview
+summary: Gets information of a closed list model.
+produces:
+- application/json
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/closedlists/{clEntityId}
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+- name: clEntityId
+  in: path
+  isRequired: true
+  description: The closed list model ID.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 200 OK
+  description: The closed list model info.
+  types:
+  - uid: ClosedListEntityExtractor
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ClosedListEntityExtractor
+  description: Closed List Entity Extractor.
+  kind: object
+  properties:
+  - name: subLists
+    description: List of sub-lists.
+    types:
+    - uid: SubClosedListResponse
+      isArray: true
+  - name: id
+    description: The ID of the Entity Model.
+    types:
+    - uid: string
+  - name: name
+    description: Name of the Entity Model.
+    types:
+    - uid: string
+  - name: typeId
+    description: The type ID of the Entity Model.
+    types:
+    - uid: integer
+  - name: readableType
+    description: Full name of the entity type.
+    types:
+    - uid: ReadableType
+  - name: roles
+    description: List of Pattern.Any Entity Extractors.
+    types:
+    - uid: EntityRole
+      isArray: true
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: SubClosedListResponse
+  description: Sublist of items for a Closed list.
+  kind: object
+  properties:
+  - name: id
+    description: The sublist ID
+    types:
+    - uid: integer
+  - name: canonicalForm
+    description: The standard form that the list represents.
+    types:
+    - uid: string
+  - name: list
+    description: List of synonym words.
+    types:
+    - uid: string
+      isArray: true
+- name: ReadableType
+  description: Full name of the entity type.
+  kind: enum
+  properties:
+  - name: Entity Extractor
+    types:
+    - uid: string
+  - name: Hierarchical Entity Extractor
+    types:
+    - uid: string
+  - name: Hierarchical Child Entity Extractor
+    types:
+    - uid: string
+  - name: Composite Entity Extractor
+    types:
+    - uid: string
+  - name: Closed List Entity Extractor
+    types:
+    - uid: string
+  - name: Prebuilt Entity Extractor
+    types:
+    - uid: string
+  - name: Intent Classifier
+    types:
+    - uid: string
+  - name: Pattern.Any Entity Extractor
+    types:
+    - uid: string
+  - name: Regex Entity Extractor
+    types:
+    - uid: string
+- name: EntityRole
+  description: Entity extractor role
+  kind: object
+  properties:
+  - name: id
+    description: The entity role ID.
+    types:
+    - uid: string
+  - name: name
+    description: The entity role name.
+    types:
+    - uid: string
+examples:
+- name: Successful Get Closed List Entity Info request
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/86226c53-b7a6-416f-876b-226b2b5ab07b/versions/0.1/closedlists/8713b104-78ec-4c4f-9f96-f2e53562cc16
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "8713b104-78ec-4c4f-9f96-f2e53562cc16",
+        "name": "States",
+        "typeId": 5,
+        "readableType": "Closed List Entity Extractor",
+        "subLists": [
+          {
+            "id": 1,
+            "canonicalForm": "new york",
+            "list": [
+              "ny",
+              "new york"
+            ]
+          },
+          {
+            "id": 2,
+            "canonicalForm": "washington",
+            "list": [
+              "washington",
+              "wa"
+            ]
+          },
+          {
+            "id": 3,
+            "canonicalForm": "california",
+            "list": [
+              "california",
+              "ca",
+              "calif.",
+              "cal."
+            ]
+          }
+        ],
+        "roles": [
+          {
+            "id": "3d73462d-98f0-4dcd-8d30-fab9e65f2e73",
+            "name": "role 1"
+          },
+          {
+            "id": "3d73462d-98f0-4dcd-8d30-fab9e65f2e73",
+            "name": "role 2"
+          }
+        ]
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

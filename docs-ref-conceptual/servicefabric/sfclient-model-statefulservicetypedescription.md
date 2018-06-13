@@ -1,6 +1,6 @@
 ---
 title: "StatefulServiceTypeDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,13 +34,14 @@ Describes a stateful service type defined in the service manifest of a provision
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [IsStateful](#isstateful) | boolean | No |
-| [ServiceTypeName](#servicetypename) | string | No |
-| [PlacementConstraints](#placementconstraints) | string | No |
-| [ServicePlacementPolicies](#serviceplacementpolicies) | array of [ServicePlacementPolicyDescription](sfclient-model-serviceplacementpolicydescription.md) | No |
-| [Extensions](#extensions) | array of [ServiceTypeExtensionDescription](sfclient-model-servicetypeextensiondescription.md) | No |
-| [HasPersistedState](#haspersistedstate) | boolean | No |
+| [`Kind`](#kind) | string | Yes |
+| [`IsStateful`](#isstateful) | boolean | No |
+| [`ServiceTypeName`](#servicetypename) | string | No |
+| [`PlacementConstraints`](#placementconstraints) | string | No |
+| [`LoadMetrics`](#loadmetrics) | array of [ServiceLoadMetricDescription](sfclient-model-serviceloadmetricdescription.md) | No |
+| [`ServicePlacementPolicies`](#serviceplacementpolicies) | array of [ServicePlacementPolicyDescription](sfclient-model-serviceplacementpolicydescription.md) | No |
+| [`Extensions`](#extensions) | array of [ServiceTypeExtensionDescription](sfclient-model-servicetypeextensiondescription.md) | No |
+| [`HasPersistedState`](#haspersistedstate) | boolean | No |
 
 ____
 ### Kind
@@ -50,42 +51,49 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Stateful' for objects of type 'StatefulServiceTypeDescription'.
 
 ____
-### IsStateful
+### `IsStateful`
 __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>
 Indicates whether the service type is a stateful service type or a stateless service type. This property is true if the service type is a stateful service type, false otherwise.
 
 ____
-### ServiceTypeName
+### `ServiceTypeName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Name of the service type as specified in the service manifest.
 
 ____
-### PlacementConstraints
+### `PlacementConstraints`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The placement constraint to be used when instantiating this service in a Service Fabric cluster.
 
 ____
-### ServicePlacementPolicies
+### `LoadMetrics`
+__Type__: array of [ServiceLoadMetricDescription](sfclient-model-serviceloadmetricdescription.md) <br/>
+__Required__: No<br/>
+<br/>
+The service load metrics is given as an array of ServiceLoadMetricDescription objects.
+
+____
+### `ServicePlacementPolicies`
 __Type__: array of [ServicePlacementPolicyDescription](sfclient-model-serviceplacementpolicydescription.md) <br/>
 __Required__: No<br/>
 <br/>
 List of service placement policy descriptions.
 
 ____
-### Extensions
+### `Extensions`
 __Type__: array of [ServiceTypeExtensionDescription](sfclient-model-servicetypeextensiondescription.md) <br/>
 __Required__: No<br/>
 <br/>
 List of service type extensions.
 
 ____
-### HasPersistedState
+### `HasPersistedState`
 __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>

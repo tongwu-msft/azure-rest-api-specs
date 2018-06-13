@@ -1,6 +1,6 @@
 ---
 title: "ReconfigurationPhase"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,12 +35,12 @@ The reconfiguration phase of a replica of a stateful service.
 
 Possible values are: 
 
-  - Unknown - Indicates the invalid reconfiguration phase.
-  - None - Specifies that there is no reconfiguration in progress.
-  - Phase0 - Refers to the phase where the reconfiguration is transferring data from the previous primary to the new primary.
-  - Phase1 - Refers to the phase where the reconfiguration is querying the replica set for the progress.
-  - Phase2 - Refers to the phase where the reconfiguration is ensuring that data from the current primary is present in a majority of the replica set.
-  - Phase3 - This phase is for internal use only.
-  - Phase4 - This phase is for internal use only.
-  - AbortPhaseZero - This phase is for internal use only.
+  - `Unknown` - Indicates the invalid reconfiguration phase.
+  - `None` - Specifies that there is no reconfiguration in progress.
+  - `Phase0` - Refers to the phase where the reconfiguration is transferring data from the previous primary to the new primary.
+  - `Phase1` - Refers to the phase where the reconfiguration is querying the replica set for the progress.
+  - `Phase2` - Refers to the phase where the reconfiguration is ensuring that data from the current primary is present in a majority of the replica set.
+  - `Phase3` - This phase is for internal use only.
+  - `Phase4` - This phase is for internal use only.
+  - `AbortPhaseZero` - This phase is for internal use only.
 

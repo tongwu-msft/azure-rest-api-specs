@@ -1,0 +1,113 @@
+### YamlMime:RESTOperation
+uid: vision.v1.0.cognitiveservices.recognizetextinstream.recognizetextinstream
+name: Recognize Text In Stream
+service: Cognitive Services
+groupName: Recognize Text In Stream
+apiVersion: "1.0"
+summary: Recognize Text operation. When you use the Recognize Text interface, the response contains a field called 'Operation-Location'. The 'Operation-Location' field contains the URL that you must use for your Get Handwritten Text Operation Result operation.
+consumes:
+- application/octet-stream
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/recognizeText
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/recognizeText?overload=stream&detectHandwriting={detectHandwriting}
+  isOptional: true
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: detectHandwriting
+  in: query
+  description: If 'true' is specified, handwriting recognition is performed. If this parameter is set to 'false' or is not specified, printed text recognition is performed.
+  types:
+  - uid: boolean
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Operation-Location
+    value: string
+  description: The service has accepted the request and will start processing later.
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: ComputerVisionError
+requestBody:
+- parameters:
+  - name: Image
+    in: body
+    types:
+    - uid: object
+requestHeader: []
+definitions:
+- name: ComputerVisionError
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: ComputerVisionErrorCodes
+  - name: message
+    description: A message explaining the error reported by the service.
+    types:
+    - uid: string
+  - name: requestId
+    description: A unique request identifier.
+    types:
+    - uid: string
+- name: ComputerVisionErrorCodes
+  description: The error code.
+  kind: enum
+  properties:
+  - name: InvalidImageUrl
+    types:
+    - uid: string
+  - name: InvalidImageFormat
+    types:
+    - uid: string
+  - name: InvalidImageSize
+    types:
+    - uid: string
+  - name: NotSupportedVisualFeature
+    types:
+    - uid: string
+  - name: NotSupportedImage
+    types:
+    - uid: string
+  - name: InvalidDetails
+    types:
+    - uid: string
+  - name: NotSupportedLanguage
+    types:
+    - uid: string
+  - name: BadArgument
+    types:
+    - uid: string
+  - name: FailedToProcess
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: StorageException
+    types:
+    - uid: string
+examples:
+- name: Successful Domain Model analysis request
+  request:
+    uri: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/recognizeText?overload=stream
+  responses:
+  - statusCode: "202"
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

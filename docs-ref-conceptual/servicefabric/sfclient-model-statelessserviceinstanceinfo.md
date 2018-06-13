@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceInstanceInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,13 +34,13 @@ Represents a stateless service instance. This includes information about the ide
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServiceKind](#servicekind) | string | Yes |
-| [ReplicaStatus](#replicastatus) | string (enum) | No |
-| [HealthState](#healthstate) | string (enum) | No |
-| [NodeName](#nodename) | string | No |
-| [Address](#address) | string | No |
-| [LastInBuildDurationInSeconds](#lastinbuilddurationinseconds) | string | No |
-| [InstanceId](#instanceid) | string | No |
+| [`ServiceKind`](#servicekind) | string | Yes |
+| [`ReplicaStatus`](#replicastatus) | string (enum) | No |
+| [`HealthState`](#healthstate) | string (enum) | No |
+| [`NodeName`](#nodename) | string | No |
+| [`Address`](#address) | string | No |
+| [`LastInBuildDurationInSeconds`](#lastinbuilddurationinseconds) | string | No |
+| [`InstanceId`](#instanceid) | string | No |
 
 ____
 ### ServiceKind
@@ -50,25 +50,27 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Stateless' for objects of type 'StatelessServiceInstanceInfo'.
 
 ____
-### ReplicaStatus
+### `ReplicaStatus`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
 
 
-The status of a replica of a service. Possible values are following.
+The status of a replica of a service.
 
-  -Invalid - Indicates the replica status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-  -InBuild - The replica is being built. This means that a primary replica is seeding this replica. The value is 1.
-  -Standby - The replica is in standby. The value is 2.
-  -Ready - The replica is ready. The value is 3.
-  -Down - The replica is down. The value is 4.
-  -Dropped - Replica is dropped. This means that the replica has been removed from the replica set. If it is persisted, its state has been deleted. The value is 5.
+Possible values are: 
+
+  - `Invalid` - Indicates the replica status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `InBuild` - The replica is being built. This means that a primary replica is seeding this replica. The value is 1.
+  - `Standby` - The replica is in standby. The value is 2.
+  - `Ready` - The replica is ready. The value is 3.
+  - `Down` - The replica is down. The value is 4.
+  - `Dropped` - Replica is dropped. This means that the replica has been removed from the replica set. If it is persisted, its state has been deleted. The value is 5.
 
 
 
 ____
-### HealthState
+### `HealthState`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -78,37 +80,37 @@ The health state of a Service Fabric entity such as Cluster, Node, Application, 
 
 Possible values are: 
 
-  - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Ok - Indicates the health state is okay. The value is 1.
-  - Warning - Indicates the health state is at a warning level. The value is 2.
-  - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
-  - Unknown - Indicates an unknown health status. The value is 65535.
+  - `Invalid` - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Ok` - Indicates the health state is okay. The value is 1.
+  - `Warning` - Indicates the health state is at a warning level. The value is 2.
+  - `Error` - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+  - `Unknown` - Indicates an unknown health status. The value is 65535.
 
 
 
 ____
-### NodeName
+### `NodeName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of a Service Fabric node.
 
 ____
-### Address
+### `Address`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The address the replica is listening on.
 
 ____
-### LastInBuildDurationInSeconds
+### `LastInBuildDurationInSeconds`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The last in build duration of the replica in seconds.
 
 ____
-### InstanceId
+### `InstanceId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

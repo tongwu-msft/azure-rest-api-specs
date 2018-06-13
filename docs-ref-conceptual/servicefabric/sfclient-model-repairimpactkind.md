@@ -1,6 +1,6 @@
 ---
 title: "RepairImpactKind"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,6 +35,6 @@ Specifies the kind of the impact. This type supports the Service Fabric platform
 
 Possible values are: 
 
-  - Invalid - The repair impact is not valid or is of an unknown type.
-  - Node - The repair impact affects a set of Service Fabric nodes.
+  - `Invalid` - The repair impact is not valid or is of an unknown type.
+  - `Node` - The repair impact affects a set of Service Fabric nodes.
 

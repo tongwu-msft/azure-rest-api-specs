@@ -63,7 +63,6 @@ definitions:
   - name: properties
     description: Properties of the trigger.
     types:
-    - uid: TumblingWindowTrigger
     - uid: MultiplePipelineTrigger
     typesTitle: Trigger
   - name: id
@@ -107,46 +106,20 @@ definitions:
     types:
     - uid: ErrorResponse
       isArray: true
-- name: TumblingWindowTrigger
-  description: Trigger that schedules pipeline runs for all fixed time interval windows from a start time without gaps and also supports backfill scenarios (when start time is in the past).
+- name: MultiplePipelineTrigger
+  description: Base class for all triggers that support one to many model for trigger to pipeline.
   kind: object
   properties:
-  - name: pipeline
-    description: Pipeline for which runs are created when an event is fired for trigger window that is ready.
+  - name: pipelines
+    description: Pipelines that need to be started.
     types:
     - uid: TriggerPipelineReference
-  - name: typeProperties.frequency
-    description: The frequency of the time windows.
-    types:
-    - uid: TumblingWindowFrequency
-  - name: typeProperties.interval
-    description: The interval of the time windows. The minimum interval allowed is 15 Minutes.
-    types:
-    - uid: integer
-  - name: typeProperties.startTime
-    description: The start time for the time period for the trigger during which events are fired for windows that are ready. Only UTC time is currently supported.
-    types:
-    - uid: string
-  - name: typeProperties.endTime
-    description: The end time for the time period for the trigger during which events are fired for windows that are ready. Only UTC time is currently supported.
-    types:
-    - uid: string
-  - name: typeProperties.delay
-    description: "Specifies how long the trigger waits past due time before triggering new run. It doesn't alter window start and end time. The default is 0. Type: string (or Expression with resultType string), pattern: ((\\d+)\\.)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))."
-    types:
-    - uid: object
-  - name: typeProperties.maxConcurrency
-    description: The max number of parallel time windows (ready for execution) for which a new run is triggered.
-    types:
-    - uid: integer
-  - name: typeProperties.retryPolicy
-    description: Retry policy that will be applied for failed pipeline runs.
-    types:
-    - uid: RetryPolicy
+      isArray: true
   - name: type
     description: Trigger type.
     types:
-    - uid: string
+    - uid: MultiplePipelineTrigger
+    typesTitle: string
   - name: description
     description: Trigger description.
     types:
@@ -172,28 +145,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: object
-- name: TumblingWindowFrequency
-  description: Enumerates possible frequency option for the tumbling window trigger.
-  kind: enum
-  properties:
-  - name: Minute
-    types:
-    - uid: string
-  - name: Hour
-    types:
-    - uid: string
-- name: RetryPolicy
-  description: Execution policy for an activity.
-  kind: object
-  properties:
-  - name: count
-    description: 'Maximum ordinary retry attempts. Default is 0. Type: integer (or Expression with resultType integer), minimum: 0.'
-    types:
-    - uid: object
-  - name: intervalInSeconds
-    description: Interval between retries in seconds. Default is 30.
-    types:
-    - uid: integer
 - name: TriggerRuntimeState
   description: Enumerates possible state of Triggers.
   kind: enum
@@ -207,68 +158,6 @@ definitions:
   - name: Disabled
     types:
     - uid: string
-- name: BlobTrigger
-  description: Trigger that runs everytime the selected Blob container changes.
-  kind: object
-  properties:
-  - name: typeProperties.folderPath
-    description: The path of the container/folder that will trigger the pipeline.
-    types:
-    - uid: string
-  - name: typeProperties.maxConcurrency
-    description: The max number of parallel files to handle when it is triggered.
-    types:
-    - uid: integer
-  - name: typeProperties.linkedService
-    description: The Azure Storage linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: pipelines
-    description: Pipelines that need to be started.
-    types:
-    - uid: TriggerPipelineReference
-      isArray: true
-  - name: type
-    description: Trigger type.
-    types:
-    - uid: MultiplePipelineTrigger
-    typesTitle: string
-  - name: description
-    description: Trigger description.
-    types:
-    - uid: string
-  - name: runtimeState
-    isReadyOnly: true
-    description: Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the Trigger.
-    types:
-    - uid: TriggerRuntimeState
-- name: ScheduleTrigger
-  description: Trigger that creates pipeline runs periodically, on schedule.
-  kind: object
-  properties:
-  - name: typeProperties.recurrence
-    description: Recurrence schedule configuration.
-    types:
-    - uid: ScheduleTriggerRecurrence
-  - name: pipelines
-    description: Pipelines that need to be started.
-    types:
-    - uid: TriggerPipelineReference
-      isArray: true
-  - name: type
-    description: Trigger type.
-    types:
-    - uid: MultiplePipelineTrigger
-    typesTitle: string
-  - name: description
-    description: Trigger description.
-    types:
-    - uid: string
-  - name: runtimeState
-    isReadyOnly: true
-    description: Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the Trigger.
-    types:
-    - uid: TriggerRuntimeState
 - name: PipelineReference
   description: Pipeline reference type.
   kind: object
@@ -284,146 +173,6 @@ definitions:
     - uid: string
   - name: name
     description: Reference name.
-    types:
-    - uid: string
-- name: LinkedServiceReference
-  description: Linked service reference type.
-  kind: object
-  properties:
-  - name: type
-    description: Linked service reference type.
-    types:
-    - uid: LinkedServiceReference
-    typesTitle: enum
-  - name: referenceName
-    description: Reference LinkedService name.
-    types:
-    - uid: string
-  - name: parameters
-    description: Arguments for LinkedService.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-- name: ScheduleTriggerRecurrence
-  description: The workflow trigger recurrence.
-  kind: object
-  properties:
-  - name: frequency
-    description: The frequency.
-    types:
-    - uid: RecurrenceFrequency
-  - name: interval
-    description: The interval.
-    types:
-    - uid: integer
-  - name: startTime
-    description: The start time.
-    types:
-    - uid: string
-  - name: endTime
-    description: The end time.
-    types:
-    - uid: string
-  - name: timeZone
-    description: The time zone.
-    types:
-    - uid: string
-  - name: schedule
-    description: The recurrence schedule.
-    types:
-    - uid: RecurrenceSchedule
-- name: RecurrenceFrequency
-  description: Enumerates possible frequency option for the schedule trigger.
-  kind: enum
-  properties:
-  - name: NotSpecified
-    types:
-    - uid: string
-  - name: Minute
-    types:
-    - uid: string
-  - name: Hour
-    types:
-    - uid: string
-  - name: Day
-    types:
-    - uid: string
-  - name: Week
-    types:
-    - uid: string
-  - name: Month
-    types:
-    - uid: string
-  - name: Year
-    types:
-    - uid: string
-- name: RecurrenceSchedule
-  description: The recurrence schedule.
-  kind: object
-  properties:
-  - name: minutes
-    description: The minutes.
-    types:
-    - uid: integer
-      isArray: true
-  - name: hours
-    description: The hours.
-    types:
-    - uid: integer
-      isArray: true
-  - name: weekDays
-    description: The days of the week.
-    types:
-    - uid: string
-      isArray: true
-  - name: monthDays
-    description: The month days.
-    types:
-    - uid: integer
-      isArray: true
-  - name: monthlyOccurrences
-    description: The monthly occurrences.
-    types:
-    - uid: RecurrenceScheduleOccurrence
-      isArray: true
-- name: RecurrenceScheduleOccurrence
-  description: The recurrence schedule occurence.
-  kind: object
-  properties:
-  - name: day
-    description: The day of the week.
-    types:
-    - uid: DayOfWeek
-  - name: occurrence
-    description: The occurrence.
-    types:
-    - uid: integer
-- name: DayOfWeek
-  description: The days of the week.
-  kind: enum
-  properties:
-  - name: Sunday
-    types:
-    - uid: string
-  - name: Monday
-    types:
-    - uid: string
-  - name: Tuesday
-    types:
-    - uid: string
-  - name: Wednesday
-    types:
-    - uid: string
-  - name: Thursday
-    types:
-    - uid: string
-  - name: Friday
-    types:
-    - uid: string
-  - name: Saturday
     types:
     - uid: string
 examples:

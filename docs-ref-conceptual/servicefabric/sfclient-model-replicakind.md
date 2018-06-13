@@ -1,6 +1,6 @@
 ---
 title: "ReplicaKind"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,6 +35,6 @@ The role of a replica of a stateful service.
 
 Possible values are: 
 
-  - Invalid - Represents an invalid replica kind. The value is zero.
-  - KeyValueStore - Represents a key value store replica. The value is 1
+  - `Invalid` - Represents an invalid replica kind. The value is zero.
+  - `KeyValueStore` - Represents a key value store replica. The value is 1
 

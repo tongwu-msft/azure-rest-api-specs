@@ -1,6 +1,6 @@
 ---
 title: "ClusterConfiguration"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Information about the standalone cluster configuration.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ClusterConfiguration](#clusterconfiguration) | string | No |
+| [`ClusterConfiguration`](#clusterconfiguration) | string | No |
 
 ____
-### ClusterConfiguration
+### `ClusterConfiguration`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

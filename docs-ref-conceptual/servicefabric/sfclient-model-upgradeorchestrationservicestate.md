@@ -1,6 +1,6 @@
 ---
 title: "UpgradeOrchestrationServiceState"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Service state of Service Fabric Upgrade Orchestration Service.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServiceState](#servicestate) | string | No |
+| [`ServiceState`](#servicestate) | string | No |
 
 ____
-### ServiceState
+### `ServiceState`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

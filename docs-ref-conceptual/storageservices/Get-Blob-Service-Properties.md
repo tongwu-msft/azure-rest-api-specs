@@ -50,8 +50,8 @@ The `Get Blob Service Properties` operation gets the properties of a storage acc
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, storage account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authentication scheme, storage account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
@@ -198,7 +198,6 @@ The `Get Blob Service Properties` operation gets the properties of a storage acc
     <DeleteRetentionPolicy>
         <Enabled>true|false</Enabled>
         <Days>number-of-days</Days>
-        <RetainedVersionsPerBlob>number-of-deleted-versions-to-retain</RetainedVersionsPerBlob>
     </DeleteRetentionPolicy>
 </StorageServiceProperties>  
   
@@ -286,7 +285,6 @@ The `Get Blob Service Properties` operation gets the properties of a storage acc
 |**DeleteRetentionPolicy**|Groups the Azure Delete settings. Applies only to the Blob service.|
 |**Enabled**|Indicates whether deleted blob or snapshot is retained or immediately removed by delete operation.| 
 |**Days**|Indicates the number of days that deleted blob be retained. All data older than this value will be permanently deleted.| 
-|**RetainedVersionsPerBlob**|Indicates the number of deleted version of each blob should be retained. After reaching this limit blob service permanently deletes the oldest deleted version of blob.| 
 |**StaticWebsite**|Groups the **staticwebsite** settings. Applies only to the Blob service. |
 |**StaticWebsite/Enabled**|Indicates whether **staticwebsite** support is enabled for the given account.| 
 |**StaticWebsite/IndexDocument**|The webpage that Azure Storage serves for requests to the root of a website or any subfolder. For example, `index.html`. The value is case-sensitive. |
@@ -370,7 +368,6 @@ Date: Tue, 12 Sep 2018 23:38:35 GMT
     <DeleteRetentionPolicy>
         <Enabled>true</Enabled>
         <Days>5</Days>
-        <RetainedVersionsPerBlob>2</RetainedVersionsPerBlob>
     </DeleteRetentionPolicy>
     <StaticWebsite>  
         <Enabled>true</Enabled>  

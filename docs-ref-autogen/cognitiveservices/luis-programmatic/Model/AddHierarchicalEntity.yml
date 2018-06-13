@@ -1,0 +1,97 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.model.addhierarchicalentity
+name: Add Hierarchical Entity
+service: Cognitive Services
+groupName: Model
+apiVersion: v2.0 preview
+summary: Adds a hierarchical entity extractor to the application version.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: The ID of the created model.
+  types:
+  - uid: string
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: children
+    in: body
+    description: Child entities.
+    types:
+    - uid: string
+      isArray: true
+  - name: name
+    in: body
+    description: Entity name.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: HierarchicalEntityModel
+  description: A Hierarchical Entity Extractor.
+  kind: object
+  properties:
+  - name: children
+    description: Child entities.
+    types:
+    - uid: string
+      isArray: true
+  - name: name
+    description: Entity name.
+    types:
+    - uid: string
+examples:
+- name: Successful Create Hierarchical Entity Extractor request
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/hierarchicalentities
+    body: >-
+      {
+        "name": "Location",
+        "children": [
+          "From",
+          "To"
+        ]
+      }
+  responses:
+  - statusCode: "201"
+    body: "\"fe559c31-9778-42ea-ba45-94e0bd7cf767\""
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

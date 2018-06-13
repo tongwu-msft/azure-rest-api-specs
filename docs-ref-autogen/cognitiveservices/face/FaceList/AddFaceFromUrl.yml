@@ -1,0 +1,123 @@
+### YamlMime:RESTOperation
+uid: face.v1.0.cognitiveservices.facelist.addfacefromurl
+name: Add Face From Url
+service: Cognitive Services
+groupName: Face List
+apiVersion: "1.0"
+summary: Add a face to a face list. The input face is specified as an image with a targetFace rectangle. It returns a persistedFaceId representing the added face, and persistedFaceId will not expire.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/facelists/{faceListId}/persistedFaces
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/facelists/{faceListId}/persistedFaces?userData={userData}&targetFace={targetFace}
+  isOptional: true
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: faceListId
+  in: path
+  isRequired: true
+  description: Id referencing a particular face list.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9-_]+$
+- name: userData
+  in: query
+  description: User-specified data about the face for any purpose. The maximum length is 1KB.
+  types:
+  - uid: string
+- name: targetFace
+  in: query
+  description: A face rectangle to specify the target face to be added to a person in the format of "targetFace=left,top,width,height". E.g. "targetFace=10,10,100,100". If there is more than one face in the image, targetFace is required to specify which face to add. No targetFace means there is only one face detected in the entire image.
+  types:
+  - uid: array
+responses:
+- name: 200 OK
+  description: A successful call returns a new persistedFaceId.
+  types:
+  - uid: PersistedFace
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestBody:
+- parameters:
+  - name: url
+    in: body
+    isRequired: true
+    description: Publicly reachable URL of an image
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: PersistedFace
+  description: PersonFace object.
+  kind: object
+  properties:
+  - name: persistedFaceId
+    description: The persistedFaceId of the target face, which is persisted and will not expire. Different from faceId created by Face - Detect and will expire in 24 hours after the detection call.
+    types:
+    - uid: string
+  - name: userData
+    description: User-provided data attached to the face. The size limit is 1KB.
+    types:
+    - uid: string
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: ImageUrl
+  kind: object
+  properties:
+  - name: url
+    description: Publicly reachable URL of an image
+    types:
+    - uid: string
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Create face list face example
+  request:
+    uri: >-
+      POST https://westus.api.cognitive.microsoft.com/face/v1.0/facelists/sample_face_list/persistedFaces?targetFace=[
+
+        10,
+
+        10,
+
+        100,
+
+        100
+
+      ]
+    body: "\"{Image url}\""
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "persistedFaceId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBA"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

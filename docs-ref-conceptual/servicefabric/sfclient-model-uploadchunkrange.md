@@ -1,6 +1,6 @@
 ---
 title: "UploadChunkRange"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,19 +34,19 @@ Information about which portion of the file to upload.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [StartPosition](#startposition) | string (int64) | No |
-| [EndPosition](#endposition) | string (int64) | No |
+| [`StartPosition`](#startposition) | string | No |
+| [`EndPosition`](#endposition) | string | No |
 
 ____
-### StartPosition
-__Type__: string (int64) <br/>
+### `StartPosition`
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The start position of the portion of the file. It's represented by the number of bytes.
 
 ____
-### EndPosition
-__Type__: string (int64) <br/>
+### `EndPosition`
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The end position of the portion of the file. It's represented by the number of bytes.

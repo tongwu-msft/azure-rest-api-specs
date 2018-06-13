@@ -1,0 +1,209 @@
+### YamlMime:RESTOperation
+uid: vision.v1.0.cognitiveservices.tagimage.tagimage
+name: Tag Image
+service: Cognitive Services
+groupName: Tag Image
+apiVersion: "1.0"
+summary: This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag 'cello' may be accompanied by the hint 'musical instrument'. All tags are in English.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/tag
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/tag?language={language}
+  isOptional: true
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: language
+  in: query
+  description: The desired language for output generation. If this parameter is not specified, the default value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Image tags object.
+  types:
+  - uid: TagResult
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: ComputerVisionError
+requestBody:
+- parameters:
+  - name: url
+    in: body
+    isRequired: true
+    description: Publicly reachable URL of an image
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: TagResult
+  description: The results of a image tag operation, including any tags and image metadata.
+  kind: object
+  properties:
+  - name: tags
+    description: A list of tags with confidence level.
+    types:
+    - uid: ImageTag
+      isArray: true
+  - name: requestId
+    description: Id of the REST API request.
+    types:
+    - uid: string
+  - name: metadata
+    description: Image metadata
+    types:
+    - uid: ImageMetadata
+- name: ComputerVisionError
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: ComputerVisionErrorCodes
+  - name: message
+    description: A message explaining the error reported by the service.
+    types:
+    - uid: string
+  - name: requestId
+    description: A unique request identifier.
+    types:
+    - uid: string
+- name: ImageUrl
+  kind: object
+  properties:
+  - name: url
+    description: Publicly reachable URL of an image
+    types:
+    - uid: string
+- name: ImageTag
+  description: An image caption, i.e. a brief description of what the image depicts.
+  kind: object
+  properties:
+  - name: name
+    description: The tag value
+    types:
+    - uid: string
+  - name: confidence
+    description: The level of confidence the service has in the caption
+    types:
+    - uid: number
+- name: ImageMetadata
+  description: Image metadata
+  kind: object
+  properties:
+  - name: width
+    description: Image width
+    types:
+    - uid: integer
+  - name: height
+    description: Image height
+    types:
+    - uid: integer
+  - name: format
+    description: Image format
+    types:
+    - uid: string
+- name: ComputerVisionErrorCodes
+  description: The error code.
+  kind: enum
+  properties:
+  - name: InvalidImageUrl
+    types:
+    - uid: string
+  - name: InvalidImageFormat
+    types:
+    - uid: string
+  - name: InvalidImageSize
+    types:
+    - uid: string
+  - name: NotSupportedVisualFeature
+    types:
+    - uid: string
+  - name: NotSupportedImage
+    types:
+    - uid: string
+  - name: InvalidDetails
+    types:
+    - uid: string
+  - name: NotSupportedLanguage
+    types:
+    - uid: string
+  - name: BadArgument
+    types:
+    - uid: string
+  - name: FailedToProcess
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: StorageException
+    types:
+    - uid: string
+examples:
+- name: Successful Tag request
+  request:
+    uri: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/tag?language={language}
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "tags": [
+          {
+            "name": "grass",
+            "confidence": 0.9999997615814209
+          },
+          {
+            "name": "outdoor",
+            "confidence": 0.99997067451477051
+          },
+          {
+            "name": "sky",
+            "confidence": 0.99928975105285645
+          },
+          {
+            "name": "building",
+            "confidence": 0.99646323919296265
+          },
+          {
+            "name": "house",
+            "confidence": 0.99279803037643433
+          },
+          {
+            "name": "lawn",
+            "confidence": 0.82268029451370239
+          },
+          {
+            "name": "green",
+            "confidence": 0.64122253656387329
+          },
+          {
+            "name": "residential",
+            "confidence": 0.31403225660324097
+          }
+        ],
+        "requestId": "1ad0e45e-b7b4-4be3-8042-53be96103337",
+        "metadata": {
+          "width": 400,
+          "height": 400,
+          "format": "Jpeg"
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

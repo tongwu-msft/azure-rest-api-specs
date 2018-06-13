@@ -1,6 +1,6 @@
 ---
 title: "ApplicationHealthPolicies"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,10 +35,10 @@ Defines the application health policy map used to evaluate the health of an appl
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ApplicationHealthPolicyMap](#applicationhealthpolicymap) | array of [ApplicationHealthPolicyMapItem](sfclient-model-applicationhealthpolicymapitem.md) | No |
+| [`ApplicationHealthPolicyMap`](#applicationhealthpolicymap) | array of [ApplicationHealthPolicyMapItem](sfclient-model-applicationhealthpolicymapitem.md) | No |
 
 ____
-### ApplicationHealthPolicyMap
+### `ApplicationHealthPolicyMap`
 __Type__: array of [ApplicationHealthPolicyMapItem](sfclient-model-applicationhealthpolicymapitem.md) <br/>
 __Required__: No<br/>
 <br/>

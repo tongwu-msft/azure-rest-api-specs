@@ -1,0 +1,229 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.offers.unlink
+name: Unlink
+service: Azure Stack Admin
+groupName: Offers
+apiVersion: 2015-11-01
+summary: Unlink a plan from an offer.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/offers/{offer}/unlink?api-version=2015-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription.The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group the resource is located under.
+  types:
+  - uid: string
+- name: offer
+  in: path
+  isRequired: true
+  description: Name of an offer.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Offer
+requestBody:
+- parameters:
+  - name: planName
+    in: body
+    description: Name of the plan.
+    types:
+    - uid: string
+  - name: planLinkType
+    in: body
+    description: Type of the plan link.
+    types:
+    - uid: PlanLinkType
+  - name: maxAcquisitionCount
+    in: body
+    description: The maximum acquisition count by subscribers
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: Offer
+  description: Represents an offering of services against which a subscription can be created.
+  kind: object
+  properties:
+  - name: properties.name
+    description: Name of the Offer.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: Display name of offer.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Description of offer.
+    types:
+    - uid: string
+  - name: properties.externalReferenceId
+    description: External reference identifier.
+    types:
+    - uid: string
+  - name: properties.state
+    description: Offer accessibility state.
+    types:
+    - uid: AccessibilityState
+  - name: properties.subscriptionCount
+    description: Current subscription count.
+    types:
+    - uid: integer
+  - name: properties.maxSubscriptionsPerAccount
+    description: Maximum subscriptions per account.
+    types:
+    - uid: integer
+  - name: properties.basePlanIds
+    description: Identifiers of the base plans that become available to the tenant immediately when a tenant subscribes to the offer.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.addonPlans
+    description: References to add-on plans that a tenant can optionally acquire as a part of the offer.
+    types:
+    - uid: AddonPlanDefinition
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: Location of the resource
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: PlanLinkDefinition
+  description: Definition for linking and unlinking plans to offers.
+  kind: object
+  properties:
+  - name: planName
+    description: Name of the plan.
+    types:
+    - uid: string
+  - name: planLinkType
+    description: Type of the plan link.
+    types:
+    - uid: PlanLinkType
+  - name: maxAcquisitionCount
+    description: The maximum acquisition count by subscribers
+    types:
+    - uid: integer
+- name: AccessibilityState
+  description: Represents the state of the offer
+  kind: enum
+  properties:
+  - name: Private
+    description: The offer or plan is private. Only an Admin can see and manage it.
+    types:
+    - uid: string
+  - name: Public
+    description: The offer or plan is public. Users can see and self-subscribe to it.
+    types:
+    - uid: string
+  - name: Decommissioned
+    description: The offer or plan is decommissioned. Current subscriptions can still consume it but new subscriptions cannot.
+    types:
+    - uid: string
+- name: AddonPlanDefinition
+  description: Contains the name of the desired plan to be linked or unlinked from an offer.
+  kind: object
+  properties:
+  - name: planId
+    description: Plan identifier.
+    types:
+    - uid: string
+  - name: maxAcquisitionCount
+    description: Maximum number of instances that can be acquired by a single subscription. If not specified, the assumed value is 1.
+    types:
+    - uid: integer
+- name: PlanLinkType
+  description: Plan link type.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Base
+    types:
+    - uid: string
+  - name: Addon
+    types:
+    - uid: string
+examples:
+- name: Unlink a plan from an offer.
+  request:
+    uri: POST https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/RG1/providers/Microsoft.Subscriptions.Admin/offers/sampleoffer1/unlink?api-version=2015-11-01
+    body: >-
+      {
+        "properties": {
+          "planName": "SamplePlan",
+          "planLinkType": "Addon"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/36a6bf33-6df4-4acd-a30e-7b92c1c7b322/resourceGroups/RG1/providers/Microsoft.Subscriptions.Admin/offers/sampleoffer1",
+        "name": "sampleoffer1",
+        "type": "Microsoft.Subscriptions.Admin/offers",
+        "location": "local",
+        "tags": {},
+        "properties": {
+          "name": "sampleoffer1",
+          "displayName": "sampleoffer1",
+          "state": "Public",
+          "subscriptionCount": 2,
+          "maxSubscriptionsPerAccount": 0,
+          "basePlanIds": [
+            "/subscriptions/36a6bf33-6df4-4acd-a30e-7b92c1c7b322/resourceGroups/RG1/providers/Microsoft.Subscriptions.Admin/plans/SamplePlan"
+          ],
+          "addonPlans": []
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

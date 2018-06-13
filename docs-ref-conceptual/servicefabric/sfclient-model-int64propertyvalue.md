@@ -1,6 +1,6 @@
 ---
 title: "Int64PropertyValue"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,8 +34,8 @@ Describes a Service Fabric property value of type Int64.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [Data](#data) | string (int64) | Yes |
+| [`Kind`](#kind) | string | Yes |
+| [`Data`](#data) | string | Yes |
 
 ____
 ### Kind
@@ -45,8 +45,8 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Int64' for objects of type 'Int64PropertyValue'.
 
 ____
-### Data
-__Type__: string (int64) <br/>
+### `Data`
+__Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The data of the property value.

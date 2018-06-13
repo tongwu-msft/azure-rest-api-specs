@@ -1,6 +1,6 @@
 ---
 title: "Get Partition Health"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -33,7 +33,7 @@ Gets the health of the specified Service Fabric partition.
 Gets the health information of the specified partition.
 Use EventsHealthStateFilter to filter the collection of health events reported on the service based on the health state.
 Use ReplicasHealthStateFilter to filter the collection of ReplicaHealthState objects on the partition.
-If you specify a partition that does not exist in the health store, this cmdlet returns an error.
+If you specify a partition that does not exist in the health store, this request returns an error.
 
 
 ## Request
@@ -45,27 +45,27 @@ If you specify a partition that does not exist in the health store, this cmdlet 
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [partitionId](#partitionid) | string (uuid) | Yes | Path |
-| [api-version](#api-version) | string | Yes | Query |
-| [EventsHealthStateFilter](#eventshealthstatefilter) | integer | No | Query |
-| [ReplicasHealthStateFilter](#replicashealthstatefilter) | integer | No | Query |
-| [ExcludeHealthStatistics](#excludehealthstatistics) | boolean | No | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
+| [`partitionId`](#partitionid) | string (uuid) | Yes | Path |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`EventsHealthStateFilter`](#eventshealthstatefilter) | integer | No | Query |
+| [`ReplicasHealthStateFilter`](#replicashealthstatefilter) | integer | No | Query |
+| [`ExcludeHealthStatistics`](#excludehealthstatistics) | boolean | No | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
 
 ____
-### partitionId
+### `partitionId`
 __Type__: string (uuid) <br/>
 __Required__: Yes<br/>
 <br/>
 The identity of the partition.
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0 <br/>
+__Default__: `6.0` <br/>
 <br/>
-The version of this API. This is a required parameter and its value must be "6.0".
+The version of the API. This parameter is required and its value must be '6.0'.
 
 Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
 
@@ -73,10 +73,10 @@ Additionally the runtime accept any version that is higher than the latest suppo
 
 
 ____
-### EventsHealthStateFilter
+### `EventsHealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 Allows filtering the collection of HealthEvent objects returned based on health state.
 The possible values for this parameter include integer value of one of the following health states.
@@ -92,10 +92,10 @@ If not specified, all entries are returned. The state values are flag based enum
 
 
 ____
-### ReplicasHealthStateFilter
+### `ReplicasHealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 Allows filtering the collection of ReplicaHealthState objects on the partition. The value can be obtained from members or bitwise operations on members of HealthStateFilter. Only replicas that match the filter will be returned. All replicas will be used to evaluate the aggregated health state. If not specified, all entries will be returned.The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) will be returned. The possible values for this parameter include integer value of one of the following health states.
 
@@ -108,24 +108,24 @@ Allows filtering the collection of ReplicaHealthState objects on the partition. 
 
 
 ____
-### ExcludeHealthStatistics
+### `ExcludeHealthStatistics`
 __Type__: boolean <br/>
 __Required__: No<br/>
-__Default__: false <br/>
+__Default__: `false` <br/>
 <br/>
 Indicates whether the health statistics should be returned as part of the query result. False by default.
 The statistics show the number of children entities in health state Ok, Warning, and Error.
 
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

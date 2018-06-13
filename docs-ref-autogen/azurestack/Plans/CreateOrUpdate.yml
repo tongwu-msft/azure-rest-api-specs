@@ -1,0 +1,215 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.plans.createorupdate
+name: Create Or Update
+service: Azure Stack Admin
+groupName: Plans
+apiVersion: 2015-11-01
+summary: Create or update the plan.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/plans/{plan}?api-version=2015-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription.The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group the resource is located under.
+  types:
+  - uid: string
+- name: plan
+  in: path
+  isRequired: true
+  description: Name of the plan.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Created
+  types:
+  - uid: Plan
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Plan
+requestBody:
+- parameters:
+  - name: properties.description
+    in: body
+    description: Description of the plan.
+    types:
+    - uid: string
+  - name: properties.displayName
+    in: body
+    description: Display name.
+    types:
+    - uid: string
+  - name: properties.externalReferenceId
+    in: body
+    description: External reference identifier.
+    types:
+    - uid: string
+  - name: properties.quotaIds
+    in: body
+    description: Quota identifiers under the plan.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.name
+    in: body
+    description: Name of the plan.
+    types:
+    - uid: string
+  - name: properties.subscriptionCount
+    in: body
+    description: Subscription count.
+    types:
+    - uid: integer
+  - name: properties.skuIds
+    in: body
+    description: SKU identifiers.
+    types:
+    - uid: string
+      isArray: true
+  - name: location
+    in: body
+    description: Location of the resource
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: Plan
+  description: A plan represents a package of quotas and capabilities that are offered tenants. A tenant can acquire this plan through an offer to upgrade his access to underlying cloud services.
+  kind: object
+  properties:
+  - name: properties.description
+    description: Description of the plan.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: Display name.
+    types:
+    - uid: string
+  - name: properties.externalReferenceId
+    description: External reference identifier.
+    types:
+    - uid: string
+  - name: properties.quotaIds
+    description: Quota identifiers under the plan.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.name
+    description: Name of the plan.
+    types:
+    - uid: string
+  - name: properties.subscriptionCount
+    description: Subscription count.
+    types:
+    - uid: integer
+  - name: properties.skuIds
+    description: SKU identifiers.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: Location of the resource
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Create or update the plan.
+  request:
+    uri: PUT https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/plans/providers/Microsoft.Subscriptions.Admin/plans/testplan?api-version=2015-11-01
+    body: >-
+      {
+        "properties": {
+          "description": "test plan",
+          "displayName": "testplans",
+          "name": "newplan",
+          "quotaIds": [
+            "123",
+            "abc"
+          ],
+          "subscriptionCount": 0
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/8ab2551d-41e5-489b-9273-1cdf1cbc7dc6/resourceGroups/testrg/providers/Microsoft.Subscriptions.Admin/plans/testplans",
+        "name": "testplans",
+        "type": "Microsoft.Subscriptions.Admin/plans",
+        "location": "local",
+        "properties": {
+          "name": "testplans",
+          "displayName": "testplans",
+          "description": "test plan",
+          "subscriptionCount": 0,
+          "quotaIds": [
+            "/subscriptions/8ab2551d-41e5-489b-9273-1cdf1cbc7dc6/providers/Microsoft.Subscriptions.Admin/locations/local/quotas/delegatedProviderQuota"
+          ]
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/8ab2551d-41e5-489b-9273-1cdf1cbc7dc6/resourceGroups/testrg/providers/Microsoft.Subscriptions.Admin/plans/testplans",
+        "name": "testplans",
+        "type": "Microsoft.Subscriptions.Admin/plans",
+        "location": "local",
+        "properties": {
+          "name": "testplans",
+          "displayName": "testplans",
+          "description": "test plan",
+          "subscriptionCount": 0,
+          "quotaIds": [
+            "/subscriptions/8ab2551d-41e5-489b-9273-1cdf1cbc7dc6/providers/Microsoft.Subscriptions.Admin/locations/local/quotas/delegatedProviderQuota"
+          ]
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

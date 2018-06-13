@@ -1,6 +1,6 @@
 ---
 title: "StoppedChaosEvent"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,9 +34,9 @@ Describes a Chaos event that gets generated when Chaos stops because either the 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [TimeStampUtc](#timestamputc) | string (date-time) | Yes |
-| [Reason](#reason) | string | No |
+| [`Kind`](#kind) | string | Yes |
+| [`TimeStampUtc`](#timestamputc) | string (date-time) | Yes |
+| [`Reason`](#reason) | string | No |
 
 ____
 ### Kind
@@ -46,14 +46,14 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Stopped' for objects of type 'StoppedChaosEvent'.
 
 ____
-### TimeStampUtc
+### `TimeStampUtc`
 __Type__: string (date-time) <br/>
 __Required__: Yes<br/>
 <br/>
 The UTC timestamp when this Chaos event was generated.
 
 ____
-### Reason
+### `Reason`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

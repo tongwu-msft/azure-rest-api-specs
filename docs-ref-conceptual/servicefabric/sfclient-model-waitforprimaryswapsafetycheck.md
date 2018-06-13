@@ -1,6 +1,6 @@
 ---
 title: "WaitForPrimarySwapSafetyCheck"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,8 +34,8 @@ Safety check that waits for the primary replica to be moved out of the node befo
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [PartitionId](#partitionid) | string (uuid) | No |
+| [`Kind`](#kind) | string | Yes |
+| [`PartitionId`](#partitionid) | string (uuid) | No |
 
 ____
 ### Kind
@@ -45,7 +45,7 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'WaitForPrimarySwap' for objects of type 'WaitForPrimarySwapSafetyCheck'.
 
 ____
-### PartitionId
+### `PartitionId`
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
 <br/>

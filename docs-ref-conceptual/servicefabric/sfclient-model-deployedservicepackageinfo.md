@@ -1,6 +1,6 @@
 ---
 title: "DeployedServicePackageInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,27 +34,27 @@ Information about service package deployed on a Service Fabric node.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Name](#name) | string | No |
-| [Version](#version) | string | No |
-| [Status](#status) | string (enum) | No |
-| [ServicePackageActivationId](#servicepackageactivationid) | string | No |
+| [`Name`](#name) | string | No |
+| [`Version`](#version) | string | No |
+| [`Status`](#status) | string (enum) | No |
+| [`ServicePackageActivationId`](#servicepackageactivationid) | string | No |
 
 ____
-### Name
+### `Name`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of the service package as specified in the service manifest.
 
 ____
-### Version
+### `Version`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The version of the service package specified in service manifest.
 
 ____
-### Status
+### `Status`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -65,17 +65,17 @@ Specifies the status of a deployed application or service package on a Service F
 
 Possible values are: 
 
-  - Invalid - Indicates status of the application or service package is not known or invalid. The value is 0.
-  - Downloading - Indicates the application or service package is being downloaded to the node from the ImageStore. The value is 1.
-  - Activating - Indicates the application or service package is being activated. The value is 2.
-  - Active - Indicates the application or service package is active the node. The value is 3.
-  - Upgrading - Indicates the application or service package is being upgraded. The value is 4.
-  - Deactivating - Indicates the application or service package is being deactivated. The value is 5.
+  - `Invalid` - Indicates status of the application or service package is not known or invalid. The value is 0.
+  - `Downloading` - Indicates the application or service package is being downloaded to the node from the ImageStore. The value is 1.
+  - `Activating` - Indicates the application or service package is being activated. The value is 2.
+  - `Active` - Indicates the application or service package is active the node. The value is 3.
+  - `Upgrading` - Indicates the application or service package is being upgraded. The value is 4.
+  - `Deactivating` - Indicates the application or service package is being deactivated. The value is 5.
 
 
 
 ____
-### ServicePackageActivationId
+### `ServicePackageActivationId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

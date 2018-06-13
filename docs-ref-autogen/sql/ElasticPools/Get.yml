@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.sqldatabase.elasticpools.get
+uid: management.azure.com.sql.elasticpools.get
 name: Get
 service: SQL Database
 groupName: Elastic Pools
-apiVersion: 2014-04-01
+apiVersion: 2017-10-01-preview
 summary: Gets an elastic pool.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}?api-version=2014-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}?api-version=2017-10-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,7 +33,7 @@ uriParameters:
 - name: elasticPoolName
   in: path
   isRequired: true
-  description: The name of the elastic pool to be retrieved.
+  description: The name of the elastic pool.
   types:
   - uid: string
 - name: api-version
@@ -44,23 +44,99 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
+  description: Succeeded
   types:
   - uid: ElasticPool
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 ElasticPoolStorageBelowLimitMB - Attempting to set the elastic pool storage limit below the supported limit.
+
+     * 400 ProvisioningDisabled - Displays error message from resources operation authorizer as is, without changes
+
+     * 400 ElasticPoolStorageNotAllowedMB - Attempting to set the elastic pool storage limit in mb which doesn't match the allowed values.
+
+     * 400 ElasticPoolStorageAboveLimitMB - Attempting to set the elastic pool storage limit below the supported limit.
+
+     * 400 ElasticPoolUpdateHkNotAllowed - The elastic pool cannot lower its service tier from Premium to Standard or Basic since one or more of its databases use memory-optimized objects.
+
+     * 400 ElasticPoolOverFileSpace - Insufficient file space in the elastic pool.
+
+     * 400 InvalidTier - The user specified an invalid tier.
+
+     * 400 ServerQuotaExceeded - Server cannot be added to a subscription because it will exceed quota.
+
+     * 400 ElasticPoolAlreadyExists - The server already contains an elastic pool with the specified name.
+
+     * 400 InvalidInputValueForEdition - Specified edition is not supported for elastic pool provisioning.
+
+     * 400 ElasticPoolDtuBelowLimit - The requested DTU value is too low for the requested elastic pool service tier.
+
+     * 400 ElasticPoolDtuAboveLimit - The requested DTU value is too high for the requested elastic pool service tier.
+
+     * 400 ElasticPoolDbDtuMaxBelowLimit - The requested per database DTU max is too low for the requested elastic pool service tier.
+
+     * 400 ElasticPoolDbDtuMaxAboveLimit - The requested per database DTU max is too high for the requested elastic pool service tier.
+
+     * 400 InvalidInputValueForDatabaseDtuMax - Attempting to set the DTU max per database for the Resource Pool which doesn't match the allowed values.
+
+     * 400 ElasticPoolDbDtuMinAboveLimit - The requested DTU min per database is too high for the requested service tier.
+
+     * 400 InvalidInputValueForDatabaseDtuMin - Attempting to set the DTU min per database for the Resource Pool which doesn't match the allowed values.
+
+     * 400 ElasticPoolStorageAboveLimitGB - Attempting to set the elastic pool storage limit below the supported limit.
+
+     * 400 ElasticPoolOverStorageUsage - Attempting to write data to a database when the storage limit of the elastic pool has been reached.
+
+     * 400 ElasticPoolsNotEnabled - Elastic pools have not been enabled in this region.
+
+     * 400 ElasticPoolNotEmpty - Request to delete an elastic pool that is not empty.
+
+     * 400 ElasticPoolStorageBelowLimitGB - Attempting to set the elastic pool storage limit below the supported limit.
+
+     * 400 ElasticPoolStorageNotAllowedGB - Attempting to set the elastic pool storage limit in gb which doesn't match the allowed values.
+
+     * 400 ElasticPoolDatabaseLimit - The elastic pool has reached its limit for number of databases.
+
+     * 400 ElasticPoolStorageDecreasePrecondition - There was an attempt to decrease the storage limit of the elastic pool below its storage usage.
+
+     * 400 ElasticPoolBusy - A management operation was attempted on an elastic pool which is busy.
+
+     * 400 InvalidInputValueDatabaseDtuMinLargerThanMax - Attempting to set the DTU min per database higher than the DTU max per database.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ElasticPoolNotFound - The specified elastic pool does not exist for the specified server.
+
+     * 404 OperationIdNotFound - The operation with Id does not exist.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 405 NotSupported - This functionality is not supported.
+
+     * 409 ServerDisabled - Server is disabled.
+
+     * 409 OperationCancelled - The operation has been cancelled by user.
+
+     * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.
+
+     * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation.
+
+     * 503 ServiceTemporarilyUnavailable - Feature temporarily unavailable.
 requestHeader: []
 definitions:
 - name: ElasticPool
-  description: Represents a database elastic pool.
+  description: An elastic pool.
   kind: object
   properties:
+  - name: sku
+    description: The resource model definition representing SKU
+    types:
+    - uid: Sku
   - name: kind
     isReadyOnly: true
-    description: Kind of elastic pool.  This is metadata used for the Azure portal experience.
-    types:
-    - uid: string
-  - name: properties.creationDate
-    isReadyOnly: true
-    description: The creation date of the elastic pool (ISO8601 format).
+    description: Kind of elastic pool. This is metadata used for the Azure portal experience.
     types:
     - uid: string
   - name: properties.state
@@ -68,30 +144,31 @@ definitions:
     description: The state of the elastic pool.
     types:
     - uid: ElasticPoolState
-  - name: properties.edition
-    description: The edition of the elastic pool.
+  - name: properties.creationDate
+    isReadyOnly: true
+    description: The creation date of the elastic pool (ISO8601 format).
     types:
-    - uid: ElasticPoolEdition
-  - name: properties.dtu
-    description: The total shared DTU for the database elastic pool.
-    types:
-    - uid: integer
-  - name: properties.databaseDtuMax
-    description: The maximum DTU any one database can consume.
+    - uid: string
+  - name: properties.maxSizeBytes
+    description: The storage limit for the database elastic pool in bytes.
     types:
     - uid: integer
-  - name: properties.databaseDtuMin
-    description: The minimum DTU all databases are guaranteed.
+  - name: properties.perDatabaseSettings
+    description: The per database settings for the elastic pool.
     types:
-    - uid: integer
-  - name: properties.storageMB
-    description: Gets storage limit for the database elastic pool in MB.
-    types:
-    - uid: integer
+    - uid: ElasticPoolPerDatabaseSettings
   - name: properties.zoneRedundant
-    description: Whether or not this database elastic pool is zone redundant, which means the replicas of this database will be spread across multiple availability zones.
+    description: Whether or not this elastic pool is zone redundant, which means the replicas of this elastic pool will be spread across multiple availability zones.
     types:
     - uid: boolean
+  - name: properties.licenseType
+    description: The license type to apply for this elastic pool.
+    types:
+    - uid: ElasticPoolLicenseType
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
   - name: tags
     description: Resource tags.
     types:
@@ -100,10 +177,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -119,6 +192,30 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: Sku
+  description: The resource model definition representing SKU
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU. Ex - P3. It is typically a letter+number code
+    types:
+    - uid: string
+  - name: tier
+    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    types:
+    - uid: string
+  - name: size
+    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
 - name: ElasticPoolState
   description: The state of the elastic pool.
   kind: enum
@@ -132,23 +229,32 @@ definitions:
   - name: Disabled
     types:
     - uid: string
-- name: ElasticPoolEdition
-  description: The edition of the elastic pool.
+- name: ElasticPoolPerDatabaseSettings
+  description: Per database settings of an elastic pool.
+  kind: object
+  properties:
+  - name: minCapacity
+    description: The minimum capacity all databases are guaranteed.
+    types:
+    - uid: number
+  - name: maxCapacity
+    description: The maximum capacity any one database can consume.
+    types:
+    - uid: number
+- name: ElasticPoolLicenseType
+  description: The license type to apply for this elastic pool.
   kind: enum
   properties:
-  - name: Basic
+  - name: LicenseIncluded
     types:
     - uid: string
-  - name: Standard
-    types:
-    - uid: string
-  - name: Premium
+  - name: BasePrice
     types:
     - uid: string
 examples:
-- name: Get elastic pool
+- name: Get an elastic pool
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102?api-version=2014-04-01
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102?api-version=2017-10-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -158,14 +264,21 @@ examples:
         "type": "Microsoft.Sql/servers/elasticPools",
         "location": "Japan East",
         "kind": null,
+        "sku": {
+          "name": "GP_Gen4_2",
+          "tier": "GeneralPurpose",
+          "capacity": 2
+        },
         "properties": {
-          "creationDate": "2017-02-10T01:25:25.033Z",
-          "edition": "Basic",
+          "creationDate": "2017-10-10T01:25:25.033Z",
           "state": "Ready",
-          "dtu": 50,
-          "databaseDtuMin": 0,
-          "databaseDtuMax": 5,
-          "storageMB": 5000
+          "maxSizeBytes": 5242880000,
+          "perDatabaseSettings": {
+            "minCapacity": 0.1,
+            "maxCapacity": 1
+          },
+          "zoneRedundant": true,
+          "licenseType": "LicenseIncluded"
         }
       }
 security: []

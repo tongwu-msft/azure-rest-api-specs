@@ -3,14 +3,14 @@ uid: management.azure.com.cdn.endpoints.update
 name: Update
 service: CDN
 groupName: Endpoints
-apiVersion: 2016-10-02
+apiVersion: 2017-10-12
 summary: Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags and Origin HostHeader can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update custom domains, use the Update Custom Domain operation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}?api-version=2016-10-02
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}?api-version=2017-10-12
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,7 +40,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. Current version is 2016-10-02.
+  description: Version of the API to be used with the client request. Current version is 2017-04-02.
   types:
   - uid: string
 responses:
@@ -69,12 +69,12 @@ requestBody:
       - uid: string
   - name: properties.originHostHeader
     in: body
-    description: The host header CDN sends along with content requests to origin. The default value is the host name of the origin.
+    description: The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default.
     types:
     - uid: string
   - name: properties.originPath
     in: body
-    description: The path used when CDN sends request to origin.
+    description: A directory path on the origin that CDN can use to retreive content from, e.g. contoso.cloudapp.net/originpath.
     types:
     - uid: string
   - name: properties.contentTypesToCompress
@@ -100,24 +100,34 @@ requestBody:
     - uid: boolean
   - name: properties.queryStringCachingBehavior
     in: body
-    description: Defines the query string caching behavior
+    description: Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL.
     types:
     - uid: QueryStringCachingBehavior
   - name: properties.optimizationType
     in: body
-    description: Customer can specify what scenario they want this CDN endpoint to optimize, e.g. Download, Media services. With this information we can apply scenario driven optimization.
+    description: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media services. With this information, CDN can apply scenario driven optimization.
     types:
     - uid: OptimizationType
+  - name: properties.probePath
+    in: body
+    description: Path to a file hosted on the origin which helps accelerate delivery of the dynamic content and calculate the most optimal routes for the CDN. This is relative to the origin path.
+    types:
+    - uid: string
   - name: properties.geoFilters
     in: body
-    description: List of rules defining user geo access within a CDN endpoint. Each geo filter defines an acess rule to a specified path or content, e.g. block APAC for path /pictures/
+    description: List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an acess rule to a specified path or content, e.g. block APAC for path /pictures/
     types:
     - uid: GeoFilter
       isArray: true
+  - name: properties.deliveryPolicy
+    in: body
+    description: A policy that specifies the delivery rules to be used for an endpoint.
+    types:
+    - uid: DeliveryPolicy
 requestHeader: []
 definitions:
 - name: GeoFilter
-  description: Rules defining user geo access within a CDN endpoint.
+  description: Rules defining user's geo access within a CDN endpoint.
   kind: object
   properties:
   - name: relativePath
@@ -132,6 +142,19 @@ definitions:
     description: Two letter country codes defining user country access in a geo filter, e.g. AU, MX, US.
     types:
     - uid: string
+      isArray: true
+- name: DeliveryPolicy
+  description: A policy that specifies the delivery rules to be used for an endpoint.
+  kind: object
+  properties:
+  - name: description
+    description: User-friendly description of the policy.
+    types:
+    - uid: string
+  - name: rules
+    description: A list of the delivery rules.
+    types:
+    - uid: DeliveryRule
       isArray: true
 - name: Endpoint
   description: CDN endpoint is the entity within a CDN profile containing configuration information such as origin, protocol, content caching and delivery behavior. The CDN endpoint uses the URL format <endpointname>.azureedge.net.
@@ -157,6 +180,18 @@ definitions:
     description: Provisioning status of the endpoint.
     types:
     - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -172,24 +207,12 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
   - name: properties.originHostHeader
-    description: The host header CDN sends along with content requests to origin. The default value is the host name of the origin.
+    description: The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default.
     types:
     - uid: string
   - name: properties.originPath
-    description: The path used when CDN sends request to origin.
+    description: A directory path on the origin that CDN can use to retreive content from, e.g. contoso.cloudapp.net/originpath.
     types:
     - uid: string
   - name: properties.contentTypesToCompress
@@ -210,32 +233,42 @@ definitions:
     types:
     - uid: boolean
   - name: properties.queryStringCachingBehavior
-    description: Defines the query string caching behavior
+    description: Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL.
     types:
     - uid: QueryStringCachingBehavior
   - name: properties.optimizationType
-    description: Customer can specify what scenario they want this CDN endpoint to optimize, e.g. Download, Media services. With this information we can apply scenario driven optimization.
+    description: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media services. With this information, CDN can apply scenario driven optimization.
     types:
     - uid: OptimizationType
+  - name: properties.probePath
+    description: Path to a file hosted on the origin which helps accelerate delivery of the dynamic content and calculate the most optimal routes for the CDN. This is relative to the origin path.
+    types:
+    - uid: string
   - name: properties.geoFilters
-    description: List of rules defining user geo access within a CDN endpoint. Each geo filter defines an acess rule to a specified path or content, e.g. block APAC for path /pictures/
+    description: List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an acess rule to a specified path or content, e.g. block APAC for path /pictures/
     types:
     - uid: GeoFilter
       isArray: true
+  - name: properties.deliveryPolicy
+    description: A policy that specifies the delivery rules to be used for an endpoint.
+    types:
+    - uid: DeliveryPolicy
 - name: ErrorResponse
   description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
   - name: code
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: Error message indicating why the operation failed.
     types:
     - uid: string
 - name: EndpointUpdateParameters
-  description: Properties required to create a new endpoint.
+  description: Properties required to create or update an endpoint.
   kind: object
   properties:
   - name: tags
@@ -247,11 +280,11 @@ definitions:
       - uid: string
       - uid: string
   - name: properties.originHostHeader
-    description: The host header CDN sends along with content requests to origin. The default value is the host name of the origin.
+    description: The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default.
     types:
     - uid: string
   - name: properties.originPath
-    description: The path used when CDN sends request to origin.
+    description: A directory path on the origin that CDN can use to retreive content from, e.g. contoso.cloudapp.net/originpath.
     types:
     - uid: string
   - name: properties.contentTypesToCompress
@@ -272,18 +305,26 @@ definitions:
     types:
     - uid: boolean
   - name: properties.queryStringCachingBehavior
-    description: Defines the query string caching behavior
+    description: Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL.
     types:
     - uid: QueryStringCachingBehavior
   - name: properties.optimizationType
-    description: Customer can specify what scenario they want this CDN endpoint to optimize, e.g. Download, Media services. With this information we can apply scenario driven optimization.
+    description: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media services. With this information, CDN can apply scenario driven optimization.
     types:
     - uid: OptimizationType
+  - name: properties.probePath
+    description: Path to a file hosted on the origin which helps accelerate delivery of the dynamic content and calculate the most optimal routes for the CDN. This is relative to the origin path.
+    types:
+    - uid: string
   - name: properties.geoFilters
-    description: List of rules defining user geo access within a CDN endpoint. Each geo filter defines an acess rule to a specified path or content, e.g. block APAC for path /pictures/
+    description: List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an acess rule to a specified path or content, e.g. block APAC for path /pictures/
     types:
     - uid: GeoFilter
       isArray: true
+  - name: properties.deliveryPolicy
+    description: A policy that specifies the delivery rules to be used for an endpoint.
+    types:
+    - uid: DeliveryPolicy
 - name: GeoFilterActions
   description: Action of the geo filter, i.e. allow or block access.
   kind: enum
@@ -294,8 +335,30 @@ definitions:
   - name: Allow
     types:
     - uid: string
+- name: DeliveryRule
+  description: A rule that specifies a set of actions and conditions
+  kind: object
+  properties:
+  - name: order
+    description: The order in which the rules are applied for the endpoint. Possible values {0,1,2,3,………}. A rule with a lesser order will be applied before a rule with a greater order. Rule with order 0 is a special rule. It does not require any condition and actions listed in it will always be applied.
+    types:
+    - uid: integer
+  - name: actions
+    description: A list of actions that are executed when all the conditions of a rule are satisfied.
+    types:
+    - uid: DeliveryRuleCacheExpirationAction
+      isArray: true
+    typesTitle: DeliveryRuleAction[]
+  - name: conditions
+    description: A list of conditions that must be matched for the actions to be executed
+    types:
+    - uid: DeliveryRuleUrlPathCondition
+      isArray: true
+    - uid: DeliveryRuleUrlFileExtensionCondition
+      isArray: true
+    typesTitle: DeliveryRuleCondition[]
 - name: DeepCreatedOrigin
-  description: Origin to be added when creating a CDN endpoint.
+  description: The main origin of CDN content which is added when creating a CDN endpoint.
   kind: object
   properties:
   - name: name
@@ -303,7 +366,7 @@ definitions:
     types:
     - uid: string
   - name: properties.hostName
-    description: The address of the origin. It can be a domain names, IPv4 address, or IPv6 address.
+    description: The address of the origin. It can be a domain name, IPv4 address, or IPv6 address.
     types:
     - uid: string
   - name: properties.httpPort
@@ -337,7 +400,7 @@ definitions:
     types:
     - uid: string
 - name: QueryStringCachingBehavior
-  description: Defines the query string caching behavior.
+  description: Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL.
   kind: enum
   properties:
   - name: IgnoreQueryString
@@ -353,7 +416,7 @@ definitions:
     types:
     - uid: string
 - name: OptimizationType
-  description: Customer can specify what scenario they want this CDN endpoint to optimize, e.g. Download, Media services. With this information we can apply scenario driven optimization.
+  description: Specifies what scenario the customer wants this CDN endpoint to optimize, e.g. Download, Media services. With this information we can apply scenario driven optimization.
   kind: enum
   properties:
   - name: GeneralWebDelivery
@@ -371,7 +434,151 @@ definitions:
   - name: DynamicSiteAcceleration
     types:
     - uid: string
-examples: []
+- name: DeliveryRuleCacheExpirationAction
+  description: Defines the cache expiration action for the delivery rule.
+  kind: object
+  properties:
+  - name: parameters
+    description: Defines the parameters for the action.
+    types:
+    - uid: CacheExpirationActionParameters
+  - name: name
+    description: The name of the action for the delivery rule.
+    types:
+    - uid: CacheExpiration
+    typesTitle: string
+- name: DeliveryRuleUrlPathCondition
+  description: Defines the URL path condition for the delivery rule.
+  kind: object
+  properties:
+  - name: parameters
+    description: Defines the parameters for the condition.
+    types:
+    - uid: UrlPathConditionParameters
+  - name: name
+    description: The name of the condition for the delivery rule.
+    types:
+    - uid: UrlPath
+    typesTitle: string
+- name: DeliveryRuleUrlFileExtensionCondition
+  description: Defines the URL file extension condition for the delivery rule.
+  kind: object
+  properties:
+  - name: parameters
+    description: Defines the parameters for the condition.
+    types:
+    - uid: UrlFileExtensionConditionParameters
+  - name: name
+    description: The name of the condition for the delivery rule.
+    types:
+    - uid: UrlFileExtension
+    typesTitle: string
+- name: CacheExpirationActionParameters
+  description: Defines the parameters for the cache expiration action.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: ''
+    types:
+    - uid: Microsoft.Azure.Cdn.Models.DeliveryRuleCacheExpirationActionParameters
+    typesTitle: enum
+  - name: cacheBehavior
+    description: Caching behavior for the requests that include query strings.
+    types:
+    - uid: BypassCache
+    - uid: Override
+    - uid: SetIfMissing
+    typesTitle: enum
+  - name: cacheType
+    description: The level at which the content needs to be cached.
+    types:
+    - uid: All
+    typesTitle: enum
+  - name: cacheDuration
+    description: The duration for which the the content needs to be cached. Allowed format is [d.]hh:mm:ss
+    types:
+    - uid: string
+- name: UrlPathConditionParameters
+  description: Defines the parameters for the URL path condition.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: ''
+    types:
+    - uid: Microsoft.Azure.Cdn.Models.DeliveryRuleUrlPathConditionParameters
+    typesTitle: enum
+  - name: path
+    description: A URL path for the condition of the delivery rule
+    types:
+    - uid: string
+  - name: matchType
+    description: The match type for the condition of the delivery rule
+    types:
+    - uid: Literal
+    - uid: Wildcard
+    typesTitle: enum
+- name: UrlFileExtensionConditionParameters
+  description: Defines the parameters for the URL file extension condition.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: ''
+    types:
+    - uid: Microsoft.Azure.Cdn.Models.DeliveryRuleUrlFileExtensionConditionParameters
+    typesTitle: enum
+  - name: extensions
+    description: A list of extensions for the condition of the delivery rule.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: Endpoints_Update
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1?api-version=2017-10-12
+    body: >-
+      {
+        "tags": {
+          "additionalProperties": "Tag1"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "endpoint1",
+        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1",
+        "type": "Microsoft.Cdn/profiles/endpoints",
+        "tags": {
+          "additionalProperties": "Tag1"
+        },
+        "location": "WestCentralUs",
+        "properties": {
+          "hostName": "endpoint1.azureedge.net",
+          "originHostHeader": null,
+          "provisioningState": "Creating",
+          "resourceState": "Creating",
+          "isHttpAllowed": true,
+          "isHttpsAllowed": true,
+          "queryStringCachingBehavior": "IgnoreQueryString",
+          "originPath": null,
+          "origins": [
+            {
+              "name": "www-bing-com",
+              "properties": {
+                "hostName": "www.bing.com",
+                "httpPort": 80,
+                "httpsPort": 443
+              }
+            }
+          ],
+          "customDomains": [],
+          "contentTypesToCompress": [],
+          "isCompressionEnabled": false,
+          "optimizationType": null,
+          "probePath": null,
+          "geoFilters": []
+        }
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.

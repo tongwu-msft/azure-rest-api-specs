@@ -11,6 +11,8 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups?api-version=2015-10-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups?$filter={$filter}&api-version=2015-10-31
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -29,6 +31,11 @@ uriParameters:
   in: path
   isRequired: true
   description: The automation account name.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation.
   types:
   - uid: string
 - name: api-version
@@ -94,6 +101,10 @@ definitions:
     description: Sets the credential of a worker group.
     types:
     - uid: RunAsCredentialAssociationProperty
+  - name: groupType
+    description: Type of the HybridWorkerGroup.
+    types:
+    - uid: GroupTypeEnum
 - name: HybridRunbookWorker
   description: Definition of hybrid runbook worker.
   kind: object
@@ -110,12 +121,26 @@ definitions:
     description: Gets or sets the registration time of the worker machine.
     types:
     - uid: string
+  - name: lastSeenDateTime
+    description: Last Heartbeat from the Worker
+    types:
+    - uid: string
 - name: RunAsCredentialAssociationProperty
   description: Definition of runas credential to use for hybrid worker.
   kind: object
   properties:
   - name: name
     description: Gets or sets the name of the credential.
+    types:
+    - uid: string
+- name: GroupTypeEnum
+  description: Type of the HybridWorkerGroup.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: System
     types:
     - uid: string
 examples:

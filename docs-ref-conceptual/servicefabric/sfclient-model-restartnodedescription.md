@@ -1,6 +1,6 @@
 ---
 title: "RestartNodeDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,22 +34,22 @@ Describes the parameters to restart a Service Fabric node.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [NodeInstanceId](#nodeinstanceid) | string | Yes |
-| [CreateFabricDump](#createfabricdump) | string (enum) | No |
+| [`NodeInstanceId`](#nodeinstanceid) | string | Yes |
+| [`CreateFabricDump`](#createfabricdump) | string (enum) | No |
 
 ____
-### NodeInstanceId
+### `NodeInstanceId`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
-The instance id of the target node. If instance id is specified the node is restarted only if it matches with the current instance of the node. A default value of "0" would match any instance id. The instance id can be obtained using get node query.
+The instance ID of the target node. If instance ID is specified the node is restarted only if it matches with the current instance of the node. A default value of "0" would match any instance ID. The instance ID can be obtained using get node query.
 
 ____
-### CreateFabricDump
+### `CreateFabricDump`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
-__Default__: False <br/>
+__Default__: `False` <br/>
 <br/>
 Specify True to create a dump of the fabric node process. This is case sensitive.
 

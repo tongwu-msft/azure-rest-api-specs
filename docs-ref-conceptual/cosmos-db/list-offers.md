@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # List Offers
-  To list the offers under the database account, perform a GET on the offers resource, i.e. the offers URI path.  
+  To list the offers under the database account, perform a GET on the offers resource, that is, the offers URI path.  
   
 ## Request  
   
@@ -36,6 +36,8 @@ translation.priority.mt:
   
 ### Headers  
  See [Common Azure Cosmos DB REST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
+ 
+When [constructing the hashed signature for the master key token](access-control-on-cosmosdb-resources.md#constructkeytoken), the **ResourceType** should be "offers".  The **ResourceLink** should be blank.
   
 ### Body  
  None.  
@@ -57,9 +59,9 @@ translation.priority.mt:
   
 |Property|Description|  
 |--------------|-----------------|  
-|**_rid**|This is a system generated property. The **_rid** value is empty for this operation.|  
+|**_rid**|It is a system generated property. The **_rid** value is empty for this operation.|  
 |**_count**|This property shows the number of offers returned as part of list operation.|  
-|**offers**|This the array containing the offers returned as part of the list operation.<br />See [Offers](offers.md) to find the properties of the offer resource.|  
+|**offers**|This array contains the offers returned as part of the list operation.<br />See [Offers](offers.md) to find the properties of the offer resource.|  
   
 ```  
 {  

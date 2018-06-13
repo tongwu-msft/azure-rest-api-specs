@@ -1,6 +1,6 @@
 ---
 title: "Get Service Health Using Policy"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ If the application health policy is specified, the health evaluation uses it to 
 If the policy is not specified, the health evaluation uses the application health policy defined in the application manifest, or the default health policy, if no policy is defined in the manifest.
 Use EventsHealthStateFilter to filter the collection of health events reported on the service based on the health state.
 Use PartitionsHealthStateFilter to filter the collection of partitions returned.
-If you specify a service that does not exist in the health store, this cmdlet returns an error.
+If you specify a service that does not exist in the health store, this request returns an error.
 
 
 ## Request
@@ -47,16 +47,16 @@ If you specify a service that does not exist in the health store, this cmdlet re
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [serviceId](#serviceid) | string | Yes | Path |
-| [api-version](#api-version) | string | Yes | Query |
-| [EventsHealthStateFilter](#eventshealthstatefilter) | integer | No | Query |
-| [PartitionsHealthStateFilter](#partitionshealthstatefilter) | integer | No | Query |
-| [ExcludeHealthStatistics](#excludehealthstatistics) | boolean | No | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
-| [ApplicationHealthPolicy](#applicationhealthpolicy) | [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) | No | Body |
+| [`serviceId`](#serviceid) | string | Yes | Path |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`EventsHealthStateFilter`](#eventshealthstatefilter) | integer | No | Query |
+| [`PartitionsHealthStateFilter`](#partitionshealthstatefilter) | integer | No | Query |
+| [`ExcludeHealthStatistics`](#excludehealthstatistics) | boolean | No | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
+| [`ApplicationHealthPolicy`](#applicationhealthpolicy) | [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) | No | Body |
 
 ____
-### serviceId
+### `serviceId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
@@ -66,12 +66,12 @@ For example, if the service name is "fabric:/myapp/app1/svc1", the service ident
 
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0 <br/>
+__Default__: `6.0` <br/>
 <br/>
-The version of this API. This is a required parameter and its value must be "6.0".
+The version of the API. This parameter is required and its value must be '6.0'.
 
 Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
 
@@ -79,10 +79,10 @@ Additionally the runtime accept any version that is higher than the latest suppo
 
 
 ____
-### EventsHealthStateFilter
+### `EventsHealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 Allows filtering the collection of HealthEvent objects returned based on health state.
 The possible values for this parameter include integer value of one of the following health states.
@@ -98,10 +98,10 @@ If not specified, all entries are returned. The state values are flag based enum
 
 
 ____
-### PartitionsHealthStateFilter
+### `PartitionsHealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 Allows filtering of the partitions health state objects returned in the result of service health query based on their health state.
 The possible values for this parameter include integer value of one of the following health states.
@@ -118,27 +118,27 @@ obtained using bitwise 'OR' operator. For example, if the provided value is 6 th
 
 
 ____
-### ExcludeHealthStatistics
+### `ExcludeHealthStatistics`
 __Type__: boolean <br/>
 __Required__: No<br/>
-__Default__: false <br/>
+__Default__: `false` <br/>
 <br/>
 Indicates whether the health statistics should be returned as part of the query result. False by default.
 The statistics show the number of children entities in health state Ok, Warning, and Error.
 
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
-### ApplicationHealthPolicy
+### `ApplicationHealthPolicy`
 __Type__: [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) <br/>
 __Required__: No<br/>
 <br/>

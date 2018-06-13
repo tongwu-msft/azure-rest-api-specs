@@ -1,6 +1,6 @@
 ---
 title: "ContainerLogs"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Container logs.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Content](#content) | string | No |
+| [`Content`](#content) | string | No |
 
 ____
-### Content
+### `Content`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

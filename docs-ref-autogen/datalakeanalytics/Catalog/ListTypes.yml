@@ -1,0 +1,203 @@
+### YamlMime:RESTOperation
+uid: datalakeanalytics.catalog.listtypes
+name: List Types
+service: Data Lake Analytics
+groupName: Catalog
+apiVersion: 2016-11-01
+summary: Retrieves the list of types within the specified database and schema from the Data Lake Analytics catalog.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{accountName}.{adlaCatalogDnsSuffix}/catalog/usql/databases/{databaseName}/schemas/{schemaName}/types?api-version=2016-11-01
+- content: GET https://{accountName}.{adlaCatalogDnsSuffix}/catalog/usql/databases/{databaseName}/schemas/{schemaName}/types?$filter={$filter}&$top={$top}&$skip={$skip}&$select={$select}&$orderby={$orderby}&$count={$count}&api-version=2016-11-01
+  isOptional: true
+uriParameters:
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Data Lake Analytics account upon which to execute catalog operations.
+  types:
+  - uid: string
+- name: adlaCatalogDnsSuffix
+  in: path
+  isRequired: true
+  description: Gets the DNS suffix used as the base for all Azure Data Lake Analytics Catalog service requests.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database containing the types.
+  types:
+  - uid: string
+- name: schemaName
+  in: path
+  isRequired: true
+  description: The name of the schema containing the types.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter. Optional.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The number of items to return. Optional.
+  types:
+  - uid: integer
+  format: int32
+- name: $skip
+  in: query
+  description: The number of items to skip over before returning elements. Optional.
+  types:
+  - uid: integer
+  format: int32
+- name: $select
+  in: query
+  description: OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+  types:
+  - uid: string
+- name: $orderby
+  in: query
+  description: OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+  types:
+  - uid: string
+- name: $count
+  in: query
+  description: The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+  types:
+  - uid: boolean
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of types in the specified database and schema.
+  types:
+  - uid: USqlTypeList
+requestHeader: []
+definitions:
+- name: USqlTypeList
+  description: A Data Lake Analytics catalog U-SQL type item list.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: the list of types in the database and schema combination
+    types:
+    - uid: USqlType
+      isArray: true
+  - name: nextLink
+    description: the link to the next page of results.
+    types:
+    - uid: string
+- name: USqlType
+  description: A Data Lake Analytics catalog U-SQL type item.
+  kind: object
+  properties:
+  - name: databaseName
+    description: the name of the database.
+    types:
+    - uid: string
+  - name: schemaName
+    description: the name of the schema associated with this table and database.
+    types:
+    - uid: string
+  - name: typeName
+    description: the name of type for this type.
+    types:
+    - uid: string
+  - name: typeFamily
+    description: the type family for this type.
+    types:
+    - uid: string
+  - name: cSharpName
+    description: the C# name for this type.
+    types:
+    - uid: string
+  - name: fullCSharpName
+    description: the fully qualified C# name for this type.
+    types:
+    - uid: string
+  - name: systemTypeId
+    description: the system type ID for this type.
+    types:
+    - uid: integer
+  - name: userTypeId
+    description: the user type ID for this type.
+    types:
+    - uid: integer
+  - name: schemaId
+    description: the schema ID for this type.
+    types:
+    - uid: integer
+  - name: principalId
+    description: the principal ID for this type.
+    types:
+    - uid: integer
+  - name: isNullable
+    description: the the switch indicating if this type is nullable.
+    types:
+    - uid: boolean
+  - name: isUserDefined
+    description: the the switch indicating if this type is user defined.
+    types:
+    - uid: boolean
+  - name: isAssemblyType
+    description: the the switch indicating if this type is an assembly type.
+    types:
+    - uid: boolean
+  - name: isTableType
+    description: the the switch indicating if this type is a table type.
+    types:
+    - uid: boolean
+  - name: isComplexType
+    description: the the switch indicating if this type is a complex type.
+    types:
+    - uid: boolean
+  - name: computeAccountName
+    description: the name of the Data Lake Analytics account.
+    types:
+    - uid: string
+  - name: version
+    description: the version of the catalog item.
+    types:
+    - uid: string
+examples:
+- name: Retrieves the list of types within the specified database and schema from the Data Lake Analytics catalog
+  request:
+    uri: GET https://contosoadla.azuredatalakeanalytics.net/catalog/usql/databases/master/schemas/dbo/types?$filter=test_filter&$top=1&$skip=1&$select=test_select&$orderby=test_orderby&$count=False&api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nextLink": "https://contosoadla.datalakeanalytics.net/catalog/usql/databases/master/schema/dbo/statistics?api-version=2016-11-01&%24skiptoken=<token>",
+        "value": [
+          {
+            "computeAccountName": "contosoadla",
+            "version": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+            "databaseName": "master",
+            "schemaName": "dbo",
+            "typeName": "test_type_name",
+            "typeFamily": "test_type_family",
+            "cSharpName": "test_csharp_name",
+            "fullCSharpName": "test_full_csharp_name",
+            "systemTypeId": 1,
+            "userTypeId": 2,
+            "schemaId": 3,
+            "principalId": 4,
+            "isNullable": false,
+            "isUserDefined": false,
+            "isAssemblyType": false,
+            "isTableType": false,
+            "isComplexType": false
+          }
+        ]
+      }
+security: []

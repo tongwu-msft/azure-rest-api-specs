@@ -1,6 +1,6 @@
 ---
 title: "ProvisionFabricDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,18 @@ Describes the parameters for provisioning a cluster.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [CodeFilePath](#codefilepath) | string | No |
-| [ClusterManifestFilePath](#clustermanifestfilepath) | string | No |
+| [`CodeFilePath`](#codefilepath) | string | No |
+| [`ClusterManifestFilePath`](#clustermanifestfilepath) | string | No |
 
 ____
-### CodeFilePath
+### `CodeFilePath`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The cluster code package file path.
 
 ____
-### ClusterManifestFilePath
+### `ClusterManifestFilePath`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

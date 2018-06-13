@@ -1,6 +1,6 @@
 ---
 title: "NodeHealthStateChunkList"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,11 +35,11 @@ The list of node health state chunks in the cluster that respect the input filte
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [TotalCount](#totalcount) | integer (int64) | No |
-| [Items](#items) | array of [NodeHealthStateChunk](sfclient-model-nodehealthstatechunk.md) | No |
+| [`TotalCount`](#totalcount) | integer (int64) | No |
+| [`Items`](#items) | array of [NodeHealthStateChunk](sfclient-model-nodehealthstatechunk.md) | No |
 
 ____
-### TotalCount
+### `TotalCount`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
@@ -47,7 +47,7 @@ Total number of entity health state objects that match the specified filters fro
 
 
 ____
-### Items
+### `Items`
 __Type__: array of [NodeHealthStateChunk](sfclient-model-nodehealthstatechunk.md) <br/>
 __Required__: No<br/>
 <br/>

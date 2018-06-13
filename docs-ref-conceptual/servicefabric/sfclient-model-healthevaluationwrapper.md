@@ -1,6 +1,6 @@
 ---
 title: "HealthEvaluationWrapper"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Wrapper object for health evaluation.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [HealthEvaluation](#healthevaluation) | [HealthEvaluation](sfclient-model-healthevaluation.md) | No |
+| [`HealthEvaluation`](#healthevaluation) | [HealthEvaluation](sfclient-model-healthevaluation.md) | No |
 
 ____
-### HealthEvaluation
+### `HealthEvaluation`
 __Type__: [HealthEvaluation](sfclient-model-healthevaluation.md) <br/>
 __Required__: No<br/>
 <br/>

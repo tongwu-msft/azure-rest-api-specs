@@ -1,5 +1,5 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.virtualnetworks.networksecuritygroups.updatetags
+uid: management.azure.com.virtualnetwork.networksecuritygroups.updatetags
 name: Update Tags
 service: Virtual Networks
 groupName: Network Security Groups
@@ -229,16 +229,7 @@ definitions:
   - name: properties.virtualMachine
     description: The reference of a virtual machine.
     types:
-    - uid: SecurityRule
-    - uid: Subnet
-    - uid: Route
-    - uid: IPConfiguration
-    - uid: ResourceNavigationLink
-    - uid: NetworkInterfaceIPConfiguration
-    - uid: ApplicationGatewayBackendAddressPool
-    - uid: BackendAddressPool
-    - uid: InboundNatRule
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.networkSecurityGroup
     description: The reference of the NetworkSecurityGroup resource.
     types:
@@ -426,6 +417,14 @@ definitions:
     types:
     - uid: string
   - name: Outbound
+    types:
+    - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
     types:
     - uid: string
 - name: NetworkInterfaceIPConfiguration
@@ -654,38 +653,6 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-- name: Route
-  description: Route resource
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.addressPrefix
-    description: The destination CIDR to which the route applies.
-    types:
-    - uid: string
-  - name: properties.nextHopType
-    description: "The type of Azure hop the packet should be sent to. Possible values are: 'VirtualNetworkGateway', 'VnetLocal', 'Internet', 'VirtualAppliance', and 'None'"
-    types:
-    - uid: RouteNextHopType
-  - name: properties.nextHopIpAddress
-    description: The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
-    types:
-    - uid: string
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
 - name: ApplicationGatewayBackendAddressPool
   description: Backend Address Pool of an application gateway.
   kind: object
@@ -742,39 +709,13 @@ definitions:
     isReadyOnly: true
     description: Gets load balancing rules that use this backend address pool.
     types:
-    - uid: SecurityRule
+    - uid: SubResource
       isArray: true
-    - uid: Subnet
-      isArray: true
-    - uid: Route
-      isArray: true
-    - uid: IPConfiguration
-      isArray: true
-    - uid: ResourceNavigationLink
-      isArray: true
-    - uid: NetworkInterfaceIPConfiguration
-      isArray: true
-    - uid: ApplicationGatewayBackendAddressPool
-      isArray: true
-    - uid: BackendAddressPool
-      isArray: true
-    - uid: InboundNatRule
-      isArray: true
-    typesTitle: SubResource[]
   - name: properties.outboundNatRule
     isReadyOnly: true
     description: Gets outbound rules that use this backend address pool.
     types:
-    - uid: SecurityRule
-    - uid: Subnet
-    - uid: Route
-    - uid: IPConfiguration
-    - uid: ResourceNavigationLink
-    - uid: NetworkInterfaceIPConfiguration
-    - uid: ApplicationGatewayBackendAddressPool
-    - uid: BackendAddressPool
-    - uid: InboundNatRule
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.provisioningState
     description: "Get provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
@@ -798,16 +739,7 @@ definitions:
   - name: properties.frontendIPConfiguration
     description: A reference to frontend IP addresses.
     types:
-    - uid: SecurityRule
-    - uid: Subnet
-    - uid: Route
-    - uid: IPConfiguration
-    - uid: ResourceNavigationLink
-    - uid: NetworkInterfaceIPConfiguration
-    - uid: ApplicationGatewayBackendAddressPool
-    - uid: BackendAddressPool
-    - uid: InboundNatRule
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.backendIPConfiguration
     isReadyOnly: true
     description: A reference to a private IP address defined on a network interface of a VM. Traffic sent to the frontend port of each of the frontend IP configurations is forwarded to the backend IP.
@@ -942,23 +874,36 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: RouteNextHopType
-  description: "The type of Azure hop the packet should be sent to. Possible values are: 'VirtualNetworkGateway', 'VnetLocal', 'Internet', 'VirtualAppliance', and 'None'"
-  kind: enum
+- name: Route
+  description: Route resource
+  kind: object
   properties:
-  - name: VirtualNetworkGateway
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
     types:
     - uid: string
-  - name: VnetLocal
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-  - name: Internet
+  - name: properties.addressPrefix
+    description: The destination CIDR to which the route applies.
     types:
     - uid: string
-  - name: VirtualAppliance
+  - name: properties.nextHopType
+    description: "The type of Azure hop the packet should be sent to. Possible values are: 'VirtualNetworkGateway', 'VnetLocal', 'Internet', 'VirtualAppliance', and 'None'"
+    types:
+    - uid: RouteNextHopType
+  - name: properties.nextHopIpAddress
+    description: The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance.
     types:
     - uid: string
-  - name: None
+  - name: properties.provisioningState
+    description: "The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
     types:
     - uid: string
 - name: ApplicationGatewayBackendAddress
@@ -1020,6 +965,25 @@ definitions:
     - uid: string
   - name: tag
     description: Gets or sets value of the IpTag associated with the public IP. Example SQL, Storage etc
+    types:
+    - uid: string
+- name: RouteNextHopType
+  description: "The type of Azure hop the packet should be sent to. Possible values are: 'VirtualNetworkGateway', 'VnetLocal', 'Internet', 'VirtualAppliance', and 'None'"
+  kind: enum
+  properties:
+  - name: VirtualNetworkGateway
+    types:
+    - uid: string
+  - name: VnetLocal
+    types:
+    - uid: string
+  - name: Internet
+    types:
+    - uid: string
+  - name: VirtualAppliance
+    types:
+    - uid: string
+  - name: None
     types:
     - uid: string
 - name: PublicIPAddressSkuName

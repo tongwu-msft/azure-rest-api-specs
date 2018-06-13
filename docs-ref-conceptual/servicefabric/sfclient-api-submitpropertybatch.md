@@ -1,6 +1,6 @@
 ---
 title: "Submit Property Batch"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -41,25 +41,25 @@ Submits a batch of property operations. Either all or none of the operations wil
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [nameId](#nameid) | string | Yes | Path |
-| [api-version](#api-version) | string | Yes | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
-| [PropertyBatchDescriptionList](#propertybatchdescriptionlist) | [PropertyBatchDescriptionList](sfclient-model-propertybatchdescriptionlist.md) | Yes | Body |
+| [`nameId`](#nameid) | string | Yes | Path |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
+| [`PropertyBatchDescriptionList`](#propertybatchdescriptionlist) | [PropertyBatchDescriptionList](sfclient-model-propertybatchdescriptionlist.md) | Yes | Body |
 
 ____
-### nameId
+### `nameId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The Service Fabric name, without the 'fabric:' URI scheme.
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0 <br/>
+__Default__: `6.0` <br/>
 <br/>
-The version of this API. This is a required parameter and its value must be "6.0".
+The version of the API. This parameter is required and its value must be '6.0'.
 
 Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
 
@@ -67,17 +67,17 @@ Additionally the runtime accept any version that is higher than the latest suppo
 
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
-### PropertyBatchDescriptionList
+### `PropertyBatchDescriptionList`
 __Type__: [PropertyBatchDescriptionList](sfclient-model-propertybatchdescriptionlist.md) <br/>
 __Required__: Yes<br/>
 <br/>
@@ -93,9 +93,11 @@ Describes the property batch operations to be submitted.
 
 ## Examples
 
-### Successful property batch
+### Property batch operation
 
-This example shows how to submit a property batch. This batch ensures that a property exists, checks that the property has the expected sequence number, and edits the property only if the previous conditions succeed. It then performs a get operation to get the property's current info. All the operations succeed, so the batch is committed in a transactional manner.
+This example shows how to submit a property batch. This batch ensures that a property exists, checks that the property has the expected sequence number, and edits the property only if the previous conditions succeed. It then performs a get operation to get the property's current info. 
+ If all of the operations succeed, the batch is committed in a transactional manner and a success response is returned with 200 status code. 
+ If the batch fails then a failed response is returned with 409 status code. The failed response below shows batch failure because the property does not have expected sequence number.
 
 #### Request
 ```
@@ -162,48 +164,7 @@ POST http://localhost:19080/Names/samples/apps/$/GetProperties/$/SubmitBatch?api
 ```
 
 
-### Failed property batch
-
-This example shows how to submit a property batch. This batch ensures that a property exists, checks that the property has the expected value, and deletes the property only if the previous conditions succeed. The batch fails because the property does not have the expected value, so the batch is not committed in a transactional manner.
-
-#### Request
-```
-POST http://localhost:19080/Names/samples/apps/$/GetProperties/$/SubmitBatch?api-version=6.0
-```
-
-##### Body
-```json
-{
-  "Operations": [
-    {
-      "Kind": "CheckExists",
-      "PropertyName": "PersistentQueueAppData",
-      "Exits": true
-    },
-    {
-      "Kind": "CheckValue",
-      "PropertyName": "PersistentQueueAppData",
-      "Value": {
-        "Kind": "Binary",
-        "Data": [
-          "10",
-          "11",
-          "12",
-          "13",
-          "14",
-          "15"
-        ]
-      }
-    },
-    {
-      "Kind": "Delete",
-      "PropertyName": "PersistentQueueAppData"
-    }
-  ]
-}
-```
-
-#### 200 Response
+#### 409 Response
 ##### Body
 ```json
 {

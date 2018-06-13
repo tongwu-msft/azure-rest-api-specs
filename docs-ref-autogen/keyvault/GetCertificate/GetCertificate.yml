@@ -47,33 +47,10 @@ responses:
   - uid: KeyVaultError
 requestHeader: []
 definitions:
-- name: KeyVaultError
-  description: The key vault error exception.
+- name: CertificateBundle
+  description: A certificate bundle consists of a certificate (X509) plus its attributes.
   kind: object
   properties:
-  - name: error
-    isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
-- name: DeletedCertificateBundle
-  description: A Deleted Certificate consisting of its previous id, attributes and its tags, as well as information on when it will be purged.
-  kind: object
-  properties:
-  - name: recoveryId
-    description: The url of the recovery object, used to identify and recover the deleted certificate.
-    types:
-    - uid: string
-  - name: scheduledPurgeDate
-    isReadyOnly: true
-    description: The time when the certificate is scheduled to be purged, in UTC
-    types:
-    - uid: integer
-  - name: deletedDate
-    isReadyOnly: true
-    description: The time when the certificate was deleted, in UTC
-    types:
-    - uid: integer
   - name: id
     isReadyOnly: true
     description: The certificate id.
@@ -119,21 +96,11 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: Error
-  description: The key vault server error.
+- name: KeyVaultError
+  description: The key vault error exception.
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-  - name: innererror
+  - name: error
     isReadyOnly: true
     description: The key vault server error.
     types:
@@ -203,6 +170,25 @@ definitions:
     description: Last updated time in UTC.
     types:
     - uid: integer
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
 - name: KeyProperties
   description: Properties of the key pair backing a certificate.
   kind: object
@@ -216,7 +202,7 @@ definitions:
     types:
     - uid: string
   - name: key_size
-    description: The key size in bytes. For example;  1024 or 2048.
+    description: 'The key size in bits. For example: 2048, 3072, or 4096 for RSA.'
     types:
     - uid: integer
   - name: reuse_key
@@ -286,15 +272,19 @@ definitions:
   kind: enum
   properties:
   - name: Purgeable
+    description: Soft-delete is not enabled for this vault. A DELETE operation results in immediate and irreversible data loss.
     types:
     - uid: string
   - name: Recoverable+Purgeable
+    description: Soft-delete is enabled for this vault; A priveleged user may trigger an immediate, irreversible deletion(purge) of a deleted entity.
     types:
     - uid: string
   - name: Recoverable
+    description: Soft-delete is enabled for this vault and purge has been disabled. A deleted entity will remain in this state until recovered, or the end of the retention interval.
     types:
     - uid: string
   - name: Recoverable+ProtectedSubscription
+    description: Soft-delete is enabled for this vault, and the subscription is protected against immediate deletion.
     types:
     - uid: string
 - name: SubjectAlternativeNames

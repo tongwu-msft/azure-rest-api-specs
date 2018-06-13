@@ -1,0 +1,94 @@
+### YamlMime:RESTOperation
+uid: face.v1.0.cognitiveservices.persongroup.update
+name: Update
+service: Cognitive Services
+groupName: Person Group
+apiVersion: "1.0"
+summary: Update an existing person group's display name and userData. The properties which does not appear in request body will not be updated.
+consumes:
+- application/json
+paths:
+- content: PATCH https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/persongroups/{personGroupId}
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: personGroupId
+  in: path
+  isRequired: true
+  description: Id referencing a particular person group.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9-_]+$
+responses:
+- name: 200 OK
+  description: A successful call returns an empty response body.
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    description: User defined name, maximum length is 128.
+    types:
+    - uid: string
+  - name: userData
+    in: body
+    description: User specified data. Length should not exceed 16KB.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: NameAndUserDataContract
+  description: A combination of user defined name and user specified data for the person, personGroup, and faceList
+  kind: object
+  properties:
+  - name: name
+    description: User defined name, maximum length is 128.
+    types:
+    - uid: string
+  - name: userData
+    description: User specified data. Length should not exceed 16KB.
+    types:
+    - uid: string
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Update person group example
+  request:
+    uri: PATCH https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups/abc
+    body: >-
+      {
+        "name": "group1",
+        "userData": "user-provided data attached to the person group"
+      }
+  responses:
+  - statusCode: "200"
+    body: "\"\""
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

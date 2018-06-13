@@ -1,0 +1,299 @@
+### YamlMime:RESTOperation
+uid: media.streaminglocators.create
+name: Create
+service: Media Services
+groupName: Streaming Locators
+apiVersion: 2018-03-30-preview
+summary: "Create a Streaming Locator  \nCreate a Streaming Locator in the Media Services account"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https:///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingLocators/{streamingLocatorName}?api-version=2018-03-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Media Services account name.
+  types:
+  - uid: string
+- name: streamingLocatorName
+  in: path
+  isRequired: true
+  description: The Streaming Locator name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Created
+  types:
+  - uid: StreamingLocator
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ApiError
+requestBody:
+- parameters:
+  - name: properties.assetName
+    in: body
+    isRequired: true
+    description: Asset Name
+    types:
+    - uid: string
+  - name: properties.startTime
+    in: body
+    description: StartTime of Streaming Locator
+    types:
+    - uid: string
+  - name: properties.endTime
+    in: body
+    description: EndTime of Streaming Locator
+    types:
+    - uid: string
+  - name: properties.streamingLocatorId
+    in: body
+    description: StreamingLocatorId of Streaming Locator
+    types:
+    - uid: string
+  - name: properties.streamingPolicyName
+    in: body
+    isRequired: true
+    description: "Streaming policy name used by this streaming locator. Either specify the name of streaming policy you created or use one of the predefined streaming polices. The predefined streaming policies available are: 'Predefined_DownloadOnly', 'Predefined_ClearStreamingOnly', 'Predefined_DownloadAndClearStreaming', 'Predefined_ClearKey', 'Predefined_SecureStreaming' and 'Predefined_SecureStreamingWithFairPlay'"
+    types:
+    - uid: string
+  - name: properties.defaultContentKeyPolicyName
+    in: body
+    description: Default ContentKeyPolicy used by this Streaming Locator
+    types:
+    - uid: string
+  - name: properties.contentKeys
+    in: body
+    description: ContentKeys used by this Streaming Locator
+    types:
+    - uid: StreamingLocatorUserDefinedContentKey
+      isArray: true
+requestHeader: []
+definitions:
+- name: StreamingLocatorUserDefinedContentKey
+  description: Describes the properties of a user-defined content key in the Streaming Locator
+  kind: object
+  properties:
+  - name: id
+    description: ID of Content Key
+    types:
+    - uid: string
+  - name: label
+    description: The Content Key description
+    types:
+    - uid: string
+  - name: value
+    description: The Content Key secret
+    types:
+    - uid: string
+- name: StreamingLocator
+  description: A Streaming Locator resource
+  kind: object
+  properties:
+  - name: properties.assetName
+    description: Asset Name
+    types:
+    - uid: string
+  - name: properties.created
+    isReadyOnly: true
+    description: Creation time of Streaming Locator
+    types:
+    - uid: string
+  - name: properties.startTime
+    description: StartTime of Streaming Locator
+    types:
+    - uid: string
+  - name: properties.endTime
+    description: EndTime of Streaming Locator
+    types:
+    - uid: string
+  - name: properties.streamingLocatorId
+    description: StreamingLocatorId of Streaming Locator
+    types:
+    - uid: string
+  - name: properties.streamingPolicyName
+    description: "Streaming policy name used by this streaming locator. Either specify the name of streaming policy you created or use one of the predefined streaming polices. The predefined streaming policies available are: 'Predefined_DownloadOnly', 'Predefined_ClearStreamingOnly', 'Predefined_DownloadAndClearStreaming', 'Predefined_ClearKey', 'Predefined_SecureStreaming' and 'Predefined_SecureStreamingWithFairPlay'"
+    types:
+    - uid: string
+  - name: properties.defaultContentKeyPolicyName
+    description: Default ContentKeyPolicy used by this Streaming Locator
+    types:
+    - uid: string
+  - name: properties.contentKeys
+    description: ContentKeys used by this Streaming Locator
+    types:
+    - uid: StreamingLocatorUserDefinedContentKey
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ApiError
+  description: The API error.
+  kind: object
+  properties:
+  - name: error
+    description: The error properties.
+    types:
+    - uid: ODataError
+- name: ODataError
+  description: Information about an error.
+  kind: object
+  properties:
+  - name: code
+    description: A language-independent error name.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: The error details.
+    types:
+    - uid: ODataError
+      isArray: true
+examples:
+- name: Creates a Streaming Locator with clear streaming
+  request:
+    uri: PUT https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingLocators/UserCreatedClearStreamingLocator?api-version=2018-03-30-preview
+    body: >-
+      {
+        "properties": {
+          "StreamingPolicyName": "clearStreamingPolicy",
+          "AssetName": "ClimbingMountRainier"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "UserCreatedClearStreamingLocator",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomedia/streamingLocators/UserCreatedClearStreamingLocator",
+        "type": "Microsoft.Media/mediaservices/streamingLocators",
+        "properties": {
+          "assetName": "ClimbingMountRainier",
+          "created": "2018-03-07T18:49:22.3643095Z",
+          "startTime": null,
+          "endTime": "9999-12-31T23:59:59.9999999Z",
+          "streamingLocatorId": "fb694b0b-8ce5-45ef-a384-85766e03ef5c",
+          "streamingPolicyName": "clearStreamingPolicy",
+          "defaultContentKeyPolicyName": null,
+          "contentKeys": []
+        }
+      }
+- name: Creates a Streaming Locator with secure streaming
+  request:
+    uri: PUT https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingLocators/UserCreatedSecureStreamingLocator?api-version=2018-03-30-preview
+    body: >-
+      {
+        "properties": {
+          "StreamingPolicyName": "secureStreamingPolicy",
+          "AssetName": "ClimbingMountRainier",
+          "StartTime": "2018-03-01T00:00:00Z",
+          "EndTime": "2028-12-31T23:59:59.9999999Z"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "UserCreatedSecureStreamingLocator",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomedia/streamingLocators/UserCreatedSecureStreamingLocator",
+        "type": "Microsoft.Media/mediaservices/streamingLocators",
+        "properties": {
+          "assetName": "ClimbingMountRainier",
+          "created": "2018-03-07T18:49:22.4378101Z",
+          "startTime": "2018-03-01T00:00:00Z",
+          "endTime": "2028-12-31T23:59:59.9999999Z",
+          "streamingLocatorId": "01fd96cf-95a8-4f71-a8e7-87d184d11902",
+          "streamingPolicyName": "secureStreamingPolicy",
+          "defaultContentKeyPolicyName": null,
+          "contentKeys": []
+        }
+      }
+- name: Creates a Streaming Locator with user defined content keys
+  request:
+    uri: PUT https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingLocators/UserCreatedSecureStreamingLocatorWithUserDefinedContentKeys?api-version=2018-03-30-preview
+    body: >-
+      {
+        "properties": {
+          "assetName": "ClimbingMountRainier",
+          "streamingPolicyName": "secureStreamingPolicy",
+          "StreamingLocatorId": "90000000-0000-0000-0000-00000000000A",
+          "ContentKeys": [
+            {
+              "Label": "aesDefaultKey",
+              "Id": "60000000-0000-0000-0000-000000000001",
+              "Value": "1UqLohAfWsEGkULYxHjYZg=="
+            },
+            {
+              "Label": "cencDefaultKey",
+              "Id": "60000000-0000-0000-0000-000000000004",
+              "Value": "4UqLohAfWsEGkULYxHjYZg=="
+            },
+            {
+              "Label": "cbcsDefaultKey",
+              "Id": "60000000-0000-0000-0000-000000000007",
+              "Value": "7UqLohAfWsEGkULYxHjYZg=="
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "UserCreatedSecureStreamingLocatorWithUserDefinedContentKeys",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomedia/streamingLocators/UserCreatedSecureStreamingLocatorWithUserDefinedContentKeys",
+        "type": "Microsoft.Media/mediaservices/streamingLocators",
+        "properties": {
+          "assetName": "ClimbingMountRainier",
+          "created": "2018-03-07T18:49:22.5133542Z",
+          "startTime": null,
+          "endTime": "9999-12-31T23:59:59.9999999Z",
+          "streamingLocatorId": "90000000-0000-0000-0000-00000000000a",
+          "streamingPolicyName": "secureStreamingPolicy",
+          "defaultContentKeyPolicyName": null,
+          "contentKeys": []
+        }
+      }
+security: []

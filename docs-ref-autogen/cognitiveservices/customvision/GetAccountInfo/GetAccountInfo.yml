@@ -1,0 +1,195 @@
+### YamlMime:RESTOperation
+uid: southcentralus.api.cognitive.microsoft.com.customvision.v1.2.training.cognitiveservices.getaccountinfo.getaccountinfo
+name: Get Account Info
+service: Cognitive Services
+groupName: Get Account Info
+apiVersion: "1.2"
+summary: Get basic information about your account
+consumes: []
+produces:
+- application/json
+- text/json
+- application/xml
+- text/xml
+paths:
+- content: GET https://southcentralus.api.cognitive.microsoft.com/customvision/v1.2/Training/account
+uriParameters: []
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Account
+requestHeader:
+- name: Training-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: Account
+  description: Represents a user account
+  kind: object
+  properties:
+  - name: UserName
+    isReadyOnly: true
+    description: Gets the name of the account owner
+    types:
+    - uid: string
+  - name: Email
+    isReadyOnly: true
+    description: Gets the email associated with this account
+    types:
+    - uid: string
+  - name: Keys
+    isReadyOnly: true
+    description: Gets the api keys associated with this account
+    types:
+    - uid: ApiKeys
+  - name: Quotas
+    isReadyOnly: true
+    description: Gets the quotas associated with this account
+    types:
+    - uid: AccountQuota
+- name: ApiKeys
+  kind: object
+  properties:
+  - name: TrainingKeys
+    description: ''
+    types:
+    - uid: KeyPair
+  - name: PredictionKeys
+    description: ''
+    types:
+    - uid: KeyPair
+- name: AccountQuota
+  description: Represents a set of quotas assocated with an account
+  kind: object
+  properties:
+  - name: Tier
+    isReadyOnly: true
+    description: Gets the tier of user
+    types:
+    - uid: string
+  - name: Projects
+    isReadyOnly: true
+    description: Gets the project quota
+    types:
+    - uid: Quota
+  - name: Predictions
+    isReadyOnly: true
+    description: Gets the prediction quota
+    types:
+    - uid: Quota
+  - name: PerProject
+    isReadyOnly: true
+    description: Gets a list of quotas that apply per-project for each project
+    types:
+    - uid: PerProjectQuota
+      isArray: true
+- name: KeyPair
+  kind: object
+  properties:
+  - name: PrimaryKey
+    description: ''
+    types:
+    - uid: string
+  - name: SecondaryKey
+    description: ''
+    types:
+    - uid: string
+- name: Quota
+  description: Represents a quota
+  kind: object
+  properties:
+  - name: Total
+    isReadyOnly: true
+    description: The total allowable amount in the quota
+    types:
+    - uid: integer
+  - name: Used
+    isReadyOnly: true
+    description: The amount of quota that has currently been used
+    types:
+    - uid: integer
+  - name: TimeUntilReset
+    isReadyOnly: true
+    description: Gets the time remaining until the quota resets. Null if this quota does not reset.
+    types:
+    - uid: string
+- name: PerProjectQuota
+  description: Represents a set of quotas for a given project
+  kind: object
+  properties:
+  - name: ProjectId
+    isReadyOnly: true
+    description: Gets the project id of the project this quota applies to
+    types:
+    - uid: string
+  - name: Iterations
+    isReadyOnly: true
+    description: Gets the iteration quota for the project
+    types:
+    - uid: Quota
+  - name: Images
+    isReadyOnly: true
+    description: Gets the image quota for the project
+    types:
+    - uid: Quota
+  - name: Tags
+    isReadyOnly: true
+    description: Gets the tag quota for the project
+    types:
+    - uid: Quota
+examples:
+- name: Successful GetAccountInfo request
+  request:
+    uri: GET https://southcentralus.api.cognitive.microsoft.com/customvision/v1.2/Training/account
+    headers:
+    - name: Training-Key
+      value: '{API Key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "UserName": "User Name",
+        "Email": "User@email.com",
+        "Keys": {
+          "TrainingKeys": {
+            "PrimaryKey": "{API Key}",
+            "SecondaryKey": "{API Key}"
+          },
+          "PredictionKeys": {
+            "PrimaryKey": "{API Key}",
+            "SecondaryKey": "{API Key}"
+          }
+        },
+        "Quotas": {
+          "Tier": "Free",
+          "Projects": {
+            "Total": 20,
+            "Used": 9
+          },
+          "Predictions": {
+            "Total": 1000,
+            "Used": 0
+          },
+          "PerProject": [
+            {
+              "ProjectId": "bc3f7dad-5544-468c-8573-3ef04d55463e",
+              "Iterations": {
+                "Total": 20,
+                "Used": 0
+              },
+              "Images": {
+                "Total": 1000,
+                "Used": 0
+              },
+              "Tags": {
+                "Total": 50,
+                "Used": 2
+              }
+            }
+          ]
+        }
+      }
+security: []

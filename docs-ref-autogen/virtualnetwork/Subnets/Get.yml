@@ -1,5 +1,5 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.virtualnetworks.subnets.get
+uid: management.azure.com.virtualnetwork.subnets.get
 name: Get
 service: Virtual Networks
 groupName: Subnets
@@ -403,17 +403,7 @@ definitions:
   - name: properties.virtualMachine
     description: The reference of a virtual machine.
     types:
-    - uid: ResourceNavigationLink
-    - uid: SecurityRule
-    - uid: NetworkInterfaceIPConfiguration
-    - uid: ApplicationGatewayBackendAddressPool
-    - uid: BackendAddressPool
-    - uid: InboundNatRule
-    - uid: Subnet
-    - uid: Route
-    - uid: IPConfiguration
-    - uid: VirtualNetworkPeering
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.networkSecurityGroup
     description: The reference of the NetworkSecurityGroup resource.
     types:
@@ -678,6 +668,14 @@ definitions:
   - name: Outbound
     types:
     - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: NetworkInterfaceIPConfiguration
   description: IPConfiguration in a network interface.
   kind: object
@@ -889,42 +887,13 @@ definitions:
     isReadyOnly: true
     description: Gets load balancing rules that use this backend address pool.
     types:
-    - uid: ResourceNavigationLink
+    - uid: SubResource
       isArray: true
-    - uid: SecurityRule
-      isArray: true
-    - uid: NetworkInterfaceIPConfiguration
-      isArray: true
-    - uid: ApplicationGatewayBackendAddressPool
-      isArray: true
-    - uid: BackendAddressPool
-      isArray: true
-    - uid: InboundNatRule
-      isArray: true
-    - uid: Subnet
-      isArray: true
-    - uid: Route
-      isArray: true
-    - uid: IPConfiguration
-      isArray: true
-    - uid: VirtualNetworkPeering
-      isArray: true
-    typesTitle: SubResource[]
   - name: properties.outboundNatRule
     isReadyOnly: true
     description: Gets outbound rules that use this backend address pool.
     types:
-    - uid: ResourceNavigationLink
-    - uid: SecurityRule
-    - uid: NetworkInterfaceIPConfiguration
-    - uid: ApplicationGatewayBackendAddressPool
-    - uid: BackendAddressPool
-    - uid: InboundNatRule
-    - uid: Subnet
-    - uid: Route
-    - uid: IPConfiguration
-    - uid: VirtualNetworkPeering
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.provisioningState
     description: "Get provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
@@ -948,17 +917,7 @@ definitions:
   - name: properties.frontendIPConfiguration
     description: A reference to frontend IP addresses.
     types:
-    - uid: ResourceNavigationLink
-    - uid: SecurityRule
-    - uid: NetworkInterfaceIPConfiguration
-    - uid: ApplicationGatewayBackendAddressPool
-    - uid: BackendAddressPool
-    - uid: InboundNatRule
-    - uid: Subnet
-    - uid: Route
-    - uid: IPConfiguration
-    - uid: VirtualNetworkPeering
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.backendIPConfiguration
     isReadyOnly: true
     description: A reference to a private IP address defined on a network interface of a VM. Traffic sent to the frontend port of each of the frontend IP configurations is forwarded to the backend IP.
@@ -986,64 +945,6 @@ definitions:
     - uid: boolean
   - name: properties.provisioningState
     description: "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
-    types:
-    - uid: string
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-- name: VirtualNetworkPeering
-  description: Peerings in a virtual network resource.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.allowVirtualNetworkAccess
-    description: Whether the VMs in the linked virtual network space would be able to access all the VMs in local Virtual network space.
-    types:
-    - uid: boolean
-  - name: properties.allowForwardedTraffic
-    description: Whether the forwarded traffic from the VMs in the remote virtual network will be allowed/disallowed.
-    types:
-    - uid: boolean
-  - name: properties.allowGatewayTransit
-    description: If gateway links can be used in remote virtual networking to link to this virtual network.
-    types:
-    - uid: boolean
-  - name: properties.useRemoteGateways
-    description: If remote gateways can be used on this virtual network. If the flag is set to true, and allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a gateway.
-    types:
-    - uid: boolean
-  - name: properties.remoteVirtualNetwork
-    description: The reference of the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
-    types:
-    - uid: ResourceNavigationLink
-    - uid: SecurityRule
-    - uid: NetworkInterfaceIPConfiguration
-    - uid: ApplicationGatewayBackendAddressPool
-    - uid: BackendAddressPool
-    - uid: InboundNatRule
-    - uid: Subnet
-    - uid: Route
-    - uid: IPConfiguration
-    - uid: VirtualNetworkPeering
-    typesTitle: SubResource
-  - name: properties.remoteAddressSpace
-    description: The reference of the remote virtual network address space.
-    types:
-    - uid: AddressSpace
-  - name: properties.peeringState
-    description: The status of the virtual network peering. Possible values are 'Initiated', 'Connected', and 'Disconnected'.
-    types:
-    - uid: VirtualNetworkPeeringState
-  - name: properties.provisioningState
-    description: The provisioning state of the resource.
     types:
     - uid: string
   - name: id
@@ -1083,28 +984,6 @@ definitions:
     types:
     - uid: string
   - name: All
-    types:
-    - uid: string
-- name: AddressSpace
-  description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
-  kind: object
-  properties:
-  - name: addressPrefixes
-    description: A list of address blocks reserved for this virtual network in CIDR notation.
-    types:
-    - uid: string
-      isArray: true
-- name: VirtualNetworkPeeringState
-  description: The status of the virtual network peering. Possible values are 'Initiated', 'Connected', and 'Disconnected'.
-  kind: enum
-  properties:
-  - name: Initiated
-    types:
-    - uid: string
-  - name: Connected
-    types:
-    - uid: string
-  - name: Disconnected
     types:
     - uid: string
 examples:

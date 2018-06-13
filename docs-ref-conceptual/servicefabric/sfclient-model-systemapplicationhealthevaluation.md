@@ -1,6 +1,6 @@
 ---
 title: "SystemApplicationHealthEvaluation"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Represents health evaluation for the fabric:/System application, containing info
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |
-| [Description](#description) | string | No |
-| [UnhealthyEvaluations](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
+| [`Kind`](#kind) | string | Yes |
+| [`AggregatedHealthState`](#aggregatedhealthstate) | string (enum) | No |
+| [`Description`](#description) | string | No |
+| [`UnhealthyEvaluations`](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
 
 ____
 ### Kind
@@ -47,7 +47,7 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'SystemApplication' for objects of type 'SystemApplicationHealthEvaluation'.
 
 ____
-### AggregatedHealthState
+### `AggregatedHealthState`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -57,23 +57,23 @@ The health state of a Service Fabric entity such as Cluster, Node, Application, 
 
 Possible values are: 
 
-  - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Ok - Indicates the health state is okay. The value is 1.
-  - Warning - Indicates the health state is at a warning level. The value is 2.
-  - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
-  - Unknown - Indicates an unknown health status. The value is 65535.
+  - `Invalid` - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Ok` - Indicates the health state is okay. The value is 1.
+  - `Warning` - Indicates the health state is at a warning level. The value is 2.
+  - `Error` - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+  - `Unknown` - Indicates an unknown health status. The value is 65535.
 
 
 
 ____
-### Description
+### `Description`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Description of the health evaluation, which represents a summary of the evaluation process.
 
 ____
-### UnhealthyEvaluations
+### `UnhealthyEvaluations`
 __Type__: array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) <br/>
 __Required__: No<br/>
 <br/>

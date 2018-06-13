@@ -1,6 +1,6 @@
 ---
 title: "RepairTaskHistory"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,90 +37,90 @@ This type supports the Service Fabric platform; it is not meant to be used direc
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [CreatedUtcTimestamp](#createdutctimestamp) | string (date-time) | No |
-| [ClaimedUtcTimestamp](#claimedutctimestamp) | string (date-time) | No |
-| [PreparingUtcTimestamp](#preparingutctimestamp) | string (date-time) | No |
-| [ApprovedUtcTimestamp](#approvedutctimestamp) | string (date-time) | No |
-| [ExecutingUtcTimestamp](#executingutctimestamp) | string (date-time) | No |
-| [RestoringUtcTimestamp](#restoringutctimestamp) | string (date-time) | No |
-| [CompletedUtcTimestamp](#completedutctimestamp) | string (date-time) | No |
-| [PreparingHealthCheckStartUtcTimestamp](#preparinghealthcheckstartutctimestamp) | string (date-time) | No |
-| [PreparingHealthCheckEndUtcTimestamp](#preparinghealthcheckendutctimestamp) | string (date-time) | No |
-| [RestoringHealthCheckStartUtcTimestamp](#restoringhealthcheckstartutctimestamp) | string (date-time) | No |
-| [RestoringHealthCheckEndUtcTimestamp](#restoringhealthcheckendutctimestamp) | string (date-time) | No |
+| [`CreatedUtcTimestamp`](#createdutctimestamp) | string (date-time) | No |
+| [`ClaimedUtcTimestamp`](#claimedutctimestamp) | string (date-time) | No |
+| [`PreparingUtcTimestamp`](#preparingutctimestamp) | string (date-time) | No |
+| [`ApprovedUtcTimestamp`](#approvedutctimestamp) | string (date-time) | No |
+| [`ExecutingUtcTimestamp`](#executingutctimestamp) | string (date-time) | No |
+| [`RestoringUtcTimestamp`](#restoringutctimestamp) | string (date-time) | No |
+| [`CompletedUtcTimestamp`](#completedutctimestamp) | string (date-time) | No |
+| [`PreparingHealthCheckStartUtcTimestamp`](#preparinghealthcheckstartutctimestamp) | string (date-time) | No |
+| [`PreparingHealthCheckEndUtcTimestamp`](#preparinghealthcheckendutctimestamp) | string (date-time) | No |
+| [`RestoringHealthCheckStartUtcTimestamp`](#restoringhealthcheckstartutctimestamp) | string (date-time) | No |
+| [`RestoringHealthCheckEndUtcTimestamp`](#restoringhealthcheckendutctimestamp) | string (date-time) | No |
 
 ____
-### CreatedUtcTimestamp
+### `CreatedUtcTimestamp`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The time when the repair task entered the Created state.
 
 ____
-### ClaimedUtcTimestamp
+### `ClaimedUtcTimestamp`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The time when the repair task entered the Claimed state.
 
 ____
-### PreparingUtcTimestamp
+### `PreparingUtcTimestamp`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The time when the repair task entered the Preparing state.
 
 ____
-### ApprovedUtcTimestamp
+### `ApprovedUtcTimestamp`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The time when the repair task entered the Approved state
 
 ____
-### ExecutingUtcTimestamp
+### `ExecutingUtcTimestamp`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The time when the repair task entered the Executing state
 
 ____
-### RestoringUtcTimestamp
+### `RestoringUtcTimestamp`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The time when the repair task entered the Restoring state
 
 ____
-### CompletedUtcTimestamp
+### `CompletedUtcTimestamp`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The time when the repair task entered the Completed state
 
 ____
-### PreparingHealthCheckStartUtcTimestamp
+### `PreparingHealthCheckStartUtcTimestamp`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The time when the repair task started the health check in the Preparing state.
 
 ____
-### PreparingHealthCheckEndUtcTimestamp
+### `PreparingHealthCheckEndUtcTimestamp`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The time when the repair task completed the health check in the Preparing state.
 
 ____
-### RestoringHealthCheckStartUtcTimestamp
+### `RestoringHealthCheckStartUtcTimestamp`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The time when the repair task started the health check in the Restoring state.
 
 ____
-### RestoringHealthCheckEndUtcTimestamp
+### `RestoringHealthCheckEndUtcTimestamp`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>

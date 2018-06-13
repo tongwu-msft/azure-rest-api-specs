@@ -29,9 +29,9 @@ The Event Hubs REST API provides operations for working with the following resou
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
-| [Consumer Groups](xref:management.azure.com.eventhubs.consumergroups)          | Provides operations for working with Event Hubs consumer groups. |
-| [Event Hubs](xref:management.azure.com.eventhubs.eventhubs)  | Operations for managing Event Hubs. |
-| [Namespaces](xref:management.azure.com.eventhubs.namespaces)  | Operations for managing Event Hubs namespaces. |
+| [Consumer Groups](xref:management.azure.com.eventhub.consumergroups)          | Provides operations for working with Event Hubs consumer groups. |
+| [Event Hubs](xref:management.azure.com.eventhub.eventhubs)  | Operations for managing Event Hubs. |
+| [Namespaces](xref:management.azure.com.eventhub.namespaces)  | Operations for managing Event Hubs namespaces. |
 
 ### Event Hubs service
 
