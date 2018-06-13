@@ -1,5 +1,5 @@
 ---
-title: "Authenticate with Shared Key"
+title: "Authorize with Shared Key"
 ms.custom: na
 ms.date: 05/21/2018
 ms.prod: azure
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Authenticate with Shared Key
+# Authorize with Shared Key
 
  Every request made against a storage service must be authorized, unless the request is for a blob or container resource that has been made available for public or signed access. One option for authorizing a request is by using Shared Key, described in this article.
 

@@ -1,6 +1,6 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.sql.backupshorttermretentionpolicies.get
-name: Get
+uid: management.azure.com.sql.backupshorttermretentionpolicies.listbydatabase
+name: List By Database
 service: SQL Database
 groupName: Backup Short Term Retention Policies
 apiVersion: 2017-10-01-preview
@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/default?api-version=2017-10-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies?api-version=2017-10-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,12 +36,6 @@ uriParameters:
   description: The name of the database.
   types:
   - uid: string
-- name: policyName
-  in: path
-  isRequired: true
-  description: The policy name. Should always be "default".
-  types:
-  - uid: ShortTermRetentionPolicyName
 - name: api-version
   in: query
   isRequired: true
@@ -52,7 +46,7 @@ responses:
 - name: 200 OK
   description: Successfully retrieved the policy.
   types:
-  - uid: BackupShortTermRetentionPolicy
+  - uid: BackupShortTermRetentionPolicyListResult
 - name: Other Status Codes
   description: >-
     *** Error Responses: ***
@@ -66,11 +60,19 @@ responses:
      * 404 ResourceNotFound - The requested resource was not found.
 requestHeader: []
 definitions:
-- name: ShortTermRetentionPolicyName
-  description: The policy name. Should always be "default".
-  kind: enum
+- name: BackupShortTermRetentionPolicyListResult
+  description: A list of short term retention policies.
+  kind: object
   properties:
-  - name: default
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: BackupShortTermRetentionPolicy
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
     types:
     - uid: string
 - name: BackupShortTermRetentionPolicy
@@ -99,16 +101,20 @@ definitions:
 examples:
 - name: Get the short term retention policy for the database.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/backupShortTermRetentionPolicies/default?api-version=2017-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/backupShortTermRetentionPolicies?api-version=2017-10-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/backupShortTermRetentionPolicies/default",
-        "name": "default",
-        "type": "Microsoft.Sql/locations/servers/databases/backupShortTermRetentionPolicies",
-        "properties": {
-          "retentionDays": 14
-        }
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/backupShortTermRetentionPolicies/default",
+            "name": "default",
+            "type": "Microsoft.Sql/locations/servers/databases/backupShortTermRetentionPolicies",
+            "properties": {
+              "retentionDays": 14
+            }
+          }
+        ]
       }
 security: []
