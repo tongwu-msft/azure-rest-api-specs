@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cognitiveservices.cognitiveservicesaccounts.listbyresourcegroup
+uid: management.azure.com.cognitiveservices.accounts.listbyresourcegroup
 name: List By Resource Group
 service: Cognitive Services
-groupName: Cognitive Services Accounts
-apiVersion: 2016-02-01-preview
+groupName: Accounts
+apiVersion: 2017-04-18
 summary: Returns all the resources of a particular type belonging to a resource group
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts?api-version=2016-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts?api-version=2017-04-18
 uriParameters:
 - name: subscriptionId
   in: path
@@ -29,7 +27,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. Current version is 2016-02-01-preview
+  description: Version of the API to be used with the client request. Current version is 2017-04-18
   types:
   - uid: string
 responses:
@@ -47,6 +45,10 @@ definitions:
   description: The list of cognitive services accounts operation response.
   kind: object
   properties:
+  - name: nextLink
+    description: The link used to get the next page of accounts.
+    types:
+    - uid: string
   - name: value
     isReadyOnly: true
     description: Gets the list of Cognitive Services accounts and their properties.
@@ -54,10 +56,11 @@ definitions:
     - uid: CognitiveServicesAccount
       isArray: true
 - name: Error
+  description: Cognitive Services error object.
   kind: object
   properties:
   - name: error
-    description: ''
+    description: The error body.
     types:
     - uid: ErrorBody
 - name: CognitiveServicesAccount
@@ -69,6 +72,7 @@ definitions:
     types:
     - uid: string
   - name: id
+    isReadyOnly: true
     description: The id of the created account
     types:
     - uid: string
@@ -81,11 +85,12 @@ definitions:
     types:
     - uid: string
   - name: name
+    isReadyOnly: true
     description: The name of the created account
     types:
     - uid: string
   - name: sku
-    description: The SKU of the cognitive services account.
+    description: The SKU of Cognitive Services account.
     types:
     - uid: Sku
   - name: tags
@@ -97,6 +102,7 @@ definitions:
       - uid: string
       - uid: string
   - name: type
+    isReadyOnly: true
     description: Resource type
     types:
     - uid: string
@@ -106,10 +112,15 @@ definitions:
     types:
     - uid: ProvisioningState
   - name: properties.endpoint
-    description: Endpoint of the created account
+    description: Endpoint of the created account.
+    types:
+    - uid: string
+  - name: properties.internalId
+    description: The internal identifier.
     types:
     - uid: string
 - name: ErrorBody
+  description: Cognitive Services error body.
   kind: object
   properties:
   - name: code
@@ -143,6 +154,12 @@ definitions:
   - name: ResolvingDNS
     types:
     - uid: string
+  - name: Moving
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
   - name: Succeeded
     types:
     - uid: string
@@ -150,7 +167,7 @@ definitions:
     types:
     - uid: string
 - name: SkuName
-  description: Gets or sets the sku name. Required for account creation, optional for update.
+  description: The name of SKU.
   kind: enum
   properties:
   - name: F0
@@ -199,5 +216,52 @@ definitions:
   - name: Premium
     types:
     - uid: string
-examples: []
+examples:
+- name: List Accounts by Resource Group
+  request:
+    uri: GET https://management.azure.com/subscriptions/f9b96b36-1f5e-4021-8959-51527e26e6d3/resourceGroups/felixwa-01/providers/Microsoft.CognitiveServices/accounts?api-version=2017-04-18
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/f9b96b36-1f5e-4021-8959-51527e26e6d3/resourceGroups/felixwa-01/providers/Microsoft.CognitiveServices/accounts/felixwatest1",
+            "name": "felixwatest1",
+            "type": "Microsoft.CognitiveServices/accounts",
+            "location": "westus",
+            "sku": {
+              "name": "F0"
+            },
+            "kind": "Emotion",
+            "tags": {
+              "Owner": "felixwa",
+              "ExpiredDate": "2017/09/01"
+            },
+            "etag": "W/\"datetime'2017-04-10T04%3A42%3A19.7067387Z'\"",
+            "properties": {
+              "endpoint": "https://westus.api.cognitive.microsoft.com/emotion/v1.0",
+              "provisioningState": "Succeeded",
+              "internalId": "a6bb5ff85a3b4c6eb8de8798567a78c6"
+            }
+          },
+          {
+            "id": "/subscriptions/f9b96b36-1f5e-4021-8959-51527e26e6d3/resourceGroups/felixwa-01/providers/Microsoft.CognitiveServices/accounts/TestPropertyWU2",
+            "name": "TestPropertyWU2",
+            "type": "Microsoft.CognitiveServices/accounts",
+            "location": "westus",
+            "sku": {
+              "name": "S0"
+            },
+            "kind": "Face",
+            "tags": {},
+            "etag": "W/\"datetime'2017-04-07T04%3A32%3A38.9187216Z'\"",
+            "properties": {
+              "endpoint": "https://westus.api.cognitive.microsoft.com/face/v1.0",
+              "provisioningState": "Succeeded",
+              "internalId": "0d40510f999141509dbfd9e1f9b259ca"
+            }
+          }
+        ]
+      }
 security: []
