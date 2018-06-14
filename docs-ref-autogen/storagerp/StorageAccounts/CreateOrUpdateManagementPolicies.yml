@@ -1,0 +1,204 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagerp.storageaccounts.createorupdatemanagementpolicies
+name: Create Or Update Management Policies
+service: Storage Resource Provider
+groupName: Storage Accounts
+apiVersion: 2018-03-01-preview
+summary: Sets the data policy rules associated with the specified storage account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/default?api-version=2018-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+  types:
+  - uid: string
+- name: managementPolicyName
+  in: path
+  isRequired: true
+  description: The name of the Storage Account Management Policy. It should always be 'default'
+  types:
+  - uid: ManagementPolicyName
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- Get management policies successfully.
+  types:
+  - uid: StorageAccountManagementPolicies
+requestBody:
+- parameters:
+  - name: properties.policy
+    in: body
+    description: 'The Storage Account ManagementPolicies Rules, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.'
+    types:
+    - uid: object
+requestHeader: []
+definitions:
+- name: ManagementPolicyName
+  description: The name of the Storage Account Management Policy. It should always be 'default'
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
+- name: StorageAccountManagementPolicies
+  description: The Get Storage Account ManagementPolicies operation response.
+  kind: object
+  properties:
+  - name: properties.lastModifiedTime
+    isReadyOnly: true
+    description: Returns the date and time the ManagementPolicies was last modified.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+  - name: properties.policy
+    description: 'The Storage Account ManagementPolicies Rules, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.'
+    types:
+    - uid: object
+- name: ManagementPoliciesRulesSetParameter
+  description: 'The Storage Account ManagementPolicies Rules, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.'
+  kind: object
+  properties:
+  - name: properties.policy
+    description: 'The Storage Account ManagementPolicies Rules, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.'
+    types:
+    - uid: object
+examples:
+- name: StorageAccountSetManagementPolicies
+  request:
+    uri: PUT https://management.azure.com/subscriptions/45b60d85-fd72-427a-a708-f994d26e593e/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/managementPolicies/default?api-version=2018-03-01-preview
+    body: >-
+      {
+        "properties": {
+          "policy": {
+            "version": "0.5",
+            "rules": [
+              {
+                "name": "olcmtest",
+                "type": "Lifecycle",
+                "definition": {
+                  "filters": {
+                    "blobTypes": [
+                      "blockBlob"
+                    ],
+                    "prefixMatch": [
+                      "olcmtestcontainer"
+                    ]
+                  },
+                  "actions": {
+                    "baseBlob": {
+                      "tierToCool": {
+                        "daysAfterModificationGreaterThan": 30
+                      },
+                      "tierToArchive": {
+                        "daysAfterModificationGreaterThan": 90
+                      },
+                      "delete": {
+                        "daysAfterModificationGreaterThan": 1000
+                      }
+                    },
+                    "snapshot": {
+                      "delete": {
+                        "daysAfterCreationGreaterThan": 30
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/45b60d85-fd72-427a-a708-f994d26e593e/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/managementPolicies/default",
+        "name": "DefaultManagementPolicy",
+        "type": "Microsoft.Storage/storageAccounts/managementPolicies",
+        "properties": {
+          "policy": {
+            "version": "0.5",
+            "rules": [
+              {
+                "name": "olcmtest",
+                "type": "Lifecycle",
+                "definition": {
+                  "filters": {
+                    "blobTypes": [
+                      "blockBlob"
+                    ],
+                    "prefixMatch": [
+                      "olcmtestcontainer"
+                    ]
+                  },
+                  "actions": {
+                    "baseBlob": {
+                      "tierToCool": {
+                        "daysAfterModificationGreaterThan": 30
+                      },
+                      "tierToArchive": {
+                        "daysAfterModificationGreaterThan": 90
+                      },
+                      "delete": {
+                        "daysAfterModificationGreaterThan": 1000
+                      }
+                    },
+                    "snapshot": {
+                      "delete": {
+                        "daysAfterCreationGreaterThan": 30
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "lastModifiedTime": "2018-06-08T02:53:39.0932539Z"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

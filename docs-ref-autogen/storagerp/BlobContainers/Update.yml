@@ -1,0 +1,357 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagerp.blobcontainers.update
+name: Update
+service: Storage Resource Provider
+groupName: Blob Containers
+apiVersion: 2018-03-01-preview
+summary: "Updates container properties as specified in request body. Properties not mentioned in the request will be unchanged. Update fails if the specified container doesn't already exist. "
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}?api-version=2018-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+  types:
+  - uid: string
+- name: containerName
+  in: path
+  isRequired: true
+  description: The name of the blob container within the specified storage account. Blob container names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or number.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- Update Container operation completed successfully.
+  types:
+  - uid: BlobContainer
+requestBody:
+- parameters:
+  - name: properties.publicAccess
+    in: body
+    description: Specifies whether data in the container may be accessed publicly and the level of access.
+    types:
+    - uid: PublicAccess
+  - name: properties.metadata
+    in: body
+    description: A name-value pair to associate with the container as metadata.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: ImmutabilityPolicyProperties
+  description: The properties of an ImmutabilityPolicy of a blob container.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: ImmutabilityPolicy Etag.
+    types:
+    - uid: string
+  - name: updateHistory
+    isReadyOnly: true
+    description: The ImmutabilityPolicy update history of the blob container.
+    types:
+    - uid: UpdateHistoryProperty
+      isArray: true
+  - name: properties.immutabilityPeriodSinceCreationInDays
+    description: The immutability period for the blobs in the container since the policy creation, in days.
+    types:
+    - uid: integer
+  - name: properties.state
+    isReadyOnly: true
+    description: 'The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.'
+    types:
+    - uid: ImmutabilityPolicyState
+- name: LegalHoldProperties
+  description: The LegalHold property of a blob container.
+  kind: object
+  properties:
+  - name: hasLegalHold
+    isReadyOnly: true
+    description: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a maximum of 1000 blob containers with hasLegalHold=true for a given account.
+    types:
+    - uid: boolean
+  - name: tags
+    description: The list of LegalHold tags of a blob container.
+    types:
+    - uid: TagProperty
+      isArray: true
+- name: BlobContainer
+  description: Properties of the blob container, including Id, resource name, resource type, Etag.
+  kind: object
+  properties:
+  - name: properties.publicAccess
+    description: Specifies whether data in the container may be accessed publicly and the level of access.
+    types:
+    - uid: PublicAccess
+  - name: properties.lastModifiedTime
+    isReadyOnly: true
+    description: Returns the date and time the container was last modified.
+    types:
+    - uid: string
+  - name: properties.leaseStatus
+    isReadyOnly: true
+    description: The lease status of the container.
+    types:
+    - uid: LeaseStatus
+  - name: properties.leaseState
+    isReadyOnly: true
+    description: Lease state of the container.
+    types:
+    - uid: LeaseState
+  - name: properties.leaseDuration
+    isReadyOnly: true
+    description: Specifies whether the lease on a container is of infinite or fixed duration, only when the container is leased.
+    types:
+    - uid: LeaseDuration
+  - name: properties.metadata
+    description: A name-value pair to associate with the container as metadata.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.immutabilityPolicy
+    isReadyOnly: true
+    description: The ImmutabilityPolicy property of the container.
+    types:
+    - uid: ImmutabilityPolicyProperties
+  - name: properties.legalHold
+    isReadyOnly: true
+    description: The LegalHold property of the container.
+    types:
+    - uid: LegalHoldProperties
+  - name: properties.hasLegalHold
+    isReadyOnly: true
+    description: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a maximum of 1000 blob containers with hasLegalHold=true for a given account.
+    types:
+    - uid: boolean
+  - name: properties.hasImmutabilityPolicy
+    isReadyOnly: true
+    description: The hasImmutabilityPolicy public property is set to true by SRP if ImmutabilityPolicy has been created for this container. The hasImmutabilityPolicy public property is set to false by SRP if ImmutabilityPolicy has not been created for this container.
+    types:
+    - uid: boolean
+  - name: etag
+    isReadyOnly: true
+    description: Resource Etag.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: UpdateHistoryProperty
+  description: An update history of the ImmutabilityPolicy of a blob container.
+  kind: object
+  properties:
+  - name: update
+    isReadyOnly: true
+    description: 'The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.'
+    types:
+    - uid: ImmutabilityPolicyUpdateType
+  - name: immutabilityPeriodSinceCreationInDays
+    isReadyOnly: true
+    description: The immutability period for the blobs in the container since the policy creation, in days.
+    types:
+    - uid: integer
+  - name: timestamp
+    isReadyOnly: true
+    description: Returns the date and time the ImmutabilityPolicy was updated.
+    types:
+    - uid: string
+  - name: objectIdentifier
+    isReadyOnly: true
+    description: Returns the Object ID of the user who updated the ImmutabilityPolicy.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: Returns the Tenant ID that issued the token for the user who updated the ImmutabilityPolicy.
+    types:
+    - uid: string
+  - name: upn
+    isReadyOnly: true
+    description: Returns the User Principal Name of the user who updated the ImmutabilityPolicy.
+    types:
+    - uid: string
+- name: ImmutabilityPolicyState
+  description: 'The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.'
+  kind: enum
+  properties:
+  - name: Locked
+    types:
+    - uid: string
+  - name: Unlocked
+    types:
+    - uid: string
+- name: TagProperty
+  description: A tag of the LegalHold of a blob container.
+  kind: object
+  properties:
+  - name: tag
+    isReadyOnly: true
+    description: The tag value.
+    types:
+    - uid: string
+  - name: timestamp
+    isReadyOnly: true
+    description: Returns the date and time the tag was added.
+    types:
+    - uid: string
+  - name: objectIdentifier
+    isReadyOnly: true
+    description: Returns the Object ID of the user who added the tag.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: Returns the Tenant ID that issued the token for the user who added the tag.
+    types:
+    - uid: string
+  - name: upn
+    isReadyOnly: true
+    description: Returns the User Principal Name of the user who added the tag.
+    types:
+    - uid: string
+- name: PublicAccess
+  description: Specifies whether data in the container may be accessed publicly and the level of access.
+  kind: enum
+  properties:
+  - name: Container
+    types:
+    - uid: string
+  - name: Blob
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: LeaseStatus
+  description: The lease status of the container.
+  kind: enum
+  properties:
+  - name: Locked
+    types:
+    - uid: string
+  - name: Unlocked
+    types:
+    - uid: string
+- name: LeaseState
+  description: Lease state of the container.
+  kind: enum
+  properties:
+  - name: Available
+    types:
+    - uid: string
+  - name: Leased
+    types:
+    - uid: string
+  - name: Expired
+    types:
+    - uid: string
+  - name: Breaking
+    types:
+    - uid: string
+  - name: Broken
+    types:
+    - uid: string
+- name: LeaseDuration
+  description: Specifies whether the lease on a container is of infinite or fixed duration, only when the container is leased.
+  kind: enum
+  properties:
+  - name: Infinite
+    types:
+    - uid: string
+  - name: Fixed
+    types:
+    - uid: string
+- name: ImmutabilityPolicyUpdateType
+  description: 'The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.'
+  kind: enum
+  properties:
+  - name: put
+    types:
+    - uid: string
+  - name: lock
+    types:
+    - uid: string
+  - name: extend
+    types:
+    - uid: string
+examples:
+- name: UpdateContainers
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/45b60d85-fd72-427a-a708-f994d26e593e/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/blobServices/default/containers/container6185?api-version=2018-03-01-preview
+    body: >-
+      {
+        "properties": {
+          "publicAccess": "Container",
+          "metadata": {
+            "metadata": "true"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/45b60d85-fd72-427a-a708-f994d26e593e/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/blobServices/default/containers/container6185",
+        "name": "container6185",
+        "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+        "properties": {
+          "metadata": {
+            "metadata": "true"
+          },
+          "publicAccess": "Container",
+          "hasImmutabilityPolicy": false,
+          "hasLegalHold": false
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
