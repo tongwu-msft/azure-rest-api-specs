@@ -64,13 +64,15 @@ Azure API Management provides a REST API for performing operations on selected e
 -   [Version Query Parameter](../ApiManagementREST/API-Management-REST.md#VersionQueryParameter)  
   
 ###  <a name="EnableRESTAPI"></a> Enable access to the REST API  
- Access to the API Management REST API must be granted before calls can be successfully made. To enable access, sign into the [Azure Classic Portal](https://manage.windowsazure.com/), navigate to your API Management service instance, and click **Manage** to open the publisher portal.  
-  
- ![API Management Console](../ApiManagementREST/media/APIManagementConsole.jpg "APIManagementConsole")  
-  
- Click **Security** in the **API Management** section of the left navigation menu, select the **API Management REST API** tab, and ensure that the **Enable API Management REST API** checkbox is checked.  
-  
- ![API Management System Settings](../ApiManagementREST/media/APIManagementSystemSettings.jpg "APIManagementSystemSettings")  
+ Access to the API Management REST API must be granted before calls can be successfully made.
+
+1. Sign into the [Azure Portal](https://portal.azure.com/) and navigate to your API Management service instance.
+
+2. Click on **Management API** from the menu.  
+    ![API Management Enable REST menu](../ApiManagementREST/media/apim-management-api-enable-menu.png)  
+
+3. Select the **Enable API Management REST API** checkbox.  
+     ![API Management Enable REST checkbox](../ApiManagementREST/media/apim-management-api-enable-checkbox.png)  
   
 > [!IMPORTANT]
 >  If the **Enable API Management REST API** checkbox is not checked, calls made to the REST API for that service instance will fail.  

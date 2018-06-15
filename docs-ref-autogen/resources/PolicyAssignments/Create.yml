@@ -3,21 +3,19 @@ uid: management.azure.com.resources.policyassignments.create
 name: Create
 service: Resource Management
 groupName: Policy Assignments
-apiVersion: 2017-06-01-preview
-summary: "Creates a policy assignment.  \nPolicy assignments are inherited by child resources. For example, when you apply a policy to a resource group that policy is assigned to all resources in the group."
+apiVersion: 2018-03-01
+summary: "Creates or updates a policy assignment.  \n This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group."
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}?api-version=2017-06-01-preview
+- content: PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}?api-version=2018-03-01
 uriParameters:
 - name: scope
   in: path
   isRequired: true
-  description: The scope of the policy assignment.
+  description: "The scope of the policy assignment. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'"
   types:
   - uid: string
 - name: policyAssignmentName
@@ -45,7 +43,7 @@ requestBody:
 - parameters:
   - name: sku
     in: body
-    description: The policy sku.
+    description: The policy sku. This property is optional, obsolete, and will be ignored.
     types:
     - uid: PolicySku
   - name: properties.displayName
@@ -55,7 +53,7 @@ requestBody:
     - uid: string
   - name: properties.policyDefinitionId
     in: body
-    description: The ID of the policy definition.
+    description: The ID of the policy definition or policy set definition being assigned.
     types:
     - uid: string
   - name: properties.scope
@@ -87,7 +85,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: PolicySku
-  description: The policy sku.
+  description: The policy sku. This property is optional, obsolete, and will be ignored.
   kind: object
   properties:
   - name: name
@@ -118,7 +116,7 @@ definitions:
     types:
     - uid: string
   - name: sku
-    description: The policy sku.
+    description: The policy sku. This property is optional, obsolete, and will be ignored.
     types:
     - uid: PolicySku
   - name: properties.displayName
@@ -126,7 +124,7 @@ definitions:
     types:
     - uid: string
   - name: properties.policyDefinitionId
-    description: The ID of the policy definition.
+    description: The ID of the policy definition or policy set definition being assigned.
     types:
     - uid: string
   - name: properties.scope
@@ -151,7 +149,7 @@ definitions:
     types:
     - uid: object
 - name: ErrorResponse
-  description: Error reponse indicates ARM is not able to process the incoming request. The reason is provided in the error message.
+  description: Error reponse indicates Azure Resource Manager is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
   - name: httpStatus
@@ -167,60 +165,53 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Put a policy assignment
+- name: Create or update a policy assignment
   request:
-    uri: PUT https://management.azure.com//subscriptions/subId/providers/Microsoft.Authorization/policyAssignments/costManagement?api-version=2017-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2018-03-01
     body: >-
       {
         "properties": {
-          "displayName": "Storage Cost Management",
-          "description": "Policies required to minimize the risk of accidental cost overruns",
+          "displayName": "Enforce resource naming rules",
+          "description": "Force resource names to begin with given DeptA and end with -LC",
           "metadata": {
-            "category": "Cost Management"
+            "assignedBy": "Special Someone"
           },
-          "policyDefinitionId": "/subscriptions/subId/providers/Microsoft.Authorization/policyDefinitions/storageSkus",
+          "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
           "parameters": {
-            "allowedSkus": {
-              "type": "Array"
+            "prefix": {
+              "value": "DeptA"
+            },
+            "suffix": {
+              "value": "-LC"
             }
-          },
-          "notScopes": [
-            "/subscriptions/subId/resourcegroups/testingResourceGroup"
-          ]
-        },
-        "sku": {
-          "name": "A0",
-          "tier": "Free"
+          }
         }
       }
   responses:
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/subId/providers/Microsoft.Authorization/policyAssignments/costManagement",
-        "type": "Microsoft.Authorization/policyAssignments",
-        "name": "costManagement",
         "properties": {
-          "displayName": "Storage Cost Management",
-          "description": "Policies required to minimize the risk of accidental cost overruns",
+          "displayName": "Enforce resource naming rules",
+          "description": "Force resource names to begin with given DeptA and end with -LC",
           "metadata": {
-            "category": "Cost Management"
+            "assignedBy": "Special Someone"
           },
-          "policyDefinitionId": "/subscriptions/subId/providers/Microsoft.Authorization/policyDefinitions/storageSkus",
+          "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+          "notScopes": [],
           "parameters": {
-            "allowedSkus": {
-              "type": "Array"
+            "prefix": {
+              "value": "DeptA"
+            },
+            "suffix": {
+              "value": "-LC"
             }
           },
-          "notScopes": [
-            "/subscriptions/subId/resourcegroups/testingResourceGroup"
-          ],
-          "scope": "/subscriptions/subId"
+          "scope": "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2"
         },
-        "sku": {
-          "name": "A0",
-          "tier": "Free"
-        }
+        "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming",
+        "type": "Microsoft.Authorization/policyAssignments",
+        "name": "EnforceNaming"
       }
 security:
 - type: oauth2
