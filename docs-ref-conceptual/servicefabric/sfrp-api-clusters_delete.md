@@ -1,6 +1,6 @@
 ---
 title: "Delete"
-ms.date: "2017-05-16"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -26,15 +26,14 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Delete
-Delete cluster resource
+Deletes a Service Fabric cluster resource.
 
-Delete cluster resource
-
+Delete a Service Fabric cluster resource with the specified name.
 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| DELETE | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}?api-version=2016-09-01` |
+| DELETE | `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}?api-version=2018-02-01` |
 
 
 ## Parameters
@@ -57,30 +56,30 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The name of the cluster resource
+The name of the cluster resource.
 
 ____
 ### subscriptionId
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The customer subscription identifier
+The customer subscription identifier.
 
 ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 2016-09-01 <br/>
+__Default__: 2018-02-01 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "2016-09-01".
+The version of the Service Fabric resource provider API. This is a required parameter and it's value must be "2018-02-01" for this specification.
 
 ## Responses
 
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
-| 200 (OK) | OK - cluster deleted successfully<br/> |  |
-| 204 (NoContent) | NoContent - cluster does not exist<br/> |  |
-| All other status codes | Error<br/> | [ErrorModel](sfrp-model-errormodel.md) |
+| 200 (OK) | The operation completed successfully.<br/> |  |
+| 204 (NoContent) | The resource was not found.<br/> |  |
+| All other status codes | The detailed error response.<br/> | [ErrorModel](sfrp-model-errormodel.md) |
 
 ## Examples
 
@@ -88,7 +87,7 @@ The version of the API. This is a required parameter and it's value must be "201
 
 #### Request
 ```
-DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster?api-version=2016-09-01
+DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.ServiceFabric/clusters/myCluster?api-version=2018-02-01
 ```
 
 #### 200 Response

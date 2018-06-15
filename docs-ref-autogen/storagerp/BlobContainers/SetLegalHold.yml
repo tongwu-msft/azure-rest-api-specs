@@ -1,0 +1,106 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagerp.blobcontainers.setlegalhold
+name: Set Legal Hold
+service: Storage Resource Provider
+groupName: Blob Containers
+apiVersion: 2018-03-01-preview
+summary: Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/setLegalHold?api-version=2018-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+  types:
+  - uid: string
+- name: containerName
+  in: path
+  isRequired: true
+  description: The name of the blob container within the specified storage account. Blob container names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or number.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- Set legal hold tags for Container completed successfully.
+  types:
+  - uid: LegalHold
+requestBody:
+- parameters:
+  - name: tags
+    in: body
+    isRequired: true
+    description: Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case at SRP.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: LegalHold
+  description: The LegalHold property of a blob container.
+  kind: object
+  properties:
+  - name: hasLegalHold
+    isReadyOnly: true
+    description: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a maximum of 1000 blob containers with hasLegalHold=true for a given account.
+    types:
+    - uid: boolean
+  - name: tags
+    description: Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case at SRP.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: SetLegalHoldContainers
+  request:
+    uri: POST https://management.azure.com/subscriptions/45b60d85-fd72-427a-a708-f994d26e593e/resourceGroups/res4303/providers/Microsoft.Storage/storageAccounts/sto7280/blobServices/default/containers/container8723/setLegalHold?api-version=2018-03-01-preview
+    body: >-
+      {
+        "tags": [
+          "tag1",
+          "tag2",
+          "tag3"
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "hasLegalHold": true,
+        "tags": [
+          "tag1",
+          "tag2",
+          "tag3"
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

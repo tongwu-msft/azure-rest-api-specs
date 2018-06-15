@@ -1,6 +1,6 @@
 ---
 title: "List"
-ms.date: "2017-05-16"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -26,22 +26,20 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # List
-List cluster code versions by location
+Gets the list of Service Fabric cluster code versions available for the specified location.
 
-List cluster code versions by location
-
+Gets all available code versions for Service Fabric cluster resources by location.
 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/environments/{environment}/clusterVersions?api-version=2016-09-01` |
+| GET | `/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/clusterVersions?api-version=2018-02-01` |
 
 
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [location](#location) | string | Yes | Path |
-| [environment](#environment) | string (enum) | Yes | Path |
 | [subscriptionId](#subscriptionid) | string | Yes | Path |
 | [api-version](#api-version) | string | Yes | Query |
 
@@ -50,33 +48,65 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The location for the cluster code versions, this is different from cluster location
-
-____
-### environment
-__Type__: string (enum) <br/>
-__Required__: Yes<br/>
-<br/>
-Cluster operating system, the default means all. Possible values include: 'Default', 'Windows', 'Linux'
+The location for the cluster code versions. This is different from cluster location.
 
 ____
 ### subscriptionId
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The customer subscription identifier
+The customer subscription identifier.
 
 ____
 ### api-version
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 2016-09-01 <br/>
+__Default__: 2018-02-01 <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "2016-09-01".
+The version of the Service Fabric resource provider API. This is a required parameter and it's value must be "2018-02-01" for this specification.
 
 ## Responses
 
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
-| 200 (OK) | OK - List cluster code versions successfully<br/> | [ClusterCodeVersionsListResult](sfrp-model-clustercodeversionslistresult.md) |
+| 200 (OK) | The operation completed successfully.<br/> | [ClusterCodeVersionsListResult](sfrp-model-clustercodeversionslistresult.md) |
+
+
+## Examples
+
+### List cluster versions
+
+#### Request
+```
+GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/locations/eastus/clusterVersions?api-version=2018-02-01
+```
+
+#### 200 Response
+##### Body
+```json
+{
+  "value": [
+    {
+      "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/locations/eastus/environments/Windows/clusterVersions/6.1.480.9494",
+      "name": "6.1.480.9494",
+      "type": "Microsoft.ServiceFabric/locations/environments/clusterVersions",
+      "properties": {
+        "codeVersion": "6.1.480.9494",
+        "supportExpiryUtc": "2018-06-15T23:59:59.9999999",
+        "environment": "Windows"
+      }
+    },
+    {
+      "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceFabric/locations/eastus/environments/Linux/clusterVersions/6.1.187.1",
+      "name": "6.1.187.1",
+      "type": "Microsoft.ServiceFabric/locations/environments/clusterVersions",
+      "properties": {
+        "codeVersion": "6.1.187.1",
+        "supportExpiryUtc": "2018-06-15T23:59:59.9999999",
+        "environment": "Linux"
+      }
+    }
+  ]
+}
+```
 
