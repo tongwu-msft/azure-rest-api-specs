@@ -39,13 +39,12 @@ uriParameters:
   - uid: string
 responses:
 - name: 202 Accepted
+  headers:
+  - name: x-ms-status-location
+    value: string
   description: Accepted request for purging an Log Analytics workspace.
   types:
   - uid: WorkspacePurgeResponse
-- name: 200 OK
-  description: 'Returns status of purge operation in body of response. e.g.:  running, completed.'
-  types:
-  - uid: WorkspacePurgeStatusResponse
 requestBody:
 - parameters:
   - name: table
@@ -87,14 +86,6 @@ definitions:
     description: Id to use when querying for status for a particular purge operation.
     types:
     - uid: string
-- name: WorkspacePurgeStatusResponse
-  description: Response containing status for a specific purge operation.
-  kind: object
-  properties:
-  - name: status
-    description: Status of the operation represented by the requested Id.
-    types:
-    - uid: PurgeState
 - name: WorkspacePurgeBody
   description: Describes the body of a purge request for an App Insights Workspace
   kind: object
@@ -108,16 +99,6 @@ definitions:
     types:
     - uid: WorkspacePurgeBodyFilters
       isArray: true
-- name: PurgeState
-  description: Status of the operation represented by the requested Id.
-  kind: enum
-  properties:
-  - name: Pending
-    types:
-    - uid: string
-  - name: Completed
-    types:
-    - uid: string
 examples:
 - name: WorkspacePurge
   request:
@@ -135,14 +116,12 @@ examples:
       }
   responses:
   - statusCode: "202"
+    headers:
+    - name: x-ms-status-location
+      value: https://management.azure.com/subscriptions/b96161de-b34a-480f-7343-59b099299283/resourceGroups/example/providers/microsoft.operationalinsights/workspaces/test/operations/purge-970318e7-b859-4edb-8903-83b1b54d0b74?api-version=2015-03-20
     body: >-
       {
         "operationId": "7d7cf277-9113-4ab3-8359-d0364b74d01d"
-      }
-  - statusCode: "200"
-    body: >-
-      {
-        "status": "Completed"
       }
 security:
 - type: oauth2
