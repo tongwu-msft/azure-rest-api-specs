@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: daea28f8-c1c3-42d4-8269-24fa6e972d38
 caps.latest.revision: 14
-author: "mimig1"
-ms.author: "mimig"
-manager: "jhubbard"
+author: "SnehaGunda"
+ms.author: "sngun"
+manager: "kfile"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
