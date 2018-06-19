@@ -4,9 +4,9 @@ ms.title: "Azure Cosmos DB: REST Resource Provider for SQL API"
 ms.date: "02/05/2018"
 ms.prod: azure
 ms.service: cosmos-db
-author: mimig1
-ms.author: mimig
-ms.manager: jhubbard
+author: SnehaGunda
+ms.author: sngun
+ms.manager: kfile
 service_description: Azure Cosmos DB is a globally distributed database service designed to enable you to elastically and independently scale throughput and storage across any number of geographical regions with a comprehensive SLA.
 ---
 
