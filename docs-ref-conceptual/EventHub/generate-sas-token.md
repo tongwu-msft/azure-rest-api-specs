@@ -164,7 +164,7 @@ def get_auth_token(sb_name, eh_name, sas_name, sas_value):
 
 
 ## Bash
-**Note:** The following snippet reqiures [OpenSSL](https://www.openssl.org/source/) and [jq](https://stedolan.github.io/jq/download/). 
+**Note:** The following snippet requires [OpenSSL](https://www.openssl.org/source/) and [jq](https://stedolan.github.io/jq/download/). 
 ```bash
 get_sas_token() {
     local EVENTHUB_URI=$1
@@ -193,6 +193,6 @@ Authorization: SharedAccessSignature sr=https%3A%2F%2F<yournamespace>.servicebus
 ContentType: application/atom+xml;type=entry;charset=utf-8
 ``` 
 
-Remember, this works for everything. You can create SAS for a queue, topic, subscription, Event Hub, or relay. If you use per-publisher identity for Event Hubs, you can append `/publishers/< publisherid>`.
+Remember, this SAS key works for everything. You can create SAS for a queue, topic, subscription, Event Hub, or relay. If you use per-publisher identity for Event Hubs, you can append `/publishers/< publisherid>`.
 
 If you give a sender or client a SAS token, they don't have the key directly, and they cannot reverse the hash to obtain it. As such, you have control over what they can access, and for how long. An important thing to remember is that if you change the primary key in the policy, any Shared Access Signatures created from it is invalidated.
