@@ -1,7 +1,7 @@
 ---
 title: "Generate SAS token"
 ms.custom: ""
-ms.date: "2017-11-09"
+ms.date: "2018-06-19"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -114,6 +114,24 @@ private static string createToken(string resourceUri, string keyName, string key
     var sasToken = String.Format(CultureInfo.InvariantCulture, "SharedAccessSignature sr={0}&sig={1}&se={2}&skn={3}", HttpUtility.UrlEncode(resourceUri), HttpUtility.UrlEncode(signature), expiry, keyName);
     return sasToken;
 }
+```
+
+## Azure PowerShell
+
+```azurepowershell-interactive
+[Reflection.Assembly]::LoadWithPartialName("System.Web")| out-null
+$URI="myNamespace.servicebus.windows.net/myHub"
+$Access_Policy_Name="RootManageSharedAccessKey"
+$Access_Policy_Key="myKey"
+#Token expires now+300
+$Expires=([DateTimeOffset]::Now.ToUnixTimeSeconds())+300
+$SignatureString=[System.Web.HttpUtility]::UrlEncode($URI)+ "`n" + [string]$Expires
+$HMAC = New-Object System.Security.Cryptography.HMACSHA256
+$HMAC.key = [Text.Encoding]::ASCII.GetBytes($Access_Policy_Key)
+$Signature = $HMAC.ComputeHash([Text.Encoding]::ASCII.GetBytes($SignatureString))
+$Signature = [Convert]::ToBase64String($Signature)
+$SASToken = "SharedAccessSignature sr=" + [System.Web.HttpUtility]::UrlEncode($URI) + "&sig=" + [System.Web.HttpUtility]::UrlEncode($Signature) + "&se=" + $Expires + "&skn=" + $Access_Policy_Name
+$SASToken
 ```
 
 ## Python
