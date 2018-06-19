@@ -120,9 +120,9 @@ private static string createToken(string resourceUri, string keyName, string key
 
 ```azurepowershell-interactive
 [Reflection.Assembly]::LoadWithPartialName("System.Web")| out-null
-$URI="myNamespace.servicebus.windows.net/myHub"
+$URI="myNamespace.servicebus.windows.net/myEventHub"
 $Access_Policy_Name="RootManageSharedAccessKey"
-$Access_Policy_Key="myKey"
+$Access_Policy_Key="myPrimaryKey"
 #Token expires now+300
 $Expires=([DateTimeOffset]::Now.ToUnixTimeSeconds())+300
 $SignatureString=[System.Web.HttpUtility]::UrlEncode($URI)+ "`n" + [string]$Expires
