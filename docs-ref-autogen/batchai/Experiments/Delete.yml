@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.batchai.jobs.listremotelogininformation
-name: List Remote Login Information
+uid: management.azure.com.batchai.experiments.delete
+name: Delete
 service: Batch AI
-groupName: Jobs
+groupName: Experiments
 apiVersion: 2018-05-01
-summary: Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
+summary: Deletes an Experiment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}/listRemoteLoginInformation?api-version=2018-05-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}?api-version=2018-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,13 +39,6 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w_]+$
-- name: jobName
-  in: path
-  isRequired: true
-  description: The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-  types:
-  - uid: string
-  pattern: ^[-\w_]+$
 - name: api-version
   in: query
   isRequired: true
@@ -54,30 +47,17 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The operation was successful. The response contains compute node remote login information.
-  types:
-  - uid: RemoteLoginInformationListResult
+  description: The operation was successful.
+- name: 202 Accepted
+  description: The operation will be completed asynchronously.
+- name: 204 No Content
+  description: No content.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: RemoteLoginInformationListResult
-  description: Values returned by the List operation.
-  kind: object
-  properties:
-  - name: value
-    isReadyOnly: true
-    description: The collection of returned remote login details.
-    types:
-    - uid: RemoteLoginInformation
-      isArray: true
-  - name: nextLink
-    isReadyOnly: true
-    description: The continuation token.
-    types:
-    - uid: string
 - name: CloudError
   description: An error response from the Batch AI service.
   kind: object
@@ -87,25 +67,6 @@ definitions:
     description: An error response from the Batch AI service.
     types:
     - uid: CloudErrorBody
-- name: RemoteLoginInformation
-  description: Login details to SSH to a compute node in cluster.
-  kind: object
-  properties:
-  - name: nodeId
-    isReadyOnly: true
-    description: "Node ID.  \nID of the compute node."
-    types:
-    - uid: string
-  - name: ipAddress
-    isReadyOnly: true
-    description: "IP address.  \nPublic IP address of the compute node."
-    types:
-    - uid: string
-  - name: port
-    isReadyOnly: true
-    description: "Port.  \nSSH port number of the node."
-    types:
-    - uid: number
 - name: CloudErrorBody
   description: An error response from the Batch AI service.
   kind: object
@@ -132,21 +93,18 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: Get information about nodes which ran a job
+- name: Delete an experiment
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/experiments/demo_experiment/jobs/demo_job/listRemoteLoginInformation?api-version=2018-05-01
+    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/experiments/demo_experiment?api-version=2018-05-01
   responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.BatchAI/locations/eastus/operationresults/7e69f371-db62-4183-bba0-5ee577d43bd7?api-version=2018-05-01
+    - name: Retry-After
+      value: "15"
   - statusCode: "200"
-    body: >-
-      {
-        "value": [
-          {
-            "nodeId": "tvm-3601533753_1-20170719t162906z",
-            "ipAddress": "13.84.190.124",
-            "port": 50000
-          }
-        ]
-      }
+  - statusCode: "204"
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

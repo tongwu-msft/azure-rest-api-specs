@@ -1,16 +1,18 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.batchai.jobs.get
-name: Get
+uid: management.azure.com.batchai.jobs.listbyexperiment
+name: List By Experiment
 service: Batch AI
 groupName: Jobs
 apiVersion: 2018-05-01
-summary: Gets information about a Job.
+summary: Gets a list of Jobs within the specified Experiment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}?api-version=2018-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs?api-version=2018-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs?maxresults={maxresults}&api-version=2018-05-01
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,13 +41,12 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w_]+$
-- name: jobName
-  in: path
-  isRequired: true
-  description: The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+- name: maxresults
+  in: query
+  description: The maximum number of items to return in the response. A maximum of 1000 files can be returned.
   types:
-  - uid: string
-  pattern: ^[-\w_]+$
+  - uid: integer
+  format: int32
 - name: api-version
   in: query
   isRequired: true
@@ -54,15 +55,39 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The operation was successful. The response contains the Job entity.
+  description: The operation was successful. The response contains a list of ExperimentJob entities associated with the experiment.
   types:
-  - uid: Job
+  - uid: JobListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
+- name: JobListResult
+  description: Values returned by the List operation.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The collection of jobs.
+    types:
+    - uid: Job
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The continuation token.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Batch AI service.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: An error response from the Batch AI service.
+    types:
+    - uid: CloudErrorBody
 - name: Job
   description: Information about a Job.
   kind: object
@@ -208,15 +233,31 @@ definitions:
     description: The type of the resource.
     types:
     - uid: string
-- name: CloudError
+- name: CloudErrorBody
   description: An error response from the Batch AI service.
   kind: object
   properties:
-  - name: error
+  - name: code
     isReadyOnly: true
-    description: An error response from the Batch AI service.
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: A list of additional details about the error.
     types:
     - uid: CloudErrorBody
+      isArray: true
 - name: JobPriority
   description: Scheduling priority.
   kind: enum
@@ -618,31 +659,6 @@ definitions:
     types:
     - uid: BatchAIError
       isArray: true
-- name: CloudErrorBody
-  description: An error response from the Batch AI service.
-  kind: object
-  properties:
-  - name: code
-    isReadyOnly: true
-    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The target of the particular error. For example, the name of the property in error.
-    types:
-    - uid: string
-  - name: details
-    isReadyOnly: true
-    description: A list of additional details about the error.
-    types:
-    - uid: CloudErrorBody
-      isArray: true
 - name: AzureFileShareReference
   description: Azure File Share mounting configuration.
   kind: object
@@ -816,58 +832,62 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get job's information
+- name: List jobs in an experiment
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/experiments/demo_experiment/jobs/demo_job?api-version=2018-05-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/experiments/demo_experimnet/jobs?api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/experiments/demo_experiment/jobs/demo_job",
-        "name": "demo_job",
-        "type": "Microsoft.BatchAI/Jobs",
-        "properties": {
-          "schedulingPriority": "normal",
-          "cluster": {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/clusters/demo_cluster"
-          },
-          "nodeCount": 1,
-          "containerSettings": {
-            "imageSourceRegistry": {
-              "image": "ubuntu"
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/jobs/demo_job",
+            "name": "demo_job",
+            "type": "Microsoft.BatchAI/Jobs",
+            "properties": {
+              "schedulingPriority": "normal",
+              "cluster": {
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/clusters/demo_cluster"
+              },
+              "nodeCount": 1,
+              "containerSettings": {
+                "imageSourceRegistry": {
+                  "image": "ubuntu"
+                }
+              },
+              "toolType": "custom",
+              "customToolkitSettings": {
+                "commandLine": "echo hi | tee $AZ_BATCHAI_OUTPUT_OUTPUTS/hi.txt"
+              },
+              "stdOutErrPathPrefix": "$AZ_BATCHAI_MOUNT_ROOT/azfiles",
+              "jobOutputDirectoryPathSegment": "00000000-0000-0000-0000-000000000000/demo_resource_group/workspaces/demo_workspace/experiments/demo_experiment/jobs/demo_job/00000000-0000-0000-0000-000000000000",
+              "inputDirectories": [
+                {
+                  "id": "INPUT",
+                  "path": "$AZ_BATCHAI_MOUNT_ROOT/azfiles/input"
+                }
+              ],
+              "outputDirectories": [
+                {
+                  "id": "OUTPUTS",
+                  "pathPrefix": "$AZ_BATCHAI_MOUNT_ROOT/azfiles/",
+                  "pathSuffix": "files"
+                }
+              ],
+              "constraints": {
+                "maxWallClockTime": "P7D"
+              },
+              "creationTime": "2017-09-27T23:36:52.611Z",
+              "provisioningState": "succeeded",
+              "provisioningStateTransitionTime": "2017-09-27T23:36:53.701Z",
+              "executionState": "running",
+              "executionStateTransitionTime": "2017-09-27T23:36:56.395Z",
+              "executionInfo": {
+                "startTime": "2017-09-27T23:36:54.115Z"
+              }
             }
-          },
-          "toolType": "custom",
-          "customToolkitSettings": {
-            "commandLine": "echo hi | tee $AZ_BATCHAI_OUTPUT_OUTPUTS/hi.txt"
-          },
-          "stdOutErrPathPrefix": "$AZ_BATCHAI_MOUNT_ROOT/azfiles",
-          "jobOutputDirectoryPathSegment": "00000000-0000-0000-0000-000000000000/demo_resource_group/workspaces/demo_workspace/experiments/demo_experiment/jobs/demo_job/00000000-0000-0000-0000-000000000000",
-          "inputDirectories": [
-            {
-              "id": "INPUT",
-              "path": "$AZ_BATCHAI_MOUNT_ROOT/azfiles/input"
-            }
-          ],
-          "outputDirectories": [
-            {
-              "id": "OUTPUTS",
-              "pathPrefix": "$AZ_BATCHAI_MOUNT_ROOT/azfiles/",
-              "pathSuffix": "files"
-            }
-          ],
-          "constraints": {
-            "maxWallClockTime": "P7D"
-          },
-          "creationTime": "2017-09-27T23:36:52.611Z",
-          "provisioningState": "succeeded",
-          "provisioningStateTransitionTime": "2017-09-27T23:36:53.701Z",
-          "executionState": "running",
-          "executionStateTransitionTime": "2017-09-27T23:36:56.395Z",
-          "executionInfo": {
-            "startTime": "2017-09-27T23:36:54.115Z"
           }
-        }
+        ]
       }
 security:
 - type: oauth2

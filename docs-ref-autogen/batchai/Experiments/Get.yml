@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.batchai.jobs.listremotelogininformation
-name: List Remote Login Information
+uid: management.azure.com.batchai.experiments.get
+name: Get
 service: Batch AI
-groupName: Jobs
+groupName: Experiments
 apiVersion: 2018-05-01
-summary: Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
+summary: Gets information about an Experiment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}/listRemoteLoginInformation?api-version=2018-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}?api-version=2018-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,13 +39,6 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w_]+$
-- name: jobName
-  in: path
-  isRequired: true
-  description: The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
-  types:
-  - uid: string
-  pattern: ^[-\w_]+$
 - name: api-version
   in: query
   isRequired: true
@@ -54,28 +47,47 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The operation was successful. The response contains compute node remote login information.
+  description: The operation was successful. The response contains information about the experiment.
   types:
-  - uid: RemoteLoginInformationListResult
+  - uid: Experiment
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: RemoteLoginInformationListResult
-  description: Values returned by the List operation.
+- name: Experiment
+  description: Experiment information.
   kind: object
   properties:
-  - name: value
+  - name: properties.creationTime
     isReadyOnly: true
-    description: The collection of returned remote login details.
+    description: "Creation time.  \nTime when the Experiment was created."
     types:
-    - uid: RemoteLoginInformation
-      isArray: true
-  - name: nextLink
+    - uid: string
+  - name: properties.provisioningState
     isReadyOnly: true
-    description: The continuation token.
+    description: "Provisioning state.  \nThe provisioned state of the experiment"
+    types:
+    - uid: ProvisioningState
+  - name: properties.provisioningStateTransitionTime
+    isReadyOnly: true
+    description: "Provisioning state transition time.  \nThe time at which the experiment entered its current provisioning state."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The ID of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
     types:
     - uid: string
 - name: CloudError
@@ -87,25 +99,22 @@ definitions:
     description: An error response from the Batch AI service.
     types:
     - uid: CloudErrorBody
-- name: RemoteLoginInformation
-  description: Login details to SSH to a compute node in cluster.
-  kind: object
+- name: ProvisioningState
+  description: Provisioning state.
+  kind: enum
   properties:
-  - name: nodeId
-    isReadyOnly: true
-    description: "Node ID.  \nID of the compute node."
+  - name: creating
     types:
     - uid: string
-  - name: ipAddress
-    isReadyOnly: true
-    description: "IP address.  \nPublic IP address of the compute node."
+  - name: succeeded
     types:
     - uid: string
-  - name: port
-    isReadyOnly: true
-    description: "Port.  \nSSH port number of the node."
+  - name: failed
     types:
-    - uid: number
+    - uid: string
+  - name: deleting
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the Batch AI service.
   kind: object
@@ -132,20 +141,21 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: Get information about nodes which ran a job
+- name: Get an experiment information
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/experiments/demo_experiment/jobs/demo_job/listRemoteLoginInformation?api-version=2018-05-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/experiments/demo_experiment?api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "nodeId": "tvm-3601533753_1-20170719t162906z",
-            "ipAddress": "13.84.190.124",
-            "port": 50000
-          }
-        ]
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspace/demo_workspace/experiments/demo_experiment",
+        "name": "demo_experiment",
+        "type": "Microsoft.BatchAI/Experiments",
+        "properties": {
+          "creationTime": "2017-09-27T22:27:52.611Z",
+          "provisioningState": "succeeded",
+          "provisioningStateTransitionTime": "2017-09-27T22:28:08.327Z"
+        }
       }
 security:
 - type: oauth2
