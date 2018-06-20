@@ -2349,6 +2349,7 @@
 #### [Delete](cosmos-db-resource-provider/DatabaseAccounts/Delete.yml)
 #### [Failover Priority Change](cosmos-db-resource-provider/DatabaseAccounts/FailoverPriorityChange.yml)
 #### [Get](cosmos-db-resource-provider/DatabaseAccounts/Get.yml)
+#### [Get Read Only Keys](cosmos-db-resource-provider/DatabaseAccounts/GetReadOnlyKeys.yml)
 #### [List](cosmos-db-resource-provider/DatabaseAccounts/List.yml)
 #### [List By Resource Group](cosmos-db-resource-provider/DatabaseAccounts/ListByResourceGroup.yml)
 #### [List Connection Strings](cosmos-db-resource-provider/DatabaseAccounts/ListConnectionStrings.yml)
