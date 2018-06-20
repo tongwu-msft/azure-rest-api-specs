@@ -1,0 +1,459 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.consumption.analyzesubscriptionusage.analyzesubscriptionusage
+name: Analyze Subscription Usage
+service: Consumption
+groupName: Analyze Subscription Usage
+apiVersion: 2018-05-31
+summary: Lists the usage data for subscriptionId.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/AnalyzeUsage?api-version=2018-05-31
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-05-31.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: UsageAnalysisResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: type
+    in: body
+    isRequired: true
+    description: The type of the report.
+    types:
+    - uid: ReportType
+  - name: timeframe
+    in: body
+    isRequired: true
+    description: The time frame for pulling data for the report. If custom, then a specific time period must be provided.
+    types:
+    - uid: TimeframeType
+  - name: timePeriod
+    in: body
+    description: Has time period for pulling data for the report.
+    types:
+    - uid: ReportConfigTimePeriod
+  - name: dataset
+    in: body
+    description: Has definition for data in this report config.
+    types:
+    - uid: ReportConfigDataset
+requestHeader: []
+definitions:
+- name: ReportConfigTimePeriod
+  description: The start and end date for pulling data for the report.
+  kind: object
+  properties:
+  - name: from
+    description: The start date to pull data from.
+    types:
+    - uid: string
+  - name: to
+    description: The end date to pull data to.
+    types:
+    - uid: string
+- name: ReportConfigDataset
+  description: The definition of data present in the report.
+  kind: object
+  properties:
+  - name: granularity
+    description: The granularity of rows in the report.
+    types:
+    - uid: GranularityType
+  - name: configuration
+    description: Has configuration information for the data in the report. The configuration will be ignored if aggregation and grouping are provided.
+    types:
+    - uid: ReportConfigDatasetConfiguration
+  - name: aggregation
+    description: Dictionary of aggregation expression to use in the report. The key of each item in the dictionary is the alias for the aggregated column. Report can have upto 2 aggregation clauses.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ReportConfigAggregation
+  - name: grouping
+    description: Array of group by expression to use in the report. Report can have upto 2 group by clauses.
+    types:
+    - uid: ReportConfigGrouping
+      isArray: true
+  - name: filter
+    description: Has filter expression to use in the report.
+    types:
+    - uid: ReportConfigFilter
+- name: UsageAnalysisResult
+  description: Result of listing usages. It contains all columns listed under groupings and aggregation.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of usage data.
+    types:
+    - uid: UsageAnalysis
+      isArray: true
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: ReportConfigDefinition
+  description: The definition of a report config.
+  kind: object
+  properties:
+  - name: type
+    description: The type of the report.
+    types:
+    - uid: ReportType
+  - name: timeframe
+    description: The time frame for pulling data for the report. If custom, then a specific time period must be provided.
+    types:
+    - uid: TimeframeType
+  - name: timePeriod
+    description: Has time period for pulling data for the report.
+    types:
+    - uid: ReportConfigTimePeriod
+  - name: dataset
+    description: Has definition for data in this report config.
+    types:
+    - uid: ReportConfigDataset
+- name: GranularityType
+  description: The granularity of rows in the report.
+  kind: enum
+  properties:
+  - name: Daily
+    types:
+    - uid: string
+- name: ReportConfigDatasetConfiguration
+  description: The configuration of dataset in the report.
+  kind: object
+  properties:
+  - name: columns
+    description: Array of column names to be included in the report. Any valid report column name is allowed. If not provided, then report includes all columns.
+    types:
+    - uid: string
+      isArray: true
+- name: Aggregation
+  description: Dictionary of aggregation expression to use in the report. The key of each item in the dictionary is the alias for the aggregated column. Report can have upto 2 aggregation clauses.
+  kind: object
+  properties:
+  - name: ''
+    description: The aggregation expression to be used in the report.
+    types:
+    - uid: ReportConfigAggregation
+- name: ReportConfigGrouping
+  description: The group by expression to be used in the report.
+  kind: object
+  properties:
+  - name: columnType
+    description: Has type of the column to group.
+    types:
+    - uid: ReportConfigColumnType
+  - name: name
+    description: The name of the column to group.
+    types:
+    - uid: string
+- name: ReportConfigFilter
+  description: The filter expression to be used in the report.
+  kind: object
+  properties:
+  - name: and
+    description: The logical "AND" expression. Must have atleast 2 items.
+    types:
+    - uid: ReportConfigFilter
+      isArray: true
+  - name: or
+    description: The logical "OR" expression. Must have atleast 2 items.
+    types:
+    - uid: ReportConfigFilter
+      isArray: true
+  - name: not
+    description: The logical "NOT" expression.
+    types:
+    - uid: ReportConfigFilter
+  - name: dimension
+    description: Has comparison expression for a dimension
+    types:
+    - uid: ReportConfigComparisonExpression
+  - name: tag
+    description: Has comparison expression for a tag
+    types:
+    - uid: ReportConfigComparisonExpression
+- name: UsageAnalysis
+  kind: object
+  properties:
+  - name: properties.nextLink
+    description: ''
+    types:
+    - uid: string
+  - name: properties.columns
+    description: Array of columns
+    types:
+    - uid: UsageAnalysisColumn
+      isArray: true
+  - name: properties.rows
+    description: ''
+    types:
+    - uid: array
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ReportType
+  description: The type of the report.
+  kind: enum
+  properties:
+  - name: Usage
+    types:
+    - uid: string
+- name: TimeframeType
+  description: The time frame for pulling data for the report. If custom, then a specific time period must be provided.
+  kind: enum
+  properties:
+  - name: WeekToDate
+    types:
+    - uid: string
+  - name: MonthToDate
+    types:
+    - uid: string
+  - name: YearToDate
+    types:
+    - uid: string
+  - name: Custom
+    types:
+    - uid: string
+- name: ReportConfigAggregation
+  description: The aggregation expression to be used in the report.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the column to aggregate.
+    types:
+    - uid: string
+  - name: function
+    description: The name of the aggregation function to use.
+    types:
+    - uid: FunctionType
+- name: ReportConfigColumnType
+  description: The type of the column in the report.
+  kind: enum
+  properties:
+  - name: Tag
+    types:
+    - uid: string
+  - name: Dimension
+    types:
+    - uid: string
+- name: ReportConfigComparisonExpression
+  description: The comparison expression to be used in the report.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the column to use in comaprison.
+    types:
+    - uid: string
+  - name: operator
+    description: The operator to use for comparison.
+    types:
+    - uid: OperatorType
+  - name: values
+    description: Array of values to use for comparison
+    types:
+    - uid: string
+      isArray: true
+- name: UsageAnalysisColumn
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: type
+    description: ''
+    types:
+    - uid: string
+- name: FunctionType
+  description: The name of the aggregation function to use.
+  kind: enum
+  properties:
+  - name: Sum
+    types:
+    - uid: string
+- name: OperatorType
+  description: The operator to use for comparison.
+  kind: enum
+  properties:
+  - name: In
+    types:
+    - uid: string
+examples:
+- name: SubscriptionUsage
+  request:
+    uri: POST https://management.azure.com/subscriptions/55312978-ba1b-415c-9304-c6b9c43c0481/providers/Microsoft.Consumption/AnalyzeUsage?api-version=2018-05-31
+    body: >-
+      {
+        "type": "Usage",
+        "timeframe": "MonthToDate",
+        "dataset": {
+          "granularity": "Daily",
+          "configuration": {
+            "columns": [
+              "PreTaxCost",
+              "ResourceGroup",
+              "UsageDate"
+            ]
+          },
+          "filter": {
+            "and": [
+              {
+                "or": [
+                  {
+                    "dimension": {
+                      "name": "ResourceLocation",
+                      "operator": "In",
+                      "values": [
+                        "East US",
+                        "West Europe"
+                      ]
+                    }
+                  },
+                  {
+                    "tag": {
+                      "name": "Environment",
+                      "operator": "In",
+                      "values": [
+                        "UAT",
+                        "Prod"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "dimension": {
+                  "name": "ResourceGroup",
+                  "operator": "In",
+                  "values": [
+                    "API"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "subscriptions/55312978-ba1b-415c-9304-c6b9c43c0481/providers/Microsoft.Consumption/AnalyzeUsage/55312978-ba1b-415c-9304-c6b9c43c0481",
+            "name": "55312978-ba1b-415c-9304-cfd9c43c0481",
+            "type": "microsoft.consumption/AnalyzeUsage",
+            "properties": {
+              "nextLink": null,
+              "columns": [
+                {
+                  "name": "PreTaxCost",
+                  "type": "Number"
+                },
+                {
+                  "name": "ResourceGroup",
+                  "type": "String"
+                },
+                {
+                  "name": "UsageDate",
+                  "type": "Number"
+                }
+              ],
+              "rows": [
+                [
+                  2.10333307059661,
+                  "ScreenSharingTest-peer",
+                  20180417
+                ],
+                [
+                  218.68795741935486,
+                  "Ict_StratAndPlan_GoldSprova_Prod",
+                  20180331
+                ],
+                [
+                  0.14384913581657052,
+                  "ssbciotelement01",
+                  20180331
+                ],
+                [
+                  0.0098655868513236322,
+                  "ict_stratandplan_goldsprova_prod",
+                  20180331
+                ]
+              ]
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
