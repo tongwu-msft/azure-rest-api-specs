@@ -276,7 +276,7 @@ Creates a new Stream Analytics job in Microsoft Azure. For more information abou
 ## Delete
 Deletes a Stream Analytics job in Microsoft Azure.  
   
- When you delete a Stream Analytics job, all of its associated content will be deleted (inputs, transformation, and output).  
+ When you delete a Stream Analytics job, all of its associated content will be deleted (inputs, transformation, and output). However, input and output resources will not be deleted.
   
 ### Request  
  The **Delete Stream Analytics Job** request is specified as follows.  
