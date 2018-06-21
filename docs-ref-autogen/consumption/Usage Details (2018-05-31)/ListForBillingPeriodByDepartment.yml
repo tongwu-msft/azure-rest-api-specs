@@ -1,23 +1,29 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.consumption.usagedetails(preview).listbyenrollmentaccount
-name: List By Enrollment Account
+uid: management.azure.com.consumption.usagedetails(2018-05-31).listforbillingperiodbydepartment
+name: List For Billing Period By Department
 service: Consumption
-groupName: Usage Details (preview)
+groupName: Usage Details (2018-05-31)
 apiVersion: 2018-05-31
-summary: Lists the usage details by enrollmentAccountId for a scope by current billing period. Usage details are available via this API only for May 1, 2014 or later.
+summary: Lists the usage details based on departmentId for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.Consumption/usageDetails?api-version=2018-05-31
-- content: GET https://management.azure.com/providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&$apply={$apply}&api-version=2018-05-31
+- content: GET https://management.azure.com/providers/Microsoft.Billing/departments/{departmentId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/usageDetails?api-version=2018-05-31
+- content: GET https://management.azure.com/providers/Microsoft.Billing/departments/{departmentId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$apply={$apply}&$skiptoken={$skiptoken}&$top={$top}&api-version=2018-05-31
   isOptional: true
 uriParameters:
-- name: enrollmentAccountId
+- name: departmentId
   in: path
   isRequired: true
-  description: EnrollmentAccount ID
+  description: Department ID
+  types:
+  - uid: string
+- name: billingPeriodName
+  in: path
+  isRequired: true
+  description: Billing Period Name.
   types:
   - uid: string
 - name: $expand
@@ -27,7 +33,12 @@ uriParameters:
   - uid: string
 - name: $filter
   in: query
-  description: May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName, properties/instanceId or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:).
+  description: May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:).
+  types:
+  - uid: string
+- name: $apply
+  in: query
+  description: OData apply expression to aggregate usageDetails by tags or (tags and properties/usageStart) for specified billing period
   types:
   - uid: string
 - name: $skiptoken
@@ -40,11 +51,6 @@ uriParameters:
   description: May be used to limit the number of results to the most recent N usageDetails.
   types:
   - uid: integer
-- name: $apply
-  in: query
-  description: OData apply expression to aggregate usageDetails by tags or (tags and properties/usageStart)
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -297,16 +303,16 @@ definitions:
     types:
     - uid: number
 examples:
-- name: UsageDetailsList
+- name: UsageDetailsListForBillingPeriod
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/enrollmentAccounts/1234/providers/Microsoft.Consumption/usageDetails?api-version=2018-05-31
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/departments/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails?api-version=2018-05-31
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "id": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
             "name": "usageDetailsId1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
@@ -314,8 +320,8 @@ examples:
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/invoices/201703-123456789",
+              "billingPeriodId": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/billingPeriods/201702",
+              "invoiceId": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/invoices/201703-123456789",
               "usageStart": "2017-02-13T00:00:00Z",
               "usageEnd": "2017-02-13T23:59:59Z",
               "instanceName": "shared1",

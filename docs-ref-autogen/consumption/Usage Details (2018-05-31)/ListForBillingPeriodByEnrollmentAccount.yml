@@ -1,23 +1,23 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.consumption.usagedetails(preview).listbybillingperiod
-name: List By Billing Period
+uid: management.azure.com.consumption.usagedetails(2018-05-31).listforbillingperiodbyenrollmentaccount
+name: List For Billing Period By Enrollment Account
 service: Consumption
-groupName: Usage Details (preview)
+groupName: Usage Details (2018-05-31)
 apiVersion: 2018-05-31
-summary: Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+summary: Lists the usage details based on enrollmentAccountId for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/usageDetails?api-version=2018-05-31
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$apply={$apply}&$skiptoken={$skiptoken}&$top={$top}&api-version=2018-05-31
+- content: GET https://management.azure.com/providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/usageDetails?api-version=2018-05-31
+- content: GET https://management.azure.com/providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$apply={$apply}&$skiptoken={$skiptoken}&$top={$top}&api-version=2018-05-31
   isOptional: true
 uriParameters:
-- name: subscriptionId
+- name: enrollmentAccountId
   in: path
   isRequired: true
-  description: Azure Subscription ID.
+  description: EnrollmentAccount ID
   types:
   - uid: string
 - name: billingPeriodName
@@ -305,14 +305,14 @@ definitions:
 examples:
 - name: UsageDetailsListForBillingPeriod
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails?api-version=2018-05-31
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/enrollmentAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails?api-version=2018-05-31
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "id": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
             "name": "usageDetailsId1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
@@ -320,8 +320,8 @@ examples:
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/invoices/201703-123456789",
+              "billingPeriodId": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702",
+              "invoiceId": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/invoices/201703-123456789",
               "usageStart": "2017-02-13T00:00:00Z",
               "usageEnd": "2017-02-13T23:59:59Z",
               "instanceName": "shared1",
@@ -337,98 +337,6 @@ examples:
               "resourceGuid": "00000000-0000-0000-0000-000000000000",
               "offerId": "Offer Id 1",
               "chargesBilledSeparately": true
-            }
-          }
-        ]
-      }
-- name: UsageDetailsExpand
-  request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails?$expand=meterDetails,additionalProperties&$filter=properties/usageEnd ge '2018-01-14' AND properties/usageEnd le '2018-02-14' AND tags eq 'dev:tools'&$top=1&api-version=2018-05-31
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "value": [
-          {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
-            "type": "Microsoft.Consumption/usageDetails",
-            "tags": {
-              "env": "newcrp",
-              "dev": "tools"
-            },
-            "properties": {
-              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/invoices/201703-123456789",
-              "usageStart": "2017-02-13T00:00:00Z",
-              "usageEnd": "2017-02-13T23:59:59Z",
-              "instanceName": "shared1",
-              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
-              "instanceLocation": "eastasia",
-              "currency": "USD",
-              "usageQuantity": 0.00328,
-              "billableQuantity": 0.00328,
-              "pretaxCost": 0.67,
-              "isEstimated": false,
-              "meterId": "00000000-0000-0000-0000-000000000000",
-              "meterDetails": {
-                "meterName": "Data Transfer Out (GB)",
-                "meterCategory": "Networking",
-                "unit": "GB",
-                "meterLocation": "Zone 2",
-                "totalIncludedQuantity": 0,
-                "pretaxStandardRate": 0.138
-              },
-              "subscriptionGuid": "00000000-0000-0000-0000-000000000000",
-              "subscriptionName": "Dummy subscription",
-              "accountName": "My account name",
-              "departmentName": "My department name",
-              "product": "My product name",
-              "consumedService": "My consumed service",
-              "costCenter": "Cost center 1",
-              "partNumber": "Part Number 1",
-              "resourceGuid": "00000000-0000-0000-0000-000000000000",
-              "offerId": "Offer Id 1",
-              "chargesBilledSeparately": true,
-              "additionalProperties": "{\"MyType\":\"\",\"ServiceType\":\"\",\"VMName\":\"\",\"UsageType\":\"MyUsage\"}"
-            }
-          }
-        ]
-      }
-- name: UsageDetailsListForBillingPeriodGroupByTag
-  request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201803/providers/Microsoft.Consumption/usageDetails?$apply=groupby((tags))&api-version=2018-05-31
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "value": [
-          {
-            "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
-            "type": "Microsoft.Consumption/usageDetails",
-            "tags": {
-              "description": "Azure VCAP STA - RDS Server"
-            },
-            "properties": {
-              "billingPeriodId": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301",
-              "usageQuantity": 11.11111,
-              "pretaxCost": 0,
-              "currency": "USD"
-            }
-          },
-          {
-            "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
-            "name": "usageDetailsId1",
-            "type": "Microsoft.Consumption/usageDetails",
-            "tags": {
-              "description": "Domain controller - STA"
-            },
-            "properties": {
-              "billingPeriodId": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301",
-              "usageQuantity": 111.11111111111,
-              "pretaxCost": 0,
-              "currency": "USD"
             }
           }
         ]
