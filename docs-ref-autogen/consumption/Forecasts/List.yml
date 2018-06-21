@@ -1,0 +1,334 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.consumption.forecasts.list
+name: List
+service: Consumption
+groupName: Forecasts
+apiVersion: 2018-05-31
+summary: Lists the forecast charges by subscriptionId.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/forecasts?api-version=2018-05-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/forecasts?$filter={$filter}&api-version=2018-05-31
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: May be used to filter forecasts by properties/usageDate (Utc time), properties/chargeType or properties/grain. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-05-31.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ForecastsListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ForecastsListResult
+  description: Result of listing forecasts. It contains a list of available forecasts.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of forecasts.
+    types:
+    - uid: Forecast
+      isArray: true
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: Forecast
+  description: A forecast resource.
+  kind: object
+  properties:
+  - name: properties.usageDate
+    isReadyOnly: true
+    description: The usage date of the forecast.
+    types:
+    - uid: string
+  - name: properties.grain
+    description: The granularity of forecast.
+    types:
+    - uid: Grain
+  - name: properties.charge
+    isReadyOnly: true
+    description: The amount of charge
+    types:
+    - uid: number
+  - name: properties.currency
+    isReadyOnly: true
+    description: The ISO currency in which the meter is charged, for example, USD.
+    types:
+    - uid: string
+  - name: properties.chargeType
+    description: The type of the charge. Could be actual or forecast
+    types:
+    - uid: ChargeType
+  - name: properties.confidenceLevels
+    isReadyOnly: true
+    description: The details about the forecast confidence levels. This is populated only when chargeType is Forecast.
+    types:
+    - uid: ConfidenceLevels
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: Grain
+  description: The granularity of forecast.
+  kind: enum
+  properties:
+  - name: Daily
+    types:
+    - uid: string
+  - name: Monthly
+    types:
+    - uid: string
+  - name: Yearly
+    types:
+    - uid: string
+- name: ChargeType
+  description: The type of the charge. Could be actual or forecast
+  kind: enum
+  properties:
+  - name: Actual
+    types:
+    - uid: string
+  - name: Forecast
+    types:
+    - uid: string
+- name: ConfidenceLevels
+  description: The details about the forecast confidence levels. This is populated only when chargeType is Forecast.
+  kind: object
+  properties:
+  - name: percentage
+    isReadyOnly: true
+    description: The percentage level of the confidence
+    types:
+    - uid: number
+  - name: bound
+    description: The boundary of the percentage, values could be 'Upper' or 'Lower'
+    types:
+    - uid: Bound
+  - name: value
+    isReadyOnly: true
+    description: The amount of forecast within the percentage level
+    types:
+    - uid: number
+- name: Bound
+  description: The boundary of the percentage, values could be 'Upper' or 'Lower'
+  kind: enum
+  properties:
+  - name: Upper
+    types:
+    - uid: string
+  - name: Lower
+    types:
+    - uid: string
+examples:
+- name: ForecastsList
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/forecasts?api-version=2018-05-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Consumption/forecasts/forecastId1",
+            "name": "forecastId1",
+            "type": "Microsoft.Consumption/forecasts",
+            "properties": {
+              "usageDate": "2018-04-01",
+              "grain": "Daily",
+              "charge": 752,
+              "currency": "USD",
+              "chargeType": "Actual",
+              "confidenceLevels": null
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Consumption/forecasts/forecastId2",
+            "name": "forecastId2",
+            "type": "Microsoft.Consumption/forecasts",
+            "properties": {
+              "usageDate": "2018-04-02",
+              "grain": "Daily",
+              "charge": 753.809074,
+              "currency": "USD",
+              "chargeType": "Forecast",
+              "confidenceLevels": [
+                {
+                  "percentage": 95,
+                  "bound": "Upper",
+                  "value": 1165.951737
+                },
+                {
+                  "percentage": 95,
+                  "bound": "Lower",
+                  "value": 340.753404
+                }
+              ]
+            }
+          }
+        ]
+      }
+- name: ForecastsListFilterByGrain
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/forecasts?$filter=Grain eq 'Monthly'&api-version=2018-05-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Consumption/forecasts/forecastId1",
+            "name": "forecastId1",
+            "type": "Microsoft.Consumption/forecasts",
+            "properties": {
+              "usageDate": "2018-04-01",
+              "grain": "Monthly",
+              "charge": 752,
+              "currency": "USD",
+              "chargeType": "Actual",
+              "confidenceLevels": null
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Consumption/forecasts/forecastId2",
+            "name": "forecastId2",
+            "type": "Microsoft.Consumption/forecasts",
+            "properties": {
+              "usageDate": "2018-05-01",
+              "grain": "Monthly",
+              "charge": 753.809074,
+              "currency": "USD",
+              "chargeType": "Forecast",
+              "confidenceLevels": [
+                {
+                  "percentage": 95,
+                  "bound": "Upper",
+                  "value": 1165.951737
+                },
+                {
+                  "percentage": 95,
+                  "bound": "Lower",
+                  "value": 340.753404
+                }
+              ]
+            }
+          }
+        ]
+      }
+- name: ForecastsListFilterByDates
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/forecasts?$filter=usagedate ge '2018-04-01' AND usagedate le '2018-04-02'&api-version=2018-05-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Consumption/forecasts/forecastId1",
+            "name": "forecastId1",
+            "type": "Microsoft.Consumption/forecasts",
+            "properties": {
+              "usageDate": "2018-04-01",
+              "grain": "Daily",
+              "charge": 752,
+              "currency": "USD",
+              "chargeType": "Actual",
+              "confidenceLevels": null
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Consumption/forecasts/forecastId2",
+            "name": "forecastId2",
+            "type": "Microsoft.Consumption/forecasts",
+            "properties": {
+              "usageDate": "2018-04-02",
+              "grain": "Daily",
+              "charge": 753.809074,
+              "currency": "USD",
+              "chargeType": "Forecast",
+              "confidenceLevels": [
+                {
+                  "percentage": 95,
+                  "bound": "Upper",
+                  "value": 1165.951737
+                },
+                {
+                  "percentage": 95,
+                  "bound": "Lower",
+                  "value": 340.753404
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
