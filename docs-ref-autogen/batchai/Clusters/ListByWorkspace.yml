@@ -1,16 +1,18 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.batchai.clusters.get
-name: Get
+uid: management.azure.com.batchai.clusters.listbyworkspace
+name: List By Workspace
 service: Batch AI
 groupName: Clusters
 apiVersion: 2018-05-01
-summary: Gets information about a Cluster.
+summary: Gets information about Clusters associated with the given Workspace.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}?api-version=2018-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters?api-version=2018-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters?maxresults={maxresults}&api-version=2018-05-01
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -32,13 +34,12 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w_]+$
-- name: clusterName
-  in: path
-  isRequired: true
-  description: The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+- name: maxresults
+  in: query
+  description: The maximum number of items to return in the response. A maximum of 1000 files can be returned.
   types:
-  - uid: string
-  pattern: ^[-\w_]+$
+  - uid: integer
+  format: int32
 - name: api-version
   in: query
   isRequired: true
@@ -47,15 +48,39 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The operation was successful. The response contains information about the Cluster.
+  description: The operation was successful. The response contains a list of Clusters and their properties.
   types:
-  - uid: Cluster
+  - uid: ClusterListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
+- name: ClusterListResult
+  description: Values returned by the List Clusters operation.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The collection of returned Clusters.
+    types:
+    - uid: Cluster
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The continuation token.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Batch AI service.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: An error response from the Batch AI service.
+    types:
+    - uid: CloudErrorBody
 - name: Cluster
   description: Information about a Cluster.
   kind: object
@@ -144,15 +169,31 @@ definitions:
     description: The type of the resource.
     types:
     - uid: string
-- name: CloudError
+- name: CloudErrorBody
   description: An error response from the Batch AI service.
   kind: object
   properties:
-  - name: error
+  - name: code
     isReadyOnly: true
-    description: An error response from the Batch AI service.
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: A list of additional details about the error.
     types:
     - uid: CloudErrorBody
+      isArray: true
 - name: VmPriority
   description: VM priority.
   kind: enum
@@ -298,31 +339,6 @@ definitions:
     description: "Leaving node count.  \nNumber of compute nodes which are leaving the cluster."
     types:
     - uid: integer
-- name: CloudErrorBody
-  description: An error response from the Batch AI service.
-  kind: object
-  properties:
-  - name: code
-    isReadyOnly: true
-    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The target of the particular error. For example, the name of the property in error.
-    types:
-    - uid: string
-  - name: details
-    isReadyOnly: true
-    description: A list of additional details about the error.
-    types:
-    - uid: CloudErrorBody
-      isArray: true
 - name: ManualScaleSettings
   description: Manual scale settings for the cluster.
   kind: object
@@ -612,76 +628,68 @@ definitions:
     types:
     - uid: KeyVaultSecretReference
 examples:
-- name: Get a cluster's information
+- name: Get a list of cluster in a workspace
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/clusters/demo_cluster?api-version=2018-05-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/clusters?api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/clusters/demo_cluster",
-        "name": "demo_cluster",
-        "type": "Microsoft.BatchAI/Clusters",
-        "properties": {
-          "provisioningState": "succeeded",
-          "allocationState": "resizing",
-          "creationTime": "2017-09-27T21:50:02.377Z",
-          "allocationStateTransitionTime": "2017-09-27T21:50:04.521Z",
-          "provisioningStateTransitionTime": "2017-09-27T21:50:03.828Z",
-          "vmSize": "STANDARD_NC6",
-          "currentNodeCount": 0,
-          "nodeStateCounts": {
-            "runningNodeCount": 0,
-            "idleNodeCount": 0,
-            "unusableNodeCount": 0,
-            "preparingNodeCount": 0,
-            "leavingNodeCount": 0
-          },
-          "vmPriority": "dedicated",
-          "scaleSettings": {
-            "manual": {
-              "targetNodeCount": 1,
-              "nodeDeallocationOption": "requeue"
-            }
-          },
-          "virtualMachineConfiguration": {
-            "imageReference": {
-              "publisher": "Canonical",
-              "offer": "UbuntuServer",
-              "sku": "16.04-LTS",
-              "version": "latest"
-            }
-          },
-          "userAccountSettings": {
-            "adminUserName": "admin_user_name"
-          },
-          "nodeSetup": {
-            "mountVolumes": {
-              "azureFileShares": [
-                {
-                  "accountName": "storage_account_name",
-                  "azureFileUrl": "https://storage_account_name.file.core.windows.net/azure_file_share_name",
-                  "credentials": {},
-                  "relativeMountPath": "azfiles",
-                  "fileMode": "0777",
-                  "directoryMode": "0777"
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspace/demo_workspace/clusters/demo_cluster",
+            "name": "demo_cluster",
+            "type": "Microsoft.BatchAI/Clusters",
+            "properties": {
+              "provisioningState": "succeeded",
+              "allocationState": "resizing",
+              "creationTime": "2017-09-27T22:28:07.645Z",
+              "allocationStateTransitionTime": "2017-09-27T22:28:08.998Z",
+              "provisioningStateTransitionTime": "2017-09-27T22:28:08.327Z",
+              "vmSize": "STANDARD_NC6",
+              "currentNodeCount": 0,
+              "nodeStateCounts": {
+                "runningNodeCount": 0,
+                "idleNodeCount": 0,
+                "unusableNodeCount": 0,
+                "preparingNodeCount": 0,
+                "leavingNodeCount": 0
+              },
+              "vmPriority": "dedicated",
+              "scaleSettings": {
+                "manual": {
+                  "targetNodeCount": 1,
+                  "nodeDeallocationOption": "requeue"
                 }
-              ],
-              "fileServers": [
-                {
-                  "fileServer": {
-                    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/fileservers/fileservercedd134b"
-                  },
-                  "relativeMountPath": "nfs",
-                  "mountOptions": "rw"
+              },
+              "virtualMachineConfiguration": {
+                "imageReference": {
+                  "publisher": "Canonical",
+                  "offer": "UbuntuServer",
+                  "sku": "16.04-LTS",
+                  "version": "latest"
                 }
-              ]
+              },
+              "userAccountSettings": {
+                "adminUserName": "admin_user_name"
+              },
+              "nodeSetup": {
+                "mountVolumes": {
+                  "azureFileShares": [
+                    {
+                      "accountName": "storage_account_name",
+                      "azureFileUrl": "https://storage_account_name.file.core.windows.net/azure_file_share_name",
+                      "credentials": {},
+                      "relativeMountPath": "azfiles",
+                      "fileMode": "0777",
+                      "directoryMode": "0777"
+                    }
+                  ]
+                }
+              }
             }
-          },
-          "subnet": {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.Network/virtualNetworks/7feb1976-8c31-4f1f-bea2-86cb1839a7bavnet/subnets/Subnet-1"
           }
-        }
+        ]
       }
 security:
 - type: oauth2
