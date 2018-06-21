@@ -1,0 +1,712 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.consumption.reportconfig.createorupdate
+name: Create Or Update
+service: Consumption
+groupName: Report Config
+apiVersion: 2018-05-31
+summary: The operation to create or update a report config. Update operation requires latest eTag to be set in the request mandatorily. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/reportconfigs/{reportConfigName}?api-version=2018-05-31
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: reportConfigName
+  in: path
+  isRequired: true
+  description: Report Config Name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-05-31.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ReportConfig
+- name: 201 Created
+  description: Created.
+  types:
+  - uid: ReportConfig
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: properties.schedule
+    in: body
+    description: Has schedule information for the report config.
+    types:
+    - uid: ReportConfigSchedule
+  - name: properties.format
+    in: body
+    description: The format of the report being delivered.
+    types:
+    - uid: FormatType
+  - name: properties.deliveryInfo
+    in: body
+    isRequired: true
+    description: Has delivery information for the report config.
+    types:
+    - uid: ReportConfigDeliveryInfo
+  - name: properties.definition
+    in: body
+    isRequired: true
+    description: Has definition for the report config.
+    types:
+    - uid: ReportConfigDefinition
+requestHeader: []
+definitions:
+- name: ReportConfigSchedule
+  description: The schedule associated with a report config.
+  kind: object
+  properties:
+  - name: status
+    description: The status of the schedule. Whether active or not. If inactive, the report's scheduled execution is paused.
+    types:
+    - uid: StatusType
+  - name: recurrence
+    description: The schedule recurrence.
+    types:
+    - uid: RecurrenceType
+  - name: recurrencePeriod
+    description: Has start and end date of the recurrence. The start date must be in future. If present, the end date must be greater than start date.
+    types:
+    - uid: ReportConfigRecurrencePeriod
+- name: ReportConfigDeliveryInfo
+  description: The delivery information associated with a report config.
+  kind: object
+  properties:
+  - name: destination
+    description: Has destination for the report being delivered.
+    types:
+    - uid: ReportConfigDeliveryDestination
+- name: ReportConfigDefinition
+  description: The definition of a report config.
+  kind: object
+  properties:
+  - name: type
+    description: The type of the report.
+    types:
+    - uid: ReportType
+  - name: timeframe
+    description: The time frame for pulling data for the report. If custom, then a specific time period must be provided.
+    types:
+    - uid: TimeframeType
+  - name: timePeriod
+    description: Has time period for pulling data for the report.
+    types:
+    - uid: ReportConfigTimePeriod
+  - name: dataset
+    description: Has definition for data in this report config.
+    types:
+    - uid: ReportConfigDataset
+- name: ReportConfig
+  description: A report config resource.
+  kind: object
+  properties:
+  - name: properties.schedule
+    description: Has schedule information for the report config.
+    types:
+    - uid: ReportConfigSchedule
+  - name: properties.format
+    description: The format of the report being delivered.
+    types:
+    - uid: FormatType
+  - name: properties.deliveryInfo
+    description: Has delivery information for the report config.
+    types:
+    - uid: ReportConfigDeliveryInfo
+  - name: properties.definition
+    description: Has definition for the report config.
+    types:
+    - uid: ReportConfigDefinition
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: StatusType
+  description: The status of the schedule. Whether active or not. If inactive, the report's scheduled execution is paused.
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Inactive
+    types:
+    - uid: string
+- name: RecurrenceType
+  description: The schedule recurrence.
+  kind: enum
+  properties:
+  - name: Daily
+    types:
+    - uid: string
+  - name: Weekly
+    types:
+    - uid: string
+  - name: Monthly
+    types:
+    - uid: string
+  - name: Annually
+    types:
+    - uid: string
+- name: ReportConfigRecurrencePeriod
+  description: The start and end date for recurrence schedule.
+  kind: object
+  properties:
+  - name: from
+    description: The start date of recurrence.
+    types:
+    - uid: string
+  - name: to
+    description: The end date of recurrence. If not provided, we default this to 10 years from the start date.
+    types:
+    - uid: string
+- name: ReportConfigDeliveryDestination
+  description: The destination information for the delivery of the report.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The resource id of the storage account where reports will be delivered.
+    types:
+    - uid: string
+  - name: container
+    description: The name of the container where reports will be uploaded.
+    types:
+    - uid: string
+  - name: rootFolderPath
+    description: The name of the directory where reports will be uploaded.
+    types:
+    - uid: string
+- name: ReportType
+  description: The type of the report.
+  kind: enum
+  properties:
+  - name: Usage
+    types:
+    - uid: string
+- name: TimeframeType
+  description: The time frame for pulling data for the report. If custom, then a specific time period must be provided.
+  kind: enum
+  properties:
+  - name: WeekToDate
+    types:
+    - uid: string
+  - name: MonthToDate
+    types:
+    - uid: string
+  - name: YearToDate
+    types:
+    - uid: string
+  - name: Custom
+    types:
+    - uid: string
+- name: ReportConfigTimePeriod
+  description: The start and end date for pulling data for the report.
+  kind: object
+  properties:
+  - name: from
+    description: The start date to pull data from.
+    types:
+    - uid: string
+  - name: to
+    description: The end date to pull data to.
+    types:
+    - uid: string
+- name: ReportConfigDataset
+  description: The definition of data present in the report.
+  kind: object
+  properties:
+  - name: granularity
+    description: The granularity of rows in the report.
+    types:
+    - uid: GranularityType
+  - name: configuration
+    description: Has configuration information for the data in the report. The configuration will be ignored if aggregation and grouping are provided.
+    types:
+    - uid: ReportConfigDatasetConfiguration
+  - name: aggregation
+    description: Dictionary of aggregation expression to use in the report. The key of each item in the dictionary is the alias for the aggregated column. Report can have upto 2 aggregation clauses.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ReportConfigAggregation
+  - name: grouping
+    description: Array of group by expression to use in the report. Report can have upto 2 group by clauses.
+    types:
+    - uid: ReportConfigGrouping
+      isArray: true
+  - name: filter
+    description: Has filter expression to use in the report.
+    types:
+    - uid: ReportConfigFilter
+- name: FormatType
+  description: The format of the report being delivered.
+  kind: enum
+  properties:
+  - name: Csv
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: GranularityType
+  description: The granularity of rows in the report.
+  kind: enum
+  properties:
+  - name: Daily
+    types:
+    - uid: string
+- name: ReportConfigDatasetConfiguration
+  description: The configuration of dataset in the report.
+  kind: object
+  properties:
+  - name: columns
+    description: Array of column names to be included in the report. Any valid report column name is allowed. If not provided, then report includes all columns.
+    types:
+    - uid: string
+      isArray: true
+- name: Aggregation
+  description: Dictionary of aggregation expression to use in the report. The key of each item in the dictionary is the alias for the aggregated column. Report can have upto 2 aggregation clauses.
+  kind: object
+  properties:
+  - name: ''
+    description: The aggregation expression to be used in the report.
+    types:
+    - uid: ReportConfigAggregation
+- name: ReportConfigGrouping
+  description: The group by expression to be used in the report.
+  kind: object
+  properties:
+  - name: columnType
+    description: Has type of the column to group.
+    types:
+    - uid: ReportConfigColumnType
+  - name: name
+    description: The name of the column to group.
+    types:
+    - uid: string
+- name: ReportConfigFilter
+  description: The filter expression to be used in the report.
+  kind: object
+  properties:
+  - name: and
+    description: The logical "AND" expression. Must have atleast 2 items.
+    types:
+    - uid: ReportConfigFilter
+      isArray: true
+  - name: or
+    description: The logical "OR" expression. Must have atleast 2 items.
+    types:
+    - uid: ReportConfigFilter
+      isArray: true
+  - name: not
+    description: The logical "NOT" expression.
+    types:
+    - uid: ReportConfigFilter
+  - name: dimension
+    description: Has comparison expression for a dimension
+    types:
+    - uid: ReportConfigComparisonExpression
+  - name: tag
+    description: Has comparison expression for a tag
+    types:
+    - uid: ReportConfigComparisonExpression
+- name: ReportConfigAggregation
+  description: The aggregation expression to be used in the report.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the column to aggregate.
+    types:
+    - uid: string
+  - name: function
+    description: The name of the aggregation function to use.
+    types:
+    - uid: FunctionType
+- name: ReportConfigColumnType
+  description: The type of the column in the report.
+  kind: enum
+  properties:
+  - name: Tag
+    types:
+    - uid: string
+  - name: Dimension
+    types:
+    - uid: string
+- name: ReportConfigComparisonExpression
+  description: The comparison expression to be used in the report.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the column to use in comaprison.
+    types:
+    - uid: string
+  - name: operator
+    description: The operator to use for comparison.
+    types:
+    - uid: OperatorType
+  - name: values
+    description: Array of values to use for comparison
+    types:
+    - uid: string
+      isArray: true
+- name: FunctionType
+  description: The name of the aggregation function to use.
+  kind: enum
+  properties:
+  - name: Sum
+    types:
+    - uid: string
+- name: OperatorType
+  description: The operator to use for comparison.
+  kind: enum
+  properties:
+  - name: In
+    types:
+    - uid: string
+examples:
+- name: CreateOrUpdateReport
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/reportconfigs/TestReportConfig?api-version=2018-05-31
+    body: >-
+      {
+        "properties": {
+          "schedule": {
+            "status": "Active",
+            "recurrence": "Weekly",
+            "recurrencePeriod": {
+              "from": "2018-06-01T00:00:00Z",
+              "to": "2018-10-31T00:00:00Z"
+            }
+          },
+          "format": "Csv",
+          "deliveryInfo": {
+            "destination": {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
+              "container": "reports",
+              "rootFolderPath": "ad-hoc"
+            }
+          },
+          "definition": {
+            "type": "Usage",
+            "timeframe": "MonthToDate",
+            "dataset": {
+              "granularity": "Daily",
+              "configuration": {
+                "columns": [
+                  "Date",
+                  "MeterId",
+                  "InstanceId",
+                  "ResourceLocation",
+                  "PreTaxCost"
+                ]
+              },
+              "aggregation": {
+                "costSum": {
+                  "name": "PreTaxCost",
+                  "function": "Sum"
+                }
+              },
+              "grouping": [
+                {
+                  "columnType": "Dimension",
+                  "name": "SubscriptionName"
+                },
+                {
+                  "columnType": "Tag",
+                  "name": "Environment"
+                }
+              ],
+              "filter": {
+                "and": [
+                  {
+                    "or": [
+                      {
+                        "dimension": {
+                          "name": "ResourceLocation",
+                          "operator": "In",
+                          "values": [
+                            "East US",
+                            "West Europe"
+                          ]
+                        }
+                      },
+                      {
+                        "tag": {
+                          "name": "Environment",
+                          "operator": "In",
+                          "values": [
+                            "UAT",
+                            "Prod"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "dimension": {
+                      "name": "ResourceGroup",
+                      "operator": "In",
+                      "values": [
+                        "API"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "subscriptions/{subscription-id}/providers/Microsoft.Consumption/reportconfigs/TestReportConfig",
+        "name": "TestReportConfig",
+        "type": "Microsoft.Consumption/reportconfigs",
+        "properties": {
+          "schedule": {
+            "status": "Active",
+            "recurrence": "Weekly",
+            "recurrencePeriod": {
+              "from": "2018-06-01T00:00:00Z",
+              "to": "2018-10-31T00:00:00Z"
+            }
+          },
+          "format": "Csv",
+          "deliveryInfo": {
+            "destination": {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
+              "container": "reports",
+              "rootFolderPath": "ad-hoc"
+            }
+          },
+          "definition": {
+            "type": "Usage",
+            "timeframe": "MonthToDate",
+            "dataset": {
+              "granularity": "Daily",
+              "configuration": {
+                "columns": [
+                  "Date",
+                  "MeterId",
+                  "InstanceId",
+                  "ResourceLocation",
+                  "PreTaxCost"
+                ]
+              },
+              "aggregation": {
+                "costSum": {
+                  "name": "PreTaxCost",
+                  "function": "Sum"
+                }
+              },
+              "grouping": [
+                {
+                  "columnType": "Dimension",
+                  "name": "SubscriptionName"
+                },
+                {
+                  "columnType": "Tag",
+                  "name": "Environment"
+                }
+              ],
+              "filter": {
+                "and": [
+                  {
+                    "or": [
+                      {
+                        "dimension": {
+                          "name": "ResourceLocation",
+                          "operator": "In",
+                          "values": [
+                            "East US",
+                            "West Europe"
+                          ]
+                        }
+                      },
+                      {
+                        "tag": {
+                          "name": "Environment",
+                          "operator": "In",
+                          "values": [
+                            "UAT",
+                            "Prod"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "dimension": {
+                      "name": "ResourceGroup",
+                      "operator": "In",
+                      "values": [
+                        "API"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "subscriptions/{subscription-id}/providers/Microsoft.Consumption/reportconfigs/TestReportConfig",
+        "name": "TestReportConfig",
+        "type": "Microsoft.Consumption/reportconfigs",
+        "properties": {
+          "schedule": {
+            "status": "Active",
+            "recurrence": "Weekly",
+            "recurrencePeriod": {
+              "from": "2018-06-01T00:00:00Z",
+              "to": "2018-10-31T00:00:00Z"
+            }
+          },
+          "format": "Csv",
+          "deliveryInfo": {
+            "destination": {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
+              "container": "reports",
+              "rootFolderPath": "ad-hoc"
+            }
+          },
+          "definition": {
+            "type": "Usage",
+            "timeframe": "MonthToDate",
+            "dataset": {
+              "granularity": "Daily",
+              "configuration": {
+                "columns": [
+                  "Date",
+                  "MeterId",
+                  "InstanceId",
+                  "ResourceLocation",
+                  "PreTaxCost"
+                ]
+              },
+              "aggregation": {
+                "costSum": {
+                  "name": "PreTaxCost",
+                  "function": "Sum"
+                }
+              },
+              "grouping": [
+                {
+                  "columnType": "Dimension",
+                  "name": "SubscriptionName"
+                },
+                {
+                  "columnType": "Tag",
+                  "name": "Environment"
+                }
+              ],
+              "filter": {
+                "and": [
+                  {
+                    "or": [
+                      {
+                        "dimension": {
+                          "name": "ResourceLocation",
+                          "operator": "In",
+                          "values": [
+                            "East US",
+                            "West Europe"
+                          ]
+                        }
+                      },
+                      {
+                        "tag": {
+                          "name": "Environment",
+                          "operator": "In",
+                          "values": [
+                            "UAT",
+                            "Prod"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "dimension": {
+                      "name": "ResourceGroup",
+                      "operator": "In",
+                      "values": [
+                        "API"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
