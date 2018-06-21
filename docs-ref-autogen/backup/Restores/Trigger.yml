@@ -71,6 +71,7 @@ requestBody:
     types:
     - uid: AzureFileShareRestoreRequest
     - uid: AzureWorkloadRestoreRequest
+    - uid: AzureWorkloadSAPHanaRestoreRequest
     - uid: IaasVMRestoreRequest
     typesTitle: RestoreRequest
   - name: location
@@ -103,6 +104,7 @@ definitions:
     types:
     - uid: AzureFileShareRestoreRequest
     - uid: AzureWorkloadRestoreRequest
+    - uid: AzureWorkloadSAPHanaRestoreRequest
     - uid: IaasVMRestoreRequest
     typesTitle: RestoreRequest
   - name: id
@@ -229,7 +231,7 @@ definitions:
     types:
     - uid: boolean
   - name: originalStorageAccountOption
-    description: Original SA Option
+    description: Original Storage Account Option
     types:
     - uid: boolean
   - name: encryptionDetails
@@ -317,6 +319,39 @@ definitions:
     description: Target file share resource ARM ID
     types:
     - uid: string
+- name: AzureWorkloadSAPHanaPointInTimeRestoreRequest
+  description: AzureWorkload SAP Hana -specific restore. Specifically for PointInTime/Log restore
+  kind: object
+  properties:
+  - name: pointInTime
+    description: PointInTime value
+    types:
+    - uid: string
+  - name: targetInfo
+    description: Details of target database
+    types:
+    - uid: TargetRestoreInfo
+  - name: recoveryType
+    description: OLR/ALR, RestoreDisks is invalid option
+    types:
+    - uid: RecoveryType
+  - name: sourceResourceId
+    description: Fully qualified ARM ID of the VM on which workload that was running is being recovered.
+    types:
+    - uid: string
+  - name: propertyBag
+    description: Workload specific property bag.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: AzureWorkloadSAPHanaRestoreRequest
+    typesTitle: string
 - name: EncryptionDetails
   description: Details needed if the VM was encrypted at the time of backup.
   kind: object
@@ -400,7 +435,7 @@ definitions:
     types:
     - uid: string
   - name: databaseName
-    description: Database name SQL InstanceName/DataBaseName
+    description: Database name InstanceName/DataBaseName for SQL or System/DbName for SAP Hana
     types:
     - uid: string
 - name: SQLDataDirectoryMapping
