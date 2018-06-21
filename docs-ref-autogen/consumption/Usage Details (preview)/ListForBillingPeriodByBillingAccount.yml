@@ -1,0 +1,351 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.consumption.usagedetails(preview).listforbillingperiodbybillingaccount
+name: List For Billing Period By Billing Account
+service: Consumption
+groupName: Usage Details (preview)
+apiVersion: 2018-05-31
+summary: Lists the usage details based on billingAccountId for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/usageDetails?api-version=2018-05-31
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$apply={$apply}&$skiptoken={$skiptoken}&$top={$top}&api-version=2018-05-31
+  isOptional: true
+uriParameters:
+- name: billingAccountId
+  in: path
+  isRequired: true
+  description: BillingAccount ID
+  types:
+  - uid: string
+- name: billingPeriodName
+  in: path
+  isRequired: true
+  description: Billing Period Name.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: May be used to expand the properties/additionalProperties or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:).
+  types:
+  - uid: string
+- name: $apply
+  in: query
+  description: OData apply expression to aggregate usageDetails by tags or (tags and properties/usageStart) for specified billing period
+  types:
+  - uid: string
+- name: $skiptoken
+  in: query
+  description: Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: May be used to limit the number of results to the most recent N usageDetails.
+  types:
+  - uid: integer
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-05-31.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: UsageDetailsListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: UsageDetailsListResult
+  description: Result of listing usage details. It contains a list of available usage details in reverse chronological order by billing period.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of usage details.
+    types:
+    - uid: UsageDetail
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: UsageDetail
+  description: An usage detail resource.
+  kind: object
+  properties:
+  - name: properties.billingPeriodId
+    isReadyOnly: true
+    description: The id of the billing period resource that the usage belongs to.
+    types:
+    - uid: string
+  - name: properties.invoiceId
+    isReadyOnly: true
+    description: The id of the invoice resource that the usage belongs to.
+    types:
+    - uid: string
+  - name: properties.usageStart
+    isReadyOnly: true
+    description: The start of the date time range covered by the usage detail.
+    types:
+    - uid: string
+  - name: properties.usageEnd
+    isReadyOnly: true
+    description: The end of the date time range covered by the usage detail.
+    types:
+    - uid: string
+  - name: properties.instanceName
+    isReadyOnly: true
+    description: The name of the resource instance that the usage is about.
+    types:
+    - uid: string
+  - name: properties.instanceId
+    isReadyOnly: true
+    description: The uri of the resource instance that the usage is about.
+    types:
+    - uid: string
+  - name: properties.instanceLocation
+    isReadyOnly: true
+    description: The location of the resource instance that the usage is about.
+    types:
+    - uid: string
+  - name: properties.currency
+    isReadyOnly: true
+    description: The ISO currency in which the meter is charged, for example, USD.
+    types:
+    - uid: string
+  - name: properties.usageQuantity
+    isReadyOnly: true
+    description: The quantity of usage.
+    types:
+    - uid: number
+  - name: properties.billableQuantity
+    isReadyOnly: true
+    description: The billable usage quantity.
+    types:
+    - uid: number
+  - name: properties.pretaxCost
+    isReadyOnly: true
+    description: The amount of cost before tax.
+    types:
+    - uid: number
+  - name: properties.isEstimated
+    isReadyOnly: true
+    description: The estimated usage is subject to change.
+    types:
+    - uid: boolean
+  - name: properties.meterId
+    isReadyOnly: true
+    description: The meter id (GUID).
+    types:
+    - uid: string
+  - name: properties.meterDetails
+    isReadyOnly: true
+    description: The details about the meter. By default this is not populated, unless it's specified in $expand.
+    types:
+    - uid: MeterDetails
+  - name: properties.subscriptionGuid
+    isReadyOnly: true
+    description: Subscription guid.
+    types:
+    - uid: string
+  - name: properties.subscriptionName
+    isReadyOnly: true
+    description: Subscription name.
+    types:
+    - uid: string
+  - name: properties.accountName
+    isReadyOnly: true
+    description: Account name.
+    types:
+    - uid: string
+  - name: properties.departmentName
+    isReadyOnly: true
+    description: Department name.
+    types:
+    - uid: string
+  - name: properties.product
+    isReadyOnly: true
+    description: Product name.
+    types:
+    - uid: string
+  - name: properties.consumedService
+    isReadyOnly: true
+    description: Consumed service name.
+    types:
+    - uid: string
+  - name: properties.costCenter
+    isReadyOnly: true
+    description: The cost center of this department if it is a department and a costcenter exists
+    types:
+    - uid: string
+  - name: properties.partNumber
+    isReadyOnly: true
+    description: Part Number
+    types:
+    - uid: string
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: Resource Guid
+    types:
+    - uid: string
+  - name: properties.offerId
+    isReadyOnly: true
+    description: Offer Id
+    types:
+    - uid: string
+  - name: properties.chargesBilledSeparately
+    isReadyOnly: true
+    description: Charges billed separately
+    types:
+    - uid: boolean
+  - name: properties.additionalProperties
+    isReadyOnly: true
+    description: Additional details of this usage item. By default this is not populated, unless it's specified in $expand.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: MeterDetails
+  description: The properties of the meter detail.
+  kind: object
+  properties:
+  - name: meterName
+    isReadyOnly: true
+    description: The name of the meter, within the given meter category
+    types:
+    - uid: string
+  - name: meterCategory
+    isReadyOnly: true
+    description: The category of the meter, for example, 'Cloud services', 'Networking', etc..
+    types:
+    - uid: string
+  - name: meterSubCategory
+    isReadyOnly: true
+    description: The subcategory of the meter, for example, 'A6 Cloud services', 'ExpressRoute (IXP)', etc..
+    types:
+    - uid: string
+  - name: unit
+    isReadyOnly: true
+    description: The unit in which the meter consumption is charged, for example, 'Hours', 'GB', etc.
+    types:
+    - uid: string
+  - name: meterLocation
+    isReadyOnly: true
+    description: The location in which the Azure service is available.
+    types:
+    - uid: string
+  - name: totalIncludedQuantity
+    isReadyOnly: true
+    description: The total included quantity associated with the offer.
+    types:
+    - uid: number
+  - name: pretaxStandardRate
+    isReadyOnly: true
+    description: The pretax listing price.
+    types:
+    - uid: number
+examples:
+- name: UsageDetailsListForBillingPeriod
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails?api-version=2018-05-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "billingPeriodId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702",
+              "invoiceId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/invoices/201703-123456789",
+              "usageStart": "2017-02-13T00:00:00Z",
+              "usageEnd": "2017-02-13T23:59:59Z",
+              "instanceName": "shared1",
+              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceLocation": "eastasia",
+              "currency": "USD",
+              "usageQuantity": 0.00328,
+              "billableQuantity": 0.00328,
+              "pretaxCost": 0.67,
+              "isEstimated": false,
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
