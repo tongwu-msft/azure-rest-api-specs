@@ -36,4 +36,4 @@ DELETE https://[service name].search.windows.net/skillsets/[skillset name]?api-v
 
 + [Cognitive search overview](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro)
 + [Tutorial: Learn the cognitive search REST APIs](https://docs.microsoft.com/azure/search/cognitive-search-tutorial-blob)
-+ [Predefined sklls](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills)
++ [Predefined skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills)

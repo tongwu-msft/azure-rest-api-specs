@@ -38,6 +38,6 @@ GET https://[service name].search.windows.net/skillsets/[skillset name]?api-vers
 + [How to map fields](https://docs.microsoft.com/azure/search/cognitive-search-output-field-mapping)
 + [How to define a custom interface](https://docs.microsoft.com/azure/search/cognitive-search-custom-skill-interface)
 + [Example: creating a custom skill](https://docs.microsoft.com/azure/search/cognitive-search-create-custom-skill-example)
-+ [Predefined sklls](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills)
++ [Predefined skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills)
 
 
