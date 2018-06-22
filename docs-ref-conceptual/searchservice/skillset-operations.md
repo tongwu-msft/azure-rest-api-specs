@@ -41,7 +41,7 @@ To use the skillset, reference it in an [indexer](create-indexer.md) and then ru
 + [Azure Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet) 
 + [Cognitive search overview](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro)
 + [Quickstart: Try cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-quickstart-blob)
-+ [Tutorial: Enriched indexing of Azure blobs](https://docs.microsoft.com/azure/search/cognitive-search-tutorial-blob)
++ [Tutorial: Learn the cognitive search REST APIs](https://docs.microsoft.com/azure/search/cognitive-search-tutorial-blob)
 + [How to define a skillset](https://docs.microsoft.com/azure/search/cognitive-search-defining-skillset)
 + [How to map fields](https://docs.microsoft.com/azure/search/cognitive-search-output-field-mapping)
 + [How to define a custom interface](https://docs.microsoft.com/azure/search/cognitive-search-custom-skill-interface)

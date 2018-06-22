@@ -16,7 +16,7 @@ ms.date: 06/21/2018
 
 **Applies to:** api-version-2017-11-11-Preview
 
-  The **Get Indexer** operation gets the indexer definition from Azure Search.  
+  The **Get Skillset** operation gets the skillset definition from Azure Search.  
 
 ```  
 GET https://[service name].search.windows.net/skillsets/[skillset name]?api-version=2017-11-11-Preview 
@@ -28,7 +28,7 @@ GET https://[service name].search.windows.net/skillsets/[skillset name]?api-vers
  The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
 
 ## Response  
- Status Code: 200 OK is returned for a successful response. The response is similar to examples in [Create Skillset(create-skillset.md):  
+ Status Code: 200 OK is returned for a successful response. The response is similar to examples in [Create Skillset](create-skillset.md):  
 
 ## See also  
 
