@@ -74,4 +74,4 @@ Properties that define a **suggester** include the following:
  [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)   
  [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   
  [Azure Search Service REST](index.md)   
- [Azure Search .NET SDK](https://msdn.microsoft.com/en-us/library/azure/dn951165.aspx)  
+ [Azure Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
