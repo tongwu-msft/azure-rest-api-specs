@@ -48,7 +48,7 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
 |Parameter|Description|  
 |---------------|-----------------|  
 |`$select=[string]`|Optional. A list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to *, all fields marked as retrievable in the schema are included in the projection.|  
-|`api-version=[string]`|The `api-version` parameter is required.  See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details. **Note:**  For this operation, the api-version is specified as a query parameter.|  
+|`api-version=[string]`|The `api-version` parameter is required.  See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. **Note:**  For this operation, the api-version is specified as a query parameter.|  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -88,4 +88,4 @@ GET /indexes/hotels/docs('3')?api-version=2017-11-11
  [Azure Search Service REST](index.md)   
  [Document operations &#40;Azure Search Service REST API&#41;](document-operations.md)   
  [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
- [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)
+ [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)

@@ -1,6 +1,6 @@
 ---
-title: Create Skillset (REST api-version=2017-11-11-Preview) - Azure Search | Microsoft Docs
-description: A skillset is a collection of cognitive skills that comprise an enriched indexing pipeline in Azure Search.
+title: Update Skillset (REST api-version=2017-11-11-Preview) - Azure Search | Microsoft Docs
+description: Modify an existing skillset. A skillset is a collection of cognitive skills that comprise an enrichment pipeline in Azure Search indexing.
 
 ms.manager: cgronlun
 author: luiscabrer
@@ -12,19 +12,12 @@ ms.devlang: rest-api
 ms.workload: search
 ms.topic: language-reference
 ms.date: 06/21/2018
-
 ---
-# Create Skillset (Azure Search Service REST API - Preview)
+# Update Skillset (Azure Search Service REST API - Preview)
 
 **Applies to:** api-version-2017-11-11-Preview
 
-A skillset is a collection of [cognitive skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills) used for natural language processing and other transformations. Skills include named entity extraction, key phrase extraction, chunking text into logical pages, among others.
-
-To use the skillset, reference it in an [indexer](create-indexer.md) and then run the indexer to import data, invoke transformations and enrichment, and map the output fields to an index. A skillset is high-level resource, but it is operational only within indexer processing. As a high-level resource, you can design a skillset once, and then reference it in multiple indexers. 
-
-A skillset is expressed in Azure Search through an HTTP PUT or POST request. For PUT, the body of the request is a JSON schema that specifies which skills are invoked. Skills are chained together through input-output associations, where the output of one transform becomes input to another.
-
-A skillset must have at least one skill. There is no theoretical limit on maximum number of skills, but three to five is a common configuration.  
+You can update an existing [skillset](create-skillset.md) using an HTTP PUT, specifying the name of the skillset to update on the request URI.
 
 > [!NOTE]
 > Skillsets are used in [cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro). Currently, this feature is in public preview and skillset execution is currently offered for free. Pricing for this capability will be announced at a later time.
@@ -36,16 +29,7 @@ Content-Type: application/json
 ```  
 
 ## Request  
- HTTPS is required for all service requests. The **Create Skillset** request can be constructed using a PUT method, with the skillset name as part of the URL. If the skillset doesn't exist, it is created. If it already exists, it is updated to the new definition. Notice that you can only PUT one skillset at a time.  
-
- The skillset name must meet the following requirements:
-
-- Be in lower case
-- Start and end with a letter or number
-- Have no slashes or dots
-- Have fewer than 128 characters 
-
-After starting the skillset name with a letter or number, the rest of the name can include any letter, number, and dashes as long as the dashes are not consecutive.  
+ HTTPS is required for all service requests. The **Update Skillset** request can be constructed using a PUT method, with the skillset name as part of the URL. When the request is on a skillset that already exists, it is updated to the new definition. If the skillset doesn't exist, it is created. Notice that you can only PUT one skillset at a time.  
 
  The **api-version** is required. It is case-sensitive. The current preview version for cognitive search is `api-version=2017-11-11-Preview`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
 
@@ -76,7 +60,7 @@ The syntax for structuring the request payload is as follows. A sample request i
 ```
 
 ### Request example
- The following example creates a skillset used for enriching a collection of financial documents.
+ The following example updates a skillset used for enriching a collection of financial documents.
 
 ```http
 PUT https://[servicename].search.windows.net/skillsets/financedocenricher?api-version=2017-11-11-Preview
@@ -90,7 +74,7 @@ The body of request is a JSON document. This particular skillset uses two skills
 {
   "name": "financedocenricher",
   "description": 
-  "Extract sentiment from financial records, extract company names, and then find additional information about each company mentioned.",
+  "An updated version of a skillset used to extract sentiment from financial records, extract company names, and then find additional information about each company mentioned. This version changes the target names.",
   "skills":
   [
     {
@@ -106,7 +90,7 @@ The body of request is a JSON document. This particular skillset uses two skills
       "outputs": [
         {
           "name": "organizations",
-          "targetName": "organizations"
+          "targetName": "companies"
         }
       ]
     },
@@ -121,7 +105,7 @@ The body of request is a JSON document. This particular skillset uses two skills
       "outputs": [
         {
           "name": "score",
-          "targetName": "mySentiment"
+          "targetName": "positivityscore"
         }
       ]
     },
