@@ -33,8 +33,7 @@ The **Analyze API** shows how an analyzer breaks text into tokens.
 
 HTTPS is required for all services requests. The **Analyze API** request can be constructed using the POST method.
 
-`api-version=[string]` (required). The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.  
-.
+`api-version=[string]` (required). The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.
 
 ### Request Headers  
 The following list describes the required and optional request headers.
@@ -43,7 +42,7 @@ The following list describes the required and optional request headers.
 |--------------------|-----------------|  
 |*api-key:*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Analyze API** request must include an `api-key` set to an admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body
 ```json
@@ -61,7 +60,7 @@ or
   "charFilters": (optional) [ "char_filter_name" ]
 }
 ```  
-The `analyzer_name`, `tokenizer_name`, `token_filter_name` and `char_filter_name` need to be valid names of predefined or custom analyzers, tokenizers, token filters and char filters for the index. To learn more about the process of lexical analysis see [Analysis in Azure Search](https://aka.ms/azsanalysis).
+The `analyzer_name`, `tokenizer_name`, `token_filter_name` and `char_filter_name` need to be valid names of predefined or custom analyzers, tokenizers, token filters, and char filters for the index. To learn more about the process of lexical analysis, see [Analysis in Azure Search](https://aka.ms/azsanalysis).
 
 
 ## Response  
