@@ -1,6 +1,6 @@
 ---
 title: "GetPropertyBatchOperation"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,9 +37,9 @@ the entire batch fails and cannot be committed in a transactional manner.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [PropertyName](#propertyname) | string | Yes |
-| [IncludeValue](#includevalue) | boolean | No |
+| [`Kind`](#kind) | string | Yes |
+| [`PropertyName`](#propertyname) | string | Yes |
+| [`IncludeValue`](#includevalue) | boolean | No |
 
 ____
 ### Kind
@@ -49,17 +49,17 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Get' for objects of type 'GetPropertyBatchOperation'.
 
 ____
-### PropertyName
+### `PropertyName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the Service Fabric property.
 
 ____
-### IncludeValue
+### `IncludeValue`
 __Type__: boolean <br/>
 __Required__: No<br/>
-__Default__: false <br/>
+__Default__: `false` <br/>
 <br/>
 Whether or not to return the property value with the metadata.
 True if values should be returned with the metadata; False to return only property metadata.

@@ -1,7 +1,7 @@
 ---
 title: "Batch Service REST API Versioning | Microsoft Docs"
 ms.custom: ""
-ms.date: "2017-05-05"
+ms.date: "03/19/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"
@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: b4b1f270-69e7-4d7d-af45-416efbd7d1cf
 caps.latest.revision: 24
-author: "tamram"
-ms.author: "tamram"
-manager: "timlt"
+author: "dlepow"
+ms.author: "danlep"
+manager: "jeconnoc"
 ---
 
 # Batch Service REST API Versioning
@@ -22,7 +22,32 @@ manager: "timlt"
 
 
 
-## Latest version: 2017-09-01.6.0
+## Latest version: 2018-03-01.6.1
+
+New features in version 2018-03-01.6.1 include:
+
+- Pool node counts by state: This version adds the ability to query pool node counts by state, via the new [ListPoolNodeCounts](/rest/api/batchservice/account/listpoolnodecounts) operation. This operation gives you the ability to query all pools in a Batch account for node states including creating, idle, offline, preempted, rebooting, reimaging, starting, and others. 
+- Node agent logs: This version adds the ability to upload Azure Batch node agent logs from a particular node, via the [UploadBatchServiceLogs](/rest/api/batchservice/computenode/uploadbatchservicelogs) operation. This is intended for use in debugging by Microsoft Support if problems occur on a node.
+
+
+## Previous Versions
+ 
+ Previous versions include:
+
+- [2017-09-01.6.0](#version-2017090160)
+- [2017-06-01.5.1](#version-2017060151)
+- [2017-05-01.5.0](#version-2017050150)
+- [2017-01-01.4.0](#version-2017010140)
+- [2016-07-01.3.1](#version-2016070131)
+- [2016-02-01.3.0](#version-2016020130)
+- [2015-12-01.2.1](#version-2015120122)
+- [2015-11-01.2.1](#version-2015110121)
+- 2015-06-01.2.0
+- 2015-03-01.1.1
+- 2014-10-01.1.0
+
+
+### Version 2017-09-01.6.0
 
 - Azure Hybrid Use Benefit: You can now create Batch Windows VM pools specifying that Azure Hybrid Use Benefit licensing be used. When this licensing is used, a discount is applied to the VM price. Use the new **LicenseType** property on [VirtualMachineConfiguration][1].
 
@@ -37,24 +62,6 @@ manager: "timlt"
 - (**Breaking change**) Multi-instance tasks (created using [MultiInstanceSettings](https://docs.microsoft.com/en-us/rest/api/batchservice/task/add#definitions_multiinstancesettings)) must now specify **CoordinationCommandLine**, and **NumberOfInstances** is now optional and defaults to 1.
 
 - Added support for tasks run using Docker containers. To run a task using a Docker container, you must specify a **ContainerConfiguration** on the [VirtualMachineConfiguration][1] for a pool, and then add [TaskContainerSettings](https://docs.microsoft.com/en-us/rest/api/batchservice/task/add#definitions_taskcontainersettings) on the **Task**.
-
-
-
-## Previous Versions
- 
- Previous versions include:
-
-- [2017-06-01.5.1](#version-2017060151)
-- [2017-05-01.5.0](#version-2017050150)
-- [2017-01-01.4.0](#version-2017010140)
-- [2016-07-01.3.1](#version-2016070131)
-- [2016-02-01.3.0](#version-2016020130)
-- [2015-12-01.2.1](#version-2015120122)
-- [2015-11-01.2.1](#version-2015110121)
-- 2015-06-01.2.0
-- 2015-03-01.1.1
-- 2014-10-01.1.0
-
 
 ### Version 2017-06-01.5.1
 
@@ -164,7 +171,7 @@ You can now request that application licenses be provisioned to your pool, via t
 
     You can now use custom OS disk images to create a pool.  
     
-    To do so, you must specify when you create your Batch account that pools are to be provisioned in the user subscription, rather than in a subscription managed by the Batch service. In a call to [Create Account](~/docs-ref-autogen/batchmanagement/batchaccount.yml), set the **poolAllocationMode** property to _UserSubscription_. Then   use the **osDisk** property to specify a reference to a disk image in a request to [Add Pool](../batchservice/add-a-pool-to-an-account.md).
+    To do so, you must specify when you create your Batch account that pools are to be provisioned in the user subscription, rather than in a subscription managed by the Batch service. In a call to [Create Account](xref:management.azure.com.batchmanagement.batchaccount), set the **poolAllocationMode** property to _UserSubscription_. Then   use the **osDisk** property to specify a reference to a disk image in a request to [Add Pool](../batchservice/add-a-pool-to-an-account.md).
 
     > [!IMPORTANT] 
     > When you create your Batch account, if you specify that pools are to be provisioned in the user subscription, then you must use Azure Active Directory-based authentication for all requests made through that account.

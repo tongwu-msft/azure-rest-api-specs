@@ -1,6 +1,6 @@
 ---
 title: "HostType"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,7 +35,7 @@ Specifies the type of host for main entry point of a code package as specified i
 
 Possible values are: 
 
-  - Invalid - Indicates the type of host is not known or invalid. The value is 0.
-  - ExeHost - Indicates the host is an executable. The value is 1.
-  - ContainerHost - Indicates the host is a container. The value is 2.
+  - `Invalid` - Indicates the type of host is not known or invalid. The value is 0.
+  - `ExeHost` - Indicates the host is an executable. The value is 1.
+  - `ContainerHost` - Indicates the host is a container. The value is 2.
 

@@ -3,14 +3,16 @@ uid: management.azure.com.apimanagement.api.delete
 name: Delete
 service: API Management
 groupName: Api
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Deletes the specified API of the API Management service instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?api-version=2017-03-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?api-version=2018-01-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?deleteRevisions={deleteRevisions}&api-version=2018-01-01
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,6 +40,11 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
+- name: deleteRevisions
+  in: query
+  description: Delete all revisions of the Api.
+  types:
+  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
@@ -45,6 +52,8 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 200 OK
+  description: The API was successfully deleted.
 - name: 204 No Content
   description: The API was successfully deleted.
 - name: Other Status Codes
@@ -55,24 +64,24 @@ requestHeader:
 - name: If-Match
   in: header
   isRequired: true
-  description: ETag of the API Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
+  description: ETag of the Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
   types:
   - uid: string
 definitions:
 - name: ErrorResponse
-  description: Error Body contract.
+  description: Error Response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Human-readable representation of the error.
     types:
     - uid: string
-  - name: details
-    description: Error Field contract.
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
     types:
     - uid: ErrorFieldContract
       isArray: true
@@ -95,11 +104,12 @@ definitions:
 examples:
 - name: ApiManagementDeleteApi.json
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api?api-version=2017-03-01
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api?api-version=2018-01-01
     headers:
     - name: If-Match
       value: '*'
   responses:
+  - statusCode: "200"
   - statusCode: "204"
 security:
 - type: oauth2

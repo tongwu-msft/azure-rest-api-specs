@@ -3,14 +3,14 @@ uid: management.azure.com.cdn.origins.listbyendpoint
 name: List By Endpoint
 service: CDN
 groupName: Origins
-apiVersion: 2016-10-02
+apiVersion: 2017-10-12
 summary: Lists all of the existing origins within an endpoint.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins?api-version=2016-10-02
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins?api-version=2017-10-12
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,7 +40,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. Current version is 2016-10-02.
+  description: Version of the API to be used with the client request. Current version is 2017-04-02.
   types:
   - uid: string
 responses:
@@ -59,7 +59,8 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: CDN origin is the source of the content being delivered via CDN. When the edge nodes represented by an endpoint do not have the requested content cached, they attempt to fetch it from one or more of the configured origins.
+    isReadyOnly: true
+    description: List of CDN origins within an endpoint
     types:
     - uid: Origin
       isArray: true
@@ -72,10 +73,12 @@ definitions:
   kind: object
   properties:
   - name: code
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: Error message indicating why the operation failed.
     types:
     - uid: string
@@ -105,6 +108,18 @@ definitions:
     description: Provisioning status of the origin.
     types:
     - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -120,18 +135,6 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: OriginResourceState
   description: Resource status of the origin.
   kind: enum
@@ -145,7 +148,29 @@ definitions:
   - name: Deleting
     types:
     - uid: string
-examples: []
+examples:
+- name: Origins_ListByEndpoint
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins?api-version=2017-10-12
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "www-someDomain-net",
+            "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/www-someDomain-net",
+            "type": "Microsoft.Cdn/profiles/endpoints/origins",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "resourceState": "Active",
+              "hostName": "www.someDomain.net",
+              "httpPort": null,
+              "httpsPort": null
+            }
+          }
+        ]
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.

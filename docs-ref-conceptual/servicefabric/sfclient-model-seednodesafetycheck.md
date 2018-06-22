@@ -1,6 +1,6 @@
 ---
 title: "SeedNodeSafetyCheck"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,7 @@ Represents a safety check for the seed nodes being performed by service fabric b
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
+| [`Kind`](#kind) | string | Yes |
 
 ____
 ### Kind

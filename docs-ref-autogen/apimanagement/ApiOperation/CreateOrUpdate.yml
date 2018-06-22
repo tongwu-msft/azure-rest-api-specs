@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apioperation.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Api Operation
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Creates a new operation in the API or updates an existing one.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,7 +44,7 @@ uriParameters:
   description: Operation identifier within an API. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -86,7 +86,7 @@ requestBody:
     - uid: string
   - name: properties.templateParameters
     in: body
-    description: Operation parameters details.
+    description: Collection of URL template parameters.
     types:
     - uid: ParameterContract
       isArray: true
@@ -102,7 +102,7 @@ requestBody:
     - uid: RequestContract
   - name: properties.responses
     in: body
-    description: Operation response details.
+    description: Array of Operation responses.
     types:
     - uid: ResponseContract
       isArray: true
@@ -111,7 +111,12 @@ requestBody:
     description: Operation Policies
     types:
     - uid: string
-requestHeader: []
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the Entity. Not required when creating an entity, but required when updating an entity.
+  types:
+  - uid: string
 definitions:
 - name: ParameterContract
   description: Operation parameters details.
@@ -151,17 +156,17 @@ definitions:
     types:
     - uid: string
   - name: queryParameters
-    description: Operation parameters details.
+    description: Collection of operation request query parameters.
     types:
     - uid: ParameterContract
       isArray: true
   - name: headers
-    description: Operation parameters details.
+    description: Collection of operation request headers.
     types:
     - uid: ParameterContract
       isArray: true
   - name: representations
-    description: Operation request/response representation details.
+    description: Collection of operation request representations.
     types:
     - uid: RepresentationContract
       isArray: true
@@ -178,12 +183,12 @@ definitions:
     types:
     - uid: string
   - name: representations
-    description: Operation request/response representation details.
+    description: Collection of operation response representations.
     types:
     - uid: RepresentationContract
       isArray: true
   - name: headers
-    description: Operation parameters details.
+    description: Collection of operation response headers.
     types:
     - uid: ParameterContract
       isArray: true
@@ -219,7 +224,7 @@ definitions:
     types:
     - uid: string
   - name: properties.templateParameters
-    description: Operation parameters details.
+    description: Collection of URL template parameters.
     types:
     - uid: ParameterContract
       isArray: true
@@ -232,7 +237,7 @@ definitions:
     types:
     - uid: RequestContract
   - name: properties.responses
-    description: Operation response details.
+    description: Array of Operation responses.
     types:
     - uid: ResponseContract
       isArray: true
@@ -241,19 +246,19 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Error Body contract.
+  description: Error Response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Human-readable representation of the error.
     types:
     - uid: string
-  - name: details
-    description: Error Field contract.
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
     types:
     - uid: ErrorFieldContract
       isArray: true
@@ -278,7 +283,7 @@ definitions:
     types:
     - uid: string
   - name: formParameters
-    description: Operation parameters details.
+    description: Collection of form parameters. Required if 'contentType' value is either 'application/x-www-form-urlencoded' or 'multipart/form-data'..
     types:
     - uid: ParameterContract
       isArray: true
@@ -301,7 +306,7 @@ definitions:
 examples:
 - name: ApiManagementCreateApiOperation
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/PetStoreTemplate2/operations/newoperations?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/PetStoreTemplate2/operations/newoperations?api-version=2018-01-01
     body: >-
       {
         "name": "newoperation",

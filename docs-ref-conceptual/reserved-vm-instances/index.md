@@ -16,8 +16,8 @@ The Reserved VM Instances API gives you access to reservation operations.
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Get Applied Reservation List](~/docs-ref-autogen/reserved-vm-instances/getappliedreservationlist.yml) | Provides operations for applied reservations. |
-| [Get Catalog](~/docs-ref-autogen/reserved-vm-instances/getcatalog.yml) | Provides operations for available instances. |
-| [Operation](~/docs-ref-autogen/reserved-vm-instances/operation.yml) | Provides operations for reserved instances operations. |
-| [Reservation](~/docs-ref-autogen/reserved-vm-instances/reservation.yml) | Provides operations for reservations. |
-| [Reservation Order](~/docs-ref-autogen/reserved-vm-instances/reservationorder.yml) | Provides operation for reservation orders. |
+| [Get Applied Reservation List](xref:management.azure.com.reserved-vm-instances.getappliedreservationlist) | Provides operations for applied reservations. |
+| [Get Catalog](xref:management.azure.com.reserved-vm-instances.getcatalog) | Provides operations for available instances. |
+| [Operation](xref:management.azure.com.reserved-vm-instances.operation) | Provides operations for reserved instances operations. |
+| [Reservation](xref:management.azure.com.reserved-vm-instances.reservation) | Provides operations for reservations. |
+| [Reservation Order](xref:management.azure.com.reserved-vm-instances.reservationorder) | Provides operation for reservation orders. |

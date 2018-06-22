@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.diagnosticlogger.delete
 name: Delete
 service: API Management
 groupName: Diagnostic Logger
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Deletes the specified Logger from Diagnostic.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/diagnostics/{diagnosticId}/loggers/{loggerid}?api-version=2017-03-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/diagnostics/{diagnosticId}/loggers/{loggerid}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,14 +37,14 @@ uriParameters:
   description: Diagnostic identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: loggerid
   in: path
   isRequired: true
   description: Logger identifier. Must be unique in the API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -52,6 +52,8 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 200 OK
+  description: The Logger was successfully detached from Diagnostic.
 - name: 204 No Content
   description: The Logger was successfully detached from Diagnostic.
 - name: Other Status Codes
@@ -61,19 +63,19 @@ responses:
 requestHeader: []
 definitions:
 - name: ErrorResponse
-  description: Error Body contract.
+  description: Error Response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Human-readable representation of the error.
     types:
     - uid: string
-  - name: details
-    description: Error Field contract.
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
     types:
     - uid: ErrorFieldContract
       isArray: true
@@ -96,8 +98,9 @@ definitions:
 examples:
 - name: ApiManagementDeleteDiagnosticLogger
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/diagnostics/default/loggers/applicationinsights?api-version=2017-03-01
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/diagnostics/default/loggers/applicationinsights?api-version=2018-01-01
   responses:
+  - statusCode: "200"
   - statusCode: "204"
 security:
 - type: oauth2

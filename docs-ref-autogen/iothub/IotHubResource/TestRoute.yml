@@ -1,0 +1,302 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothub.iothubresource.testroute
+name: Test Route
+service: IoT Hub
+groupName: Iot Hub Resource
+apiVersion: 2018-04-01
+summary: "Test the new route  \nTest the new route for this Iot Hub"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{iotHubName}/routing/routes/$testnew?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: resource group which Iot Hub belongs to
+  types:
+  - uid: string
+- name: iotHubName
+  in: path
+  isRequired: true
+  description: IotHub to be tested
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: TestRouteResult
+- name: Other Status Codes
+  description: DefaultErrorResponse
+  types:
+  - uid: ErrorDetails
+requestBody:
+- parameters:
+  - name: message
+    in: body
+    description: Routing message
+    types:
+    - uid: RoutingMessage
+  - name: route
+    in: body
+    isRequired: true
+    description: Route properties
+    types:
+    - uid: RouteProperties
+requestHeader: []
+definitions:
+- name: RoutingMessage
+  description: Routing message
+  kind: object
+  properties:
+  - name: body
+    description: Body of routing message
+    types:
+    - uid: string
+  - name: appProperties
+    description: App properties
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: systemProperties
+    description: System properties
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: RouteProperties
+  description: The properties of a routing rule that your IoT hub uses to route messages to endpoints.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the route. The name can only include alphanumeric characters, periods, underscores, hyphens, has a maximum length of 64 characters, and must be unique.
+    types:
+    - uid: string
+  - name: source
+    description: The source that the routing rule is to be applied to, such as DeviceMessages.
+    types:
+    - uid: RoutingSource
+  - name: condition
+    description: 'The condition that is evaluated to apply the routing rule. If no condition is provided, it evaluates to true by default. For grammar, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language'
+    types:
+    - uid: string
+  - name: endpointNames
+    description: The list of endpoints to which messages that satisfy the condition are routed. Currently only one endpoint is allowed.
+    types:
+    - uid: string
+      isArray: true
+  - name: isEnabled
+    description: Used to specify whether a route is enabled.
+    types:
+    - uid: boolean
+- name: TestRouteResult
+  description: Result of testing one route
+  kind: object
+  properties:
+  - name: result
+    description: Result of testing route
+    types:
+    - uid: TestResultStatus
+  - name: details
+    description: Detailed result of testing route
+    types:
+    - uid: TestRouteResultDetails
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: httpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+- name: TestRouteInput
+  description: Input for testing route
+  kind: object
+  properties:
+  - name: message
+    description: Routing message
+    types:
+    - uid: RoutingMessage
+  - name: route
+    description: Route properties
+    types:
+    - uid: RouteProperties
+- name: RoutingSource
+  description: The source that the routing rule is to be applied to, such as DeviceMessages.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: DeviceMessages
+    types:
+    - uid: string
+  - name: TwinChangeEvents
+    types:
+    - uid: string
+  - name: DeviceLifecycleEvents
+    types:
+    - uid: string
+  - name: DeviceJobLifecycleEvents
+    types:
+    - uid: string
+- name: TestResultStatus
+  description: Result of testing route
+  kind: enum
+  properties:
+  - name: undefined
+    types:
+    - uid: string
+  - name: "false"
+    types:
+    - uid: string
+  - name: "true"
+    types:
+    - uid: string
+- name: TestRouteResultDetails
+  description: Detailed result of testing a route
+  kind: object
+  properties:
+  - name: compilationErrors
+    description: JSON-serialized list of route compilation errors
+    types:
+    - uid: RouteCompilationError
+      isArray: true
+- name: RouteCompilationError
+  description: Compilation error when evaluating route
+  kind: object
+  properties:
+  - name: message
+    description: Route error message
+    types:
+    - uid: string
+  - name: severity
+    description: Severity of the route error
+    types:
+    - uid: RouteErrorSeverity
+  - name: location
+    description: Location where the route error happened
+    types:
+    - uid: RouteErrorRange
+- name: RouteErrorSeverity
+  description: Severity of the route error
+  kind: enum
+  properties:
+  - name: error
+    types:
+    - uid: string
+  - name: warning
+    types:
+    - uid: string
+- name: RouteErrorRange
+  description: Range of route errors
+  kind: object
+  properties:
+  - name: start
+    description: Start where the route error happened
+    types:
+    - uid: RouteErrorPosition
+  - name: end
+    description: End where the route error happened
+    types:
+    - uid: RouteErrorPosition
+- name: RouteErrorPosition
+  description: Position where the route error happened
+  kind: object
+  properties:
+  - name: line
+    description: Line where the route error happened
+    types:
+    - uid: integer
+  - name: column
+    description: Column where the route error happened
+    types:
+    - uid: integer
+examples:
+- name: IotHubResource_TestRoute
+  request:
+    uri: POST https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/testHub/routing/routes/$testnew?api-version=2018-04-01
+    body: >-
+      {
+        "message": {
+          "body": "Body of message",
+          "appProperties": "App Properties",
+          "systemProperties": "System Properties"
+        },
+        "route": {
+          "name": "Routeid",
+          "source": "DeviceMessages",
+          "endpointNames": [
+            "id1"
+          ],
+          "isEnabled": true
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "result": "false",
+        "details": {
+          "compilationErrors": [
+            {
+              "message": "string response",
+              "severity": "error",
+              "location": {
+                "start": {
+                  "line": 12,
+                  "column": 12
+                },
+                "end": {
+                  "line": 12,
+                  "column": 24
+                }
+              }
+            }
+          ]
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

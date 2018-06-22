@@ -3,14 +3,14 @@ uid: management.azure.com.iothub.iothubresource.getvalidskus
 name: Get Valid Skus
 service: IoT Hub
 groupName: Iot Hub Resource
-apiVersion: 2017-01-19
-summary: Get the list of valid SKUs for an IoT hub.
+apiVersion: 2018-04-01
+summary: "Get the list of valid SKUs for an IoT hub  \nGet the list of valid SKUs for an IoT hub."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/skus?api-version=2017-01-19
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/skus?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,7 +52,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: SKU properties.
+    description: The array of IotHubSkuDescription.
     types:
     - uid: IotHubSkuDescription
       isArray: true
@@ -65,22 +65,22 @@ definitions:
   description: Error details.
   kind: object
   properties:
-  - name: Code
+  - name: code
     isReadyOnly: true
     description: The error code.
     types:
     - uid: string
-  - name: HttpStatusCode
+  - name: httpStatusCode
     isReadyOnly: true
     description: The HTTP status code.
     types:
     - uid: string
-  - name: Message
+  - name: message
     isReadyOnly: true
     description: The error message.
     types:
     - uid: string
-  - name: Details
+  - name: details
     isReadyOnly: true
     description: The error details.
     types:
@@ -95,11 +95,11 @@ definitions:
     types:
     - uid: string
   - name: sku
-    description: Information about the SKU of the IoT hub.
+    description: The type of the resource.
     types:
     - uid: IotHubSkuInfo
   - name: capacity
-    description: IoT Hub capacity information.
+    description: IotHub capacity
     types:
     - uid: IotHubCapacity
 - name: IotHubSkuInfo
@@ -159,6 +159,15 @@ definitions:
   - name: S3
     types:
     - uid: string
+  - name: B1
+    types:
+    - uid: string
+  - name: B2
+    types:
+    - uid: string
+  - name: B3
+    types:
+    - uid: string
 - name: IotHubSkuTier
   description: The billing tier for the IoT hub.
   kind: enum
@@ -167,6 +176,9 @@ definitions:
     types:
     - uid: string
   - name: Standard
+    types:
+    - uid: string
+  - name: Basic
     types:
     - uid: string
 - name: IotHubScaleType
@@ -182,5 +194,59 @@ definitions:
   - name: None
     types:
     - uid: string
-examples: []
-security: []
+examples:
+- name: IotHubResource_GetValidSkus
+  request:
+    uri: GET https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/testHub/skus?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "resourceType": "Microsoft.Devices/IotHubs",
+            "sku": {
+              "name": "S1",
+              "tier": "Standard"
+            },
+            "capacity": {
+              "default": 1,
+              "scaleType": "Manual"
+            }
+          },
+          {
+            "resourceType": "Microsoft.Devices/IotHubs",
+            "sku": {
+              "name": "S2",
+              "tier": "Standard"
+            },
+            "capacity": {
+              "minimum": 1,
+              "maximum": 200,
+              "default": 1,
+              "scaleType": "Manual"
+            }
+          },
+          {
+            "resourceType": "Microsoft.Devices/IotHubs",
+            "sku": {
+              "name": "S3",
+              "tier": "Standard"
+            },
+            "capacity": {
+              "minimum": 1,
+              "maximum": 10,
+              "default": 1,
+              "scaleType": "Manual"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,6 +1,6 @@
 ---
 title: "PropertyDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,26 +34,26 @@ Description of a Service Fabric property.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [PropertyName](#propertyname) | string | Yes |
-| [CustomTypeId](#customtypeid) | string | No |
-| [Value](#value) | [PropertyValue](sfclient-model-propertyvalue.md) | Yes |
+| [`PropertyName`](#propertyname) | string | Yes |
+| [`CustomTypeId`](#customtypeid) | string | No |
+| [`Value`](#value) | [PropertyValue](sfclient-model-propertyvalue.md) | Yes |
 
 ____
-### PropertyName
+### `PropertyName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the Service Fabric property.
 
 ____
-### CustomTypeId
+### `CustomTypeId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The property's custom type id. Using this property, the user is able to tag the type of the value of the property.
 
 ____
-### Value
+### `Value`
 __Type__: [PropertyValue](sfclient-model-propertyvalue.md) <br/>
 __Required__: Yes<br/>
 <br/>

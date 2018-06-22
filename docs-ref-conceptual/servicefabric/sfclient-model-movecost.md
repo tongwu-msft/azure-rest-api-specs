@@ -1,6 +1,6 @@
 ---
 title: "MoveCost"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,8 +35,8 @@ Specifies the move cost for the service.
 
 Possible values are: 
 
-  - Zero - Zero move cost. This value is zero.
-  - Low - Specifies the move cost of the service as Low. The value is 1.
-  - Medium - Specifies the move cost of the service as Medium. The value is 2.
-  - High - Specifies the move cost of the service as High. The value is 3.
+  - `Zero` - Zero move cost. This value is zero.
+  - `Low` - Specifies the move cost of the service as Low. The value is 1.
+  - `Medium` - Specifies the move cost of the service as Medium. The value is 2.
+  - `High` - Specifies the move cost of the service as High. The value is 3.
 

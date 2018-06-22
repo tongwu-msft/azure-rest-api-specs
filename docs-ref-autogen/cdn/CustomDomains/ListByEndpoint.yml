@@ -3,14 +3,14 @@ uid: management.azure.com.cdn.customdomains.listbyendpoint
 name: List By Endpoint
 service: CDN
 groupName: Custom Domains
-apiVersion: 2016-10-02
+apiVersion: 2017-10-12
 summary: Lists all of the existing custom domains within an endpoint.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains?api-version=2016-10-02
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains?api-version=2017-10-12
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,7 +40,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. Current version is 2016-10-02.
+  description: Version of the API to be used with the client request. Current version is 2017-04-02.
   types:
   - uid: string
 responses:
@@ -59,7 +59,8 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: Customer provided domain for branding purposes, e.g. www.consoto.com.
+    isReadyOnly: true
+    description: List of CDN CustomDomains within an endpoint.
     types:
     - uid: CustomDomain
       isArray: true
@@ -72,15 +73,17 @@ definitions:
   kind: object
   properties:
   - name: code
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: Error message indicating why the operation failed.
     types:
     - uid: string
 - name: CustomDomain
-  description: Customer provided domain for branding purposes, e.g. www.consoto.com.
+  description: Friendly domain name mapping to the endpoint hostname that the customer provides for branding purposes, e.g. www.consoto.com.
   kind: object
   properties:
   - name: properties.hostName
@@ -94,9 +97,14 @@ definitions:
     - uid: CustomDomainResourceState
   - name: properties.customHttpsProvisioningState
     isReadyOnly: true
-    description: Provisioning state of Custom Https of the custom domain.
+    description: Provisioning status of Custom Https of the custom domain.
     types:
     - uid: CustomHttpsProvisioningState
+  - name: properties.customHttpsProvisioningSubstate
+    isReadyOnly: true
+    description: Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
+    types:
+    - uid: CustomHttpsProvisioningSubstate
   - name: properties.validationData
     description: Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
     types:
@@ -121,18 +129,6 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: CustomDomainResourceState
   description: Resource status of the custom domain.
   kind: enum
@@ -147,7 +143,7 @@ definitions:
     types:
     - uid: string
 - name: CustomHttpsProvisioningState
-  description: Provisioning state of Custom Https of the custom domain.
+  description: Provisioning status of Custom Https of the custom domain.
   kind: enum
   properties:
   - name: Enabling
@@ -165,7 +161,64 @@ definitions:
   - name: Failed
     types:
     - uid: string
-examples: []
+- name: CustomHttpsProvisioningSubstate
+  description: Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
+  kind: enum
+  properties:
+  - name: SubmittingDomainControlValidationRequest
+    types:
+    - uid: string
+  - name: PendingDomainControlValidationREquestApproval
+    types:
+    - uid: string
+  - name: DomainControlValidationRequestApproved
+    types:
+    - uid: string
+  - name: DomainControlValidationRequestRejected
+    types:
+    - uid: string
+  - name: DomainControlValidationRequestTimedOut
+    types:
+    - uid: string
+  - name: IssuingCertificate
+    types:
+    - uid: string
+  - name: DeployingCertificate
+    types:
+    - uid: string
+  - name: CertificateDeployed
+    types:
+    - uid: string
+  - name: DeletingCertificate
+    types:
+    - uid: string
+  - name: CertificateDeleted
+    types:
+    - uid: string
+examples:
+- name: CustomDomains_ListByEndpoint
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customDomains?api-version=2017-10-12
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "www-someDomain-net",
+            "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customdomains/www-someDomain-net",
+            "type": "Microsoft.Cdn/profiles/endpoints/customdomains",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "resourceState": "Active",
+              "hostName": "www.someDomain.net",
+              "customHttpsProvisioningState": "Disabled",
+              "customHttpsProvisioningSubstate": "None",
+              "validationData": null
+            }
+          }
+        ]
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.

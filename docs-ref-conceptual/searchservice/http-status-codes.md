@@ -1,20 +1,13 @@
 ---
-title: "HTTP status codes (Azure Search)"
-ms.custom: ""
+title: "HTTP status codes (Azure Search) | Microsoft Docs"
+description: A list of the HTTP status codes returned by the Azure Search REST APIs.
 ms.date: "2017-08-04"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 6a961914-989b-4381-8d23-3ed75ad246a3
-caps.latest.revision: 22
+ms.topic: conceptual
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -48,5 +41,5 @@ translation.priority.mt:
 |504: Gateway Timeout|Azure Search listens on HTTPS port 443. If your search service URL contains HTTP instead of HTTPS, a 504 status code will be returned.|  
 
 ## See also  
- [Azure Search .NET SDK](https://go.microsoft.com/fwlink/?linkid=834796)  
+ [Azure Search .NET SDK](https://docs.microsoft.com/azure/search/search-api-versions)  
  [Azure Search Service REST](index.md)   

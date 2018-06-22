@@ -17,5 +17,5 @@ Provides operations to manage and create notification hubs and their associated 
 
 | Operation Group | Description |
 |-----------------|-------------|
-| [Namespaces](~/docs-ref-autogen/notificationhubs/namespaces.yml) | Use these operations to create and manage namespaces. |
-| [Notification Hubs](~/docs-ref-autogen/notificationhubs/notificationhubs.yml) | Use these operations to create and manage notification hubs. |
+| [Namespaces](xref:management.azure.com.notificationhubs.namespaces) | Use these operations to create and manage namespaces. |
+| [Notification Hubs](xref:management.azure.com.notificationhubs.notificationhubs) | Use these operations to create and manage notification hubs. |

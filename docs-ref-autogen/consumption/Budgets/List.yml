@@ -3,14 +3,14 @@ uid: management.azure.com.consumption.budgets.list
 name: List
 service: Consumption
 groupName: Budgets
-apiVersion: 2018-01-31
+apiVersion: 2018-03-31
 summary: Lists all budgets for a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/budgets?api-version=2018-01-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/budgets?api-version=2018-03-31
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,7 +21,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2018-01-31.
+  description: Version of the API to be used with the client request. The current version is 2018-03-31.
   types:
   - uid: string
 responses:
@@ -41,7 +41,7 @@ definitions:
   properties:
   - name: value
     isReadyOnly: true
-    description: A budget resource.
+    description: The list of budgets.
     types:
     - uid: Budget
       isArray: true
@@ -178,10 +178,18 @@ definitions:
     - uid: string
       isArray: true
   - name: meters
-    description: 'The list of filters on meters, mandatory for budgets of usage category. '
+    description: 'The list of filters on meters (GUID), mandatory for budgets of usage category. '
     types:
     - uid: string
       isArray: true
+  - name: tags
+    description: The dictionary of filters on tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
 - name: CurrentSpend
   description: The current amount of cost which is being tracked for a budget.
   kind: object
@@ -251,7 +259,7 @@ definitions:
 examples:
 - name: BudgetsList
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/budgets?api-version=2018-01-31
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/budgets?api-version=2018-03-31
   responses:
   - statusCode: "200"
     body: >-
@@ -272,15 +280,25 @@ examples:
               },
               "filters": {
                 "resourceGroups": [
-                  "MPDEVTESTRG"
+                  "MYDEVTESTRG"
                 ],
                 "resources": [
-                  "/subscriptions/{subscription-id}/resourceGroups/MPDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MSAWSIFT2",
-                  "/subscriptions/{subscription-id}/resourceGroups/MPDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1"
+                  "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MYVM2",
+                  "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1"
                 ],
                 "meters": [
-                  "fe167397-a38d-43c3-9bb3-8e2907e56a41"
-                ]
+                  "00000000-0000-0000-0000-000000000000"
+                ],
+                "tags": {
+                  "category": [
+                    "Dev",
+                    "Prod"
+                  ],
+                  "department": [
+                    "engineering",
+                    "sales"
+                  ]
+                }
               },
               "currentSpend": {
                 "amount": 80.89,
@@ -313,7 +331,7 @@ examples:
                     "Reader"
                   ],
                   "contactGroups": [
-                    "/subscriptions/{subscription-id}/resourceGroups/MPDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup"
+                    "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup"
                   ]
                 }
               }
@@ -334,15 +352,25 @@ examples:
               },
               "filters": {
                 "resourceGroups": [
-                  "MPDEVTESTRG"
+                  "MYDEVTESTRG"
                 ],
                 "resources": [
-                  "/subscriptions/{subscription-id}/resourceGroups/MPDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MSAWSIFT2",
-                  "/subscriptions/{subscription-id}/resourceGroups/MPDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1"
+                  "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MYVM2",
+                  "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1"
                 ],
                 "meters": [
-                  "fe167397-a38d-43c3-9bb3-8e2907e56a41"
-                ]
+                  "00000000-0000-0000-0000-000000000000"
+                ],
+                "tags": {
+                  "category": [
+                    "Dev",
+                    "Prod"
+                  ],
+                  "department": [
+                    "engineering",
+                    "sales"
+                  ]
+                }
               },
               "currentSpend": {
                 "amount": 120.89,
@@ -375,7 +403,7 @@ examples:
                     "Reader"
                   ],
                   "contactGroups": [
-                    "/subscriptions/{subscription-id}/resourceGroups/MPDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup"
+                    "/subscriptions/{subscription-id}/resourceGroups/MYDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup"
                   ]
                 }
               }

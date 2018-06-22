@@ -1,0 +1,146 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.backupshorttermretentionpolicies.createorupdate
+name: Create Or Update
+service: SQL Database
+groupName: Backup Short Term Retention Policies
+apiVersion: 2017-10-01-preview
+summary: Updates a database's short term retention policy.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/default?api-version=2017-10-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: policyName
+  in: path
+  isRequired: true
+  description: The policy name. Should always be "default".
+  types:
+  - uid: ShortTermRetentionPolicyName
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully updated the policy.
+  types:
+  - uid: BackupShortTermRetentionPolicy
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidBackupRetentionDays - The retention days of {0} is not a valid configuration. Valid backup retention must be in 7-day increments (7, 14, 21, etc.)
+
+     * 400 InvalidParameterValue - An invalid value was given to a parameter.
+
+     * 400 InvalidBackupRetentionPeriod - The retention days of {0} is not a valid configuration. Valid backup retention in days must be between {1} and {2}
+
+     * 400 UpdateShortTermRetentionFeatureNotSupportedForEdition - This feature is not available for the selected database's edition {0}.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 CannotFindObject - Cannot find the object because it does not exist or you do not have permissions
+
+     * 404 SourceDatabaseNotFound - The source database does not exist.
+
+     * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 504 RequestTimeout - Service request exceeded the allowed timeout.
+- name: 202 Accepted
+  description: Accepted
+requestBody:
+- parameters:
+  - name: properties.retentionDays
+    in: body
+    description: The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: ShortTermRetentionPolicyName
+  description: The policy name. Should always be "default".
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
+- name: BackupShortTermRetentionPolicy
+  description: A short term retention policy.
+  kind: object
+  properties:
+  - name: properties.retentionDays
+    description: The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: Update the short term retention policy for the database.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup/providers/Microsoft.Sql/servers/testsvr/databases/testdb/backupShortTermRetentionPolicies/default?api-version=2017-10-01-preview
+    body: >-
+      {
+        "properties": {
+          "retentionDays": 14
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/resourceGroups/resourceGroup/servers/testsvr/databases/testdb/backupLongTermRetentionPolicies/default",
+        "name": "default",
+        "type": "Microsoft.Sql/locations/servers/databases/backupShortTermRetentionPolicies",
+        "properties": {
+          "retentionDays": 14
+        }
+      }
+  - statusCode: "202"
+security: []

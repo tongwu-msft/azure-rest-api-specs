@@ -1,7 +1,7 @@
 ---
 title: "Generate SAS token"
 ms.custom: ""
-ms.date: "2017-11-09"
+ms.date: "2018-06-19"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -116,6 +116,24 @@ private static string createToken(string resourceUri, string keyName, string key
 }
 ```
 
+## Azure PowerShell
+
+```azurepowershell-interactive
+[Reflection.Assembly]::LoadWithPartialName("System.Web")| out-null
+$URI="myNamespace.servicebus.windows.net/myEventHub"
+$Access_Policy_Name="RootManageSharedAccessKey"
+$Access_Policy_Key="myPrimaryKey"
+#Token expires now+300
+$Expires=([DateTimeOffset]::Now.ToUnixTimeSeconds())+300
+$SignatureString=[System.Web.HttpUtility]::UrlEncode($URI)+ "`n" + [string]$Expires
+$HMAC = New-Object System.Security.Cryptography.HMACSHA256
+$HMAC.key = [Text.Encoding]::ASCII.GetBytes($Access_Policy_Key)
+$Signature = $HMAC.ComputeHash([Text.Encoding]::ASCII.GetBytes($SignatureString))
+$Signature = [Convert]::ToBase64String($Signature)
+$SASToken = "SharedAccessSignature sr=" + [System.Web.HttpUtility]::UrlEncode($URI) + "&sig=" + [System.Web.HttpUtility]::UrlEncode($Signature) + "&se=" + $Expires + "&skn=" + $Access_Policy_Name
+$SASToken
+```
+
 ## Python
 
 ```python
@@ -144,6 +162,27 @@ def get_auth_token(sb_name, eh_name, sas_name, sas_value):
             }
 ```
 
+
+## Bash
+**Note:** The following snippet requires [OpenSSL](https://www.openssl.org/source/) and [jq](https://stedolan.github.io/jq/download/). 
+```bash
+get_sas_token() {
+    local EVENTHUB_URI=$1
+    local SHARED_ACCESS_KEY_NAME=$2
+    local SHARED_ACCESS_KEY=$3
+    local EXPIRY=${EXPIRY:=$((60 * 60 * 24))} # Default token expiry is 1 day
+
+    local ENCODED_URI=$(echo -n $EVENTHUB_URI | jq -s -R -r @uri)
+    local TTL=$(($(date +%s) + $EXPIRY))
+    local UTF8_SIGNATURE=$(printf "%s\n%s" $ENCODED_URI $TTL | iconv -t utf8)
+
+    local HASH=$(echo -n "$UTF8_SIGNATURE" | openssl sha256 -hmac $SHARED_ACCESS_KEY -binary | base64)
+    local ENCODED_HASH=$(echo -n $HASH | jq -s -R -r @uri)
+
+    echo -n "SharedAccessSignature sr=$ENCODED_URI&sig=$ENCODED_HASH&se=$TTL&skn=$SHARED_ACCESS_KEY_NAME"
+}
+```
+
 ## Using the Shared Access Signature (at HTTP level)
 Now that you know how to create Shared Access Signatures for any entities in Service Bus, you are ready to perform an HTTP POST:
 
@@ -154,6 +193,6 @@ Authorization: SharedAccessSignature sr=https%3A%2F%2F<yournamespace>.servicebus
 ContentType: application/atom+xml;type=entry;charset=utf-8
 ``` 
 
-Remember, this works for everything. You can create SAS for a queue, topic, subscription, Event Hub, or relay. If you use per-publisher identity for Event Hubs, you can append `/publishers/< publisherid>`.
+Remember, this SAS key works for everything. You can create SAS for a queue, topic, subscription, Event Hub, or relay. If you use per-publisher identity for Event Hubs, you can append `/publishers/< publisherid>`.
 
 If you give a sender or client a SAS token, they don't have the key directly, and they cannot reverse the hash to obtain it. As such, you have control over what they can access, and for how long. An important thing to remember is that if you change the primary key in the policy, any Shared Access Signatures created from it is invalidated.

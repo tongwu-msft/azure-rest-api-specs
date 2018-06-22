@@ -1,9 +1,9 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.virtualnetworks.routetables.list
+uid: management.azure.com.virtualnetwork.routetables.list
 name: List
 service: Virtual Networks
 groupName: Route Tables
-apiVersion: 2017-10-01
+apiVersion: 2018-02-01
 summary: Gets all route tables in a resource group.
 consumes:
 - application/json
@@ -12,7 +12,7 @@ produces:
 - application/json
 - text/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables?api-version=2017-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,7 +44,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: Route table resource.
+    description: Gets a list of route tables in a resource group.
     types:
     - uid: RouteTable
       isArray: true
@@ -61,15 +61,15 @@ definitions:
     types:
     - uid: string
   - name: properties.routes
-    description: Route resource
+    description: Collection of routes contained within a route table.
     types:
     - uid: Route
       isArray: true
   - name: properties.subnets
     isReadyOnly: true
-    description: Reference to another subresource.
+    description: A collection of references to subnets.
     types:
-    - uid: SubResource
+    - uid: Subnet
       isArray: true
   - name: properties.disableBgpRoutePropagation
     description: Gets or sets whether to disable the routes learned by BGP on that route table. True means disable.
@@ -80,7 +80,6 @@ definitions:
     types:
     - uid: string
   - name: id
-    isReadyOnly: true
     description: Resource ID.
     types:
     - uid: string
@@ -135,14 +134,53 @@ definitions:
     types:
     - uid: string
   - name: id
-    isReadyOnly: true
-    description: Resource ID
+    description: Resource ID.
     types:
     - uid: string
-- name: SubResource
-  description: Reference to another subresource.
+- name: Subnet
+  description: Subnet in a virtual network resource.
   kind: object
   properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.addressPrefix
+    description: The address prefix for the subnet.
+    types:
+    - uid: string
+  - name: properties.networkSecurityGroup
+    description: The reference of the NetworkSecurityGroup resource.
+    types:
+    - uid: NetworkSecurityGroup
+  - name: properties.routeTable
+    description: The reference of the RouteTable resource.
+    types:
+    - uid: RouteTable
+  - name: properties.serviceEndpoints
+    description: An array of service endpoints.
+    types:
+    - uid: ServiceEndpointPropertiesFormat
+      isArray: true
+  - name: properties.ipConfigurations
+    isReadyOnly: true
+    description: Gets an array of references to the network interface IP configurations using subnet.
+    types:
+    - uid: IPConfiguration
+      isArray: true
+  - name: properties.resourceNavigationLinks
+    description: Gets an array of references to the external resources using subnet.
+    types:
+    - uid: ResourceNavigationLink
+      isArray: true
+  - name: properties.provisioningState
+    description: The provisioning state of the resource.
+    types:
+    - uid: string
   - name: id
     description: Resource ID.
     types:
@@ -166,10 +204,786 @@ definitions:
   - name: None
     types:
     - uid: string
+- name: NetworkSecurityGroup
+  description: NetworkSecurityGroup resource.
+  kind: object
+  properties:
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.securityRules
+    description: A collection of security rules of the network security group.
+    types:
+    - uid: SecurityRule
+      isArray: true
+  - name: properties.defaultSecurityRules
+    description: The default security rules of network security group.
+    types:
+    - uid: SecurityRule
+      isArray: true
+  - name: properties.networkInterfaces
+    isReadyOnly: true
+    description: A collection of references to network interfaces.
+    types:
+    - uid: NetworkInterface
+      isArray: true
+  - name: properties.subnets
+    isReadyOnly: true
+    description: A collection of references to subnets.
+    types:
+    - uid: Subnet
+      isArray: true
+  - name: properties.resourceGuid
+    description: The resource GUID property of the network security group resource.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ServiceEndpointPropertiesFormat
+  description: The service endpoint properties.
+  kind: object
+  properties:
+  - name: service
+    description: The type of the endpoint service.
+    types:
+    - uid: string
+  - name: locations
+    description: A list of locations.
+    types:
+    - uid: string
+      isArray: true
+  - name: provisioningState
+    description: The provisioning state of the resource.
+    types:
+    - uid: string
+- name: IPConfiguration
+  description: IP configuration
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.privateIPAddress
+    description: The private IP address of the IP configuration.
+    types:
+    - uid: string
+  - name: properties.privateIPAllocationMethod
+    description: The private IP allocation method. Possible values are 'Static' and 'Dynamic'.
+    types:
+    - uid: IPAllocationMethod
+  - name: properties.subnet
+    description: The reference of the subnet resource.
+    types:
+    - uid: Subnet
+  - name: properties.publicIPAddress
+    description: The reference of the public IP resource.
+    types:
+    - uid: PublicIPAddress
+  - name: properties.provisioningState
+    description: "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ResourceNavigationLink
+  description: ResourceNavigationLink resource.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.linkedResourceType
+    description: Resource type of the linked resource.
+    types:
+    - uid: string
+  - name: properties.link
+    description: Link to the external resource
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the ResourceNavigationLink resource.
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: SecurityRule
+  description: Network security rule.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.description
+    description: A description for this rule. Restricted to 140 chars.
+    types:
+    - uid: string
+  - name: properties.protocol
+    description: Network protocol this rule applies to. Possible values are 'Tcp', 'Udp', and '*'.
+    types:
+    - uid: SecurityRuleProtocol
+  - name: properties.sourcePortRange
+    description: The source port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports.
+    types:
+    - uid: string
+  - name: properties.destinationPortRange
+    description: The destination port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports.
+    types:
+    - uid: string
+  - name: properties.sourceAddressPrefix
+    description: "The CIDR or source IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. "
+    types:
+    - uid: string
+  - name: properties.sourceAddressPrefixes
+    description: The CIDR or source IP ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.sourceApplicationSecurityGroups
+    description: The application security group specified as source.
+    types:
+    - uid: ApplicationSecurityGroup
+      isArray: true
+  - name: properties.destinationAddressPrefix
+    description: The destination address prefix. CIDR or destination IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
+    types:
+    - uid: string
+  - name: properties.destinationAddressPrefixes
+    description: The destination address prefixes. CIDR or destination IP ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.destinationApplicationSecurityGroups
+    description: The application security group specified as destination.
+    types:
+    - uid: ApplicationSecurityGroup
+      isArray: true
+  - name: properties.sourcePortRanges
+    description: The source port ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.destinationPortRanges
+    description: The destination port ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.access
+    description: "The network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+    types:
+    - uid: SecurityRuleAccess
+  - name: properties.priority
+    description: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.
+    types:
+    - uid: integer
+  - name: properties.direction
+    description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outcoming traffic. Possible values are: 'Inbound' and 'Outbound'."
+    types:
+    - uid: SecurityRuleDirection
+  - name: properties.provisioningState
+    description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: NetworkInterface
+  description: A network interface in a resource group.
+  kind: object
+  properties:
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.virtualMachine
+    description: The reference of a virtual machine.
+    types:
+    - uid: SubResource
+  - name: properties.networkSecurityGroup
+    description: The reference of the NetworkSecurityGroup resource.
+    types:
+    - uid: NetworkSecurityGroup
+  - name: properties.ipConfigurations
+    description: A list of IPConfigurations of the network interface.
+    types:
+    - uid: NetworkInterfaceIPConfiguration
+      isArray: true
+  - name: properties.dnsSettings
+    description: The DNS settings in network interface.
+    types:
+    - uid: NetworkInterfaceDnsSettings
+  - name: properties.macAddress
+    description: The MAC address of the network interface.
+    types:
+    - uid: string
+  - name: properties.primary
+    description: Gets whether this is a primary network interface on a virtual machine.
+    types:
+    - uid: boolean
+  - name: properties.enableAcceleratedNetworking
+    description: If the network interface is accelerated networking enabled.
+    types:
+    - uid: boolean
+  - name: properties.enableIPForwarding
+    description: Indicates whether IP forwarding is enabled on this network interface.
+    types:
+    - uid: boolean
+  - name: properties.resourceGuid
+    description: The resource GUID property of the network interface resource.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: "The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: IPAllocationMethod
+  description: "Defines how a private IP address is assigned. Possible values are: 'Static' and 'Dynamic'."
+  kind: enum
+  properties:
+  - name: Static
+    types:
+    - uid: string
+  - name: Dynamic
+    types:
+    - uid: string
+- name: PublicIPAddress
+  description: Public IP address resource.
+  kind: object
+  properties:
+  - name: sku
+    description: The public IP address SKU.
+    types:
+    - uid: PublicIPAddressSku
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: zones
+    description: A list of availability zones denoting the IP allocated for the resource needs to come from.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.publicIPAllocationMethod
+    description: "The public IP allocation method. Possible values are: 'Static' and 'Dynamic'."
+    types:
+    - uid: IPAllocationMethod
+  - name: properties.publicIPAddressVersion
+    description: "The public IP address version. Possible values are: 'IPv4' and 'IPv6'."
+    types:
+    - uid: IPVersion
+  - name: properties.ipConfiguration
+    isReadyOnly: true
+    description: The IP configuration associated with the public IP address.
+    types:
+    - uid: IPConfiguration
+  - name: properties.dnsSettings
+    description: The FQDN of the DNS record associated with the public IP address.
+    types:
+    - uid: PublicIPAddressDnsSettings
+  - name: properties.ipTags
+    description: The list of tags associated with the public IP address.
+    types:
+    - uid: IpTag
+      isArray: true
+  - name: properties.ipAddress
+    description: The IP address associated with the public IP address resource.
+    types:
+    - uid: string
+  - name: properties.idleTimeoutInMinutes
+    description: The idle timeout of the public IP address.
+    types:
+    - uid: integer
+  - name: properties.resourceGuid
+    description: The resource GUID property of the public IP resource.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: "The provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: SecurityRuleProtocol
+  description: Network protocol this rule applies to. Possible values are 'Tcp', 'Udp', and '*'.
+  kind: enum
+  properties:
+  - name: Tcp
+    types:
+    - uid: string
+  - name: Udp
+    types:
+    - uid: string
+  - name: '*'
+    types:
+    - uid: string
+- name: ApplicationSecurityGroup
+  description: An application security group in a resource group.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the application security group resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: SecurityRuleAccess
+  description: "The network traffic is allowed or denied. Possible values are: 'Allow' and 'Deny'."
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+- name: SecurityRuleDirection
+  description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outcoming traffic. Possible values are: 'Inbound' and 'Outbound'."
+  kind: enum
+  properties:
+  - name: Inbound
+    types:
+    - uid: string
+  - name: Outbound
+    types:
+    - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: NetworkInterfaceIPConfiguration
+  description: IPConfiguration in a network interface.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.applicationGatewayBackendAddressPools
+    description: The reference of ApplicationGatewayBackendAddressPool resource.
+    types:
+    - uid: ApplicationGatewayBackendAddressPool
+      isArray: true
+  - name: properties.loadBalancerBackendAddressPools
+    description: The reference of LoadBalancerBackendAddressPool resource.
+    types:
+    - uid: BackendAddressPool
+      isArray: true
+  - name: properties.loadBalancerInboundNatRules
+    description: A list of references of LoadBalancerInboundNatRules.
+    types:
+    - uid: InboundNatRule
+      isArray: true
+  - name: properties.privateIPAddress
+    description: Private IP address of the IP configuration.
+    types:
+    - uid: string
+  - name: properties.privateIPAllocationMethod
+    description: "Defines how a private IP address is assigned. Possible values are: 'Static' and 'Dynamic'."
+    types:
+    - uid: IPAllocationMethod
+  - name: properties.privateIPAddressVersion
+    description: "Available from Api-Version 2016-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
+    types:
+    - uid: IPVersion
+  - name: properties.subnet
+    description: Subnet bound to the IP configuration.
+    types:
+    - uid: Subnet
+  - name: properties.primary
+    description: Gets whether this is a primary customer address on the network interface.
+    types:
+    - uid: boolean
+  - name: properties.publicIPAddress
+    description: Public IP address bound to the IP configuration.
+    types:
+    - uid: PublicIPAddress
+  - name: properties.applicationSecurityGroups
+    description: Application security groups in which the IP configuration is included.
+    types:
+    - uid: ApplicationSecurityGroup
+      isArray: true
+  - name: properties.provisioningState
+    description: "The provisioning state of the network interface IP configuration. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: NetworkInterfaceDnsSettings
+  description: DNS settings of a network interface.
+  kind: object
+  properties:
+  - name: dnsServers
+    description: List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS resolution. 'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value in dnsServers collection.
+    types:
+    - uid: string
+      isArray: true
+  - name: appliedDnsServers
+    description: If the VM that uses this NIC is part of an Availability Set, then this list will have the union of all DNS servers from all NICs that are part of the Availability Set. This property is what is configured on each of those VMs.
+    types:
+    - uid: string
+      isArray: true
+  - name: internalDnsNameLabel
+    description: Relative DNS name for this NIC used for internal communications between VMs in the same virtual network.
+    types:
+    - uid: string
+  - name: internalFqdn
+    description: Fully qualified DNS name supporting internal communications between VMs in the same virtual network.
+    types:
+    - uid: string
+  - name: internalDomainNameSuffix
+    description: Even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix.
+    types:
+    - uid: string
+- name: PublicIPAddressSku
+  description: SKU of a public IP address
+  kind: object
+  properties:
+  - name: name
+    description: Name of a public IP address SKU.
+    types:
+    - uid: PublicIPAddressSkuName
+- name: IPVersion
+  description: "Available from Api-Version 2016-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
+  kind: enum
+  properties:
+  - name: IPv4
+    types:
+    - uid: string
+  - name: IPv6
+    types:
+    - uid: string
+- name: PublicIPAddressDnsSettings
+  description: Contains FQDN of the DNS record associated with the public IP address
+  kind: object
+  properties:
+  - name: domainNameLabel
+    description: Gets or sets the Domain name label.The concatenation of the domain name label and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system.
+    types:
+    - uid: string
+  - name: fqdn
+    description: Gets the FQDN, Fully qualified domain name of the A DNS record associated with the public IP. This is the concatenation of the domainNameLabel and the regionalized DNS zone.
+    types:
+    - uid: string
+  - name: reverseFqdn
+    description: 'Gets or Sets the Reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN. '
+    types:
+    - uid: string
+- name: IpTag
+  description: Contains the IpTag associated with the public IP address
+  kind: object
+  properties:
+  - name: ipTagType
+    description: 'Gets or sets the ipTag type: Example FirstPartyUsage.'
+    types:
+    - uid: string
+  - name: tag
+    description: Gets or sets value of the IpTag associated with the public IP. Example SQL, Storage etc
+    types:
+    - uid: string
+- name: ApplicationGatewayBackendAddressPool
+  description: Backend Address Pool of an application gateway.
+  kind: object
+  properties:
+  - name: name
+    description: Resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the resource.
+    types:
+    - uid: string
+  - name: properties.backendIPConfigurations
+    description: Collection of references to IPs defined in network interfaces.
+    types:
+    - uid: NetworkInterfaceIPConfiguration
+      isArray: true
+  - name: properties.backendAddresses
+    description: Backend addresses
+    types:
+    - uid: ApplicationGatewayBackendAddress
+      isArray: true
+  - name: properties.provisioningState
+    description: "Provisioning state of the backend address pool resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: BackendAddressPool
+  description: Pool of backend IP addresses.
+  kind: object
+  properties:
+  - name: name
+    description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.backendIPConfigurations
+    isReadyOnly: true
+    description: Gets collection of references to IP addresses defined in network interfaces.
+    types:
+    - uid: NetworkInterfaceIPConfiguration
+      isArray: true
+  - name: properties.loadBalancingRules
+    isReadyOnly: true
+    description: Gets load balancing rules that use this backend address pool.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.outboundNatRule
+    isReadyOnly: true
+    description: Gets outbound rules that use this backend address pool.
+    types:
+    - uid: SubResource
+  - name: properties.provisioningState
+    description: "Get provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: InboundNatRule
+  description: Inbound NAT rule of the load balancer.
+  kind: object
+  properties:
+  - name: name
+    description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.frontendIPConfiguration
+    description: A reference to frontend IP addresses.
+    types:
+    - uid: SubResource
+  - name: properties.backendIPConfiguration
+    isReadyOnly: true
+    description: A reference to a private IP address defined on a network interface of a VM. Traffic sent to the frontend port of each of the frontend IP configurations is forwarded to the backend IP.
+    types:
+    - uid: NetworkInterfaceIPConfiguration
+  - name: properties.protocol
+    description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All'.
+    types:
+    - uid: TransportProtocol
+  - name: properties.frontendPort
+    description: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values range from 1 to 65534.
+    types:
+    - uid: integer
+  - name: properties.backendPort
+    description: The port used for the internal endpoint. Acceptable values range from 1 to 65535.
+    types:
+    - uid: integer
+  - name: properties.idleTimeoutInMinutes
+    description: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
+    types:
+    - uid: integer
+  - name: properties.enableFloatingIP
+    description: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.
+    types:
+    - uid: boolean
+  - name: properties.provisioningState
+    description: "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: PublicIPAddressSkuName
+  description: Name of a public IP address SKU.
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+- name: ApplicationGatewayBackendAddress
+  description: Backend address of an application gateway.
+  kind: object
+  properties:
+  - name: fqdn
+    description: Fully qualified domain name (FQDN).
+    types:
+    - uid: string
+  - name: ipAddress
+    description: IP address
+    types:
+    - uid: string
+- name: TransportProtocol
+  description: The transport protocol for the endpoint. Possible values are 'Udp' or 'Tcp' or 'All'.
+  kind: enum
+  properties:
+  - name: Udp
+    types:
+    - uid: string
+  - name: Tcp
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
 examples:
 - name: List route tables in resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables?api-version=2017-10-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables?api-version=2018-02-01
   responses:
   - statusCode: "200"
     body: >-

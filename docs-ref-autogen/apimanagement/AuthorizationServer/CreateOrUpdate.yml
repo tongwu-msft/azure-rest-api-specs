@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.authorizationserver.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Authorization Server
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Creates new authorization server or updates an existing authorization server.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: Identifier of the authorization server.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -109,7 +109,7 @@ requestBody:
       isArray: true
   - name: properties.tokenBodyParameters
     in: body
-    description: OAuth acquire token request body parameter (www-url-form-encoded).
+    description: 'Additional parameters required by the token endpoint of this authorization server represented as an array of JSON objects with name and value string properties, i.e. {"name" : "name value", "value": "a value"}.'
     types:
     - uid: TokenBodyParameterContract
       isArray: true
@@ -149,7 +149,12 @@ requestBody:
     description: Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner password.
     types:
     - uid: string
-requestHeader: []
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the Entity. Not required when creating an entity, but required when updating an entity.
+  types:
+  - uid: string
 definitions:
 - name: TokenBodyParameterContract
   description: OAuth acquire token request body parameter (www-url-form-encoded).
@@ -218,7 +223,7 @@ definitions:
     - uid: string
       isArray: true
   - name: properties.tokenBodyParameters
-    description: OAuth acquire token request body parameter (www-url-form-encoded).
+    description: 'Additional parameters required by the token endpoint of this authorization server represented as an array of JSON objects with name and value string properties, i.e. {"name" : "name value", "value": "a value"}.'
     types:
     - uid: TokenBodyParameterContract
       isArray: true
@@ -252,19 +257,19 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Error Body contract.
+  description: Error Response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Human-readable representation of the error.
     types:
     - uid: string
-  - name: details
-    description: Error Field contract.
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
     types:
     - uid: ErrorFieldContract
       isArray: true
@@ -287,7 +292,7 @@ definitions:
 examples:
 - name: ApiManagementCreateAuthorizationServer
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer?api-version=2018-01-01
     body: >-
       {
         "properties": {

@@ -1,6 +1,6 @@
 ---
 title: "DeployServicePackageToNodeDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,42 +35,42 @@ Defines description for downloading packages associated with a service manifest 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServiceManifestName](#servicemanifestname) | string | Yes |
-| [ApplicationTypeName](#applicationtypename) | string | Yes |
-| [ApplicationTypeVersion](#applicationtypeversion) | string | Yes |
-| [NodeName](#nodename) | string | Yes |
-| [PackageSharingPolicy](#packagesharingpolicy) | array of [PackageSharingPolicyInfo](sfclient-model-packagesharingpolicyinfo.md) | No |
+| [`ServiceManifestName`](#servicemanifestname) | string | Yes |
+| [`ApplicationTypeName`](#applicationtypename) | string | Yes |
+| [`ApplicationTypeVersion`](#applicationtypeversion) | string | Yes |
+| [`NodeName`](#nodename) | string | Yes |
+| [`PackageSharingPolicy`](#packagesharingpolicy) | array of [PackageSharingPolicyInfo](sfclient-model-packagesharingpolicyinfo.md) | No |
 
 ____
-### ServiceManifestName
+### `ServiceManifestName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of service manifest whose packages need to be downloaded.
 
 ____
-### ApplicationTypeName
+### `ApplicationTypeName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The application type name as defined in the application manifest.
 
 ____
-### ApplicationTypeVersion
+### `ApplicationTypeVersion`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The version of the application type as defined in the application manifest.
 
 ____
-### NodeName
+### `NodeName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of a Service Fabric node.
 
 ____
-### PackageSharingPolicy
+### `PackageSharingPolicy`
 __Type__: array of [PackageSharingPolicyInfo](sfclient-model-packagesharingpolicyinfo.md) <br/>
 __Required__: No<br/>
 <br/>

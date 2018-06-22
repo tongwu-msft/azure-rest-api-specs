@@ -11,6 +11,8 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules?api-version=2017-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules?api-version=2017-04-01&$skip={$skip}&$top={$top}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,6 +50,16 @@ uriParameters:
   description: Client API version.
   types:
   - uid: string
+- name: $skip
+  in: query
+  description: Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls.
+  types:
+  - uid: integer
+- name: $top
+  in: query
+  description: May be used to limit the number of results to the most recent N usageDetails.
+  types:
+  - uid: integer
 responses:
 - name: 200 OK
   description: Successfully retrieved list of Rules.
@@ -64,7 +76,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: Description of Rule Resource.
+    description: Result of the List Rules operation.
     types:
     - uid: Rule
       isArray: true
@@ -91,8 +103,7 @@ definitions:
   - name: properties.action
     description: Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
     types:
-    - uid: SqlRuleAction
-    typesTitle: Action
+    - uid: Action
   - name: properties.filterType
     description: Filter type that is evaluated against a BrokeredMessage.
     types:
@@ -120,6 +131,22 @@ definitions:
     description: Resource type
     types:
     - uid: string
+- name: Action
+  description: Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression.
+  kind: object
+  properties:
+  - name: sqlExpression
+    description: SQL expression. e.g. MyProperty='ABC'
+    types:
+    - uid: string
+  - name: compatibilityLevel
+    description: This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
+    types:
+    - uid: integer
+  - name: requiresPreprocessing
+    description: Value that indicates whether the rule action requires preprocessing.
+    types:
+    - uid: boolean
 - name: FilterType
   description: Rule filter types
   kind: enum
@@ -151,6 +178,14 @@ definitions:
   description: Represents the correlation filter expression.
   kind: object
   properties:
+  - name: properties
+    description: dictionary object for custom filters
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: correlationId
     description: Identifier of the correlation.
     types:
@@ -183,22 +218,6 @@ definitions:
     description: Content type of the message.
     types:
     - uid: string
-  - name: requiresPreprocessing
-    description: Value that indicates whether the rule action requires preprocessing.
-    types:
-    - uid: boolean
-- name: SqlRuleAction
-  description: 'Represents set of actions written in SQL language-based syntax that is performed against a ServiceBus.Messaging.BrokeredMessage '
-  kind: object
-  properties:
-  - name: sqlExpression
-    description: SQL expression. e.g. MyProperty='ABC'
-    types:
-    - uid: string
-  - name: compatibilityLevel
-    description: This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
-    types:
-    - uid: integer
   - name: requiresPreprocessing
     description: Value that indicates whether the rule action requires preprocessing.
     types:

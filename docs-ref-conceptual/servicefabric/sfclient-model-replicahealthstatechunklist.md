@@ -1,6 +1,6 @@
 ---
 title: "ReplicaHealthStateChunkList"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,10 +35,10 @@ The list of replica health state chunks that respect the input filters in the ch
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Items](#items) | array of [ReplicaHealthStateChunk](sfclient-model-replicahealthstatechunk.md) | No |
+| [`Items`](#items) | array of [ReplicaHealthStateChunk](sfclient-model-replicahealthstatechunk.md) | No |
 
 ____
-### Items
+### `Items`
 __Type__: array of [ReplicaHealthStateChunk](sfclient-model-replicahealthstatechunk.md) <br/>
 __Required__: No<br/>
 <br/>

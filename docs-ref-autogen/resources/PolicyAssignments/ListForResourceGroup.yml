@@ -1,19 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resourcemanagement.policyassignments.listforresourcegroup
+uid: management.azure.com.resources.policyassignments.listforresourcegroup
 name: List For Resource Group
 service: Resource Management
 groupName: Policy Assignments
-apiVersion: 2016-12-01
-summary: Gets policy assignments for the resource group.
+apiVersion: 2018-03-01
+summary: "Retrieves all policy assignments that apply to a resource group.  \nThis operation retrieves the list of all policy assignments associated with the given resource group in the given subscription that match the optional given $filter. Valid values for $filter are: 'atScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, the unfiltered list includes all policy assignments associated with the resource group, including those that apply directly or apply from containing scopes, as well as any applied to resources contained within the resource group. If $filter=atScope() is provided, the returned list includes all policy assignments that apply to the resource group, which is everything in the unfiltered list except those applied to resources contained within the resource group. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy assignments that apply to the resource group and assign the policy definition whose id is {value}."
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments?api-version=2016-12-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&api-version=2016-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments?api-version=2018-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&api-version=2018-03-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -31,7 +29,7 @@ uriParameters:
   pattern: ^[-\w\._\(\)]+$
 - name: $filter
   in: query
-  description: The filter to apply on the operation.
+  description: "The filter to apply on the operation. Valid values for $filter are: 'atScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed."
   types:
   - uid: string
 - name: api-version
@@ -45,6 +43,10 @@ responses:
   description: OK - Returns an array of policy assignments.
   types:
   - uid: PolicyAssignmentListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: PolicyAssignmentListResult
@@ -52,12 +54,28 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: The policy assignment.
+    description: An array of policy assignments.
     types:
     - uid: PolicyAssignment
       isArray: true
   - name: nextLink
     description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error reponse indicates Azure Resource Manager is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: httpStatus
+    description: Http status code.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
 - name: PolicyAssignment
@@ -70,25 +88,36 @@ definitions:
     types:
     - uid: string
   - name: type
+    isReadyOnly: true
     description: The type of the policy assignment.
     types:
     - uid: string
   - name: name
+    isReadyOnly: true
     description: The name of the policy assignment.
     types:
     - uid: string
+  - name: sku
+    description: The policy sku. This property is optional, obsolete, and will be ignored.
+    types:
+    - uid: PolicySku
   - name: properties.displayName
     description: The display name of the policy assignment.
     types:
     - uid: string
   - name: properties.policyDefinitionId
-    description: The ID of the policy definition.
+    description: The ID of the policy definition or policy set definition being assigned.
     types:
     - uid: string
   - name: properties.scope
     description: The scope for the policy assignment.
     types:
     - uid: string
+  - name: properties.notScopes
+    description: The policy's excluded scopes.
+    types:
+    - uid: string
+      isArray: true
   - name: properties.parameters
     description: Required if a parameter is used in policy rule.
     types:
@@ -97,7 +126,73 @@ definitions:
     description: This message will be part of response in case of policy violation.
     types:
     - uid: string
-examples: []
+  - name: properties.metadata
+    description: The policy assignment metadata.
+    types:
+    - uid: object
+- name: PolicySku
+  description: The policy sku. This property is optional, obsolete, and will be ignored.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the policy sku. Possible values are A0 and A1.
+    types:
+    - uid: string
+  - name: tier
+    description: The policy sku tier. Possible values are Free and Standard.
+    types:
+    - uid: string
+examples:
+- name: List policy assignments that apply to a resource group
+  request:
+    uri: GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup/providers/Microsoft.Authorization/policyAssignments?$filter=atScope()&api-version=2018-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup/providers/Microsoft.Authorization/policyAssignments/TestCostManagement",
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "TestCostManagement",
+            "properties": {
+              "displayName": "Storage Cost Management",
+              "description": "Minimize the risk of accidental cost overruns",
+              "metadata": {
+                "category": "Cost Management"
+              },
+              "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/storageSkus",
+              "parameters": {
+                "allowedSkus": {
+                  "type": "Array"
+                }
+              },
+              "scope": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup",
+              "notScopes": []
+            },
+            "sku": {
+              "name": "A0",
+              "tier": "Free"
+            }
+          },
+          {
+            "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup/providers/Microsoft.Authorization/policyAssignments/TestTagEnforcement",
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "TestTagEnforcement",
+            "properties": {
+              "displayName": "Enforces a tag key and value",
+              "description": "Ensure a given tag key and value are present on all resources",
+              "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/TagKeyValue",
+              "scope": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup",
+              "notScopes": []
+            },
+            "sku": {
+              "name": "A0",
+              "tier": "Free"
+            }
+          }
+        ]
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.logger.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Logger
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Creates or Updates a logger.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerid}?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerid}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,7 @@ uriParameters:
   description: Logger identifier. Must be unique in the API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -88,7 +88,12 @@ requestBody:
     description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
     types:
     - uid: boolean
-requestHeader: []
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the Entity. Not required when creating an entity, but required when updating an entity.
+  types:
+  - uid: string
 definitions:
 - name: LoggerContract
   description: Logger details.
@@ -133,19 +138,19 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Error Body contract.
+  description: Error Response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Human-readable representation of the error.
     types:
     - uid: string
-  - name: details
-    description: Error Field contract.
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
     types:
     - uid: ErrorFieldContract
       isArray: true
@@ -180,7 +185,7 @@ definitions:
 examples:
 - name: ApiManagementCreateEHLogger
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2018-01-01
     body: >-
       {
         "properties": {
@@ -227,7 +232,7 @@ examples:
       }
 - name: ApiManagementCreateAILogger
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2018-01-01
     body: >-
       {
         "properties": {

@@ -1,6 +1,6 @@
 ---
 title: "CheckSequencePropertyBatchOperation"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -42,9 +42,9 @@ the entire batch fails and cannot be committed in a transactional manner.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [PropertyName](#propertyname) | string | Yes |
-| [SequenceNumber](#sequencenumber) | string (int64) | Yes |
+| [`Kind`](#kind) | string | Yes |
+| [`PropertyName`](#propertyname) | string | Yes |
+| [`SequenceNumber`](#sequencenumber) | string | Yes |
 
 ____
 ### Kind
@@ -54,15 +54,15 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'CheckSequence' for objects of type 'CheckSequencePropertyBatchOperation'.
 
 ____
-### PropertyName
+### `PropertyName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the Service Fabric property.
 
 ____
-### SequenceNumber
-__Type__: string (int64) <br/>
+### `SequenceNumber`
+__Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The expected sequence number.

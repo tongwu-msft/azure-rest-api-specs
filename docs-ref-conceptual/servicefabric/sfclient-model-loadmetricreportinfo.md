@@ -1,6 +1,6 @@
 ---
 title: "LoadMetricReportInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,26 +34,26 @@ Information about load reported by replica.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Name](#name) | string | No |
-| [Value](#value) | integer (int32) | No |
-| [LastReportedUtc](#lastreportedutc) | string (date-time) | No |
+| [`Name`](#name) | string | No |
+| [`Value`](#value) | integer (int32) | No |
+| [`LastReportedUtc`](#lastreportedutc) | string (date-time) | No |
 
 ____
-### Name
+### `Name`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of the metric.
 
 ____
-### Value
+### `Value`
 __Type__: integer (int32) <br/>
 __Required__: No<br/>
 <br/>
 The value of the load for the metric..
 
 ____
-### LastReportedUtc
+### `LastReportedUtc`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>

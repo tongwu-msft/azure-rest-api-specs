@@ -14,7 +14,7 @@ Managing your key vaults as well as the keys, secrets, and certificates within y
 
 Manage your key vaults using the following set of operations.
 
-- [Manage key vaults](../../docs-ref-autogen/keyvault/Vaults.yml)
+- [Manage key vaults](xref:management.azure.com.keyvault.vaults)
 
 Managing within a Key Vault includes operations for creating, managing and executing cryptographic operations with keys, secrets and certificates within the Azure environment.
 
@@ -28,36 +28,36 @@ For conceptual and detailed information, see - [About keys, secrets, and certifi
 
 ### Key vaults
 
-- [Create or update a key vault](../../docs-ref-autogen/keyvault/Vaults.yml#Vaults_CreateOrUpdate)
-- [Deletes a key vault](../../docs-ref-autogen/keyvault/Vaults.yml#Vaults_Delete)
-- [Gets info about a key vault](../../docs-ref-autogen/keyvault/Vaults.yml#Vaults_Get)
+- [Create or update a key vault](xref:management.azure.com.keyvault.vaults.createorupdate)
+- [Deletes a key vault](xref:management.azure.com.keyvault.vaults.delete)
+- [Gets info about a key vault](xref:management.azure.com.keyvault.vaults.get)
 
 ### Keys
 
-- [Create a key](../../docs-ref-autogen/keyvault/CreateKey.yml)
-- [Get information about a key](../../docs-ref-autogen/keyvault/GetKey.yml)
-- [Encrypt with a key](../../docs-ref-autogen/keyvault/encrypt.yml)
-- [Recover deleted key](../../docs-ref-autogen/keyvault/RecoverDeletedKey.yml)
+- [Create a key](xref:keyvault.createkey)
+- [Get information about a key](xref:keyvault.getkey)
+- [Encrypt with a key](xref:keyvault.encrypt)
+- [Recover deleted key](xref:keyvault.recoverdeletedkey)
 
 ### Secrets
 
-- [Create a secret](../../docs-ref-autogen/keyvault/SetSecret.yml)
-- [Get a secret](../../docs-ref-autogen/keyvault/GetSecret.yml)
-- [Recover deleted secret](../../docs-ref-autogen/keyvault/RecoverDeletedSecret.yml)
+- [Create a secret](xref:keyvault.setsecret)
+- [Get a secret](xref:keyvault.getsecret)
+- [Recover deleted secret](xref:keyvault.recoverdeletedsecret)
 
 ### Certificates
 
-- [Create a certificate](../../docs-ref-autogen/keyvault/CreateCertificate.yml)
-- [Import a certificate](../../docs-ref-autogen/keyvault/ImportCertificate.yml)
-- [Update a certificate](../../docs-ref-autogen/keyvault/UpdateCertificate.yml)
-- [Update a certificate policy](../../docs-ref-autogen/keyvault/UpdateCertificatePolicy.yml)
-- [Recover deleted certificate](../../docs-ref-autogen/keyvault/RecoverDeletedCertificate.yml)
+- [Create a certificate](xref:keyvault.createcertificate)
+- [Import a certificate](xref:keyvault.importcertificate)
+- [Update a certificate](xref:keyvault.updatecertificate)
+- [Update a certificate policy](xref:keyvault.updatecertificatepolicy)
+- [Recover deleted certificate](xref:keyvault.recoverdeletedcertificate)
 
 ### Storage accounts
 
-- [Set a storage account](../../docs-ref-autogen/keyvault/SetStorageAccount.yml)
-- [Get a storage account](../../docs-ref-autogen/keyvault/GetStorageAccount.yml)
-- [Delete a storage account](../../docs-ref-autogen/keyvault/DeleteStorageAccount.yml)
+- [Set a storage account](xref:keyvault.setstorageaccount)
+- [Get a storage account](xref:keyvault.getstorageaccount)
+- [Delete a storage account](xref:keyvault.deletestorageaccount)
 
 ### See also
 

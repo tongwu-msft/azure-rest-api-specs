@@ -3,14 +3,14 @@ uid: management.azure.com.iothub.iothubresource.listeventhubconsumergroups
 name: List Event Hub Consumer Groups
 service: IoT Hub
 groupName: Iot Hub Resource
-apiVersion: 2017-01-19
-summary: Get a list of the consumer groups in the Event Hub-compatible device-to-cloud endpoint in an IoT hub.
+apiVersion: 2018-04-01
+summary: "Get a list of the consumer groups in the Event Hub-compatible device-to-cloud endpoint in an IoT hub  \nGet a list of the consumer groups in the Event Hub-compatible device-to-cloud endpoint in an IoT hub."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/eventHubEndpoints/{eventHubEndpointName}/ConsumerGroups?api-version=2017-01-19
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/eventHubEndpoints/{eventHubEndpointName}/ConsumerGroups?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -58,9 +58,9 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: The array of Event Hub-compatible consumer group names.
+    description: List of consumer groups objects
     types:
-    - uid: string
+    - uid: EventHubConsumerGroupInfo
       isArray: true
   - name: nextLink
     isReadyOnly: true
@@ -71,25 +71,83 @@ definitions:
   description: Error details.
   kind: object
   properties:
-  - name: Code
+  - name: code
     isReadyOnly: true
     description: The error code.
     types:
     - uid: string
-  - name: HttpStatusCode
+  - name: httpStatusCode
     isReadyOnly: true
     description: The HTTP status code.
     types:
     - uid: string
-  - name: Message
+  - name: message
     isReadyOnly: true
     description: The error message.
     types:
     - uid: string
-  - name: Details
+  - name: details
     isReadyOnly: true
     description: The error details.
     types:
     - uid: string
-examples: []
-security: []
+- name: EventHubConsumerGroupInfo
+  description: The properties of the EventHubConsumerGroupInfo object.
+  kind: object
+  properties:
+  - name: properties
+    description: The tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The Event Hub-compatible consumer group identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The Event Hub-compatible consumer group name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: the resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: The etag.
+    types:
+    - uid: string
+examples:
+- name: IotHubResource_ListEventHubConsumerGroups
+  request:
+    uri: GET https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/testHub/eventHubEndpoints/events/ConsumerGroups?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "created": "Thu, 15 Jun 2017 19:20:58 GMT"
+            },
+            "id": "/subscriptions/cmd-sub-1/resourceGroups/cmd-rg-1/providers/Microsoft.Devices/IotHubs/test-hub-2/eventHubEndpoints/events/ConsumerGroups/%24Default",
+            "name": "$Default",
+            "type": "Microsoft.Devices/IotHubs/EventHubEndpoints/ConsumerGroups",
+            "etag": "AAAAAAFD6M4="
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

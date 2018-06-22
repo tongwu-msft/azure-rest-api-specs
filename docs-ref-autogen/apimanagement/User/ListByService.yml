@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.user.listbyservice
 name: List By Service
 service: API Management
 groupName: User
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Lists a collection of registered users in the specified service instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users?api-version=2017-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users?api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -89,7 +89,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: User details.
+    description: Page values.
     types:
     - uid: UserContract
       isArray: true
@@ -98,19 +98,19 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Error Body contract.
+  description: Error Response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Human-readable representation of the error.
     types:
     - uid: string
-  - name: details
-    description: Error Field contract.
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
     types:
     - uid: ErrorFieldContract
       isArray: true
@@ -136,9 +136,9 @@ definitions:
     - uid: string
   - name: properties.groups
     isReadyOnly: true
-    description: Contract details.
+    description: Collection of groups user is part of.
     types:
-    - uid: GroupContract
+    - uid: GroupContractProperties
       isArray: true
   - name: id
     isReadyOnly: true
@@ -165,7 +165,7 @@ definitions:
     - uid: string
   - name: properties.identities
     isReadyOnly: true
-    description: User identity details.
+    description: Collection of user identities.
     types:
     - uid: UserIdentityContract
       isArray: true
@@ -185,44 +185,29 @@ definitions:
     description: Property name.
     types:
     - uid: string
-- name: GroupContract
-  description: Contract details.
+- name: GroupContractProperties
+  description: Group contract Properties.
   kind: object
   properties:
-  - name: properties.displayName
+  - name: displayName
     description: Group name.
     types:
     - uid: string
-  - name: properties.description
+  - name: description
     description: Group description. Can contain HTML formatting tags.
     types:
     - uid: string
-  - name: properties.builtIn
+  - name: builtIn
     isReadyOnly: true
     description: true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.
     types:
     - uid: boolean
-  - name: properties.type
+  - name: type
     description: Group type.
     types:
     - uid: GroupType
-  - name: properties.externalId
+  - name: externalId
     description: For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type for API Management resource.
     types:
     - uid: string
 - name: UserState
@@ -273,7 +258,7 @@ definitions:
 examples:
 - name: ApiManagementListUsers
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users?api-version=2017-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users?api-version=2018-01-01
   responses:
   - statusCode: "200"
     body: >-

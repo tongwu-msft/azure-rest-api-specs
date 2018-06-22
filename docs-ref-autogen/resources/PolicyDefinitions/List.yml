@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resourcemanagement.policydefinitions.list
+uid: management.azure.com.resources.policydefinitions.list
 name: List
 service: Resource Management
 groupName: Policy Definitions
-apiVersion: 2016-12-01
-summary: Gets all the policy definitions for a subscription.
+apiVersion: 2018-03-01
+summary: "Retrieves policy definitions in a subscription  \nThis operation retrieves a list of all the policy definitions in a given subscription."
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions?api-version=2016-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions?api-version=2018-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -28,7 +26,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns ana array of policy definitions.
+  description: OK - Returns an array of policy definitions.
   types:
   - uid: PolicyDefinitionListResult
 requestHeader: []
@@ -38,7 +36,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: The policy definition.
+    description: An array of policy definitions.
     types:
     - uid: PolicyDefinition
       isArray: true
@@ -58,6 +56,11 @@ definitions:
   - name: name
     isReadyOnly: true
     description: The name of the policy definition.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource (Microsoft.Authorization/policyDefinitions).
     types:
     - uid: string
   - name: properties.policyType
@@ -114,7 +117,96 @@ definitions:
   - name: All
     types:
     - uid: string
-examples: []
+examples:
+- name: List policy definitions by subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions?api-version=2018-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "displayName": "Allowed storage account SKUs",
+              "policyType": "BuiltIn",
+              "description": "This policy enables you to specify a set of storage account SKUs that your organization can deploy.",
+              "parameters": {
+                "listOfAllowedSKUs": {
+                  "type": "Array",
+                  "metadata": {
+                    "description": "The list of SKUs that can be specified for storage accounts.",
+                    "displayName": "Allowed SKUs",
+                    "strongType": "StorageSKUs"
+                  }
+                }
+              },
+              "policyRule": {
+                "if": {
+                  "allOf": [
+                    {
+                      "field": "type",
+                      "equals": "Microsoft.Storage/storageAccounts"
+                    },
+                    {
+                      "not": {
+                        "field": "Microsoft.Storage/storageAccounts/sku.name",
+                        "in": "[parameters('listOfAllowedSKUs')]"
+                      }
+                    }
+                  ]
+                },
+                "then": {
+                  "effect": "Deny"
+                }
+              }
+            },
+            "id": "/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "name": "7433c107-6db4-4ad1-b57a-a76dce0154a1"
+          },
+          {
+            "properties": {
+              "displayName": "Naming Convention",
+              "description": "Force resource names to begin with 'prefix' and end with 'suffix'",
+              "metadata": {
+                "category": "Naming"
+              },
+              "parameters": {
+                "prefix": {
+                  "type": "String",
+                  "metadata": {
+                    "displayName": "Prefix",
+                    "description": "Resource name prefix"
+                  }
+                },
+                "suffix": {
+                  "type": "String",
+                  "metadata": {
+                    "displayName": "Suffix",
+                    "description": "Resource name suffix"
+                  }
+                }
+              },
+              "policyRule": {
+                "if": {
+                  "not": {
+                    "field": "name",
+                    "like": "[concat(parameters('prefix'), '*', parameters('suffix'))]"
+                  }
+                },
+                "then": {
+                  "effect": "deny"
+                }
+              },
+              "policyType": "Custom"
+            },
+            "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "name": "ResourceNaming"
+          }
+        ]
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

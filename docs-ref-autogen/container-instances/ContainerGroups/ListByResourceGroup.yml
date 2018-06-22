@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.containerinstances.containergroups.listbyresourcegroup
+uid: management.azure.com.container-instances.containergroups.listbyresourcegroup
 name: List By Resource Group
 service: Container Instances
 groupName: Container Groups
-apiVersion: 2018-02-01-preview
-summary: Get a list of container groups in the specified subscription and resource group. Get a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
+apiVersion: 2018-06-01
+summary: "Get a list of container groups in the specified subscription and resource group.  \nGet a list of container groups in a specified subscription and resource group. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups?api-version=2018-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,7 +42,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: A container group.
+    description: The list of container groups.
     types:
     - uid: ContainerGroup
       isArray: true
@@ -87,12 +87,12 @@ definitions:
     types:
     - uid: string
   - name: properties.containers
-    description: A container instance.
+    description: The containers within the container group.
     types:
     - uid: Container
       isArray: true
   - name: properties.imageRegistryCredentials
-    description: Image registry credential.
+    description: The image registry credentials by which the container group is created from.
     types:
     - uid: ImageRegistryCredential
       isArray: true
@@ -109,7 +109,7 @@ definitions:
     types:
     - uid: OperatingSystemTypes
   - name: properties.volumes
-    description: The properties of the volume.
+    description: The list of volumes that can be mounted by containers in this container group.
     types:
     - uid: Volume
       isArray: true
@@ -118,6 +118,10 @@ definitions:
     description: The instance view of the container group. Only valid in response.
     types:
     - uid: InstanceView
+  - name: properties.diagnostics
+    description: The diagnostic information for a container group.
+    types:
+    - uid: ContainerGroupDiagnostics
 - name: Container
   description: A container instance.
   kind: object
@@ -136,12 +140,12 @@ definitions:
     - uid: string
       isArray: true
   - name: properties.ports
-    description: The port exposed on the container instance.
+    description: The exposed ports on the container instance.
     types:
     - uid: ContainerPort
       isArray: true
   - name: properties.environmentVariables
-    description: The environment variable to set within the container instance.
+    description: The environment variables to set in the container instance.
     types:
     - uid: EnvironmentVariable
       isArray: true
@@ -155,10 +159,18 @@ definitions:
     types:
     - uid: ResourceRequirements
   - name: properties.volumeMounts
-    description: The properties of the volume mount.
+    description: The volume mounts available to the container instance.
     types:
     - uid: VolumeMount
       isArray: true
+  - name: properties.livenessProbe
+    description: The liveness probe.
+    types:
+    - uid: ContainerProbe
+  - name: properties.readinessProbe
+    description: The readiness probe.
+    types:
+    - uid: ContainerProbe
 - name: ImageRegistryCredential
   description: Image registry credential.
   kind: object
@@ -193,7 +205,7 @@ definitions:
   kind: object
   properties:
   - name: ports
-    description: The port exposed on the container group.
+    description: The list of ports exposed on the container group.
     types:
     - uid: Port
       isArray: true
@@ -273,10 +285,18 @@ definitions:
     - uid: ContainerState
   - name: events
     isReadyOnly: true
-    description: A container group or container instance event.
+    description: The events of the container instance.
     types:
     - uid: Event
       isArray: true
+- name: ContainerGroupDiagnostics
+  description: Container group diagnostic information.
+  kind: object
+  properties:
+  - name: logAnalytics
+    description: Container group log analytics information.
+    types:
+    - uid: LogAnalytics
 - name: ContainerPort
   description: The port exposed on the container instance.
   kind: object
@@ -299,6 +319,10 @@ definitions:
     - uid: string
   - name: value
     description: The value of the environment variable.
+    types:
+    - uid: string
+  - name: secureValue
+    description: The value of the secure environment variable.
     types:
     - uid: string
 - name: ResourceRequirements
@@ -329,6 +353,38 @@ definitions:
     description: The flag indicating whether the volume mount is read-only.
     types:
     - uid: boolean
+- name: ContainerProbe
+  description: The container probe, for liveness or readiness
+  kind: object
+  properties:
+  - name: exec
+    description: The execution command to probe
+    types:
+    - uid: ContainerExec
+  - name: httpGet
+    description: The Http Get settings to probe
+    types:
+    - uid: ContainerHttpGet
+  - name: initialDelaySeconds
+    description: The initial delay seconds.
+    types:
+    - uid: integer
+  - name: periodSeconds
+    description: The period seconds.
+    types:
+    - uid: integer
+  - name: failureThreshold
+    description: The failure threshold.
+    types:
+    - uid: integer
+  - name: successThreshold
+    description: The success threshold.
+    types:
+    - uid: integer
+  - name: timeoutSeconds
+    description: The timeout seconds.
+    types:
+    - uid: integer
 - name: Port
   description: The port exposed on the container group.
   kind: object
@@ -440,6 +496,18 @@ definitions:
     description: The event type.
     types:
     - uid: string
+- name: LogAnalytics
+  description: Container group log analytics information.
+  kind: object
+  properties:
+  - name: workspaceId
+    description: The workspace id for log analytics
+    types:
+    - uid: string
+  - name: workspaceKey
+    description: The workspace key for log analytics
+    types:
+    - uid: string
 - name: ContainerNetworkProtocol
   description: The protocol associated with the port.
   kind: enum
@@ -474,6 +542,33 @@ definitions:
     description: The CPU limit of this container instance.
     types:
     - uid: number
+- name: ContainerExec
+  description: The container execution command, for liveness or readiness probe
+  kind: object
+  properties:
+  - name: command
+    description: The commands to execute within the container.
+    types:
+    - uid: string
+      isArray: true
+- name: ContainerHttpGet
+  description: The container Http Get settings, for liveness or readiness probe
+  kind: object
+  properties:
+  - name: path
+    description: The path to probe.
+    types:
+    - uid: string
+  - name: port
+    description: The port number to probe.
+    types:
+    - uid: integer
+  - name: scheme
+    description: The scheme.
+    types:
+    - uid: http
+    - uid: https
+    typesTitle: enum
 - name: ContainerGroupNetworkProtocol
   description: The protocol associated with the port.
   kind: enum
@@ -487,7 +582,7 @@ definitions:
 examples:
 - name: ContainerGroupsListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups?api-version=2018-02-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups?api-version=2018-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -549,7 +644,7 @@ examples:
                   "azureFile": {
                     "readOnly": false,
                     "shareName": "share1",
-                    "storageAccountName": "stroage1"
+                    "storageAccountName": "storage1"
                   },
                   "name": "volume1"
                 }

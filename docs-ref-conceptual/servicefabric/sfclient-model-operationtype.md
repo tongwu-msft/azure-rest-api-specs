@@ -1,6 +1,6 @@
 ---
 title: "OperationType"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,9 +35,9 @@ The type of the operation.
 
 Possible values are: 
 
-  - Invalid - The operation state is invalid.
-  - PartitionDataLoss - An operation started using the StartDataLoss API.
-  - PartitionQuorumLoss - An operation started using the StartQuorumLoss API.
-  - PartitionRestart - An operation started using the StartPartitionRestart API.
-  - NodeTransition - An operation started using the StartNodeTransition API.
+  - `Invalid` - The operation state is invalid.
+  - `PartitionDataLoss` - An operation started using the StartDataLoss API.
+  - `PartitionQuorumLoss` - An operation started using the StartQuorumLoss API.
+  - `PartitionRestart` - An operation started using the StartPartitionRestart API.
+  - `NodeTransition` - An operation started using the StartNodeTransition API.
 

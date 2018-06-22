@@ -1,9 +1,9 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.networkwatcher.networkwatchers.checkconnectivity
+uid: management.azure.com.network-watcher.networkwatchers.checkconnectivity
 name: Check Connectivity
 service: Network Watcher
 groupName: Network Watchers
-apiVersion: 2017-10-01
+apiVersion: 2018-02-01
 summary: Verifies the possibility of establishing a direct TCP connection from a virtual machine to a given endpoint including another VM or an arbitrary remote server.
 consumes:
 - application/json
@@ -12,7 +12,7 @@ produces:
 - application/json
 - text/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck?api-version=2017-10-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -61,6 +61,16 @@ requestBody:
     description: Parameters that define destination of connection.
     types:
     - uid: ConnectivityDestination
+  - name: protocol
+    in: body
+    description: Network protocol.
+    types:
+    - uid: Protocol
+  - name: protocolConfiguration
+    in: body
+    description: Configuration of the protocol.
+    types:
+    - uid: ProtocolConfiguration
 requestHeader: []
 definitions:
 - name: ConnectivitySource
@@ -91,13 +101,21 @@ definitions:
     description: Port on which check connectivity will be performed.
     types:
     - uid: integer
+- name: ProtocolConfiguration
+  description: Configuration of the protocol.
+  kind: object
+  properties:
+  - name: HTTPConfiguration
+    description: HTTP configuration of the connectivity check.
+    types:
+    - uid: HTTPConfiguration
 - name: ConnectivityInformation
   description: Information on the connectivity status.
   kind: object
   properties:
   - name: hops
     isReadyOnly: true
-    description: Information about a hop between the source and the destination.
+    description: List of hops between the source and the destination.
     types:
     - uid: ConnectivityHop
       isArray: true
@@ -143,6 +161,32 @@ definitions:
     description: Parameters that define destination of connection.
     types:
     - uid: ConnectivityDestination
+  - name: protocol
+    description: Network protocol.
+    types:
+    - uid: Protocol
+  - name: protocolConfiguration
+    description: Configuration of the protocol.
+    types:
+    - uid: ProtocolConfiguration
+- name: HTTPConfiguration
+  description: HTTP configuration of the connectivity check.
+  kind: object
+  properties:
+  - name: method
+    description: HTTP method.
+    types:
+    - uid: HTTPMethod
+  - name: headers
+    description: List of HTTP headers.
+    types:
+    - uid: HTTPHeader
+      isArray: true
+  - name: validStatusCodes
+    description: Valid status codes.
+    types:
+    - uid: integer
+      isArray: true
 - name: ConnectivityHop
   description: Information about a hop between the source and the destination.
   kind: object
@@ -175,7 +219,7 @@ definitions:
       isArray: true
   - name: issues
     isReadyOnly: true
-    description: Information about an issue encountered in the process of checking for connectivity.
+    description: List of issues.
     types:
     - uid: ConnectivityIssue
       isArray: true
@@ -193,6 +237,41 @@ definitions:
     types:
     - uid: string
   - name: Degraded
+    types:
+    - uid: string
+- name: Protocol
+  description: Network protocol.
+  kind: enum
+  properties:
+  - name: Tcp
+    types:
+    - uid: string
+  - name: Http
+    types:
+    - uid: string
+  - name: Https
+    types:
+    - uid: string
+  - name: Icmp
+    types:
+    - uid: string
+- name: HTTPMethod
+  description: HTTP method.
+  kind: enum
+  properties:
+  - name: Get
+    types:
+    - uid: string
+- name: HTTPHeader
+  description: Describes the HTTP header.
+  kind: object
+  properties:
+  - name: name
+    description: The name in HTTP header.
+    types:
+    - uid: string
+  - name: value
+    description: The value in HTTP header.
     types:
     - uid: string
 - name: ConnectivityIssue
@@ -216,7 +295,7 @@ definitions:
     - uid: IssueType
   - name: context
     isReadyOnly: true
-    description: A key-value pair that provides additional context on the issue.
+    description: Provides additional context on the issue.
     types:
     - uid: object
       isArray: true

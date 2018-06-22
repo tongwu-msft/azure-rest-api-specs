@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apimanagementservice.update
 name: Update
 service: API Management
 groupName: Api Management Service
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Updates an existing API Management service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}?api-version=2017-03-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -82,7 +82,7 @@ requestBody:
     - uid: string
   - name: properties.hostnameConfigurations
     in: body
-    description: Custom hostname configuration.
+    description: Custom hostname configuration of the API Management service.
     types:
     - uid: HostnameConfiguration
       isArray: true
@@ -93,7 +93,7 @@ requestBody:
     - uid: VirtualNetworkConfiguration
   - name: properties.additionalLocations
     in: body
-    description: Description of an additional API Management resource location.
+    description: Additional datacenter locations of the API Management service.
     types:
     - uid: AdditionalLocation
       isArray: true
@@ -108,7 +108,7 @@ requestBody:
       - uid: string
   - name: properties.certificates
     in: body
-    description: Certificate configuration which consist of non-trusted intermediates and root certificates.
+    description: List of Certificates that need to be installed in the API Management service. Max supported certificates that can be installed is 10.
     types:
     - uid: CertificateConfiguration
       isArray: true
@@ -216,9 +216,15 @@ definitions:
     description: SKU properties of the API Management service.
     types:
     - uid: ApiManagementServiceSkuProperties
-  - name: staticIps
+  - name: publicIPAddresses
     isReadyOnly: true
-    description: Static IP addresses of the location's virtual machines.
+    description: Public Static Load Balanced IP addresses of the API Management service in the additional location. Available only for Basic, Standard and Premium SKU.
+    types:
+    - uid: string
+      isArray: true
+  - name: privateIPAddresses
+    isReadyOnly: true
+    description: Private Static Load Balanced IP addresses of the API Management service which is deployed in an Internal Virtual Network in a particular additional location. Available only for Basic, Standard and Premium SKU.
     types:
     - uid: string
       isArray: true
@@ -244,7 +250,7 @@ definitions:
     types:
     - uid: string
   - name: storeName
-    description: The local certificate store location. Only Root and CertificateAuthority are valid locations.
+    description: The System.Security.Cryptography.x509certificates.Storename certificate store location. Only Root and CertificateAuthority are valid locations.
     types:
     - uid: CertificateAuthority
     - uid: Root
@@ -351,13 +357,19 @@ definitions:
     types:
     - uid: string
   - name: properties.hostnameConfigurations
-    description: Custom hostname configuration.
+    description: Custom hostname configuration of the API Management service.
     types:
     - uid: HostnameConfiguration
       isArray: true
-  - name: properties.staticIps
+  - name: properties.publicIPAddresses
     isReadyOnly: true
-    description: Static IP addresses of the API Management service virtual machines. Available only for Standard and Premium SKU.
+    description: Public Static Load Balanced IP addresses of the API Management service in Primary region. Available only for Basic, Standard and Premium SKU.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.privateIPAddresses
+    isReadyOnly: true
+    description: Private Static Load Balanced IP addresses of the API Management service in Primary region which is deployed in an Internal Virtual Network. Available only for Basic, Standard and Premium SKU.
     types:
     - uid: string
       isArray: true
@@ -366,7 +378,7 @@ definitions:
     types:
     - uid: VirtualNetworkConfiguration
   - name: properties.additionalLocations
-    description: Description of an additional API Management resource location.
+    description: Additional datacenter locations of the API Management service.
     types:
     - uid: AdditionalLocation
       isArray: true
@@ -379,7 +391,7 @@ definitions:
       - uid: string
       - uid: string
   - name: properties.certificates
-    description: Certificate configuration which consist of non-trusted intermediates and root certificates.
+    description: List of Certificates that need to be installed in the API Management service. Max supported certificates that can be installed is 10.
     types:
     - uid: CertificateConfiguration
       isArray: true
@@ -480,13 +492,19 @@ definitions:
     types:
     - uid: string
   - name: properties.hostnameConfigurations
-    description: Custom hostname configuration.
+    description: Custom hostname configuration of the API Management service.
     types:
     - uid: HostnameConfiguration
       isArray: true
-  - name: properties.staticIps
+  - name: properties.publicIPAddresses
     isReadyOnly: true
-    description: Static IP addresses of the API Management service virtual machines. Available only for Standard and Premium SKU.
+    description: Public Static Load Balanced IP addresses of the API Management service in Primary region. Available only for Basic, Standard and Premium SKU.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.privateIPAddresses
+    isReadyOnly: true
+    description: Private Static Load Balanced IP addresses of the API Management service in Primary region which is deployed in an Internal Virtual Network. Available only for Basic, Standard and Premium SKU.
     types:
     - uid: string
       isArray: true
@@ -495,7 +513,7 @@ definitions:
     types:
     - uid: VirtualNetworkConfiguration
   - name: properties.additionalLocations
-    description: Description of an additional API Management resource location.
+    description: Additional datacenter locations of the API Management service.
     types:
     - uid: AdditionalLocation
       isArray: true
@@ -508,7 +526,7 @@ definitions:
       - uid: string
       - uid: string
   - name: properties.certificates
-    description: Certificate configuration which consist of non-trusted intermediates and root certificates.
+    description: List of Certificates that need to be installed in the API Management service. Max supported certificates that can be installed is 10.
     types:
     - uid: CertificateConfiguration
       isArray: true
@@ -594,7 +612,7 @@ definitions:
 examples:
 - name: ApiManagementUpdateServiceDisableTls10
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2017-03-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2018-01-01
     body: >-
       {
         "properties": {
@@ -608,7 +626,7 @@ examples:
   - statusCode: "200"
 - name: ApiManagementUpdateServicePublisherDetails
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2017-03-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2018-01-01
     body: >-
       {
         "properties": {

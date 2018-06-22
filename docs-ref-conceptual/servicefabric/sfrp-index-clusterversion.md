@@ -1,6 +1,6 @@
 ---
 title: "ClusterVersion"
-ms.date: "2017-05-16"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,5 +29,8 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
-| [List](sfrp-api-clusterversions_list.md) | List cluster code versions by location<br/> |
+| [Get](sfrp-api-clusterversions_get.md) | Gets information about a Service Fabric cluster code version available in the specified location.<br/> |
+| [Get By Environment](sfrp-api-clusterversions_getbyenvironment.md) | Gets information about a Service Fabric cluster code version available for the specified environment.<br/> |
+| [List](sfrp-api-clusterversions_list.md) | Gets the list of Service Fabric cluster code versions available for the specified location.<br/> |
+| [List By Environment](sfrp-api-clusterversions_listbyenvironment.md) | Gets the list of Service Fabric cluster code versions available for the specified environment.<br/> |
 

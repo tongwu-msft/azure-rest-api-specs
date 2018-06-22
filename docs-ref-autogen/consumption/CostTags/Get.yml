@@ -1,0 +1,132 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.consumption.costtags.get
+name: Get
+service: Consumption
+groupName: Cost Tags
+apiVersion: 2018-03-31
+summary: Get cost tags for a billing account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/costTags?api-version=2018-03-31
+uriParameters:
+- name: billingAccountId
+  in: path
+  isRequired: true
+  description: BillingAccount ID
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-03-31.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: CostTags
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: CostTags
+  description: A cost tag resource.
+  kind: object
+  properties:
+  - name: properties.costTags
+    description: Cost tags.
+    types:
+    - uid: CostTag
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: eTag
+    description: eTag of the resource. To handle concurrent update scenarion, this field will be used to determine whether the user is updating the latest version or not.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: CostTag
+  description: The cost tag.
+  kind: object
+  properties:
+  - name: key
+    description: Cost tag key.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: CostTags_Get
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345/providers/Microsoft.Consumption/costTags?api-version=2018-03-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "providers/Microsoft.Billing/billingAccounts/{billingaccount-id}/providers/Microsoft.Consumption/costTags/costTags1",
+        "name": "costTags1",
+        "type": "Microsoft.Consumption/costTags",
+        "eTag": "\"1d34d012214157f\"",
+        "properties": {
+          "costTags": [
+            {
+              "key": "Department"
+            },
+            {
+              "key": "CostCenter"
+            },
+            {
+              "key": "Portal"
+            },
+            {
+              "key": "OrgName"
+            }
+          ]
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

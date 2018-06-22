@@ -557,6 +557,7 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 
 | Http status code | Error code | Example of error message | Possible inner error codes |
 |-|-|-|-|
+| 400 | InvalidApiVersion | API version '2016' is not supported. Supported versions are '2016-12-12'. | - |
 | 400 | InvalidInput | Unable to parse predicate string. | PredicateStringParseError |
 | 400 | InvalidInput | Unable to translate predicate string. | InvalidTypes, LimitExceeded, MissingOperand, InvalidPropertyType, InvalidLiteral, PropertyNotFound |
 | 400 | InvalidInput | Multiple aggregates are not supported. | - |
@@ -573,10 +574,13 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 | 400 | InvalidInput | Event count exceeded limit. | EventCountExceededLimit |
 | 400 | InvalidInput | Property reference count exceeded limit. | PropertyReferenceCountExceededLimit |
 | 400 | InvalidMethod | Only WebSocket requests are allowed on the path 'aggregates'. | - |
+| 400 | InvalidUrl | The request URL '/a/b' could not be parsed. | - |
+| 408 | RequestTimeout | Request timed out after '30' second(s). | - |
+| 503 | TooManyRequests | Concurrent request count of '10' exceeded for environment '95880732-01b9-44ea-8d2d-4d764dfe1904'. | EnvRequestLimitExceeded |
 
 ## Warnings
 
-A query API response may contain a list of warnings as a sibling of `"content"` entry.
+A query API response may contain a list of warnings as `"warnings"` entry under the root of the HTTP response or WebSocket response message.
 Currently warnings are generated if property is not found for a given search span but is found in an environment for global time span.
 
 Each warning object may contain the following fields:

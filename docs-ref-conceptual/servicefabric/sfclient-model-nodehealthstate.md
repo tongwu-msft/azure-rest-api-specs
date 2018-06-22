@@ -1,6 +1,6 @@
 ---
 title: "NodeHealthState"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,12 +34,12 @@ Represents the health state of a node, which contains the node identifier and it
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |
-| [Name](#name) | string | No |
-| [Id](#id) | [NodeId](sfclient-model-nodeid.md) | No |
+| [`AggregatedHealthState`](#aggregatedhealthstate) | string (enum) | No |
+| [`Name`](#name) | string | No |
+| [`Id`](#id) | [NodeId](sfclient-model-nodeid.md) | No |
 
 ____
-### AggregatedHealthState
+### `AggregatedHealthState`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -49,23 +49,23 @@ The health state of a Service Fabric entity such as Cluster, Node, Application, 
 
 Possible values are: 
 
-  - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Ok - Indicates the health state is okay. The value is 1.
-  - Warning - Indicates the health state is at a warning level. The value is 2.
-  - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
-  - Unknown - Indicates an unknown health status. The value is 65535.
+  - `Invalid` - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Ok` - Indicates the health state is okay. The value is 1.
+  - `Warning` - Indicates the health state is at a warning level. The value is 2.
+  - `Error` - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+  - `Unknown` - Indicates an unknown health status. The value is 65535.
 
 
 
 ____
-### Name
+### `Name`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of a Service Fabric node.
 
 ____
-### Id
+### `Id`
 __Type__: [NodeId](sfclient-model-nodeid.md) <br/>
 __Required__: No<br/>
 <br/>

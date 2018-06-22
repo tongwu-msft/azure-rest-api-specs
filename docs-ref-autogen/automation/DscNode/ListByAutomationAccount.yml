@@ -3,15 +3,16 @@ uid: management.azure.com.automation.dscnode.listbyautomationaccount
 name: List By Automation Account
 service: Automation
 groupName: Dsc Node
-apiVersion: 2015-10-31
+apiVersion: 2018-01-15
 summary: Retrieve a list of dsc nodes.
 consumes:
 - application/json
 produces:
 - application/json
+- text/plain
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes?api-version=2015-10-31
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes?$filter={$filter}&api-version=2015-10-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes?api-version=2018-01-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes?$filter={$filter}&$skip={$skip}&$top={$top}&$inlinecount={$inlinecount}&api-version=2018-01-15
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -23,19 +24,34 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The resource group name.
+  description: Name of an Azure Resource group.
   types:
   - uid: string
   pattern: ^[-\w\._]+$
 - name: automationAccountName
   in: path
   isRequired: true
-  description: The automation account name.
+  description: The name of the automation account.
   types:
   - uid: string
 - name: $filter
   in: query
   description: The filter to apply on the operation.
+  types:
+  - uid: string
+- name: $skip
+  in: query
+  description: The number of rows to skip.
+  types:
+  - uid: integer
+- name: $top
+  in: query
+  description: The the number of rows to take.
+  types:
+  - uid: integer
+- name: $inlinecount
+  in: query
+  description: Return total rows.
   types:
   - uid: string
 - name: api-version
@@ -60,7 +76,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: Definition of the dsc node type.
+    description: Gets or sets a list of dsc nodes.
     types:
     - uid: DscNode
       isArray: true
@@ -68,6 +84,10 @@ definitions:
     description: Gets or sets the next link.
     types:
     - uid: string
+  - name: totalCount
+    description: Gets the total number of nodes matching filter criteria.
+    types:
+    - uid: integer
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
@@ -81,67 +101,63 @@ definitions:
     types:
     - uid: string
 - name: DscNode
-  description: Definition of the dsc node type.
+  description: Definition of a DscNode
   kind: object
   properties:
-  - name: lastSeen
+  - name: properties.lastSeen
     description: Gets or sets the last seen time of the node.
     types:
     - uid: string
-  - name: registrationTime
+  - name: properties.registrationTime
     description: Gets or sets the registration time of the node.
     types:
     - uid: string
-  - name: ip
+  - name: properties.ip
     description: Gets or sets the ip of the node.
     types:
     - uid: string
-  - name: accountId
+  - name: properties.accountId
     description: Gets or sets the account id of the node.
     types:
     - uid: string
-  - name: nodeConfiguration
-    description: Gets or sets the configuration of the node.
-    types:
-    - uid: DscNodeConfigurationAssociationProperty
-  - name: status
+  - name: properties.status
     description: Gets or sets the status of the node.
     types:
     - uid: string
-  - name: nodeId
+  - name: properties.nodeId
     description: Gets or sets the node id.
     types:
     - uid: string
-  - name: etag
+  - name: properties.etag
     description: Gets or sets the etag of the resource.
     types:
     - uid: string
-  - name: extensionHandler
-    description: The dsc extensionHandler property associated with the node
+  - name: properties.totalCount
+    description: Gets the total number of records matching filter criteria.
+    types:
+    - uid: integer
+  - name: properties.extensionHandler
+    description: Gets or sets the list of extensionHandler properties for a Node.
     types:
     - uid: DscNodeExtensionHandlerAssociationProperty
       isArray: true
+  - name: properties.nodeConfiguration.name
+    description: Gets or sets the name of the dsc nodeconfiguration.
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
-    description: Resource Id
+    description: Fully qualified resource Id for the resource
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-- name: DscNodeConfigurationAssociationProperty
-  description: The dsc nodeconfiguration property associated with the entity.
-  kind: object
-  properties:
-  - name: name
-    description: Gets or sets the name of the dsc nodeconfiguration.
+    description: The type of the resource.
     types:
     - uid: string
 - name: DscNodeExtensionHandlerAssociationProperty
@@ -159,7 +175,7 @@ definitions:
 examples:
 - name: List DSC nodes by Automation Account
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes?api-version=2015-10-31
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes?api-version=2018-01-15
   responses:
   - statusCode: "200"
     body: >-
@@ -168,16 +184,512 @@ examples:
           {
             "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/nodeId",
             "name": "DSCCOMP",
-            "ip": "172.16.2.5;127.0.0.1;fe80::4c51:9518:aa3c:256a%5;::2000:0:0:0;::1;::2000:0:0:0;2001:0:9d38:78cf:106b:130a:53ef:fdfa;fe80::106b:1",
-            "lastSeen": "2017-03-28T23:16:30.3192468+00:00",
-            "registrationTime": "2017-03-28T20:19:24.7915026+00:00",
-            "nodeId": "nodeId",
-            "status": "Pending",
-            "nodeConfiguration": {
-              "name": "SetupServer.localhost"
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "nodeId",
+              "status": "Pending",
+              "nodeConfiguration": {
+                "name": "SetupServer.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/nodeId2",
+            "name": "DSCCOMP2",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "nodeId2",
+              "status": "Pending",
+              "nodeConfiguration": {
+                "name": "SetupServer.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
             }
           }
         ]
+      }
+- name: List Paged DSC nodes by Automation Account with no filters
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes?$skip=0&$top=2&$inlinecount=allpages&api-version=2018-01-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/nodeId",
+            "name": "DSCCOMP",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "FCC20208-E781-41C4-A757-17AA0429B3A4",
+              "status": "Pending",
+              "nodeConfiguration": {
+                "name": "SetupServer.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/nodeId2",
+            "name": "DSCCOMP2",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "A63C781C-0C50-4825-B295-B7F8ECFD0DBC",
+              "status": "Pending",
+              "nodeConfiguration": {
+                "name": "SetupServer.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
+            }
+          }
+        ],
+        "totalCount": 152
+      }
+- name: List Paged DSC nodes by Automation Account with name filter
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes?$filter=contains('DSCCOMP',name)&$skip=0&$top=6&$inlinecount=allpages&api-version=2018-01-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/DSCCOMP",
+            "name": "DSCCOMP",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "708D250A-2169-4B54-89FF-76F5F71C252A",
+              "status": "Compliant",
+              "nodeConfiguration": {
+                "name": "SetupServer.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/DSCCOMP2",
+            "name": "DSCCOMP2",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "3B4BB31A-5132-4669-A15F-A17E234D1634",
+              "status": "Failed",
+              "nodeConfiguration": {
+                "name": "SetupServer.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
+            }
+          }
+        ],
+        "totalCount": 2
+      }
+- name: List Paged DSC nodes by Automation Account with node status filter
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes?$filter=contains(properties/status,'Compliant,NotCompliant')&$skip=0&$top=4&$inlinecount=allpages&api-version=2018-01-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/Node12",
+            "name": "Node12",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "01D64CDE-85DD-4C9B-B8F1-2F725348FDEC",
+              "status": "Compliant",
+              "nodeConfiguration": {
+                "name": "SetupServer.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/Node13",
+            "name": "Node13",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "E13076D7-A959-4067-B02F-4F014AAD22D7",
+              "status": "Compliant",
+              "nodeConfiguration": {
+                "name": "SetupServer.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/Node14",
+            "name": "Node14",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "4289B441-B9A0-4309-93FC-0C5100CFBE46",
+              "status": "Compliant",
+              "nodeConfiguration": {
+                "name": "SetupServer.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/Node15",
+            "name": "Node15",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "CBD2212B-8F4C-4049-98E7-1DBCBED7343B",
+              "status": "NotCompliant",
+              "nodeConfiguration": {
+                "name": "SetupServer.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
+            }
+          }
+        ],
+        "totalCount": 67
+      }
+- name: List Paged DSC nodes by Automation Account with Node Configuration Custom filter
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes?$filter=contains(properties/nodeConfiguration/name,'SetupServer.localhost,SetupClient.localhost,$$Not$$Configured$$')&$skip=0&$top=4&$inlinecount=allpages&api-version=2018-01-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/Node32",
+            "name": "Node32",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "477F9596-92F3-479A-82F2-9EE149F2C6B0",
+              "status": "Compliant",
+              "nodeConfiguration": {
+                "name": ""
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/Node33",
+            "name": "Node33",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "E5D5D0B5-400D-48F7-A791-612945DAC5EB",
+              "status": "Compliant",
+              "nodeConfiguration": {
+                "name": "SetupServer.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/Node34",
+            "name": "Node34",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "Node34",
+              "status": "Compliant",
+              "nodeConfiguration": {
+                "name": "SetupClient.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/Node35",
+            "name": "Node35",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "Node35",
+              "status": "NotCompliant",
+              "nodeConfiguration": {
+                "name": "SetupClient.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
+            }
+          }
+        ],
+        "totalCount": 12
+      }
+- name: List Paged DSC nodes by Automation Account where Node Configurations are not assigned filter
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes?$filter=properties/nodeConfiguration/name eq ''&$skip=0&$top=20&$inlinecount=allpages&api-version=2018-01-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/Node60",
+            "name": "Node60",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "477F9596-92F3-479A-82F2-9EE149F2C6B0",
+              "status": "Compliant",
+              "nodeConfiguration": {
+                "name": ""
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/Node61",
+            "name": "Node61",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "E5D5D0B5-400D-48F7-A791-612945DAC5EB",
+              "status": "Compliant",
+              "nodeConfiguration": {
+                "name": ""
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.75.0.0"
+                }
+              ]
+            }
+          }
+        ],
+        "totalCount": 2
+      }
+- name: List Paged DSC nodes by Automation Account with version filter
+  request:
+    uri: "GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes?$filter=properties/extensionHandler/any(eh: eh/version le '2.70')&$skip=0&$top=4&$inlinecount=allpages&api-version=2018-01-15"
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/Node62",
+            "name": "Node62",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "01D64CDE-85DD-4C9B-B8F1-2F725348FDEC",
+              "status": "Compliant",
+              "nodeConfiguration": {
+                "name": "SetupServer.localhost"
+              },
+              "extensionHandler": null
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/Node63",
+            "name": "Node63",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "E13076D7-A959-4067-B02F-4F014AAD22D7",
+              "status": "Compliant",
+              "nodeConfiguration": {
+                "name": "SetupServer.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.70.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/Node64",
+            "name": "Node64",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "4289B441-B9A0-4309-93FC-0C5100CFBE46",
+              "status": "Compliant",
+              "nodeConfiguration": {
+                "name": "SetupServer.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.70.0.0"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/Node65",
+            "name": "Node65",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "CBD2212B-8F4C-4049-98E7-1DBCBED7343B",
+              "status": "NotCompliant",
+              "nodeConfiguration": {
+                "name": "SetupServer.localhost"
+              },
+              "extensionHandler": null
+            }
+          }
+        ],
+        "totalCount": 7
+      }
+- name: List Paged DSC nodes with filters separated by 'and'
+  request:
+    uri: "GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes?$filter=properties/extensionHandler/any(eh: eh/version gt '2.70') and contains(name,'sql') and contains(properties/nodeConfiguration/name,'$$Not$$Configured$$')&$skip=0&$top=10&$inlinecount=allpages&api-version=2018-01-15"
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodes/Sql1",
+            "name": "Sql1",
+            "type": "Microsoft.Automation/AutomationAccounts/Nodes",
+            "properties": {
+              "lastSeen": "2018-03-22T22:25:39.0963773+00:00",
+              "registrationTime": "2018-03-10T00:51:12.5393083+00:00",
+              "ip": "ip",
+              "nodeId": "01D64CDE-85DD-4C9B-B8F1-2F725348FDEC",
+              "status": "Compliant",
+              "nodeConfiguration": {
+                "name": "SetupSqlServer.localhost"
+              },
+              "extensionHandler": [
+                {
+                  "name": "Microsoft.Powershell.DSC",
+                  "version": "2.70.0.1"
+                }
+              ]
+            }
+          }
+        ],
+        "totalCount": 1
       }
 security:
 - type: oauth2

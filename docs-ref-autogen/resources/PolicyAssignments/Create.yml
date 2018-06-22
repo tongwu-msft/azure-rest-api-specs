@@ -1,23 +1,21 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resourcemanagement.policyassignments.create
+uid: management.azure.com.resources.policyassignments.create
 name: Create
 service: Resource Management
 groupName: Policy Assignments
-apiVersion: 2016-12-01
-summary: Creates a policy assignment. Policy assignments are inherited by child resources. For example, when you apply a policy to a resource group that policy is assigned to all resources in the group.
+apiVersion: 2018-03-01
+summary: "Creates or updates a policy assignment.  \n This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group."
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}?api-version=2016-12-01
+- content: PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}?api-version=2018-03-01
 uriParameters:
 - name: scope
   in: path
   isRequired: true
-  description: The scope of the policy assignment.
+  description: "The scope of the policy assignment. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'"
   types:
   - uid: string
 - name: policyAssignmentName
@@ -37,18 +35,17 @@ responses:
   description: Created - Returns information about the new policy assignment.
   types:
   - uid: PolicyAssignment
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestBody:
 - parameters:
-  - name: type
+  - name: sku
     in: body
-    description: The type of the policy assignment.
+    description: The policy sku. This property is optional, obsolete, and will be ignored.
     types:
-    - uid: string
-  - name: name
-    in: body
-    description: The name of the policy assignment.
-    types:
-    - uid: string
+    - uid: PolicySku
   - name: properties.displayName
     in: body
     description: The display name of the policy assignment.
@@ -56,7 +53,7 @@ requestBody:
     - uid: string
   - name: properties.policyDefinitionId
     in: body
-    description: The ID of the policy definition.
+    description: The ID of the policy definition or policy set definition being assigned.
     types:
     - uid: string
   - name: properties.scope
@@ -64,6 +61,12 @@ requestBody:
     description: The scope for the policy assignment.
     types:
     - uid: string
+  - name: properties.notScopes
+    in: body
+    description: The policy's excluded scopes.
+    types:
+    - uid: string
+      isArray: true
   - name: properties.parameters
     in: body
     description: Required if a parameter is used in policy rule.
@@ -74,8 +77,25 @@ requestBody:
     description: This message will be part of response in case of policy violation.
     types:
     - uid: string
+  - name: properties.metadata
+    in: body
+    description: The policy assignment metadata.
+    types:
+    - uid: object
 requestHeader: []
 definitions:
+- name: PolicySku
+  description: The policy sku. This property is optional, obsolete, and will be ignored.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the policy sku. Possible values are A0 and A1.
+    types:
+    - uid: string
+  - name: tier
+    description: The policy sku tier. Possible values are Free and Standard.
+    types:
+    - uid: string
 - name: PolicyAssignment
   description: The policy assignment.
   kind: object
@@ -86,25 +106,36 @@ definitions:
     types:
     - uid: string
   - name: type
+    isReadyOnly: true
     description: The type of the policy assignment.
     types:
     - uid: string
   - name: name
+    isReadyOnly: true
     description: The name of the policy assignment.
     types:
     - uid: string
+  - name: sku
+    description: The policy sku. This property is optional, obsolete, and will be ignored.
+    types:
+    - uid: PolicySku
   - name: properties.displayName
     description: The display name of the policy assignment.
     types:
     - uid: string
   - name: properties.policyDefinitionId
-    description: The ID of the policy definition.
+    description: The ID of the policy definition or policy set definition being assigned.
     types:
     - uid: string
   - name: properties.scope
     description: The scope for the policy assignment.
     types:
     - uid: string
+  - name: properties.notScopes
+    description: The policy's excluded scopes.
+    types:
+    - uid: string
+      isArray: true
   - name: properties.parameters
     description: Required if a parameter is used in policy rule.
     types:
@@ -113,7 +144,75 @@ definitions:
     description: This message will be part of response in case of policy violation.
     types:
     - uid: string
-examples: []
+  - name: properties.metadata
+    description: The policy assignment metadata.
+    types:
+    - uid: object
+- name: ErrorResponse
+  description: Error reponse indicates Azure Resource Manager is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: httpStatus
+    description: Http status code.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: Create or update a policy assignment
+  request:
+    uri: PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2018-03-01
+    body: >-
+      {
+        "properties": {
+          "displayName": "Enforce resource naming rules",
+          "description": "Force resource names to begin with given DeptA and end with -LC",
+          "metadata": {
+            "assignedBy": "Special Someone"
+          },
+          "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+          "parameters": {
+            "prefix": {
+              "value": "DeptA"
+            },
+            "suffix": {
+              "value": "-LC"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "displayName": "Enforce resource naming rules",
+          "description": "Force resource names to begin with given DeptA and end with -LC",
+          "metadata": {
+            "assignedBy": "Special Someone"
+          },
+          "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+          "notScopes": [],
+          "parameters": {
+            "prefix": {
+              "value": "DeptA"
+            },
+            "suffix": {
+              "value": "-LC"
+            }
+          },
+          "scope": "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2"
+        },
+        "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming",
+        "type": "Microsoft.Authorization/policyAssignments",
+        "name": "EnforceNaming"
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

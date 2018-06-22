@@ -1,6 +1,6 @@
 ---
 title: "Update Service"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -41,13 +41,13 @@ This API allows updating properties of a running Service Fabric service. The set
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [serviceId](#serviceid) | string | Yes | Path |
-| [api-version](#api-version) | string | Yes | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
-| [ServiceUpdateDescription](#serviceupdatedescription) | [ServiceUpdateDescription](sfclient-model-serviceupdatedescription.md) | Yes | Body |
+| [`serviceId`](#serviceid) | string | Yes | Path |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
+| [`ServiceUpdateDescription`](#serviceupdatedescription) | [ServiceUpdateDescription](sfclient-model-serviceupdatedescription.md) | Yes | Body |
 
 ____
-### serviceId
+### `serviceId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
@@ -57,12 +57,12 @@ For example, if the service name is "fabric:/myapp/app1/svc1", the service ident
 
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0 <br/>
+__Default__: `6.0` <br/>
 <br/>
-The version of this API. This is a required parameter and its value must be "6.0".
+The version of the API. This parameter is required and its value must be '6.0'.
 
 Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
 
@@ -70,17 +70,17 @@ Additionally the runtime accept any version that is higher than the latest suppo
 
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
-### ServiceUpdateDescription
+### `ServiceUpdateDescription`
 __Type__: [ServiceUpdateDescription](sfclient-model-serviceupdatedescription.md) <br/>
 __Required__: Yes<br/>
 <br/>
@@ -92,3 +92,67 @@ The information necessary to update a service.
 | --- | --- | --- |
 | 200 (OK) | A successful operation will return 202 status code.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |
+
+## Examples
+
+### Stateless service
+
+This example shows how to update placement and load balancing related settings of a stateless Service Fabric service.
+
+#### Request
+```
+POST http://localhost:19080/Services/test~test1/$/Update?api-version=6.0
+```
+
+##### Body
+```json
+{
+  "ServiceKind": "Stateless",
+  "Flags": "1568",
+  "PlacementConstraints": "Color==Red",
+  "DefaultMoveCost": "High",
+  "ScalingPolicies": [
+    {
+      "ScalingTrigger": {
+        "Kind": "AveragePartitionLoad",
+        "MetricName": "servicefabric:/_CpuCores",
+        "LowerLoadThreshold": "0.5",
+        "UpperLoadThreshold": "0.8",
+        "ScaleIntervalInSeconds": "900"
+      },
+      "ScalingMechanism": {
+        "Kind": "PartitionInstanceCount",
+        "MinInstanceCount": "4",
+        "MaxInstanceCount": "6",
+        "ScaleIncrement": "2"
+      }
+    }
+  ]
+}
+```
+
+#### 200 Response
+##### Body
+The response body is empty.
+### Stateful service
+
+This example shows how to update placement and load balancing related settings of a stateful Service Fabric service.
+
+#### Request
+```
+POST http://localhost:19080/Services/test~test2/$/Update?api-version=6.0
+```
+
+##### Body
+```json
+{
+  "ServiceKind": "Stateful",
+  "Flags": "40",
+  "PlacementConstraints": "Color==Green",
+  "StandByReplicaKeepDurationSeconds": "1000"
+}
+```
+
+#### 200 Response
+##### Body
+The response body is empty.

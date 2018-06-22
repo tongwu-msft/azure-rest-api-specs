@@ -1,6 +1,6 @@
 ---
 title: "ServiceTypeInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,34 +34,34 @@ Information about a service type that is defined in a service manifest of a prov
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServiceTypeDescription](#servicetypedescription) | [ServiceTypeDescription](sfclient-model-servicetypedescription.md) | No |
-| [ServiceManifestName](#servicemanifestname) | string | No |
-| [ServiceManifestVersion](#servicemanifestversion) | string | No |
-| [IsServiceGroup](#isservicegroup) | boolean | No |
+| [`ServiceTypeDescription`](#servicetypedescription) | [ServiceTypeDescription](sfclient-model-servicetypedescription.md) | No |
+| [`ServiceManifestName`](#servicemanifestname) | string | No |
+| [`ServiceManifestVersion`](#servicemanifestversion) | string | No |
+| [`IsServiceGroup`](#isservicegroup) | boolean | No |
 
 ____
-### ServiceTypeDescription
+### `ServiceTypeDescription`
 __Type__: [ServiceTypeDescription](sfclient-model-servicetypedescription.md) <br/>
 __Required__: No<br/>
 <br/>
-Describes a service type defined in the service manifest of a provisioned application type. The properties the the ones defined in the service manifest.
+Describes a service type defined in the service manifest of a provisioned application type. The properties the ones defined in the service manifest.
 
 ____
-### ServiceManifestName
+### `ServiceManifestName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of the service manifest in which this service type is defined.
 
 ____
-### ServiceManifestVersion
+### `ServiceManifestVersion`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The version of the service manifest in which this service type is defined.
 
 ____
-### IsServiceGroup
+### `IsServiceGroup`
 __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>

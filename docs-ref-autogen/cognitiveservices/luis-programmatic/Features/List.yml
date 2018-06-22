@@ -1,0 +1,157 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.features.list
+name: List
+service: Cognitive Services
+groupName: Features
+apiVersion: v2.0 preview
+summary: Gets all the extraction features for the specified application version.
+produces:
+- application/json
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/features
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/features?skip={skip}&take={take}
+  isOptional: true
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+- name: skip
+  in: query
+  description: The number of entries to skip. Default value is 0.
+  types:
+  - uid: integer
+- name: take
+  in: query
+  description: The number of entries to return. Maximum page size is 500. Default is 100.
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: A list of all phraselist features and a list of all pattern features.
+  types:
+  - uid: FeaturesResponseObject
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: FeaturesResponseObject
+  description: Model Features, including Patterns and Phraselists.
+  kind: object
+  properties:
+  - name: phraselistFeatures
+    description: List of Phraselist Features.
+    types:
+    - uid: PhraseListFeatureInfo
+      isArray: true
+  - name: patternFeatures
+    description: List of Pattern features.
+    types:
+    - uid: PatternFeatureInfo
+      isArray: true
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: PhraseListFeatureInfo
+  description: Phraselist Feature.
+  kind: object
+  properties:
+  - name: phrases
+    description: A list of comma-separated values.
+    types:
+    - uid: string
+  - name: isExchangeable
+    description: An exchangeable phrase list feature are serves as single feature to the LUIS underlying training algorithm. It is used as a lexicon lookup feature where its value is 1 if the lexicon contains a given word or 0 if it doesn’t. Think of an exchangeable as a synonyms list. A non-exchangeable phrase list feature has all the phrases in the list serve as separate features to the underlying training algorithm. So, if you your phrase list feature contains 5 phrases, they will be mapped to 5 separate features. You can think of the non-exchangeable phrase list feature as an additional bag of words that you are willing to add to LUIS existing vocabulary features. Think of a non-exchangeable as set of different words. Default value is true.
+    types:
+    - uid: boolean
+  - name: id
+    description: A six-digit ID used for Features.
+    types:
+    - uid: integer
+  - name: name
+    description: The name of the Feature.
+    types:
+    - uid: string
+  - name: isActive
+    description: Indicates if the feature is enabled.
+    types:
+    - uid: boolean
+- name: PatternFeatureInfo
+  description: Pattern feature.
+  kind: object
+  properties:
+  - name: pattern
+    description: The Regular Expression to match.
+    types:
+    - uid: string
+  - name: id
+    description: A six-digit ID used for Features.
+    types:
+    - uid: integer
+  - name: name
+    description: The name of the Feature.
+    types:
+    - uid: string
+  - name: isActive
+    description: Indicates if the feature is enabled.
+    types:
+    - uid: boolean
+examples:
+- name: Successful Get Application Version Features request
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/86226c53-b7a6-416f-876b-226b2b5ab07b/versions/0.1/features
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "phraselistFeatures": [
+          {
+            "id": 5341,
+            "name": "Cities",
+            "phrases": "Seattle,New York,Paris,Moscow,Beijin",
+            "isExchangeable": true,
+            "isActive": true
+          },
+          {
+            "id": 74598,
+            "name": "DaysOfWeek",
+            "phrases": "monday,tuesday,wednesday,thursday,friday,saturday,sunday",
+            "isExchangeable": true,
+            "isActive": true
+          }
+        ],
+        "patternFeatures": [
+          {
+            "id": 81231,
+            "name": "EmailPattern",
+            "pattern": "\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\b",
+            "isActive": true
+          }
+        ]
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

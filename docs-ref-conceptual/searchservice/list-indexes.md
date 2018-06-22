@@ -1,20 +1,13 @@
 ---
-title: "List Indexes (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2016-11-09"
+title: "List Indexes (Azure Search Service REST API) | Microsoft Docs"
+description: Return a list of index names for indexes in the current Azure Search service.
+ms.date: "04/20/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 54c762c8-805d-4319-844d-d3669bb63521
-caps.latest.revision: 26
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -38,7 +31,7 @@ api-key: [admin key]
 ## Request  
  HTTPS is required for all service requests. The **List Indexes** request can be constructed using the GET method.  
 
- The `api-version` parameter is required. The current version is `api-version=2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions.  
+ The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  

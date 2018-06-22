@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.groupuser.checkentityexists
 name: Check Entity Exists
 service: API Management
 groupName: Group User
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Checks that user entity specified by identifier is associated with the group entity.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: HEAD https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{uid}?api-version=2017-03-01
+- content: HEAD https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{uid}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,14 +37,14 @@ uriParameters:
   description: Group identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: uid
   in: path
   isRequired: true
   description: User identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
 - name: api-version
   in: query
   isRequired: true
@@ -54,6 +54,8 @@ uriParameters:
 responses:
 - name: 204 No Content
   description: Entity exists
+- name: 404 Not Found
+  description: Entity does not exists.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -61,19 +63,19 @@ responses:
 requestHeader: []
 definitions:
 - name: ErrorResponse
-  description: Error Body contract.
+  description: Error Response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Human-readable representation of the error.
     types:
     - uid: string
-  - name: details
-    description: Error Field contract.
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
     types:
     - uid: ErrorFieldContract
       isArray: true
@@ -96,9 +98,10 @@ definitions:
 examples:
 - name: ApiManagementHeadGroupUser
   request:
-    uri: HEAD https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/59306a29e4bbd510dc24e5f9/users/5931a75ae4bbd512a88c680b?api-version=2017-03-01
+    uri: HEAD https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/groups/59306a29e4bbd510dc24e5f9/users/5931a75ae4bbd512a88c680b?api-version=2018-01-01
   responses:
   - statusCode: "204"
+  - statusCode: "404"
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.

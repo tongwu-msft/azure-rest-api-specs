@@ -1,6 +1,6 @@
 ---
 title: "DeployedServicePackageHealthStateChunkList"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,10 +35,10 @@ The list of deployed service package health state chunks that respect the input 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Items](#items) | array of [DeployedServicePackageHealthStateChunk](sfclient-model-deployedservicepackagehealthstatechunk.md) | No |
+| [`Items`](#items) | array of [DeployedServicePackageHealthStateChunk](sfclient-model-deployedservicepackagehealthstatechunk.md) | No |
 
 ____
-### Items
+### `Items`
 __Type__: array of [DeployedServicePackageHealthStateChunk](sfclient-model-deployedservicepackagehealthstatechunk.md) <br/>
 __Required__: No<br/>
 <br/>

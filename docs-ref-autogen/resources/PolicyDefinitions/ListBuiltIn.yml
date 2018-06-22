@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resourcemanagement.policydefinitions.listbuiltin
+uid: management.azure.com.resources.policydefinitions.listbuiltin
 name: List Built In
 service: Resource Management
 groupName: Policy Definitions
-apiVersion: 2016-12-01
-summary: Gets all the built in policy definitions.
+apiVersion: 2018-03-01
+summary: "Retrieve built-in policy definitions  \nThis operation retrieves a list of all the built-in policy definitions."
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Authorization/policyDefinitions?api-version=2016-12-01
+- content: GET https://management.azure.com/providers/Microsoft.Authorization/policyDefinitions?api-version=2018-03-01
 uriParameters:
 - name: api-version
   in: query
@@ -22,7 +20,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns an array of built in policy definitions.
+  description: OK - Returns an array of built-in policy definitions.
   types:
   - uid: PolicyDefinitionListResult
 requestHeader: []
@@ -32,7 +30,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: The policy definition.
+    description: An array of policy definitions.
     types:
     - uid: PolicyDefinition
       isArray: true
@@ -52,6 +50,11 @@ definitions:
   - name: name
     isReadyOnly: true
     description: The name of the policy definition.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource (Microsoft.Authorization/policyDefinitions).
     types:
     - uid: string
   - name: properties.policyType
@@ -108,7 +111,100 @@ definitions:
   - name: All
     types:
     - uid: string
-examples: []
+examples:
+- name: List built-in policy definitions
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Authorization/policyDefinitions?api-version=2018-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "displayName": "Audit SQL DB Level Audit Setting",
+              "policyType": "BuiltIn",
+              "mode": "All",
+              "description": "Audit DB level audit setting for SQL databases",
+              "parameters": {
+                "setting": {
+                  "type": "String",
+                  "metadata": {
+                    "displayName": "Audit Setting"
+                  },
+                  "allowedValues": [
+                    "enabled",
+                    "disabled"
+                  ]
+                }
+              },
+              "policyRule": {
+                "if": {
+                  "field": "type",
+                  "equals": "Microsoft.Sql/servers/databases"
+                },
+                "then": {
+                  "effect": "AuditIfNotExists",
+                  "details": {
+                    "type": "Microsoft.Sql/servers/databases/auditingSettings",
+                    "name": "default",
+                    "existenceCondition": {
+                      "allOf": [
+                        {
+                          "field": "Microsoft.Sql/auditingSettings.state",
+                          "equals": "[parameters('setting')]"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "id": "/providers/Microsoft.Authorization/policyDefinitions/06a78e20-9358-41c9-923c-fb736d382a12",
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "name": "06a78e20-9358-41c9-923c-fb736d382a12"
+          },
+          {
+            "properties": {
+              "displayName": "Allowed storage account SKUs",
+              "policyType": "BuiltIn",
+              "description": "This policy enables you to specify a set of storage account SKUs that your organization can deploy.",
+              "parameters": {
+                "listOfAllowedSKUs": {
+                  "type": "Array",
+                  "metadata": {
+                    "description": "The list of SKUs that can be specified for storage accounts.",
+                    "displayName": "Allowed SKUs",
+                    "strongType": "StorageSKUs"
+                  }
+                }
+              },
+              "policyRule": {
+                "if": {
+                  "allOf": [
+                    {
+                      "field": "type",
+                      "equals": "Microsoft.Storage/storageAccounts"
+                    },
+                    {
+                      "not": {
+                        "field": "Microsoft.Storage/storageAccounts/sku.name",
+                        "in": "[parameters('listOfAllowedSKUs')]"
+                      }
+                    }
+                  ]
+                },
+                "then": {
+                  "effect": "Deny"
+                }
+              }
+            },
+            "id": "/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "name": "7433c107-6db4-4ad1-b57a-a76dce0154a1"
+          }
+        ]
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

@@ -1,6 +1,6 @@
 ---
 title: "ApplicationUpgradeUpdateDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,23 +34,23 @@ Describes the parameters for updating an ongoing application upgrade.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Name](#name) | string | Yes |
-| [UpgradeKind](#upgradekind) | string (enum) | Yes |
-| [ApplicationHealthPolicy](#applicationhealthpolicy) | [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) | No |
-| [UpdateDescription](#updatedescription) | [RollingUpgradeUpdateDescription](sfclient-model-rollingupgradeupdatedescription.md) | No |
+| [`Name`](#name) | string | Yes |
+| [`UpgradeKind`](#upgradekind) | string (enum) | Yes |
+| [`ApplicationHealthPolicy`](#applicationhealthpolicy) | [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) | No |
+| [`UpdateDescription`](#updatedescription) | [RollingUpgradeUpdateDescription](sfclient-model-rollingupgradeupdatedescription.md) | No |
 
 ____
-### Name
+### `Name`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the application, including the 'fabric:' URI scheme.
 
 ____
-### UpgradeKind
+### `UpgradeKind`
 __Type__: string (enum) <br/>
 __Required__: Yes<br/>
-__Default__: Rolling <br/>
+__Default__: `Rolling` <br/>
 <br/>
 
 
@@ -58,13 +58,13 @@ The kind of upgrade out of the following possible values.
 
 Possible values are: 
 
-  - Invalid - Indicates the upgrade kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Rolling - The upgrade progresses one upgrade domain at a time. The value is 1
+  - `Invalid` - Indicates the upgrade kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Rolling` - The upgrade progresses one upgrade domain at a time. The value is 1
 
 
 
 ____
-### ApplicationHealthPolicy
+### `ApplicationHealthPolicy`
 __Type__: [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) <br/>
 __Required__: No<br/>
 <br/>
@@ -72,7 +72,7 @@ Defines a health policy used to evaluate the health of an application or one of 
 
 
 ____
-### UpdateDescription
+### `UpdateDescription`
 __Type__: [RollingUpgradeUpdateDescription](sfclient-model-rollingupgradeupdatedescription.md) <br/>
 __Required__: No<br/>
 <br/>

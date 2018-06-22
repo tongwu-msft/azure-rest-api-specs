@@ -1,22 +1,21 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.storageresourceprovider.storageaccounts.update
+uid: management.azure.com.storagerp.storageaccounts.update
 name: Update
 service: Storage Resource Provider
 groupName: Storage Accounts
-apiVersion: 2017-06-01
+apiVersion: 2018-03-01-preview
 summary: The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
 consumes:
 - application/json
 produces:
 - application/json
-- text/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2017-06-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2018-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
@@ -35,7 +34,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -64,6 +63,11 @@ requestBody:
     description: The identity of the resource.
     types:
     - uid: Identity
+  - name: kind
+    in: body
+    description: Optional. Indicates the type of storage account. Currently only StorageV2 value supported by server.
+    types:
+    - uid: Kind
   - name: properties.customDomain
     in: body
     description: Custom domain assigned to the storage account by the user. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property.
@@ -127,7 +131,7 @@ definitions:
     - uid: SKUCapability
       isArray: true
   - name: restrictions
-    description: The restriction because of which SKU cannot be used.
+    description: The restrictions because of which SKU cannot be used. This is empty if there are no restrictions.
     types:
     - uid: Restriction
       isArray: true
@@ -186,12 +190,12 @@ definitions:
     types:
     - uid: Bypass
   - name: virtualNetworkRules
-    description: Virtual Network rule.
+    description: Sets the virtual network rules
     types:
     - uid: VirtualNetworkRule
       isArray: true
   - name: ipRules
-    description: IP rule with specific IP or IP range in CIDR format.
+    description: Sets the IP ACL rules
     types:
     - uid: IPRule
       isArray: true
@@ -286,33 +290,37 @@ definitions:
     description: Network rule set
     types:
     - uid: NetworkRuleSet
-  - name: id
-    isReadyOnly: true
-    description: Resource Id
+  - name: properties.isHnsEnabled
+    description: Account HierarchicalNamespace enabled if sets to true.
     types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
+    - uid: boolean
   - name: tags
-    description: Tags assigned to a resource; can be used for viewing and grouping a resource (across resource groups).
+    description: Resource tags.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
 - name: StorageAccountUpdateParameters
   description: The parameters that can be provided when updating the storage account properties.
   kind: object
@@ -333,6 +341,10 @@ definitions:
     description: The identity of the resource.
     types:
     - uid: Identity
+  - name: kind
+    description: Optional. Indicates the type of storage account. Currently only StorageV2 value supported by server.
+    types:
+    - uid: Kind
   - name: properties.customDomain
     description: Custom domain assigned to the storage account by the user. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property.
     types:
@@ -387,6 +399,9 @@ definitions:
   kind: enum
   properties:
   - name: Storage
+    types:
+    - uid: string
+  - name: StorageV2
     types:
     - uid: string
   - name: BlobStorage
@@ -548,7 +563,7 @@ definitions:
     types:
     - uid: string
 - name: Endpoints
-  description: The URIs that are used to perform a retrieval of a public blob, queue, or table object.
+  description: The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object.
   kind: object
   properties:
   - name: blob
@@ -569,6 +584,16 @@ definitions:
   - name: file
     isReadyOnly: true
     description: Gets the file endpoint.
+    types:
+    - uid: string
+  - name: web
+    isReadyOnly: true
+    description: Gets the web endpoint.
+    types:
+    - uid: string
+  - name: dfs
+    isReadyOnly: true
+    description: Gets the dfs endpoint.
     types:
     - uid: string
 - name: AccountStatus
@@ -643,53 +668,69 @@ definitions:
 examples:
 - name: StorageAccountUpdate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/45b60d85-fd72-427a-a708-f994d26e593e/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2017-06-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7902/providers/Microsoft.Storage/storageAccounts/sto5800?api-version=2018-03-01-preview
     body: >-
       {
         "properties": {
-          "networkAcls": {
-            "defaultAction": "Allow"
-          }
-        }
+          "supportsHttpsTrafficOnly": true
+        },
+        "kind": "StorageV2"
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/45b60d85-fd72-427a-a708-f994d26e593e/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596",
-        "kind": "Storage",
-        "location": "eastus2(stage)",
-        "name": "sto8596",
-        "properties": {
-          "creationTime": "2017-06-01T02:42:41.7633306Z",
-          "networkAcls": {
-            "bypass": "AzureServices",
-            "defaultAction": "Allow",
-            "ipRules": [],
-            "virtualNetworkRules": []
-          },
-          "primaryEndpoints": {
-            "blob": "https://sto8596.blob.core.windows.net/",
-            "file": "https://sto8596.file.core.windows.net/",
-            "queue": "https://sto8596.queue.core.windows.net/",
-            "table": "https://sto8596.table.core.windows.net/"
-          },
-          "primaryLocation": "eastus2(stage)",
-          "provisioningState": "Succeeded",
-          "secondaryLocation": "northcentralus(stage)",
-          "statusOfPrimary": "available",
-          "statusOfSecondary": "available",
-          "supportsHttpsTrafficOnly": false
-        },
         "sku": {
           "name": "Standard_GRS",
           "tier": "Standard"
         },
+        "kind": "StorageV2",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res7902/providers/Microsoft.Storage/storageAccounts/sto5800",
+        "name": "sto5800",
+        "type": "Microsoft.Storage/storageAccounts",
+        "location": "eastus2(stage)",
         "tags": {
           "key1": "value1",
           "key2": "value2"
         },
-        "type": "Microsoft.Storage/storageAccounts"
+        "properties": {
+          "isHnsEnabled": true,
+          "networkAcls": {
+            "bypass": "AzureServices",
+            "virtualNetworkRules": [],
+            "ipRules": [],
+            "defaultAction": "Allow"
+          },
+          "supportsHttpsTrafficOnly": true,
+          "encryption": {
+            "services": {
+              "file": {
+                "enabled": true,
+                "lastEnabledTime": "2018-04-13T06:40:38.0168941Z"
+              },
+              "blob": {
+                "enabled": true,
+                "lastEnabledTime": "2018-04-13T06:40:38.0168941Z"
+              }
+            },
+            "keySource": "Microsoft.Storage"
+          },
+          "accessTier": "Hot",
+          "provisioningState": "Succeeded",
+          "creationTime": "2018-04-13T06:40:37.9842922Z",
+          "primaryEndpoints": {
+            "web": "https://sto5800.web.core.windows.net/",
+            "dfs": "https://sto5800.dfs.core.windows.net/",
+            "blob": "https://sto5800.blob.core.windows.net/",
+            "queue": "https://sto5800.queue.core.windows.net/",
+            "table": "https://sto5800.table.core.windows.net/",
+            "file": "https://sto5800.file.core.windows.net/"
+          },
+          "primaryLocation": "eastus2(stage)",
+          "statusOfPrimary": "available",
+          "secondaryLocation": "northcentralus(stage)",
+          "statusOfSecondary": "available"
+        }
       }
 security:
 - type: oauth2

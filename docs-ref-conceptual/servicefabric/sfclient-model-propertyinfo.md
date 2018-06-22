@@ -1,6 +1,6 @@
 ---
 title: "PropertyInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,26 +34,26 @@ Information about a Service Fabric property.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Name](#name) | string | Yes |
-| [Value](#value) | [PropertyValue](sfclient-model-propertyvalue.md) | No |
-| [Metadata](#metadata) | [PropertyMetadata](sfclient-model-propertymetadata.md) | Yes |
+| [`Name`](#name) | string | Yes |
+| [`Value`](#value) | [PropertyValue](sfclient-model-propertyvalue.md) | No |
+| [`Metadata`](#metadata) | [PropertyMetadata](sfclient-model-propertymetadata.md) | Yes |
 
 ____
-### Name
+### `Name`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the Service Fabric property.
 
 ____
-### Value
+### `Value`
 __Type__: [PropertyValue](sfclient-model-propertyvalue.md) <br/>
 __Required__: No<br/>
 <br/>
 Describes a Service Fabric property value.
 
 ____
-### Metadata
+### `Metadata`
 __Type__: [PropertyMetadata](sfclient-model-propertymetadata.md) <br/>
 __Required__: Yes<br/>
 <br/>

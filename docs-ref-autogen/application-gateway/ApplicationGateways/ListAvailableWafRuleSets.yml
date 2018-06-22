@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.applicationgateway.applicationgateways.listavailablewafrulesets
+uid: management.azure.com.application-gateway.applicationgateways.listavailablewafrulesets
 name: List Available Waf Rule Sets
 service: Application Gateway
 groupName: Application Gateways
-apiVersion: 2017-10-01
+apiVersion: 2018-02-01
 summary: Lists all available web application firewall rule sets.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets?api-version=2017-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,7 +36,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: A web application firewall rule set.
+    description: The list of application gateway rule sets.
     types:
     - uid: ApplicationGatewayFirewallRuleSet
       isArray: true
@@ -57,12 +57,11 @@ definitions:
     types:
     - uid: string
   - name: properties.ruleGroups
-    description: A web application firewall rule group.
+    description: The rule groups of the web application firewall rule set.
     types:
     - uid: ApplicationGatewayFirewallRuleGroup
       isArray: true
   - name: id
-    isReadyOnly: true
     description: Resource ID.
     types:
     - uid: string
@@ -101,7 +100,7 @@ definitions:
     types:
     - uid: string
   - name: rules
-    description: A web application firewall rule.
+    description: The rules of the web application firewall rule group.
     types:
     - uid: ApplicationGatewayFirewallRule
       isArray: true
@@ -117,7 +116,39 @@ definitions:
     description: The description of the web application firewall rule.
     types:
     - uid: string
-examples: []
+examples:
+- name: Get Available Waf Rule Sets
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets?api-version=2018-02-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "OWASP_3.0",
+            "id": "/subscriptions//resourceGroups//providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets/",
+            "type": "Microsoft.Network/applicationGatewayAvailableWafRuleSets",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "ruleSetType": "OWASP",
+              "ruleSetVersion": "3.0",
+              "ruleGroups": [
+                {
+                  "ruleGroupName": "General",
+                  "description": "",
+                  "rules": [
+                    {
+                      "ruleId": 200004,
+                      "description": "Possible Multipart Unmatched Boundary."
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

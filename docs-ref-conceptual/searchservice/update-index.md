@@ -1,7 +1,7 @@
 ---
-title: "Update Index (Azure Search Service REST API)"
+title: "Update Index (Azure Search Service REST API) | Microsoft Docs"
 ms.custom: ""
-ms.date: "2018-02-09"
+ms.date: "04/20/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "search"
@@ -14,7 +14,7 @@ ms.assetid: f26a6d3c-823c-401e-a27e-0699aad8fd8c
 caps.latest.revision: 29
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -55,7 +55,7 @@ Note that this operation will put your index offline for at least a few seconds,
 
  The index name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
 
- The `api-version` parameter is required. The current version is `api-version=2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -154,6 +154,6 @@ Note that this operation will put your index offline for at least a few seconds,
  [Azure Search Service REST](index.md)   
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
  [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   
- [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)  
- [Azure Search .NET library](https://msdn.microsoft.com/library/azure/dn951165.aspx)   
+ [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)  
+ [Azure Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)   
  [Create an index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/)  

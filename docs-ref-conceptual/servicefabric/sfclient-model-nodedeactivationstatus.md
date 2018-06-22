@@ -1,6 +1,6 @@
 ---
 title: "NodeDeactivationStatus"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,8 +35,8 @@ The status of node deactivation operation. Following are the possible values.
 
 Possible values are: 
 
-  - None - No status is associated with the task. The value is zero.
-  - SafetyCheckInProgress - When a node is deactivated Service Fabric performs checks to ensure that the operation is safe to proceed to ensure availability of the service and reliability of the state. This value indicates that one or more safety checks are in progress. The value is 1.
-  - SafetyCheckComplete - When a node is deactivated Service Fabric performs checks to ensure that the operation is safe to proceed to ensure availability of the service and reliability of the state. This value indicates that all safety checks have been completed. The value is 2.
-  - Completed - The task is completed. The value is 3.
+  - `None` - No status is associated with the task. The value is zero.
+  - `SafetyCheckInProgress` - When a node is deactivated Service Fabric performs checks to ensure that the operation is safe to proceed to ensure availability of the service and reliability of the state. This value indicates that one or more safety checks are in progress. The value is 1.
+  - `SafetyCheckComplete` - When a node is deactivated Service Fabric performs checks to ensure that the operation is safe to proceed to ensure availability of the service and reliability of the state. This value indicates that all safety checks have been completed. The value is 2.
+  - `Completed` - The task is completed. The value is 3.
 

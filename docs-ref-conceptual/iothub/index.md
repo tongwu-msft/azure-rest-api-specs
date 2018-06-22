@@ -18,7 +18,7 @@ manager: "timlt"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
-  - "fr-fr"
+  - "fr-fr"  
   - "it-it"
   - "ja-jp"
   - "ko-kr"
@@ -29,25 +29,22 @@ translation.priority.mt:
 service_description: To be added
 ---
 # IoT Hub REST
-The REST APIs for IoT Hub offer programmatic access to the device, messaging, and job services, as well as the resource provder, in IoT Hub.  You can access messaging services from within an IoT service running in Azure, or directly over the Internet from any application that can send an HTTPS request and receive an HTTPS response.  
+The REST APIs for IoT Hub offer programmatic access to the device, messaging, and job services, as well as the resource provder, in IoT Hub. You can access messaging services from within an IoT service running in Azure, or directly over the Internet from any application that can send an HTTPS request and receive an HTTPS response. 
   
--   [Device Identities](~/docs-ref-autogen/iothub/DeviceApi.yml)  
-  
--   [Device Twins](~/docs-ref-autogen/iothub/DeviceTwinApi.yml)
+-   [Service](#service)
 
--   [Device Messaging](~/docs-ref-autogen/iothub/HttpRuntime.yml)  
-
--   [Jobs](~/docs-ref-autogen/iothub/JobApi.yml)
+-   [Device Messaging](#device-messaging)  
   
--   [Resource Provider](~/docs-ref-autogen/iothub/IotHubResource.yml)  
+-   [Resource Provider](xref:management.azure.com.iothub.iothubresource)  
   
 -   [Common error codes](common-error-codes.md)
 
-## Device Identities
-Use these APIs to manage device identities in the identity registry of an IoT hub. All task operations conform to the HTTP/1.1 protocol specification and each operation returns an `x-ms-request-id` header that can be used to obtain information about the request. You must make sure that requests made to these resources are secure. For more information, see [IoT Hub Developer Guide – Security](https://azure.microsoft.com/documentation/articles/iot-hub-devguide#security) for the specifics on how to create security tokens.
+## Service 
+* Use this API to manage IoT Hub [device twins](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-device-twins). You can retrieve and update device twin properties and invoke [direct methods](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-direct-methods) on devices. 
+* Use these APIs to manage device identities in the identity registry of an IoT hub.   
+* Use these API to manage [Jobs](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-jobs) in IoT Hub. You can schedule, cancel or get a job.  
 
-## Device Twins
-Use this API to manage IoT Hub [device twins](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-device-twins). You can retrieve and update device twin properties and invoke [direct methods](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-direct-methods) on devices. All task operations conform to the HTTP/1.1 protocol specification. You must make sure that requests made to these resources are secure. For more information, see [IoT Hub Developer Guide - Security](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security) for specific information about how to create security tokens.
+All task operations conform to the HTTP/1.1 protocol specification and each operation returns an `x-ms-request-id` header that can be used to obtain information about the request. You must make sure that requests made to these resources are secure. For more information, see [IoT Hub Developer Guide – Security](https://azure.microsoft.com/documentation/articles/iot-hub-devguide#security)  for the specifics on how to create security tokens.
 
 ## Device Messaging
 Use these APIs from a device to send device-to-cloud messages to an IoT hub, and receive cloud-to-device messages from an IoT hub. All task operations conform to the HTTP/1.1 protocol specification. You must make sure that requests made to these resources are secure. For more information, see [IoT Hub Developer Guide - Security](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security) for specific information about how to create security tokens.
@@ -58,7 +55,7 @@ Use these APIs to manage the deployment of your IoT Hub resources. For informati
 ## Common parameters and headers  
  The following information is common to all tasks related to IoT Hub:
   
--   Replace {api-version} with "2016-02-03" in the URI.
+-   Replace {api-version} with "2018-04-01" in the URI.
   
 -   Replace {subscription-id} with your subscription identifier in the URI.
   

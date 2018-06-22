@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.containerinstances.containergroups.update
+uid: management.azure.com.container-instances.containergroups.update
 name: Update
 service: Container Instances
 groupName: Container Groups
-apiVersion: 2018-02-01-preview
-summary: Update container groups. Updates container group tags with specified values.
+apiVersion: 2018-06-01
+summary: "Update container groups.  \nUpdates container group tags with specified values."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}?api-version=2018-02-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,9 +42,7 @@ responses:
   types:
   - uid: ContainerGroup
 requestBody:
-- name: ContainerGroup
-  description: A container group.
-  parameters:
+- parameters:
   - name: location
     in: body
     description: The resource location.
@@ -59,41 +57,6 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: properties.containers
-    in: body
-    isRequired: true
-    description: A container instance.
-    types:
-    - uid: Container
-      isArray: true
-  - name: properties.imageRegistryCredentials
-    in: body
-    description: Image registry credential.
-    types:
-    - uid: ImageRegistryCredential
-      isArray: true
-  - name: properties.restartPolicy
-    in: body
-    description: "Restart policy for all containers within the container group. \n- `Always` Always restart\n- `OnFailure` Restart on failure\n- `Never` Never restart"
-    types:
-    - uid: ContainerGroupRestartPolicy
-  - name: properties.ipAddress
-    in: body
-    description: The IP address type of the container group.
-    types:
-    - uid: IpAddress
-  - name: properties.osType
-    in: body
-    isRequired: true
-    description: The operating system type required by the containers in the container group.
-    types:
-    - uid: OperatingSystemTypes
-  - name: properties.volumes
-    in: body
-    description: The properties of the volume.
-    types:
-    - uid: Volume
-      isArray: true
 requestHeader: []
 definitions:
 - name: ContainerGroup
@@ -133,12 +96,12 @@ definitions:
     types:
     - uid: string
   - name: properties.containers
-    description: A container instance.
+    description: The containers within the container group.
     types:
     - uid: Container
       isArray: true
   - name: properties.imageRegistryCredentials
-    description: Image registry credential.
+    description: The image registry credentials by which the container group is created from.
     types:
     - uid: ImageRegistryCredential
       isArray: true
@@ -155,7 +118,7 @@ definitions:
     types:
     - uid: OperatingSystemTypes
   - name: properties.volumes
-    description: The properties of the volume.
+    description: The list of volumes that can be mounted by containers in this container group.
     types:
     - uid: Volume
       isArray: true
@@ -164,6 +127,41 @@ definitions:
     description: The instance view of the container group. Only valid in response.
     types:
     - uid: InstanceView
+  - name: properties.diagnostics
+    description: The diagnostic information for a container group.
+    types:
+    - uid: ContainerGroupDiagnostics
+- name: Resource
+  description: The Resource model definition.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The resource id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: location
+    description: The resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: The resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: Container
   description: A container instance.
   kind: object
@@ -182,12 +180,12 @@ definitions:
     - uid: string
       isArray: true
   - name: properties.ports
-    description: The port exposed on the container instance.
+    description: The exposed ports on the container instance.
     types:
     - uid: ContainerPort
       isArray: true
   - name: properties.environmentVariables
-    description: The environment variable to set within the container instance.
+    description: The environment variables to set in the container instance.
     types:
     - uid: EnvironmentVariable
       isArray: true
@@ -201,10 +199,18 @@ definitions:
     types:
     - uid: ResourceRequirements
   - name: properties.volumeMounts
-    description: The properties of the volume mount.
+    description: The volume mounts available to the container instance.
     types:
     - uid: VolumeMount
       isArray: true
+  - name: properties.livenessProbe
+    description: The liveness probe.
+    types:
+    - uid: ContainerProbe
+  - name: properties.readinessProbe
+    description: The readiness probe.
+    types:
+    - uid: ContainerProbe
 - name: ImageRegistryCredential
   description: Image registry credential.
   kind: object
@@ -239,7 +245,7 @@ definitions:
   kind: object
   properties:
   - name: ports
-    description: The port exposed on the container group.
+    description: The list of ports exposed on the container group.
     types:
     - uid: Port
       isArray: true
@@ -319,10 +325,18 @@ definitions:
     - uid: ContainerState
   - name: events
     isReadyOnly: true
-    description: A container group or container instance event.
+    description: The events of the container instance.
     types:
     - uid: Event
       isArray: true
+- name: ContainerGroupDiagnostics
+  description: Container group diagnostic information.
+  kind: object
+  properties:
+  - name: logAnalytics
+    description: Container group log analytics information.
+    types:
+    - uid: LogAnalytics
 - name: ContainerPort
   description: The port exposed on the container instance.
   kind: object
@@ -345,6 +359,10 @@ definitions:
     - uid: string
   - name: value
     description: The value of the environment variable.
+    types:
+    - uid: string
+  - name: secureValue
+    description: The value of the secure environment variable.
     types:
     - uid: string
 - name: ResourceRequirements
@@ -375,6 +393,38 @@ definitions:
     description: The flag indicating whether the volume mount is read-only.
     types:
     - uid: boolean
+- name: ContainerProbe
+  description: The container probe, for liveness or readiness
+  kind: object
+  properties:
+  - name: exec
+    description: The execution command to probe
+    types:
+    - uid: ContainerExec
+  - name: httpGet
+    description: The Http Get settings to probe
+    types:
+    - uid: ContainerHttpGet
+  - name: initialDelaySeconds
+    description: The initial delay seconds.
+    types:
+    - uid: integer
+  - name: periodSeconds
+    description: The period seconds.
+    types:
+    - uid: integer
+  - name: failureThreshold
+    description: The failure threshold.
+    types:
+    - uid: integer
+  - name: successThreshold
+    description: The success threshold.
+    types:
+    - uid: integer
+  - name: timeoutSeconds
+    description: The timeout seconds.
+    types:
+    - uid: integer
 - name: Port
   description: The port exposed on the container group.
   kind: object
@@ -486,6 +536,18 @@ definitions:
     description: The event type.
     types:
     - uid: string
+- name: LogAnalytics
+  description: Container group log analytics information.
+  kind: object
+  properties:
+  - name: workspaceId
+    description: The workspace id for log analytics
+    types:
+    - uid: string
+  - name: workspaceKey
+    description: The workspace key for log analytics
+    types:
+    - uid: string
 - name: ContainerNetworkProtocol
   description: The protocol associated with the port.
   kind: enum
@@ -520,6 +582,33 @@ definitions:
     description: The CPU limit of this container instance.
     types:
     - uid: number
+- name: ContainerExec
+  description: The container execution command, for liveness or readiness probe
+  kind: object
+  properties:
+  - name: command
+    description: The commands to execute within the container.
+    types:
+    - uid: string
+      isArray: true
+- name: ContainerHttpGet
+  description: The container Http Get settings, for liveness or readiness probe
+  kind: object
+  properties:
+  - name: path
+    description: The path to probe.
+    types:
+    - uid: string
+  - name: port
+    description: The port number to probe.
+    types:
+    - uid: integer
+  - name: scheme
+    description: The scheme.
+    types:
+    - uid: http
+    - uid: https
+    typesTitle: enum
 - name: ContainerGroupNetworkProtocol
   description: The protocol associated with the port.
   kind: enum
@@ -533,7 +622,7 @@ definitions:
 examples:
 - name: ContainerGroupsUpdate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/demoResource/providers/Microsoft.ContainerInstance/containerGroups/demo1?api-version=2018-02-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/demoResource/providers/Microsoft.ContainerInstance/containerGroups/demo1?api-version=2018-06-01
     body: >-
       {
         "tags": {

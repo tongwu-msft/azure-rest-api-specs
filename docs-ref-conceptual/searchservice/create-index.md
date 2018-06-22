@@ -1,20 +1,13 @@
 ---
-title: "Create Index (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2018-02-09"
+title: "Create Index (Azure Search Service REST API) | Microsoft Docs"
+description: Define an index schema for fields and other constructs in an Azure Search index.
+ms.date: "04/20/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: ecafed05-c746-4d9e-ac8e-653066e909b5
-caps.latest.revision: 54
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -54,7 +47,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
  The index name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
 
- The **api-version** parameter is required. The current version is `api-version=2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions. See [Language support &#40;Azure Search Service REST API&#41;](language-support.md) for details about language analyzers.  
+ The **api-version** parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions. See [Language support &#40;Azure Search Service REST API&#41;](language-support.md) for details about language analyzers.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -178,8 +171,8 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 |**sortable**|By default the system sorts results by score, but in many experiences users will want to sort by fields in the documents. Fields of type `Collection(Edm.String)` cannot be **sortable**. All other fields are **sortable** by default.|  
 |**facetable**|Typically used in a presentation of search results that includes hit count by category (e.g. search for digital cameras and see hits by brand, by megapixels, by price, etc.). This option cannot be used with fields of type `Edm.GeographyPoint`. All other fields are **facetable** by default. **Note:**  Fields of type `Edm.String` that are **filterable**, **sortable**, or **facetable** can be at most 32 kilobytes in length. This is because such fields are treated as a single search term, and the maximum length of a term in Azure Search is 32K kilobytes. If you need to store more text than this in a single string field, you will need to explicitly set **filterable**, **sortable**, and **facetable** to `false` in your index definition. **Note:**  If a field has none of the above attributes set to `true` (searchable, filterable, sortable, facetable) the field is effectively excluded from the inverted index. This option is useful for fields that are not used in queries, but are needed in search results. Excluding such fields from the index improves performance.|  
 |**analyzer**|Sets the name of the language analyzer to use for the field. For the allowed set of values see [Language support &#40;Azure Search Service REST API&#41;](language-support.md). This option can be used only with **searchable** fields and it can't be set together with either `searchAnalyzer` or `indexAnalyzer`. Once the analyzer is chosen, it cannot be changed for the field.|  
-|**searchAnalyzer**|Sets the name of the analyzer used at search time for the field. For the allowed set of values see [Analyzers](https://msdn.microsoft.com/library/mt605304.aspx). This option can be used only with `searchable` fields. It must be set together with `indexAnalyzer` and it cannot be set together with the `analyzer` option. This analyzer can be updated on an existing field.|
-|**indexAnalyzer**|Sets the name of the analyzer used at indexing time for the field. For the allowed set of values see [Analyzers](https://msdn.microsoft.com/library/mt605304.aspx). This option can be used only with `searchable` fields. It must be set together with `searchAnalyzer` and it cannot be set together with the `analyzer` option. Once the analyzer is chosen, it cannot be changed for the field.|
+|**searchAnalyzer**|Sets the name of the analyzer used at search time for the field. For the allowed set of values see [Analyzers](custom-analyzers-in-Azure-Search.md). This option can be used only with `searchable` fields. It must be set together with `indexAnalyzer` and it cannot be set together with the `analyzer` option. This analyzer can be updated on an existing field.|
+|**indexAnalyzer**|Sets the name of the analyzer used at indexing time for the field. For the allowed set of values see [Analyzers](custom-analyzers-in-Azure-Search.md). This option can be used only with `searchable` fields. It must be set together with `searchAnalyzer` and it cannot be set together with the `analyzer` option. Once the analyzer is chosen, it cannot be changed for the field.|
 
 ###  <a name="bkmk_suggester"></a> Suggesters  
  A `suggester` is a section of the schema that defines which fields in an index are used to support auto-complete or type-ahead queries in searches. Typically partial search strings are sent to the [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md) while the user is typing a search query, and the API returns a set of suggested phrases. A **suggester** that you define in the index determines which fields are used to build the type-ahead search terms. See [Suggesters](suggesters.md) for configuration details.  
@@ -244,12 +237,13 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
  By default, the response body will contain the JSON for the index definition that was created. However, if the Prefer request header is set to return=minimal, the response body will be empty, and the success status code will be "204 No Content" instead of "201 Created". This is true regardless of whether PUT or POST is used to create the index.   
 
 ## See also  
- [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md)   
- [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md)   
- [Azure Search Service REST](index.md)   
- [Supported data types &#40;Azure Search&#41;](supported-data-types.md)   
- [Update Index &#40;Azure Search Service REST API&#41;](update-index.md)   
- [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   
- [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)   
- [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)   
- [Create an Azure Search index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/)  
+
+ + [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md)   
+ + [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md)   
+ + [Azure Search Service REST](index.md)   
+ + [Supported data types &#40;Azure Search&#41;](supported-data-types.md)   
+ + [Update Index &#40;Azure Search Service REST API&#41;](update-index.md)   
+ + [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   
+ + [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)   
+ + [Azure Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)   
+ + [Create an Azure Search index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/)  

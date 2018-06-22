@@ -1,7 +1,7 @@
 ---
 title: "Understanding Block Blobs, Append Blobs, and Page Blobs"
 ms.custom: na
-ms.date: 2017-07-14
+ms.date: 06/04/2018
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -34,12 +34,12 @@ The storage service offers three types of blobs, *block blobs*, *append blobs*, 
  Any blob can be duplicated in a snapshot. For information about snapshots, see [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md).  
   
 > [!NOTE]
->  Blobs in the Azure storage emulator are limited to 2 GB.  
+>  Blobs in the Azure storage emulator are limited to a maximum size of 2 GB.  
   
 ## About Block Blobs  
  Block blobs let you upload large blobs efficiently. Block blobs are comprised of blocks, each of which is identified by a block ID. You create or modify a block blob by writing a set of blocks and committing them by their block IDs. Each block can be a different size, up to a maximum of 100 MB (4 MB for requests using REST versions before 2016-05-31), and a block blob can include up to 50,000 blocks. The maximum size of a block blob is therefore slightly more than 4.75 TB (100 MB X 50,000 blocks). For REST versions before 2016-05-31, the maximum size of a block blob is a little more than 195 GB (4 MB X 50,000 blocks). If you are writing a block blob that is no more than 256 MB (64 MB for requests using REST versions before 2016-05-31) in size, you can upload it in its entirety with a single write operation; see [Put Blob](Put-Blob.md).  
   
- Storage clients default to a 32 MB maximum single block upload, settable using the SingleBlobUploadThresholdInBytes property. When a block blob upload is larger than the value in this property, storage clients break the file into blocks. You can set the number of threads used to upload the blocks in parallel using the ParallelOperationThreadCount property.  
+ Storage clients default to a 128 MB maximum single blob upload, settable using the [SingleBlobUploadThresholdInBytes](https://docs.microsoft.com/dotnet/api/microsoft.windowsazure.storage.blob.blobrequestoptions.singleblobuploadthresholdinbytes) property of the [BlobRequestOptions](https://docs.microsoft.com/dotnet/api/microsoft.windowsazure.storage.blob.blobrequestoptions) object. When a block blob upload is larger than the value in this property, storage clients break the file into blocks. You can set the number of threads used to upload the blocks in parallel on a per-request basis using the [ParallelOperationThreadCount](https://docs.microsoft.com/dotnet/api/microsoft.windowsazure.storage.blob.blobrequestoptions.paralleloperationthreadcount) property of the [BlobRequestOptions](https://docs.microsoft.com/dotnet/api/microsoft.windowsazure.storage.blob.blobrequestoptions) object.  
   
  When you upload a block to a blob in your storage account, it is associated with the specified block blob, but it does not become part of the blob until you commit a list of blocks that includes the new block's ID. New blocks remain in an uncommitted state until they are specifically committed or discarded. Writing a block does not update the last modified time of an existing blob.  
   

@@ -1,0 +1,283 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.images.update
+name: Update
+service: Compute
+groupName: Images
+apiVersion: 2017-12-01
+summary: Update an image.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}?api-version=2017-12-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: imageName
+  in: path
+  isRequired: true
+  description: The name of the image.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Image
+- name: 201 Created
+  description: Created
+  types:
+  - uid: Image
+requestBody:
+- parameters:
+  - name: properties.sourceVirtualMachine
+    in: body
+    description: The source virtual machine from which Image is created.
+    types:
+    - uid: SubResource
+  - name: properties.storageProfile
+    in: body
+    description: Specifies the storage settings for the virtual machine disks.
+    types:
+    - uid: ImageStorageProfile
+  - name: tags
+    in: body
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: SubResource
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id
+    types:
+    - uid: string
+- name: ImageStorageProfile
+  description: Describes a storage profile.
+  kind: object
+  properties:
+  - name: osDisk
+    description: Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+    types:
+    - uid: ImageOSDisk
+  - name: dataDisks
+    description: Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+    types:
+    - uid: ImageDataDisk
+      isArray: true
+  - name: zoneResilient
+    description: Specifies whether an image is zone resilient or not. Default is false. Zone resilient images can be created only in regions that provide Zone Redundant Storage (ZRS).
+    types:
+    - uid: boolean
+- name: Image
+  description: The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
+  kind: object
+  properties:
+  - name: properties.sourceVirtualMachine
+    description: The source virtual machine from which Image is created.
+    types:
+    - uid: SubResource
+  - name: properties.storageProfile
+    description: Specifies the storage settings for the virtual machine disks.
+    types:
+    - uid: ImageStorageProfile
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ImageUpdate
+  description: The source user image virtual hard disk. Only tags may be updated.
+  kind: object
+  properties:
+  - name: properties.sourceVirtualMachine
+    description: The source virtual machine from which Image is created.
+    types:
+    - uid: SubResource
+  - name: properties.storageProfile
+    description: Specifies the storage settings for the virtual machine disks.
+    types:
+    - uid: ImageStorageProfile
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ImageOSDisk
+  description: Describes an Operating System disk.
+  kind: object
+  properties:
+  - name: osType
+    description: 'This property allows you to specify the type of the OS that is included in the disk if creating a VM from a custom image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux**'
+    types:
+    - uid: OperatingSystemTypes
+  - name: osState
+    description: The OS State.
+    types:
+    - uid: OperatingSystemStateTypes
+  - name: snapshot
+    description: The snapshot.
+    types:
+    - uid: SubResource
+  - name: managedDisk
+    description: The managedDisk.
+    types:
+    - uid: SubResource
+  - name: blobUri
+    description: The Virtual Hard Disk.
+    types:
+    - uid: string
+  - name: caching
+    description: 'Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage**'
+    types:
+    - uid: CachingTypes
+  - name: diskSizeGB
+    description: Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    types:
+    - uid: integer
+  - name: storageAccountType
+    description: 'Specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS.'
+    types:
+    - uid: StorageAccountTypes
+- name: ImageDataDisk
+  description: Describes a data disk.
+  kind: object
+  properties:
+  - name: lun
+    description: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
+    types:
+    - uid: integer
+  - name: snapshot
+    description: The snapshot.
+    types:
+    - uid: SubResource
+  - name: managedDisk
+    description: The managedDisk.
+    types:
+    - uid: SubResource
+  - name: blobUri
+    description: The Virtual Hard Disk.
+    types:
+    - uid: string
+  - name: caching
+    description: 'Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage**'
+    types:
+    - uid: CachingTypes
+  - name: diskSizeGB
+    description: Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    types:
+    - uid: integer
+  - name: storageAccountType
+    description: 'Specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS.'
+    types:
+    - uid: StorageAccountTypes
+- name: OperatingSystemTypes
+  description: The operating system of the osDiskImage.
+  kind: enum
+  properties:
+  - name: Windows
+    types:
+    - uid: string
+  - name: Linux
+    types:
+    - uid: string
+- name: OperatingSystemStateTypes
+  description: The OS State.
+  kind: enum
+  properties:
+  - name: Generalized
+    types:
+    - uid: string
+  - name: Specialized
+    types:
+    - uid: string
+- name: CachingTypes
+  description: 'Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage**'
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: ReadOnly
+    types:
+    - uid: string
+  - name: ReadWrite
+    types:
+    - uid: string
+- name: StorageAccountTypes
+  description: 'Specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS.'
+  kind: enum
+  properties:
+  - name: Standard_LRS
+    types:
+    - uid: string
+  - name: Premium_LRS
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,9 +1,9 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.networkgateway.localnetworkgateways.createorupdate
+uid: management.azure.com.network-gateway.localnetworkgateways.createorupdate
 name: Create Or Update
 service: Network Gateway
 groupName: Local Network Gateways
-apiVersion: 2017-10-01
+apiVersion: 2018-02-01
 summary: Creates or updates a local network gateway in the specified resource group.
 consumes:
 - application/json
@@ -12,7 +12,7 @@ produces:
 - application/json
 - text/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}?api-version=2017-10-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}?api-version=2018-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -72,6 +72,11 @@ requestBody:
   - name: properties.resourceGuid
     in: body
     description: The resource GUID property of the LocalNetworkGateway resource.
+    types:
+    - uid: string
+  - name: id
+    in: body
+    description: Resource ID.
     types:
     - uid: string
   - name: location
@@ -145,7 +150,6 @@ definitions:
     types:
     - uid: string
   - name: id
-    isReadyOnly: true
     description: Resource ID.
     types:
     - uid: string
@@ -171,7 +175,61 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-examples: []
+examples:
+- name: CreateLocalNetworkGateway
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/localNetworkGateways/localgw?api-version=2018-02-01
+    body: >-
+      {
+        "properties": {
+          "localNetworkAddressSpace": {
+            "addressPrefixes": [
+              "10.1.0.0/16"
+            ]
+          },
+          "gatewayIpAddress": "x.x.x.x"
+        },
+        "location": "Central US"
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "localgw",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/localNetworkGateways/localgw",
+        "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+        "type": "Microsoft.Network/localNetworkGateways",
+        "location": "centralus",
+        "properties": {
+          "provisioningState": "Updating",
+          "resourceGuid": "00000000-0000-0000-0000-000000000000",
+          "localNetworkAddressSpace": {
+            "addressPrefixes": [
+              "10.1.0.0/16"
+            ]
+          },
+          "gatewayIpAddress": "x.x.x.x"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "localgw",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/localNetworkGateways/localgw",
+        "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+        "type": "Microsoft.Network/localNetworkGateways",
+        "location": "centralus",
+        "properties": {
+          "provisioningState": "Updating",
+          "resourceGuid": "00000000-0000-0000-0000-000000000000",
+          "localNetworkAddressSpace": {
+            "addressPrefixes": [
+              "10.1.0.0/16"
+            ]
+          },
+          "gatewayIpAddress": "x.x.x.x"
+        }
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

@@ -1,20 +1,13 @@
 ---
-title: "Delete Indexer (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2016-11-09"
+title: "Delete Indexer (Azure Search Service REST API) | Microsoft Docs"
+description: Permanently delete an index definition and all content from an Azure Search service.
+ms.date: "04/20/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: f057afe7-ab60-4c04-b08f-cbe57212c21d
-caps.latest.revision: 10
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -37,7 +30,7 @@ DELETE https://[service name].search.windows.net/indexers/[indexer name]?api-ver
 
  When an indexer is deleted, the indexer executions in progress at that time will run to completion, but no further executions will be scheduled. Attempts to use a non-existent indexer will result in HTTP status code 404 Not Found.  
 
- The **api-version** is required. The current version is `2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The **api-version** is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
  The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
 
@@ -49,4 +42,4 @@ DELETE https://[service name].search.windows.net/indexers/[indexer name]?api-ver
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
  [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
- [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)  
+ [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)  

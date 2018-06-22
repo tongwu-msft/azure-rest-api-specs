@@ -11,6 +11,8 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups?api-version=2015-10-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups?$filter={$filter}&api-version=2015-10-31
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,7 +23,7 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The resource group name.
+  description: Name of an Azure Resource group.
   types:
   - uid: string
   pattern: ^[-\w\._]+$
@@ -29,6 +31,11 @@ uriParameters:
   in: path
   isRequired: true
   description: The automation account name.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation.
   types:
   - uid: string
 - name: api-version
@@ -53,7 +60,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: Definition of hybrid runbook worker group.
+    description: Gets or sets a list of hybrid runbook worker groups.
     types:
     - uid: HybridRunbookWorkerGroup
       isArray: true
@@ -86,7 +93,7 @@ definitions:
     types:
     - uid: string
   - name: hybridRunbookWorkers
-    description: Definition of hybrid runbook worker.
+    description: Gets or sets the list of hybrid runbook workers.
     types:
     - uid: HybridRunbookWorker
       isArray: true
@@ -94,6 +101,10 @@ definitions:
     description: Sets the credential of a worker group.
     types:
     - uid: RunAsCredentialAssociationProperty
+  - name: groupType
+    description: Type of the HybridWorkerGroup.
+    types:
+    - uid: GroupTypeEnum
 - name: HybridRunbookWorker
   description: Definition of hybrid runbook worker.
   kind: object
@@ -110,12 +121,26 @@ definitions:
     description: Gets or sets the registration time of the worker machine.
     types:
     - uid: string
+  - name: lastSeenDateTime
+    description: Last Heartbeat from the Worker
+    types:
+    - uid: string
 - name: RunAsCredentialAssociationProperty
   description: Definition of runas credential to use for hybrid worker.
   kind: object
   properties:
   - name: name
     description: Gets or sets the name of the credential.
+    types:
+    - uid: string
+- name: GroupTypeEnum
+  description: Type of the HybridWorkerGroup.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: System
     types:
     - uid: string
 examples:

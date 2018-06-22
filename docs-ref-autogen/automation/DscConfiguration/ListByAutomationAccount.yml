@@ -13,6 +13,8 @@ produces:
 - text/plain; charset=utf-8
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/configurations?api-version=2015-10-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/configurations?api-version=2015-10-31&$filter={$filter}&$skip={$skip}&$top={$top}&$inlinecount={$inlinecount}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -23,7 +25,7 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The resource group name.
+  description: Name of an Azure Resource group.
   types:
   - uid: string
   pattern: ^[-\w\._]+$
@@ -37,6 +39,26 @@ uriParameters:
   in: query
   isRequired: true
   description: Client Api Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+- name: $skip
+  in: query
+  description: The number of rows to skip.
+  types:
+  - uid: integer
+- name: $top
+  in: query
+  description: The the number of rows to take.
+  types:
+  - uid: integer
+- name: $inlinecount
+  in: query
+  description: Return total rows.
   types:
   - uid: string
 responses:
@@ -55,7 +77,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: Definition of the configuration type.
+    description: Gets or sets a list of configurations.
     types:
     - uid: DscConfiguration
       isArray: true
@@ -63,6 +85,10 @@ definitions:
     description: Gets or sets the next link.
     types:
     - uid: string
+  - name: totalCount
+    description: Gets the total number of configurations matching filter criteria.
+    types:
+    - uid: integer
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
@@ -94,7 +120,11 @@ definitions:
   - name: properties.parameters
     description: Gets or sets the configuration parameters.
     types:
-    - {}
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: DscConfigurationParameter
   - name: properties.source
     description: Gets or sets the source.
     types:
@@ -115,37 +145,41 @@ definitions:
     description: Gets or sets the last modified time.
     types:
     - uid: string
+  - name: properties.nodeConfigurationCount
+    description: Gets the number of compiled node configurations.
+    types:
+    - uid: integer
   - name: properties.description
     description: Gets or sets the description.
     types:
     - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
   - name: tags
-    description: Resource tags
+    description: Resource tags.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
+  - name: location
+    description: The Azure Region where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
 - name: DscConfigurationProvisioningState
   description: Gets or sets the provisioning state of the configuration.
   kind: enum
@@ -153,6 +187,14 @@ definitions:
   - name: Succeeded
     types:
     - uid: string
+- name: Parameters
+  description: Gets or sets the runbook draft parameters.
+  kind: object
+  properties:
+  - name: ''
+    description: Definition of the runbook parameter type.
+    types:
+    - uid: RunbookParameter
 - name: ContentSource
   description: Definition of the content source.
   kind: object
@@ -184,6 +226,26 @@ definitions:
     types:
     - uid: string
   - name: Published
+    types:
+    - uid: string
+- name: RunbookParameter
+  description: Definition of the runbook parameter type.
+  kind: object
+  properties:
+  - name: type
+    description: Gets or sets the type of the parameter.
+    types:
+    - uid: string
+  - name: isMandatory
+    description: Gets or sets a Boolean value to indicate whether the parameter is madatory or not.
+    types:
+    - uid: boolean
+  - name: position
+    description: Get or sets the position of the parameter.
+    types:
+    - uid: integer
+  - name: defaultValue
+    description: Gets or sets the default value of parameter.
     types:
     - uid: string
 - name: ContentHash
@@ -229,6 +291,88 @@ examples:
             }
           }
         ]
+      }
+- name: List Paged DSC Configurations with no filter
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations?api-version=2015-10-31&$skip=0&$top=3&$inlinecount=allpages
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations/SqlServerBig",
+            "location": "East US 2",
+            "name": "SqlServerBig",
+            "type": "Microsoft.Automation/AutomationAccounts/Configurations",
+            "properties": {
+              "state": "Published",
+              "creationTime": "2017-03-28T18:53:24.997+00:00",
+              "lastModifiedTime": "2017-03-28T18:53:24.997+00:00",
+              "nodeConfigurationCount": 1
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations/SqlServerLittle",
+            "location": "East US 2",
+            "name": "SqlServerLittle",
+            "type": "Microsoft.Automation/AutomationAccounts/Configurations",
+            "properties": {
+              "state": "Published",
+              "creationTime": "2017-03-28T18:53:24.997+00:00",
+              "lastModifiedTime": "2017-03-28T18:53:24.997+00:00",
+              "nodeConfigurationCount": 1
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations/SetupServer",
+            "location": "East US 2",
+            "name": "SetupServer",
+            "type": "Microsoft.Automation/AutomationAccounts/Configurations",
+            "properties": {
+              "state": "Published",
+              "creationTime": "2017-03-28T18:53:24.997+00:00",
+              "lastModifiedTime": "2017-03-28T18:53:24.997+00:00",
+              "nodeConfigurationCount": 1
+            }
+          }
+        ],
+        "totalCount": 12
+      }
+- name: List Paged DSC Configurations with name filter
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations?api-version=2015-10-31&$filter=contains(name,'server')&$skip=0&$top=2&$inlinecount=allpages
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations/SqlServerBig",
+            "location": "East US 2",
+            "name": "SqlServerBig",
+            "type": "Microsoft.Automation/AutomationAccounts/Configurations",
+            "properties": {
+              "state": "Published",
+              "creationTime": "2017-03-28T18:53:24.997+00:00",
+              "lastModifiedTime": "2017-03-28T18:53:24.997+00:00",
+              "nodeConfigurationCount": 1
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations/SqlServerLittle",
+            "location": "East US 2",
+            "name": "SqlServerLittle",
+            "type": "Microsoft.Automation/AutomationAccounts/Configurations",
+            "properties": {
+              "state": "Published",
+              "creationTime": "2017-03-28T18:53:24.997+00:00",
+              "lastModifiedTime": "2017-03-28T18:53:24.997+00:00",
+              "nodeConfigurationCount": 1
+            }
+          }
+        ],
+        "totalCount": 4
       }
 security:
 - type: oauth2

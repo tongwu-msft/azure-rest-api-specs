@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resourcemanagement.policydefinitions.getatmanagementgroup
+uid: management.azure.com.resources.policydefinitions.getatmanagementgroup
 name: Get At Management Group
 service: Resource Management
 groupName: Policy Definitions
-apiVersion: 2016-12-01
-summary: Gets the policy definition at management group level.
+apiVersion: 2018-03-01
+summary: "Retrieve a policy definition in a management group.  \nThis operation retrieves the policy definition in the given management group with the given name."
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Management/managementgroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}?api-version=2016-12-01
+- content: GET https://management.azure.com/providers/Microsoft.Management/managementgroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}?api-version=2018-03-01
 uriParameters:
 - name: managementGroupId
   in: path
@@ -51,6 +49,11 @@ definitions:
   - name: name
     isReadyOnly: true
     description: The name of the policy definition.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource (Microsoft.Authorization/policyDefinitions).
     types:
     - uid: string
   - name: properties.policyType
@@ -107,7 +110,53 @@ definitions:
   - name: All
     types:
     - uid: string
-examples: []
+examples:
+- name: Retrieve a policy definition at management group level
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementgroups/MyManagementGroup/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming?api-version=2018-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Management/managementgroups/MyManagementGroup/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+        "type": "Microsoft.Authorization/policyDefinitions",
+        "name": "ResourceNaming",
+        "properties": {
+          "displayName": "Naming Convention",
+          "description": "Force resource names to begin with 'prefix' and end with 'suffix'",
+          "metadata": {
+            "category": "Naming"
+          },
+          "policyRule": {
+            "if": {
+              "not": {
+                "field": "name",
+                "like": "[concat(parameters('prefix'), '*', parameters('suffix'))]"
+              }
+            },
+            "then": {
+              "effect": "deny"
+            }
+          },
+          "parameters": {
+            "prefix": {
+              "type": "String",
+              "metadata": {
+                "displayName": "Prefix",
+                "description": "Resource name prefix"
+              }
+            },
+            "suffix": {
+              "type": "String",
+              "metadata": {
+                "displayName": "Suffix",
+                "description": "Resource name suffix"
+              }
+            }
+          },
+          "policyType": "Custom"
+        }
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

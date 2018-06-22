@@ -1,6 +1,6 @@
 ---
 title: "RegistryCredential"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,26 +34,26 @@ Credential information to connect to container registry.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [RegistryUserName](#registryusername) | string | No |
-| [RegistryPassword](#registrypassword) | string | No |
-| [PasswordEncrypted](#passwordencrypted) | boolean | No |
+| [`RegistryUserName`](#registryusername) | string | No |
+| [`RegistryPassword`](#registrypassword) | string | No |
+| [`PasswordEncrypted`](#passwordencrypted) | boolean | No |
 
 ____
-### RegistryUserName
+### `RegistryUserName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The user name to connect to container registry.
 
 ____
-### RegistryPassword
+### `RegistryPassword`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The password for supplied username to connect to container registry.
 
 ____
-### PasswordEncrypted
+### `PasswordEncrypted`
 __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>

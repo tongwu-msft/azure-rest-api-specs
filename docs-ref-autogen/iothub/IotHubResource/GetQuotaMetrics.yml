@@ -3,14 +3,14 @@ uid: management.azure.com.iothub.iothubresource.getquotametrics
 name: Get Quota Metrics
 service: IoT Hub
 groupName: Iot Hub Resource
-apiVersion: 2017-01-19
-summary: Get the quota metrics for an IoT hub.
+apiVersion: 2018-04-01
+summary: "Get the quota metrics for an IoT hub  \nGet the quota metrics for an IoT hub."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/quotaMetrics?api-version=2017-01-19
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/quotaMetrics?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,7 +52,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: Quota metrics properties.
+    description: The array of quota metrics objects.
     types:
     - uid: IotHubQuotaMetricInfo
       isArray: true
@@ -65,22 +65,22 @@ definitions:
   description: Error details.
   kind: object
   properties:
-  - name: Code
+  - name: code
     isReadyOnly: true
     description: The error code.
     types:
     - uid: string
-  - name: HttpStatusCode
+  - name: httpStatusCode
     isReadyOnly: true
     description: The HTTP status code.
     types:
     - uid: string
-  - name: Message
+  - name: message
     isReadyOnly: true
     description: The error message.
     types:
     - uid: string
-  - name: Details
+  - name: details
     isReadyOnly: true
     description: The error details.
     types:
@@ -89,20 +89,47 @@ definitions:
   description: Quota metrics properties.
   kind: object
   properties:
-  - name: Name
+  - name: name
     isReadyOnly: true
     description: The name of the quota metric.
     types:
     - uid: string
-  - name: CurrentValue
+  - name: currentValue
     isReadyOnly: true
     description: The current value for the quota metric.
     types:
     - uid: integer
-  - name: MaxValue
+  - name: maxValue
     isReadyOnly: true
     description: The maximum value of the quota metric.
     types:
     - uid: integer
-examples: []
-security: []
+examples:
+- name: IotHubResource_GetQuotaMetrics
+  request:
+    uri: GET https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/testHub/quotaMetrics?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "TotalMessages",
+            "currentValue": 0,
+            "maxValue": 400000
+          },
+          {
+            "name": "TotalDeviceCount",
+            "currentValue": 0,
+            "maxValue": 500000
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

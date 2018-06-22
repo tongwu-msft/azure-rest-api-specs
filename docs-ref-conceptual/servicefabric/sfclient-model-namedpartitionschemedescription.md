@@ -1,6 +1,6 @@
 ---
 title: "NamedPartitionSchemeDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,9 +34,9 @@ Describes the named partition scheme of the service.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [PartitionScheme](#partitionscheme) | string | Yes |
-| [Count](#count) | integer | Yes |
-| [Names](#names) | array of string | Yes |
+| [`PartitionScheme`](#partitionscheme) | string | Yes |
+| [`Count`](#count) | integer | Yes |
+| [`Names`](#names) | array of string | Yes |
 
 ____
 ### PartitionScheme
@@ -46,14 +46,14 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Named' for objects of type 'NamedPartitionSchemeDescription'.
 
 ____
-### Count
+### `Count`
 __Type__: integer <br/>
 __Required__: Yes<br/>
 <br/>
 The number of partitions.
 
 ____
-### Names
+### `Names`
 __Type__: array of string <br/>
 __Required__: Yes<br/>
 <br/>

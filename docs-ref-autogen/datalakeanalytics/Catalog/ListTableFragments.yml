@@ -1,0 +1,154 @@
+### YamlMime:RESTOperation
+uid: datalakeanalytics.catalog.listtablefragments
+name: List Table Fragments
+service: Data Lake Analytics
+groupName: Catalog
+apiVersion: 2016-11-01
+summary: Retrieves the list of table fragments from the Data Lake Analytics catalog.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{accountName}.{adlaCatalogDnsSuffix}/catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/tablefragments?api-version=2016-11-01
+- content: GET https://{accountName}.{adlaCatalogDnsSuffix}/catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/tablefragments?$filter={$filter}&$top={$top}&$skip={$skip}&$select={$select}&$orderby={$orderby}&$count={$count}&api-version=2016-11-01
+  isOptional: true
+uriParameters:
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Data Lake Analytics account upon which to execute catalog operations.
+  types:
+  - uid: string
+- name: adlaCatalogDnsSuffix
+  in: path
+  isRequired: true
+  description: Gets the DNS suffix used as the base for all Azure Data Lake Analytics Catalog service requests.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database containing the table fragments.
+  types:
+  - uid: string
+- name: schemaName
+  in: path
+  isRequired: true
+  description: The name of the schema containing the table fragments.
+  types:
+  - uid: string
+- name: tableName
+  in: path
+  isRequired: true
+  description: The name of the table containing the table fragments.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter. Optional.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The number of items to return. Optional.
+  types:
+  - uid: integer
+  format: int32
+- name: $skip
+  in: query
+  description: The number of items to skip over before returning elements. Optional.
+  types:
+  - uid: integer
+  format: int32
+- name: $select
+  in: query
+  description: OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+  types:
+  - uid: string
+- name: $orderby
+  in: query
+  description: OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+  types:
+  - uid: string
+- name: $count
+  in: query
+  description: The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+  types:
+  - uid: boolean
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of table fragments in the specified database and schema.
+  types:
+  - uid: USqlTableFragmentList
+requestHeader: []
+definitions:
+- name: USqlTableFragmentList
+  description: A Data Lake Analytics catalog U-SQL table fragment item list.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: the list of table fragments in the database, schema and table combination
+    types:
+    - uid: USqlTableFragment
+      isArray: true
+  - name: nextLink
+    description: the link to the next page of results.
+    types:
+    - uid: string
+- name: USqlTableFragment
+  description: A Data Lake Analytics catalog U-SQL table fragment item.
+  kind: object
+  properties:
+  - name: parentId
+    description: the parent object Id of the table fragment. The parent could be a table or table partition.
+    types:
+    - uid: string
+  - name: fragmentId
+    description: the version of the catalog item.
+    types:
+    - uid: string
+  - name: indexId
+    description: the ordinal of the index which contains the table fragment.
+    types:
+    - uid: integer
+  - name: size
+    description: the data size of the table fragment in bytes.
+    types:
+    - uid: integer
+  - name: rowCount
+    description: the number of rows in the table fragment.
+    types:
+    - uid: integer
+  - name: createDate
+    description: the creation time of the table fragment.
+    types:
+    - uid: string
+examples:
+- name: Retrieves the list of table fragments from the Data Lake Analytics catalog
+  request:
+    uri: GET https://contosoadla.azuredatalakeanalytics.net/catalog/usql/databases/master/schemas/dbo/tables/test_table_name/tablefragments?$filter=test_filter&$top=1&$skip=1&$select=test_select&$orderby=test_orderby&$count=False&api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nextLink": "https://contosoadla.datalakeanalytics.net/catalog/usql/databases/master/schema/dbo/tables/test_table_name/tablefragments?api-version=2016-11-01&%24skiptoken=<token>",
+        "value": [
+          {
+            "parentId": "9d2d7abd-c641-4ddb-88ab-90cafdfe1c1b",
+            "fragmentId": "797d2643-eed9-4900-8090-0f8ddd9e8ba7",
+            "indexId": 1,
+            "size": 33786,
+            "rowCount": 1,
+            "createDate": "2017-10-11T13:38:31.567+00:00"
+          }
+        ]
+      }
+security: []

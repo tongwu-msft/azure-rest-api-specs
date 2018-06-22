@@ -21,7 +21,7 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The resource group name.
+  description: Name of an Azure Resource group.
   types:
   - uid: string
   pattern: ^[-\w\._]+$
@@ -82,7 +82,7 @@ definitions:
     types:
     - uid: string
   - name: hybridRunbookWorkers
-    description: Definition of hybrid runbook worker.
+    description: Gets or sets the list of hybrid runbook workers.
     types:
     - uid: HybridRunbookWorker
       isArray: true
@@ -90,6 +90,10 @@ definitions:
     description: Sets the credential of a worker group.
     types:
     - uid: RunAsCredentialAssociationProperty
+  - name: groupType
+    description: Type of the HybridWorkerGroup.
+    types:
+    - uid: GroupTypeEnum
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
@@ -126,7 +130,47 @@ definitions:
     description: Gets or sets the registration time of the worker machine.
     types:
     - uid: string
-examples: []
+  - name: lastSeenDateTime
+    description: Last Heartbeat from the Worker
+    types:
+    - uid: string
+- name: GroupTypeEnum
+  description: Type of the HybridWorkerGroup.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: System
+    types:
+    - uid: string
+examples:
+- name: Update hybrid worker group
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestHybridGroup?api-version=2015-10-31
+    body: >-
+      {
+        "credential": {
+          "name": "myRunAsCredentialName"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestHybridGroup",
+        "name": "TestHybridGroup",
+        "hybridRunbookWorkers": [
+          {
+            "name": "TestHybridWorker",
+            "ip": "100.1.1.1",
+            "registrationTime": "2017-03-24T19:43:45.0146578+00:00"
+          }
+        ],
+        "credential": {
+          "name": "myRunAsCredentialName"
+        }
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

@@ -1,6 +1,6 @@
 ---
 title: "DoublePropertyValue"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,8 +34,8 @@ Describes a Service Fabric property value of type Double.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [Data](#data) | number (double) | Yes |
+| [`Kind`](#kind) | string | Yes |
+| [`Data`](#data) | number (double) | Yes |
 
 ____
 ### Kind
@@ -45,7 +45,7 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Double' for objects of type 'DoublePropertyValue'.
 
 ____
-### Data
+### `Data`
 __Type__: number (double) <br/>
 __Required__: Yes<br/>
 <br/>

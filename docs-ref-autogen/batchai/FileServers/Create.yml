@@ -3,14 +3,14 @@ uid: management.azure.com.batchai.fileservers.create
 name: Create
 service: Batch AI
 groupName: File Servers
-apiVersion: 2017-09-01-preview
-summary: Creates a file server.
+apiVersion: 2018-05-01
+summary: Creates a File Server in the given workspace.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/fileServers/{fileServerName}?api-version=2017-09-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}?api-version=2018-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -25,13 +25,20 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w\._]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+  types:
+  - uid: string
+  pattern: ^[-\w_]+$
 - name: fileServerName
   in: path
   isRequired: true
   description: The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
   types:
   - uid: string
-  pattern: ^[-\w\._]+$
+  pattern: ^[-\w_]+$
 - name: api-version
   in: query
   isRequired: true
@@ -51,78 +58,62 @@ responses:
   - uid: CloudError
 requestBody:
 - parameters:
-  - name: location
-    in: body
-    isRequired: true
-    description: The region in which to create the File Server.
-    types:
-    - uid: string
-  - name: tags
-    in: body
-    description: The user specified tags associated with the File Server.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
   - name: properties.vmSize
     in: body
     isRequired: true
-    description: "The size of the virtual machine of the file server.  \nFor information about available VM sizes for fileservers from the Virtual Machines Marketplace, see Sizes for Virtual Machines (Linux)."
+    description: "VM size.  \nThe size of the virtual machine for the File Server. For information about available VM sizes from the Virtual Machines Marketplace, see Sizes for Virtual Machines (Linux)."
     types:
     - uid: string
   - name: properties.sshConfiguration
     in: body
     isRequired: true
-    description: "SSH settings for the file server.  \nSSH configuration settings for the VM"
+    description: "SSH configuration.  \nSSH configuration for the File Server node."
     types:
     - uid: SshConfiguration
   - name: properties.dataDisks
     in: body
     isRequired: true
-    description: "Settings for the data disk which would be created for the file server.  \nSettings for the data disk which would be created for the File Server."
+    description: "Data disks.  \nSettings for the data disks which will be created for the File Server."
     types:
     - uid: DataDisks
   - name: properties.subnet
     in: body
-    description: "Specifies the identifier of the subnet.  \nRepresents a resource ID. For example, for a subnet, it is the resource URL for the subnet."
+    description: "Subnet identifier.  \nIdentifier of an existing virtual network subnet to put the File Server in. If not provided, a new virtual network and subnet will be created."
     types:
     - uid: ResourceId
 requestHeader: []
 definitions:
 - name: SshConfiguration
-  description: SSH configuration settings for the VM
+  description: SSH configuration.
   kind: object
   properties:
   - name: publicIPsToAllow
-    description: "List of source IP ranges to allow SSH connection to VM.  \nDefault value is '*' can be used to match all source IPs. Maximum number of publicIPs that can be specified are 400."
+    description: "Allowed public IPs.  \nList of source IP ranges to allow SSH connection from. The default value is '*' (all source IPs are allowed). Maximum number of IP ranges that can be specified is 400."
     types:
     - uid: string
       isArray: true
   - name: userAccountSettings
-    description: "Settings for user account of VMs.  \nSettings for user account that gets created on each on the nodes of a cluster."
+    description: "User account settings.  \nSettings for administrator user account to be created on a node. The account can be used to establish SSH connection to the node."
     types:
     - uid: UserAccountSettings
 - name: DataDisks
-  description: Settings for the data disk which would be created for the File Server.
+  description: Data disks settings.
   kind: object
   properties:
   - name: diskSizeInGB
-    description: Initial disk size in GB for blank data disks, and the new desired size for resizing existing data disks.
+    description: "Disk size in GB.  \nDisk size in GB for the blank data disks."
     types:
     - uid: integer
   - name: cachingType
-    isReadyOnly: true
-    description: None, ReadOnly, ReadWrite. Default value is None. This property is not patchable.
+    description: "Caching type.  \nCaching type for the disks. Available values are none (default), readonly, readwrite. Caching type can be set only for VM sizes supporting premium storage."
     types:
     - uid: CachingType
   - name: diskCount
-    description: Number of data disks to be attached to the VM. RAID level 0 will be applied in the case of multiple disks.
+    description: "Number of data disks.  \nNumber of data disks attached to the File Server. If multiple disks attached, they will be configured in RAID level 0."
     types:
     - uid: integer
   - name: storageAccountType
-    description: 'Specifies the type of storage account to be used on the disk. Possible values are: Standard_LRS or Premium_LRS.'
+    description: "Storage account type.  \nType of storage account to be used on the disk. Possible values are: Standard_LRS or Premium_LRS. Premium storage account type can only be used with VM sizes supporting premium storage."
     types:
     - uid: StorageAccountType
 - name: ResourceId
@@ -134,112 +125,87 @@ definitions:
     types:
     - uid: string
 - name: FileServer
-  description: Contains information about the File Server.
+  description: File Server information.
   kind: object
   properties:
   - name: properties.vmSize
-    description: "The size of the virtual machine of the File Server.  \nFor information about available VM sizes for File Server from the Virtual Machines Marketplace, see Sizes for Virtual Machines (Linux)."
+    description: "VM size.  \nVM size of the File Server."
     types:
     - uid: string
   - name: properties.sshConfiguration
-    description: "SSH settings for the File Server.  \nSSH configuration settings for the VM"
+    description: "SSH configuration.  \nSSH configuration for accessing the File Server node."
     types:
     - uid: SshConfiguration
   - name: properties.dataDisks
-    description: "Settings for the data disk which would be created for the File Server.  \nSettings for the data disk which would be created for the File Server."
+    description: "Data disks configuration.  \nInformation about disks attached to File Server VM."
     types:
     - uid: DataDisks
   - name: properties.subnet
-    description: "Specifies the identifier of the subnet.  \nRepresents a resource ID. For example, for a subnet, it is the resource URL for the subnet."
+    description: "Subnet.  \nFile Server virtual network subnet resource ID."
     types:
     - uid: ResourceId
   - name: properties.mountSettings
     isReadyOnly: true
-    description: "Details of the File Server.  \nDetails of the File Server."
+    description: "Mount settings.  \nFile Server mount settings."
     types:
     - uid: MountSettings
   - name: properties.provisioningStateTransitionTime
     isReadyOnly: true
-    description: Time when the status was changed.
+    description: "Provisioning State Transition time.  \nTime when the provisioning state was changed."
     types:
     - uid: string
   - name: properties.creationTime
     isReadyOnly: true
-    description: Time when the FileServer was created.
+    description: "Creation time.  \nTime when the FileServer was created."
     types:
     - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "Specifies the provisioning state of the File Server.  \nPossible values: creating - The File Server is getting created. updating - The File Server creation has been accepted and it is getting updated. deleting - The user has requested that the File Server be deleted, and it is in the process of being deleted. failed - The File Server creation has failed with the specified errorCode. Details about the error code are specified in the message field. succeeded - The File Server creation has succeeded."
+    description: "Provisioning state.  \nProvisioning state of the File Server. Possible values: creating - The File Server is getting created; updating - The File Server creation has been accepted and it is getting updated; deleting - The user has requested that the File Server be deleted, and it is in the process of being deleted; failed - The File Server creation has failed with the specified error code. Details about the error code are specified in the message field; succeeded - The File Server creation has succeeded."
     types:
     - uid: FileServerProvisioningState
   - name: id
     isReadyOnly: true
-    description: The ID of the resource
+    description: The ID of the resource.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The name of the resource
+    description: The name of the resource.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource
+    description: The type of the resource.
     types:
     - uid: string
-  - name: location
-    isReadyOnly: true
-    description: The location of the resource
-    types:
-    - uid: string
-  - name: tags
-    isReadyOnly: true
-    description: The tags of the resource
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: CloudError
   description: An error response from the Batch AI service.
   kind: object
   properties:
   - name: error
+    isReadyOnly: true
     description: An error response from the Batch AI service.
     types:
     - uid: CloudErrorBody
 - name: FileServerCreateParameters
-  description: Parameters supplied to the Create operation.
+  description: File Server creation parameters.
   kind: object
   properties:
-  - name: location
-    description: The region in which to create the File Server.
-    types:
-    - uid: string
-  - name: tags
-    description: The user specified tags associated with the File Server.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
   - name: properties.vmSize
-    description: "The size of the virtual machine of the file server.  \nFor information about available VM sizes for fileservers from the Virtual Machines Marketplace, see Sizes for Virtual Machines (Linux)."
+    description: "VM size.  \nThe size of the virtual machine for the File Server. For information about available VM sizes from the Virtual Machines Marketplace, see Sizes for Virtual Machines (Linux)."
     types:
     - uid: string
   - name: properties.sshConfiguration
-    description: "SSH settings for the file server.  \nSSH configuration settings for the VM"
+    description: "SSH configuration.  \nSSH configuration for the File Server node."
     types:
     - uid: SshConfiguration
   - name: properties.dataDisks
-    description: "Settings for the data disk which would be created for the file server.  \nSettings for the data disk which would be created for the File Server."
+    description: "Data disks.  \nSettings for the data disks which will be created for the File Server."
     types:
     - uid: DataDisks
   - name: properties.subnet
-    description: "Specifies the identifier of the subnet.  \nRepresents a resource ID. For example, for a subnet, it is the resource URL for the subnet."
+    description: "Subnet identifier.  \nIdentifier of an existing virtual network subnet to put the File Server in. If not provided, a new virtual network and subnet will be created."
     types:
     - uid: ResourceId
 - name: UserAccountSettings
@@ -247,19 +213,19 @@ definitions:
   kind: object
   properties:
   - name: adminUserName
-    description: Specifies the name of the administrator account.
+    description: "User name.  \nName of the administrator user account which can be used to SSH to nodes."
     types:
     - uid: string
   - name: adminUserSshPublicKey
-    description: SSH public keys used to authenticate with linux based VMs. This does not get returned in a GET response body.
+    description: "SSH public key.  \nSSH public key of the administrator user account."
     types:
     - uid: string
   - name: adminUserPassword
-    description: Admin user Password (linux only). This does not get returned in a GET response body.
+    description: "Password.  \nPassword of the administrator user account."
     types:
     - uid: string
 - name: CachingType
-  description: None, ReadOnly, ReadWrite. Default value is None. This property is not patchable.
+  description: Caching type.
   kind: enum
   properties:
   - name: none
@@ -272,7 +238,7 @@ definitions:
     types:
     - uid: string
 - name: StorageAccountType
-  description: 'Specifies the type of storage account to be used on the disk. Possible values are: Standard_LRS or Premium_LRS.'
+  description: Storage account type.
   kind: enum
   properties:
   - name: Standard_LRS
@@ -282,27 +248,23 @@ definitions:
     types:
     - uid: string
 - name: MountSettings
-  description: Details of the File Server.
+  description: File Server mount Information.
   kind: object
   properties:
   - name: mountPoint
-    description: Path where the NFS is mounted on the Server.
+    description: "Mount Point.  \nPath where the data disks are mounted on the File Server."
     types:
     - uid: string
   - name: fileServerPublicIP
-    description: Public IP of the File Server VM.
+    description: "Public IP.  \nPublic IP address of the File Server which can be used to SSH to the node from outside of the subnet."
     types:
     - uid: string
   - name: fileServerInternalIP
-    description: Internal subnet IP which can be used to access the file Server from within the subnet.
+    description: "Internal IP.  \nInternal IP address of the File Server which can be used to access the File Server from within the subnet."
     types:
     - uid: string
-  - name: fileServerType
-    description: Type of the fileserver e.g. nfs, glusterfs etc.
-    types:
-    - uid: FileServerType
 - name: FileServerProvisioningState
-  description: Specifies the provisioning state of the File Server.
+  description: Provisioning state.
   kind: enum
   properties:
   - name: creating
@@ -325,39 +287,32 @@ definitions:
   kind: object
   properties:
   - name: code
+    isReadyOnly: true
     description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
   - name: target
+    isReadyOnly: true
     description: The target of the particular error. For example, the name of the property in error.
     types:
     - uid: string
   - name: details
-    description: An error response from the Batch AI service.
+    isReadyOnly: true
+    description: A list of additional details about the error.
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: FileServerType
-  description: Type of the fileserver e.g. nfs, glusterfs etc.
-  kind: enum
-  properties:
-  - name: nfs
-    types:
-    - uid: string
-  - name: glusterfs
-    types:
-    - uid: string
 examples:
-- name: Create or update file server
+- name: Create a file server
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/fileServers/demo_nfs?api-version=2017-09-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/fileServers/demo_nfs?api-version=2018-05-01
     body: >-
       {
-        "location": "eastus",
         "properties": {
           "sshConfiguration": {
             "userAccountSettings": {
@@ -378,7 +333,7 @@ examples:
   - statusCode: "202"
     headers:
     - name: Location
-      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.BatchAI/locations/eastus/operationresults/7e69f371-db62-4183-bba0-5ee577d43bd7?api-version=2017-09-01-preview
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.BatchAI/locations/eastus/operationresults/7e69f371-db62-4183-bba0-5ee577d43bd7?api-version=2018-05-01
     - name: Retry-After
       value: "15"
 security:

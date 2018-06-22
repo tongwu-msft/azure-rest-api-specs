@@ -1,5 +1,5 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.recoveryservices-backup.jobdetails.get
+uid: management.azure.com.backup.jobdetails.get
 name: Get
 service: Recovery Services - Backup
 groupName: Job Details
@@ -57,8 +57,6 @@ definitions:
     description: JobResource properties
     types:
     - uid: AzureIaaSVMJob
-    - uid: AzureStorageJob
-    - uid: AzureWorkloadJob
     - uid: DpmJob
     - uid: MabJob
     typesTitle: Job
@@ -107,7 +105,7 @@ definitions:
     - uid: string
       isArray: true
   - name: errorDetails
-    description: Azure IaaS VM workload-specific error information.
+    description: Error details on execution of this job.
     types:
     - uid: AzureIaaSVMErrorInfo
       isArray: true
@@ -152,122 +150,6 @@ definitions:
     types:
     - uid: AzureIaaSVMJob
     typesTitle: string
-- name: AzureStorageJob
-  description: Azure storage specific job.
-  kind: object
-  properties:
-  - name: duration
-    description: Time elapsed during the execution of this job.
-    types:
-    - uid: string
-  - name: actionsInfo
-    description: Gets or sets the state/actions applicable on this job like cancel/retry.
-    types:
-    - uid: string
-      isArray: true
-  - name: errorDetails
-    description: Azure storage specific error information
-    types:
-    - uid: AzureStorageErrorInfo
-      isArray: true
-  - name: storageAccountName
-    description: Specifies friendly name of the storage account.
-    types:
-    - uid: string
-  - name: storageAccountVersion
-    description: Specifies whether the Storage account is a Classic or an Azure Resource Manager Storage account.
-    types:
-    - uid: string
-  - name: extendedInfo
-    description: Additional information about the job.
-    types:
-    - uid: AzureStorageJobExtendedInfo
-  - name: entityFriendlyName
-    description: Friendly name of the entity on which the current job is executing.
-    types:
-    - uid: string
-  - name: backupManagementType
-    description: Backup management type to execute the current job.
-    types:
-    - uid: BackupManagementType
-  - name: operation
-    description: The operation name.
-    types:
-    - uid: string
-  - name: status
-    description: Job status.
-    types:
-    - uid: string
-  - name: startTime
-    description: The start time.
-    types:
-    - uid: string
-  - name: endTime
-    description: The end time.
-    types:
-    - uid: string
-  - name: activityId
-    description: ActivityId of job.
-    types:
-    - uid: string
-  - name: jobType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
-    types:
-    - uid: string
-- name: AzureWorkloadJob
-  description: Azure storage specific job.
-  kind: object
-  properties:
-  - name: duration
-    description: Time elapsed during the execution of this job.
-    types:
-    - uid: string
-  - name: actionsInfo
-    description: Gets or sets the state/actions applicable on this job like cancel/retry.
-    types:
-    - uid: string
-      isArray: true
-  - name: errorDetails
-    description: Azure storage specific error information
-    types:
-    - uid: AzureWorkloadErrorInfo
-      isArray: true
-  - name: extendedInfo
-    description: Additional information about the job.
-    types:
-    - uid: AzureWorkloadJobExtendedInfo
-  - name: entityFriendlyName
-    description: Friendly name of the entity on which the current job is executing.
-    types:
-    - uid: string
-  - name: backupManagementType
-    description: Backup management type to execute the current job.
-    types:
-    - uid: BackupManagementType
-  - name: operation
-    description: The operation name.
-    types:
-    - uid: string
-  - name: status
-    description: Job status.
-    types:
-    - uid: string
-  - name: startTime
-    description: The start time.
-    types:
-    - uid: string
-  - name: endTime
-    description: The end time.
-    types:
-    - uid: string
-  - name: activityId
-    description: ActivityId of job.
-    types:
-    - uid: string
-  - name: jobType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
-    types:
-    - uid: string
 - name: DpmJob
   description: DPM workload-specifc job object.
   kind: object
@@ -298,7 +180,7 @@ definitions:
     - uid: string
       isArray: true
   - name: errorDetails
-    description: DPM workload-specific error information.
+    description: The errors.
     types:
     - uid: DpmErrorInfo
       isArray: true
@@ -365,7 +247,7 @@ definitions:
     types:
     - uid: WorkloadType
   - name: errorDetails
-    description: MAB workload-specific error information.
+    description: The errors.
     types:
     - uid: MabErrorInfo
       isArray: true
@@ -432,12 +314,20 @@ definitions:
   kind: object
   properties:
   - name: tasksList
-    description: Azure IaaS VM workload-specific job task details.
+    description: List of tasks associated with this job.
     types:
     - uid: AzureIaaSVMJobTaskDetails
       isArray: true
   - name: propertyBag
     description: Job properties.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: internalPropertyBag
+    description: Job internal properties.
     types:
     - uid: object
       isDictionary: true
@@ -483,90 +373,6 @@ definitions:
   - name: DefaultBackup
     types:
     - uid: string
-- name: AzureStorageErrorInfo
-  description: Azure storage specific error information
-  kind: object
-  properties:
-  - name: errorCode
-    description: Error code.
-    types:
-    - uid: integer
-  - name: errorString
-    description: Localized error string.
-    types:
-    - uid: string
-  - name: recommendations
-    description: List of localized recommendations for above error code.
-    types:
-    - uid: string
-      isArray: true
-- name: AzureStorageJobExtendedInfo
-  description: Azure Storage workload-specific additional information for job.
-  kind: object
-  properties:
-  - name: tasksList
-    description: Azure storage workload specific job task details.
-    types:
-    - uid: AzureStorageJobTaskDetails
-      isArray: true
-  - name: propertyBag
-    description: Job properties.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: dynamicErrorMessage
-    description: Non localized error message on job execution.
-    types:
-    - uid: string
-- name: AzureWorkloadErrorInfo
-  description: Azure storage specific error information
-  kind: object
-  properties:
-  - name: errorCode
-    description: Error code.
-    types:
-    - uid: integer
-  - name: errorString
-    description: Localized error string.
-    types:
-    - uid: string
-  - name: errorTitle
-    description: 'Title: Typically, the entity that the error pertains to.'
-    types:
-    - uid: string
-  - name: recommendations
-    description: List of localized recommendations for above error code.
-    types:
-    - uid: string
-      isArray: true
-  - name: additionalDetails
-    description: Additional details for above error code.
-    types:
-    - uid: string
-- name: AzureWorkloadJobExtendedInfo
-  description: Azure VM workload-specific additional information for job.
-  kind: object
-  properties:
-  - name: tasksList
-    description: Azure VM workload specific job task details.
-    types:
-    - uid: AzureWorkloadJobTaskDetails
-      isArray: true
-  - name: propertyBag
-    description: Job properties.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: dynamicErrorMessage
-    description: Non localized error message on job execution.
-    types:
-    - uid: string
 - name: DpmErrorInfo
   description: DPM workload-specific error information.
   kind: object
@@ -585,7 +391,7 @@ definitions:
   kind: object
   properties:
   - name: tasksList
-    description: DPM workload-specific job task details.
+    description: List of tasks associated with this job.
     types:
     - uid: DpmJobTaskDetails
       isArray: true
@@ -650,6 +456,21 @@ definitions:
   - name: GenericContainer
     types:
     - uid: string
+  - name: SqlCluster
+    types:
+    - uid: string
+  - name: ExchangeDAG
+    types:
+    - uid: string
+  - name: SharepointFarm
+    types:
+    - uid: string
+  - name: HyperVCluster
+    types:
+    - uid: string
+  - name: WindowsClient
+    types:
+    - uid: string
 - name: WorkloadType
   description: Workload type of backup item.
   kind: enum
@@ -693,6 +514,9 @@ definitions:
   - name: AzureFileShare
     types:
     - uid: string
+  - name: SAPHanaDatabase
+    types:
+    - uid: string
 - name: MabErrorInfo
   description: MAB workload-specific error information.
   kind: object
@@ -711,7 +535,7 @@ definitions:
   kind: object
   properties:
   - name: tasksList
-    description: MAB workload-specific job task details.
+    description: List of tasks for this job.
     types:
     - uid: MabJobTaskDetails
       isArray: true
@@ -759,30 +583,6 @@ definitions:
     description: Progress of the task.
     types:
     - uid: number
-- name: AzureStorageJobTaskDetails
-  description: Azure storage workload specific job task details.
-  kind: object
-  properties:
-  - name: taskId
-    description: The task display name.
-    types:
-    - uid: string
-  - name: status
-    description: The status.
-    types:
-    - uid: string
-- name: AzureWorkloadJobTaskDetails
-  description: Azure VM workload specific job task details.
-  kind: object
-  properties:
-  - name: taskId
-    description: The task display name.
-    types:
-    - uid: string
-  - name: status
-    description: The status.
-    types:
-    - uid: string
 - name: DpmJobTaskDetails
   description: DPM workload-specific job task details.
   kind: object

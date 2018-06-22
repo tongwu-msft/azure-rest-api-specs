@@ -1,6 +1,6 @@
 ---
 title: "ClusterHealthPolicy"
-ms.date: "2017-05-16"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,26 +29,51 @@ translation.priority.mt:
 
 Defines a health policy used to evaluate the health of the cluster or of a cluster node.
 
+
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
 | [maxPercentUnhealthyNodes](#maxpercentunhealthynodes) | integer | No |
 | [maxPercentUnhealthyApplications](#maxpercentunhealthyapplications) | integer | No |
+| [applicationHealthPolicies](#applicationhealthpolicies) | map of string to [ApplicationHealthPolicy](sfrp-model-applicationhealthpolicy.md) | No |
 
 ____
 ### maxPercentUnhealthyNodes
 __Type__: integer <br/>
 __Required__: No<br/>
+__Default__: 0 <br/>
 __InclusiveMaximum__: 100 <br/>
 __InclusiveMinimum__: 0 <br/>
 <br/>
-The maximum allowed percentage of unhealthy nodes before reporting an error. For example, to allow 10% of nodes to be unhealthy, this value would be 10. 
+The maximum allowed percentage of unhealthy nodes before reporting an error. For example, to allow 10% of nodes to be unhealthy, this value would be 10.
+
+The percentage represents the maximum tolerated percentage of nodes that can be unhealthy before the cluster is considered in error.
+If the percentage is respected but there is at least one unhealthy node, the health is evaluated as Warning.
+The percentage is calculated by dividing the number of unhealthy nodes over the total number of nodes in the cluster.
+The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
+
+In large clusters, some nodes will always be down or out for repairs, so this percentage should be configured to tolerate that.
+
 
 ____
 ### maxPercentUnhealthyApplications
 __Type__: integer <br/>
 __Required__: No<br/>
+__Default__: 0 <br/>
 __InclusiveMaximum__: 100 <br/>
 __InclusiveMinimum__: 0 <br/>
 <br/>
-The maximum allowed percentage of unhealthy applications before reporting an error. For example, to allow 10% of applications to be unhealthy, this value would be 10. 
+The maximum allowed percentage of unhealthy applications before reporting an error. For example, to allow 10% of applications to be unhealthy, this value would be 10.
+
+The percentage represents the maximum tolerated percentage of applications that can be unhealthy before the cluster is considered in error.
+If the percentage is respected but there is at least one unhealthy application, the health is evaluated as Warning.
+This is calculated by dividing the number of unhealthy applications over the total number of application instances in the cluster, excluding applications of application types that are included in the ApplicationTypeHealthPolicyMap.
+The computation rounds up to tolerate one failure on small numbers of applications. Default percentage is zero.
+
+
+____
+### applicationHealthPolicies
+__Type__: map of string to [ApplicationHealthPolicy](sfrp-model-applicationhealthpolicy.md) <br/>
+__Required__: No<br/>
+<br/>
+Defines the application health policy map used to evaluate the health of an application or one of its children entities.

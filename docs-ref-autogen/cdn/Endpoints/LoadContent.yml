@@ -3,14 +3,14 @@ uid: management.azure.com.cdn.endpoints.loadcontent
 name: Load Content
 service: CDN
 groupName: Endpoints
-apiVersion: 2016-10-02
+apiVersion: 2017-10-12
 summary: Pre-loads a content to CDN. Available for Verizon Profiles.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/load?api-version=2016-10-02
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/load?api-version=2017-10-12
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,10 +40,12 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. Current version is 2016-10-02.
+  description: Version of the API to be used with the client request. Current version is 2017-04-02.
   types:
   - uid: string
 responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
 - name: 202 Accepted
   description: Accepted and the operation will complete asynchronously.
 - name: Other Status Codes
@@ -66,10 +68,12 @@ definitions:
   kind: object
   properties:
   - name: code
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: Error message indicating why the operation failed.
     types:
     - uid: string
@@ -82,7 +86,19 @@ definitions:
     types:
     - uid: string
       isArray: true
-examples: []
+examples:
+- name: Endpoints_LoadContent
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/load?api-version=2017-10-12
+    body: >-
+      {
+        "contentPaths": [
+          "/folder1"
+        ]
+      }
+  responses:
+  - statusCode: "202"
+    body: '{}'
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.

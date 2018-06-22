@@ -1,6 +1,6 @@
 ---
 title: "UpgradeOrchestrationServiceStateSummary"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,42 +34,42 @@ Service state summary of Service Fabric Upgrade Orchestration Service.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [CurrentCodeVersion](#currentcodeversion) | string | No |
-| [CurrentManifestVersion](#currentmanifestversion) | string | No |
-| [TargetCodeVersion](#targetcodeversion) | string | No |
-| [TargetManifestVersion](#targetmanifestversion) | string | No |
-| [PendingUpgradeType](#pendingupgradetype) | string | No |
+| [`CurrentCodeVersion`](#currentcodeversion) | string | No |
+| [`CurrentManifestVersion`](#currentmanifestversion) | string | No |
+| [`TargetCodeVersion`](#targetcodeversion) | string | No |
+| [`TargetManifestVersion`](#targetmanifestversion) | string | No |
+| [`PendingUpgradeType`](#pendingupgradetype) | string | No |
 
 ____
-### CurrentCodeVersion
+### `CurrentCodeVersion`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The current code version of the cluster.
 
 ____
-### CurrentManifestVersion
+### `CurrentManifestVersion`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The current manifest version of the cluster.
 
 ____
-### TargetCodeVersion
+### `TargetCodeVersion`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The target code version of  the cluster.
 
 ____
-### TargetManifestVersion
+### `TargetManifestVersion`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The target manifest version of the cluster.
 
 ____
-### PendingUpgradeType
+### `PendingUpgradeType`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

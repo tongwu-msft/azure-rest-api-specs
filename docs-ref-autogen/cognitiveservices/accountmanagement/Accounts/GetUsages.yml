@@ -1,0 +1,204 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cognitiveservices.accounts.getusages
+name: Get Usages
+service: Cognitive Services
+groupName: Accounts
+apiVersion: 2017-04-18
+summary: Get usages for the requested Cognitive Services account
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/usages?api-version=2017-04-18
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/usages?api-version=2017-04-18&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of Cognitive Services account.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2017-04-18
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: An OData filter expression that describes a subset of usages to return. The supported parameter is name.value (name of the metric, can have an or of multiple names).
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The usages for Cognitive Services account were retrieved successfully.
+  types:
+  - uid: UsagesResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed. If the resource does not exist, 404 (NotFound) will be returned.
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: UsagesResult
+  description: The response to a list usage request.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of usages for Cognitive Service account.
+    types:
+    - uid: Usage
+      isArray: true
+- name: Error
+  description: Cognitive Services error object.
+  kind: object
+  properties:
+  - name: error
+    description: The error body.
+    types:
+    - uid: ErrorBody
+- name: Usage
+  description: The usage data for a usage request.
+  kind: object
+  properties:
+  - name: unit
+    isReadyOnly: true
+    description: The unit of the metric.
+    types:
+    - uid: UnitType
+  - name: name
+    isReadyOnly: true
+    description: The name information for the metric.
+    types:
+    - uid: MetricName
+  - name: quotaPeriod
+    isReadyOnly: true
+    description: The quota period used to summarize the usage values.
+    types:
+    - uid: string
+  - name: limit
+    isReadyOnly: true
+    description: Maximum value for this metric.
+    types:
+    - uid: number
+  - name: currentValue
+    isReadyOnly: true
+    description: Current value for this metric.
+    types:
+    - uid: number
+  - name: nextResetTime
+    isReadyOnly: true
+    description: Next reset time for current quota.
+    types:
+    - uid: string
+  - name: status
+    description: Cognitive Services account quota usage status.
+    types:
+    - uid: QuotaUsageStatus
+- name: ErrorBody
+  description: Cognitive Services error body.
+  kind: object
+  properties:
+  - name: code
+    description: error code
+    types:
+    - uid: string
+  - name: message
+    description: error message
+    types:
+    - uid: string
+- name: UnitType
+  description: The unit of the metric.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+  - name: Bytes
+    types:
+    - uid: string
+  - name: Seconds
+    types:
+    - uid: string
+  - name: Percent
+    types:
+    - uid: string
+  - name: CountPerSecond
+    types:
+    - uid: string
+  - name: BytesPerSecond
+    types:
+    - uid: string
+  - name: Milliseconds
+    types:
+    - uid: string
+- name: MetricName
+  description: A metric name.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The name of the metric.
+    types:
+    - uid: string
+  - name: localizedValue
+    isReadyOnly: true
+    description: The friendly name of the metric.
+    types:
+    - uid: string
+- name: QuotaUsageStatus
+  description: Cognitive Services account quota usage status.
+  kind: enum
+  properties:
+  - name: Included
+    types:
+    - uid: string
+  - name: Blocked
+    types:
+    - uid: string
+  - name: InOverage
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+examples:
+- name: Get Usages
+  request:
+    uri: GET https://management.azure.com/subscriptions/5a4f5c2e-6983-4ccb-bd34-2196d5b5bbd3/resourceGroups/felixwa-01/providers/Microsoft.CognitiveServices/accounts/TestUsage02/usages?api-version=2017-04-18
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": {
+              "value": "Face.Transactions",
+              "localizedValue": "Face.Transactions"
+            },
+            "status": "Included",
+            "currentValue": 3,
+            "limit": 30000,
+            "nextResetTime": "2018-03-28T09:33:51Z",
+            "quotaPeriod": "30.00:00:00",
+            "unit": "Count"
+          }
+        ]
+      }
+security: []

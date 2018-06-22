@@ -1,4 +1,4 @@
-﻿# JSON payloads for Create Storage Account
+# JSON payloads for Create Storage Account
 
 ## Request Body (HTTP 200) (version 2016-01-01 and later)
 
@@ -48,7 +48,7 @@
 
 ## Response Body (HTTP 200) (version 2016-01-01 and later)
 
-For HTTP 200, if using API version 2016-01-01 or later, the response body will contain the full account properties. See the Response section of the [Get Storage Account Properties](../../docs-ref-autogen/storagerp/storageaccounts.yml#StorageAccounts_GetProperties) operation for the full set of properties and descriptions.
+For HTTP 200, if using API version 2016-01-01 or later, the response body will contain the full account properties. See the Response section of the [Get Storage Account Properties](xref:management.azure.com.storagerp.storageaccounts.getproperties) operation for the full set of properties and descriptions.
 
 ```json
 {

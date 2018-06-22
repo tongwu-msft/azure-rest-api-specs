@@ -21,7 +21,7 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The resource group name.
+  description: Name of an Azure Resource group.
   types:
   - uid: string
   pattern: ^[-\w\._]+$
@@ -48,8 +48,12 @@ responses:
   description: A single software update configuration.
   types:
   - uid: softwareUpdateConfiguration
-- name: Other Status Codes
+- name: 404 Not Found
   description: Resource group, account, or software update configuration doesn't exist.
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader:
 - name: clientRequestId
   in: header
@@ -113,6 +117,18 @@ definitions:
     description: lastModifiedBy property, which only appears in the response.
     types:
     - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
 - name: updateConfiguration
   description: Update specifc properties of the software update configuration.
   kind: object
@@ -134,12 +150,12 @@ definitions:
     types:
     - uid: string
   - name: azureVirtualMachines
-    description: Azure Resource Manager Id for a virtual machine.
+    description: List of azure resource Ids for azure virtual machines targeted by the software update configuration.
     types:
     - uid: string
       isArray: true
   - name: nonAzureComputerNames
-    description: Name of Non-Azure OMS Computer.
+    description: List of names of non-azure machines targeted by the software update configuration.
     types:
     - uid: string
       isArray: true
@@ -179,7 +195,7 @@ definitions:
   - name: interval
     description: Gets or sets the interval of the schedule.
     types:
-    - {}
+    - uid: integer
   - name: frequency
     description: Gets or sets the frequency of the schedule.
     types:
@@ -202,18 +218,6 @@ definitions:
     - uid: string
   - name: description
     description: Gets or sets the description.
-    types:
-    - uid: string
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - name: code
-    description: Error code
-    types:
-    - uid: string
-  - name: message
-    description: Error message indicating why the operation failed.
     types:
     - uid: string
 - name: OperatingSystemType
@@ -239,6 +243,15 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: includedKbNumbers
+    description: KB numbers included from the software update configuration.
+    types:
+    - uid: string
+      isArray: true
+  - name: rebootSetting
+    description: Reboot setting for the software update configuration.
+    types:
+    - uid: string
 - name: LinuxProperties
   description: Linux specific update configuration.
   kind: object
@@ -252,6 +265,15 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: includedPackageNameMasks
+    description: packages included from the software update configuration.
+    types:
+    - uid: string
+      isArray: true
+  - name: rebootSetting
+    description: Reboot setting for the software update configuration.
+    types:
+    - uid: string
 - name: ScheduleFrequency
   description: execution frequency of the schedule associated with the software update configuration
   kind: enum
@@ -286,7 +308,7 @@ definitions:
     - uid: integer
       isArray: true
   - name: monthlyOccurrences
-    description: The properties of the create advanced schedule monthly occurrence.
+    description: Occurrences of days within a month.
     types:
     - uid: AdvancedScheduleMonthlyOccurrence
       isArray: true
@@ -346,11 +368,11 @@ definitions:
     types:
     - uid: integer
   - name: day
-    description: Day of the occurrence. Must be one of monday, tuesday, wednesday,thursday, friday, saturday, sunday.
+    description: Day of the occurrence. Must be one of monday, tuesday, wednesday, thursday, friday, saturday, sunday.
     types:
     - uid: ScheduleDay
 - name: ScheduleDay
-  description: Day of the occurrence. Must be one of monday, tuesday, wednesday,thursday, friday, saturday, sunday.
+  description: Day of the occurrence. Must be one of monday, tuesday, wednesday, thursday, friday, saturday, sunday.
   kind: enum
   properties:
   - name: Monday
@@ -388,7 +410,7 @@ examples:
           "updateConfiguration": {
             "operatingSystem": "Windows",
             "windows": {
-              "includedUpdateClassifications": "Critical, Security, UpdateRollup, FeaturePack, ServicePack, Definition, Tools, Updates",
+              "includedUpdateClassifications": "Critical",
               "excludedKbNumbers": [
                 "168934",
                 "168973"

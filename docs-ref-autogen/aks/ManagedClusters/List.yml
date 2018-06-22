@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.list
 name: List
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2017-08-31
-summary: Gets a list of managed clusters in the specified subscription. Gets a list of managed clusters in the specified subscription. The operation returns properties of each managed cluster.
+apiVersion: 2018-03-31
+summary: "Gets a list of managed clusters in the specified subscription.  \nGets a list of managed clusters in the specified subscription. The operation returns properties of each managed cluster."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters?api-version=2017-08-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters?api-version=2018-03-31
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,7 +36,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: Managed cluster.
+    description: The list of managed clusters.
     types:
     - uid: ManagedCluster
       isArray: true
@@ -81,6 +81,10 @@ definitions:
     description: The current deployment or provisioning state, which only appears in the response.
     types:
     - uid: string
+  - name: properties.kubernetesVersion
+    description: Version of Kubernetes specified when creating the managed cluster.
+    types:
+    - uid: string
   - name: properties.dnsPrefix
     description: DNS prefix specified when creating the managed cluster.
     types:
@@ -90,14 +94,10 @@ definitions:
     description: FDQN for the master pool.
     types:
     - uid: string
-  - name: properties.kubernetesVersion
-    description: Version of Kubernetes specified when creating the managed cluster.
-    types:
-    - uid: string
   - name: properties.agentPoolProfiles
-    description: Profile for the container service agent pool.
+    description: Properties of the agent pool.
     types:
-    - uid: ContainerServiceAgentPoolProfile
+    - uid: ManagedClusterAgentPoolProfile
       isArray: true
   - name: properties.linuxProfile
     description: Profile for Linux VMs in the container service cluster.
@@ -107,7 +107,32 @@ definitions:
     description: Information about a service principal identity for the cluster to use for manipulating Azure APIs. Either secret or keyVaultSecretRef must be specified.
     types:
     - uid: ContainerServiceServicePrincipalProfile
-- name: ContainerServiceAgentPoolProfile
+  - name: properties.addonProfiles
+    description: Profile of managed cluster add-on.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ManagedClusterAddonProfile
+  - name: properties.nodeResourceGroup
+    isReadyOnly: true
+    description: Name of the resource group containing agent pool nodes.
+    types:
+    - uid: string
+  - name: properties.enableRBAC
+    description: Whether to enable Kubernetes Role-Based Access Control.
+    types:
+    - uid: boolean
+  - name: properties.networkProfile
+    description: Profile of network configuration.
+    types:
+    - uid: ContainerServiceNetworkProfile
+  - name: properties.aadProfile
+    description: Profile of Azure Active Directory configuration.
+    types:
+    - uid: ManagedClusterAADProfile
+- name: ManagedClusterAgentPoolProfile
   description: Profile for the container service agent pool.
   kind: object
   properties:
@@ -146,9 +171,13 @@ definitions:
     types:
     - uid: ContainerServiceStorageProfileTypes
   - name: vnetSubnetID
-    description: VNet SubnetID specifies the vnet's subnet identifier. If you specify either master VNet Subnet, or agent VNet Subnet, you need to specify both. And they have to be in the same VNet.
+    description: VNet SubnetID specifies the vnet's subnet identifier.
     types:
     - uid: string
+  - name: maxPods
+    description: Maximum number of pods that can run on a node.
+    types:
+    - uid: integer
   - name: osType
     description: OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
     types:
@@ -181,13 +210,66 @@ definitions:
     description: Reference to a secret stored in Azure Key Vault.
     types:
     - uid: KeyVaultSecretRef
+- name: AddonProfiles
+  description: Profile of managed cluster add-on.
+  kind: object
+  properties:
+  - name: ''
+    description: A Kubernetes add-on profile for a managed cluster.
+    types:
+    - uid: ManagedClusterAddonProfile
+- name: ContainerServiceNetworkProfile
+  description: Profile of network configuration.
+  kind: object
+  properties:
+  - name: networkPlugin
+    description: Network plugin used for building Kubernetes network.
+    types:
+    - uid: NetworkPlugin
+  - name: networkPolicy
+    description: Network policy used for building Kubernetes network.
+    types:
+    - uid: NetworkPolicy
+  - name: podCidr
+    description: A CIDR notation IP range from which to assign pod IPs when kubenet is used.
+    types:
+    - uid: string
+  - name: serviceCidr
+    description: A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges.
+    types:
+    - uid: string
+  - name: dnsServiceIP
+    description: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr.
+    types:
+    - uid: string
+  - name: dockerBridgeCidr
+    description: A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range.
+    types:
+    - uid: string
+- name: ManagedClusterAADProfile
+  description: AADProfile specifies attributes for Azure Active Directory integration.
+  kind: object
+  properties:
+  - name: clientAppID
+    description: The client AAD application ID.
+    types:
+    - uid: string
+  - name: serverAppID
+    description: The server AAD application ID.
+    types:
+    - uid: string
+  - name: serverAppSecret
+    description: The server AAD application secret.
+    types:
+    - uid: string
+  - name: tenantID
+    description: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription.
+    types:
+    - uid: string
 - name: ContainerServiceVMSizeTypes
   description: Size of agent VMs.
   kind: enum
   properties:
-  - name: Standard_A0
-    types:
-    - uid: string
   - name: Standard_A1
     types:
     - uid: string
@@ -240,6 +322,18 @@ definitions:
     types:
     - uid: string
   - name: Standard_A9
+    types:
+    - uid: string
+  - name: Standard_B2ms
+    types:
+    - uid: string
+  - name: Standard_B2s
+    types:
+    - uid: string
+  - name: Standard_B4ms
+    types:
+    - uid: string
+  - name: Standard_B8ms
     types:
     - uid: string
   - name: Standard_D1
@@ -311,6 +405,12 @@ definitions:
   - name: Standard_D3
     types:
     - uid: string
+  - name: Standard_D32_v3
+    types:
+    - uid: string
+  - name: Standard_D32s_v3
+    types:
+    - uid: string
   - name: Standard_D3_v2
     types:
     - uid: string
@@ -336,6 +436,12 @@ definitions:
     types:
     - uid: string
   - name: Standard_D5_v2_Promo
+    types:
+    - uid: string
+  - name: Standard_D64_v3
+    types:
+    - uid: string
+  - name: Standard_D64s_v3
     types:
     - uid: string
   - name: Standard_D8_v3
@@ -368,6 +474,12 @@ definitions:
   - name: Standard_DS13
     types:
     - uid: string
+  - name: Standard_DS13-2_v2
+    types:
+    - uid: string
+  - name: Standard_DS13-4_v2
+    types:
+    - uid: string
   - name: Standard_DS13_v2
     types:
     - uid: string
@@ -375,6 +487,12 @@ definitions:
     types:
     - uid: string
   - name: Standard_DS14
+    types:
+    - uid: string
+  - name: Standard_DS14-4_v2
+    types:
+    - uid: string
+  - name: Standard_DS14-8_v2
     types:
     - uid: string
   - name: Standard_DS14_v2
@@ -434,6 +552,12 @@ definitions:
   - name: Standard_E2s_v3
     types:
     - uid: string
+  - name: Standard_E32-16s_v3
+    types:
+    - uid: string
+  - name: Standard_E32-8s_v3
+    types:
+    - uid: string
   - name: Standard_E32_v3
     types:
     - uid: string
@@ -444,6 +568,12 @@ definitions:
     types:
     - uid: string
   - name: Standard_E4s_v3
+    types:
+    - uid: string
+  - name: Standard_E64-16s_v3
+    types:
+    - uid: string
+  - name: Standard_E64-32s_v3
     types:
     - uid: string
   - name: Standard_E64_v3
@@ -467,6 +597,9 @@ definitions:
   - name: Standard_F16s
     types:
     - uid: string
+  - name: Standard_F16s_v2
+    types:
+    - uid: string
   - name: Standard_F1s
     types:
     - uid: string
@@ -476,16 +609,34 @@ definitions:
   - name: Standard_F2s
     types:
     - uid: string
+  - name: Standard_F2s_v2
+    types:
+    - uid: string
+  - name: Standard_F32s_v2
+    types:
+    - uid: string
   - name: Standard_F4
     types:
     - uid: string
   - name: Standard_F4s
     types:
     - uid: string
+  - name: Standard_F4s_v2
+    types:
+    - uid: string
+  - name: Standard_F64s_v2
+    types:
+    - uid: string
+  - name: Standard_F72s_v2
+    types:
+    - uid: string
   - name: Standard_F8
     types:
     - uid: string
   - name: Standard_F8s
+    types:
+    - uid: string
+  - name: Standard_F8s_v2
     types:
     - uid: string
   - name: Standard_G1
@@ -515,7 +666,19 @@ definitions:
   - name: Standard_GS4
     types:
     - uid: string
+  - name: Standard_GS4-4
+    types:
+    - uid: string
+  - name: Standard_GS4-8
+    types:
+    - uid: string
   - name: Standard_GS5
+    types:
+    - uid: string
+  - name: Standard_GS5-16
+    types:
+    - uid: string
+  - name: Standard_GS5-8
     types:
     - uid: string
   - name: Standard_H16
@@ -548,13 +711,37 @@ definitions:
   - name: Standard_L8s
     types:
     - uid: string
+  - name: Standard_M128-32ms
+    types:
+    - uid: string
+  - name: Standard_M128-64ms
+    types:
+    - uid: string
+  - name: Standard_M128ms
+    types:
+    - uid: string
   - name: Standard_M128s
+    types:
+    - uid: string
+  - name: Standard_M64-16ms
+    types:
+    - uid: string
+  - name: Standard_M64-32ms
     types:
     - uid: string
   - name: Standard_M64ms
     types:
     - uid: string
+  - name: Standard_M64s
+    types:
+    - uid: string
   - name: Standard_NC12
+    types:
+    - uid: string
+  - name: Standard_NC12s_v2
+    types:
+    - uid: string
+  - name: Standard_NC12s_v3
     types:
     - uid: string
   - name: Standard_NC24
@@ -563,7 +750,37 @@ definitions:
   - name: Standard_NC24r
     types:
     - uid: string
+  - name: Standard_NC24rs_v2
+    types:
+    - uid: string
+  - name: Standard_NC24rs_v3
+    types:
+    - uid: string
+  - name: Standard_NC24s_v2
+    types:
+    - uid: string
+  - name: Standard_NC24s_v3
+    types:
+    - uid: string
   - name: Standard_NC6
+    types:
+    - uid: string
+  - name: Standard_NC6s_v2
+    types:
+    - uid: string
+  - name: Standard_NC6s_v3
+    types:
+    - uid: string
+  - name: Standard_ND12s
+    types:
+    - uid: string
+  - name: Standard_ND24rs
+    types:
+    - uid: string
+  - name: Standard_ND24s
+    types:
+    - uid: string
+  - name: Standard_ND6s
     types:
     - uid: string
   - name: Standard_NV12
@@ -600,7 +817,7 @@ definitions:
   kind: object
   properties:
   - name: publicKeys
-    description: Contains information about SSH certificate public key data.
+    description: The list of SSH public keys used to authenticate with Linux-based VMs. Only expect one key specified.
     types:
     - uid: ContainerServiceSshPublicKey
       isArray: true
@@ -620,6 +837,39 @@ definitions:
     description: The secret version.
     types:
     - uid: string
+- name: ManagedClusterAddonProfile
+  description: A Kubernetes add-on profile for a managed cluster.
+  kind: object
+  properties:
+  - name: enabled
+    description: Whether the add-on is enabled or not.
+    types:
+    - uid: boolean
+  - name: config
+    description: Key-value pairs for configuring an add-on.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: NetworkPlugin
+  description: Network plugin used for building Kubernetes network.
+  kind: enum
+  properties:
+  - name: azure
+    types:
+    - uid: string
+  - name: kubenet
+    types:
+    - uid: string
+- name: NetworkPolicy
+  description: Network policy used for building Kubernetes network.
+  kind: enum
+  properties:
+  - name: calico
+    types:
+    - uid: string
 - name: ContainerServiceSshPublicKey
   description: Contains information about SSH certificate public key data.
   kind: object
@@ -631,7 +881,7 @@ definitions:
 examples:
 - name: List Managed Clusters
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/providers/Microsoft.ContainerService/managedClusters?api-version=2017-08-31
+    uri: GET https://management.azure.com/subscriptions/subid1/providers/Microsoft.ContainerService/managedClusters?api-version=2018-03-31
   responses:
   - statusCode: "200"
     body: >-
@@ -640,25 +890,27 @@ examples:
           {
             "id": "/subscriptions/subid1/providers/Microsoft.ContainerService/managedClusters",
             "location": "location1",
-            "name": "mycluster1",
+            "name": "clustername1",
+            "tags": {
+              "archv2": "",
+              "tier": "production"
+            },
+            "type": "Microsoft.ContainerService/ManagedClusters",
             "properties": {
+              "provisioningState": "Succeeded",
+              "kubernetesVersion": "1.9.6",
+              "dnsPrefix": "dnsprefix1",
+              "fqdn": "dnsprefix1-abcd1234.hcp.eastus.azmk8s.io",
               "agentPoolProfiles": [
                 {
-                  "count": 1,
-                  "dnsPrefix": "agentpool1dnsPrefix",
-                  "fqdn": "agentpool1fqdn",
-                  "name": "agentpool1",
-                  "osType": "Linux",
-                  "ports": [
-                    1
-                  ],
+                  "name": "nodepool1",
+                  "count": 3,
+                  "vmSize": "Standard_DS1_v2",
                   "storageProfile": "ManagedDisks",
-                  "vmSize": "Standard_D2_v2"
+                  "maxPods": 110,
+                  "osType": "Linux"
                 }
               ],
-              "dnsPrefix": "dnsprefix1",
-              "fqdn": "dnsprefix1-123456.abc.location1.azmk8s.io",
-              "kubernetesVersion": "1.7.7",
               "linuxProfile": {
                 "adminUsername": "azureuser",
                 "ssh": {
@@ -669,15 +921,19 @@ examples:
                   ]
                 }
               },
-              "provisioningState": "Succeeded",
               "servicePrincipalProfile": {
-                "clientId": "clientid",
-                "keyVaultSecretRef": null,
-                "secret": "secret"
+                "clientId": "clientid"
+              },
+              "nodeResourceGroup": "MC_rg1_clustername1_location1",
+              "enableRBAC": false,
+              "networkProfile": {
+                "networkPlugin": "kubenet",
+                "podCidr": "10.244.0.0/16",
+                "serviceCidr": "10.0.0.0/16",
+                "dnsServiceIP": "10.0.0.10",
+                "dockerBridgeCidr": "172.17.0.1/16"
               }
-            },
-            "tags": "managed-cluster",
-            "type": "Microsoft.ContainerService/ManagedClusters"
+            }
           }
         ]
       }

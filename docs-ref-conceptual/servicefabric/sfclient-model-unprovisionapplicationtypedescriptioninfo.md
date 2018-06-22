@@ -1,6 +1,6 @@
 ---
 title: "UnprovisionApplicationTypeDescriptionInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,18 @@ Describes the operation to unregister or unprovision an application type and its
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ApplicationTypeVersion](#applicationtypeversion) | string | Yes |
-| [Async](#async) | boolean | No |
+| [`ApplicationTypeVersion`](#applicationtypeversion) | string | Yes |
+| [`Async`](#async) | boolean | No |
 
 ____
-### ApplicationTypeVersion
+### `ApplicationTypeVersion`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The version of the application type as defined in the application manifest.
 
 ____
-### Async
+### `Async`
 __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>

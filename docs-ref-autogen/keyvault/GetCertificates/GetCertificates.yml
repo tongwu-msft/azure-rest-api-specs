@@ -4,7 +4,7 @@ name: Get Certificates
 service: Key Vault
 groupName: Get Certificates
 apiVersion: 2016-10-01
-summary: List certificates in a specified key vault The GetCertificates operation returns the set of certificates resources in the specified key vault. This operation requires the certificates/list permission.
+summary: "List certificates in a specified key vault  \nThe GetCertificates operation returns the set of certificates resources in the specified key vault. This operation requires the certificates/list permission."
 consumes:
 - application/json
 produces:
@@ -49,11 +49,10 @@ definitions:
   properties:
   - name: value
     isReadyOnly: true
-    description: The certificate item containing certificate metadata.
+    description: A response message containing a list of certificates in the key vault along with a link to the next page of certificates.
     types:
-    - uid: DeletedCertificateItem
+    - uid: CertificateItem
       isArray: true
-    typesTitle: CertificateItem[]
   - name: nextLink
     isReadyOnly: true
     description: The URL to get the next set of certificates.
@@ -68,43 +67,10 @@ definitions:
     description: The key vault server error.
     types:
     - uid: Error
-- name: Error
-  description: The key vault server error.
+- name: CertificateItem
+  description: The certificate item containing certificate metadata.
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-  - name: innererror
-    isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
-- name: DeletedCertificateItem
-  description: The deleted certificate item containing metadata about the deleted certificate.
-  kind: object
-  properties:
-  - name: recoveryId
-    description: The url of the recovery object, used to identify and recover the deleted certificate.
-    types:
-    - uid: string
-  - name: scheduledPurgeDate
-    isReadyOnly: true
-    description: The time when the certificate is scheduled to be purged, in UTC
-    types:
-    - uid: integer
-  - name: deletedDate
-    isReadyOnly: true
-    description: The time when the certificate was deleted, in UTC
-    types:
-    - uid: integer
   - name: id
     description: Certificate identifier.
     types:
@@ -125,6 +91,25 @@ definitions:
     description: Thumbprint of the certificate.
     types:
     - uid: string
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
 - name: CertificateAttributes
   description: The certificate management attributes.
   kind: object
@@ -161,15 +146,19 @@ definitions:
   kind: enum
   properties:
   - name: Purgeable
+    description: Soft-delete is not enabled for this vault. A DELETE operation results in immediate and irreversible data loss.
     types:
     - uid: string
   - name: Recoverable+Purgeable
+    description: Soft-delete is enabled for this vault; A priveleged user may trigger an immediate, irreversible deletion(purge) of a deleted entity.
     types:
     - uid: string
   - name: Recoverable
+    description: Soft-delete is enabled for this vault and purge has been disabled. A deleted entity will remain in this state until recovered, or the end of the retention interval.
     types:
     - uid: string
   - name: Recoverable+ProtectedSubscription
+    description: Soft-delete is enabled for this vault, and the subscription is protected against immediate deletion.
     types:
     - uid: string
 examples: []

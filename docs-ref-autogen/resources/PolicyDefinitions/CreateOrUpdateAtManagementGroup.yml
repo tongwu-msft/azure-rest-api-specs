@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resourcemanagement.policydefinitions.createorupdateatmanagementgroup
+uid: management.azure.com.resources.policydefinitions.createorupdateatmanagementgroup
 name: Create Or Update At Management Group
 service: Resource Management
 groupName: Policy Definitions
-apiVersion: 2016-12-01
-summary: Creates or updates a policy definition at management group level.
+apiVersion: 2018-03-01
+summary: "Creates or updates a policy definition in a management group.  \nThis operation creates or updates a policy definition in the given management group with the given name."
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: PUT https://management.azure.com/providers/Microsoft.Management/managementgroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}?api-version=2016-12-01
+- content: PUT https://management.azure.com/providers/Microsoft.Management/managementgroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}?api-version=2018-03-01
 uriParameters:
 - name: managementGroupId
   in: path
@@ -90,6 +88,11 @@ definitions:
     description: The name of the policy definition.
     types:
     - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource (Microsoft.Authorization/policyDefinitions).
+    types:
+    - uid: string
   - name: properties.policyType
     description: The type of policy definition. Possible values are NotSpecified, BuiltIn, and Custom.
     types:
@@ -144,7 +147,90 @@ definitions:
   - name: All
     types:
     - uid: string
-examples: []
+examples:
+- name: Create or update a policy definition at management group level
+  request:
+    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementgroups/MyManagementGroup/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming?api-version=2018-03-01
+    body: >-
+      {
+        "properties": {
+          "displayName": "Enforce resource naming convention",
+          "description": "Force resource names to begin with given 'prefix' and/or end with given 'suffix'",
+          "metadata": {
+            "category": "Naming"
+          },
+          "policyRule": {
+            "if": {
+              "not": {
+                "field": "name",
+                "like": "[concat(parameters('prefix'), '*', parameters('suffix'))]"
+              }
+            },
+            "then": {
+              "effect": "deny"
+            }
+          },
+          "parameters": {
+            "prefix": {
+              "type": "String",
+              "metadata": {
+                "displayName": "Prefix",
+                "description": "Resource name prefix"
+              }
+            },
+            "suffix": {
+              "type": "String",
+              "metadata": {
+                "displayName": "Suffix",
+                "description": "Resource name suffix"
+              }
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Management/managementgroups/MyManagementGroup/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+        "type": "Microsoft.Authorization/policyDefinitions",
+        "name": "ResourceNaming",
+        "properties": {
+          "displayName": "Naming Convention",
+          "description": "Force resource names to begin with 'prefix' and end with 'suffix'",
+          "metadata": {
+            "category": "Naming"
+          },
+          "policyRule": {
+            "if": {
+              "not": {
+                "field": "name",
+                "like": "[concat(parameters('prefix'), '*', parameters('suffix'))]"
+              }
+            },
+            "then": {
+              "effect": "deny"
+            }
+          },
+          "parameters": {
+            "prefix": {
+              "type": "String",
+              "metadata": {
+                "displayName": "Prefix",
+                "description": "Resource name prefix"
+              }
+            },
+            "suffix": {
+              "type": "String",
+              "metadata": {
+                "displayName": "Suffix",
+                "description": "Resource name suffix"
+              }
+            }
+          },
+          "policyType": "Custom"
+        }
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

@@ -37,16 +37,16 @@ Azure Consumption APIs provide access to:
 
 | Operation Group | Description |
 |-----------------|-------------|
-| [Budgets](~/docs-ref-autogen/consumption/Budgets.yml) | Provides operations to set, update, and delete budgets at a Subscription or resource group scope. Supports cost and usage budgets.
-  [Price Sheet](~/docs-ref-autogen/consumption/PriceSheet.yml) | For Enterprise Subscriptions, an API to get the current price sheet.
-  [Marketplace Charges](~/docs-ref-autogen/consumption/Marketplaces.yml) | Provides operations to get usage information for marketplace resources on subscription.
-  [Usage Details](~/docs-ref-autogen/consumption/UsageDetails.yml) | Provides operations to get usage information on subscription. |
-  [Reservation Details](~/docs-ref-autogen/consumption/ReservationsDetails.yml) | Provides operations to get reservation detailed usage for Pay as you go and Enterprise Subscriptions. |
-  [Reservation Summaries](~/docs-ref-autogen/consumption/ReservationsSummaries.yml) | Provides operations to get reservation summary usage for Pay as you go and Enterprise Subscriptions. |
+| [Budgets](xref:management.azure.com.consumption.budgets) | Provides operations to set, update, and delete budgets at a Subscription or resource group scope. Supports cost and usage budgets.
+  [Price Sheet](xref:management.azure.com.consumption.pricesheet) | For Enterprise Subscriptions, an API to get the current price sheet.
+  [Marketplace Charges](xref:management.azure.com.consumption.marketplaces) | Provides operations to get usage information for marketplace resources on subscription.
+  [Usage Details](xref:management.azure.com.consumption.usagedetails) | Provides operations to get usage information on subscription. |
+  [Reservation Details](xref:management.azure.com.consumption.reservationsdetails) | Provides operations to get reservation detailed usage for Pay as you go and Enterprise Subscriptions. |
+  [Reservation Summaries](xref:management.azure.com.consumption.reservationssummaries) | Provides operations to get reservation summary usage for Pay as you go and Enterprise Subscriptions. |
 
 
 ## Working with billing periods and date ranges
-[Usage Details](~/docs-ref-autogen/consumption/UsageDetails.yml) and [Marketplace Charges](~/docs-ref-autogen/consumption/Marketplaces.yml) accept billing period or date ranges for defining the start and end dates for the usage data.
+[Usage Details](xref:management.azure.com.consumption.usagedetails) and [Marketplace Charges](xref:management.azure.com.consumption.marketplaces) accept billing period or date ranges for defining the start and end dates for the usage data.
 
 Here is the API behavior based on billing periods and date ranges in request.
 

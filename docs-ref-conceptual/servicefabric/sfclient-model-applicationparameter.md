@@ -1,6 +1,6 @@
 ---
 title: "ApplicationParameter"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,18 +34,18 @@ Describes an application parameter override to be applied when creating or upgra
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Key](#key) | string | Yes |
-| [Value](#value) | string | Yes |
+| [`Key`](#key) | string | Yes |
+| [`Value`](#value) | string | Yes |
 
 ____
-### Key
+### `Key`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the parameter.
 
 ____
-### Value
+### `Value`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>

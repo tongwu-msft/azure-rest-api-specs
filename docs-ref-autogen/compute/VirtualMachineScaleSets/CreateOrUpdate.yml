@@ -190,6 +190,10 @@ definitions:
     description: Whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the image becomes available.
     types:
     - uid: boolean
+  - name: autoOSUpgradePolicy
+    description: Configuration parameters used for performing automatic OS Upgrade.
+    types:
+    - uid: AutoOSUpgradePolicy
 - name: VirtualMachineScaleSetVMProfile
   description: Describes a virtual machine scale set virtual machine profile.
   kind: object
@@ -222,6 +226,10 @@ definitions:
     description: 'Specifies the priority for the virtual machines in the scale set. <br><br>Minimum api-version: 2017-10-30-preview'
     types:
     - uid: VirtualMachinePriorityTypes
+  - name: evictionPolicy
+    description: 'Specifies the eviction policy for virtual machines in a low priority scale set. <br><br>Minimum api-version: 2017-10-30-preview'
+    types:
+    - uid: VirtualMachineEvictionPolicyTypes
 - name: VirtualMachineScaleSet
   description: Describes a Virtual Machine Scale Set.
   kind: object
@@ -353,6 +361,14 @@ definitions:
     description: The wait time between completing the update for all virtual machines in one batch and starting the next batch. The time duration should be specified in ISO 8601 format. The default value is 0 seconds (PT0S).
     types:
     - uid: string
+- name: AutoOSUpgradePolicy
+  description: The configuration parameters used for performing automatic OS upgrade.
+  kind: object
+  properties:
+  - name: disableAutoRollback
+    description: Whether OS image rollback feature should be disabled. Default value is false.
+    types:
+    - uid: boolean
 - name: VirtualMachineScaleSetOSProfile
   description: Describes a virtual machine scale set OS profile.
   kind: object
@@ -382,7 +398,7 @@ definitions:
     types:
     - uid: LinuxConfiguration
   - name: secrets
-    description: Describes a set of certificates which are all in the same Key Vault.
+    description: Specifies set of certificates that should be installed onto the virtual machines in the scale set.
     types:
     - uid: VaultSecretGroup
       isArray: true
@@ -399,7 +415,7 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetOSDisk
   - name: dataDisks
-    description: Describes a virtual machine scale set data disk.
+    description: Specifies the parameters that are used to add data disks to the virtual machines in the scale set. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
     types:
     - uid: VirtualMachineScaleSetDataDisk
       isArray: true
@@ -412,7 +428,7 @@ definitions:
     types:
     - uid: ApiEntityReference
   - name: networkInterfaceConfigurations
-    description: Describes a virtual machine scale set network profile's network configurations.
+    description: The list of network configurations.
     types:
     - uid: VirtualMachineScaleSetNetworkConfiguration
       isArray: true
@@ -429,7 +445,7 @@ definitions:
   kind: object
   properties:
   - name: extensions
-    description: Describes a Virtual Machine Scale Set Extension.
+    description: The virtual machine scale set child extension resources.
     types:
     - uid: VirtualMachineScaleSetExtension
       isArray: true
@@ -441,6 +457,16 @@ definitions:
     types:
     - uid: string
   - name: Low
+    types:
+    - uid: string
+- name: VirtualMachineEvictionPolicyTypes
+  description: 'Specifies the eviction policy for virtual machines in a low priority scale set. <br><br>Minimum api-version: 2017-10-30-preview'
+  kind: enum
+  properties:
+  - name: Deallocate
+    types:
+    - uid: string
+  - name: Delete
     types:
     - uid: string
 - name: WindowsConfiguration
@@ -460,7 +486,7 @@ definitions:
     types:
     - uid: string
   - name: additionalUnattendContent
-    description: Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
+    description: Specifies additional base-64 encoded XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup.
     types:
     - uid: AdditionalUnattendContent
       isArray: true
@@ -487,18 +513,9 @@ definitions:
   - name: sourceVault
     description: The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
     types:
-    - uid: VirtualMachineImageResource
-    - uid: VirtualMachineCaptureResult
-    - uid: ImageReference
-    - uid: ManagedDiskParameters
-    - uid: NetworkInterfaceReference
-    - uid: VirtualMachineScaleSetIPConfiguration
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-    typesTitle: SubResource
+    - uid: SubResource
   - name: vaultCertificates
-    description: Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
+    description: The list of key vault references in SourceVault which contain certificates.
     types:
     - uid: VaultCertificate
       isArray: true
@@ -622,22 +639,13 @@ definitions:
   - name: properties.networkSecurityGroup
     description: The network security group.
     types:
-    - uid: VirtualMachineImageResource
-    - uid: VirtualMachineCaptureResult
-    - uid: ImageReference
-    - uid: ManagedDiskParameters
-    - uid: NetworkInterfaceReference
-    - uid: VirtualMachineScaleSetIPConfiguration
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-    typesTitle: SubResource
+    - uid: SubResource
   - name: properties.dnsSettings
     description: The dns settings to be applied on the network interfaces.
     types:
     - uid: VirtualMachineScaleSetNetworkConfigurationDnsSettings
   - name: properties.ipConfigurations
-    description: Describes a virtual machine scale set network profile's IP configuration.
+    description: Specifies the IP configurations of the network interface.
     types:
     - uid: VirtualMachineScaleSetIPConfiguration
       isArray: true
@@ -732,7 +740,7 @@ definitions:
   kind: object
   properties:
   - name: listeners
-    description: Describes Protocol and thumbprint of Windows Remote Management listener
+    description: The list of Windows Remote Management listeners
     types:
     - uid: WinRMListener
       isArray: true
@@ -741,10 +749,17 @@ definitions:
   kind: object
   properties:
   - name: publicKeys
-    description: Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.
+    description: The list of SSH public keys used to authenticate with linux based VMs.
     types:
     - uid: SshPublicKey
       isArray: true
+- name: SubResource
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id
+    types:
+    - uid: string
 - name: VaultCertificate
   description: Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
   kind: object
@@ -845,69 +860,18 @@ definitions:
   - name: properties.applicationGatewayBackendAddressPools
     description: Specifies an array of references to backend address pools of application gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot use the same application gateway.
     types:
-    - uid: VirtualMachineImageResource
+    - uid: SubResource
       isArray: true
-    - uid: VirtualMachineCaptureResult
-      isArray: true
-    - uid: ImageReference
-      isArray: true
-    - uid: ManagedDiskParameters
-      isArray: true
-    - uid: NetworkInterfaceReference
-      isArray: true
-    - uid: VirtualMachineScaleSetIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-      isArray: true
-    typesTitle: SubResource[]
   - name: properties.loadBalancerBackendAddressPools
     description: Specifies an array of references to backend address pools of load balancers. A scale set can reference backend address pools of one public and one internal load balancer. Multiple scale sets cannot use the same load balancer.
     types:
-    - uid: VirtualMachineImageResource
+    - uid: SubResource
       isArray: true
-    - uid: VirtualMachineCaptureResult
-      isArray: true
-    - uid: ImageReference
-      isArray: true
-    - uid: ManagedDiskParameters
-      isArray: true
-    - uid: NetworkInterfaceReference
-      isArray: true
-    - uid: VirtualMachineScaleSetIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-      isArray: true
-    typesTitle: SubResource[]
   - name: properties.loadBalancerInboundNatPools
     description: Specifies an array of references to inbound Nat pools of the load balancers. A scale set can reference inbound nat pools of one public and one internal load balancer. Multiple scale sets cannot use the same load balancer
     types:
-    - uid: VirtualMachineImageResource
+    - uid: SubResource
       isArray: true
-    - uid: VirtualMachineCaptureResult
-      isArray: true
-    - uid: ImageReference
-      isArray: true
-    - uid: ManagedDiskParameters
-      isArray: true
-    - uid: NetworkInterfaceReference
-      isArray: true
-    - uid: VirtualMachineScaleSetIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-      isArray: true
-    typesTitle: SubResource[]
   - name: id
     description: Resource Id
     types:
@@ -960,182 +924,6 @@ definitions:
     description: SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
     types:
     - uid: string
-- name: VirtualMachineCaptureResult
-  description: Resource Id.
-  kind: object
-  properties:
-  - name: properties.output
-    description: Operation output data (raw JSON)
-    types:
-    - uid: object
-  - name: id
-    description: Resource Id
-    types:
-    - uid: string
-- name: ManagedDiskParameters
-  description: The parameters of a managed disk.
-  kind: object
-  properties:
-  - name: storageAccountType
-    description: 'Specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS.'
-    types:
-    - uid: StorageAccountTypes
-  - name: id
-    description: Resource Id
-    types:
-    - uid: string
-- name: NetworkInterfaceReference
-  description: Describes a network interface reference.
-  kind: object
-  properties:
-  - name: properties.primary
-    description: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-    types:
-    - uid: boolean
-  - name: id
-    description: Resource Id
-    types:
-    - uid: string
-- name: VirtualMachineScaleSetUpdateIPConfiguration
-  description: Describes a virtual machine scale set network profile's IP configuration.
-  kind: object
-  properties:
-  - name: name
-    description: The IP configuration name.
-    types:
-    - uid: string
-  - name: properties.subnet
-    description: The subnet.
-    types:
-    - uid: ApiEntityReference
-  - name: properties.primary
-    description: Specifies the primary IP Configuration in case the network interface has more than one IP Configuration.
-    types:
-    - uid: boolean
-  - name: properties.publicIPAddressConfiguration
-    description: The publicIPAddressConfiguration.
-    types:
-    - uid: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration
-  - name: properties.privateIPAddressVersion
-    description: "Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
-    types:
-    - uid: IPVersion
-  - name: properties.applicationGatewayBackendAddressPools
-    description: The application gateway backend address pools.
-    types:
-    - uid: VirtualMachineImageResource
-      isArray: true
-    - uid: VirtualMachineCaptureResult
-      isArray: true
-    - uid: ImageReference
-      isArray: true
-    - uid: ManagedDiskParameters
-      isArray: true
-    - uid: NetworkInterfaceReference
-      isArray: true
-    - uid: VirtualMachineScaleSetIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-      isArray: true
-    typesTitle: SubResource[]
-  - name: properties.loadBalancerBackendAddressPools
-    description: The load balancer backend address pools.
-    types:
-    - uid: VirtualMachineImageResource
-      isArray: true
-    - uid: VirtualMachineCaptureResult
-      isArray: true
-    - uid: ImageReference
-      isArray: true
-    - uid: ManagedDiskParameters
-      isArray: true
-    - uid: NetworkInterfaceReference
-      isArray: true
-    - uid: VirtualMachineScaleSetIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-      isArray: true
-    typesTitle: SubResource[]
-  - name: properties.loadBalancerInboundNatPools
-    description: The load balancer inbound nat pools.
-    types:
-    - uid: VirtualMachineImageResource
-      isArray: true
-    - uid: VirtualMachineCaptureResult
-      isArray: true
-    - uid: ImageReference
-      isArray: true
-    - uid: ManagedDiskParameters
-      isArray: true
-    - uid: NetworkInterfaceReference
-      isArray: true
-    - uid: VirtualMachineScaleSetIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-      isArray: true
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-      isArray: true
-    typesTitle: SubResource[]
-  - name: id
-    description: Resource Id
-    types:
-    - uid: string
-- name: VirtualMachineScaleSetUpdateNetworkConfiguration
-  description: Describes a virtual machine scale set network profile's network configurations.
-  kind: object
-  properties:
-  - name: name
-    description: The network configuration name.
-    types:
-    - uid: string
-  - name: properties.primary
-    description: Whether this is a primary NIC on a virtual machine.
-    types:
-    - uid: boolean
-  - name: properties.enableAcceleratedNetworking
-    description: Specifies whether the network interface is accelerated networking-enabled.
-    types:
-    - uid: boolean
-  - name: properties.networkSecurityGroup
-    description: The network security group.
-    types:
-    - uid: VirtualMachineImageResource
-    - uid: VirtualMachineCaptureResult
-    - uid: ImageReference
-    - uid: ManagedDiskParameters
-    - uid: NetworkInterfaceReference
-    - uid: VirtualMachineScaleSetIPConfiguration
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-    - uid: VirtualMachineScaleSetNetworkConfiguration
-    - uid: VirtualMachineScaleSetUpdateNetworkConfiguration
-    typesTitle: SubResource
-  - name: properties.dnsSettings
-    description: The dns settings to be applied on the network interfaces.
-    types:
-    - uid: VirtualMachineScaleSetNetworkConfigurationDnsSettings
-  - name: properties.ipConfigurations
-    description: Describes a virtual machine scale set network profile's IP configuration.
-    types:
-    - uid: VirtualMachineScaleSetUpdateIPConfiguration
-      isArray: true
-  - name: properties.enableIPForwarding
-    description: Whether IP forwarding enabled on this NIC.
-    types:
-    - uid: boolean
-  - name: id
-    description: Resource Id
-    types:
-    - uid: string
 - name: StorageAccountTypes
   description: 'Specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS.'
   kind: enum
@@ -1182,59 +970,6 @@ definitions:
   - name: Https
     types:
     - uid: string
-- name: VirtualMachineImage
-  description: Describes a Virtual Machine Image.
-  kind: object
-  properties:
-  - name: properties.plan
-    description: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
-    types:
-    - uid: PurchasePlan
-  - name: properties.osDiskImage
-    description: Contains the os disk image information.
-    types:
-    - uid: OSDiskImage
-  - name: properties.dataDiskImages
-    description: Contains the data disk images information.
-    types:
-    - uid: DataDiskImage
-      isArray: true
-  - name: name
-    description: The name of the resource.
-    types:
-    - uid: string
-  - name: location
-    description: The supported Azure location of the resource.
-    types:
-    - uid: string
-  - name: tags
-    description: Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md).
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: id
-    description: Resource Id
-    types:
-    - uid: string
-- name: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration
-  description: Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
-  kind: object
-  properties:
-  - name: name
-    description: The publicIP address configuration name.
-    types:
-    - uid: string
-  - name: properties.idleTimeoutInMinutes
-    description: The idle timeout of the public IP address.
-    types:
-    - uid: integer
-  - name: properties.dnsSettings
-    description: The dns settings to be applied on the publicIP addresses .
-    types:
-    - uid: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
 - name: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
   description: Describes a virtual machines scale sets network configuration's DNS settings.
   kind: object
@@ -1243,39 +978,6 @@ definitions:
     description: The Domain name label.The concatenation of the domain name label and vm index will be the domain name labels of the PublicIPAddress resources that will be created
     types:
     - uid: string
-- name: PurchasePlan
-  description: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
-  kind: object
-  properties:
-  - name: publisher
-    description: The publisher ID.
-    types:
-    - uid: string
-  - name: name
-    description: The plan ID.
-    types:
-    - uid: string
-  - name: product
-    description: Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
-    types:
-    - uid: string
-- name: OSDiskImage
-  description: Contains the os disk image information.
-  kind: object
-  properties:
-  - name: operatingSystem
-    description: The operating system of the osDiskImage.
-    types:
-    - uid: OperatingSystemTypes
-- name: DataDiskImage
-  description: Contains the data disk images information.
-  kind: object
-  properties:
-  - name: lun
-    isReadyOnly: true
-    description: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
-    types:
-    - uid: integer
 examples:
 - name: Create a scale set with password authentication.
   request:
@@ -1339,6 +1041,80 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D1_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "ffb27c5c-39a5-4d4e-b307-b32598689813",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -1485,6 +1261,87 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D1_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "fb73af19-0090-467c-9ced-b00bceab1c45",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "16.04-LTS",
+                "publisher": "Canonical",
+                "version": "latest",
+                "offer": "UbuntuServer"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "linuxConfiguration": {
+                "ssh": {
+                  "publicKeys": [
+                    {
+                      "path": "/home/{your-username}/.ssh/authorized_keys",
+                      "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1"
+                    }
+                  ]
+                },
+                "disablePasswordAuthentication": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -1628,6 +1485,80 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_DS1_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "19fd38a2-f50a-42c6-9dc7-3f9cf3791225",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Premium_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -1776,6 +1707,100 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D2_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "8042c376-4690-4c47-9fa2-fbdad70e32fa",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage"
+              },
+              "dataDisks": [
+                {
+                  "caching": "None",
+                  "managedDisk": {
+                    "storageAccountType": "Standard_LRS"
+                  },
+                  "createOption": "Empty",
+                  "lun": 0,
+                  "diskSizeGB": 1023
+                },
+                {
+                  "caching": "None",
+                  "managedDisk": {
+                    "storageAccountType": "Standard_LRS"
+                  },
+                  "createOption": "Empty",
+                  "lun": 1,
+                  "diskSizeGB": 1023
+                }
+              ]
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -1942,6 +1967,90 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D1_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "ec0b21ca-51ec-414b-9323-f236ffc21479",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "loadBalancerInboundNatPools": [
+                            {
+                              "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/myLb/inboundNatPools/lbNatPool"
+                            }
+                          ],
+                          "loadBalancerBackendAddressPools": [
+                            {
+                              "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/myLb/backendAddressPools/lbBackendPool"
+                            }
+                          ],
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -2093,6 +2202,85 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D1_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "a0134477-b9d9-484b-b0e3-205c1c089ffa",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "applicationGatewayBackendAddressPools": [
+                            {
+                              "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/applicationGateways/nsgExistingAppGw/backendAddressPools/appGatewayBackendPool"
+                            }
+                          ],
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -2240,6 +2428,86 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D1_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "d053ec5a-8da6-495f-ab13-38216503c6d7",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "diagnosticsProfile": {
+              "bootDiagnostics": {
+                "storageUri": "http://nsgdiagnostic.blob.core.windows.net",
+                "enabled": true
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -2387,6 +2655,85 @@ examples:
         "location": "westus"
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D1_v2"
+        },
+        "name": "{vmss-name}",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}",
+        "plan": {
+          "publisher": "microsoft-ads",
+          "product": "standard-data-science-vm",
+          "name": "standard-data-science-vm"
+        },
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "b9e23088-6ffc-46e0-9e02-b0a6eeef47db",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "standard-data-science-vm",
+                "publisher": "microsoft-ads",
+                "version": "latest",
+                "offer": "standard-data-science-vm"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -2525,6 +2872,76 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D1_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "afa2afa8-9e49-48fb-9d18-c86323b5d064",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/nsgcustom"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "linuxConfiguration": {
+                "disablePasswordAuthentication": false
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -2662,6 +3079,81 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D1_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "77b7df9a-32fe-45e3-8911-60ac9c9b9c64",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "vhdContainers": [
+                  "http://{existing-storage-account-name}.blob.core.windows.net/vhds"
+                ],
+                "name": "osDisk",
+                "createOption": "FromImage"
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
   - statusCode: "201"
     body: >-
       {
@@ -2794,6 +3286,76 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D1_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "d6e9ab29-f8c9-4792-978c-ae2c07b98f17",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "osDisk": {
+                "osType": "Windows",
+                "caching": "ReadWrite",
+                "image": {
+                  "uri": "https://{existing-storage-account-name}.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/{existing-generalized-os-image-blob-name}.vhd"
+                },
+                "createOption": "FromImage",
+                "name": "osDisk"
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
   - statusCode: "201"
     body: >-
       {

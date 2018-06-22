@@ -3,15 +3,15 @@ uid: batch.core.windows.net.batchservice.job.add
 name: Add
 service: Batch Service
 groupName: Job
-apiVersion: 2017-09-01.6.0
-summary: 'Adds a job to the specified account. The Batch service supports two ways to control the work done as part of a job. In the first approach, the user specifies a Job Manager task. The Batch service launches this task when it is ready to start the job. The Job Manager task controls all other tasks that run under this job, by using the Task APIs. In the second approach, the user directly controls the execution of tasks under an active job, by using the Task APIs. Also note: when naming jobs, avoid including sensitive information such as user names or secret project names. This information may appear in telemetry logs accessible to Microsoft Support engineers.'
+apiVersion: 2018-03-01.6.1
+summary: "Adds a job to the specified account.  \nThe Batch service supports two ways to control the work done as part of a job. In the first approach, the user specifies a Job Manager task. The Batch service launches this task when it is ready to start the job. The Job Manager task controls all other tasks that run under this job, by using the Task APIs. In the second approach, the user directly controls the execution of tasks under an active job, by using the Task APIs. Also note: when naming jobs, avoid including sensitive information such as user names or secret project names. This information may appear in telemetry logs accessible to Microsoft Support engineers."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: POST https://batch.core.windows.net/jobs?api-version=2017-09-01.6.0
-- content: POST https://batch.core.windows.net/jobs?timeout={timeout}&api-version=2017-09-01.6.0
+- content: POST https://batch.core.windows.net/jobs?api-version=2018-03-01.6.1
+- content: POST https://batch.core.windows.net/jobs?timeout={timeout}&api-version=2018-03-01.6.1
   isOptional: true
 uriParameters:
 - name: timeout
@@ -84,7 +84,7 @@ requestBody:
     - uid: JobReleaseTask
   - name: commonEnvironmentSettings
     in: body
-    description: An environment variable to be set on a task process.
+    description: "The list of common environment variable settings. These environment variables are set for all tasks in the job (including the Job Manager, Job Preparation and Job Release tasks).  \nIndividual tasks can override an environment setting specified here by specifying the same setting name with a different value."
     types:
     - uid: EnvironmentSetting
       isArray: true
@@ -106,7 +106,7 @@ requestBody:
     - uid: OnTaskFailure
   - name: metadata
     in: body
-    description: "A name-value pair associated with a Batch service resource.  \nThe Batch service does not assign any meaning to this metadata; it is solely for the use of user code."
+    description: "A list of name-value pairs associated with the job as metadata.  \nThe Batch service does not assign any meaning to metadata; it is solely for the use of user code."
     types:
     - uid: MetadataItem
       isArray: true
@@ -159,7 +159,7 @@ definitions:
     types:
     - uid: string
   - name: commandLine
-    description: "The command line of the Job Manager task.  \nThe command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using \"cmd /c MyCommand\" in Windows or \"/bin/sh -c MyCommand\" in Linux."
+    description: "The command line of the Job Manager task.  \nThe command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using \"cmd /c MyCommand\" in Windows or \"/bin/sh -c MyCommand\" in Linux. If the command line refers to file paths, it should use a relative path (relative to the task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables)."
     types:
     - uid: string
   - name: containerSettings
@@ -167,17 +167,17 @@ definitions:
     types:
     - uid: TaskContainerSettings
   - name: resourceFiles
-    description: A file to be downloaded from Azure blob storage to a compute node.
+    description: "A list of files that the Batch service will download to the compute node before running the command line.  \nFiles listed under this element are located in the task's working directory."
     types:
     - uid: ResourceFile
       isArray: true
   - name: outputFiles
-    description: A specification for uploading files from an Azure Batch node to another location after the Batch service has finished executing the task process.
+    description: "A list of files that the Batch service will upload from the compute node after running the command line.  \nFor multi-instance tasks, the files will only be uploaded from the compute node on which the primary task is executed."
     types:
     - uid: OutputFile
       isArray: true
   - name: environmentSettings
-    description: An environment variable to be set on a task process.
+    description: A list of environment variable settings for the Job Manager task.
     types:
     - uid: EnvironmentSetting
       isArray: true
@@ -198,7 +198,7 @@ definitions:
     types:
     - uid: boolean
   - name: applicationPackageReferences
-    description: A reference to an application package to be deployed to compute nodes.
+    description: "A list of application packages that the Batch service will deploy to the compute node before running the command line.  \nApplication packages are downloaded and deployed to a shared directory, not the task working directory. Therefore, if a referenced package is already on the compute node, and is up to date, then it is not re-downloaded; the existing copy on the compute node is used. If a referenced application package cannot be installed, for example because the package has been deleted or because download failed, the task fails."
     types:
     - uid: ApplicationPackageReference
       isArray: true
@@ -207,7 +207,7 @@ definitions:
     types:
     - uid: AuthenticationTokenSettings
   - name: allowLowPriorityNode
-    description: "Whether the Job Manager task may run on a low-priority compute node.  \nThe default value is false."
+    description: "Whether the Job Manager task may run on a low-priority compute node.  \nThe default value is true."
     types:
     - uid: boolean
 - name: JobPreparationTask
@@ -219,7 +219,7 @@ definitions:
     types:
     - uid: string
   - name: commandLine
-    description: "The command line of the Job Preparation task.  \nThe command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using \"cmd /c MyCommand\" in Windows or \"/bin/sh -c MyCommand\" in Linux."
+    description: "The command line of the Job Preparation task.  \nThe command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using \"cmd /c MyCommand\" in Windows or \"/bin/sh -c MyCommand\" in Linux. If the command line refers to file paths, it should use a relative path (relative to the task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables)."
     types:
     - uid: string
   - name: containerSettings
@@ -227,12 +227,12 @@ definitions:
     types:
     - uid: TaskContainerSettings
   - name: resourceFiles
-    description: A file to be downloaded from Azure blob storage to a compute node.
+    description: "A list of files that the Batch service will download to the compute node before running the command line.  \nFiles listed under this element are located in the task's working directory."
     types:
     - uid: ResourceFile
       isArray: true
   - name: environmentSettings
-    description: An environment variable to be set on a task process.
+    description: A list of environment variable settings for the Job Preparation task.
     types:
     - uid: EnvironmentSetting
       isArray: true
@@ -261,7 +261,7 @@ definitions:
     types:
     - uid: string
   - name: commandLine
-    description: "The command line of the Job Release task.  \nThe command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using \"cmd /c MyCommand\" in Windows or \"/bin/sh -c MyCommand\" in Linux."
+    description: "The command line of the Job Release task.  \nThe command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using \"cmd /c MyCommand\" in Windows or \"/bin/sh -c MyCommand\" in Linux. If the command line refers to file paths, it should use a relative path (relative to the task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables)."
     types:
     - uid: string
   - name: containerSettings
@@ -269,12 +269,12 @@ definitions:
     types:
     - uid: TaskContainerSettings
   - name: resourceFiles
-    description: A file to be downloaded from Azure blob storage to a compute node.
+    description: "A list of files that the Batch service will download to the compute node before running the command line.  \nFiles listed under this element are located in the task's working directory."
     types:
     - uid: ResourceFile
       isArray: true
   - name: environmentSettings
-    description: An environment variable to be set on a task process.
+    description: A list of environment variable settings for the Job Release task.
     types:
     - uid: EnvironmentSetting
       isArray: true
@@ -339,7 +339,7 @@ definitions:
     types:
     - uid: ErrorMessage
   - name: values
-    description: An item of additional information included in an Azure Batch error response.
+    description: A collection of key-value pairs containing additional details about the error.
     types:
     - uid: BatchErrorDetail
       isArray: true
@@ -376,7 +376,7 @@ definitions:
     types:
     - uid: JobReleaseTask
   - name: commonEnvironmentSettings
-    description: An environment variable to be set on a task process.
+    description: "The list of common environment variable settings. These environment variables are set for all tasks in the job (including the Job Manager, Job Preparation and Job Release tasks).  \nIndividual tasks can override an environment setting specified here by specifying the same setting name with a different value."
     types:
     - uid: EnvironmentSetting
       isArray: true
@@ -393,7 +393,7 @@ definitions:
     types:
     - uid: OnTaskFailure
   - name: metadata
-    description: "A name-value pair associated with a Batch service resource.  \nThe Batch service does not assign any meaning to this metadata; it is solely for the use of user code."
+    description: "A list of name-value pairs associated with the job as metadata.  \nThe Batch service does not assign any meaning to metadata; it is solely for the use of user code."
     types:
     - uid: MetadataItem
       isArray: true
@@ -462,7 +462,7 @@ definitions:
     types:
     - uid: string
   - name: maxTaskRetryCount
-    description: "The maximum number of times the task may be retried. The Batch service retries a task if its exit code is nonzero.  \nNote that this value specifically controls the number of retries. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task. If the maximum retry count is -1, the Batch service retries the task without limit."
+    description: "The maximum number of times the task may be retried. The Batch service retries a task if its exit code is nonzero.  \nNote that this value specifically controls the number of retries for the task executable due to a nonzero exit code. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task after the first attempt. If the maximum retry count is -1, the Batch service retries the task without limit. Resource files and application packages are only downloaded again if the task is retried on a new compute node."
     types:
     - uid: integer
 - name: UserIdentity
@@ -607,7 +607,7 @@ definitions:
     types:
     - uid: AutoUserScope
   - name: elevationLevel
-    description: "The elevation level of the auto user.  \nnonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin."
+    description: "The elevation level of the auto user.  \nThe default value is nonAdmin."
     types:
     - uid: ElevationLevel
 - name: PoolLifetimeOption
@@ -631,7 +631,7 @@ definitions:
     types:
     - uid: string
   - name: vmSize
-    description: "The size of the virtual machines in the pool. All virtual machines in a pool are the same size.  \nFor information about available sizes of virtual machines for Cloud Services pools (pools created with cloudServiceConfiguration), see Sizes for Cloud Services (http://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch supports all Cloud Services VM sizes except ExtraSmall, A1V2 and A2V2. For information about available VM sizes for pools using images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series)."
+    description: "The size of the virtual machines in the pool. All virtual machines in a pool are the same size.  \nFor information about available sizes of virtual machines for Cloud Services pools (pools created with cloudServiceConfiguration), see Sizes for Cloud Services (https://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch supports all Cloud Services VM sizes except ExtraSmall, A1V2 and A2V2. For information about available VM sizes for pools using images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series)."
     types:
     - uid: string
   - name: cloudServiceConfiguration
@@ -683,16 +683,16 @@ definitions:
     types:
     - uid: NetworkConfiguration
   - name: startTask
-    description: A task to run on each compute node as it joins the pool. The task runs when the node is added to the pool or when the node is restarted.
+    description: "A task to run on each compute node as it joins the pool. The task runs when the node is added to the pool or when the node is restarted.  \nBatch will retry tasks when a recovery operation is triggered on a compute node. Examples of recovery operations include (but are not limited to) when an unhealthy compute node is rebooted or a compute node disappeared due to host failure. Retries due to recovery operations are independent of and are not counted against the maxTaskRetryCount. Even if the maxTaskRetryCount is 0, an internal retry due to a recovery operation may occur. Because of this, all tasks should be idempotent. This means tasks need to tolerate being interrupted and restarted without causing any corruption or duplicate data. The best practice for long running tasks is to use some form of checkpointing."
     types:
     - uid: StartTask
   - name: certificateReferences
-    description: A reference to a certificate to be installed on compute nodes in a pool.
+    description: "A list of certificates to be installed on each compute node in the pool.  \nFor Windows compute nodes, the Batch service installs the certificates to the specified certificate store and location. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory."
     types:
     - uid: CertificateReference
       isArray: true
   - name: applicationPackageReferences
-    description: A reference to an application package to be deployed to compute nodes.
+    description: The list of application packages to be installed on each compute node in the pool.
     types:
     - uid: ApplicationPackageReference
       isArray: true
@@ -702,12 +702,12 @@ definitions:
     - uid: string
       isArray: true
   - name: userAccounts
-    description: Properties used to create a user used to execute tasks on an Azure Batch node.
+    description: The list of user accounts to be created on each node in the pool.
     types:
     - uid: UserAccount
       isArray: true
   - name: metadata
-    description: "A name-value pair associated with a Batch service resource.  \nThe Batch service does not assign any meaning to this metadata; it is solely for the use of user code."
+    description: "A list of name-value pairs associated with the pool as metadata.  \nThe Batch service does not assign any meaning to metadata; it is solely for the use of user code."
     types:
     - uid: MetadataItem
       isArray: true
@@ -801,7 +801,7 @@ definitions:
     types:
     - uid: WindowsConfiguration
   - name: dataDisks
-    description: Settings which will be used by the data disks associated to compute nodes in the pool.
+    description: "The configuration for data disks attached to the comptue nodes in the pool.  \nThis property must be specified if the compute nodes in the pool need to have empty data disks attached to them. This cannot be updated. Each node gets its own disk (the disk is not a file share). Existing disks cannot be attached, each attached disk is empty. When the node is removed from the pool, the disk and all data associated with it is also deleted. The disk is not formatted after being attached, it must be formatted before use - for more information see https://docs.microsoft.com/en-us/azure/virtual-machines/linux/classic/attach-disk#initialize-a-new-data-disk-in-linux and https://docs.microsoft.com/en-us/azure/virtual-machines/windows/attach-disk-ps#add-an-empty-data-disk-to-a-virtual-machine."
     types:
     - uid: DataDisk
       isArray: true
@@ -838,7 +838,7 @@ definitions:
   kind: object
   properties:
   - name: commandLine
-    description: "The command line of the start task.  \nThe command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using \"cmd /c MyCommand\" in Windows or \"/bin/sh -c MyCommand\" in Linux."
+    description: "The command line of the start task.  \nThe command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using \"cmd /c MyCommand\" in Windows or \"/bin/sh -c MyCommand\" in Linux. If the command line refers to file paths, it should use a relative path (relative to the task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables)."
     types:
     - uid: string
   - name: containerSettings
@@ -846,12 +846,12 @@ definitions:
     types:
     - uid: TaskContainerSettings
   - name: resourceFiles
-    description: A file to be downloaded from Azure blob storage to a compute node.
+    description: "A list of files that the Batch service will download to the compute node before running the command line.  \nFiles listed under this element are located in the task's working directory."
     types:
     - uid: ResourceFile
       isArray: true
   - name: environmentSettings
-    description: An environment variable to be set on a task process.
+    description: A list of environment variable settings for the start task.
     types:
     - uid: EnvironmentSetting
       isArray: true
@@ -986,7 +986,7 @@ definitions:
     - uid: string
       isArray: true
   - name: containerRegistries
-    description: A private container registry.
+    description: "Additional private registries from which containers can be pulled.  \nIf any images must be downloaded from a private registry which requires credentials, then those credentials must be provided here."
     types:
     - uid: ContainerRegistry
       isArray: true
@@ -1007,7 +1007,7 @@ definitions:
   kind: object
   properties:
   - name: inboundNATPools
-    description: A inbound NAT pool that can be used to address specific ports on compute nodes in a Batch pool externally.
+    description: "A list of inbound NAT pools that can be used to address specific ports on an individual compute node externally.  \nThe maximum number of inbound NAT pools per Batch pool is 5. If the maximum number of inbound NAT pools is exceeded the request fails with HTTP status code 400."
     types:
     - uid: InboundNATPool
       isArray: true
@@ -1100,7 +1100,7 @@ definitions:
     types:
     - uid: integer
   - name: networkSecurityGroupRules
-    description: A network security group rule to apply to an inbound endpoint.
+    description: "A list of network security group rules that will be applied to the endpoint.  \nThe maximum number of rules that can be specified across all the endpoints on a Batch pool is 25. If no network security group rules are specified, a default rule will be created to allow inbound access to the specified backendPort. If the maximum number of network security group rules is exceeded the request fails with HTTP status code 400."
     types:
     - uid: NetworkSecurityGroupRule
       isArray: true
@@ -1147,7 +1147,7 @@ definitions:
 examples:
 - name: Add a basic job
   request:
-    uri: POST https://batch.core.windows.net/jobs?api-version=2017-09-01.6.0
+    uri: POST https://batch.core.windows.net/jobs?api-version=2018-03-01.6.1
     body: >-
       {
         "id": "jobId",
@@ -1164,7 +1164,7 @@ examples:
     body: "\"\""
 - name: Add a complex job
   request:
-    uri: POST https://batch.core.windows.net/jobs?api-version=2017-09-01.6.0
+    uri: POST https://batch.core.windows.net/jobs?api-version=2018-03-01.6.1
     body: >-
       {
         "id": "jobId",

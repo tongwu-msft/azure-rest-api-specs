@@ -1,7 +1,7 @@
 ---
 title: "Table Service Error Codes"
 ms.custom: na
-ms.date: 2017-04-27
+ms.date: 06/04/2018
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -30,6 +30,7 @@ The error codes listed in the following table may be returned by an operation on
 |Error code|HTTP status code|User message|  
 |----------------|----------------------|------------------|  
 |DuplicatePropertiesSpecified|Bad Request (400)|A property is specified more than one time.|  
+|EntityNotFound|Not Found (404)|The specified entity does not exist.|  
 |EntityAlreadyExists|Conflict (409)|The specified entity already exists.|  
 |EntityTooLarge|Bad Request (400)|The entity is larger than the maximum size permitted.|  
 |HostInformationNotPresent|Bad Request (400)|The required host information is not present in the request. You must send a non-empty *Host* header or include the absolute URI in the request line.|  

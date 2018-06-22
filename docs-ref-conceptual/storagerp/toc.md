@@ -22,3 +22,5 @@
 ## [Poll Async Storage Operation](SRP_Error_Codes_Poll_Async_Storage_Operation.md)
 ## [Regenerate Storage Account Keys](SRP_Error_Codes_Regenerate_Storage_Account_Keys.md)
 ## [Update Storage Account](SRP_Error_Codes_Update_Storage_Account.md)
+# Samples
+## [Create a new storage account](storage-sample-create-account.md)

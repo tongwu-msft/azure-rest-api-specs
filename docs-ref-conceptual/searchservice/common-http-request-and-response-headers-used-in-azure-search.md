@@ -1,20 +1,13 @@
 ---
-title: "Common HTTP request and response headers used in Azure Search"
-ms.custom: ""
+title: "Common HTTP request and response headers used in Azure Search | Microsoft Docs"
+description: HTTP codes returned by Azure Search when making REST API calls.
 ms.date: "2016-08-10"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 59c1f5bf-9e8d-4b40-9377-19a5479a46c8
-caps.latest.revision: 8
+ms.topic: conceptual
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"

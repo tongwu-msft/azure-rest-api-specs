@@ -3,15 +3,15 @@ uid: management.azure.com.monitor.metrics.list
 name: List
 service: Monitor
 groupName: Metrics
-apiVersion: 2017-05-01-preview
+apiVersion: 2018-01-01
 summary: '**Lists the metric values for a resource**.'
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{resourceUri}/providers/microsoft.insights/metrics?api-version=2017-05-01-preview
-- content: GET https://management.azure.com/{resourceUri}/providers/microsoft.insights/metrics?timespan={timespan}&interval={interval}&metric={metric}&aggregation={aggregation}&$top={$top}&$orderby={$orderby}&$filter={$filter}&resultType={resultType}&api-version=2017-05-01-preview
+- content: GET https://management.azure.com/{resourceUri}/providers/microsoft.insights/metrics?api-version=2018-01-01
+- content: GET https://management.azure.com/{resourceUri}/providers/microsoft.insights/metrics?timespan={timespan}&interval={interval}&metricnames={metricnames}&aggregation={aggregation}&top={top}&orderby={orderby}&$filter={$filter}&resultType={resultType}&api-version=2018-01-01&metricnamespace={metricnamespace}
   isOptional: true
 uriParameters:
 - name: resourceUri
@@ -31,9 +31,9 @@ uriParameters:
   types:
   - uid: string
   format: duration
-- name: metric
+- name: metricnames
   in: query
-  description: The name of the metric to retrieve.
+  description: The names of the metrics (comma separated) to retrieve.
   types:
   - uid: string
 - name: aggregation
@@ -41,7 +41,7 @@ uriParameters:
   description: The list of aggregation types (comma separated) to retrieve.
   types:
   - uid: string
-- name: $top
+- name: top
   in: query
   description: >-
     The maximum number of records to retrieve.
@@ -50,9 +50,9 @@ uriParameters:
 
     Defaults to 10.
   types:
-  - uid: number
+  - uid: integer
   format: int32
-- name: $orderby
+- name: orderby
   in: query
   description: >-
     The aggregation to use for sorting results and the direction of the sort.
@@ -76,6 +76,11 @@ uriParameters:
   in: query
   isRequired: true
   description: Client Api Version.
+  types:
+  - uid: string
+- name: metricnamespace
+  in: query
+  description: Metric namespace to query metric definitions for.
   types:
   - uid: string
 responses:
@@ -127,8 +132,16 @@ definitions:
     description: The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made.
     types:
     - uid: string
+  - name: namespace
+    description: The namespace of the metrics been queried
+    types:
+    - uid: string
+  - name: resourceregion
+    description: The region of the resource been queried for metrics.
+    types:
+    - uid: string
   - name: value
-    description: The result data of a query.
+    description: the value of the collection.
     types:
     - uid: Metric
       isArray: true
@@ -153,7 +166,7 @@ definitions:
     types:
     - uid: Unit
   - name: timeseries
-    description: A time series result type. The discriminator value is always TimeSeries in this case.
+    description: the time series returned when a data query is performed.
     types:
     - uid: TimeSeriesElement
       isArray: true
@@ -205,12 +218,12 @@ definitions:
   kind: object
   properties:
   - name: metadatavalues
-    description: Represents a metric metadata value.
+    description: the metadata values returned if $filter was specified in the call.
     types:
     - uid: MetadataValue
       isArray: true
   - name: data
-    description: Represents a metric value.
+    description: An array of data points representing the metric values.  This is only returned if a result type of data is specified.
     types:
     - uid: MetricValue
       isArray: true
@@ -257,7 +270,7 @@ definitions:
 examples:
 - name: Get Metric for data
   request:
-    uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/microsoft.insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&metric=BlobCapacity&aggregation=Average,count&$filter=BlobType eq '*'&api-version=2017-05-01-preview
+    uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/microsoft.insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&aggregation=Average,count&top=3&orderby=Average asc&$filter=BlobType eq '*'&api-version=2018-01-01&metricnamespace=Microsoft.Storage/storageAccounts/blobServices
   responses:
   - statusCode: "200"
     body: >-
@@ -265,6 +278,8 @@ examples:
         "cost": 0,
         "timespan": "2017-04-14T02:20:00Z/2017-04-14T04:20:00Z",
         "interval": "PT1M",
+        "namespace": "Microsoft.Storage/storageAccounts/blobServices",
+        "resourceregion": "eastus2",
         "value": [
           {
             "id": "/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/Microsoft.Insights/metrics/BlobCapacity",
@@ -341,12 +356,14 @@ examples:
       }
 - name: Get Metric for metadata
   request:
-    uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/microsoft.insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&metric=BlobCapacity&aggregation=Average,count&$filter=BlobType eq '*'&api-version=2017-05-01-preview
+    uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/microsoft.insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&aggregation=Average,count&top=3&orderby=Average asc&$filter=BlobType eq '*'&api-version=2018-01-01&metricnamespace=Microsoft.Storage/storageAccounts/blobServices
   responses:
   - statusCode: "200"
     body: >-
       {
         "timespan": "2017-04-14T02:20:00Z/2017-04-14T04:20:00Z",
+        "namespace": "Microsoft.Storage/storageAccounts/blobServices",
+        "resourceregion": "eastus2",
         "value": [
           {
             "id": "/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/Microsoft.Insights/metrics/BlobCapacity",

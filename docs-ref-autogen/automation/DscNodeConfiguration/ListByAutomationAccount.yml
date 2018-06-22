@@ -3,15 +3,15 @@ uid: management.azure.com.automation.dscnodeconfiguration.listbyautomationaccoun
 name: List By Automation Account
 service: Automation
 groupName: Dsc Node Configuration
-apiVersion: 2015-10-31
+apiVersion: 2018-01-15
 summary: Retrieve a list of dsc node configurations.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations?api-version=2015-10-31
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations?$filter={$filter}&api-version=2015-10-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations?api-version=2018-01-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations?api-version=2018-01-15&$filter={$filter}&$skip={$skip}&$top={$top}&$inlinecount={$inlinecount}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -23,14 +23,20 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The resource group name.
+  description: Name of an Azure Resource group.
   types:
   - uid: string
   pattern: ^[-\w\._]+$
 - name: automationAccountName
   in: path
   isRequired: true
-  description: The automation account name.
+  description: The name of the automation account.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
   types:
   - uid: string
 - name: $filter
@@ -38,10 +44,19 @@ uriParameters:
   description: The filter to apply on the operation.
   types:
   - uid: string
-- name: api-version
+- name: $skip
   in: query
-  isRequired: true
-  description: Client Api Version.
+  description: The number of rows to skip.
+  types:
+  - uid: integer
+- name: $top
+  in: query
+  description: The the number of rows to take.
+  types:
+  - uid: integer
+- name: $inlinecount
+  in: query
+  description: Return total rows.
   types:
   - uid: string
 responses:
@@ -60,7 +75,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: Definition of the dsc node configuration.
+    description: Gets or sets a list of Dsc node configurations.
     types:
     - uid: DscNodeConfiguration
       isArray: true
@@ -68,6 +83,10 @@ definitions:
     description: Gets or sets the next link.
     types:
     - uid: string
+  - name: totalCount
+    description: Gets or sets the total rows in query.
+    types:
+    - uid: integer
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
@@ -84,31 +103,43 @@ definitions:
   description: Definition of the dsc node configuration.
   kind: object
   properties:
-  - name: lastModifiedTime
+  - name: properties.lastModifiedTime
     description: Gets or sets the last modified time.
     types:
     - uid: string
-  - name: creationTime
+  - name: properties.creationTime
     description: Gets or sets creation time.
     types:
     - uid: string
-  - name: configuration
+  - name: properties.configuration
     description: Gets or sets the configuration of the node.
     types:
     - uid: DscConfigurationAssociationProperty
+  - name: properties.source
+    description: Source of node configuration.
+    types:
+    - uid: string
+  - name: properties.nodeCount
+    description: Number of nodes with this nodeconfiguration assigned
+    types:
+    - uid: integer
+  - name: properties.incrementNodeConfigurationBuild
+    description: If a new build version of NodeConfiguration is required.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
-    description: Resource Id
+    description: Fully qualified resource Id for the resource
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type
+    description: The type of the resource.
     types:
     - uid: string
 - name: DscConfigurationAssociationProperty
@@ -122,7 +153,7 @@ definitions:
 examples:
 - name: List DSC node configurations by Automation Account
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations?api-version=2015-10-31
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations?api-version=2018-01-15
   responses:
   - statusCode: "200"
     body: >-
@@ -130,14 +161,135 @@ examples:
         "value": [
           {
             "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations/SetupServer.localhost",
+            "type": "Microsoft.Automation/AutomationAccounts/nodeConfigurations",
             "name": "SetupServer.localhost",
-            "creationTime": "2017-03-28T23:17:06.8901968+00:00",
-            "lastModifiedTime": "2017-03-28T23:17:06.8901968+00:00",
-            "configuration": {
-              "name": "SetupServer"
+            "properties": {
+              "configuration": {
+                "name": "SetupServer"
+              },
+              "creationTime": "2017-03-28T23:17:06.8901968+00:00",
+              "lastModifiedTime": "2017-03-28T23:17:06.8901968+00:00",
+              "source": null,
+              "nodeCount": 0,
+              "incrementNodeConfigurationBuild": false
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations/SetupServer.localhost",
+            "type": "Microsoft.Automation/AutomationAccounts/nodeConfigurations",
+            "name": "SetupServer.localhost",
+            "properties": {
+              "configuration": {
+                "name": "SetupServer"
+              },
+              "creationTime": "2017-03-28T23:17:06.8901968+00:00",
+              "lastModifiedTime": "2017-03-28T23:17:06.8901968+00:00",
+              "source": null,
+              "nodeCount": 0,
+              "incrementNodeConfigurationBuild": false
             }
           }
         ]
+      }
+- name: List Paged DSC node configurations by Automation Account with no filter
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations?api-version=2018-01-15&$skip=0&$top=4&$inlinecount=allpages
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations/SetupServer.localhost",
+            "type": "Microsoft.Automation/AutomationAccounts/nodeConfigurations",
+            "name": "server.localhost",
+            "properties": {
+              "configuration": {
+                "name": "SetupServer"
+              },
+              "creationTime": "2017-03-28T23:17:06.8901968+00:00",
+              "lastModifiedTime": "2017-03-28T23:17:06.8901968+00:00",
+              "nodeCount": 2
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations/SetupClient.localhost",
+            "type": "Microsoft.Automation/AutomationAccounts/nodeConfigurations",
+            "name": "SetupClient.localhost",
+            "properties": {
+              "configuration": {
+                "name": "SetupClient"
+              },
+              "creationTime": "2017-03-28T23:17:06.8901968+00:00",
+              "lastModifiedTime": "2017-03-28T23:17:06.8901968+00:00",
+              "nodeCount": 6
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations/webServer.localhost",
+            "type": "Microsoft.Automation/AutomationAccounts/nodeConfigurations",
+            "name": "webServer.localhost",
+            "properties": {
+              "configuration": {
+                "name": "webServer"
+              },
+              "creationTime": "2017-03-28T23:17:06.8901968+00:00",
+              "lastModifiedTime": "2017-03-28T23:17:06.8901968+00:00",
+              "nodeCount": 5
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations/SqlServer.localhost",
+            "type": "Microsoft.Automation/AutomationAccounts/nodeConfigurations",
+            "name": "SqlServer.localhost",
+            "properties": {
+              "configuration": {
+                "name": "SqlServer"
+              },
+              "creationTime": "2017-03-28T23:17:06.8901968+00:00",
+              "lastModifiedTime": "2017-03-28T23:17:06.8901968+00:00",
+              "nodeCount": 1
+            }
+          }
+        ],
+        "totalCount": 12
+      }
+- name: List Paged DSC node configurations by Automation Account with name filter
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations?api-version=2018-01-15&$filter=contains('.localhost',name)&$skip=0&$top=2&$inlinecount=allpages
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations/SetupServer.localhost",
+            "type": "Microsoft.Automation/AutomationAccounts/nodeConfigurations",
+            "name": "server.localhost",
+            "properties": {
+              "configuration": {
+                "name": "SetupServer"
+              },
+              "creationTime": "2017-03-28T23:17:06.8901968+00:00",
+              "lastModifiedTime": "2017-03-28T23:17:06.8901968+00:00",
+              "nodeCount": 2
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodeConfigurations/SetupClient.localhost",
+            "type": "Microsoft.Automation/AutomationAccounts/nodeConfigurations",
+            "name": "SetupClient.localhost",
+            "properties": {
+              "configuration": {
+                "name": "SetupClient"
+              },
+              "creationTime": "2017-03-28T23:17:06.8901968+00:00",
+              "lastModifiedTime": "2017-03-28T23:17:06.8901968+00:00",
+              "nodeCount": 6
+            }
+          }
+        ],
+        "totalCount": 6
       }
 security:
 - type: oauth2

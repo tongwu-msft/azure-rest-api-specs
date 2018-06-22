@@ -1,6 +1,6 @@
 ---
 title: "ClusterManifest"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ Information about the cluster manifest.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Manifest](#manifest) | string | No |
+| [`Manifest`](#manifest) | string | No |
 
 ____
-### Manifest
+### `Manifest`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

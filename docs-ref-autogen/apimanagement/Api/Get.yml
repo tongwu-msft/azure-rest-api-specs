@@ -3,7 +3,7 @@ uid: management.azure.com.apimanagement.api.get
 name: Get
 service: API Management
 groupName: Api
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Gets the details of the API specified by its identifier.
 consumes:
 - application/json
@@ -13,7 +13,7 @@ produces:
 - application/vnd.swagger.doc+json
 - application/wsdl+xml
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?api-version=2017-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -83,9 +83,9 @@ definitions:
     - uid: string
       isArray: true
   - name: properties.apiVersionSet
-    description: Api Version Set Contract details.
+    description: 'An API Version Set contains the common configuration for a set of API Versions relating '
     types:
-    - uid: ApiVersionSetContract
+    - uid: ApiVersionSetContractDetails
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -140,58 +140,46 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Error Body contract.
+  description: Error Response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Human-readable representation of the error.
     types:
     - uid: string
-  - name: details
-    description: Error Field contract.
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
     types:
     - uid: ErrorFieldContract
       isArray: true
-- name: ApiVersionSetContract
-  description: Api Version Set Contract details.
+- name: ApiVersionSetContractDetails
+  description: 'An API Version Set contains the common configuration for a set of API Versions relating '
   kind: object
   properties:
-  - name: properties.displayName
-    description: Name of API Version Set
-    types:
-    - uid: string
-  - name: properties.versioningScheme
-    description: An value that determines where the API Version identifer will be located in a HTTP request.
-    types:
-    - uid: versioningScheme
   - name: id
-    isReadyOnly: true
-    description: Resource ID.
+    description: Identifier for existing API Version Set. Omit this value to create a new Version Set.
     types:
     - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type for API Management resource.
-    types:
-    - uid: string
-  - name: properties.description
+  - name: description
     description: Description of API Version Set.
     types:
     - uid: string
-  - name: properties.versionQueryName
+  - name: versioningScheme
+    description: An value that determines where the API Version identifer will be located in a HTTP request.
+    types:
+    - uid: Segment
+    - uid: Query
+    - uid: Header
+    typesTitle: enum
+  - name: versionQueryName
     description: Name of query parameter that indicates the API Version if versioningScheme is set to `query`.
     types:
     - uid: string
-  - name: properties.versionHeaderName
+  - name: versionHeaderName
     description: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.
     types:
     - uid: string
@@ -241,22 +229,6 @@ definitions:
     description: Property name.
     types:
     - uid: string
-- name: versioningScheme
-  description: An value that determines where the API Version identifer will be located in a HTTP request.
-  kind: enum
-  properties:
-  - name: Segment
-    description: The API Version is passed in a path segment.
-    types:
-    - uid: string
-  - name: Query
-    description: The API Version is passed in a query parameter.
-    types:
-    - uid: string
-  - name: Header
-    description: The API Version is passed in a HTTP header.
-    types:
-    - uid: string
 - name: OAuth2AuthenticationSettingsContract
   description: API OAuth2 Authentication settings details.
   kind: object
@@ -272,7 +244,7 @@ definitions:
 examples:
 - name: ApiManagementGetApiContract
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a?api-version=2017-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a?api-version=2018-01-01
   responses:
   - statusCode: "200"
     body: >-

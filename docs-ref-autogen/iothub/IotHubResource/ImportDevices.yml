@@ -3,14 +3,14 @@ uid: management.azure.com.iothub.iothubresource.importdevices
 name: Import Devices
 service: IoT Hub
 groupName: Iot Hub Resource
-apiVersion: 2017-01-19
-summary: 'Import, update, or delete device identities in the IoT hub identity registry from a blob. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities.'
+apiVersion: 2018-04-01
+summary: "Import, update, or delete device identities in the IoT hub identity registry from a blob. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities  \nImport, update, or delete device identities in the IoT hub identity registry from a blob. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/importDevices?api-version=2017-01-19
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/importDevices?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,13 +47,13 @@ responses:
   - uid: ErrorDetails
 requestBody:
 - parameters:
-  - name: InputBlobContainerUri
+  - name: inputBlobContainerUri
     in: body
     isRequired: true
     description: The input blob container URI.
     types:
     - uid: string
-  - name: OutputBlobContainerUri
+  - name: outputBlobContainerUri
     in: body
     isRequired: true
     description: The output blob container URI.
@@ -109,22 +109,22 @@ definitions:
   description: Error details.
   kind: object
   properties:
-  - name: Code
+  - name: code
     isReadyOnly: true
     description: The error code.
     types:
     - uid: string
-  - name: HttpStatusCode
+  - name: httpStatusCode
     isReadyOnly: true
     description: The HTTP status code.
     types:
     - uid: string
-  - name: Message
+  - name: message
     isReadyOnly: true
     description: The error message.
     types:
     - uid: string
-  - name: Details
+  - name: details
     isReadyOnly: true
     description: The error details.
     types:
@@ -133,11 +133,11 @@ definitions:
   description: Use to provide parameters when requesting an import of all devices in the hub.
   kind: object
   properties:
-  - name: InputBlobContainerUri
+  - name: inputBlobContainerUri
     description: The input blob container URI.
     types:
     - uid: string
-  - name: OutputBlobContainerUri
+  - name: outputBlobContainerUri
     description: The output blob container URI.
     types:
     - uid: string
@@ -197,5 +197,30 @@ definitions:
   - name: cancelled
     types:
     - uid: string
-examples: []
-security: []
+examples:
+- name: IotHubResource_ImportDevices
+  request:
+    uri: POST https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/testHub/importDevices?api-version=2018-04-01
+    body: >-
+      {
+        "inputBlobContainerUri": "testBlob",
+        "outputBlobContainerUri": "testBlob"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "jobId": "test",
+        "startTimeUtc": "Thu, 15 Jun 2017 19:20:58 GMT",
+        "endTimeUtc": "Thu, 15 Jun 2017 19:20:58 GMT",
+        "type": "unknown",
+        "status": "unknown"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

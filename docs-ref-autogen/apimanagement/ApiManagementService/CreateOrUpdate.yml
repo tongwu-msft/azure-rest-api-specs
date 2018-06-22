@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apimanagementservice.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Api Management Service
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,6 +44,10 @@ responses:
   - uid: ApiManagementServiceResource
 - name: 201 Created
   description: Created
+  types:
+  - uid: ApiManagementServiceResource
+- name: 202 Accepted
+  description: Accepted the configuration change when updating the service.
   types:
   - uid: ApiManagementServiceResource
 requestBody:
@@ -93,7 +97,7 @@ requestBody:
     - uid: string
   - name: properties.hostnameConfigurations
     in: body
-    description: Custom hostname configuration.
+    description: Custom hostname configuration of the API Management service.
     types:
     - uid: HostnameConfiguration
       isArray: true
@@ -104,7 +108,7 @@ requestBody:
     - uid: VirtualNetworkConfiguration
   - name: properties.additionalLocations
     in: body
-    description: Description of an additional API Management resource location.
+    description: Additional datacenter locations of the API Management service.
     types:
     - uid: AdditionalLocation
       isArray: true
@@ -119,7 +123,7 @@ requestBody:
       - uid: string
   - name: properties.certificates
     in: body
-    description: Certificate configuration which consist of non-trusted intermediates and root certificates.
+    description: List of Certificates that need to be installed in the API Management service. Max supported certificates that can be installed is 10.
     types:
     - uid: CertificateConfiguration
       isArray: true
@@ -227,9 +231,15 @@ definitions:
     description: SKU properties of the API Management service.
     types:
     - uid: ApiManagementServiceSkuProperties
-  - name: staticIps
+  - name: publicIPAddresses
     isReadyOnly: true
-    description: Static IP addresses of the location's virtual machines.
+    description: Public Static Load Balanced IP addresses of the API Management service in the additional location. Available only for Basic, Standard and Premium SKU.
+    types:
+    - uid: string
+      isArray: true
+  - name: privateIPAddresses
+    isReadyOnly: true
+    description: Private Static Load Balanced IP addresses of the API Management service which is deployed in an Internal Virtual Network in a particular additional location. Available only for Basic, Standard and Premium SKU.
     types:
     - uid: string
       isArray: true
@@ -255,7 +265,7 @@ definitions:
     types:
     - uid: string
   - name: storeName
-    description: The local certificate store location. Only Root and CertificateAuthority are valid locations.
+    description: The System.Security.Cryptography.x509certificates.Storename certificate store location. Only Root and CertificateAuthority are valid locations.
     types:
     - uid: CertificateAuthority
     - uid: Root
@@ -362,13 +372,19 @@ definitions:
     types:
     - uid: string
   - name: properties.hostnameConfigurations
-    description: Custom hostname configuration.
+    description: Custom hostname configuration of the API Management service.
     types:
     - uid: HostnameConfiguration
       isArray: true
-  - name: properties.staticIps
+  - name: properties.publicIPAddresses
     isReadyOnly: true
-    description: Static IP addresses of the API Management service virtual machines. Available only for Standard and Premium SKU.
+    description: Public Static Load Balanced IP addresses of the API Management service in Primary region. Available only for Basic, Standard and Premium SKU.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.privateIPAddresses
+    isReadyOnly: true
+    description: Private Static Load Balanced IP addresses of the API Management service in Primary region which is deployed in an Internal Virtual Network. Available only for Basic, Standard and Premium SKU.
     types:
     - uid: string
       isArray: true
@@ -377,7 +393,7 @@ definitions:
     types:
     - uid: VirtualNetworkConfiguration
   - name: properties.additionalLocations
-    description: Description of an additional API Management resource location.
+    description: Additional datacenter locations of the API Management service.
     types:
     - uid: AdditionalLocation
       isArray: true
@@ -390,7 +406,7 @@ definitions:
       - uid: string
       - uid: string
   - name: properties.certificates
-    description: Certificate configuration which consist of non-trusted intermediates and root certificates.
+    description: List of Certificates that need to be installed in the API Management service. Max supported certificates that can be installed is 10.
     types:
     - uid: CertificateConfiguration
       isArray: true
@@ -476,7 +492,7 @@ definitions:
 examples:
 - name: ApiManagementCreateService
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2018-01-01
     body: >-
       {
         "location": "West US",
@@ -493,23 +509,23 @@ examples:
   - statusCode: "201"
     headers:
     - name: location
-      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2017-03-01
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2018-01-01
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
-        "name": "apimService1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/testdemo",
+        "name": "testdemo",
         "type": "Microsoft.ApiManagement/service",
         "tags": {},
         "location": "West US",
-        "etag": "AAAAAAAXXr0=",
+        "etag": "AAAAAAAcyE0=",
         "properties": {
           "publisherEmail": "admin@live.com",
           "publisherName": "contoso",
+          "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
           "provisioningState": "Created",
           "targetProvisioningState": "Activating",
-          "createdAtUtc": "2017-05-30T18:35:50.7228425Z",
+          "createdAtUtc": "2018-01-18T05:24:31.3459297Z",
           "hostnameConfigurations": [],
-          "staticIps": [],
           "virtualNetworkType": "None"
         },
         "sku": {
@@ -523,21 +539,54 @@ examples:
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
         "name": "apimService1",
         "type": "Microsoft.ApiManagement/service",
-        "tags": {},
         "location": "West US",
-        "etag": "AAAAAAAV8XM=",
+        "etag": "AAAAAAAcof0=",
         "properties": {
           "publisherEmail": "admin@live.com",
-          "publisherName": "Contoso",
+          "publisherName": "contoso",
+          "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
           "provisioningState": "Succeeded",
           "targetProvisioningState": "",
-          "createdAtUtc": "2015-09-22T01:52:02.4307221Z",
+          "createdAtUtc": "2018-01-18T05:24:31.3459297Z",
           "gatewayUrl": "https://apimService1.azure-api.net",
+          "gatewayRegionalUrl": "https://apimService1-westus-01.regional.azure-api.net",
           "portalUrl": "https://apimService1.portal.azure-api.net",
           "managementApiUrl": "https://apimService1.management.azure-api.net",
           "scmUrl": "https://apimService1.scm.azure-api.net",
-          "staticIps": [
-            "xx.xx.250.222"
+          "hostnameConfigurations": [],
+          "publicIPAddresses": [
+            "207.xx.155.24"
+          ],
+          "virtualNetworkType": "None"
+        },
+        "sku": {
+          "name": "Premium",
+          "capacity": 1
+        }
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+        "name": "apimService1",
+        "type": "Microsoft.ApiManagement/service",
+        "location": "West US",
+        "etag": "AAAAAAAcof0=",
+        "properties": {
+          "publisherEmail": "admin@live.com",
+          "publisherName": "contoso",
+          "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
+          "provisioningState": "Succeeded",
+          "targetProvisioningState": "",
+          "createdAtUtc": "2018-01-18T05:24:31.3459297Z",
+          "gatewayUrl": "https://apimService1.azure-api.net",
+          "gatewayRegionalUrl": "https://apimService1-westus-01.regional.azure-api.net",
+          "portalUrl": "https://apimService1.portal.azure-api.net",
+          "managementApiUrl": "https://apimService1.management.azure-api.net",
+          "scmUrl": "https://apimService1.scm.azure-api.net",
+          "hostnameConfigurations": [],
+          "publicIPAddresses": [
+            "207.xx.155.24"
           ],
           "virtualNetworkType": "None"
         },
@@ -548,7 +597,7 @@ examples:
       }
 - name: ApiManagementCreateMultiRegionServiceWithCustomHostname
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2018-01-01
     body: >-
       {
         "location": "Central US",
@@ -602,7 +651,7 @@ examples:
   - statusCode: "201"
     headers:
     - name: location
-      value: https://management.azure.com/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/bXVsdGlob3N0bmFtZW11bHRpcmVnaW9uc2VydmljZV9BY3RfZjFiOTZhMjc=?api-version=2017-03-01
+      value: https://management.azure.com/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/bXVsdGlob3N0bmFtZW11bHRpcmVnaW9uc2VydmljZV9BY3RfZjFiOTZhMjc=?api-version=2018-01-01
     body: >-
       {
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
@@ -649,7 +698,7 @@ examples:
               }
             }
           ],
-          "staticIps": [],
+          "publicIPAddresses": [],
           "additionalLocations": [
             {
               "location": "West US",
@@ -657,7 +706,7 @@ examples:
                 "name": "Premium",
                 "capacity": 1
               },
-              "staticIps": [],
+              "publicIPAddresses": [],
               "virtualNetworkConfiguration": {
                 "subnetResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/westUsVirtualNetwork/subnets/apimSubnet"
               }
@@ -724,8 +773,8 @@ examples:
               }
             }
           ],
-          "staticIps": [
-            "52.173.193.207"
+          "publicIPAddresses": [
+            "52.xxx.xxx.207"
           ],
           "additionalLocations": [
             {
@@ -734,7 +783,86 @@ examples:
                 "name": "Premium",
                 "capacity": 1
               },
-              "staticIps": [
+              "publicIPAddresses": [
+                "104.210.41.234"
+              ],
+              "virtualNetworkConfiguration": {
+                "subnetResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/westUsVirtualNetwork/subnets/apimSubnet"
+              }
+            }
+          ],
+          "virtualNetworkConfiguration": {
+            "subnetResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/centralUsVirtualNetwork/subnets/apimSubnet"
+          },
+          "virtualNetworkType": "External"
+        },
+        "sku": {
+          "name": "Premium",
+          "capacity": 1
+        }
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+        "name": "apimService1",
+        "type": "Microsoft.ApiManagement/service",
+        "tags": {},
+        "location": "Central US",
+        "etag": "AAAAAAAXXwI=",
+        "properties": {
+          "publisherEmail": "admin@live.com",
+          "publisherName": "contoso",
+          "provisioningState": "Succeeded",
+          "targetProvisioningState": "",
+          "createdAtUtc": "2017-05-30T19:00:47.1121713Z",
+          "gatewayUrl": "https://apimService1.azure-api.net",
+          "portalUrl": "https://apimService1.portal.azure-api.net",
+          "managementApiUrl": "https://apimService1.management.azure-api.net",
+          "scmUrl": "https://apimService1.scm.azure-api.net",
+          "hostnameConfigurations": [
+            {
+              "type": "Proxy",
+              "hostName": "proxyhostname1.contoso.com",
+              "negotiateClientCertificate": false,
+              "certificate": {
+                "expiry": "2018-03-17T21:55:07+00:00",
+                "thumbprint": "918D7785B926AC5AEE66322778A147BCE7237CF3",
+                "subject": "CN=proxyhostname1.contoso.com"
+              }
+            },
+            {
+              "type": "Proxy",
+              "hostName": "proxyhostname2.contoso.com",
+              "negotiateClientCertificate": true,
+              "certificate": {
+                "expiry": "2018-03-17T21:55:07+00:00",
+                "thumbprint": "918D7785B926AC5AEE66322778A147BCE7237CF3",
+                "subject": "CN=proxyhostname2.contoso.com"
+              }
+            },
+            {
+              "type": "Portal",
+              "hostName": "portalhostname1.contoso.com",
+              "negotiateClientCertificate": false,
+              "certificate": {
+                "expiry": "2018-03-17T21:55:07+00:00",
+                "thumbprint": "918D7785B926AC5AEE66322778A147BCE7237CF3",
+                "subject": "CN=portalhostname1.contoso.com"
+              }
+            }
+          ],
+          "publicIPAddresses": [
+            "52.xxx.xxx.207"
+          ],
+          "additionalLocations": [
+            {
+              "location": "West US",
+              "sku": {
+                "name": "Premium",
+                "capacity": 1
+              },
+              "publicIPAddresses": [
                 "104.210.41.234"
               ],
               "virtualNetworkConfiguration": {
@@ -754,7 +882,7 @@ examples:
       }
 - name: ApiManagementCreateServiceHavingMsi
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2018-01-01
     body: >-
       {
         "location": "Japan East",
@@ -773,7 +901,7 @@ examples:
   - statusCode: "201"
     headers:
     - name: location
-      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2017-03-01
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2018-01-01
     body: >-
       {
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
@@ -818,7 +946,7 @@ examples:
           "portalUrl": "https://apimService1.portal.azure-api.net",
           "managementApiUrl": "https://apimService1.management.azure-api.net",
           "scmUrl": "https://apimService1.scm.azure-api.net",
-          "staticIps": [
+          "publicIPAddresses": [
             "xx.xx.250.222"
           ],
           "virtualNetworkType": "None"
@@ -833,6 +961,111 @@ examples:
           "tenantId": "72f988bf-xxxx-41af-xxxx-2d7cd011db47"
         }
       }
+  - statusCode: "202"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+        "name": "apimService1",
+        "type": "Microsoft.ApiManagement/service",
+        "tags": {},
+        "location": "Japan East",
+        "etag": "AAAAAAC268s=",
+        "properties": {
+          "publisherEmail": "admin@live.com",
+          "publisherName": "Contoso",
+          "provisioningState": "Succeeded",
+          "targetProvisioningState": "",
+          "createdAtUtc": "2017-10-28T01:52:02.4307221Z",
+          "gatewayUrl": "https://apimService1.azure-api.net",
+          "portalUrl": "https://apimService1.portal.azure-api.net",
+          "managementApiUrl": "https://apimService1.management.azure-api.net",
+          "scmUrl": "https://apimService1.scm.azure-api.net",
+          "publicIPAddresses": [
+            "xx.xx.250.222"
+          ],
+          "virtualNetworkType": "None"
+        },
+        "sku": {
+          "name": "Developer",
+          "capacity": 1
+        },
+        "identity": {
+          "type": "SystemAssigned",
+          "principalId": "f4b0f1c2-xxxx-43db-xxxx-ccd99e1afd22",
+          "tenantId": "72f988bf-xxxx-41af-xxxx-2d7cd011db47"
+        }
+      }
+- name: ApiManagementCreateServiceWithSystemCertificates
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2018-01-01
+    body: >-
+      {
+        "location": "Central US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2",
+          "tag3": "value3"
+        },
+        "sku": {
+          "name": "Basic",
+          "capacity": 1
+        },
+        "properties": {
+          "publisherEmail": "apim@autorestsdk.com",
+          "publisherName": "autorestsdk",
+          "certificates": [
+            {
+              "encodedCertificate": "************Base 64 Encoded Pfx Certificate************************",
+              "certificatePassword": "**************Password of the Certificate************************************************",
+              "storeName": "CertificateAuthority"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/bXVsdGlob3N0bmFtZW11bHRpcmVnaW9uc2VydmljZV9BY3RfZjFiOTZhMjc=?api-version=2018-01-01
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+        "name": "apimService1",
+        "type": "Microsoft.ApiManagement/service",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2",
+          "tag3": "value3"
+        },
+        "location": "Central US",
+        "etag": "AAAAAADauaY=",
+        "properties": {
+          "publisherEmail": "apim@autorestsdk.com",
+          "publisherName": "autorestsdk",
+          "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
+          "provisioningState": "Created",
+          "targetProvisioningState": "Activating",
+          "createdAtUtc": "2018-02-19T16:42:47.362368Z",
+          "hostnameConfigurations": [],
+          "virtualNetworkType": "None",
+          "certificates": [
+            {
+              "storeName": "CertificateAuthority",
+              "certificate": {
+                "expiry": "2036-01-01T07:00:00+00:00",
+                "thumbprint": "8E989652XXXXXXXXXXXXXXXDB3A2",
+                "subject": "CN=*.msitesting.net"
+              }
+            }
+          ]
+        },
+        "sku": {
+          "name": "Basic",
+          "capacity": 1
+        }
+      }
+  - statusCode: "200"
+  - statusCode: "202"
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.

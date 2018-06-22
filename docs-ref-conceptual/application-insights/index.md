@@ -18,9 +18,9 @@ REST API functions available for Azure Application Insights.
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Components](~/docs-ref-autogen/application-insights/Components.yml)  | Enables you to manage components that contain Application Insights data.|
-| [Operations](~/docs-ref-autogen/application-insights/Operations.yml) | Lists all of the available Application Insights REST API operations. | 
-| [Webtests](~/docs-ref-autogen/application-insights/WebTests.yml)     | Set up web tests to monitor a web endpoint’s availability and responsiveness. |
+| [Components](xref:management.azure.com.application-insights.components)  | Enables you to manage components that contain Application Insights data.|
+| [Operations](xref:management.azure.com.application-insights.operations) | Lists all of the available Application Insights REST API operations. | 
+| [Webtests](xref:management.azure.com.application-insights.webtests)     | Set up web tests to monitor a web endpoint’s availability and responsiveness. |
  
 ## See also
 

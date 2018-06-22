@@ -16,19 +16,21 @@ Azure Resource Manager enables you to deploy and manage the infrastructure for y
 
 | Operation Group                                 | Description |
 |-------------------------------------------------|-------------|
-| [Deployment Operations](~/docs-ref-autogen/resources/deploymentoperations.yml) | Provides operations to get details about the operations that happen during a deployment. |
-| [Deployments](~/docs-ref-autogen/resources/deployments.yml)                    | Provides operations to work with deployments, including deploying a template, exporting a template, and getting information about a deployment. |
-| [Features](~/docs-ref-autogen/resources/features.yml)                          | Provides operations for users to access preview features from resource providers. |
-| [Management Locks](~/docs-ref-autogen/resources/managementlocks.yml)           | Provides operations to prevent users in your organization from deleting or modifying certain resources. |
-| [Policy Assignments](~/docs-ref-autogen/resources/policyassignments.yml)       | Provides operations to assign policy definitions to a scope in your subscription. |
-| [Policy Definitions](~/docs-ref-autogen/resources/policydefinitions.yml)       | Provides operations to create policies that specify how users in your organization work with resources. |
-| [Providers](~/docs-ref-autogen/resources/providers.yml)                        | Provides operations to work with resource providers that support resources. |
-| [Resource Groups](~/docs-ref-autogen/resources/resourcegroups.yml)             | Provides operations to create, delete, and access resource groups. |
-| [Resource Links](~/docs-ref-autogen/resources/resourcelinks.yml)               | Provides operations to link resources that have logical relationships. |
-| [Resources](~/docs-ref-autogen/resources/resources.yml)                        | Provides operations to work with deployed resources. |
-| [Subscriptions](~/docs-ref-autogen/resources/subscriptions.yml)                | Provides operations to view the subscriptions for your Azure Active Directory tenant. |
-| [Tags](~/docs-ref-autogen/resources/tags.yml)                                  | Provides operations to apply tag names and values to resources for organizing your resources. |
-| [Tenants](~/docs-ref-autogen/resources/tenants.yml)                            | Provides operations to view the Azure Active Directory tenants for your account. |
+| [Deployment Operations](xref:management.azure.com.resources.deploymentoperations) | Provides operations to get details about the operations that happen during a deployment. |
+| [Deployments](xref:management.azure.com.resources.deployments)                    | Provides operations to work with deployments, including deploying a template, exporting a template, and getting information about a deployment. |
+| [Features](xref:management.azure.com.resources.features)                          | Provides operations for users to access preview features from resource providers. |
+| [Management Locks](xref:management.azure.com.resources.managementlocks)           | Provides operations to prevent users in your organization from deleting or modifying certain resources. |
+| [Policy Assignments](xref:management.azure.com.resources.policyassignments)       | Provides operations to assign policy definitions to a scope in your subscription. |
+| [Policy Definitions](xref:management.azure.com.resources.policydefinitions)       | Provides operations to create policies that specify how users in your organization work with resources. |
+| [Policy Set Definitions](xref:management.azure.com.resources.policysetdefinitions)       | Provides operations to create groups of policy definitions. |
+| [Providers](xref:management.azure.com.resources.providers)                        | Provides operations to work with resource providers that support resources. |
+| [Resource Groups](xref:management.azure.com.resources.resourcegroups)             | Provides operations to create, delete, and access resource groups. |
+| [Resource Links](xref:management.azure.com.resources.resourcelinks)               | Provides operations to link resources that have logical relationships. |
+| [Resources](xref:management.azure.com.resources.resources)                        | Provides operations to work with deployed resources. |
+| [Subscriptions](xref:management.azure.com.resources.subscriptions)                | Provides operations to view the subscriptions for your Azure Active Directory tenant. |
+| [Tags](xref:management.azure.com.resources.tags)                                  | Provides operations to apply tag names and values to resources for organizing your resources. |
+| [Tenants](xref:management.azure.com.resources.tenants)                            | Provides operations to view the Azure Active Directory tenants for your account. |
+
 
 
 ## See Also

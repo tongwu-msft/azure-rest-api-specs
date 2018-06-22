@@ -1,0 +1,223 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.expressroute.expressroutecircuitconnections.createorupdate
+name: Create Or Update
+service: ExpressRoute
+groupName: Express Route Circuit Connections
+apiVersion: 2018-02-01
+summary: Creates or updates a Express Route Circuit Connection in the specified express route circuits.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}?api-version=2018-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: circuitName
+  in: path
+  isRequired: true
+  description: The name of the express route circuit.
+  types:
+  - uid: string
+- name: peeringName
+  in: path
+  isRequired: true
+  description: The name of the peering.
+  types:
+  - uid: string
+- name: connectionName
+  in: path
+  isRequired: true
+  description: The name of the express route circuit connection.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Update successful. The operation returns the resulting ExpressRouteCircuitPeering resource.
+  types:
+  - uid: ExpressRouteCircuitConnection
+- name: 201 Created
+  description: Create successful. The operation returns the resulting ExpressRouteCircuitPeering resource.
+  types:
+  - uid: ExpressRouteCircuitConnection
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: properties.expressRouteCircuitPeering
+    in: body
+    description: Reference to Express Route Circuit Private Peering Resource of the circuit initiating connection.
+    types:
+    - uid: SubResource
+  - name: properties.peerExpressRouteCircuitPeering
+    in: body
+    description: Reference to Express Route Circuit Private Peering Resource of the peered circuit.
+    types:
+    - uid: SubResource
+  - name: properties.addressPrefix
+    in: body
+    description: /29 IP address space to carve out Customer addresses for tunnels.
+    types:
+    - uid: string
+  - name: properties.authorizationKey
+    in: body
+    description: The authorization key.
+    types:
+    - uid: string
+  - name: id
+    in: body
+    description: Resource ID.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ExpressRouteCircuitConnection
+  description: Express Route Circuit Connection in an ExpressRouteCircuitPeering resource.
+  kind: object
+  properties:
+  - name: name
+    description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.expressRouteCircuitPeering
+    description: Reference to Express Route Circuit Private Peering Resource of the circuit initiating connection.
+    types:
+    - uid: SubResource
+  - name: properties.peerExpressRouteCircuitPeering
+    description: Reference to Express Route Circuit Private Peering Resource of the peered circuit.
+    types:
+    - uid: SubResource
+  - name: properties.addressPrefix
+    description: /29 IP address space to carve out Customer addresses for tunnels.
+    types:
+    - uid: string
+  - name: properties.authorizationKey
+    description: The authorization key.
+    types:
+    - uid: string
+  - name: properties.circuitConnectionStatus
+    isReadyOnly: true
+    description: "Express Route Circuit Connection State. Possible values are: 'Connected' and 'Disconnected'."
+    types:
+    - uid: circuitConnectionStatus
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "Provisioning state of the circuit connection resource. Possible values are: 'Succeded', 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: circuitConnectionStatus
+  description: "Express Route Circuit Connection State. Possible values are: 'Connected' and 'Disconnected'."
+  kind: enum
+  properties:
+  - name: Connected
+    types:
+    - uid: string
+  - name: Connecting
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+examples:
+- name: ExpressRouteCircuitConnectionCreate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/ExpressRouteARMCircuitA/peerings/AzurePrivatePeering/connections/circuitConnectionUSAUS?api-version=2018-02-01
+    body: >-
+      {
+        "properties": {
+          "expressRouteCircuitPeering": {
+            "id": "/subscriptions/subid1/resourceGroups/dedharcktinit/providers/Microsoft.Network/expressRouteCircuits/dedharcktlocal/peerings/AzurePrivatePeering"
+          },
+          "peerExpressRouteCircuitPeering": {
+            "id": "/subscriptions/subid2/resourceGroups/dedharcktpeer/providers/Microsoft.Network/expressRouteCircuits/dedharcktremote/peerings/AzurePrivatePeering"
+          },
+          "authorizationKey": "946a1918-b7a2-4917-b43c-8c4cdaee006a",
+          "addressPrefix": "10.0.0.0/29"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourceGroups/dedharcktinit/providers/Microsoft.Network/expressRouteCircuits/ExpressRouteARMCircuitA/peerings/AzurePrivatePeering/connections/circuitConnectionUSAUS",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "name": "circuitConnectionUSAUS",
+        "properties": {
+          "expressRouteCircuitPeering": {
+            "id": "/subscriptions/subid1/resourceGroups/dedharcktinit/providers/Microsoft.Network/expressRouteCircuits/dedharcktlocal/peerings/AzurePrivatePeering"
+          },
+          "peerExpressRouteCircuitPeering": {
+            "id": "/subscriptions/subid2/resourceGroups/dedharcktpeer/providers/Microsoft.Network/expressRouteCircuits/dedharcktremote/peerings/AzurePrivatePeering"
+          },
+          "authorizationKey": "946a1918-b7a2-4917-b43c-8c4cdaee006a",
+          "addressPrefix": "10.0.0.0/24",
+          "circuitConnectionStatus": "Connected",
+          "provisioningState": "Succeeded"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourceGroups/dedharcktinit/providers/Microsoft.Network/expressRouteCircuits/ExpressRouteARMCircuitA/peerings/AzurePrivatePeering/connections/circuitConnectionUSAUS",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "name": "circuitConnectionUSAUS",
+        "properties": {
+          "expressRouteCircuitPeering": {
+            "id": "/subscriptions/subid1/resourceGroups/dedharcktinit/providers/Microsoft.Network/expressRouteCircuits/dedharcktlocal/peerings/AzurePrivatePeering"
+          },
+          "peerExpressRouteCircuitPeering": {
+            "id": "/subscriptions/subid2/resourceGroups/dedharcktpeer/providers/Microsoft.Network/expressRouteCircuits/dedharcktremote/peerings/AzurePrivatePeering"
+          },
+          "authorizationKey": "946a1918-b7a2-4917-b43c-8c4cdaee006a",
+          "addressPrefix": "10.0.0.0/24",
+          "circuitConnectionStatus": "Connected",
+          "provisioningState": "Succeeded"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

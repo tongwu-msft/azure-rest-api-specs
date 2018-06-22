@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,21 +34,22 @@ Describes a stateless service.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServiceKind](#servicekind) | string | Yes |
-| [ApplicationName](#applicationname) | string | No |
-| [ServiceName](#servicename) | string | Yes |
-| [ServiceTypeName](#servicetypename) | string | Yes |
-| [InitializationData](#initializationdata) | array of integer | No |
-| [PartitionDescription](#partitiondescription) | [PartitionSchemeDescription](sfclient-model-partitionschemedescription.md) | Yes |
-| [PlacementConstraints](#placementconstraints) | string | No |
-| [CorrelationScheme](#correlationscheme) | array of [ServiceCorrelationDescription](sfclient-model-servicecorrelationdescription.md) | No |
-| [ServiceLoadMetrics](#serviceloadmetrics) | array of [ServiceLoadMetricDescription](sfclient-model-serviceloadmetricdescription.md) | No |
-| [ServicePlacementPolicies](#serviceplacementpolicies) | array of [ServicePlacementPolicyDescription](sfclient-model-serviceplacementpolicydescription.md) | No |
-| [DefaultMoveCost](#defaultmovecost) | string (enum) | No |
-| [IsDefaultMoveCostSpecified](#isdefaultmovecostspecified) | boolean | No |
-| [ServicePackageActivationMode](#servicepackageactivationmode) | string (enum) | No |
-| [ServiceDnsName](#servicednsname) | string | No |
-| [InstanceCount](#instancecount) | integer | Yes |
+| [`ServiceKind`](#servicekind) | string | Yes |
+| [`ApplicationName`](#applicationname) | string | No |
+| [`ServiceName`](#servicename) | string | Yes |
+| [`ServiceTypeName`](#servicetypename) | string | Yes |
+| [`InitializationData`](#initializationdata) | array of integer | No |
+| [`PartitionDescription`](#partitiondescription) | [PartitionSchemeDescription](sfclient-model-partitionschemedescription.md) | Yes |
+| [`PlacementConstraints`](#placementconstraints) | string | No |
+| [`CorrelationScheme`](#correlationscheme) | array of [ServiceCorrelationDescription](sfclient-model-servicecorrelationdescription.md) | No |
+| [`ServiceLoadMetrics`](#serviceloadmetrics) | array of [ServiceLoadMetricDescription](sfclient-model-serviceloadmetricdescription.md) | No |
+| [`ServicePlacementPolicies`](#serviceplacementpolicies) | array of [ServicePlacementPolicyDescription](sfclient-model-serviceplacementpolicydescription.md) | No |
+| [`DefaultMoveCost`](#defaultmovecost) | string (enum) | No |
+| [`IsDefaultMoveCostSpecified`](#isdefaultmovecostspecified) | boolean | No |
+| [`ServicePackageActivationMode`](#servicepackageactivationmode) | string (enum) | No |
+| [`ServiceDnsName`](#servicednsname) | string | No |
+| [`ScalingPolicies`](#scalingpolicies) | array of [ScalingPolicyDescription](sfclient-model-scalingpolicydescription.md) | No |
+| [`InstanceCount`](#instancecount) | integer | Yes |
 
 ____
 ### ServiceKind
@@ -58,70 +59,70 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Stateless' for objects of type 'StatelessServiceDescription'.
 
 ____
-### ApplicationName
+### `ApplicationName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of the application, including the 'fabric:' URI scheme.
 
 ____
-### ServiceName
+### `ServiceName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The full name of the service with 'fabric:' URI scheme.
 
 ____
-### ServiceTypeName
+### `ServiceTypeName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 Name of the service type as specified in the service manifest.
 
 ____
-### InitializationData
+### `InitializationData`
 __Type__: array of integer <br/>
 __Required__: No<br/>
 <br/>
 The initialization data as an array of bytes. Initialization data is passed to service instances or replicas when they are created.
 
 ____
-### PartitionDescription
+### `PartitionDescription`
 __Type__: [PartitionSchemeDescription](sfclient-model-partitionschemedescription.md) <br/>
 __Required__: Yes<br/>
 <br/>
 The partition description as an object.
 
 ____
-### PlacementConstraints
+### `PlacementConstraints`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)".
 
 ____
-### CorrelationScheme
+### `CorrelationScheme`
 __Type__: array of [ServiceCorrelationDescription](sfclient-model-servicecorrelationdescription.md) <br/>
 __Required__: No<br/>
 <br/>
 The correlation scheme.
 
 ____
-### ServiceLoadMetrics
+### `ServiceLoadMetrics`
 __Type__: array of [ServiceLoadMetricDescription](sfclient-model-serviceloadmetricdescription.md) <br/>
 __Required__: No<br/>
 <br/>
 The service load metrics.
 
 ____
-### ServicePlacementPolicies
+### `ServicePlacementPolicies`
 __Type__: array of [ServicePlacementPolicyDescription](sfclient-model-serviceplacementpolicydescription.md) <br/>
 __Required__: No<br/>
 <br/>
 The service placement policies.
 
 ____
-### DefaultMoveCost
+### `DefaultMoveCost`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -131,22 +132,22 @@ Specifies the move cost for the service.
 
 Possible values are: 
 
-  - Zero - Zero move cost. This value is zero.
-  - Low - Specifies the move cost of the service as Low. The value is 1.
-  - Medium - Specifies the move cost of the service as Medium. The value is 2.
-  - High - Specifies the move cost of the service as High. The value is 3.
+  - `Zero` - Zero move cost. This value is zero.
+  - `Low` - Specifies the move cost of the service as Low. The value is 1.
+  - `Medium` - Specifies the move cost of the service as Medium. The value is 2.
+  - `High` - Specifies the move cost of the service as High. The value is 3.
 
 
 
 ____
-### IsDefaultMoveCostSpecified
+### `IsDefaultMoveCostSpecified`
 __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>
 Indicates if the DefaultMoveCost property is specified.
 
 ____
-### ServicePackageActivationMode
+### `ServicePackageActivationMode`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -156,22 +157,29 @@ The activation mode of service package to be used for a Service Fabric service. 
 
 Possible values are: 
 
-  - SharedProcess - This is the default activation mode. With this activation mode, replicas or instances from different partition(s) of service, on a given node, will share same activation of service package on a node. The value is zero.
-  - ExclusiveProcess - With this activation mode, each replica or instance of service, on a given node, will have its own dedicated activation of service package on a node. The value is 1.
+  - `SharedProcess` - This is the default activation mode. With this activation mode, replicas or instances from different partition(s) of service, on a given node, will share same activation of service package on a node. The value is zero.
+  - `ExclusiveProcess` - With this activation mode, each replica or instance of service, on a given node, will have its own dedicated activation of service package on a node. The value is 1.
 
 
 
 ____
-### ServiceDnsName
+### `ServiceDnsName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The DNS name of the service. It requires the DNS system service to be enabled in Service Fabric cluster.
 
 ____
-### InstanceCount
+### `ScalingPolicies`
+__Type__: array of [ScalingPolicyDescription](sfclient-model-scalingpolicydescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Scaling policies for this service.
+
+____
+### `InstanceCount`
 __Type__: integer <br/>
 __Required__: Yes<br/>
-__InclusiveMinimum__: -1 <br/>
+__InclusiveMinimum__: `-1` <br/>
 <br/>
 The instance count.

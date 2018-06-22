@@ -368,8 +368,16 @@ For an environment with more than one reference data set, three constraints are 
 
 Given these constraints, the join engine can apply the join in any order for a given event. Hierarchy and ordering are not considered.
 
-### Current limitations
+### Current Limits
 
-- You can add up to two reference data per Time Series Insights environment. 
-- S1 environment type allows X rows per each unit, and similarly, S2 environment type allows Y rows per each unit. For example, if you provision an S1 environment with four units, you are allowed to add N (Xx4) rows. 
-- Reference data is not expected to change very often, and currently the system allows only N number of iterations in a day. 
+You can add up to two reference data per Time Series Insights environment.  Below are additional limitations associated with Time Series Insights reference data.
+
+| Limit name | Limit value | SKUs affected | Notes |
+|-|-|-|-|-|
+| Key property count  | 2 | S1, S2 | Per reference data set |
+| Key property size| 1KB | S1, S2 | Per reference data set |
+| Reference Data Item count  | 2,000/20,000 (S1/S2) | S1, S2 | Per unit.  Example:  4 unit S1 SKU = 8,000 items (4 x 2,000) |
+| Max concurrent transactions | 2/10 (S1/S2) | S1, S2 | - |
+| Max reference data transactions | 120/600 (S1/S2) | S1, S2 | Per hour |
+| Max reference data item count | 1,000 | S1, S2 | Per transaction |
+| Max reference data item size | 8,192KB | S1, S2 | Per transaction |

@@ -4,7 +4,7 @@ name: Merge Certificate
 service: Key Vault
 groupName: Merge Certificate
 apiVersion: 2016-10-01
-summary: Merges a certificate or a certificate chain with a key pair existing on the server. The MergeCertificate operation performs the merging of a certificate or certificate chain with a key pair currently available in the service. This operation requires the certificates/create permission.
+summary: "Merges a certificate or a certificate chain with a key pair existing on the server.  \nThe MergeCertificate operation performs the merging of a certificate or certificate chain with a key pair currently available in the service. This operation requires the certificates/create permission."
 consumes:
 - application/json
 produces:
@@ -95,70 +95,10 @@ definitions:
     description: Last updated time in UTC.
     types:
     - uid: integer
-- name: KeyVaultError
-  description: The key vault error exception.
+- name: CertificateBundle
+  description: A certificate bundle consists of a certificate (X509) plus its attributes.
   kind: object
   properties:
-  - name: error
-    isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
-- name: CertificateMergeParameters
-  description: The certificate merge parameters
-  kind: object
-  properties:
-  - name: x5c
-    description: The certificate or the certificate chain to merge.
-    types:
-    - uid: string
-      isArray: true
-  - name: attributes
-    description: The attributes of the certificate (optional).
-    types:
-    - uid: CertificateAttributes
-  - name: tags
-    description: Application specific metadata in the form of key-value pairs.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: DeletionRecoveryLevel
-  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
-  kind: enum
-  properties:
-  - name: Purgeable
-    types:
-    - uid: string
-  - name: Recoverable+Purgeable
-    types:
-    - uid: string
-  - name: Recoverable
-    types:
-    - uid: string
-  - name: Recoverable+ProtectedSubscription
-    types:
-    - uid: string
-- name: DeletedCertificateBundle
-  description: A Deleted Certificate consisting of its previous id, attributes and its tags, as well as information on when it will be purged.
-  kind: object
-  properties:
-  - name: recoveryId
-    description: The url of the recovery object, used to identify and recover the deleted certificate.
-    types:
-    - uid: string
-  - name: scheduledPurgeDate
-    isReadyOnly: true
-    description: The time when the certificate is scheduled to be purged, in UTC
-    types:
-    - uid: integer
-  - name: deletedDate
-    isReadyOnly: true
-    description: The time when the certificate was deleted, in UTC
-    types:
-    - uid: integer
   - name: id
     isReadyOnly: true
     description: The certificate id.
@@ -204,25 +144,56 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: Error
-  description: The key vault server error.
+- name: KeyVaultError
+  description: The key vault error exception.
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-  - name: innererror
+  - name: error
     isReadyOnly: true
     description: The key vault server error.
     types:
     - uid: Error
+- name: CertificateMergeParameters
+  description: The certificate merge parameters
+  kind: object
+  properties:
+  - name: x5c
+    description: The certificate or the certificate chain to merge.
+    types:
+    - uid: string
+      isArray: true
+  - name: attributes
+    description: The attributes of the certificate (optional).
+    types:
+    - uid: CertificateAttributes
+  - name: tags
+    description: Application specific metadata in the form of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: DeletionRecoveryLevel
+  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  kind: enum
+  properties:
+  - name: Purgeable
+    description: Soft-delete is not enabled for this vault. A DELETE operation results in immediate and irreversible data loss.
+    types:
+    - uid: string
+  - name: Recoverable+Purgeable
+    description: Soft-delete is enabled for this vault; A priveleged user may trigger an immediate, irreversible deletion(purge) of a deleted entity.
+    types:
+    - uid: string
+  - name: Recoverable
+    description: Soft-delete is enabled for this vault and purge has been disabled. A deleted entity will remain in this state until recovered, or the end of the retention interval.
+    types:
+    - uid: string
+  - name: Recoverable+ProtectedSubscription
+    description: Soft-delete is enabled for this vault, and the subscription is protected against immediate deletion.
+    types:
+    - uid: string
 - name: CertificatePolicy
   description: Management policy for a certificate.
   kind: object
@@ -245,7 +216,7 @@ definitions:
     types:
     - uid: X509CertificateProperties
   - name: lifetime_actions
-    description: Action and its trigger that will be performed by Key Vault over the lifetime of a certificate.
+    description: Actions that will be performed by Key Vault over the lifetime of a certificate.
     types:
     - uid: LifetimeAction
       isArray: true
@@ -257,6 +228,25 @@ definitions:
     description: The certificate attributes.
     types:
     - uid: CertificateAttributes
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
 - name: KeyProperties
   description: Properties of the key pair backing a certificate.
   kind: object
@@ -270,7 +260,7 @@ definitions:
     types:
     - uid: string
   - name: key_size
-    description: The key size in bytes. For example;  1024 or 2048.
+    description: 'The key size in bits. For example: 2048, 3072, or 4096 for RSA.'
     types:
     - uid: integer
   - name: reuse_key

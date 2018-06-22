@@ -1,6 +1,6 @@
 ---
 title: "FailedPropertyBatchInfo"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,9 +34,9 @@ Derived from PropertyBatchInfo. Represents the property batch failing. Contains 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [ErrorMessage](#errormessage) | string | No |
-| [OperationIndex](#operationindex) | integer | No |
+| [`Kind`](#kind) | string | Yes |
+| [`ErrorMessage`](#errormessage) | string | No |
+| [`OperationIndex`](#operationindex) | integer | No |
 
 ____
 ### Kind
@@ -46,14 +46,14 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Failed' for objects of type 'FailedPropertyBatchInfo'.
 
 ____
-### ErrorMessage
+### `ErrorMessage`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The error message of the failed operation. Describes the exception thrown due to the first unsuccessful operation in the property batch.
 
 ____
-### OperationIndex
+### `OperationIndex`
 __Type__: integer <br/>
 __Required__: No<br/>
 <br/>

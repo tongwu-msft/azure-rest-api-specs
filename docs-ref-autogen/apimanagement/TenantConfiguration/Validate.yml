@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.tenantconfiguration.validate
 name: Validate
 service: API Management
 groupName: Tenant Configuration
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: This operation validates the changes in the specified Git branch. This is a long running operation and could take several minutes to complete.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/configuration/validate?api-version=2017-03-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/configuration/validate?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -103,27 +103,27 @@ definitions:
   - name: error
     description: Error Body Contract
     types:
-    - uid: ErrorResponse
+    - uid: ErrorResponseBody
   - name: actionLog
     isReadyOnly: true
-    description: Log of the entity being created, updated or deleted.
+    description: This property if only provided as part of the TenantConfiguration_Validate operation. It contains the log the entities which will be updated/created/deleted as part of the TenantConfiguration_Deploy operation.
     types:
     - uid: OperationResultLogItemContract
       isArray: true
 - name: ErrorResponse
-  description: Error Body contract.
+  description: Error Response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Human-readable representation of the error.
     types:
     - uid: string
-  - name: details
-    description: Error Field contract.
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
     types:
     - uid: ErrorFieldContract
       isArray: true
@@ -155,6 +155,23 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: ErrorResponseBody
+  description: Error Body contract.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
 - name: OperationResultLogItemContract
   description: Log of the entity being created, updated or deleted.
   kind: object
@@ -190,7 +207,7 @@ definitions:
 examples:
 - name: ApiManagementTenantConfigurationValidate
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/configuration/validate?api-version=2017-03-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/configuration/validate?api-version=2018-01-01
     body: >-
       {
         "branch": "master"
@@ -199,7 +216,7 @@ examples:
   - statusCode: "202"
     headers:
     - name: location
-      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/operationResults/5a1af64e2a6d2e0b688d751e?api-version=2017-03-01
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tenant/operationResults/5a1af64e2a6d2e0b688d751e?api-version=2018-01-01
   - statusCode: "200"
     body: >-
       {

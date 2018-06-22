@@ -3,15 +3,15 @@ uid: batch.core.windows.net.batchservice.pool.exists
 name: Exists
 service: Batch Service
 groupName: Pool
-apiVersion: 2017-09-01.6.0
+apiVersion: 2018-03-01.6.1
 summary: Gets basic properties of a pool.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: HEAD https://batch.core.windows.net/pools/{poolId}?api-version=2017-09-01.6.0
-- content: HEAD https://batch.core.windows.net/pools/{poolId}?timeout={timeout}&api-version=2017-09-01.6.0
+- content: HEAD https://batch.core.windows.net/pools/{poolId}?api-version=2018-03-01.6.1
+- content: HEAD https://batch.core.windows.net/pools/{poolId}?timeout={timeout}&api-version=2018-03-01.6.1
   isOptional: true
 uriParameters:
 - name: poolId
@@ -44,7 +44,7 @@ responses:
   - name: Last-Modified
     value: string
   description: A response containing headers related to the pool, if it exists.
-- name: Other Status Codes
+- name: 404 Not Found
   description: The pool does not exist.
 - name: Other Status Codes
   description: The error from the Batch service.
@@ -104,7 +104,7 @@ definitions:
     types:
     - uid: ErrorMessage
   - name: values
-    description: An item of additional information included in an Azure Batch error response.
+    description: A collection of key-value pairs containing additional details about the error.
     types:
     - uid: BatchErrorDetail
       isArray: true
@@ -132,5 +132,16 @@ definitions:
     description: The additional information included with the error response.
     types:
     - uid: string
-examples: []
+examples:
+- name: Check Pool Exists
+  request:
+    uri: HEAD https://batch.core.windows.net/pools/poolId?api-version=2018-03-01.6.1
+    headers:
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
+  responses:
+  - statusCode: "200"
+    body: "\"\""
+  - statusCode: "404"
+    body: "\"\""
 security: []

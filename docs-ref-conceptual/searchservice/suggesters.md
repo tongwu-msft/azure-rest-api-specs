@@ -1,20 +1,14 @@
 ---
-title: "Suggesters"
-ms.custom: ""
+title: "Suggesters (Azure Search Service REST API) | Microsoft Docs"
+description: Enables fields for type-ahead query actions, where suggested queries are composed of text from fields in an Azure Search index.
 ms.date: "2017-07-17"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 1dbc2c8d-5dfb-4662-bf5c-acd289848985
-caps.latest.revision: 13
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -80,4 +74,4 @@ Properties that define a **suggester** include the following:
  [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)   
  [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   
  [Azure Search Service REST](index.md)   
- [Azure Search .NET SDK](https://msdn.microsoft.com/en-us/library/azure/dn951165.aspx)  
+ [Azure Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  

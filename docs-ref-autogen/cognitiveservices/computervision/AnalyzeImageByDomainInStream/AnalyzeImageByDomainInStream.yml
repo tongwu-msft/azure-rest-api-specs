@@ -1,0 +1,170 @@
+### YamlMime:RESTOperation
+uid: vision.v1.0.cognitiveservices.analyzeimagebydomaininstream.analyzeimagebydomaininstream
+name: Analyze Image By Domain In Stream
+service: Cognitive Services
+groupName: Analyze Image By Domain In Stream
+apiVersion: "1.0"
+summary: 'This operation recognizes content within an image by applying a domain-specific model.  The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request.  Currently, the API only provides a single domain-specific model: celebrities. Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong.'
+consumes:
+- application/octet-stream
+- multipart/form-data
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/models/{model}/analyze
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/models/{model}/analyze?overload=stream&language={language}
+  isOptional: true
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: model
+  in: path
+  isRequired: true
+  description: The domain-specific content to recognize.
+  types:
+  - uid: string
+- name: language
+  in: query
+  description: The desired language for output generation. If this parameter is not specified, the default value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Analysis result based on the domain model
+  types:
+  - uid: DomainModelResults
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: ComputerVisionError
+requestBody:
+- parameters:
+  - name: Image
+    in: body
+    types:
+    - uid: object
+requestHeader: []
+definitions:
+- name: DomainModelResults
+  description: Result of image analysis using a specific domain model including additional metadata.
+  kind: object
+  properties:
+  - name: requestId
+    description: Id of the REST API request.
+    types:
+    - uid: string
+  - name: metadata
+    description: Image metadata
+    types:
+    - uid: ImageMetadata
+- name: ComputerVisionError
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: ComputerVisionErrorCodes
+  - name: message
+    description: A message explaining the error reported by the service.
+    types:
+    - uid: string
+  - name: requestId
+    description: A unique request identifier.
+    types:
+    - uid: string
+- name: ImageMetadata
+  description: Image metadata
+  kind: object
+  properties:
+  - name: width
+    description: Image width
+    types:
+    - uid: integer
+  - name: height
+    description: Image height
+    types:
+    - uid: integer
+  - name: format
+    description: Image format
+    types:
+    - uid: string
+- name: ComputerVisionErrorCodes
+  description: The error code.
+  kind: enum
+  properties:
+  - name: InvalidImageUrl
+    types:
+    - uid: string
+  - name: InvalidImageFormat
+    types:
+    - uid: string
+  - name: InvalidImageSize
+    types:
+    - uid: string
+  - name: NotSupportedVisualFeature
+    types:
+    - uid: string
+  - name: NotSupportedImage
+    types:
+    - uid: string
+  - name: InvalidDetails
+    types:
+    - uid: string
+  - name: NotSupportedLanguage
+    types:
+    - uid: string
+  - name: BadArgument
+    types:
+    - uid: string
+  - name: FailedToProcess
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: StorageException
+    types:
+    - uid: string
+examples:
+- name: Successful Domain Model analysis request
+  request:
+    uri: POST https://{AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/models/{model}/analyze?overload=stream
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "requestId": "f0027b4b-dc0d-4082-9228-1545ed246b03",
+        "metadata": {
+          "width": 1500,
+          "height": 1000,
+          "format": "Jpeg"
+        },
+        "result": {
+          "celebrities": [
+            {
+              "name": "Satya Nadella",
+              "faceRectangle": {
+                "left": 597,
+                "top": 162,
+                "width": 248,
+                "height": 248
+              },
+              "confidence": 0.999028444
+            }
+          ]
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

@@ -63,8 +63,11 @@ definitions:
   - name: properties
     description: Properties of linked service.
     types:
+    - uid: ResponsysLinkedService
+    - uid: AzureDatabricksLinkedService
     - uid: AzureDataLakeAnalyticsLinkedService
     - uid: HDInsightOnDemandLinkedService
+    - uid: SalesforceMarketingCloudLinkedService
     - uid: NetezzaLinkedService
     - uid: VerticaLinkedService
     - uid: ZohoLinkedService
@@ -168,9 +171,137 @@ definitions:
     types:
     - uid: string
   - name: details
-    description: The object that defines the structure of an Azure Data Factory response.
+    description: Array with additional error details.
     types:
     - uid: ErrorResponse
+      isArray: true
+- name: ResponsysLinkedService
+  description: Responsys linked service.
+  kind: object
+  properties:
+  - name: typeProperties.endpoint
+    description: The endpoint of the Responsys server.
+    types:
+    - uid: object
+  - name: typeProperties.clientId
+    description: 'The client ID associated with the Responsys application. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.clientSecret
+    description: 'The client secret associated with the Responsys application. Type: string (or Expression with resultType string).'
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.useEncryptedEndpoints
+    description: 'Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: typeProperties.useHostVerification
+    description: "Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean)."
+    types:
+    - uid: object
+  - name: typeProperties.usePeerVerification
+    description: 'Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: typeProperties.encryptedCredential
+    description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of linked service.
+    types:
+    - uid: Responsys
+    typesTitle: string
+  - name: connectVia
+    description: The integration runtime reference.
+    types:
+    - uid: IntegrationRuntimeReference
+  - name: description
+    description: Linked service description.
+    types:
+    - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+- name: AzureDatabricksLinkedService
+  description: Azure Databricks linked service.
+  kind: object
+  properties:
+  - name: typeProperties.domain
+    description: '<REGION>.azuredatabricks.net, domain name of your Databricks deployment. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.accessToken
+    description: 'Access token for databricks REST API. Refer to https://docs.azuredatabricks.net/api/latest/authentication.html. Type: string (or Expression with resultType string).'
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.existingClusterId
+    description: 'The id of an existing cluster that will be used for all runs of this job. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.newClusterVersion
+    description: 'The Spark version of new cluster. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.newClusterNumOfWorker
+    description: "Number of worker nodes that new cluster should have. A string formatted Int32, like '1' means numOfWorker is 1 or '1:10' means auto-scale from 1 as min and 10 as max. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
+  - name: typeProperties.newClusterNodeType
+    description: 'The node types of new cluster. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.newClusterSparkConf
+    description: a set of optional, user-specified Spark configuration key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.encryptedCredential
+    description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of linked service.
+    types:
+    - uid: AzureDatabricks
+    typesTitle: string
+  - name: connectVia
+    description: The integration runtime reference.
+    types:
+    - uid: IntegrationRuntimeReference
+  - name: description
+    description: Linked service description.
+    types:
+    - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
       isArray: true
 - name: AzureDataLakeAnalyticsLinkedService
   description: Azure Data Lake Analytics linked service.
@@ -303,7 +434,7 @@ definitions:
     - uid: AzureKeyVaultSecretReference
     typesTitle: SecretBase
   - name: typeProperties.additionalLinkedServiceNames
-    description: Linked service reference type.
+    description: Specifies additional storage accounts for the HDInsight linked service so that the Data Factory service can register them on your behalf.
     types:
     - uid: LinkedServiceReference
       isArray: true
@@ -355,10 +486,78 @@ definitions:
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
     - uid: object
+  - name: typeProperties.headNodeSize
+    description: Specifies the size of the head node for the HDInsight cluster.
+    types:
+    - uid: object
+  - name: typeProperties.dataNodeSize
+    description: Specifies the size of the data node for the HDInsight cluster.
+    types:
+    - uid: object
+  - name: typeProperties.zookeeperNodeSize
+    description: Specifies the size of the Zoo Keeper node for the HDInsight cluster.
+    types:
+    - uid: object
   - name: type
     description: Type of linked service.
     types:
     - uid: HDInsightOnDemand
+    typesTitle: string
+  - name: connectVia
+    description: The integration runtime reference.
+    types:
+    - uid: IntegrationRuntimeReference
+  - name: description
+    description: Linked service description.
+    types:
+    - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+- name: SalesforceMarketingCloudLinkedService
+  description: Salesforce Marketing Cloud linked service.
+  kind: object
+  properties:
+  - name: typeProperties.clientId
+    description: 'The client ID associated with the Salesforce Marketing Cloud application. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.clientSecret
+    description: 'The client secret associated with the Salesforce Marketing Cloud application. Type: string (or Expression with resultType string).'
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: typeProperties.useEncryptedEndpoints
+    description: 'Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: typeProperties.useHostVerification
+    description: "Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean)."
+    types:
+    - uid: object
+  - name: typeProperties.usePeerVerification
+    description: 'Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: typeProperties.encryptedCredential
+    description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of linked service.
+    types:
+    - uid: SalesforceMarketingCloud
     typesTitle: string
   - name: connectVia
     description: The integration runtime reference.
@@ -386,11 +585,9 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.connectionString
-    description: An ODBC connection string.
+    description: 'An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
+    - uid: object
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -426,11 +623,9 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.connectionString
-    description: An ODBC connection string.
+    description: 'An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
+    - uid: object
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -795,7 +990,7 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.endpoint
-    description: The endpoint of the ServiceNow server. (i.e. ServiceNowData.com)
+    description: The endpoint of the ServiceNow server. (i.e. <instance>.service-now.com)
     types:
     - uid: object
   - name: typeProperties.authenticationType
@@ -876,6 +1071,16 @@ definitions:
     description: The company ID of the QuickBooks company to authorize.
     types:
     - uid: object
+  - name: typeProperties.consumerKey
+    description: The consumer key for OAuth 1.0 authentication.
+    types:
+    - uid: object
+  - name: typeProperties.consumerSecret
+    description: The consumer secret for OAuth 1.0 authentication.
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
   - name: typeProperties.accessToken
     description: The access token for OAuth 1.0 authentication.
     types:
@@ -1215,11 +1420,9 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.connectionString
-    description: An ODBC connection string.
+    description: 'An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
+    - uid: object
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -1695,11 +1898,9 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.connectionString
-    description: An ODBC connection string.
+    description: 'An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
+    - uid: object
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -1879,11 +2080,9 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.connectionString
-    description: An ODBC connection string.
+    description: 'An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
+    - uid: object
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -1919,11 +2118,9 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.connectionString
-    description: An ODBC connection string.
+    description: 'An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
+    - uid: object
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2019,11 +2216,9 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.connectionString
-    description: An ODBC connection string.
+    description: 'An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
+    - uid: object
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -2866,6 +3061,14 @@ definitions:
     description: 'The TCP port number that the MongoDB server uses to listen for client connections. The default value is 27017. Type: integer (or Expression with resultType integer), minimum: 0.'
     types:
     - uid: object
+  - name: typeProperties.enableSsl
+    description: 'Specifies whether the connections to the server are encrypted using SSL. The default value is false. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: typeProperties.allowSelfSignedServerCert
+    description: 'Specifies whether to allow self-signed certificates from the server. The default value is false. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -3098,11 +3301,9 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.connectionString
-    description: The non-access credential portion of the connection string as well as an optional encrypted credential.
+    description: 'The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
+    - uid: object
   - name: typeProperties.authenticationType
     description: 'Type of authentication used to connect to the ODBC data store. Possible values are: Anonymous and Basic. Type: string (or Expression with resultType string).'
     types:
@@ -3223,10 +3424,6 @@ definitions:
     description: 'Server name for connection. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-  - name: typeProperties.schema
-    description: 'Schema name for connection. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
   - name: typeProperties.authenticationType
     description: AuthenticationType to be used for connection.
     types:
@@ -3281,10 +3478,6 @@ definitions:
     - uid: object
   - name: typeProperties.database
     description: 'Database name for connection. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.schema
-    description: 'Schema name for connection. Type: string (or Expression with resultType string).'
     types:
     - uid: object
   - name: typeProperties.authenticationType
@@ -3395,24 +3588,8 @@ definitions:
   description: Linked service for PostgreSQL data source.
   kind: object
   properties:
-  - name: typeProperties.server
-    description: 'Server name for connection. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.database
-    description: 'Database name for connection. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.schema
-    description: 'Schema name for connection. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.username
-    description: 'Username for authentication. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.password
-    description: Password for authentication.
+  - name: typeProperties.connectionString
+    description: The connection string.
     types:
     - uid: SecureString
     - uid: AzureKeyVaultSecretReference
@@ -3451,24 +3628,8 @@ definitions:
   description: Linked service for MySQL data source.
   kind: object
   properties:
-  - name: typeProperties.server
-    description: 'Server name for connection. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.database
-    description: 'Database name for connection. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.schema
-    description: 'Schema name for connection. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.username
-    description: 'Username for authentication. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.password
-    description: Password for authentication.
+  - name: typeProperties.connectionString
+    description: The connection string.
     types:
     - uid: SecureString
     - uid: AzureKeyVaultSecretReference
@@ -3508,11 +3669,9 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.connectionString
-    description: The connection string.
+    description: 'The connection string. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
+    - uid: object
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -3548,11 +3707,9 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.connectionString
-    description: The connection string.
+    description: 'The connection string. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
+    - uid: object
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -3703,6 +3860,10 @@ definitions:
     description: 'The port of on-premises Dynamics server. The property is required for on-prem and not allowed for online. Default is 443. Type: integer (or Expression with resultType integer), minimum: 0.'
     types:
     - uid: object
+  - name: typeProperties.serviceUri
+    description: 'The URL to the Microsoft Dynamics server. The property is required for on-line and not allowed for on-prem. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: typeProperties.organizationName
     description: 'The organization name of the Dynamics instance. The property is required for on-prem and required for online when there are more than one Dynamics instances associated with the user. Type: string (or Expression with resultType string).'
     types:
@@ -3756,11 +3917,9 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.connectionString
-    description: The connection string.
+    description: 'The connection string. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
+    - uid: object
   - name: typeProperties.encryptedCredential
     description: 'The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string).'
     types:
@@ -3886,11 +4045,9 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.connectionString
-    description: The connection string.
+    description: 'The connection string. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
+    - uid: object
   - name: typeProperties.servicePrincipalId
     description: 'The ID of the service principal used to authenticate against Azure SQL Database. Type: string (or Expression with resultType string).'
     types:
@@ -3940,11 +4097,9 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.connectionString
-    description: The connection string.
+    description: 'The connection string. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
+    - uid: object
   - name: typeProperties.userName
     description: 'The on-premises Windows authentication user name. Type: string (or Expression with resultType string).'
     types:
@@ -3990,11 +4145,9 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.connectionString
-    description: The connection string.
+    description: 'The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
+    - uid: object
   - name: typeProperties.servicePrincipalId
     description: 'The ID of the service principal used to authenticate against Azure SQL Data Warehouse. Type: string (or Expression with resultType string).'
     types:
@@ -4044,11 +4197,9 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.connectionString
-    description: The connection string. It is mutually exclusive with sasUri property.
+    description: 'The connection string. It is mutually exclusive with sasUri property. Type: string, SecureString or AzureKeyVaultSecretReference.'
     types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
+    - uid: object
   - name: typeProperties.sasUri
     description: SAS URI of the Azure Storage resource. It is mutually exclusive with connectionString property.
     types:

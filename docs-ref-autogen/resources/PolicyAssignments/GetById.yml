@@ -1,23 +1,21 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resourcemanagement.policyassignments.getbyid
+uid: management.azure.com.resources.policyassignments.getbyid
 name: Get By Id
 service: Resource Management
 groupName: Policy Assignments
-apiVersion: 2016-12-01
-summary: Gets a policy assignment by ID. When providing a scope for the assigment, use '/subscriptions/{subscription-id}/' for subscriptions, '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for resource groups, and '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider-namespace}/{resource-type}/{resource-name}' for resources.
+apiVersion: 2018-03-01
+summary: "Retrieves the policy assignment with the given ID.  \nThe operation retrieves the policy assignment with the given ID. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'."
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: GET https://management.azure.com/{policyAssignmentId}?api-version=2016-12-01
+- content: GET https://management.azure.com/{policyAssignmentId}?api-version=2018-03-01
 uriParameters:
 - name: policyAssignmentId
   in: path
   isRequired: true
-  description: The ID of the policy assignment to get. Use the format '/{scope}/providers/Microsoft.Authorization/policyAssignments/{policy-assignment-name}'.
+  description: The ID of the policy assignment to get. Use the format '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
   types:
   - uid: string
 - name: api-version
@@ -31,6 +29,10 @@ responses:
   description: OK - Returns information about the policy assignment.
   types:
   - uid: PolicyAssignment
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: PolicyAssignment
@@ -43,25 +45,36 @@ definitions:
     types:
     - uid: string
   - name: type
+    isReadyOnly: true
     description: The type of the policy assignment.
     types:
     - uid: string
   - name: name
+    isReadyOnly: true
     description: The name of the policy assignment.
     types:
     - uid: string
+  - name: sku
+    description: The policy sku. This property is optional, obsolete, and will be ignored.
+    types:
+    - uid: PolicySku
   - name: properties.displayName
     description: The display name of the policy assignment.
     types:
     - uid: string
   - name: properties.policyDefinitionId
-    description: The ID of the policy definition.
+    description: The ID of the policy definition or policy set definition being assigned.
     types:
     - uid: string
   - name: properties.scope
     description: The scope for the policy assignment.
     types:
     - uid: string
+  - name: properties.notScopes
+    description: The policy's excluded scopes.
+    types:
+    - uid: string
+      isArray: true
   - name: properties.parameters
     description: Required if a parameter is used in policy rule.
     types:
@@ -70,7 +83,67 @@ definitions:
     description: This message will be part of response in case of policy violation.
     types:
     - uid: string
-examples: []
+  - name: properties.metadata
+    description: The policy assignment metadata.
+    types:
+    - uid: object
+- name: ErrorResponse
+  description: Error reponse indicates Azure Resource Manager is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: httpStatus
+    description: Http status code.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: PolicySku
+  description: The policy sku. This property is optional, obsolete, and will be ignored.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the policy sku. Possible values are A0 and A1.
+    types:
+    - uid: string
+  - name: tier
+    description: The policy sku tier. Possible values are Free and Standard.
+    types:
+    - uid: string
+examples:
+- name: Retrieve a policy assignment by ID
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2018-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "displayName": "Enforce storage account SKU",
+          "description": "Allow only storage accounts of SKU Standard_GRS or Standard_LRS to be created",
+          "metadata": {
+            "assignedBy": "Cheapskate Boss"
+          },
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
+          "notScopes": [],
+          "parameters": {
+            "listOfAllowedSKUs": {
+              "value": [
+                "Standard_GRS",
+                "Standard_LRS"
+              ]
+            }
+          }
+        },
+        "id": "/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage",
+        "type": "Microsoft.Authorization/policyAssignments",
+        "name": "LowCostStorage"
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

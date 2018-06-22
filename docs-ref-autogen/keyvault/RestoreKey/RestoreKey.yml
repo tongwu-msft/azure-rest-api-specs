@@ -4,7 +4,7 @@ name: Restore Key
 service: Key Vault
 groupName: Restore Key
 apiVersion: 2016-10-01
-summary: 'Restores a backed up key to a vault. Imports a previously backed up key into Azure Key Vault, restoring the key, its key identifier, attributes and access control policies. The RESTORE operation may be used to import a previously backed up key. Individual versions of a key cannot be restored. The key is restored in its entirety with the same key name as it had when it was backed up. If the key name is not available in the target Key Vault, the RESTORE operation will be rejected. While the key name is retained during restore, the final key identifier will change if the key is restored to a different vault. Restore will restore all versions and preserve version identifiers. The RESTORE operation is subject to security constraints: The target Key Vault must be owned by the same Microsoft Azure Subscription as the source Key Vault The user must have RESTORE permission in the target Key Vault. This operation requires the keys/restore permission.'
+summary: "Restores a backed up key to a vault.  \nImports a previously backed up key into Azure Key Vault, restoring the key, its key identifier, attributes and access control policies. The RESTORE operation may be used to import a previously backed up key. Individual versions of a key cannot be restored. The key is restored in its entirety with the same key name as it had when it was backed up. If the key name is not available in the target Key Vault, the RESTORE operation will be rejected. While the key name is retained during restore, the final key identifier will change if the key is restored to a different vault. Restore will restore all versions and preserve version identifiers. The RESTORE operation is subject to security constraints: The target Key Vault must be owned by the same Microsoft Azure Subscription as the source Key Vault The user must have RESTORE permission in the target Key Vault. This operation requires the keys/restore permission."
 consumes:
 - application/json
 produces:
@@ -43,41 +43,10 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
-- name: KeyVaultError
-  description: The key vault error exception.
+- name: KeyBundle
+  description: A KeyBundle consisting of a WebKey plus its attributes.
   kind: object
   properties:
-  - name: error
-    isReadyOnly: true
-    description: The key vault server error.
-    types:
-    - uid: Error
-- name: KeyRestoreParameters
-  description: The key restore parameters.
-  kind: object
-  properties:
-  - name: value
-    description: The backup blob associated with a key bundle.
-    types:
-    - uid: string
-- name: DeletedKeyBundle
-  description: A DeletedKeyBundle consisting of a WebKey plus its Attributes and deletion info
-  kind: object
-  properties:
-  - name: recoveryId
-    description: The url of the recovery object, used to identify and recover the deleted key.
-    types:
-    - uid: string
-  - name: scheduledPurgeDate
-    isReadyOnly: true
-    description: The time when the key is scheduled to be purged, in UTC
-    types:
-    - uid: integer
-  - name: deletedDate
-    isReadyOnly: true
-    description: The time when the key was deleted, in UTC
-    types:
-    - uid: integer
   - name: key
     description: The Json web key.
     types:
@@ -99,25 +68,23 @@ definitions:
     description: True if the key's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true.
     types:
     - uid: boolean
-- name: Error
-  description: The key vault server error.
+- name: KeyVaultError
+  description: The key vault error exception.
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-  - name: innererror
+  - name: error
     isReadyOnly: true
     description: The key vault server error.
     types:
     - uid: Error
+- name: KeyRestoreParameters
+  description: The key restore parameters.
+  kind: object
+  properties:
+  - name: value
+    description: The backup blob associated with a key bundle.
+    types:
+    - uid: string
 - name: JsonWebKey
   description: As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18
   kind: object
@@ -218,6 +185,25 @@ definitions:
     description: Last updated time in UTC.
     types:
     - uid: integer
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
 - name: JsonWebKeyType
   description: JsonWebKey key type (kty).
   kind: enum
@@ -242,15 +228,19 @@ definitions:
   kind: enum
   properties:
   - name: P-256
+    description: The NIST P-256 elliptic curve, AKA SECG curve SECP256R1.
     types:
     - uid: string
   - name: P-384
+    description: The NIST P-384 elliptic curve, AKA SECG curve SECP384R1.
     types:
     - uid: string
   - name: P-521
+    description: The NIST P-521 elliptic curve, AKA SECG curve SECP521R1.
     types:
     - uid: string
   - name: SECP256K1
+    description: The SECG SECP256K1 elliptic curve.
     types:
     - uid: string
 - name: DeletionRecoveryLevel
@@ -258,15 +248,19 @@ definitions:
   kind: enum
   properties:
   - name: Purgeable
+    description: Soft-delete is not enabled for this vault. A DELETE operation results in immediate and irreversible data loss.
     types:
     - uid: string
   - name: Recoverable+Purgeable
+    description: Soft-delete is enabled for this vault; A priveleged user may trigger an immediate, irreversible deletion(purge) of a deleted entity.
     types:
     - uid: string
   - name: Recoverable
+    description: Soft-delete is enabled for this vault and purge has been disabled. A deleted entity will remain in this state until recovered, or the end of the retention interval.
     types:
     - uid: string
   - name: Recoverable+ProtectedSubscription
+    description: Soft-delete is enabled for this vault, and the subscription is protected against immediate deletion.
     types:
     - uid: string
 examples: []

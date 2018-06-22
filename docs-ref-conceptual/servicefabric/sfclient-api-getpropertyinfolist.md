@@ -1,6 +1,6 @@
 ---
 title: "Get Property Info List"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -41,26 +41,26 @@ A Service Fabric name can have one or more named properties that stores custom i
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [nameId](#nameid) | string | Yes | Path |
-| [api-version](#api-version) | string | Yes | Query |
-| [IncludeValues](#includevalues) | boolean | No | Query |
-| [ContinuationToken](#continuationtoken) | string | No | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
+| [`nameId`](#nameid) | string | Yes | Path |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`IncludeValues`](#includevalues) | boolean | No | Query |
+| [`ContinuationToken`](#continuationtoken) | string | No | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
 
 ____
-### nameId
+### `nameId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The Service Fabric name, without the 'fabric:' URI scheme.
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0 <br/>
+__Default__: `6.0` <br/>
 <br/>
-The version of this API. This is a required parameter and its value must be "6.0".
+The version of the API. This parameter is required and its value must be '6.0'.
 
 Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
 
@@ -68,29 +68,29 @@ Additionally the runtime accept any version that is higher than the latest suppo
 
 
 ____
-### IncludeValues
+### `IncludeValues`
 __Type__: boolean <br/>
 __Required__: No<br/>
-__Default__: false <br/>
+__Default__: `false` <br/>
 <br/>
 Allows specifying whether to include the values of the properties returned. True if values should be returned with the metadata; False to return only property metadata.
 
 ____
-### ContinuationToken
+### `ContinuationToken`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The continuation token parameter is used to obtain next set of results. A continuation token with a non empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

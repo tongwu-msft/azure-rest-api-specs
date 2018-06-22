@@ -1,0 +1,187 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.reviews.getjobdetails
+name: Get Job Details
+service: Cognitive Services
+groupName: Reviews
+apiVersion: "1.0"
+summary: Get the Job Details for a Job Id.
+produces:
+- application/json
+paths:
+- content: GET https://{baseUrl}/contentmoderator/review/v1.0/teams/{teamName}/jobs/{JobId}
+uriParameters:
+- name: baseUrl
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Content Moderator endpoints
+  types:
+  - uid: string
+- name: teamName
+  in: path
+  isRequired: true
+  description: Your Team Name.
+  types:
+  - uid: string
+- name: JobId
+  in: path
+  isRequired: true
+  description: Id of the job.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Job
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader: []
+definitions:
+- name: Job
+  description: The Job object.
+  kind: object
+  properties:
+  - name: Id
+    description: The job id.
+    types:
+    - uid: string
+  - name: TeamName
+    description: The team name associated with the job.
+    types:
+    - uid: string
+  - name: Status
+    description: The status string (<Pending, Failed, Completed>).
+    types:
+    - uid: string
+  - name: WorkflowId
+    description: The Id of the workflow.
+    types:
+    - uid: string
+  - name: Type
+    description: Type of the content.
+    types:
+    - uid: string
+  - name: CallBackEndpoint
+    description: The callback endpoint.
+    types:
+    - uid: string
+  - name: ReviewId
+    description: Review Id if one is created.
+    types:
+    - uid: string
+  - name: ResultMetaData
+    description: Array of KeyValue pairs.
+    types:
+    - uid: KeyValuePair
+      isArray: true
+  - name: JobExecutionReport
+    description: Job execution report- Array of KeyValue pairs object.
+    types:
+    - uid: JobExecutionReportDetails
+      isArray: true
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: Error
+    description: Error body.
+    types:
+    - uid: Error
+- name: KeyValuePair
+  description: The key value pair object properties.
+  kind: object
+  properties:
+  - name: Key
+    description: The key parameter.
+    types:
+    - uid: string
+  - name: Value
+    description: The value parameter.
+    types:
+    - uid: string
+- name: JobExecutionReportDetails
+  description: Job Execution Report Values.
+  kind: object
+  properties:
+  - name: Ts
+    description: Time details.
+    types:
+    - uid: string
+  - name: Msg
+    description: Message details.
+    types:
+    - uid: string
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: Code
+    description: ''
+    types:
+    - uid: string
+  - name: Message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Get Job Details request
+  request:
+    uri: GET https://southeastasia.api.cognitive.microsoft.com/contentmoderator/review/v1.0/teams/ModeratorTeam/jobs/201709i96f295aa5748101436064c42ddf
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "Id": "2017213fee37b184345gu9606e5d14e3",
+        "TeamName": "teamA",
+        "Status": "Complete",
+        "WorkflowId": "default",
+        "Type": "Image",
+        "CallBackEndpoint": "",
+        "ReviewId": "",
+        "ResultMetaData": [
+          {
+            "Key": "adultScore",
+            "Value": "0.007"
+          },
+          {
+            "Key": "isAdult",
+            "Value": "False"
+          },
+          {
+            "Key": "racyScore",
+            "Value": "0.022"
+          },
+          {
+            "Key": "isRacy",
+            "Value": "False"
+          }
+        ],
+        "JobExecutionReport": [
+          {
+            "Ts": "2017-09-21T22:00:47.4920565",
+            "Msg": "Job marked completed and job content has been removed"
+          },
+          {
+            "Ts": "2017-09-21T22:00:47.420048",
+            "Msg": "Execution Complete"
+          },
+          {
+            "Ts": "2017-09-21T22:00:47.3900424",
+            "Msg": "Successfully got isadult response from Moderator"
+          },
+          {
+            "Ts": "2017-09-21T22:00:46.3538907",
+            "Msg": "Getting isadult from Moderator"
+          },
+          {
+            "Ts": "2017-09-21T22:00:46.1098543",
+            "Msg": "Starting Execution - Try 1"
+          }
+        ]
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

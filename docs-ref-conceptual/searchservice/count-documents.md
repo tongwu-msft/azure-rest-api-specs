@@ -1,20 +1,13 @@
 ---
-title: "Count Documents (Azure Search Service REST API)"
-ms.custom: ""
+title: "Count Documents (Azure Search Service REST API) | Microsoft Docs"
+description: Return a count of total number of documents in an Azure Search index.
 ms.date: "2016-11-09"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 623b5a23-6056-4fb7-a5ef-0334bc711bf4
-caps.latest.revision: 22
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -41,7 +34,7 @@ api-key: [admin key]
 
  The `[index name]` in the request URI tells the service to return a count of all items in the docs collection of the specified index.  
 
- The `api-version` parameter is required. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions.  
+ The `api-version` parameter is required. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -65,4 +58,4 @@ api-key: [admin key]
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
- [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)  
+ [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)  

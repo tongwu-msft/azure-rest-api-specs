@@ -1,0 +1,715 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.versions.import
+name: Import
+service: Cognitive Services
+groupName: Versions
+apiVersion: v2.0 preview
+summary: Imports a new version into a LUIS application.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/import
+- content: POST https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/import?versionId={versionId}
+  isOptional: true
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: query
+  description: The new versionId to import. If not specified, the versionId will be read from the imported object.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: The created application version.
+  types:
+  - uid: string
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- parameters:
+  - name: name
+    in: body
+    description: The name of the application.
+    types:
+    - uid: string
+  - name: versionId
+    in: body
+    description: The version ID of the application that was exported.
+    types:
+    - uid: string
+  - name: desc
+    in: body
+    description: The description of the application.
+    types:
+    - uid: string
+  - name: culture
+    in: body
+    description: 'The culture of the application. E.g.: en-us.'
+    types:
+    - uid: string
+  - name: intents
+    in: body
+    description: List of intents.
+    types:
+    - uid: HierarchicalModel
+      isArray: true
+  - name: entities
+    in: body
+    description: List of entities.
+    types:
+    - uid: HierarchicalModel
+      isArray: true
+  - name: closedLists
+    in: body
+    description: List of closed lists.
+    types:
+    - uid: ClosedList
+      isArray: true
+  - name: composites
+    in: body
+    description: List of composite entities.
+    types:
+    - uid: HierarchicalModel
+      isArray: true
+  - name: patternAnyEntities
+    in: body
+    description: List of Pattern.Any entities.
+    types:
+    - uid: PatternAny
+      isArray: true
+  - name: regex_entities
+    in: body
+    description: List of regular expression entities.
+    types:
+    - uid: RegexEntity
+      isArray: true
+  - name: prebuiltEntities
+    in: body
+    description: List of prebuilt entities.
+    types:
+    - uid: PrebuiltEntity
+      isArray: true
+  - name: regex_features
+    in: body
+    description: List of pattern features.
+    types:
+    - uid: JSONRegexFeature
+      isArray: true
+  - name: model_features
+    in: body
+    description: List of model features.
+    types:
+    - uid: JSONModelFeature
+      isArray: true
+  - name: patterns
+    in: body
+    description: List of patterns.
+    types:
+    - uid: PatternRule
+      isArray: true
+  - name: utterances
+    in: body
+    description: List of sample utterances.
+    types:
+    - uid: JSONUtterance
+      isArray: true
+requestHeader: []
+definitions:
+- name: HierarchicalModel
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: children
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: inherits
+    description: ''
+    types:
+    - uid: PrebuiltDomainObject
+  - name: roles
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: ClosedList
+  description: Exported Model - A Closed List.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the closed list feature.
+    types:
+    - uid: string
+  - name: subLists
+    description: Sublists for the feature.
+    types:
+    - uid: SubClosedList
+      isArray: true
+  - name: roles
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: PatternAny
+  description: Pattern.Any Entity Extractor.
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: explicitList
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: roles
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: RegexEntity
+  description: Regular Expression Entity Extractor.
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: regexPattern
+    description: ''
+    types:
+    - uid: string
+  - name: roles
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: PrebuiltEntity
+  description: Prebuilt Entity Extractor.
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: roles
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: JSONRegexFeature
+  description: Exported Model - A Pattern feature.
+  kind: object
+  properties:
+  - name: pattern
+    description: The Regular Expression to match.
+    types:
+    - uid: string
+  - name: activated
+    description: Indicates if the Pattern feature is enabled.
+    types:
+    - uid: boolean
+  - name: name
+    description: Name of the feature.
+    types:
+    - uid: string
+- name: JSONModelFeature
+  description: Exported Model - Phraselist Model Feature.
+  kind: object
+  properties:
+  - name: activated
+    description: Indicates if the feature is enabled.
+    types:
+    - uid: boolean
+  - name: name
+    description: The Phraselist name.
+    types:
+    - uid: string
+  - name: words
+    description: List of comma-separated phrases that represent the Phraselist.
+    types:
+    - uid: string
+  - name: mode
+    description: An exchangeable phrase list feature are serves as single feature to the LUIS underlying training algorithm. It is used as a lexicon lookup feature where its value is 1 if the lexicon contains a given word or 0 if it doesn’t. Think of an exchangeable as a synonyms list. A non-exchangeable phrase list feature has all the phrases in the list serve as separate features to the underlying training algorithm. So, if you your phrase list feature contains 5 phrases, they will be mapped to 5 separate features. You can think of the non-exchangeable phrase list feature as an additional bag of words that you are willing to add to LUIS existing vocabulary features. Think of a non-exchangeable as set of different words. Default value is true.
+    types:
+    - uid: boolean
+- name: PatternRule
+  description: Pattern
+  kind: object
+  properties:
+  - name: pattern
+    description: The pattern text.
+    types:
+    - uid: string
+  - name: intent
+    description: The intent's name where the pattern belongs to.
+    types:
+    - uid: string
+- name: JSONUtterance
+  description: Exported Model - Utterance that was used to train the model.
+  kind: object
+  properties:
+  - name: text
+    description: The utterance.
+    types:
+    - uid: string
+  - name: intent
+    description: The matched intent.
+    types:
+    - uid: string
+  - name: entities
+    description: The matched entities.
+    types:
+    - uid: JSONEntity
+      isArray: true
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: LuisApp
+  description: Exported Model - An exported LUIS Application.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the application.
+    types:
+    - uid: string
+  - name: versionId
+    description: The version ID of the application that was exported.
+    types:
+    - uid: string
+  - name: desc
+    description: The description of the application.
+    types:
+    - uid: string
+  - name: culture
+    description: 'The culture of the application. E.g.: en-us.'
+    types:
+    - uid: string
+  - name: intents
+    description: List of intents.
+    types:
+    - uid: HierarchicalModel
+      isArray: true
+  - name: entities
+    description: List of entities.
+    types:
+    - uid: HierarchicalModel
+      isArray: true
+  - name: closedLists
+    description: List of closed lists.
+    types:
+    - uid: ClosedList
+      isArray: true
+  - name: composites
+    description: List of composite entities.
+    types:
+    - uid: HierarchicalModel
+      isArray: true
+  - name: patternAnyEntities
+    description: List of Pattern.Any entities.
+    types:
+    - uid: PatternAny
+      isArray: true
+  - name: regex_entities
+    description: List of regular expression entities.
+    types:
+    - uid: RegexEntity
+      isArray: true
+  - name: prebuiltEntities
+    description: List of prebuilt entities.
+    types:
+    - uid: PrebuiltEntity
+      isArray: true
+  - name: regex_features
+    description: List of pattern features.
+    types:
+    - uid: JSONRegexFeature
+      isArray: true
+  - name: model_features
+    description: List of model features.
+    types:
+    - uid: JSONModelFeature
+      isArray: true
+  - name: patterns
+    description: List of patterns.
+    types:
+    - uid: PatternRule
+      isArray: true
+  - name: utterances
+    description: List of sample utterances.
+    types:
+    - uid: JSONUtterance
+      isArray: true
+- name: PrebuiltDomainObject
+  kind: object
+  properties:
+  - name: domain_name
+    description: ''
+    types:
+    - uid: string
+  - name: model_name
+    description: ''
+    types:
+    - uid: string
+- name: SubClosedList
+  description: Sublist of items for a Closed list.
+  kind: object
+  properties:
+  - name: canonicalForm
+    description: The standard form that the list represents.
+    types:
+    - uid: string
+  - name: list
+    description: List of synonym words.
+    types:
+    - uid: string
+      isArray: true
+- name: JSONEntity
+  description: Exported Model - Extracted Entity from utterance.
+  kind: object
+  properties:
+  - name: startPos
+    description: The index within the utterance where the extracted entity starts.
+    types:
+    - uid: integer
+  - name: endPos
+    description: The index within the utterance where the extracted entity ends.
+    types:
+    - uid: integer
+  - name: entity
+    description: The entity name.
+    types:
+    - uid: string
+examples:
+- name: Successful Import Application
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/bd72e8d7-62b8-48f5-9dcb-e3b0588b803a/versions/import?versionId=0.2
+    body: >-
+      {
+        "luis_schema_version": "3.0.0",
+        "versionId": "0.1",
+        "name": "LuisBot",
+        "desc": "",
+        "culture": "en-us",
+        "intents": [
+          {
+            "name": "HomeAutomation.TurnOff",
+            "inherits": {
+              "domain_name": "HomeAutomation",
+              "model_name": "TurnOff"
+            }
+          },
+          {
+            "name": "dateintent"
+          },
+          {
+            "name": "Help"
+          },
+          {
+            "name": "None"
+          },
+          {
+            "name": "SearchHotels"
+          },
+          {
+            "name": "ShowHotelsReviews"
+          }
+        ],
+        "entities": [
+          {
+            "name": "AirportCode",
+            "roles": [
+              "destination"
+            ]
+          },
+          {
+            "name": "Hotel",
+            "roles": []
+          }
+        ],
+        "composites": [],
+        "closedLists": [],
+        "patternAnyEntities": [
+          {
+            "name": "patternAny1",
+            "explicitList": [],
+            "roles": [
+              "role1",
+              "role2"
+            ]
+          }
+        ],
+        "regex_entities": [
+          {
+            "name": "regex1",
+            "regexPattern": "[^a]+",
+            "roles": [
+              "regex role"
+            ]
+          }
+        ],
+        "prebuiltEntities": [
+          {
+            "name": "datetimeV2",
+            "roles": [
+              "datetime role"
+            ]
+          }
+        ],
+        "model_features": [
+          {
+            "name": "Near",
+            "mode": true,
+            "words": "near,around,close,nearby",
+            "activated": true
+          },
+          {
+            "name": "Show",
+            "mode": true,
+            "words": "show,find,look,search",
+            "activated": true
+          }
+        ],
+        "regex_features": [
+          {
+            "name": "AirportCodeRegex",
+            "pattern": "[a-z]{3}",
+            "activated": true
+          }
+        ],
+        "patterns": [
+          {
+            "pattern": "this is [a test] {patternAny1:role1}",
+            "intent": "Help"
+          }
+        ],
+        "utterances": [
+          {
+            "text": "i need help",
+            "intent": "Help",
+            "entities": []
+          },
+          {
+            "text": "help me",
+            "intent": "Help",
+            "entities": []
+          },
+          {
+            "text": "tomorrow",
+            "intent": "dateintent",
+            "entities": []
+          },
+          {
+            "text": "search for hotels in seattle",
+            "intent": "SearchHotels",
+            "entities": []
+          },
+          {
+            "text": "what can i do?",
+            "intent": "Help",
+            "entities": []
+          },
+          {
+            "text": "next monday",
+            "intent": "dateintent",
+            "entities": []
+          },
+          {
+            "text": "next year",
+            "intent": "dateintent",
+            "entities": []
+          },
+          {
+            "text": "look for hotels in miami",
+            "intent": "SearchHotels",
+            "entities": []
+          },
+          {
+            "text": "show me hotels in california",
+            "intent": "SearchHotels",
+            "entities": []
+          },
+          {
+            "text": "show me the reviews of the amazing bot resort",
+            "intent": "ShowHotelsReviews",
+            "entities": [
+              {
+                "entity": "Hotel",
+                "startPos": 23,
+                "endPos": 44
+              }
+            ]
+          },
+          {
+            "text": "can i see the reviews of extended bot hotel?",
+            "intent": "ShowHotelsReviews",
+            "entities": [
+              {
+                "entity": "Hotel",
+                "startPos": 25,
+                "endPos": 42
+              }
+            ]
+          },
+          {
+            "text": "find reviews of hotelxya",
+            "intent": "ShowHotelsReviews",
+            "entities": [
+              {
+                "entity": "Hotel",
+                "startPos": 16,
+                "endPos": 23
+              }
+            ]
+          },
+          {
+            "text": "show me reviews of the amazing hotel",
+            "intent": "ShowHotelsReviews",
+            "entities": [
+              {
+                "entity": "Hotel",
+                "startPos": 19,
+                "endPos": 35
+              }
+            ]
+          },
+          {
+            "text": "what are the available options?",
+            "intent": "Help",
+            "entities": []
+          },
+          {
+            "text": "best hotels in seattle",
+            "intent": "SearchHotels",
+            "entities": []
+          },
+          {
+            "text": "hotels in los angeles",
+            "intent": "SearchHotels",
+            "entities": []
+          },
+          {
+            "text": "can you show me hotels from los angeles?",
+            "intent": "SearchHotels",
+            "entities": []
+          },
+          {
+            "text": "can you show me the reviews of the amazing resort & hotel",
+            "intent": "ShowHotelsReviews",
+            "entities": [
+              {
+                "entity": "Hotel",
+                "startPos": 31,
+                "endPos": 56
+              }
+            ]
+          },
+          {
+            "text": "what are the reviews of the hotel bot framework?",
+            "intent": "ShowHotelsReviews",
+            "entities": [
+              {
+                "entity": "Hotel",
+                "startPos": 24,
+                "endPos": 46
+              }
+            ]
+          },
+          {
+            "text": "find hotels near eze",
+            "intent": "SearchHotels",
+            "entities": [
+              {
+                "entity": "AirportCode",
+                "startPos": 17,
+                "endPos": 19
+              }
+            ]
+          },
+          {
+            "text": "where can i stay near nnn?",
+            "intent": "SearchHotels",
+            "entities": [
+              {
+                "entity": "AirportCode",
+                "startPos": 22,
+                "endPos": 24
+              }
+            ]
+          },
+          {
+            "text": "show hotels near att airport",
+            "intent": "SearchHotels",
+            "entities": [
+              {
+                "entity": "AirportCode",
+                "startPos": 17,
+                "endPos": 19
+              }
+            ]
+          },
+          {
+            "text": "find hotels near agl",
+            "intent": "SearchHotels",
+            "entities": [
+              {
+                "entity": "AirportCode",
+                "startPos": 17,
+                "endPos": 19
+              }
+            ]
+          },
+          {
+            "text": "find hotels around eze airport",
+            "intent": "SearchHotels",
+            "entities": [
+              {
+                "entity": "AirportCode",
+                "startPos": 19,
+                "endPos": 21
+              }
+            ]
+          },
+          {
+            "text": "01/7",
+            "intent": "dateintent",
+            "entities": []
+          }
+        ]
+      }
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: Location
+      value: https://westus.api.cognitive.microsoft.com/luis/api/v2.0/bd72e8d7-62b8-48f5-9dcb-e3b0588b803a/versions/0.2
+    body: "\"0.2\""
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

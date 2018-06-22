@@ -1,6 +1,6 @@
 ---
 title: "CodePackageEntryPoint"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,44 +34,44 @@ Information about setup or main entry point of a code package deployed on a Serv
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [EntryPointLocation](#entrypointlocation) | string | No |
-| [ProcessId](#processid) | string | No |
-| [RunAsUserName](#runasusername) | string | No |
-| [CodePackageEntryPointStatistics](#codepackageentrypointstatistics) | [CodePackageEntryPointStatistics](sfclient-model-codepackageentrypointstatistics.md) | No |
-| [Status](#status) | string (enum) | No |
-| [NextActivationTime](#nextactivationtime) | string (date-time) | No |
-| [InstanceId](#instanceid) | string | No |
+| [`EntryPointLocation`](#entrypointlocation) | string | No |
+| [`ProcessId`](#processid) | string | No |
+| [`RunAsUserName`](#runasusername) | string | No |
+| [`CodePackageEntryPointStatistics`](#codepackageentrypointstatistics) | [CodePackageEntryPointStatistics](sfclient-model-codepackageentrypointstatistics.md) | No |
+| [`Status`](#status) | string (enum) | No |
+| [`NextActivationTime`](#nextactivationtime) | string (date-time) | No |
+| [`InstanceId`](#instanceid) | string | No |
 
 ____
-### EntryPointLocation
+### `EntryPointLocation`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The location of entry point executable on the node.
 
 ____
-### ProcessId
+### `ProcessId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The process id of the entry point.
+The process ID of the entry point.
 
 ____
-### RunAsUserName
+### `RunAsUserName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The user name under which entry point executable is run on the node.
 
 ____
-### CodePackageEntryPointStatistics
+### `CodePackageEntryPointStatistics`
 __Type__: [CodePackageEntryPointStatistics](sfclient-model-codepackageentrypointstatistics.md) <br/>
 __Required__: No<br/>
 <br/>
 Statistics about setup or main entry point  of a code package deployed on a Service Fabric node.
 
 ____
-### Status
+### `Status`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -81,25 +81,25 @@ Specifies the status of the code package entry point deployed on a Service Fabri
 
 Possible values are: 
 
-  - Invalid - Indicates status of entry point is not known or invalid. The value is 0.
-  - Pending - Indicates the entry point is scheduled to be started. The value is 1.
-  - Starting - Indicates the entry point is being started. The value is 2.
-  - Started - Indicates the entry point was started successfully and is running. The value is 3.
-  - Stopping - Indicates the entry point is being stopped. The value is 4.
-  - Stopped - Indicates the entry point is not running. The value is 5.
+  - `Invalid` - Indicates status of entry point is not known or invalid. The value is 0.
+  - `Pending` - Indicates the entry point is scheduled to be started. The value is 1.
+  - `Starting` - Indicates the entry point is being started. The value is 2.
+  - `Started` - Indicates the entry point was started successfully and is running. The value is 3.
+  - `Stopping` - Indicates the entry point is being stopped. The value is 4.
+  - `Stopped` - Indicates the entry point is not running. The value is 5.
 
 
 
 ____
-### NextActivationTime
+### `NextActivationTime`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The time (in UTC) when the entry point executable will be run next.
 
 ____
-### InstanceId
+### `InstanceId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The instance id for current running entry point. For a code package setup entry point (if specified) runs first and after it finishes main entry point is started. Each time entry point executable is run, its instance id will change.
+The instance ID for current running entry point. For a code package setup entry point (if specified) runs first and after it finishes main entry point is started. Each time entry point executable is run, its instance id will change.

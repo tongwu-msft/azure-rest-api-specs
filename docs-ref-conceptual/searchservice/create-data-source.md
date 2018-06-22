@@ -1,20 +1,13 @@
 ---
-title: "Create Data Source (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2016-11-09"
+title: "Create Data Source (Azure Search Service REST API) | Microsoft Docs"
+description: Data source connection information used by an Azure Search indexer when crawling external data sources.
+ms.date: "04/20/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 1c9399cf-e3f6-466f-8a00-73ea27ca18f8
-caps.latest.revision: 22
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -28,7 +21,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Data Source (Azure Search Service REST API)
-  In Azure Search, a data source is used with indexers, providing the connection information for ad hoc or scheduled data refresh of a target index. You can create a new data source within an Azure Search service using an HTTP POST request.  
+  In Azure Search, a data source is used with [indexers](create-indexer.md), providing the connection information for ad hoc or scheduled data refresh of a target index, pulling data from [supported Azure data sources](https://docs.microsoft.com/azure/search/search-indexer-overview#supported-data-sources). You can create a new data source within an Azure Search service using an HTTP POST or PUT request.  
 
 ```  
 POST https://[service name].search.windows.net/datasources?api-version=[api-version]  
@@ -48,9 +41,9 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 ## Request  
  HTTPS is required for all service requests. The **Create Data Source** request can be constructed using either a POST or PUT method. When using POST, you must provide a data source name in the request body along with the data source definition. With PUT, the name is part of the URL. If the data source doesn't exist, it is created. If it already exists, it is updated to the new definition  
 
- The data source name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the data source name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Search&#41;](naming-rules.md) for details.  
+ The data source name must be lower case, start with a letter or number, have no slashes or dots, and have fewer than 128 characters. After starting the data source name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. See [Naming rules &#40;Azure Search&#41;](naming-rules.md) for details.  
 
- The **api-version** is required. The current version is `2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The **api-version** is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
 ### Request Header  
  The following list describes the required and optional request headers.  
@@ -65,7 +58,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 ### Request Body Syntax  
  The body of the request contains a data source definition, which includes type of the data source, credentials to read the data, as well as an optional data change detection and data deletion detection policies that are used to efficiently identify changed or deleted data in the data source when used with a periodically scheduled indexer  
 
- The syntax for structuring the request payload is as follows. A sample request is provided further on in this topic.  
+ The syntax for structuring the request payload is as follows. A sample request is provided further on in this article.  
 
 ```  
 {   
@@ -110,7 +103,7 @@ PUT https://[service name].search.windows.net/datasources/[datasource name]?api-
 
 -   Queries that use a filter clause similar to the following `WHERE [High Water Mark Column] > [Current High Water Mark Value]` can be executed efficiently.  
 
- For example, when using Azure SQL data sources, an indexed `rowversion` column is the ideal candidate for use with with the high water mark policy.  
+ For example, when using Azure SQL data sources, an indexed `rowversion` column is the ideal candidate for use with the high water mark policy.  
 
  This policy can be specified as follows:  
 
@@ -127,7 +120,7 @@ When using Azure Blob data sources, Azure Search automatically uses a high water
 
  **SQL Integrated Change Detection Policy**  
 
- If your SQL Server relational database supports [change tracking](https://msdn.microsoft.com/library/bb933875.aspx), we recommend using SQL Integrated Change Tracking Policy. This policy enables the most efficient change tracking, and allows Azure Search to identify deleted rows without you having to have an explicit "soft delete" column in your schema.  
+ If your SQL Server relational database supports [change tracking](https://docs.microsoft.com/sql/relational-databases/track-changes/about-change-tracking-sql-server), we recommend using SQL Integrated Change Tracking Policy. This policy enables the most efficient change tracking, and allows Azure Search to identify deleted rows without you having to have an explicit "soft delete" column in your schema.  
 
  Integrated change tracking is supported starting with the following SQL Server database versions:  
 
@@ -137,7 +130,7 @@ When using Azure Blob data sources, Azure Search automatically uses a high water
 
  When using SQL Integrated Change Tracking policy, do not specify a separate data deletion detection policy - this policy has built-in support for identifying deleted rows.  
 
- This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](https://msdn.microsoft.com/library/bb964713.aspx) for instructions.  
+ This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](https://docs.microsoft.com/ql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions.  
 
  When structuring the **Create Data Source** request, SQL integrated change tracking policy can be specified as follows:  
 
@@ -194,8 +187,9 @@ When using Azure Blob data sources, Azure Search automatically uses a high water
  For a successful request: 201 Created.  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
- [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
- [Data type map for indexers in Azure Search](data-type-map-for-indexers-in-azure-search.md)  
+
+ + [Azure Search Service REST](index.md)   
+ + [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
+ + [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
+ + [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
+ + [Data type map for indexers in Azure Search](data-type-map-for-indexers-in-azure-search.md)  

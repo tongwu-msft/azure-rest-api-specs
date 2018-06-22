@@ -1,0 +1,157 @@
+### YamlMime:RESTOperation
+uid: luis.api.v2.0.cognitiveservices.apps.listavailablecustomprebuiltdomainsforculture
+name: List Available Custom Prebuilt Domains For Culture
+service: Cognitive Services
+groupName: Apps
+apiVersion: v2.0 preview
+summary: Gets all the available custom prebuilt domains for a specific culture.
+produces:
+- application/json
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/luis/api/v2.0/apps/customprebuiltdomains/{culture}
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: culture
+  in: path
+  isRequired: true
+  description: Culture.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Returns a list of all domains and their intents/entities representation for a specific culture.
+  types:
+  - uid: PrebuiltDomain
+    isArray: true
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PrebuiltDomain
+  description: Prebuilt Domain.
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: culture
+    description: ''
+    types:
+    - uid: string
+  - name: description
+    description: ''
+    types:
+    - uid: string
+  - name: examples
+    description: ''
+    types:
+    - uid: string
+  - name: intents
+    description: ''
+    types:
+    - uid: PrebuiltDomainItem
+      isArray: true
+  - name: entities
+    description: ''
+    types:
+    - uid: PrebuiltDomainItem
+      isArray: true
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: PrebuiltDomainItem
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: description
+    description: ''
+    types:
+    - uid: string
+  - name: examples
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Successful Get AvailableCustomPrebuiltDomainsForCulture request
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/customprebuiltdomains/{culture}
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "name": "taxi",
+          "culture": "en-us",
+          "description": "A custom prebuilt domain for taxi booking",
+          "examples": "book taxi x on friday at 6 pm, take me to Tinga's from Westin hotel with taxi lux",
+          "intents": [
+            {
+              "name": "book_taxi",
+              "description": "Requests/Books taxi",
+              "examples": "book taxi x on friday at 6 pm"
+            },
+            {
+              "name": "cancel_taxi",
+              "description": "Cancels taxi request",
+              "examples": "I just called an taxi SUV , please cancel, Cancel my taxi"
+            }
+          ],
+          "entities": [
+            {
+              "name": "from_place_name",
+              "description": "Route starting point",
+              "examples": "find taxi x to take me to 9th street from space needle"
+            }
+          ]
+        },
+        {
+          "name": "weather",
+          "culture": "en-us",
+          "description": "A custom prebuilt domain that gets weather forecast and condition",
+          "examples": "Show me the weather for this weekend, What's the weather?",
+          "intents": [
+            {
+              "name": "get_forecast",
+              "description": "Gets weather forecast",
+              "examples": "What's the weather like tomorrow?"
+            },
+            {
+              "name": "get_condition",
+              "description": "Gets weather condition",
+              "examples": "what's the average temperature in India in September?"
+            }
+          ],
+          "entities": [
+            {
+              "name": "location",
+              "description": "Location of the queried weather",
+              "examples": "What's the weather like in Minneapolis"
+            },
+            {
+              "name": "unit",
+              "description": "Temperature measurement unit",
+              "examples": "Please change the weather from Fahrenheit to Celsius"
+            }
+          ]
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

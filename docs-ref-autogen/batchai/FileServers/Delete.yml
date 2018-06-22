@@ -3,14 +3,14 @@ uid: management.azure.com.batchai.fileservers.delete
 name: Delete
 service: Batch AI
 groupName: File Servers
-apiVersion: 2017-09-01-preview
-summary: Delete a file Server.
+apiVersion: 2018-05-01
+summary: Deletes a File Server.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/fileServers/{fileServerName}?api-version=2017-09-01-preview
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}?api-version=2018-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -25,13 +25,20 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w\._]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+  types:
+  - uid: string
+  pattern: ^[-\w_]+$
 - name: fileServerName
   in: path
   isRequired: true
   description: The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
   types:
   - uid: string
-  pattern: ^[-\w\._]+$
+  pattern: ^[-\w_]+$
 - name: api-version
   in: query
   isRequired: true
@@ -56,6 +63,7 @@ definitions:
   kind: object
   properties:
   - name: error
+    isReadyOnly: true
     description: An error response from the Batch AI service.
     types:
     - uid: CloudErrorBody
@@ -64,31 +72,35 @@ definitions:
   kind: object
   properties:
   - name: code
+    isReadyOnly: true
     description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
   - name: target
+    isReadyOnly: true
     description: The target of the particular error. For example, the name of the property in error.
     types:
     - uid: string
   - name: details
-    description: An error response from the Batch AI service.
+    isReadyOnly: true
+    description: A list of additional details about the error.
     types:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: Delete file server
+- name: Delete a file server
   request:
-    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/fileServers/demo_nfs?api-version=2017-09-01-preview
+    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/fileServers/demo_nfs?api-version=2018-05-01
   responses:
   - statusCode: "202"
     headers:
     - name: Location
-      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.BatchAI/locations/eastus/operationresults/7e69f371-db62-4183-bba0-5ee577d43bd7?api-version=2017-09-01-preview
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.BatchAI/locations/eastus/operationresults/7e69f371-db62-4183-bba0-5ee577d43bd7?api-version=2018-05-01
     - name: Retry-After
       value: "15"
   - statusCode: "200"

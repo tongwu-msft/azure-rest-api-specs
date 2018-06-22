@@ -1,0 +1,105 @@
+### YamlMime:RESTOperation
+uid: face.v1.0.cognitiveservices.persongroupperson.get
+name: Get
+service: Cognitive Services
+groupName: Person Group Person
+apiVersion: "1.0"
+summary: Retrieve a person's information, including registered persisted faces, name and userData.
+produces:
+- application/json
+paths:
+- content: GET https://{AzureRegion}.api.cognitive.microsoft.com/face/v1.0/persongroups/{personGroupId}/persons/{personId}
+uriParameters:
+- name: AzureRegion
+  in: path
+  isRequired: true
+  description: Supported Azure regions for Cognitive Services endpoints
+  types:
+  - uid: string
+- name: personGroupId
+  in: path
+  isRequired: true
+  description: Id referencing a particular person group.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9-_]+$
+- name: personId
+  in: path
+  isRequired: true
+  description: Id referencing a particular person.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 200 OK
+  description: A successful call returns the person's information.
+  types:
+  - uid: Person
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader: []
+definitions:
+- name: Person
+  description: Person object.
+  kind: object
+  properties:
+  - name: personId
+    description: PersonId of the target face list.
+    types:
+    - uid: string
+  - name: persistedFaceIds
+    description: PersistedFaceIds of registered faces in the person. These persistedFaceIds are returned from Person - Add a Person Face, and will not expire.
+    types:
+    - uid: string
+      isArray: true
+  - name: name
+    description: User defined name, maximum length is 128.
+    types:
+    - uid: string
+  - name: userData
+    description: User specified data. Length should not exceed 16KB.
+    types:
+    - uid: string
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Get person example
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups/abc/persons/25985303-c537-4467-b41d-bdb45cd95ca1
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "personId": "25985303-c537-4467-b41d-bdb45cd95ca1",
+        "persistedFaceIds": [
+          "015839fb-fbd9-4f79-ace9-7675fc2f1dd9",
+          "fce92aed-d578-4d2e-8114-068f8af4492e",
+          "b64d5e15-8257-4af2-b20a-5a750f8940e7"
+        ],
+        "name": "Ryan",
+        "userData": "User-provided data attached to the person"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

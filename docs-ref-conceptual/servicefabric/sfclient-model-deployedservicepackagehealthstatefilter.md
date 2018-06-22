@@ -1,6 +1,6 @@
 ---
 title: "DeployedServicePackageHealthStateFilter"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,12 +37,12 @@ One filter can match zero, one or multiple deployed service packages, depending 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServiceManifestNameFilter](#servicemanifestnamefilter) | string | No |
-| [ServicePackageActivationIdFilter](#servicepackageactivationidfilter) | string | No |
-| [HealthStateFilter](#healthstatefilter) | integer | No |
+| [`ServiceManifestNameFilter`](#servicemanifestnamefilter) | string | No |
+| [`ServicePackageActivationIdFilter`](#servicepackageactivationidfilter) | string | No |
+| [`HealthStateFilter`](#healthstatefilter) | integer | No |
 
 ____
-### ServiceManifestNameFilter
+### `ServiceManifestNameFilter`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -54,7 +54,7 @@ If not specified, all deployed service packages that match the parent filters (i
 
 
 ____
-### ServicePackageActivationIdFilter
+### `ServicePackageActivationIdFilter`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -64,14 +64,14 @@ If specified, the filter matches only the deployed service package with the spec
 
 
 ____
-### HealthStateFilter
+### `HealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The filter for the health state of the deployed service packages. It allows selecting deployed service packages if they match the desired health states.
 The possible values are integer value of one of the following health states. Only deployed service packages that match the filter are returned. All deployed service packages are used to evaluate the parent deployed application aggregated health state.
-If not specified, default value is None, unless the deployed service package id is specified. If the filter has default value and deployed service package id is specified, the matching deployed service package is returned.
+If not specified, default value is None, unless the deployed service package ID is specified. If the filter has default value and deployed service package ID is specified, the matching deployed service package is returned.
 The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
 For example, if the provided value is 6, it matches deployed service packages with HealthState value of OK (2) and Warning (4).
 

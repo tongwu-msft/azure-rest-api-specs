@@ -1,6 +1,6 @@
 ---
 title: "ReplicaHealthEvaluation"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,12 +34,12 @@ Represents health evaluation for a replica, containing information about the dat
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [AggregatedHealthState](#aggregatedhealthstate) | string (enum) | No |
-| [Description](#description) | string | No |
-| [PartitionId](#partitionid) | string (uuid) | No |
-| [ReplicaOrInstanceId](#replicaorinstanceid) | string | No |
-| [UnhealthyEvaluations](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
+| [`Kind`](#kind) | string | Yes |
+| [`AggregatedHealthState`](#aggregatedhealthstate) | string (enum) | No |
+| [`Description`](#description) | string | No |
+| [`PartitionId`](#partitionid) | string (uuid) | No |
+| [`ReplicaOrInstanceId`](#replicaorinstanceid) | string | No |
+| [`UnhealthyEvaluations`](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
 
 ____
 ### Kind
@@ -49,7 +49,7 @@ __Required__: Yes <br/>
 A discriminator property. Its value must be 'Replica' for objects of type 'ReplicaHealthEvaluation'.
 
 ____
-### AggregatedHealthState
+### `AggregatedHealthState`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
@@ -59,37 +59,37 @@ The health state of a Service Fabric entity such as Cluster, Node, Application, 
 
 Possible values are: 
 
-  - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Ok - Indicates the health state is okay. The value is 1.
-  - Warning - Indicates the health state is at a warning level. The value is 2.
-  - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
-  - Unknown - Indicates an unknown health status. The value is 65535.
+  - `Invalid` - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Ok` - Indicates the health state is okay. The value is 1.
+  - `Warning` - Indicates the health state is at a warning level. The value is 2.
+  - `Error` - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+  - `Unknown` - Indicates an unknown health status. The value is 65535.
 
 
 
 ____
-### Description
+### `Description`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Description of the health evaluation, which represents a summary of the evaluation process.
 
 ____
-### PartitionId
+### `PartitionId`
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
 <br/>
 Id of the partition to which the replica belongs.
 
 ____
-### ReplicaOrInstanceId
+### `ReplicaOrInstanceId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Id of a stateful service replica or a stateless service instance. This id is used in the queries that apply to both stateful and stateless services. It is used by Service Fabric to uniquely identify a replica of a partition of a stateful service or an instance of a stateless service partition. It is unique within a partition and does not change for the lifetime of the replica or the instance. If a stateful replica gets dropped and another replica gets created on the same node for the same partition, it will get a different value for the id. If a stateless instance is failed over on the same or different node it will get a different value for the id.
+Id of a stateful service replica or a stateless service instance. This ID is used in the queries that apply to both stateful and stateless services. It is used by Service Fabric to uniquely identify a replica of a partition of a stateful service or an instance of a stateless service partition. It is unique within a partition and does not change for the lifetime of the replica or the instance. If a stateful replica gets dropped and another replica gets created on the same node for the same partition, it will get a different value for the ID. If a stateless instance is failed over on the same or different node it will get a different value for the ID.
 
 ____
-### UnhealthyEvaluations
+### `UnhealthyEvaluations`
 __Type__: array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) <br/>
 __Required__: No<br/>
 <br/>

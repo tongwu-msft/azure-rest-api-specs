@@ -1,19 +1,13 @@
 ---
 title: "Synonym Map Operations (Azure Search Service REST API) | Microsoft Docs"
 description: "Synonym maps contain custom rules to expand or rewrite a search query in Azure Search."
-ms.custom: ""
-ms.date: "2017-03-14"
+ms.date: "04/20/2018"
 ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
-ms.assetid: 86722ded-daf6-4776-b984-b0dfd48218c0
-caps.latest.revision: 14
 author: "mhko"
 ms.author: "nateko"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -27,14 +21,8 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Synonym Map Operations (Azure Search Service REST API)
-> [!NOTE]  
-> Synonyms is a preview feature and is not intended to be used in production code. Preview features are subject to change and are exempt from the service level agreement (SLA).
 
   In Azure Search, developers can define custom rules to expand or rewrite a search query with equivalent terms. For example, in your application, the words "whirlpool", "jacuzzi" and "hot tub" may be equivalent and you want to have a rule that automatically expands the search when only one is searched for. The resource that contains the rules is called a synonym map. Synonym maps are service level resources and maintained independently from search indexes. Once a synonym map is uploaded, you can point any searchable field to the synonym map (one per field).
-
-## Availability
-
-  The synonyms feature is currently only available in the latest preview API version `2016-09-01-Preview`. You can use the preview REST API or [preview .NET SDK](https://aka.ms/search-sdk-preview) to evaluate synonyms.
 
 ## Workflow  
 
@@ -46,7 +34,7 @@ translation.priority.mt:
 
   For example, the index definition below configures the 'name' field to use the synonym map 'mysynonymmap'.
   ```
-	POST https://[servicename].search.windows.net/indexes?api-version=2016-09-01-Preview
+	POST https://[service name].search.windows.net/indexes?api-version=2017-11-11
 	api-key: [admin key]
 
 	{

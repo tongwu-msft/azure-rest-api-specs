@@ -1,5 +1,5 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.recoveryservices-backup.protectionpolicyoperationresults.get
+uid: management.azure.com.backup.protectionpolicyoperationresults.get
 name: Get
 service: Recovery Services - Backup
 groupName: Protection Policy Operation Results
@@ -112,7 +112,6 @@ definitions:
     description: Backup schedule specified as part of backup policy.
     types:
     - uid: LogSchedulePolicy
-    - uid: LongTermSchedulePolicy
     - uid: SimpleSchedulePolicy
     typesTitle: SchedulePolicy
   - name: retentionPolicy
@@ -142,7 +141,6 @@ definitions:
     description: Backup schedule specified as part of backup policy.
     types:
     - uid: LogSchedulePolicy
-    - uid: LongTermSchedulePolicy
     - uid: SimpleSchedulePolicy
     typesTitle: SchedulePolicy
   - name: retentionPolicy
@@ -151,6 +149,10 @@ definitions:
     - uid: LongTermRetentionPolicy
     - uid: SimpleRetentionPolicy
     typesTitle: RetentionPolicy
+  - name: instantRpRetentionRangeInDays
+    description: Instant RP retention policy range in days
+    types:
+    - uid: integer
   - name: timeZone
     description: 'TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time".'
     types:
@@ -196,7 +198,7 @@ definitions:
     types:
     - uid: Settings
   - name: subProtectionPolicy
-    description: Sub-protection policy which includes schedule and retention
+    description: List of sub-protection policies which includes schedule and retention
     types:
     - uid: SubProtectionPolicy
       isArray: true
@@ -214,7 +216,7 @@ definitions:
   kind: object
   properties:
   - name: subProtectionPolicy
-    description: Sub-protection policy which includes schedule and retention
+    description: List of sub-protection policies which includes schedule and retention
     types:
     - uid: SubProtectionPolicy
       isArray: true
@@ -243,7 +245,6 @@ definitions:
     description: Backup schedule of backup policy.
     types:
     - uid: LogSchedulePolicy
-    - uid: LongTermSchedulePolicy
     - uid: SimpleSchedulePolicy
     typesTitle: SchedulePolicy
   - name: retentionPolicy
@@ -273,6 +274,12 @@ definitions:
     description: SQL compression flag
     types:
     - uid: boolean
+  - name: isCompression
+    description: >-
+      Workload compression flag. This has been added so that 'isSqlCompression'
+                  will be deprecated once clients upgrade to consider this flag.
+    types:
+    - uid: boolean
 - name: SubProtectionPolicy
   description: Sub-protection policy which includes schedule and retention
   kind: object
@@ -285,7 +292,6 @@ definitions:
     description: Backup schedule specified as part of backup policy.
     types:
     - uid: LogSchedulePolicy
-    - uid: LongTermSchedulePolicy
     - uid: SimpleSchedulePolicy
     typesTitle: SchedulePolicy
   - name: retentionPolicy
@@ -307,14 +313,6 @@ definitions:
     types:
     - uid: LogSchedulePolicy
     typesTitle: string
-- name: LongTermSchedulePolicy
-  description: Long term policy schedule.
-  kind: object
-  properties:
-  - name: schedulePolicyType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
-    types:
-    - uid: string
 - name: SimpleSchedulePolicy
   description: Simple policy schedule.
   kind: object
@@ -511,7 +509,7 @@ definitions:
   kind: object
   properties:
   - name: daysOfTheMonth
-    description: Day of the week.
+    description: List of days of the month.
     types:
     - uid: Day
       isArray: true

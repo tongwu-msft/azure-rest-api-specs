@@ -3,15 +3,15 @@ uid: batch.core.windows.net.batchservice.pool.upgradeos
 name: Upgrade OS
 service: Batch Service
 groupName: Pool
-apiVersion: 2017-09-01.6.0
-summary: Upgrades the operating system of the specified pool. During an upgrade, the Batch service upgrades each compute node in the pool. When a compute node is chosen for upgrade, any tasks running on that node are removed from the node and returned to the queue to be rerun later (or on a different compute node). The node will be unavailable until the upgrade is complete. This operation results in temporarily reduced pool capacity as nodes are taken out of service to be upgraded. Although the Batch service tries to avoid upgrading all compute nodes at the same time, it does not guarantee to do this (particularly on small pools); therefore, the pool may be temporarily unavailable to run tasks. When this operation runs, the pool state changes to upgrading. When all compute nodes have finished upgrading, the pool state returns to active. While the upgrade is in progress, the pool's currentOSVersion reflects the OS version that nodes are upgrading from, and targetOSVersion reflects the OS version that nodes are upgrading to. Once the upgrade is complete, currentOSVersion is updated to reflect the OS version now running on all nodes. This operation can only be invoked on pools created with the cloudServiceConfiguration property.
+apiVersion: 2018-03-01.6.1
+summary: "Upgrades the operating system of the specified pool.  \nDuring an upgrade, the Batch service upgrades each compute node in the pool. When a compute node is chosen for upgrade, any tasks running on that node are removed from the node and returned to the queue to be rerun later (or on a different compute node). The node will be unavailable until the upgrade is complete. This operation results in temporarily reduced pool capacity as nodes are taken out of service to be upgraded. Although the Batch service tries to avoid upgrading all compute nodes at the same time, it does not guarantee to do this (particularly on small pools); therefore, the pool may be temporarily unavailable to run tasks. When this operation runs, the pool state changes to upgrading. When all compute nodes have finished upgrading, the pool state returns to active. While the upgrade is in progress, the pool's currentOSVersion reflects the OS version that nodes are upgrading from, and targetOSVersion reflects the OS version that nodes are upgrading to. Once the upgrade is complete, currentOSVersion is updated to reflect the OS version now running on all nodes. This operation can only be invoked on pools created with the cloudServiceConfiguration property."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: POST https://batch.core.windows.net/pools/{poolId}/upgradeos?api-version=2017-09-01.6.0
-- content: POST https://batch.core.windows.net/pools/{poolId}/upgradeos?timeout={timeout}&api-version=2017-09-01.6.0
+- content: POST https://batch.core.windows.net/pools/{poolId}/upgradeos?api-version=2018-03-01.6.1
+- content: POST https://batch.core.windows.net/pools/{poolId}/upgradeos?timeout={timeout}&api-version=2018-03-01.6.1
   isOptional: true
 uriParameters:
 - name: poolId
@@ -112,7 +112,7 @@ definitions:
     types:
     - uid: ErrorMessage
   - name: values
-    description: An item of additional information included in an Azure Batch error response.
+    description: A collection of key-value pairs containing additional details about the error.
     types:
     - uid: BatchErrorDetail
       isArray: true
@@ -148,5 +148,18 @@ definitions:
     description: The additional information included with the error response.
     types:
     - uid: string
-examples: []
+examples:
+- name: Upgrade OS of the pool
+  request:
+    uri: POST https://batch.core.windows.net/pools/resizePool/upgradeos?api-version=2018-03-01.6.1
+    body: >-
+      {
+        "targetOSVersion": "5"
+      }
+    headers:
+    - name: client-request-id
+      value: 00000000-0000-0000-0000-000000000000
+  responses:
+  - statusCode: "202"
+    body: "\"\""
 security: []

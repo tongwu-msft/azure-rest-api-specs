@@ -1,0 +1,247 @@
+### YamlMime:RESTOperation
+uid: southcentralus.api.cognitive.microsoft.com.customvision.v1.2.training.cognitiveservices.createimagesfromfiles.createimagesfromfiles
+name: Create Images From Files
+service: Cognitive Services
+groupName: Create Images From Files
+apiVersion: "1.2"
+summary: Add the provided batch of images to the set of training images
+consumes:
+- application/json
+- text/json
+- application/xml
+- text/xml
+- application/x-www-form-urlencoded
+produces:
+- application/json
+- text/json
+- application/xml
+- text/xml
+paths:
+- content: POST https://southcentralus.api.cognitive.microsoft.com/customvision/v1.2/Training/projects/{projectId}/images/files
+uriParameters:
+- name: projectId
+  in: path
+  isRequired: true
+  description: The project id
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ImageCreateSummary
+requestBody:
+- parameters:
+  - name: Images
+    in: body
+    description: ''
+    types:
+    - uid: ImageFileCreateEntry
+      isArray: true
+  - name: TagIds
+    in: body
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+requestHeader:
+- name: Training-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: ImageFileCreateEntry
+  kind: object
+  properties:
+  - name: Name
+    description: ''
+    types:
+    - uid: string
+  - name: Contents
+    description: ''
+    types:
+    - uid: string
+  - name: TagIds
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: ImageCreateSummary
+  kind: object
+  properties:
+  - name: IsBatchSuccessful
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: boolean
+  - name: Images
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: ImageCreateResult
+      isArray: true
+- name: ImageFileCreateBatch
+  kind: object
+  properties:
+  - name: Images
+    description: ''
+    types:
+    - uid: ImageFileCreateEntry
+      isArray: true
+  - name: TagIds
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: ImageCreateResult
+  kind: object
+  properties:
+  - name: SourceUrl
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: Status
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: OK
+    - uid: OKDuplicate
+    - uid: ErrorSource
+    - uid: ErrorImageFormat
+    - uid: ErrorImageSize
+    - uid: ErrorStorage
+    - uid: ErrorLimitExceed
+    - uid: ErrorTagLimitExceed
+    - uid: ErrorUnknown
+    typesTitle: enum
+  - name: Image
+    isReadyOnly: true
+    description: Image model to be sent as JSON
+    types:
+    - uid: Image
+- name: Image
+  description: Image model to be sent as JSON
+  kind: object
+  properties:
+  - name: Id
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: Created
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: Width
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: integer
+  - name: Height
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: integer
+  - name: ImageUri
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: ThumbnailUri
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: Tags
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: ImageTag
+      isArray: true
+  - name: Predictions
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: PredictionTag
+      isArray: true
+- name: ImageTag
+  kind: object
+  properties:
+  - name: TagId
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: Created
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: PredictionTag
+  kind: object
+  properties:
+  - name: TagId
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: Tag
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: Probability
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: number
+examples:
+- name: Successful CreateImagesFromFiles request
+  request:
+    uri: POST https://southcentralus.api.cognitive.microsoft.com/customvision/v1.2/Training/projects/64b822c5-8082-4b36-a426-27225f4aa18c/images/files
+    body: >-
+      {
+        "Images": [
+          {
+            "Name": "hemlock_10.jpg",
+            "Contents": "{image contents}"
+          }
+        ],
+        "TagIds": [
+          "b607964f-7bd6-4a3b-a869-6791fb6aab87"
+        ]
+      }
+    headers:
+    - name: Training-Key
+      value: '{API Key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "IsBatchSuccessful": true,
+        "Images": [
+          {
+            "SourceUrl": "\"hemlock_10.jpg\"",
+            "Status": "OK",
+            "Image": {
+              "Id": "4d6eb844-42ee-42bc-bd6f-c32455ef07c9",
+              "Created": "2017-12-19T15:56:10.65Z",
+              "Width": 1095,
+              "Height": 900,
+              "ImageUri": "{Image Uri}",
+              "ThumbnailUri": "{Thumbnail Uri}",
+              "Tags": [
+                {
+                  "TagId": "b607964f-7bd6-4a3b-a869-6791fb6aab87",
+                  "Created": "2017-12-19T15:56:09.6105895Z"
+                }
+              ]
+            }
+          }
+        ]
+      }
+security: []

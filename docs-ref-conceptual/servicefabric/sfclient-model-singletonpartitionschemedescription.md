@@ -1,6 +1,6 @@
 ---
 title: "SingletonPartitionSchemeDescription"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,7 +34,7 @@ Describes the partition scheme of a singleton-partitioned, or non-partitioned se
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [PartitionScheme](#partitionscheme) | string | Yes |
+| [`PartitionScheme`](#partitionscheme) | string | Yes |
 
 ____
 ### PartitionScheme

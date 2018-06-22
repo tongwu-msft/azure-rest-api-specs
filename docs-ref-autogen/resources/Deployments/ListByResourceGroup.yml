@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resourcemanagement.deployments.listbyresourcegroup
+uid: management.azure.com.resources.deployments.listbyresourcegroup
 name: List By Resource Group
 service: Resource Management
 groupName: Deployments
-apiVersion: 2017-05-10
+apiVersion: 2018-02-01
 summary: Get all the deployments for a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/?api-version=2017-05-10
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/?$filter={$filter}&$top={$top}&api-version=2017-05-10
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/?api-version=2018-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/?$filter={$filter}&$top={$top}&api-version=2018-02-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -56,7 +56,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: Deployment information.
+    description: An array of deployments.
     types:
     - uid: DeploymentExtended
       isArray: true
@@ -70,6 +70,7 @@ definitions:
   kind: object
   properties:
   - name: id
+    isReadyOnly: true
     description: The ID of the deployment.
     types:
     - uid: string
@@ -105,12 +106,12 @@ definitions:
     types:
     - uid: object
   - name: providers
-    description: Resource provider information.
+    description: The list of resource providers needed for the deployment.
     types:
     - uid: Provider
       isArray: true
   - name: dependencies
-    description: Deployment dependency information.
+    description: The list of deployment dependencies.
     types:
     - uid: Dependency
       isArray: true
@@ -138,6 +139,10 @@ definitions:
     description: The debug setting of the deployment.
     types:
     - uid: DebugSetting
+  - name: onErrorDeployment
+    description: The deployment on error behavior.
+    types:
+    - uid: OnErrorDeploymentExtended
 - name: Provider
   description: Resource provider information.
   kind: object
@@ -158,7 +163,7 @@ definitions:
     - uid: string
   - name: resourceTypes
     isReadyOnly: true
-    description: Resource type managed by the resource provider.
+    description: The collection of provider resource types.
     types:
     - uid: ProviderResourceType
       isArray: true
@@ -167,7 +172,7 @@ definitions:
   kind: object
   properties:
   - name: dependsOn
-    description: Deployment dependency information.
+    description: The list of dependencies.
     types:
     - uid: BasicDependency
       isArray: true
@@ -224,6 +229,23 @@ definitions:
     description: Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information you are passing in during deployment. By logging information about the request or response, you could potentially expose sensitive data that is retrieved through the deployment operations.
     types:
     - uid: string
+- name: OnErrorDeploymentExtended
+  description: Deployment on error behavior with additional details.
+  kind: object
+  properties:
+  - name: provisioningState
+    isReadyOnly: true
+    description: The state of the provisioning for the on error deployment.
+    types:
+    - uid: string
+  - name: type
+    description: The deployment on error behavior type. Possible values are LastSuccessful and SpecificDeployment.
+    types:
+    - uid: OnErrorDeploymentType
+  - name: deploymentName
+    description: The deployment to be used on error case.
+    types:
+    - uid: string
 - name: ProviderResourceType
   description: Resource type managed by the resource provider.
   kind: object
@@ -238,7 +260,7 @@ definitions:
     - uid: string
       isArray: true
   - name: aliases
-    description: 'The alias type. '
+    description: The aliases that are supported by this resource type.
     types:
     - uid: AliasType
       isArray: true
@@ -271,6 +293,16 @@ definitions:
     description: The dependency resource name.
     types:
     - uid: string
+- name: OnErrorDeploymentType
+  description: The deployment on error behavior type. Possible values are LastSuccessful and SpecificDeployment.
+  kind: enum
+  properties:
+  - name: LastSuccessful
+    types:
+    - uid: string
+  - name: SpecificDeployment
+    types:
+    - uid: string
 - name: AliasType
   description: 'The alias type. '
   kind: object
@@ -280,7 +312,7 @@ definitions:
     types:
     - uid: string
   - name: paths
-    description: 'The type of the paths for alias. '
+    description: The paths for an alias.
     types:
     - uid: AliasPathType
       isArray: true

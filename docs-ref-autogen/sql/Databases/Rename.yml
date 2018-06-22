@@ -1,0 +1,103 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.databases.rename
+name: Rename
+service: SQL Database
+groupName: Databases
+apiVersion: 2017-10-01-preview
+summary: Renames a database.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/move?api-version=2017-10-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database to rename.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully renamed the database.
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidResourceMoveRequest - The resource move request is invalid.
+
+     * 400 InvalidMoveTargetResourceId - The target resource identifier in move request is invalid.
+
+     * 400 MismatchingSubscriptionWithUrl - The provided subscription did not match the subscription in the Url.
+
+     * 400 MismatchingResourceGroupNameWithUrl - The provided resource group name did not match the name in the Url.
+
+     * 400 MismatchingServerNameWithUrl - The provided server name did not match the name in the Url.
+
+     * 400 CannotMoveOrDropJobAccountDatabase - Cannot drop database associated with job account.
+
+     * 400 UnsupportedServiceName - The specified name is an invalid name because it contains one or more unsupported unicode characters.
+
+     * 400 CannotMoveOrDropSyncMetadataDatabase - Cannot drop database used as sync metadata database.
+
+     * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.
+
+     * 400 TokenTooLong - The provided token is too long.
+
+     * 400 CannotUseReservedDatabaseName - Cannot use reserved database name in this operation.
+
+     * 404 SourceDatabaseNotFound - The source database does not exist.
+requestBody:
+- parameters:
+  - name: id
+    in: body
+    isRequired: true
+    description: The target ID for the resource
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ResourceMoveDefinition
+  description: Contains the information necessary to perform a resource move (rename).
+  kind: object
+  properties:
+  - name: id
+    description: The target ID for the resource
+    types:
+    - uid: string
+examples:
+- name: Renames a database.
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/move?api-version=2017-10-01-preview
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/newtestdb"
+      }
+  responses:
+  - statusCode: "200"
+security: []

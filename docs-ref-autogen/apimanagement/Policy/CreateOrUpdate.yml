@@ -3,16 +3,14 @@ uid: management.azure.com.apimanagement.policy.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Policy
-apiVersion: 2017-03-01
+apiVersion: 2018-01-01
 summary: Creates or updates the global policy configuration of the Api Management service.
 consumes:
 - application/json
-- application/vnd.ms-azure-apim.policy+xml
-- application/vnd.ms-azure-apim.policy.raw+xml
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/policy?api-version=2017-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/policy?api-version=2018-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -66,6 +64,11 @@ requestBody:
     description: Json escaped Xml Encoded contents of the Policy.
     types:
     - uid: string
+  - name: properties.contentFormat
+    in: body
+    description: Format of the policyContent.
+    types:
+    - uid: PolicyContentFormat
 requestHeader: []
 definitions:
 - name: PolicyIdName
@@ -83,6 +86,10 @@ definitions:
     description: Json escaped Xml Encoded contents of the Policy.
     types:
     - uid: string
+  - name: properties.contentFormat
+    description: Format of the policyContent.
+    types:
+    - uid: PolicyContentFormat
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -99,22 +106,42 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Error Body contract.
+  description: Error Response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Human-readable representation of the error.
     types:
     - uid: string
-  - name: details
-    description: Error Field contract.
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
     types:
     - uid: ErrorFieldContract
       isArray: true
+- name: PolicyContentFormat
+  description: Format of the policyContent.
+  kind: enum
+  properties:
+  - name: xml
+    description: The contents are inline and Content type is an XML document.
+    types:
+    - uid: string
+  - name: xml-link
+    description: The policy XML document is hosted on a http endpoint accessible from the API Management service.
+    types:
+    - uid: string
+  - name: rawxml
+    description: The contents are inline and Content type is a non XML encoded policy document.
+    types:
+    - uid: string
+  - name: rawxml-link
+    description: The policy document is not Xml encoded and is hosted on a http endpoint accessible from the API Management service.
+    types:
+    - uid: string
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -134,10 +161,11 @@ definitions:
 examples:
 - name: ApiManagementCreatePolicy
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policies/policy?api-version=2017-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policies/policy?api-version=2018-01-01
     body: >-
       {
         "properties": {
+          "contentFormat": "xml",
           "policyContent": "<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"
         }
       }

@@ -23,7 +23,7 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The resource group name.
+  description: Name of an Azure Resource group.
   types:
   - uid: string
   pattern: ^[-\w\._]+$
@@ -49,8 +49,12 @@ responses:
   description: Return list of software update configurations.
   types:
   - uid: softwareUpdateConfigurationListResult
-- name: Other Status Codes
+- name: 404 Not Found
   description: Resource group, or account doesn't exist.
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader:
 - name: clientRequestId
   in: header
@@ -63,10 +67,22 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: Software update configuration collection item properties.
+    description: outer object returned when listing all software update configurations
     types:
     - uid: softwareUpdateConfigurationCollectionItem
       isArray: true
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
 - name: softwareUpdateConfigurationCollectionItem
   description: Software update configuration collection item properties.
   kind: object
@@ -117,7 +133,7 @@ definitions:
   kind: object
   properties:
   - name: azureVirtualMachines
-    description: Azure Resource Manager Id for a virtual machine.
+    description: List of azure resource Ids for azure virtual machines targeted by the software update configuration.
     types:
     - uid: string
       isArray: true

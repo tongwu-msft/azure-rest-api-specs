@@ -3,15 +3,15 @@ uid: management.azure.com.batchai.jobs.listoutputfiles
 name: List Output Files
 service: Batch AI
 groupName: Jobs
-apiVersion: 2017-09-01-preview
-summary: List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+apiVersion: 2018-05-01
+summary: List all directories and files inside the given directory of the Job's output directory (if the output directory is on Azure File Share or Azure Storage Container).
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/jobs/{jobName}/listOutputFiles?outputdirectoryid={outputdirectoryid}&api-version=2017-09-01-preview
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/jobs/{jobName}/listOutputFiles?outputdirectoryid={outputdirectoryid}&linkexpiryinminutes={linkexpiryinminutes}&maxresults={maxresults}&api-version=2017-09-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}/listOutputFiles?outputdirectoryid={outputdirectoryid}&api-version=2018-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}/listOutputFiles?outputdirectoryid={outputdirectoryid}&directory={directory}&linkexpiryinminutes={linkexpiryinminutes}&maxresults={maxresults}&api-version=2018-05-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -27,17 +27,36 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w\._]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+  types:
+  - uid: string
+  pattern: ^[-\w_]+$
+- name: experimentName
+  in: path
+  isRequired: true
+  description: The name of the experiment. Experiment names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+  types:
+  - uid: string
+  pattern: ^[-\w_]+$
 - name: jobName
   in: path
   isRequired: true
   description: The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
   types:
   - uid: string
-  pattern: ^[-\w\._]+$
+  pattern: ^[-\w_]+$
 - name: outputdirectoryid
   in: query
   isRequired: true
   description: Id of the job output directory. This is the OutputDirectory-->id parameter that is given by the user during Create Job.
+  types:
+  - uid: string
+- name: directory
+  in: query
+  description: The path to the directory.
   types:
   - uid: string
 - name: linkexpiryinminutes
@@ -60,7 +79,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The operation was successful. The response contains the list of job files.
+  description: The operation was successful. The response contains the list of files.
   types:
   - uid: FileListResult
 - name: Other Status Codes
@@ -75,11 +94,12 @@ definitions:
   properties:
   - name: value
     isReadyOnly: true
-    description: Properties of the file.
+    description: The collection of returned job directories and files.
     types:
     - uid: File
       isArray: true
   - name: nextLink
+    isReadyOnly: true
     description: The continuation token.
     types:
     - uid: string
@@ -88,27 +108,37 @@ definitions:
   kind: object
   properties:
   - name: error
+    isReadyOnly: true
     description: An error response from the Batch AI service.
     types:
     - uid: CloudErrorBody
 - name: File
-  description: Properties of the file.
+  description: Properties of the file or directory.
   kind: object
   properties:
   - name: name
-    description: file name
+    isReadyOnly: true
+    description: "Name.  \nName of the file."
     types:
     - uid: string
+  - name: fileType
+    isReadyOnly: true
+    description: "File type.  \nType of the file. Possible values are file and directory."
+    types:
+    - uid: FileType
   - name: downloadUrl
-    description: "file downloand url, example: https://mystg.blob.core.windows.net/mycontainer/myModel_1.dnn  \nThis will be returned only if the model has been archived. During job run, this won't be returned and customers can use SSH tunneling to download. Users can use Get Remote Login Information API to get the IP address and port information of all the compute nodes running the job."
+    isReadyOnly: true
+    description: "Download URL.  \nURL to download the corresponding file. The downloadUrl is not returned for directories."
     types:
     - uid: string
   - name: properties.lastModified
-    description: "The time at which the file was last modified.  \nThe time at which the file was last modified."
+    isReadyOnly: true
+    description: "Last modified time.  \nThe time at which the file was last modified."
     types:
     - uid: string
   - name: properties.contentLength
-    description: "The file size.  \nThe file size."
+    isReadyOnly: true
+    description: "Content length.  \nThe file of the size."
     types:
     - uid: integer
 - name: CloudErrorBody
@@ -116,26 +146,40 @@ definitions:
   kind: object
   properties:
   - name: code
+    isReadyOnly: true
     description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
   - name: target
+    isReadyOnly: true
     description: The target of the particular error. For example, the name of the property in error.
     types:
     - uid: string
   - name: details
-    description: An error response from the Batch AI service.
+    isReadyOnly: true
+    description: A list of additional details about the error.
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: FileType
+  description: File type.
+  kind: enum
+  properties:
+  - name: file
+    types:
+    - uid: string
+  - name: directory
+    types:
+    - uid: string
 examples:
 - name: List a job's files
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/jobs/demo_job/listOutputFiles?outputdirectoryid=stdouterr&api-version=2017-09-01-preview
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/experiments/demo_experiment/jobs/demo_job/listOutputFiles?outputdirectoryid=stdouterr&api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -143,6 +187,7 @@ examples:
         "value": [
           {
             "name": "stderr-job_prep.txt",
+            "fileType": "file",
             "downloadUrl": "https://storage_account_name.file.core.windows.net/share/00000000-0000-0000-0000-000000000000/test_mgmt_batchai_jobs_test_job_preparation_hoste0e613b6/jobs/job/host_prep_stderr.txt?sv=2016-05-31&sr=f&sig=CNPJmjDQT9Anld9%2FdnQ52ZBpfOff2el8r4el6J%2BnpJE%3D&se=2017-09-28T01%3A22%3A35Z&sp=rl",
             "properties": {
               "lastModified": "2017-09-28T00:22:19Z",
@@ -151,6 +196,7 @@ examples:
           },
           {
             "name": "stdout-job_prep.txt",
+            "fileType": "file",
             "downloadUrl": "https://storage_account_name.file.core.windows.net/share/00000000-0000-0000-0000-000000000000/test_mgmt_batchai_jobs_test_job_preparation_hoste0e613b6/jobs/job/host_prep_stdout.txt?sv=2016-05-31&sr=f&sig=yK%2F5acWSTdcmBZGGL9%2F3IqeZ7N%2B1sRXfwB%2FaCkoRS%2Bc%3D&se=2017-09-28T01%3A22%3A35Z&sp=rl",
             "properties": {
               "lastModified": "2017-09-28T00:22:19Z",
@@ -159,6 +205,7 @@ examples:
           },
           {
             "name": "stderr.txt",
+            "fileType": "file",
             "downloadUrl": "https://storage_account_name.file.core.windows.net/share/00000000-0000-0000-0000-000000000000/test_mgmt_batchai_jobs_test_job_preparation_hoste0e613b6/jobs/job/stderr.txt?sv=2016-05-31&sr=f&sig=TdvHhdQjvWWA0Z7aPb0oZpPgGbBPOyDarNXWHFnRS3c%3D&se=2017-09-28T01%3A22%3A35Z&sp=rl",
             "properties": {
               "lastModified": "2017-09-28T00:22:19Z",
@@ -167,11 +214,16 @@ examples:
           },
           {
             "name": "stdout.txt",
+            "fileType": "file",
             "downloadUrl": "https://storage_account_name.file.core.windows.net/share/00000000-0000-0000-0000-000000000000/test_mgmt_batchai_jobs_test_job_preparation_hoste0e613b6/jobs/job/stdout.txt?sv=2016-05-31&sr=f&sig=nyydEjNnYpQfovknJc%2B5G%2F05g0IV4acWKlfkM35lh00%3D&se=2017-09-28T01%3A22%3A35Z&sp=rl",
             "properties": {
               "lastModified": "2017-09-28T00:22:19Z",
               "contentLength": 32
             }
+          },
+          {
+            "name": "counters",
+            "fileType": "directory"
           }
         ]
       }

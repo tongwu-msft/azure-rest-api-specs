@@ -1,6 +1,6 @@
 ---
 title: "NodeHealthStateFilter"
-ms.date: "2018-01-22"
+ms.date: "2018-04-23"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -37,11 +37,11 @@ Can be specified in the cluster health chunk query description.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [NodeNameFilter](#nodenamefilter) | string | No |
-| [HealthStateFilter](#healthstatefilter) | integer | No |
+| [`NodeNameFilter`](#nodenamefilter) | string | No |
+| [`HealthStateFilter`](#healthstatefilter) | integer | No |
 
 ____
-### NodeNameFilter
+### `NodeNameFilter`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -52,10 +52,10 @@ If not specified, all nodes that match the parent filters (if any) are taken int
 
 
 ____
-### HealthStateFilter
+### `HealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The filter for the health state of the nodes. It allows selecting nodes if they match the desired health states.
 The possible values are integer value of one of the following health states. Only nodes that match the filter are returned. All nodes are used to evaluate the cluster aggregated health state.

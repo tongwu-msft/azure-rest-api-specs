@@ -1,23 +1,21 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resourcemanagement.policydefinitions.getbuiltin
+uid: management.azure.com.resources.policydefinitions.getbuiltin
 name: Get Built In
 service: Resource Management
 groupName: Policy Definitions
-apiVersion: 2016-12-01
-summary: Gets the built in policy definition.
+apiVersion: 2018-03-01
+summary: "Retrieves a built-in policy definition.  \nThis operation retrieves the built-in policy definition with the given name."
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}?api-version=2016-12-01
+- content: GET https://management.azure.com/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}?api-version=2018-03-01
 uriParameters:
 - name: policyDefinitionName
   in: path
   isRequired: true
-  description: The name of the built in policy definition to get.
+  description: The name of the built-in policy definition to get.
   types:
   - uid: string
 - name: api-version
@@ -28,7 +26,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns information about the built in policy definition.
+  description: OK - Returns information about the built-in policy definition.
   types:
   - uid: PolicyDefinition
 requestHeader: []
@@ -45,6 +43,11 @@ definitions:
   - name: name
     isReadyOnly: true
     description: The name of the policy definition.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource (Microsoft.Authorization/policyDefinitions).
     types:
     - uid: string
   - name: properties.policyType
@@ -101,7 +104,52 @@ definitions:
   - name: All
     types:
     - uid: string
-examples: []
+examples:
+- name: Retrieve a built-in policy definition
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1?api-version=2018-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "displayName": "Allowed storage account SKUs",
+          "policyType": "BuiltIn",
+          "description": "This policy enables you to specify a set of storage account SKUs that your organization can deploy.",
+          "parameters": {
+            "listOfAllowedSKUs": {
+              "type": "Array",
+              "metadata": {
+                "description": "The list of SKUs that can be specified for storage accounts.",
+                "displayName": "Allowed SKUs",
+                "strongType": "StorageSKUs"
+              }
+            }
+          },
+          "policyRule": {
+            "if": {
+              "allOf": [
+                {
+                  "field": "type",
+                  "equals": "Microsoft.Storage/storageAccounts"
+                },
+                {
+                  "not": {
+                    "field": "Microsoft.Storage/storageAccounts/sku.name",
+                    "in": "[parameters('listOfAllowedSKUs')]"
+                  }
+                }
+              ]
+            },
+            "then": {
+              "effect": "Deny"
+            }
+          }
+        },
+        "id": "/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
+        "type": "Microsoft.Authorization/policyDefinitions",
+        "name": "7433c107-6db4-4ad1-b57a-a76dce0154a1"
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
