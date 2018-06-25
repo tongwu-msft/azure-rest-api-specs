@@ -27,15 +27,15 @@ translation.priority.mt:
 # Versioning for the Azure Storage Services
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
- The current version of the Azure storage services is [2017-11-09](version-2017-11-09.md), and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
+ The current version of the Azure storage services is [2018-03-28](version-2018-03-28.md), and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
   
-## Version 2017-11-09
+## Version 2018-03-28
 
-Version 2017-11-09 includes these changes:
+Version 2018-03-28 includes these changes:
 
-- Requests may now be authenticated with an Active Directory identity using the OAuth protocol. This feature is available in preview.
-- The [Get Container Properties](Get-Container-Properties.md) and [List Containers](List-Containers2.md) APIs now return two new properties indicating whether the container has an immutability policy or a legal hold. These policies are available in preview.
-- The [Get Blob Properties](Get-Blob-Properties.md) and [List Blobs](List-Blobs.md) APIs now return the creation time of the blob as a property.
+- A static website may be configured using the [Set Blob Service Properties](Set-Blob-Service-Properties.md) API. The website is based on data in the `$web` container of a storage account. The website is accessible using a new endpoint, which is visible in the portal. For more information, see [Static website hosting in Azure Blob Storage](https://docs.microsoft.com/azure/storage/blobs/storage-blob-static-website)
+- A new API [Put Block from URL](put-block-from-url.md) allow blocks in a block blob to be staged using a range of another blob as a source. This permits synchronous server-side copies to be orchestrated for block blobs of any size.
+- A new API [Get Account Information](get-account-information.md) returns the storage account SKU and kind.
 
 ## Specifying Storage Service Versions in Requests  
 
