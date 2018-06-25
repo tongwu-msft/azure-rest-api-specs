@@ -11,7 +11,7 @@ ms.service: search
 ms.devlang: rest-api
 ms.workload: search
 ms.topic: conceptual
-ms.date: 06/21/2018
+ms.date: 06/25/2018
 
 ---
 # Skillset operations (Azure Search Service REST API - Preview)
