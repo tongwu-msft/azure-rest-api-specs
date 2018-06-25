@@ -75,7 +75,7 @@ api-key: [admin or query key]
 ## Request  
  HTTPS is required for service requests. The **Autocomplete** request can be constructed using the GET or POST methods.  
 
- The request URI specifies the name of the index to query. Query parameters are specified on the query string in the case of GET requests and in the request body in the case of POST requests.  
+ The request URI specifies the name of the index to query. Query parameters are specified on the query string for GET requests and in the request body for POST requests.  
 
  As a best practice when creating GET requests, remember to [URL-encode](https://docs.microsoft.com/uwp/api/windows.foundation.uri.escapecomponent) specific query parameters when calling the REST API directly. For **Autocomplete** operations, this includes:  
 
@@ -84,7 +84,7 @@ api-key: [admin or query key]
 -   **highlightPostTag**
 -   **search**
 
- URL encoding is only recommended on the above query parameters. If you inadvertently URL-encode the entire query string (everything after the **?**), requests will break.  
+ URL encoding is only recommended on the above query parameters. If you inadvertently URL-encode the entire query string (everything after the `?`), requests will break.  
 
  Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Autocomplete** using POST, or when using the [Azure Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet) handles URL encoding for you.  
 
@@ -97,8 +97,8 @@ api-key: [admin or query key]
 |`autocompleteMode=oneTerm | twoTerms | oneTermWithContext (optional, defaults to oneTerm)`|	Sets the autocomplete mode as described above.|
 |`highlightPreTag=[string] (optional, defaults to an empty string)`|A string tag that prepends to search hits. Must be set with `highlightPostTag`. **Note:**  When calling **Autocomplete** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
 |`highlightPostTag=[string] (optional, defaults to an empty string)`|A string tag that appends to search hits. Must be set with `highlightPreTag`. **Note:**  When calling **Autocomplete** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
-|`suggesterName=[string]`|The name of the **suggester** as specified in the **suggesters** collection that's part of the index definition. A **suggester** determines which fields are scanned for suggested query terms. For more information see [Suggesters](suggesters.md).|  
-|`fuzzy=[boolean] (optional, default = false)`|When set to true, this API finds suggestions even if there is a substituted or missing character in the search text. While this provides a better experience in some scenarios, it comes at a performance cost as fuzzy suggestion searches are slower and consume more resources.|  
+|`suggesterName=[string]`|The name of the **suggester** as specified in the **suggesters** collection that's part of the index definition. A **suggester** determines which fields are scanned for suggested query terms. For more information, see [Suggesters](suggesters.md).|  
+|`fuzzy=[boolean] (optional, default = false)`|When set to true, this API finds suggestions even if there is a substituted or missing character in the search text. This provides a better experience in some scenarios but it comes at a performance cost as fuzzy suggestion searches are slower and consume more resources.|  
 |`searchFields=[string] (optional)`|The list of comma-separated field names to search for the specified search text. Target fields must be part of a Suggester for the index. For more information see [Suggesters](suggesters.md).|  
 |`$top=# (optional, default = 5)`|The number of autocomplete suggestions to retrieve. The value must be a number between 1 and 100. **Note:**  When calling **Autocomplete** using POST, this parameter is named `top` instead of `$top`.|  
 |`$filter=[string] (optional)`|An expression that filters the documents considered for autocomplete. **Note:**  When calling **Autocomplete** using POST, this parameter is named `filter` instead of `$filter`.| 
@@ -112,7 +112,7 @@ api-key: [admin or query key]
 |--------------------|-----------------|  
 |*api-key*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Autocomplete** request can specify either an admin-key or query-key as the `api-key`. The query-key is used for query-only operations.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Portal. See [Create an Azure Search service in the portal](https://docs.microsoft.com/azure/search/search-create-service-portal) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](https://docs.microsoft.com/azure/search/search-create-service-portal) for page navigation help.  
 
 ### Request Body  
  For GET: None.  
