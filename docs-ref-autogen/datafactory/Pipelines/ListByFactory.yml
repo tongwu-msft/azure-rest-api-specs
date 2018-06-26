@@ -136,14 +136,6 @@ definitions:
     description: Etag identifies change in the resource.
     types:
     - uid: string
-- name: ParameterDefinitionSpecification
-  description: Definition of all parameters for an entity.
-  kind: object
-  properties:
-  - name: ''
-    description: Definition of a single parameter for an entity.
-    types:
-    - uid: ParameterSpecification
 - name: ParameterSpecification
   description: Definition of a single parameter for an entity.
   kind: object
@@ -156,6 +148,31 @@ definitions:
     description: Default value of parameter.
     types:
     - uid: object
+- name: ParameterType
+  description: Parameter type.
+  kind: enum
+  properties:
+  - name: Object
+    types:
+    - uid: string
+  - name: String
+    types:
+    - uid: string
+  - name: Int
+    types:
+    - uid: string
+  - name: Float
+    types:
+    - uid: string
+  - name: Bool
+    types:
+    - uid: string
+  - name: Array
+    types:
+    - uid: string
+  - name: SecureString
+    types:
+    - uid: string
 - name: DatabricksNotebookActivity
   description: DatabricksNotebook activity.
   kind: object
@@ -1317,31 +1334,6 @@ definitions:
     types:
     - uid: ActivityDependency
       isArray: true
-- name: ParameterType
-  description: Parameter type.
-  kind: enum
-  properties:
-  - name: Object
-    types:
-    - uid: string
-  - name: String
-    types:
-    - uid: string
-  - name: Int
-    types:
-    - uid: string
-  - name: Float
-    types:
-    - uid: string
-  - name: Bool
-    types:
-    - uid: string
-  - name: Array
-    types:
-    - uid: string
-  - name: SecureString
-    types:
-    - uid: string
 - name: LinkedServiceReference
   description: Linked service reference type.
   kind: object
@@ -1396,22 +1388,18 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: WebServiceOutputs
-  description: Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Outputs to AzureMLWebServiceFile objects specifying the output Blob locations. This information will be passed in the WebServiceOutputs property of the Azure ML batch execution request.
+- name: AzureMLWebServiceFile
+  description: Azure ML WebService Input/Output file
   kind: object
   properties:
-  - name: ''
-    description: Azure ML WebService Input/Output file
+  - name: filePath
+    description: 'The relative file path, including container name, in the Azure Blob Storage specified by the LinkedService. Type: string (or Expression with resultType string).'
     types:
-    - uid: AzureMLWebServiceFile
-- name: WebServiceInputs
-  description: Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Inputs to AzureMLWebServiceFile objects specifying the input Blob locations.. This information will be passed in the WebServiceInputs property of the Azure ML batch execution request.
-  kind: object
-  properties:
-  - name: ''
-    description: Azure ML WebService Input/Output file
+    - uid: object
+  - name: linkedServiceName
+    description: Reference to an Azure Storage LinkedService, where Azure ML WebService Input/Output file located.
     types:
-    - uid: AzureMLWebServiceFile
+    - uid: LinkedServiceReference
 - name: DatasetReference
   description: Dataset reference type.
   kind: object
@@ -1473,14 +1461,18 @@ definitions:
     description: Resource for which Azure Auth token will be requested when using MSI Authentication.
     types:
     - uid: string
-- name: StoredProcedureParameters
-  description: 'Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}".'
+- name: StoredProcedureParameter
+  description: SQL stored procedure parameter.
   kind: object
   properties:
-  - name: ''
-    description: SQL stored procedure parameter.
+  - name: value
+    description: 'Stored procedure parameter value. Type: string (or Expression with resultType string).'
     types:
-    - uid: StoredProcedureParameter
+    - uid: object
+  - name: type
+    description: Stored procedure parameter type.
+    types:
+    - uid: StoredProcedureParameterType
 - name: CustomActivityReferenceObject
   description: Reference objects for custom activity
   kind: object
@@ -1534,30 +1526,26 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: object
-- name: ProjectParameters
-  description: The project level parameters to execute the SSIS package.
+- name: SSISExecutionParameter
+  description: SSIS execution parameter.
   kind: object
   properties:
-  - name: ''
-    description: SSIS execution parameter.
+  - name: value
+    description: 'SSIS package execution parameter value. Type: string (or Expression with resultType string).'
     types:
-    - uid: SSISExecutionParameter
-- name: PackageParameters
-  description: The package level parameters to execute the SSIS package.
+    - uid: object
+- name: SSISPropertyOverride
+  description: SSIS property override.
   kind: object
   properties:
-  - name: ''
-    description: SSIS execution parameter.
+  - name: value
+    description: 'SSIS package property override value. Type: string (or Expression with resultType string).'
     types:
-    - uid: SSISExecutionParameter
-- name: PropertyOverrides
-  description: The property overrides to execute the SSIS package.
-  kind: object
-  properties:
-  - name: ''
-    description: SSIS property override.
+    - uid: object
+  - name: isSensitive
+    description: Whether SSIS package property override value is sensitive data. Value will be encrypted in SSISDB if it is true
     types:
-    - uid: SSISPropertyOverride
+    - uid: boolean
 - name: HDInsightActivityDebugInfoOption
   description: The HDInsightActivityDebugInfoOption settings to use.
   kind: enum
@@ -1629,18 +1617,6 @@ definitions:
     description: Reference name.
     types:
     - uid: string
-- name: AzureMLWebServiceFile
-  description: Azure ML WebService Input/Output file
-  kind: object
-  properties:
-  - name: filePath
-    description: 'The relative file path, including container name, in the Azure Blob Storage specified by the LinkedService. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: linkedServiceName
-    description: Reference to an Azure Storage LinkedService, where Azure ML WebService Input/Output file located.
-    types:
-    - uid: LinkedServiceReference
 - name: SecureString
   description: Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls.
   kind: object
@@ -1654,38 +1630,6 @@ definitions:
     types:
     - uid: SecureString
     typesTitle: string
-- name: StoredProcedureParameter
-  description: SQL stored procedure parameter.
-  kind: object
-  properties:
-  - name: value
-    description: 'Stored procedure parameter value. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: type
-    description: Stored procedure parameter type.
-    types:
-    - uid: StoredProcedureParameterType
-- name: SSISExecutionParameter
-  description: SSIS execution parameter.
-  kind: object
-  properties:
-  - name: value
-    description: 'SSIS package execution parameter value. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-- name: SSISPropertyOverride
-  description: SSIS property override.
-  kind: object
-  properties:
-  - name: value
-    description: 'SSIS package property override value. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: isSensitive
-    description: Whether SSIS package property override value is sensitive data. Value will be encrypted in SSISDB if it is true
-    types:
-    - uid: boolean
 - name: StoredProcedureParameterType
   description: Stored procedure parameter type.
   kind: enum
