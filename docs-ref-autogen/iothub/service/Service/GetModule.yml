@@ -1,24 +1,28 @@
 ### YamlMime:RESTOperation
-uid: fully-qualified-iothubname.azure-devices.net.iothub.service.getdevices
-name: Get Devices
+uid: fully-qualified-iothubname.azure-devices.net.iothub.service.getmodule
+name: Get Module
 service: IoT Hub
 groupName: Service
 apiVersion: 2018-06-30
-summary: Get the identities of multiple devices from the IoT hub identity registry. Not recommended. Use the IoT Hub query language to retrieve device twin and device identity information. See https://docs.microsoft.com/en-us/rest/api/iothub/deviceapi/querydevices
+summary: Retrieve the specified module identity on the device.
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://fully-qualified-iothubname.azure-devices.net/devices?api-version=2018-06-30
-- content: GET https://fully-qualified-iothubname.azure-devices.net/devices?top={top}&api-version=2018-06-30
-  isOptional: true
+- content: GET https://fully-qualified-iothubname.azure-devices.net/devices/{id}/modules/{mid}?api-version=2018-06-30
 uriParameters:
-- name: top
-  in: query
-  description: This parameter when specified, defines the maximum number of device identities that are returned. Any value outside the range of 1-1000 is considered to be 1000.
+- name: id
+  in: path
+  isRequired: true
+  description: Device ID.
   types:
-  - uid: integer
-  format: int32
+  - uid: string
+- name: mid
+  in: path
+  isRequired: true
+  description: Module ID.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -27,15 +31,23 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
+  description: Returns the DeviceModule object
   types:
-  - uid: Device
-    isArray: true
+  - uid: Module
 requestHeader: []
 definitions:
-- name: Device
+- name: Module
+  description: Module identity on a device
   kind: object
   properties:
+  - name: moduleId
+    description: ''
+    types:
+    - uid: string
+  - name: managedBy
+    description: ''
+    types:
+    - uid: string
   - name: deviceId
     description: ''
     types:
@@ -54,21 +66,7 @@ definitions:
     - uid: Disconnected
     - uid: Connected
     typesTitle: enum
-  - name: status
-    description: ''
-    types:
-    - uid: enabled
-    - uid: disabled
-    typesTitle: enum
-  - name: statusReason
-    description: ''
-    types:
-    - uid: string
   - name: connectionStateUpdatedTime
-    description: ''
-    types:
-    - uid: string
-  - name: statusUpdatedTime
     description: ''
     types:
     - uid: string
@@ -84,10 +82,6 @@ definitions:
     description: ''
     types:
     - uid: AuthenticationMechanism
-  - name: capabilities
-    description: Status of Capabilities enabled on the device
-    types:
-    - uid: DeviceCapabilities
 - name: AuthenticationMechanism
   kind: object
   properties:
@@ -107,14 +101,6 @@ definitions:
     - uid: certificateAuthority
     - uid: none
     typesTitle: enum
-- name: DeviceCapabilities
-  description: Status of Capabilities enabled on the device
-  kind: object
-  properties:
-  - name: iotEdge
-    description: ''
-    types:
-    - uid: boolean
 - name: SymmetricKey
   kind: object
   properties:
