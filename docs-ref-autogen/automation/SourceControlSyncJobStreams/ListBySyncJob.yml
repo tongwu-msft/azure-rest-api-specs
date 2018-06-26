@@ -1,0 +1,179 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.sourcecontrolsyncjobstreams.listbysyncjob
+name: List By Sync Job
+service: Automation
+groupName: Source Control Sync Job Streams
+apiVersion: 2017-05-15-preview
+summary: Retrieve a list of sync job streams identified by sync job id.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs/{sourceControlSyncJobId}/streams?api-version=2017-05-15-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs/{sourceControlSyncJobId}/streams?$filter={$filter}&api-version=2017-05-15-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure Resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The name of the automation account.
+  types:
+  - uid: string
+- name: sourceControlName
+  in: path
+  isRequired: true
+  description: The source control name.
+  types:
+  - uid: string
+- name: sourceControlSyncJobId
+  in: path
+  isRequired: true
+  description: The source control sync job id.
+  types:
+  - uid: string
+  format: uuid
+- name: $filter
+  in: query
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SourceControlSyncJobStreamsListBySyncJob
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: SourceControlSyncJobStreamsListBySyncJob
+  description: The response model for the list source control sync job streams operation.
+  kind: object
+  properties:
+  - name: value
+    description: Gets a list of source control sync job streams.
+    types:
+    - uid: SourceControlSyncJobStream
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Gets or sets the next link.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: SourceControlSyncJobStream
+  description: Definition of the source control sync job stream.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource id.
+    types:
+    - uid: string
+  - name: properties.syncJobStreamId
+    description: Gets the sync job stream id.
+    types:
+    - uid: string
+  - name: properties.summary
+    description: Gets the summary of the sync job stream.
+    types:
+    - uid: string
+  - name: properties.time
+    isReadyOnly: true
+    description: Gets the time of the sync job stream.
+    types:
+    - uid: string
+  - name: properties.streamType
+    description: Gets the type of the sync job stream.
+    types:
+    - uid: streamType
+- name: streamType
+  description: Gets the type of the sync job stream.
+  kind: enum
+  properties:
+  - name: Error
+    types:
+    - uid: string
+  - name: Output
+    types:
+    - uid: string
+examples:
+- name: Get a list of sync job streams identified by sync job id
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/sourceControls/MySourceControl/sourceControlSyncJobs/ce6fe3e3-9db3-4096-a6b4-82bfb4c10a2b/streams?api-version=2017-05-15-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/sourceControls/MySourceControl/sourceControlSyncJobs/ce6fe3e3-9db3-4096-a6b4-82bfb4c10a2b/streams/b86c5c31-e9fd-4734-8764-ddd6c101e706_00636596855134810785_00000000000000000005",
+            "properties": {
+              "syncJobStreamId": "b86c5c31-e9fd-4734-8764-ddd6c101e706_00636596855134810785_00000000000000000005",
+              "summary": "ForbiddenError: The server failed to authenticate the request. Verify that the certificate is valid and is associated with this subscription.",
+              "time": "2017-03-28T23:14:26.903+00:00",
+              "streamType": "Error"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/sourceControls/MySourceControl/sourceControlSyncJobs/ce6fe3e3-9db3-4096-a6b4-82bfb4c10a2b/streams/b86c5c31-e9fd-4734-8764-ddd6c101e706_00636596855136998262_00000000000000000006",
+            "properties": {
+              "syncJobStreamId": "b86c5c31-e9fd-4734-8764-ddd6c101e706_00636596855136998262_00000000000000000006",
+              "summary": "System.Management.Automation.RuntimeException: Cannot index into a null array.\r\n   at CallSite.Target(Closure , CallSite , Object , Int32 )\r\n   at System.Dynamic.UpdateDelegates.UpdateAndExecute2[T0,T1,TRet](CallSite site, T0 arg0, T1 arg1)\r\n   at System.Management.Automation.Interpreter.DynamicInstruction`3.Run(InterpretedFrame frame)\r\n   at System.Management.Automation.Interpreter.EnterTryCatchFinallyInstruction.Run(InterpretedFrame frame)",
+              "time": "2017-03-28T23:14:27.903+00:00",
+              "streamType": "Error"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/sourceControls/MySourceControl/sourceControlSyncJobs/ce6fe3e3-9db3-4096-a6b4-82bfb4c10a2b/streams/b86c5c31-e9fd-4734-8764-ddd6c101e706_00636596855139029522_00000000000000000007",
+            "properties": {
+              "syncJobStreamId": "b86c5c31-e9fd-4734-8764-ddd6c101e706_00636596855139029522_00000000000000000007",
+              "summary": "System.Management.Automation.ParameterBindingValidationException: Cannot validate argument on parameter 'Location'. The argument is null or empty. Provide an argument that is not null or empty, and then try the command again. ---> System.Management.Automation.ValidationMetadataException: The argument is null or empty. Provide an argument that is not null or empty, and then try the command again.\r\n   at System.Management.Automation.ValidateNotNullOrEmptyAttribute.Validate(Object arguments, EngineIntrinsics engineIntrinsics)",
+              "time": "2017-03-28T23:14:28.903+00:00",
+              "streamType": "Error"
+            }
+          }
+        ],
+        "nextLink": ""
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

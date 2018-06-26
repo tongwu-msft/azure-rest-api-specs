@@ -1,22 +1,24 @@
 ---
 title: Create Skillset (REST api-version=2017-11-11-Preview) - Azure Search | Microsoft Docs
-description: A skillset is a collection of cognitive skills that comprise an enrichment pipeline.
-services: search
-manager: pablocas
-author: luiscabrer
+description: A skillset is a collection of cognitive skills that comprise an enriched indexing pipeline in Azure Search.
 
+ms.manager: cgronlun
+author: luiscabrer
+ms.author: luisca
+
+services: search
 ms.service: search
 ms.devlang: rest-api
 ms.workload: search
 ms.topic: language-reference
-ms.date: 05/25/2018
-ms.author: luisca
+ms.date: 06/21/2018
+
 ---
 # Create Skillset (Azure Search Service REST API - Preview)
 
 **Applies to:** api-version-2017-11-11-Preview
 
-A skillset is a collection of [cognitive skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills) used for natural language processing and other transformations. Skills  include named entity extraction, key phrase extraction, chunking text into logical pages, among others.
+A skillset is a collection of [cognitive skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills) used for natural language processing and other transformations. Skills include named entity extraction, key phrase extraction, chunking text into logical pages, among others.
 
 To use the skillset, reference it in an [indexer](create-indexer.md) and then run the indexer to import data, invoke transformations and enrichment, and map the output fields to an index. A skillset is high-level resource, but it is operational only within indexer processing. As a high-level resource, you can design a skillset once, and then reference it in multiple indexers. 
 
@@ -24,9 +26,8 @@ A skillset is expressed in Azure Search through an HTTP PUT or POST request. For
 
 A skillset must have at least one skill. There is no theoretical limit on maximum number of skills, but three to five is a common configuration.  
 
-
 > [!NOTE]
-> [Cognitive Search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) is in public preview, and skillset execution is currently offered for free. At a later time, the pricing for this capability will be announced.
+> Skillsets are used in [cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro). Currently, this feature is in public preview and skillset execution is currently offered for free. Pricing for this capability will be announced at a later time.
 
 ```http  
 PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2017-11-11-Preview
@@ -46,7 +47,7 @@ Content-Type: application/json
 
 After starting the skillset name with a letter or number, the rest of the name can include any letter, number, and dashes as long as the dashes are not consecutive.  
 
-The **api-version** parameter is required. The only available version is `2017-11-11-Preview`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of all versions. 
+ The **api-version** is required. It is case-sensitive. The current preview version for cognitive search is `api-version=2017-11-11-Preview`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
 
 
 ### Request headers  
@@ -137,8 +138,7 @@ The body of request is a JSON document. This particular skillset uses two skills
 ## See also
 
 + [Cognitive search overview](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro)
-+ [Quickstart: Try cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-quickstart-blob)
-+ [Tutorial: Enriched indexing of Azure blobs](https://docs.microsoft.com/azure/search/cognitive-search-tutorial-blob)
++ [Tutorial: Learn the cognitive search REST APIs](https://docs.microsoft.com/azure/search/cognitive-search-tutorial-blob)
 + [How to define a skillset](https://docs.microsoft.com/azure/search/cognitive-search-defining-skillset)
 + [How to map fields](https://docs.microsoft.com/azure/search/cognitive-search-output-field-mapping)
 + [How to define a custom interface](https://docs.microsoft.com/azure/search/cognitive-search-custom-skill-interface)

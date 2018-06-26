@@ -44,7 +44,7 @@ api-key: [admin key]
 ## Request  
  HTTPS is required for all service requests. The **Service Statistics** request is constructed using HTTP GET.
 
- The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -98,4 +98,4 @@ api-key: [admin key]
 
 ## See also  
  [Azure Search Service REST](index.md)   
- [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)
+ [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)

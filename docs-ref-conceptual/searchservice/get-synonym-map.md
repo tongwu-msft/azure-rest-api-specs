@@ -31,7 +31,7 @@ GET https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-
 api-key: [admin key]  
 ```  
 
- The **api-version** is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+ The **api-version** is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
 ### Request Headers
   The following list describes the required and optional request headers.  

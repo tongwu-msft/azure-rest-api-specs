@@ -21,7 +21,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Supported data types (Azure Search)
-  Document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model (MSDN)](https://msdn.microsoft.com/library/ee382825(v=vs.110).aspx) for details). Azure Search uses the following data types.  
+  Document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model (MSDN)](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model) for details). Azure Search uses the following data types.  
 
 > [!NOTE]  
 >  If you're using indexers to pull data into Azure Search, indexers have different data type mappings for JSON and SQL Server data sources. See [Data type map for indexers in Azure Search](data-type-map-for-indexers-in-azure-search.md) for details.  
@@ -60,4 +60,4 @@ To learn more about geospatial search in Azure, see this video: [Azure Search an
 + [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
 + [Add, Update or Delete Documents &#40;Azure Search Service REST API&#41;](addupdate-or-delete-documents.md)   
 + [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
-+ [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
++ [Azure Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  

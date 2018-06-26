@@ -143,14 +143,37 @@ definitions:
     description: The unit of measure for the budget amount.
     types:
     - uid: string
-- name: Notifications
-  description: Dictionary of notifications associated with the budget. Budget can have up to five notifications.
+- name: Notification
+  description: The notification associated with a budget.
   kind: object
   properties:
-  - name: ''
-    description: The notification associated with a budget.
+  - name: enabled
+    description: The notification is enabled or not.
     types:
-    - uid: Notification
+    - uid: boolean
+  - name: operator
+    description: The comparison operator.
+    types:
+    - uid: OperatorType
+  - name: threshold
+    description: Threshold value associated with a notification. Notification is sent when the cost exceeded the threshold. It is always percent and has to be between 0 and 1000.
+    types:
+    - uid: number
+  - name: contactEmails
+    description: Email addresses to send the budget notification to when the threshold is exceeded.
+    types:
+    - uid: string
+      isArray: true
+  - name: contactRoles
+    description: Contact roles to send the budget notification to when the threshold is exceeded.
+    types:
+    - uid: string
+      isArray: true
+  - name: contactGroups
+    description: Action groups to send the budget notification to when the threshold is exceeded.
+    types:
+    - uid: string
+      isArray: true
 - name: Budget
   description: A budget resource.
   kind: object
@@ -215,37 +238,19 @@ definitions:
     description: The details of the error.
     types:
     - uid: ErrorDetails
-- name: Notification
-  description: The notification associated with a budget.
-  kind: object
+- name: OperatorType
+  description: The comparison operator.
+  kind: enum
   properties:
-  - name: enabled
-    description: The notification is enabled or not.
-    types:
-    - uid: boolean
-  - name: operator
-    description: The comparison operator.
-    types:
-    - uid: OperatorType
-  - name: threshold
-    description: Threshold value associated with a notification. Notification is sent when the cost exceeded the threshold. It is always percent and has to be between 0 and 1000.
-    types:
-    - uid: number
-  - name: contactEmails
-    description: Email addresses to send the budget notification to when the threshold is exceeded.
+  - name: EqualTo
     types:
     - uid: string
-      isArray: true
-  - name: contactRoles
-    description: Contact roles to send the budget notification to when the threshold is exceeded.
+  - name: GreaterThan
     types:
     - uid: string
-      isArray: true
-  - name: contactGroups
-    description: Action groups to send the budget notification to when the threshold is exceeded.
+  - name: GreaterThanOrEqualTo
     types:
     - uid: string
-      isArray: true
 - name: CategoryType
   description: The category of the budget, whether the budget tracks cost or usage.
   kind: enum
@@ -281,19 +286,6 @@ definitions:
   - name: message
     isReadyOnly: true
     description: Error message indicating why the operation failed.
-    types:
-    - uid: string
-- name: OperatorType
-  description: The comparison operator.
-  kind: enum
-  properties:
-  - name: EqualTo
-    types:
-    - uid: string
-  - name: GreaterThan
-    types:
-    - uid: string
-  - name: GreaterThanOrEqualTo
     types:
     - uid: string
 examples:

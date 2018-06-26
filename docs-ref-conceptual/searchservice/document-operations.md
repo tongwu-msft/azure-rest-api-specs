@@ -66,4 +66,4 @@ translation.priority.mt:
  [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Service limits in Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)   
- [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
+ [Azure Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
