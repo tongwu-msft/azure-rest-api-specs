@@ -37,6 +37,8 @@ Microsoft Azure Storage provides REST operations for working with Blob service r
  [Preflight Blob Request](Preflight-Blob-Request.md)  
   
  [Get Blob Service Stats](Get-Blob-Service-Stats.md)  
+ 
+ [Get Account Information](get-account-information.md)  
   
 ## See Also  
  [Blob Service Concepts](Blob-Service-Concepts.md)

@@ -31,9 +31,9 @@ service_description: To be added
 # IoT Hub REST
 The REST APIs for IoT Hub offer programmatic access to the device, messaging, and job services, as well as the resource provder, in IoT Hub. You can access messaging services from within an IoT service running in Azure, or directly over the Internet from any application that can send an HTTPS request and receive an HTTPS response. 
   
--   [Service](#service)
+-   [Service](https://docs.microsoft.com/en-us/rest/api/iothub/device)
 
--   [Device Messaging](#device-messaging)  
+-   [Device Messaging](https://docs.microsoft.com/en-us/rest/api/iothub/device)  
   
 -   [Resource Provider](xref:management.azure.com.iothub.iothubresource)  
   
@@ -55,7 +55,7 @@ Use these APIs to manage the deployment of your IoT Hub resources. For informati
 ## Common parameters and headers  
  The following information is common to all tasks related to IoT Hub:
   
--   Replace {api-version} with "2018-04-01" in the URI.
+-   Replace {api-version} with "2018-06-30" in the URI.
   
 -   Replace {subscription-id} with your subscription identifier in the URI.
   

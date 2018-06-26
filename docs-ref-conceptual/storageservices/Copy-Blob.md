@@ -235,7 +235,7 @@ If the `Copy Blob` operation completes the copy asynchronously, use the followin
   
  During and after a `Copy Blob` operation, the properties of the destination blob contain the copy ID of the `Copy Blob` operation and URL of the source blob. When the copy completes, the Blob service writes the time and outcome value (`success`, `failed`, or `aborted`) to the destination blob properties. If the operation `failed`, the `x-ms-copy-status-description` header contains an error detail string.  
   
- A pending `Copy Blob` operation has a 2 week timeout. A copy attempt that has not completed after 2 weeks times out and leaves an empty blob with the `x-ms-copy-status` field set to `failed` and the `x-ms-copy-status-description` set to 500 (OperationCancelled). Intermittent, non-fatal errors that can occur during a copy might impede progress of the copy but not cause it to fail. In these cases, `x-ms-copy-status-description` describes the intermittent errors.  
+ A pending `Copy Blob` operation has a 2 week timeout. A copy attempt that has not completed after 2 weeks times out and leaves an empty blob with the `x-ms-copy-status` field set to `failed` and the `x-ms-copy-status-description` set to 500 (OperationCancelled). Intermittent, non-fatal errors that can occur during a copy might impede progress of the copy but not cause it to fail. In these cases, `x-ms-copy-status-description` describes the intermittent errors.
   
  Any attempt to modify or snapshot the destination blob during the copy will fail with **409 (Conflict) Copy Blob in Progress**.  
   

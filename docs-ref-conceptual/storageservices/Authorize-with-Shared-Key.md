@@ -42,7 +42,7 @@ translation.priority.mt:
   
      For version 2009-09-19 and later of the Blob and Queue services, Shared Key Lite authorization supports using a signature string identical to what was supported against Shared Key in previous versions of the Blob and Queue services. You can therefore use Shared Key Lite to make requests against the Blob and Queue services without updating your signature string.  
   
- An authorized request requires two headers: the `Date` or `x-ms-date` header and the `Authorization` header. The following sections describe how to construct these headers.  
+ An authorized request requires two headers: the `Date` or `x-ms-date` header and the `Authorization` header. The following sections describe how to construct these headers.
 
 > [!IMPORTANT]
 >  The Microsoft Azure storage services support both HTTP and HTTPS; however, using HTTPS is highly recommended.  
@@ -114,11 +114,14 @@ StringToSign = VERB + "\n" +
                CanonicalizedHeaders +   
                CanonicalizedResource;  
 ```  
-  
+
+> [!IMPORTANT]
+>  In the current version, the Content-Length field must be an empty string if the content length of the request is zero. In version 2014-02-14 and earlier, the content length was included even if zero. See below for more information on the old behavior.
+
  The following example shows a signature string for a [Get Blob](Get-Blob.md) operation. Where there is no header value, the new-line character only is specified.  
   
 ```  
-GET\n\n\n\n\n\n\n\n\n\n\n\nx-ms-date:Sun, 11 Oct 2009 21:49:13 GMT\nx-ms-version:2009-09-19\n/myaccount/mycontainer\ncomp:metadata\nrestype:container\ntimeout:20  
+GET\n\n\n\n\n\n\n\n\n\n\n\nx-ms-date:Fri, 26 Jun 2015 23:39:12 GMT\nx-ms-version:2015-02-21\n/myaccount/mycontainer\ncomp:metadata\nrestype:container\ntimeout:20  
 ```  
   
  Breaking this down line-by-line shows each portion of the same string:  
@@ -128,7 +131,7 @@ GET\n\n\n\n\n\n\n\n\n\n\n\nx-ms-date:Sun, 11 Oct 2009 21:49:13 GMT\nx-ms-version
 GET\n /*HTTP Verb*/  
 \n    /*Content-Encoding*/  
 \n    /*Content-Language*/  
-\n    /*Content-Length (include value when zero)*/  
+\n    /*Content-Length (empty string when zero)*/  
 \n    /*Content-MD5*/  
 \n    /*Content-Type*/  
 \n    /*Date*/  
@@ -137,7 +140,7 @@ GET\n /*HTTP Verb*/
 \n    /*If-None-Match*/  
 \n    /*If-Unmodified-Since*/  
 \n    /*Range*/  
-x-ms-date:Sun, 11 Oct 2009 21:49:13 GMT\nx-ms-version:2009-09-19\n    /*CanonicalizedHeaders*/  
+x-ms-date:Fri, 26 Jun 2015 23:39:12 GMT\nx-ms-version:2015-02-21\n    /*CanonicalizedHeaders*/  
 /myaccount /mycontainer\ncomp:metadata\nrestype:container\ntimeout:20    /*CanonicalizedResource*/  
   
 ```  
@@ -155,33 +158,32 @@ Authorization: SharedKey myaccount:ctzMq410TV3wS7upTBcunJTDLEJwMAZuFPfr0mrrA08=
 > [!IMPORTANT]
 >  If you are accessing the secondary location in a storage account for which read-access geo-replication (RA-GRS) is enabled, do not include the `-secondary` designation in the authorization header. For authorization purposes, the account name is always the name of the primary location, even for secondary access.  
   
-##### Content-Length Header in Version 2015-02-21 and Later  
- When using version 2015-02-21 or later, if `Content-Length` is zero, then set the `Content-Length` part of the `StringToSign` to an empty string.  
+##### Content-Length Header in Version 2014-02-14 and Earlier
+ When using version 2014-02-14 or earlier, if `Content-Length` is zero, then set the `Content-Length` part of the `StringToSign` to `0`. Normally this would be an empty string.
   
- For example, for the following request, the value of the `Content-Length` header is omitted from the `StringToSign` when it is zero.  
+ For example, for the following request, the value of the `Content-Length` header is included in the `StringToSign` even when it is zero.  
   
 ```  
 PUT http://myaccount/mycontainer?restype=container&timeout=30 HTTP/1.1  
-x-ms-version: 2015-02-21  
+x-ms-version: 2014-02-14  
 x-ms-date: Fri, 26 Jun 2015 23:39:12 GMT  
 Authorization: SharedKey myaccount:ctzMq410TV3wS7upTBcunJTDLEJwMAZuFPfr0mrrA08=  
-Content-Length: 0  
-```  
+Content-Length: 0
+```
   
- The `StringToSign` is constructed as follows:  
+ The `StringToSign` is constructed as follows:
   
-```  
-Version 2015-02-21 and later:  
-PUT\n\n\n\n\n\n\n\n\n\n\n\nx-ms-date:Fri, 26 Jun 2015 23:39:12 GMT\nx-ms-version:2015-02-21\n/myaccount/mycontainer\nrestype:container\ntimeout:30  
-```  
+```
+Version 2014-02-14 and earlier:
+PUT\n\n\n\n0\n\n\n\n\n\n\n\nx-ms-date:Fri, 26 Jun 2015 23:39:12 GMT\nx-ms-version:2014-02-14\n/myaccount/mycontainer\nrestype:container\ntimeout:30
+```
   
- Whereas in versions prior to 2015-02-21, the `StringToSign` must include the zero value for `Content-Length`:  
+ Whereas in versions after to 2014-02-14, the `StringToSign` must contain an empty string for `Content-Length`:  
   
-```  
-Version 2014-02-14 and earlier:  
-PUT\n\n\n\n0\n\n\n\n\n\n\n\nx-ms-date:Fri, 26 Jun 2015 23:39:12 GMT\nx-ms-version:2015-02-21\n/myaccount/mycontainer\nrestype:container\ntimeout:30  
-  
-```  
+```
+Version 2015-02-21 and later:
+PUT\n\n\n\n\n\n\n\n\n\n\n\nx-ms-date:Fri, 26 Jun 2015 23:39:12 GMT\nx-ms-version:2015-02-21\n/myaccount/mycontainer\nrestype:container\ntimeout:30
+```
   
 #### Table Service (Shared Key authorization)  
  You must use Shared Key authorization to authorize a request made against the Table service if your service is using the REST API to make the request. The format of the signature string for Shared Key against the Table service is the same for all versions.  
