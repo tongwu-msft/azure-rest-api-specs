@@ -30,6 +30,9 @@ The REST API operations in this section apply only to block blobs. See [Understa
 ## In This Section  
  [Put Block](Put-Block.md)  
  Creates a new block to be committed as part of a blob.  
+
+ [Put Block From URL](Put-Block-From-URL.md)  
+ Creates a new block to be committed as part of a block blob where the contents are read from a URL.  
   
  [Put Block List](Put-Block-List.md)  
  Writes a blob by specifying the list of block IDs that make up the blob.  

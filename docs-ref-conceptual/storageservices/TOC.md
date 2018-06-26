@@ -85,6 +85,7 @@
 ### [Operations on Block Blobs](operations-on-block-blobs.md)
 #### [Put Block](put-block.md)
 #### [Put Block List](put-block-list.md)
+#### [Put Block From URL](put-block-from-url.md)
 #### [Get Block List](get-block-list.md)
 ### [Operations on Page Blobs](operations-on-page-blobs.md)
 #### [Put Page](put-page.md)
