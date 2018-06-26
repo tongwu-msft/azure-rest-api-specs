@@ -10,8 +10,8 @@ ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: de63a7ed-c489-4034-b21a-246854d7a745
 caps.latest.revision: 68
-author: utsatish
-manager: pemari
+author: uthkarshs
+manager: pemari-msft
 translation.priority.mt: 
   - de-de
   - es-es
