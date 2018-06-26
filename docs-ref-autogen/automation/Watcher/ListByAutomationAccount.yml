@@ -1,0 +1,225 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.watcher.listbyautomationaccount
+name: List By Automation Account
+service: Automation
+groupName: Watcher
+apiVersion: 2015-10-31
+summary: Retrieve a list of watchers.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers?api-version=2015-10-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers?$filter={$filter}&api-version=2015-10-31
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure Resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The name of the automation account.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: WatcherListResult
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: WatcherListResult
+  description: The response model for the list watcher operation.
+  kind: object
+  properties:
+  - name: value
+    description: Gets or sets a list of watchers.
+    types:
+    - uid: Watcher
+      isArray: true
+  - name: nextLink
+    description: Gets or sets the next link.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: Watcher
+  description: Definition of the watcher type.
+  kind: object
+  properties:
+  - name: etag
+    description: Gets or sets the etag of the resource.
+    types:
+    - uid: string
+  - name: properties.executionFrequencyInSeconds
+    description: Gets or sets the frequency at which the watcher is invoked.
+    types:
+    - uid: integer
+  - name: properties.scriptName
+    description: Gets or sets the name of the script the watcher is attached to, i.e. the name of an existing runbook.
+    types:
+    - uid: string
+  - name: properties.scriptParameters
+    description: Gets or sets the parameters of the script.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.scriptRunOn
+    description: Gets or sets the name of the hybrid worker group the watcher will run on.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: Gets the current status of the watcher.
+    types:
+    - uid: string
+  - name: properties.creationTime
+    isReadyOnly: true
+    description: Gets or sets the creation time.
+    types:
+    - uid: string
+  - name: properties.lastModifiedTime
+    isReadyOnly: true
+    description: Gets or sets the last modified time.
+    types:
+    - uid: string
+  - name: properties.lastModifiedBy
+    isReadyOnly: true
+    description: Details of the user who last modified the watcher.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Gets or sets the description.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The Azure Region where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+examples:
+- name: List watchers by Automation Account
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/MyTestAutomationAccount/watchers?api-version=2015-10-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/MyTestAutomationAccount/watchers/MyTestWatcher",
+            "name": "MyTestWatcher",
+            "properties": {
+              "executionFrequencyInSeconds": 60,
+              "scriptName": "MyTestWatcher",
+              "scriptParameters": null,
+              "description": "This is a test watcher.",
+              "status": null,
+              "scriptRunOn": "MyTestHybridWorkerGroup",
+              "creationTime": "2016-12-20T21:36:48.597+00:00",
+              "lastModifiedBy": null,
+              "lastModifiedTime": "2016-12-20T21:36:48.597+00:00"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/MyTestAutomationAccount/watchers/MyTestWatcher01",
+            "name": "MyTestWatcher01",
+            "properties": {
+              "executionFrequencyInSeconds": 60,
+              "scriptName": "MyTestWatcher",
+              "scriptParameters": null,
+              "description": "This is a test watcher.",
+              "status": null,
+              "scriptRunOn": "MyTestHybridWorkerGroup",
+              "creationTime": "2016-12-20T20:47:24.697+00:00",
+              "lastModifiedBy": null,
+              "lastModifiedTime": "2016-12-20T20:47:24.697+00:00"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/MyTestAutomationAccount/watchers/MyTestWatcher02",
+            "name": "MyTestWatcher02",
+            "properties": {
+              "executionFrequencyInSeconds": 60,
+              "scriptName": "MyTestWatcher",
+              "scriptParameters": null,
+              "description": "This is a test watcher.",
+              "status": null,
+              "scriptRunOn": "MyTestHybridWorkerGroup",
+              "creationTime": "2016-12-20T21:26:35.647+00:00",
+              "lastModifiedBy": null,
+              "lastModifiedTime": "2016-12-20T21:26:35.647+00:00"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
