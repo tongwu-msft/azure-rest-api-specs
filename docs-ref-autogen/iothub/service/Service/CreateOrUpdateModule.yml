@@ -1,21 +1,27 @@
 ### YamlMime:RESTOperation
-uid: fully-qualified-iothubname.azure-devices.net.iothub.service.createorupdatedevice
-name: Create Or Update Device
+uid: fully-qualified-iothubname.azure-devices.net.iothub.service.createorupdatemodule
+name: Create Or Update Module
 service: IoT Hub
 groupName: Service
 apiVersion: 2018-06-30
-summary: "Create or update the identity of a device in the identity registry of an IoT hub.  \nCreate or update the identity of a device in the identity registry of an IoT hub. An ETag must not be specified for the create operation. An ETag must be specified for the update operation. Note that generationId and deviceId cannot be updated by the user."
+summary: Create or update the module identity for device in IoT hub. An ETag must not be specified for the create operation. An ETag must be specified for the update operation. Note that moduleId and generation cannot be updated by the user.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://fully-qualified-iothubname.azure-devices.net/devices/{id}?api-version=2018-06-30
+- content: PUT https://fully-qualified-iothubname.azure-devices.net/devices/{id}/modules/{mid}?api-version=2018-06-30
 uriParameters:
 - name: id
   in: path
   isRequired: true
   description: Device ID.
+  types:
+  - uid: string
+- name: mid
+  in: path
+  isRequired: true
+  description: Module ID.
   types:
   - uid: string
 - name: api-version
@@ -26,11 +32,25 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Returns the Device object
+  description: Returns the updated DeviceModule object
   types:
-  - uid: Device
+  - uid: Module
+- name: 201 Created
+  description: Returns the created DeviceModule object
+  types:
+  - uid: Module
 requestBody:
 - parameters:
+  - name: moduleId
+    in: body
+    description: ''
+    types:
+    - uid: string
+  - name: managedBy
+    in: body
+    description: ''
+    types:
+    - uid: string
   - name: deviceId
     in: body
     description: ''
@@ -53,24 +73,7 @@ requestBody:
     - uid: Disconnected
     - uid: Connected
     typesTitle: enum
-  - name: status
-    in: body
-    description: ''
-    types:
-    - uid: enabled
-    - uid: disabled
-    typesTitle: enum
-  - name: statusReason
-    in: body
-    description: ''
-    types:
-    - uid: string
   - name: connectionStateUpdatedTime
-    in: body
-    description: ''
-    types:
-    - uid: string
-  - name: statusUpdatedTime
     in: body
     description: ''
     types:
@@ -90,11 +93,6 @@ requestBody:
     description: ''
     types:
     - uid: AuthenticationMechanism
-  - name: capabilities
-    in: body
-    description: Status of Capabilities enabled on the device
-    types:
-    - uid: DeviceCapabilities
 requestHeader:
 - name: If-Match
   in: header
@@ -120,17 +118,18 @@ definitions:
     - uid: certificateAuthority
     - uid: none
     typesTitle: enum
-- name: DeviceCapabilities
-  description: Status of Capabilities enabled on the device
+- name: Module
+  description: Module identity on a device
   kind: object
   properties:
-  - name: iotEdge
+  - name: moduleId
     description: ''
     types:
-    - uid: boolean
-- name: Device
-  kind: object
-  properties:
+    - uid: string
+  - name: managedBy
+    description: ''
+    types:
+    - uid: string
   - name: deviceId
     description: ''
     types:
@@ -149,21 +148,7 @@ definitions:
     - uid: Disconnected
     - uid: Connected
     typesTitle: enum
-  - name: status
-    description: ''
-    types:
-    - uid: enabled
-    - uid: disabled
-    typesTitle: enum
-  - name: statusReason
-    description: ''
-    types:
-    - uid: string
   - name: connectionStateUpdatedTime
-    description: ''
-    types:
-    - uid: string
-  - name: statusUpdatedTime
     description: ''
     types:
     - uid: string
@@ -179,10 +164,6 @@ definitions:
     description: ''
     types:
     - uid: AuthenticationMechanism
-  - name: capabilities
-    description: Status of Capabilities enabled on the device
-    types:
-    - uid: DeviceCapabilities
 - name: SymmetricKey
   kind: object
   properties:
