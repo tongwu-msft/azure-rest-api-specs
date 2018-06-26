@@ -326,71 +326,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: object
-- name: Assets
-  description: Contains user defined properties describing web service assets. Properties are expressed as Key/Value pairs.
-  kind: object
-  properties:
-  - name: ''
-    description: Information about an asset associated with the web service.
-    types:
-    - uid: AssetItem
-- name: Nodes
-  description: The set of nodes making up the graph, provided as a nodeId to GraphNode map
-  kind: object
-  properties:
-  - name: ''
-    description: Specifies a node in the web service graph. The node can either be an input, output or asset node, so only one of the corresponding id properties is populated at any given time.
-    types:
-    - uid: GraphNode
-- name: GraphEdge
-  description: Defines an edge within the web service's graph.
-  kind: object
-  properties:
-  - name: sourceNodeId
-    description: The source graph node's identifier.
-    types:
-    - uid: string
-  - name: sourcePortId
-    description: The identifier of the source node's port that the edge connects from.
-    types:
-    - uid: string
-  - name: targetNodeId
-    description: The destination graph node's identifier.
-    types:
-    - uid: string
-  - name: targetPortId
-    description: The identifier of the destination node's port that the edge connects into.
-    types:
-    - uid: string
-- name: GraphParameters
-  description: The collection of global parameters for the graph, given as a global parameter name to GraphParameter map. Each parameter here has a 1:1 match with the global parameters values map declared at the WebServiceProperties level.
-  kind: object
-  properties:
-  - name: ''
-    description: Defines a global parameter in the graph.
-    types:
-    - uid: GraphParameter
-- name: DiagnosticsLevel
-  description: 'Specifies the verbosity of the diagnostic output. Valid values are: None - disables tracing; Error - collects only error (stderr) traces; All - collects all traces (stdout and stderr).'
-  kind: enum
-  properties:
-  - name: None
-    types:
-    - uid: string
-  - name: Error
-    types:
-    - uid: string
-  - name: All
-    types:
-    - uid: string
-- name: Properties
-  description: Specifies a collection that contains the column schema for each input or output of the web service. For more information, see the Swagger specification.
-  kind: object
-  properties:
-  - name: ''
-    description: 'The swagger 2.0 schema describing a single service input or output. See Swagger specification: http://swagger.io/specification/'
-    types:
-    - uid: TableSpecification
 - name: AssetItem
   description: Information about an asset associated with the web service.
   kind: object
@@ -464,6 +399,26 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: GraphEdge
+  description: Defines an edge within the web service's graph.
+  kind: object
+  properties:
+  - name: sourceNodeId
+    description: The source graph node's identifier.
+    types:
+    - uid: string
+  - name: sourcePortId
+    description: The identifier of the source node's port that the edge connects from.
+    types:
+    - uid: string
+  - name: targetNodeId
+    description: The destination graph node's identifier.
+    types:
+    - uid: string
+  - name: targetPortId
+    description: The identifier of the destination node's port that the edge connects into.
+    types:
+    - uid: string
 - name: GraphParameter
   description: Defines a global parameter in the graph.
   kind: object
@@ -481,6 +436,19 @@ definitions:
     types:
     - uid: GraphParameterLink
       isArray: true
+- name: DiagnosticsLevel
+  description: 'Specifies the verbosity of the diagnostic output. Valid values are: None - disables tracing; Error - collects only error (stderr) traces; All - collects all traces (stdout and stderr).'
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
 - name: TableSpecification
   description: 'The swagger 2.0 schema describing a single service input or output. See Swagger specification: http://swagger.io/specification/'
   kind: object
@@ -531,22 +499,22 @@ definitions:
     description: Access credentials for the asset, if applicable (e.g. asset specified by storage account connection string + blob URI)
     types:
     - uid: string
-- name: InputPorts
-  description: Information about the asset's input ports.
+- name: InputPort
+  description: Asset input port
   kind: object
   properties:
-  - name: ''
-    description: Asset input port
+  - name: type
+    description: Port data type.
     types:
-    - uid: InputPort
-- name: OutputPorts
-  description: Information about the asset's output ports.
+    - uid: InputPortType
+- name: OutputPort
+  description: Asset output port
   kind: object
   properties:
-  - name: ''
-    description: Asset output port
+  - name: type
+    description: Port data type.
     types:
-    - uid: OutputPort
+    - uid: OutputPortType
 - name: ModuleAssetParameter
   description: Parameter definition for a module asset.
   kind: object
@@ -619,30 +587,31 @@ definitions:
     description: The identifier of the node parameter that the global parameter maps to.
     types:
     - uid: string
-- name: InputPort
-  description: Asset input port
+- name: ColumnSpecification
+  description: 'Swagger 2.0 schema for a column within the data table representing a web service input or output. See Swagger specification: http://swagger.io/specification/'
   kind: object
   properties:
   - name: type
-    description: Port data type.
+    description: Data type of the column.
     types:
-    - uid: InputPortType
-- name: OutputPort
-  description: Asset output port
-  kind: object
-  properties:
-  - name: type
-    description: Port data type.
+    - uid: ColumnType
+  - name: format
+    description: Additional format information for the data type.
     types:
-    - uid: OutputPortType
-- name: ModeValuesInfo
-  description: Definitions for nested interface parameters if this is a complex module parameter.
-  kind: object
-  properties:
-  - name: ''
-    description: Nested parameter definition.
+    - uid: ColumnFormat
+  - name: enum
+    description: If the data type is categorical, this provides the list of accepted categories.
     types:
-    - uid: ModeValueInfo
+    - uid: object
+      isArray: true
+  - name: x-ms-isnullable
+    description: Flag indicating if the type supports null values or not.
+    types:
+    - uid: boolean
+  - name: x-ms-isordered
+    description: Flag indicating whether the categories are treated as an ordered set or not, if this is a categorical column.
+    types:
+    - uid: boolean
 - name: InputPortType
   description: Port data type.
   kind: enum
@@ -670,5 +639,76 @@ definitions:
     types:
     - uid: ModuleAssetParameter
       isArray: true
+- name: ColumnType
+  description: Data type of the column.
+  kind: enum
+  properties:
+  - name: Boolean
+    types:
+    - uid: string
+  - name: Integer
+    types:
+    - uid: string
+  - name: Number
+    types:
+    - uid: string
+  - name: String
+    types:
+    - uid: string
+- name: ColumnFormat
+  description: Additional format information for the data type.
+  kind: enum
+  properties:
+  - name: Byte
+    types:
+    - uid: string
+  - name: Char
+    types:
+    - uid: string
+  - name: Complex64
+    types:
+    - uid: string
+  - name: Complex128
+    types:
+    - uid: string
+  - name: Date-time
+    types:
+    - uid: string
+  - name: Date-timeOffset
+    types:
+    - uid: string
+  - name: Double
+    types:
+    - uid: string
+  - name: Duration
+    types:
+    - uid: string
+  - name: Float
+    types:
+    - uid: string
+  - name: Int8
+    types:
+    - uid: string
+  - name: Int16
+    types:
+    - uid: string
+  - name: Int32
+    types:
+    - uid: string
+  - name: Int64
+    types:
+    - uid: string
+  - name: Uint8
+    types:
+    - uid: string
+  - name: Uint16
+    types:
+    - uid: string
+  - name: Uint32
+    types:
+    - uid: string
+  - name: Uint64
+    types:
+    - uid: string
 examples: []
 security: []
