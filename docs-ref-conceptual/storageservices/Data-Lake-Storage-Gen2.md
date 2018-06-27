@@ -1,10 +1,11 @@
 ---
 ms.title: Azure Data Lake Storage Gen2 REST API Reference
 ms.prod: azure
-ms.service: data-lake-storage-gen2
+ms.service: storage
 author: seguler
 ms.author: seguler
 ms.manager: jahogg
+ms.topic: reference
 service_description: Azure Data Lake Storage Gen2 is a set of capabilities dedicated to big data analytics, built on top of Azure Blob storage.
 ---
 
