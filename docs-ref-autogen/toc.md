@@ -2940,6 +2940,7 @@
 ### [List](expressroute/RouteFilters/List.yml)
 ### [List By Resource Group](expressroute/RouteFilters/ListByResourceGroup.yml)
 ### [Update](expressroute/RouteFilters/Update.yml)
+# [Firewall](../docs-ref-conceptual/firewall/index.md)
 # [Graph RBAC](../docs-ref-conceptual/graphrbac/index.md)
 ## [Applications](graphrbac/Applications.yml)
 ### [Add Owner](graphrbac/Applications/AddOwner.yml)
