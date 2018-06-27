@@ -22,6 +22,7 @@
 ### [Filter Expression Syntax (OData)](odata-expression-syntax-for-azure-search.md)
 ### [Support for OData](support-for-odata.md)
 ## [Suggestions](suggestions.md)
+## [Autocomplete](autocomplete.md)
 ## [Lookup Document](lookup-document.md)
 ## [Count Documents](count-documents.md)
 # [Indexer operations](indexer-operations.md)
