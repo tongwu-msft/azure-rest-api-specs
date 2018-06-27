@@ -3,17 +3,15 @@ uid: management.azure.com.resources.policyassignments.list
 name: List
 service: Resource Management
 groupName: Policy Assignments
-apiVersion: 2017-06-01-preview
-summary: Gets all the policy assignments for a subscription.
+apiVersion: 2018-03-01
+summary: "Retrieves all policy assignments that apply to a subscription.  \nThis operation retrieves the list of all policy assignments associated with the given subscription that match the optional given $filter. Valid values for $filter are: 'atScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, the unfiltered list includes all policy assignments associated with the subscription, including those that apply directly or from management groups that contain the given subscription, as well as any applied to objects contained within the subscription. If $filter=atScope() is provided, the returned list includes all policy assignments that apply to the subscription, which is everything in the unfiltered list except those applied to objects contained within the subscription. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy assignments that apply to the subscription and assign the policy definition whose id is {value}."
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments?api-version=2017-06-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&api-version=2017-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments?api-version=2018-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&api-version=2018-03-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -24,7 +22,7 @@ uriParameters:
   - uid: string
 - name: $filter
   in: query
-  description: The filter to apply on the operation.
+  description: "The filter to apply on the operation. Valid values for $filter are: 'atScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed."
   types:
   - uid: string
 - name: api-version
@@ -58,7 +56,7 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Error reponse indicates ARM is not able to process the incoming request. The reason is provided in the error message.
+  description: Error reponse indicates Azure Resource Manager is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
   - name: httpStatus
@@ -93,7 +91,7 @@ definitions:
     types:
     - uid: string
   - name: sku
-    description: The policy sku.
+    description: The policy sku. This property is optional, obsolete, and will be ignored.
     types:
     - uid: PolicySku
   - name: properties.displayName
@@ -101,7 +99,7 @@ definitions:
     types:
     - uid: string
   - name: properties.policyDefinitionId
-    description: The ID of the policy definition.
+    description: The ID of the policy definition or policy set definition being assigned.
     types:
     - uid: string
   - name: properties.scope
@@ -126,7 +124,7 @@ definitions:
     types:
     - uid: object
 - name: PolicySku
-  description: The policy sku.
+  description: The policy sku. This property is optional, obsolete, and will be ignored.
   kind: object
   properties:
   - name: name
@@ -138,34 +136,32 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List policy assignments
+- name: List policy assignments that apply to a subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Authorization/policyAssignments?$filter=atScope()&api-version=2017-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments?$filter=atScope()&api-version=2018-03-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/subId/providers/Microsoft.Authorization/policyAssignments/costManagement",
+            "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/CostManagement",
             "type": "Microsoft.Authorization/policyAssignments",
-            "name": "costManagement",
+            "name": "CostManagement",
             "properties": {
               "displayName": "Storage Cost Management",
-              "description": "Policies required to minimize the risk of accidental cost overruns",
+              "description": "Minimize the risk of accidental cost overruns",
               "metadata": {
                 "category": "Cost Management"
               },
-              "policyDefinitionId": "/subscriptions/subId/providers/Microsoft.Authorization/policyDefinitions/storageSkus",
+              "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/storageSkus",
               "parameters": {
                 "allowedSkus": {
                   "type": "Array"
                 }
               },
-              "notScopes": [
-                "/subscriptions/subId/resourcegroups/testingResourceGroup"
-              ],
-              "scope": "/subscriptions/subId"
+              "scope": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+              "notScopes": []
             },
             "sku": {
               "name": "A0",
@@ -173,14 +169,15 @@ examples:
             }
           },
           {
-            "id": "/subscriptions/subId/providers/Microsoft.Authorization/policyAssignments/tagEnforcement",
+            "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/TagEnforcement",
             "type": "Microsoft.Authorization/policyAssignments",
-            "name": "tagEnforcement",
+            "name": "TagEnforcement",
             "properties": {
               "displayName": "Enforces a tag key and value",
-              "description": "Policy that ensures a given tag key and value are present on all resources",
-              "policyDefinitionId": "/subscriptions/subId/providers/Microsoft.Authorization/policyDefinitions/tagKeyValue",
-              "scope": "/subscriptions/subId"
+              "description": "Ensure a given tag key and value are present on all resources",
+              "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/TagKeyValue",
+              "scope": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+              "notScopes": []
             },
             "sku": {
               "name": "A0",

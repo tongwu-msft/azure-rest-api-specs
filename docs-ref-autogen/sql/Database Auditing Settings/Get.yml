@@ -1,0 +1,254 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.databaseauditingsettings.get
+name: Get
+service: SQL Database
+groupName: Database Auditing Settings
+apiVersion: 2017-03-01-preview
+summary: Gets a database's blob auditing policy.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/default?api-version=2017-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: blobAuditingPolicyName
+  in: path
+  isRequired: true
+  description: The name of the blob auditing policy.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the database blob auditing policy.
+  types:
+  - uid: DatabaseBlobAuditingPolicy
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 BlobAuditingIsNotSupportedOnResourceType - Blob Auditing is currently not supported for this resource type.
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+
+     * 404 SourceDatabaseNotFound - The source database does not exist.
+
+     * 500 DatabaseIsUnavailable - Loading failed. Please try again later.
+requestHeader: []
+definitions:
+- name: DatabaseBlobAuditingPolicy
+  description: A database blob auditing policy.
+  kind: object
+  properties:
+  - name: kind
+    isReadyOnly: true
+    description: Resource kind.
+    types:
+    - uid: string
+  - name: properties.state
+    description: Specifies the state of the policy. If state is Enabled, storageEndpoint and storageAccountAccessKey are required.
+    types:
+    - uid: BlobAuditingPolicyState
+  - name: properties.storageEndpoint
+    description: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint is required.
+    types:
+    - uid: string
+  - name: properties.storageAccountAccessKey
+    description: Specifies the identifier key of the auditing storage account. If state is Enabled, storageAccountAccessKey is required.
+    types:
+    - uid: string
+  - name: properties.retentionDays
+    description: Specifies the number of days to keep in the audit logs.
+    types:
+    - uid: integer
+  - name: properties.auditActionsAndGroups
+    description: >-
+      Specifies the Actions-Groups and Actions to audit.
+
+
+      The recommended set of action groups to use is the following combination - this will audit all the queries and stored procedures executed against the database, as well as successful and failed logins:
+
+
+      BATCH_COMPLETED_GROUP,
+
+      SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP,
+
+      FAILED_DATABASE_AUTHENTICATION_GROUP.
+
+
+      This above combination is also the set that is configured by default when enabling auditing from the Azure portal.
+
+
+      The supported action groups to audit are (note: choose only specific groups that cover your auditing needs. Using unnecessary groups could lead to very large quantities of audit records):
+
+
+      APPLICATION_ROLE_CHANGE_PASSWORD_GROUP
+
+      BACKUP_RESTORE_GROUP
+
+      DATABASE_LOGOUT_GROUP
+
+      DATABASE_OBJECT_CHANGE_GROUP
+
+      DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP
+
+      DATABASE_OBJECT_PERMISSION_CHANGE_GROUP
+
+      DATABASE_OPERATION_GROUP
+
+      DATABASE_PERMISSION_CHANGE_GROUP
+
+      DATABASE_PRINCIPAL_CHANGE_GROUP
+
+      DATABASE_PRINCIPAL_IMPERSONATION_GROUP
+
+      DATABASE_ROLE_MEMBER_CHANGE_GROUP
+
+      FAILED_DATABASE_AUTHENTICATION_GROUP
+
+      SCHEMA_OBJECT_ACCESS_GROUP
+
+      SCHEMA_OBJECT_CHANGE_GROUP
+
+      SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP
+
+      SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP
+
+      SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP
+
+      USER_CHANGE_PASSWORD_GROUP
+
+      BATCH_STARTED_GROUP
+
+      BATCH_COMPLETED_GROUP
+
+
+      These are groups that cover all sql statements and stored procedures executed against the database, and should not be used in combination with other groups as this will result in duplicate audit logs.
+
+
+      For more information, see [Database-Level Audit Action Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups).
+
+
+      For Database auditing policy, specific Actions can also be specified (note that Actions cannot be specified for Server auditing policy). The supported actions to audit are:
+
+      SELECT
+
+      UPDATE
+
+      INSERT
+
+      DELETE
+
+      EXECUTE
+
+      RECEIVE
+
+      REFERENCES
+
+
+      The general form for defining an action to be audited is:
+
+      <action> ON <object> BY <principal>
+
+
+      Note that <object> in the above format can refer to an object like a table, view, or stored procedure, or an entire database or schema. For the latter cases, the forms DATABASE::<db_name> and SCHEMA::<schema_name> are used, respectively.
+
+
+      For example:
+
+      SELECT on dbo.myTable by public
+
+      SELECT on DATABASE::myDatabase by public
+
+      SELECT on SCHEMA::mySchema by public
+
+
+      For more information, see [Database-Level Audit Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions)
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.storageAccountSubscriptionId
+    description: Specifies the blob storage subscription Id.
+    types:
+    - uid: string
+  - name: properties.isStorageSecondaryKeyInUse
+    description: Specifies whether storageAccountAccessKey value is the storage's secondary key.
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: BlobAuditingPolicyState
+  description: Specifies the state of the policy. If state is Enabled, storageEndpoint and storageAccountAccessKey are required.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+examples:
+- name: Get a database's blob auditing policy
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-6852/providers/Microsoft.Sql/servers/blobauditingtest-2080/databases/testdb/auditingSettings/default?api-version=2017-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-6852/providers/Microsoft.Sql/servers/blobauditingtest-2080/databases/testdb",
+        "name": "default",
+        "type": "Microsoft.Sql/servers/databases/auditingSettings",
+        "kind": "V12",
+        "properties": {
+          "state": "Disabled",
+          "storageEndpoint": "",
+          "retentionDays": 0,
+          "auditActionsAndGroups": [],
+          "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000",
+          "isStorageSecondaryKeyInUse": false
+        }
+      }
+security: []

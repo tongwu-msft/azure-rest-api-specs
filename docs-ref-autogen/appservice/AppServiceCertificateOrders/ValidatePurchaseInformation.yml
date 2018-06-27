@@ -91,14 +91,23 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: Certificates
-  description: State of the Key Vault secret.
+- name: AppServiceCertificate
+  description: Key Vault container for a certificate that is purchased through Azure.
   kind: object
   properties:
-  - name: ''
-    description: Key Vault container for a certificate that is purchased through Azure.
+  - name: keyVaultId
+    description: Key Vault resource Id.
     types:
-    - uid: AppServiceCertificate
+    - uid: string
+  - name: keyVaultSecretName
+    description: Key Vault secret name.
+    types:
+    - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: Status of the Key Vault secret.
+    types:
+    - uid: KeyVaultSecretStatus
 - name: CertificateDetails
   description: SSL certificate details.
   kind: object
@@ -276,23 +285,43 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: AppServiceCertificate
-  description: Key Vault container for a certificate that is purchased through Azure.
-  kind: object
+- name: KeyVaultSecretStatus
+  description: Status of the Key Vault secret.
+  kind: enum
   properties:
-  - name: keyVaultId
-    description: Key Vault resource Id.
+  - name: Initialized
     types:
     - uid: string
-  - name: keyVaultSecretName
-    description: Key Vault secret name.
+  - name: WaitingOnCertificateOrder
     types:
     - uid: string
-  - name: provisioningState
-    isReadyOnly: true
-    description: Status of the Key Vault secret.
+  - name: Succeeded
     types:
-    - uid: KeyVaultSecretStatus
+    - uid: string
+  - name: CertificateOrderFailed
+    types:
+    - uid: string
+  - name: OperationNotPermittedOnKeyVault
+    types:
+    - uid: string
+  - name: AzureServiceUnauthorizedToAccessKeyVault
+    types:
+    - uid: string
+  - name: KeyVaultDoesNotExist
+    types:
+    - uid: string
+  - name: KeyVaultSecretDoesNotExist
+    types:
+    - uid: string
+  - name: UnknownError
+    types:
+    - uid: string
+  - name: ExternalPrivateKey
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
 - name: CertificateProductType
   description: Certificate product type.
   kind: enum
@@ -354,43 +383,6 @@ definitions:
     types:
     - uid: string
   - name: NotSubmitted
-    types:
-    - uid: string
-- name: KeyVaultSecretStatus
-  description: Status of the Key Vault secret.
-  kind: enum
-  properties:
-  - name: Initialized
-    types:
-    - uid: string
-  - name: WaitingOnCertificateOrder
-    types:
-    - uid: string
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: CertificateOrderFailed
-    types:
-    - uid: string
-  - name: OperationNotPermittedOnKeyVault
-    types:
-    - uid: string
-  - name: AzureServiceUnauthorizedToAccessKeyVault
-    types:
-    - uid: string
-  - name: KeyVaultDoesNotExist
-    types:
-    - uid: string
-  - name: KeyVaultSecretDoesNotExist
-    types:
-    - uid: string
-  - name: UnknownError
-    types:
-    - uid: string
-  - name: ExternalPrivateKey
-    types:
-    - uid: string
-  - name: Unknown
     types:
     - uid: string
 examples: []

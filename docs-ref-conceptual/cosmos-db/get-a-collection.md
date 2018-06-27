@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: c2f93095-bd4c-4b11-a396-8f6a2574a3b3
 caps.latest.revision: 9
-author: "mimig1"
-ms.author: "mimig"
-manager: "jhubbard"
+author: "SnehaGunda"
+ms.author: "sngun"
+manager: "kfile"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -141,7 +141,7 @@ translation.priority.mt:
 ## Example  
   
 ```  
-POST https://querydemo.documents.azure.com/dbs/testdb/colls HTTP/1.1  
+GET https://querydemo.documents.azure.com/dbs/testdb/colls HTTP/1.1  
 x-ms-offer-throughput: 1000  
 x-ms-date: Mon, 28 Mar 2016 21:02:12 GMT  
 authorization: type%3dmaster%26ver%3d1.0%26sig%3dP8r7%2fEZnOxv2wQr2smp4G1tCH9PkOkIZscHqsqdn6y4%3d  

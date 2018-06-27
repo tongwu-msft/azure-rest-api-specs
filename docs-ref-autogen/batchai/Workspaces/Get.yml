@@ -1,0 +1,175 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.batchai.workspaces.get
+name: Get
+service: Batch AI
+groupName: Workspaces
+apiVersion: 2018-05-01
+summary: Gets information about a Workspace.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}?api-version=2018-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscriptionID for the Azure user.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+  types:
+  - uid: string
+  pattern: ^[-\w_]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Specifies the version of API used for this request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation was successful. The response contains information about the Workspace.
+  types:
+  - uid: Workspace
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: Workspace
+  description: Batch AI Workspace information.
+  kind: object
+  properties:
+  - name: properties.creationTime
+    isReadyOnly: true
+    description: "Creation time.  \nTime when the Workspace was created."
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "Provisioning state.  \nThe provisioned state of the Workspace"
+    types:
+    - uid: ProvisioningState
+  - name: properties.provisioningStateTransitionTime
+    isReadyOnly: true
+    description: "Provisioning state transition time.  \nThe time at which the workspace entered its current provisioning state."
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The ID of the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The location of the resource
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: The tags of the resource
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: An error response from the Batch AI service.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: An error response from the Batch AI service.
+    types:
+    - uid: CloudErrorBody
+- name: ProvisioningState
+  description: Provisioning state.
+  kind: enum
+  properties:
+  - name: creating
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+  - name: deleting
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the Batch AI service.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Get a workspace information
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace?api-version=2018-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace",
+        "name": "demo_workspace",
+        "type": "Microsoft.BatchAI/Workspace",
+        "location": "eastus",
+        "properties": {
+          "creationTime": "2017-09-27T21:50:03.828Z",
+          "provisioningState": "succeeded",
+          "provisioningStateTransitionTime": "2017-09-27T21:50:03.828Z"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

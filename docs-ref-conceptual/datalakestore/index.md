@@ -1,6 +1,6 @@
 ---
 ms.assetid: 41e2b7a9-d76d-4dae-b997-278afe42600c
-ms.title: Azure Data Lake Store REST API Reference
+ms.title: Azure Data Lake Storage Gen1 REST API Reference
 ms.prod: azure
 ms.service: data-lake-store
 author: nitinme
@@ -9,7 +9,7 @@ ms.manager: jhubbard
 service_description: To be added
 ---
 
-# Azure Data Lake Store REST API
+# Azure Data Lake Storage Gen1 REST API
 
 Use the Azure Data Lake Store REST APIs to create and manage Data Lake Store resources through Azure Resource Manager. All task operations conform to the HTTP/1.1 protocol specification and most operations return an `x-ms-request-id` header that can be used to obtain information about the request. You must make sure that requests made to these resources are secure, using `https`. For more information on making secure requests, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).
 
@@ -17,7 +17,7 @@ Use the Azure Data Lake Store REST APIs to create and manage Data Lake Store res
 
 | Operation Group | Description |
 |-----------------|-------------|
-|[Account](~/docs-ref-autogen/datalakestore/Account.yml)| Provides operations to manage Data Lake Store account, including key management, and firewall rules for Data Lake Store accounts. |
+|[Accounts](~/docs-ref-autogen/datalakestore/Accounts.yml)| Provides operations to manage Data Lake Store account, including key management, and firewall rules for Data Lake Store accounts. |
 |[File System](webhdfs-filesystem-apis.md) | Provides filesystem operations on your Data Lake Store account. |
 
 ## <a name="bk_common"></a>Common parameters and headers

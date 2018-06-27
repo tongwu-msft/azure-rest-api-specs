@@ -41,5 +41,5 @@ translation.priority.mt:
 |504: Gateway Timeout|Azure Search listens on HTTPS port 443. If your search service URL contains HTTP instead of HTTPS, a 504 status code will be returned.|  
 
 ## See also  
- [Azure Search .NET SDK](https://go.microsoft.com/fwlink/?linkid=834796)  
+ [Azure Search .NET SDK](https://docs.microsoft.com/azure/search/search-api-versions)  
  [Azure Search Service REST](index.md)   

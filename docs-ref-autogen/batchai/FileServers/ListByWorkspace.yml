@@ -1,0 +1,326 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.batchai.fileservers.listbyworkspace
+name: List By Workspace
+service: Batch AI
+groupName: File Servers
+apiVersion: 2018-05-01
+summary: Gets a list of File Servers associated with the specified workspace.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers?api-version=2018-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers?maxresults={maxresults}&api-version=2018-05-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscriptionID for the Azure user.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.
+  types:
+  - uid: string
+  pattern: ^[-\w_]+$
+- name: maxresults
+  in: query
+  description: The maximum number of items to return in the response. A maximum of 1000 files can be returned.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Specifies the version of API used for this request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation was successful. The response contains a list of File Servers and their properties.
+  types:
+  - uid: FileServerListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: FileServerListResult
+  description: Values returned by the File Server List operation.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of File Servers.
+    types:
+    - uid: FileServer
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The continuation token.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Batch AI service.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: An error response from the Batch AI service.
+    types:
+    - uid: CloudErrorBody
+- name: FileServer
+  description: File Server information.
+  kind: object
+  properties:
+  - name: properties.vmSize
+    description: "VM size.  \nVM size of the File Server."
+    types:
+    - uid: string
+  - name: properties.sshConfiguration
+    description: "SSH configuration.  \nSSH configuration for accessing the File Server node."
+    types:
+    - uid: SshConfiguration
+  - name: properties.dataDisks
+    description: "Data disks configuration.  \nInformation about disks attached to File Server VM."
+    types:
+    - uid: DataDisks
+  - name: properties.subnet
+    description: "Subnet.  \nFile Server virtual network subnet resource ID."
+    types:
+    - uid: ResourceId
+  - name: properties.mountSettings
+    isReadyOnly: true
+    description: "Mount settings.  \nFile Server mount settings."
+    types:
+    - uid: MountSettings
+  - name: properties.provisioningStateTransitionTime
+    isReadyOnly: true
+    description: "Provisioning State Transition time.  \nTime when the provisioning state was changed."
+    types:
+    - uid: string
+  - name: properties.creationTime
+    isReadyOnly: true
+    description: "Creation time.  \nTime when the FileServer was created."
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "Provisioning state.  \nProvisioning state of the File Server. Possible values: creating - The File Server is getting created; updating - The File Server creation has been accepted and it is getting updated; deleting - The user has requested that the File Server be deleted, and it is in the process of being deleted; failed - The File Server creation has failed with the specified error code. Details about the error code are specified in the message field; succeeded - The File Server creation has succeeded."
+    types:
+    - uid: FileServerProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: The ID of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the Batch AI service.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: SshConfiguration
+  description: SSH configuration.
+  kind: object
+  properties:
+  - name: publicIPsToAllow
+    description: "Allowed public IPs.  \nList of source IP ranges to allow SSH connection from. The default value is '*' (all source IPs are allowed). Maximum number of IP ranges that can be specified is 400."
+    types:
+    - uid: string
+      isArray: true
+  - name: userAccountSettings
+    description: "User account settings.  \nSettings for administrator user account to be created on a node. The account can be used to establish SSH connection to the node."
+    types:
+    - uid: UserAccountSettings
+- name: DataDisks
+  description: Data disks settings.
+  kind: object
+  properties:
+  - name: diskSizeInGB
+    description: "Disk size in GB.  \nDisk size in GB for the blank data disks."
+    types:
+    - uid: integer
+  - name: cachingType
+    description: "Caching type.  \nCaching type for the disks. Available values are none (default), readonly, readwrite. Caching type can be set only for VM sizes supporting premium storage."
+    types:
+    - uid: CachingType
+  - name: diskCount
+    description: "Number of data disks.  \nNumber of data disks attached to the File Server. If multiple disks attached, they will be configured in RAID level 0."
+    types:
+    - uid: integer
+  - name: storageAccountType
+    description: "Storage account type.  \nType of storage account to be used on the disk. Possible values are: Standard_LRS or Premium_LRS. Premium storage account type can only be used with VM sizes supporting premium storage."
+    types:
+    - uid: StorageAccountType
+- name: ResourceId
+  description: Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the resource
+    types:
+    - uid: string
+- name: MountSettings
+  description: File Server mount Information.
+  kind: object
+  properties:
+  - name: mountPoint
+    description: "Mount Point.  \nPath where the data disks are mounted on the File Server."
+    types:
+    - uid: string
+  - name: fileServerPublicIP
+    description: "Public IP.  \nPublic IP address of the File Server which can be used to SSH to the node from outside of the subnet."
+    types:
+    - uid: string
+  - name: fileServerInternalIP
+    description: "Internal IP.  \nInternal IP address of the File Server which can be used to access the File Server from within the subnet."
+    types:
+    - uid: string
+- name: FileServerProvisioningState
+  description: Provisioning state.
+  kind: enum
+  properties:
+  - name: creating
+    types:
+    - uid: string
+  - name: updating
+    types:
+    - uid: string
+  - name: deleting
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+- name: UserAccountSettings
+  description: Settings for user account that gets created on each on the nodes of a cluster.
+  kind: object
+  properties:
+  - name: adminUserName
+    description: "User name.  \nName of the administrator user account which can be used to SSH to nodes."
+    types:
+    - uid: string
+  - name: adminUserSshPublicKey
+    description: "SSH public key.  \nSSH public key of the administrator user account."
+    types:
+    - uid: string
+  - name: adminUserPassword
+    description: "Password.  \nPassword of the administrator user account."
+    types:
+    - uid: string
+- name: CachingType
+  description: Caching type.
+  kind: enum
+  properties:
+  - name: none
+    types:
+    - uid: string
+  - name: readonly
+    types:
+    - uid: string
+  - name: readwrite
+    types:
+    - uid: string
+- name: StorageAccountType
+  description: Storage account type.
+  kind: enum
+  properties:
+  - name: Standard_LRS
+    types:
+    - uid: string
+  - name: Premium_LRS
+    types:
+    - uid: string
+examples:
+- name: Get a list of file servers
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/fileServers?api-version=2018-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.BatchAI/workspaces/demo_workspace/fileservers/fileservercedd134b",
+            "name": "fileservercedd134b",
+            "type": "Microsoft.BatchAI/FileServers",
+            "properties": {
+              "provisioningState": "succeeded",
+              "creationTime": "2017-09-27T21:45:28.159Z",
+              "provisioningStateTransitionTime": "2017-09-27T21:49:25.416Z",
+              "vmSize": "STANDARD_NC6",
+              "sshConfiguration": {
+                "userAccountSettings": {
+                  "adminUserName": "admin_user_name"
+                }
+              },
+              "dataDisks": {
+                "diskSizeInGB": 10,
+                "cachingType": "none",
+                "diskCount": 2,
+                "storageAccountType": "Standard_LRS"
+              },
+              "subnet": {
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo_resource_group/providers/Microsoft.Network/virtualNetworks/7feb1976-8c31-4f1f-bea2-86cb1839a7bavnet/subnets/Subnet-1"
+              },
+              "mountSettings": {
+                "mountPoint": "/mnt/data",
+                "fileServerPublicIP": "13.90.141.66",
+                "fileServerInternalIP": "10.0.0.4"
+              }
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,391 @@
+### YamlMime:RESTOperation
+uid: storageservices.path.create
+name: Create
+service: Storage Services
+groupName: Path
+apiVersion: 2018-06-17
+summary: "Create File | Create Directory | Rename File | Rename Directory  \nCreate or rename a file or directory.    By default, the destination is overwritten and if the destination already exists and has a lease the lease is broken.  This operation supports conditional HTTP requests.  For more information, see [Specifying Conditional Headers for Blob Service Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).  To fail if the destination already exists, use a conditional request with If-None-Match: \"*\"."
+consumes:
+- application/octet-stream
+produces:
+- application/json
+paths:
+- content: PUT http://{accountName}.{dnsSuffix}/{filesystem}/{path}
+- content: PUT http://{accountName}.{dnsSuffix}/{filesystem}/{path}?resource={resource}&continuation={continuation}&mode={mode}&timeout={timeout}
+  isOptional: true
+uriParameters:
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Storage account name.
+  types:
+  - uid: string
+- name: dnsSuffix
+  in: path
+  isRequired: true
+  description: The DNS suffix for the Azure Data Lake Storage endpoint.
+  types:
+  - uid: string
+- name: filesystem
+  in: path
+  isRequired: true
+  description: The filesystem identifier.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9](?!.*--)[-a-z0-9]{1,61}[a-z0-9]$
+- name: path
+  in: path
+  isRequired: true
+  description: The file or directory path.
+  types:
+  - uid: string
+- name: resource
+  in: query
+  description: Required only for Create File and Create Directory. The value must be "file" or "directory".
+  types:
+  - uid: PathResourceType
+- name: continuation
+  in: query
+  description: Optional.  When renaming a directory, the number of paths that are renamed with each invocation is limited.  If the number of paths to be renamed exceeds this limit, a continuation token is returned in this response header.  When a continuation token is returned in the response, it must be specified in a subsequent invocation of the rename operation to continue renaming the directory.
+  types:
+  - uid: string
+- name: mode
+  in: query
+  description: 'Optional. Valid only when namespace is enabled. This parameter determines the behavior of the rename operation. The value must be "legacy" or "posix", and the default value will be "posix". '
+  types:
+  - uid: PathRenameMode
+- name: timeout
+  in: query
+  description: An optional operation timeout value in seconds. The period begins when the request is received by the service. If the timeout value elapses before the operation completes, the operation fails.
+  types:
+  - uid: integer
+  format: int32
+responses:
+- name: 201 Created
+  headers:
+  - name: Date
+    value: string
+  - name: ETag
+    value: string
+  - name: Last-Modified
+    value: string
+  - name: x-ms-request-id
+    value: string
+  - name: x-ms-version
+    value: string
+  - name: x-ms-continuation
+    value: string
+  - name: Content-Length
+    value: string
+  description: The file or directory was created.
+- name: Other Status Codes
+  headers:
+  - name: x-ms-request-id
+    value: string
+  - name: x-ms-version
+    value: string
+  description: >-
+    An error occurred. The possible HTTP status, code, and message strings are listed below:
+
+    * 400 Bad Request, ContentLengthMustBeZero, "The Content-Length request header must be zero."
+
+    * 400 Bad Request, InvalidAuthenticationInfo, "Authentication information is not given in the correct format. Check the value of Authorization header."
+
+    * 400 Bad Request, InvalidFlushPosition, "The uploaded data is not contiguous or the position query parameter value is not equal to the length of the file after appending the uploaded data."
+
+    * 400 Bad Request, InvalidHeaderValue, "The value for one of the HTTP headers is not in the correct format."
+
+    * 400 Bad Request, InvalidHttpVerb, "The HTTP verb specified is invalid - it is not recognized by the server."
+
+    * 400 Bad Request, InvalidInput, "One of the request inputs is not valid."
+
+    * 400 Bad Request, InvalidPropertyName, "A property name cannot be empty."
+
+    * 400 Bad Request, InvalidPropertyName, "The property name contains invalid characters."
+
+    * 400 Bad Request, InvalidQueryParameterValue, "Value for one of the query parameters specified in the request URI is invalid."
+
+    * 400 Bad Request, InvalidResourceName, "The specifed resource name contains invalid characters."
+
+    * 400 Bad Request, InvalidSourceUri, "The source URI is invalid."
+
+    * 400 Bad Request, InvalidUri, "The request URI is invalid."
+
+    * 400 Bad Request, MissingRequiredHeader, "An HTTP header that's mandatory for this request is not specified."
+
+    * 400 Bad Request, MissingRequiredQueryParameter, "A query parameter that's mandatory for this request is not specified."
+
+    * 400 Bad Request, MultipleConditionHeadersNotSupported, "Multiple condition headers are not supported."
+
+    * 400 Bad Request, OutOfRangeInput, "One of the request inputs is out of range."
+
+    * 400 Bad Request, OutOfRangeQueryParameterValue, "One of the query parameters specified in the request URI is outside the permissible range."
+
+    * 400 Bad Request, UnsupportedHeader, "One of the headers specified in the request is not supported."
+
+    * 400 Bad Request, UnsupportedQueryParameter, "One of the query parameters specified in the request URI is not supported."
+
+    * 400 Bad Request, UnsupportedRestVersion, "The specified Rest Version is Unsupported."
+
+    * 403 Forbidden, AccountIsDisabled, "The specified account is disabled."
+
+    * 403 Forbidden, AuthorizationFailure, "This request is not authorized to perform this operation."
+
+    * 403 Forbidden, InsufficientAccountPermissions, "The account being accessed does not have sufficient permissions to execute this operation."
+
+    * 404 Not Found, FilesystemNotFound, "The specified filesystem does not exist."
+
+    * 404 Not Found, PathNotFound, "The specified path does not exist."
+
+    * 404 Not Found, RenameDestinationParentPathNotFound, "The parent directory of the destination path does not exist."
+
+    * 404 Not Found, ResourceNotFound, "The specified resource does not exist."
+
+    * 404 Not Found, SourcePathNotFound, "The source path for a rename operation does not exist."
+
+    * 405 Method Not Allowed, UnsupportedHttpVerb, "The resource doesn't support the specified HTTP verb."
+
+    * 409 Conflict, DestinationPathIsBeingDeleted, "The specified destination path is marked to be deleted."
+
+    * 409 Conflict, DirectoryNotEmpty, "The recursive query parameter value must be true to delete a non-empty directory."
+
+    * 409 Conflict, FilesystemAlreadyExists, "The specified filesystem already exists."
+
+    * 409 Conflict, FilesystemBeingDeleted, "The specified filesystem is being deleted."
+
+    * 409 Conflict, InvalidDestinationPath, "The specified path, or an element of the path, exists and its resource type is invalid for this operation."* 409 Conflict, InvalidFlushOperation, "The resource was created or modified by the Blob Service API and cannot be written to by the Data Lake Storage Service API."
+
+    * 409 Conflict, InvalidRenameSourcePath, "The source directory cannot be the same as the destination directory, nor can the destination be a subdirectory of the source directory."
+
+    * 409 Conflict, InvalidSourceOrDestinationResourceType, "The source and destination resource type must be identical."
+
+    * 409 Conflict, LeaseAlreadyPresent, "There is already a lease present."
+
+    * 409 Conflict, LeaseIdMismatchWithLeaseOperation, "The lease ID specified did not match the lease ID for the resource with the specified lease operation."
+
+    * 409 Conflict, LeaseIsAlreadyBroken, "The lease has already been broken and cannot be broken again."
+
+    * 409 Conflict, LeaseIsBreakingAndCannotBeAcquired, "The lease ID matched, but the lease is currently in breaking state and cannot be acquired until it is broken."
+
+    * 409 Conflict, LeaseIsBreakingAndCannotBeChanged, "The lease ID matched, but the lease is currently in breaking state and cannot be changed."
+
+    * 409 Conflict, LeaseIsBrokenAndCannotBeRenewed, "The lease ID matched, but the lease has been broken explicitly and cannot be renewed."
+
+    * 409 Conflict, LeaseNameMismatch, "The lease name specified did not match the existing lease name."
+
+    * 409 Conflict, LeaseNotPresentWithLeaseOperation, "The lease ID is not present with the specified lease operation."
+
+    * 409 Conflict, PathAlreadyExists, "The specified path already exists."
+
+    * 409 Conflict, PathConflict, "The specified path, or an element of the path, exists and its resource type is invalid for this operation."
+
+    * 409 Conflict, SourcePathIsBeingDeleted, "The specified source path is marked to be deleted."
+
+    * 409 Conflict, ResourceTypeMismatch, "The resource type specified in the request does not match the type of the resource."
+
+    * 412 Precondition Failed, ConditionNotMet, "The condition specified using HTTP conditional header(s) is not met."
+
+    * 412 Precondition Failed, LeaseIdMismatch, "The lease ID specified did not match the lease ID for the resource."
+
+    * 412 Precondition Failed, LeaseIdMissing, "There is currently a lease on the resource and no lease ID was specified in the request."
+
+    * 412 Precondition Failed, LeaseNotPresent, "There is currently no lease on the resource."
+
+    * 412 Precondition Failed, LeaseLost, "A lease ID was specified, but the lease for the resource has expired."
+
+    * 412 Precondition Failed, SourceConditionNotMet, "The source condition specified using HTTP conditional header(s) is not met."
+
+    * 413 Request Entity Too Large, RequestBodyTooLarge, "The request body is too large and exceeds the maximum permissible limit."
+
+    * 416 Requested Range Not Satisfiable, InvalidRange, "The range specified is invalid for the current size of the resource."
+
+    * 500 Internal Server Error, InternalError, "The server encountered an internal error. Please retry the request."
+
+    * 500 Internal Server Error, OperationTimedOut, "The operation could not be completed within the permitted time."
+
+    * 503 Service Unavailable, ServerBusy, "Egress is over the account limit."
+
+    * 503 Service Unavailable, ServerBusy, "Ingress is over the account limit."
+
+    * 503 Service Unavailable, ServerBusy, "Operations per second is over the account limit."
+
+    * 503 Service Unavailable, ServerBusy, "The server is currently unable to receive requests. Please retry your request."
+  types:
+  - uid: DataLakeStorageError
+requestHeader:
+- name: Cache-Control
+  in: header
+  description: Optional.  The service stores this value and includes it in the "Cache-Control" response header for "Read File" operations for "Read File" operations.
+  types:
+  - uid: string
+- name: Content-Encoding
+  in: header
+  description: Optional.  Specifies which content encodings have been applied to the file. This value is returned to the client when the "Read File" operation is performed.
+  types:
+  - uid: string
+- name: Content-Language
+  in: header
+  description: Optional.  Specifies the natural language used by the intended audience for the file.
+  types:
+  - uid: string
+- name: Content-Disposition
+  in: header
+  description: Optional.  The service stores this value and includes it in the "Content-Disposition" response header for "Read File" operations.
+  types:
+  - uid: string
+- name: x-ms-cache-control
+  in: header
+  description: Optional.  The service stores this value and includes it in the "Cache-Control" response header for "Read File" operations.
+  types:
+  - uid: string
+- name: x-ms-content-type
+  in: header
+  description: Optional.  The service stores this value and includes it in the "Content-Type" response header for "Read File" operations.
+  types:
+  - uid: string
+- name: x-ms-content-encoding
+  in: header
+  description: Optional.  The service stores this value and includes it in the "Content-Encoding" response header for "Read File" operations.
+  types:
+  - uid: string
+- name: x-ms-content-language
+  in: header
+  description: Optional.  The service stores this value and includes it in the "Content-Language" response header for "Read File" operations.
+  types:
+  - uid: string
+- name: x-ms-content-disposition
+  in: header
+  description: Optional.  The service stores this value and includes it in the "Content-Disposition" response header for "Read File" operations.
+  types:
+  - uid: string
+- name: x-ms-rename-source
+  in: header
+  description: 'An optional file or directory to be renamed.  The value must have the following format: "/{filesysystem}/{path}".  If "x-ms-properties" is specified, the properties will overwrite the existing properties; otherwise, the existing properties will be preserved.'
+  types:
+  - uid: string
+- name: x-ms-lease-id
+  in: header
+  description: Optional.  A lease ID for the path specified in the URI.  The path to be overwritten must have an active lease and the lease ID must match.
+  types:
+  - uid: string
+  pattern: ^[{(]?[0-9a-f]{8}[-]?([0-9a-f]{4}[-]?){3}[0-9a-f]{12}[)}]?$
+- name: x-ms-proposed-lease-id
+  in: header
+  description: Optional for create operations.  Required when "x-ms-lease-action" is used.  A lease will be acquired using the proposed ID when the resource is created.
+  types:
+  - uid: string
+  pattern: ^[{(]?[0-9a-f]{8}[-]?([0-9a-f]{4}[-]?){3}[0-9a-f]{12}[)}]?$
+- name: x-ms-source-lease-id
+  in: header
+  description: Optional for rename operations.  A lease ID for the source path.  The source path must have an active lease and the lease ID must match.
+  types:
+  - uid: string
+  pattern: ^[{(]?[0-9a-f]{8}[-]?([0-9a-f]{4}[-]?){3}[0-9a-f]{12}[)}]?$
+- name: x-ms-properties
+  in: header
+  description: Optional.  User-defined properties to be stored with the file or directory, in the format of a comma-separated list of name and value pairs "n1=v1, n2=v2, ...", where each value is base64 encoded.
+  types:
+  - uid: string
+- name: x-ms-permissions
+  in: header
+  description: Optional and only valid if Hierarchical Namespace is enabled for the account. Sets POSIX access permissions for the file owner, the file owning group, and others. Each class may be granted read, write, or execute permission.  The sticky bit is also supported.  Both symbolic (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported.
+  types:
+  - uid: string
+- name: If-Match
+  in: header
+  description: Optional.  An ETag value. Specify this header to perform the operation only if the resource's ETag matches the value specified. The ETag must be specified in quotes.
+  types:
+  - uid: string
+- name: If-None-Match
+  in: header
+  description: Optional.  An ETag value or the special wildcard ("*") value. Specify this header to perform the operation only if the resource's ETag does not match the value specified. The ETag must be specified in quotes.
+  types:
+  - uid: string
+- name: If-Modified-Since
+  in: header
+  description: Optional. A date and time value. Specify this header to perform the operation only if the resource has been modified since the specified date and time.
+  types:
+  - uid: string
+- name: If-Unmodified-Since
+  in: header
+  description: Optional. A date and time value. Specify this header to perform the operation only if the resource has not been modified since the specified date and time.
+  types:
+  - uid: string
+- name: x-ms-source-if-match
+  in: header
+  description: Optional.  An ETag value. Specify this header to perform the rename operation only if the source's ETag matches the value specified. The ETag must be specified in quotes.
+  types:
+  - uid: string
+- name: x-ms-source-if-none-match
+  in: header
+  description: Optional.  An ETag value or the special wildcard ("*") value. Specify this header to perform the rename operation only if the source's ETag does not match the value specified. The ETag must be specified in quotes.
+  types:
+  - uid: string
+- name: x-ms-source-if-modified-since
+  in: header
+  description: Optional. A date and time value. Specify this header to perform the rename operation only if the source has been modified since the specified date and time.
+  types:
+  - uid: string
+- name: x-ms-source-if-unmodified-since
+  in: header
+  description: Optional. A date and time value. Specify this header to perform the rename operation only if the source has not been modified since the specified date and time.
+  types:
+  - uid: string
+- name: x-ms-client-request-id
+  in: header
+  description: A UUID recorded in the analytics logs for troubleshooting and correlation.
+  types:
+  - uid: string
+  pattern: ^[{(]?[0-9a-f]{8}[-]?([0-9a-f]{4}[-]?){3}[0-9a-f]{12}[)}]?$
+- name: x-ms-date
+  in: header
+  description: Specifies the Coordinated Universal Time (UTC) for the request.  This is required when using shared key authorization.
+  types:
+  - uid: string
+- name: x-ms-version
+  in: header
+  description: Specifies the version of the REST protocol used for processing the request. This is required when using shared key authorization.
+  types:
+  - uid: string
+definitions:
+- name: PathResourceType
+  description: Required only for Create File and Create Directory. The value must be "file" or "directory".
+  kind: enum
+  properties:
+  - name: directory
+    types:
+    - uid: string
+  - name: file
+    types:
+    - uid: string
+- name: PathRenameMode
+  description: 'Optional. Valid only when namespace is enabled. This parameter determines the behavior of the rename operation. The value must be "legacy" or "posix", and the default value will be "posix". '
+  kind: enum
+  properties:
+  - name: legacy
+    types:
+    - uid: string
+  - name: posix
+    types:
+    - uid: string
+- name: DataLakeStorageError
+  kind: object
+  properties:
+  - name: error
+    description: The service error response object.
+    types:
+    - uid: Error
+- name: Error
+  description: The service error response object.
+  kind: object
+  properties:
+  - name: code
+    description: The service error code.
+    types:
+    - uid: string
+  - name: message
+    description: The service error message.
+    types:
+    - uid: string
+examples: []
+security: []

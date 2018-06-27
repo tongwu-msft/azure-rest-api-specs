@@ -3,21 +3,19 @@ uid: management.azure.com.resources.policyassignments.createbyid
 name: Create By Id
 service: Resource Management
 groupName: Policy Assignments
-apiVersion: 2017-06-01-preview
-summary: "Creates a policy assignment by ID.  \nPolicy assignments are inherited by child resources. For example, when you apply a policy to a resource group that policy is assigned to all resources in the group. When providing a scope for the assigment, use '/subscriptions/{subscription-id}/' for subscriptions, '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for resource groups, and '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider-namespace}/{resource-type}/{resource-name}' for resources."
+apiVersion: 2018-03-01
+summary: "Creates or updates a policy assignment.  \nThis operation creates or updates the policy assignment with the given ID. Policy assignments made on a scope apply to all resources contained in that scope. For example, when you assign a policy to a resource group that policy applies to all resources in the group. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'."
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: PUT https://management.azure.com/{policyAssignmentId}?api-version=2017-06-01-preview
+- content: PUT https://management.azure.com/{policyAssignmentId}?api-version=2018-03-01
 uriParameters:
 - name: policyAssignmentId
   in: path
   isRequired: true
-  description: The ID of the policy assignment to create. Use the format '/{scope}/providers/Microsoft.Authorization/policyAssignments/{policy-assignment-name}'.
+  description: The ID of the policy assignment to create. Use the format '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
   types:
   - uid: string
 - name: api-version
@@ -39,7 +37,7 @@ requestBody:
 - parameters:
   - name: sku
     in: body
-    description: The policy sku.
+    description: The policy sku. This property is optional, obsolete, and will be ignored.
     types:
     - uid: PolicySku
   - name: properties.displayName
@@ -49,7 +47,7 @@ requestBody:
     - uid: string
   - name: properties.policyDefinitionId
     in: body
-    description: The ID of the policy definition.
+    description: The ID of the policy definition or policy set definition being assigned.
     types:
     - uid: string
   - name: properties.scope
@@ -81,7 +79,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: PolicySku
-  description: The policy sku.
+  description: The policy sku. This property is optional, obsolete, and will be ignored.
   kind: object
   properties:
   - name: name
@@ -112,7 +110,7 @@ definitions:
     types:
     - uid: string
   - name: sku
-    description: The policy sku.
+    description: The policy sku. This property is optional, obsolete, and will be ignored.
     types:
     - uid: PolicySku
   - name: properties.displayName
@@ -120,7 +118,7 @@ definitions:
     types:
     - uid: string
   - name: properties.policyDefinitionId
-    description: The ID of the policy definition.
+    description: The ID of the policy definition or policy set definition being assigned.
     types:
     - uid: string
   - name: properties.scope
@@ -145,7 +143,7 @@ definitions:
     types:
     - uid: object
 - name: ErrorResponse
-  description: Error reponse indicates ARM is not able to process the incoming request. The reason is provided in the error message.
+  description: Error reponse indicates Azure Resource Manager is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
   - name: httpStatus
@@ -160,7 +158,54 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-examples: []
+examples:
+- name: Create or update policy assignment by ID
+  request:
+    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2018-03-01
+    body: >-
+      {
+        "properties": {
+          "displayName": "Enforce storage account SKU",
+          "description": "Allow only storage accounts of SKU Standard_GRS or Standard_LRS to be created",
+          "metadata": {
+            "assignedBy": "Cheapskate Boss"
+          },
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
+          "parameters": {
+            "listOfAllowedSKUs": {
+              "value": [
+                "Standard_GRS",
+                "Standard_LRS"
+              ]
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "displayName": "Enforce storage account SKU",
+          "description": "Allow only storage accounts of SKU Standard_GRS or Standard_LRS to be created",
+          "metadata": {
+            "assignedBy": "Cheapskate Boss"
+          },
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
+          "notScopes": [],
+          "parameters": {
+            "listOfAllowedSKUs": {
+              "value": [
+                "Standard_GRS",
+                "Standard_LRS"
+              ]
+            }
+          }
+        },
+        "id": "/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage",
+        "type": "Microsoft.Authorization/policyAssignments",
+        "name": "LowCostStorage"
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

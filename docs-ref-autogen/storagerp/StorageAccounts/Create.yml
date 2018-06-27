@@ -3,20 +3,19 @@ uid: management.azure.com.storagerp.storageaccounts.create
 name: Create
 service: Storage Resource Provider
 groupName: Storage Accounts
-apiVersion: 2017-06-01
+apiVersion: 2018-03-01-preview
 summary: Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
 consumes:
 - application/json
 produces:
 - application/json
-- text/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2017-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2018-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
@@ -35,7 +34,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -102,6 +101,11 @@ requestBody:
   - name: properties.supportsHttpsTrafficOnly
     in: body
     description: Allows https traffic only to storage service if sets to true.
+    types:
+    - uid: boolean
+  - name: properties.isHnsEnabled
+    in: body
+    description: Account HierarchicalNamespace enabled if sets to true.
     types:
     - uid: boolean
 requestHeader: []
@@ -301,33 +305,37 @@ definitions:
     description: Network rule set
     types:
     - uid: NetworkRuleSet
-  - name: id
-    isReadyOnly: true
-    description: Resource Id
+  - name: properties.isHnsEnabled
+    description: Account HierarchicalNamespace enabled if sets to true.
     types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
+    - uid: boolean
   - name: tags
-    description: Tags assigned to a resource; can be used for viewing and grouping a resource (across resource groups).
+    description: Resource tags.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
 - name: StorageAccountCreateParameters
   description: The parameters used when creating a storage account.
   kind: object
@@ -376,6 +384,10 @@ definitions:
     description: Allows https traffic only to storage service if sets to true.
     types:
     - uid: boolean
+  - name: properties.isHnsEnabled
+    description: Account HierarchicalNamespace enabled if sets to true.
+    types:
+    - uid: boolean
 - name: SkuName
   description: Gets or sets the sku name. Required for account creation; optional for update. Note that in older versions, sku name was called accountType.
   kind: enum
@@ -410,6 +422,9 @@ definitions:
   kind: enum
   properties:
   - name: Storage
+    types:
+    - uid: string
+  - name: StorageV2
     types:
     - uid: string
   - name: BlobStorage
@@ -571,7 +586,7 @@ definitions:
     types:
     - uid: string
 - name: Endpoints
-  description: The URIs that are used to perform a retrieval of a public blob, queue, or table object.
+  description: The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object.
   kind: object
   properties:
   - name: blob
@@ -592,6 +607,16 @@ definitions:
   - name: file
     isReadyOnly: true
     description: Gets the file endpoint.
+    types:
+    - uid: string
+  - name: web
+    isReadyOnly: true
+    description: Gets the web endpoint.
+    types:
+    - uid: string
+  - name: dfs
+    isReadyOnly: true
+    description: Gets the dfs endpoint.
     types:
     - uid: string
 - name: AccountStatus
@@ -666,7 +691,7 @@ definitions:
 examples:
 - name: StorageAccountCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/27de630f-e1ee-42de-8849-90def4986454/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2017-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2018-03-01-preview
     body: >-
       {
         "sku": {
@@ -674,6 +699,9 @@ examples:
         },
         "kind": "Storage",
         "location": "eastus2euap",
+        "properties": {
+          "isHnsEnabled": true
+        },
         "tags": {
           "key1": "value1",
           "key2": "value2"
@@ -683,13 +711,35 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/27de630f-e1ee-42de-8849-90def4986454/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445",
         "kind": "Storage",
         "location": "eastus2euap",
         "name": "sto4445",
         "properties": {
-          "creationTime": "2017-05-24T13:25:33.4863236Z",
+          "isHnsEnabled": true,
+          "networkAcls": {
+            "bypass": "AzureServices",
+            "virtualNetworkRules": [],
+            "ipRules": [],
+            "defaultAction": "Allow"
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "enabled": true,
+                "lastEnabledTime": "2018-04-13T07:04:49.8562647Z"
+              },
+              "blob": {
+                "enabled": true,
+                "lastEnabledTime": "2018-04-13T07:04:49.8562647Z"
+              }
+            },
+            "keySource": "Microsoft.Storage"
+          },
+          "creationTime": "2018-04-13T07:04:49.6145793Z",
           "primaryEndpoints": {
+            "web": "https://sto4445.web.core.windows.net/",
+            "dfs": "https://sto4445.dfs.core.windows.net/",
             "blob": "https://sto4445.blob.core.windows.net/",
             "file": "https://sto4445.file.core.windows.net/",
             "queue": "https://sto4445.queue.core.windows.net/",

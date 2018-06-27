@@ -93,4 +93,4 @@ Language-specific fields are also illustrated in this index. Description fields 
 ## See also  
  [Azure Search Service REST](index.md)   
  [Service limits in Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)   
- [Azure Search .NET library](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
+ [Azure Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  

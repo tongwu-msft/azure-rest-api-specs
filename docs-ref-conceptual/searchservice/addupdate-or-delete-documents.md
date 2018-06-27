@@ -41,7 +41,7 @@ POST /indexes/[index name]/docs/index?api-version=[api-version]
 
 The request URI includes, `[index name]`, specifying which index to post documents. You can only post documents to one index at a time.  
 
-The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions.  
+The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.  
 
 ### Request Headers  
 The following table describes the required and optional request headers.  
@@ -216,5 +216,5 @@ Status code: 429 indicates that you have exceeded your quota on the number of do
 ## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)   
- [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
+ [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)   
+ [Azure Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
