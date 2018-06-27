@@ -61,7 +61,7 @@ The `Put Block From URL` operation creates a new block to be committed as part o
 |`Content-Length`|Required. The length of the block content in bytes. This must be 0.<br /><br />When the length is greater than 0, the operation will fail with the status code 400 (Bad Request).|  
 |`x-ms-copy-source:name`|Required. Specifies the URL of the blob. The value may be a URL of up to 2 KB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. A source blob in the same storage account can be authenticated via Shared Key. However, if the source is a blob in another account, the source blob must either be public or must be authenticated via a shared access signature. If the source blob is public, no authentication is required to perform the operation. Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|  
 |`x-ms-source-range`|Optional. Uploads only the bytes of the blob in the source URL in the specified range. If this is not specified, the entire source blob contents are uploaded as a single block. See [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|   
-|`x-ms-source-content-md5`|Optional. A MD5 hash of the block content from the URI. This hash is used to verify the integrity of the block during transport of the data from the URI. When this header is specified, the storage service compares the hash of the content that has arrived from the copy-source with this header value.<br /><br /> Note that this crc64 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).|  
+|`x-ms-source-content-md5`|Optional. A MD5 hash of the block content from the URI. This hash is used to verify the integrity of the block during transport of the data from the URI. When this header is specified, the storage service compares the hash of the content that has arrived from the copy-source with this header value.<br /><br /> Note that this md5 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
@@ -110,7 +110,7 @@ HTTP/1.1 201 Created
   
 Response Headers:  
 Transfer-Encoding: chunked  
-x-ms-content-crc64: BN3lsXf+t19nMGs+vYakPA==  
+Content-MD5: BN3lsXf+t19nMGs+vYakPA==  
 Date: Sat, 31 Mar 2018 23:47:09 GMT  
 Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0  
 ```  
