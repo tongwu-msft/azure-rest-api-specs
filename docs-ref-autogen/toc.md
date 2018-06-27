@@ -4540,6 +4540,7 @@
 #### [Filter Expression Syntax (OData)](../docs-ref-conceptual/searchservice/odata-expression-syntax-for-azure-search.md)
 #### [Support for OData](../docs-ref-conceptual/searchservice/support-for-odata.md)
 ### [Suggestions](../docs-ref-conceptual/searchservice/suggestions.md)
+### [Autocomplete](../docs-ref-conceptual/searchservice/autocomplete.md)
 ### [Lookup Document](../docs-ref-conceptual/searchservice/lookup-document.md)
 ### [Count Documents](../docs-ref-conceptual/searchservice/count-documents.md)
 ## [Indexer operations](../docs-ref-conceptual/searchservice/indexer-operations.md)
