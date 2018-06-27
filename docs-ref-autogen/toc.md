@@ -6983,7 +6983,7 @@
 ##### [Incremental Copy Blob](../docs-ref-conceptual/storageservices/incremental-copy-blob.md)
 #### [Operations on Append Blobs](../docs-ref-conceptual/storageservices/operations-on-append-blobs.md)
 ##### [Append Block](../docs-ref-conceptual/storageservices/append-block.md)
-## [Data Lake Storage Gen2](../docs-ref-conceptual/storageservices/data-lake-storage-gen2.md)
+## [Data Lake Storage Gen2 REST API](../docs-ref-conceptual/storageservices/data-lake-storage-gen2.md)
 ## [Queue Service REST API](../docs-ref-conceptual/storageservices/queue-service-rest-api.md)
 ### [Queue Service Concepts](../docs-ref-conceptual/storageservices/queue-service-concepts.md)
 #### [Addressing Queue Service Resources](../docs-ref-conceptual/storageservices/addressing-queue-service-resources.md)
