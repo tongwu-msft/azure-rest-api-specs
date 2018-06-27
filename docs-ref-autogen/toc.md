@@ -3092,7 +3092,7 @@
 ### [Resource Provider Common](iothub/ResourceProviderCommon.yml)
 #### [Get Subscription Quota](iothub/ResourceProviderCommon/GetSubscriptionQuota.yml)
 ### [Service](iothub/Service.yml)
-#### [Apply Configuration On Device](iothub/Service/ApplyConfigurationOnDevice.yml)
+#### [Apply Configuration On Edge Device](iothub/Service/ApplyConfigurationOnEdgeDevice.yml)
 #### [Bulk Create Or Update Devices](iothub/Service/BulkCreateOrUpdateDevices.yml)
 #### [Cancel Job](iothub/Service/CancelJob.yml)
 #### [Cancel Job](iothub/Service/CancelJob.yml)
