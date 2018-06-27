@@ -18,22 +18,20 @@ Azure Data Lake Storage Gen2 APIs support authorization with the Azure Storage S
 
 ## Operations
 
-| Operation Category      | Operation       | 
-| ------------- | ------------- |
-| [Filesystem](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem) | |
-|  | [Create](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem/create) |
-|  | [Delete](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem/delete) |
-|  | [Get Properties](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem/getproperties) |
-|  | [Set Properties](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem/setproperties) |
-|  | [List](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem/list) |
-| [Path](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path) | |
-|  | [Create](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/create) |
-|  | [Delete](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/delete) |
-|  | [Get Properties](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/getproperties) |
-|  | [Lease](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/lease) |
-|  | [List](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/list) |
-|  | [Read](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/read) |
-|  | [Update](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/update) |
+- [Filesystem](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem) 
+  - [Create](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem/create) 
+  - [Delete](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem/delete) 
+  - [Get Properties](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem/getproperties) 
+  - [Set Properties](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem/setproperties) 
+  - [List](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem/list) 
+- [Path](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path)
+  - [Create](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/create) 
+  - [Delete](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/delete) 
+  - [Get Properties](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/getproperties) 
+  - [Lease](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/lease) 
+  - [List](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/list) 
+  - [Read](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/read)
+  - [Update](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/update) 
 
 
 
