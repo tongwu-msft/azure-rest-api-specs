@@ -3,19 +3,19 @@ uid: localhost.iot-dps.deviceenrollment.bulkoperation
 name: Bulk Operation
 service: IoT Hub Device Provisioning Service
 groupName: Device Enrollment
-apiVersion: 2017-11-15
+apiVersion: 2018-04-01
 summary: Bulk device enrollment operation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://localhost/enrollments?api-version=2017-11-15
+- content: POST https://localhost/enrollments?api-version=2018-04-01
 uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: 'The API version to use for the request. Supported versions include: 2017-11-15'
+  description: 'The API version to use for the request. Supported versions include: 2018-04-01'
   types:
   - uid: string
 responses:
@@ -45,6 +45,13 @@ responses:
   - uid: ProvisioningServiceErrorDetails
 requestBody:
 - parameters:
+  - name: enrollments
+    in: body
+    isRequired: true
+    description: Enrollment items
+    types:
+    - uid: IndividualEnrollment
+      isArray: true
   - name: mode
     in: body
     isRequired: true
@@ -55,19 +62,16 @@ requestBody:
     - uid: updateIfMatchETag
     - uid: delete
     typesTitle: enum
-  - name: enrollments
-    in: body
-    isRequired: true
-    description: Enrollment items
-    types:
-    - uid: IndividualEnrollment
-      isArray: true
 requestHeader: []
 definitions:
 - name: IndividualEnrollment
   description: The device enrollment record.
   kind: object
   properties:
+  - name: capabilities
+    description: Capabilities of the device
+    types:
+    - uid: DeviceCapabilities
   - name: registrationId
     description: Registration ID.
     types:
@@ -111,7 +115,6 @@ definitions:
     types:
     - uid: string
 - name: BulkEnrollmentOperationResult
-  description: Bulk enrollment operation result
   kind: object
   properties:
   - name: isSuccessful
@@ -154,6 +157,11 @@ definitions:
   description: Bulk operation
   kind: object
   properties:
+  - name: enrollments
+    description: Enrollment items
+    types:
+    - uid: IndividualEnrollment
+      isArray: true
   - name: mode
     description: Operation mode
     types:
@@ -162,11 +170,14 @@ definitions:
     - uid: updateIfMatchETag
     - uid: delete
     typesTitle: enum
-  - name: enrollments
-    description: Enrollment items
+- name: DeviceCapabilities
+  description: Device capabilities.
+  kind: object
+  properties:
+  - name: iotEdge
+    description: IoT Edge capability
     types:
-    - uid: IndividualEnrollment
-      isArray: true
+    - uid: boolean
 - name: DeviceRegistrationState
   description: Device registration state.
   kind: object
