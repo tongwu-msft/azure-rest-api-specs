@@ -16,7 +16,7 @@ ms.date: 06/25/2018
 
 **Applies to:** api-version-2017-11-11-Preview
 
-  The **Delete Skillset** operation removes a skillset from your Azure Search service.  
+  The **Delete Skillset** operation removes a skillset and its contents from your Azure Search service.  
 
 ```  
 DELETE https://[service name].search.windows.net/skillsets/[skillset name]?api-version=2017-11-11-Preview 
