@@ -2052,6 +2052,7 @@
 #### [Get](compute/AvailabilitySets/Get.yml)
 #### [List](compute/AvailabilitySets/List.yml)
 #### [List Available Sizes](compute/AvailabilitySets/ListAvailableSizes.yml)
+#### [List By Subscription](compute/AvailabilitySets/ListBySubscription.yml)
 #### [Update](compute/AvailabilitySets/Update.yml)
 ### [Disks](compute/Disks.yml)
 #### [Create Or Update](compute/Disks/CreateOrUpdate.yml)
