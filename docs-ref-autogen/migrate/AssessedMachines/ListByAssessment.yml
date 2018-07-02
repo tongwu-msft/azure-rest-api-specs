@@ -1,0 +1,1154 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.migrate.assessedmachines.listbyassessment
+name: List By Assessment
+service: Migrate
+groupName: Assessed Machines
+apiVersion: 2018-02-02
+summary: "Get assessed machines for assessment.  \nGet list of machines that assessed as part of the specified assessment. Returns a json array of objects of type 'assessedMachine' as specified in the Models section.\n\nWhenever an assessment is created or updated, it goes under computation. During this phase, the 'status' field of Assessment object reports 'Computing'.\nDuring the period when the assessment is under computation, the list of assessed machines is empty and no assessed machines are returned by this call."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}/assessedMachines?api-version=2018-02-02
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription Id in which project was created.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Azure Resource Group that project is part of.
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: Name of the Azure Migrate project.
+  types:
+  - uid: string
+- name: groupName
+  in: path
+  isRequired: true
+  description: Unique name of a group within a project.
+  types:
+  - uid: string
+- name: assessmentName
+  in: path
+  isRequired: true
+  description: Unique name of an assessment within a project.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Standard request header. Used by service to identify API version used by client.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: OK. Returns list of machines with their assessment data in the assessment.
+  types:
+  - uid: AssessedMachineResultList
+- name: 401 Unauthorized
+  description: Not authorized (No access to subscription, resource group, or project).
+- name: 404 Not Found
+  description: Not found (Invalid subscriptionId, resourceGroupName, projectName, or assessmentName).
+- name: 500 Internal Server Error
+  description: Internal Server Error.
+- name: Other Status Codes
+  description: Service Unavailable.
+requestHeader:
+- name: Accept-Language
+  in: header
+  description: Standard request header. Used by service to respond to client in appropriate language.
+  types:
+  - uid: string
+definitions:
+- name: AssessedMachineResultList
+  description: List of assessed machines.
+  kind: object
+  properties:
+  - name: value
+    description: List of assessed machines.
+    types:
+    - uid: AssessedMachine
+      isArray: true
+- name: AssessedMachine
+  description: A machine evaluated as part of an assessment.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Path reference to this assessed machine. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}/assessedMachines/{assessedMachineName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the machine.
+    types:
+    - uid: string
+  - name: eTag
+    description: For optimistic concurrency control.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the object = [Microsoft.Migrate/projects/groups/assessments/assessedMachines].
+    types:
+    - uid: string
+  - name: properties.groups
+    isReadyOnly: true
+    description: List of references to the groups that the machine is member of.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.discoveredTimestamp
+    isReadyOnly: true
+    description: Time when this machine was discovered by Azure Migrate agent. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: properties.bootType
+    isReadyOnly: true
+    description: Boot type of the machine.
+    types:
+    - uid: MachineBootType
+  - name: properties.datacenterContainer
+    isReadyOnly: true
+    description: Container defined in the management solution that this machine is part of in the datacenter.
+    types:
+    - uid: string
+  - name: properties.datacenterManagementServer
+    isReadyOnly: true
+    description: Name of the server hosting the datacenter management solution.
+    types:
+    - uid: string
+  - name: properties.datacenterMachineId
+    isReadyOnly: true
+    description: ID of the machine as tracked by the datacenter management solution.
+    types:
+    - uid: string
+  - name: properties.datacenterManagementServerId
+    isReadyOnly: true
+    description: ID of the server hosting the datacenter management solution.
+    types:
+    - uid: string
+  - name: properties.description
+    isReadyOnly: true
+    description: Description of the machine
+    types:
+    - uid: string
+  - name: properties.displayName
+    isReadyOnly: true
+    description: User readable name of the machine as defined by the user in their private datacenter.
+    types:
+    - uid: string
+  - name: properties.megabytesOfMemory
+    isReadyOnly: true
+    description: Memory in Megabytes.
+    types:
+    - uid: number
+  - name: properties.numberOfCores
+    isReadyOnly: true
+    description: Processor count.
+    types:
+    - uid: integer
+  - name: properties.operatingSystem
+    isReadyOnly: true
+    description: Operating System of the machine.
+    types:
+    - uid: string
+  - name: properties.monthlyBandwidthCost
+    isReadyOnly: true
+    description: Monthly network cost estimate for the network adapters that are attached to this machine as a group, for a 31-day month.
+    types:
+    - uid: number
+  - name: properties.monthlyStorageCost
+    isReadyOnly: true
+    description: Monthly storage cost estimate for the disks that are attached to this machine as a group, for a 31-day month.
+    types:
+    - uid: number
+  - name: properties.disks
+    isReadyOnly: true
+    description: Dictionary of disks attached to the machine. Key is ID of disk. Value is a disk object.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AssessedDisk
+  - name: properties.networkAdapters
+    isReadyOnly: true
+    description: Dictionary of network adapters attached to the machine. Key is name of the adapter. Value is a network adapter object.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AssessedNetworkAdapter
+  - name: properties.recommendedSize
+    isReadyOnly: true
+    description: Recommended Azure size for this machine.
+    types:
+    - uid: AzureVmSize
+  - name: properties.numberOfCoresForRecommendedSize
+    isReadyOnly: true
+    description: Number of CPU cores in the Recommended Azure VM Size.
+    types:
+    - uid: integer
+  - name: properties.megabytesOfMemoryForRecommendedSize
+    isReadyOnly: true
+    description: Megabytes of memory in the Recommended Azure VM Size.
+    types:
+    - uid: number
+  - name: properties.monthlyComputeCostForRecommendedSize
+    isReadyOnly: true
+    description: Compute Cost for a 31-day month, if the machine is migrated to Azure with the Recommended Size.
+    types:
+    - uid: number
+  - name: properties.percentageCoresUtilization
+    isReadyOnly: true
+    description: Utilization percentage of the processor core as observed in the private data center, in the Time Range selected on Assessment, reported as the Percentile value based on the percentile number selected in assessment.
+    types:
+    - uid: number
+  - name: properties.percentageMemoryUtilization
+    isReadyOnly: true
+    description: Utilization percentage of the memory as observed in the private data center, in the Time Range selected on Assessment, reported as the Percentile value based on the percentile number selected in assessment.
+    types:
+    - uid: number
+  - name: properties.percentageCoresUtilizationDataPointsExpected
+    isReadyOnly: true
+    description: Expected data points for percentage of cores utilization.
+    types:
+    - uid: integer
+  - name: properties.percentageCoresUtilizationDataPointsReceived
+    isReadyOnly: true
+    description: Received data points for percentage of cores utilization.
+    types:
+    - uid: integer
+  - name: properties.percentageMemoryUtilizationDataPointsExpected
+    isReadyOnly: true
+    description: Expected data points for percentage of memory utilization.
+    types:
+    - uid: integer
+  - name: properties.percentageMemoryUtilizationDataPointsReceived
+    isReadyOnly: true
+    description: Received data points for percentage of memory utilization.
+    types:
+    - uid: integer
+  - name: properties.suitability
+    isReadyOnly: true
+    description: Whether machine is suitable for migration to Azure.
+    types:
+    - uid: CloudSuitability
+  - name: properties.suitabilityExplanation
+    isReadyOnly: true
+    description: If machine is not ready to be migrated, this explains the reasons and mitigation steps.
+    types:
+    - uid: AzureVmSuitabilityExplanation
+  - name: properties.createdTimestamp
+    isReadyOnly: true
+    description: Time when this machine was created. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: properties.updatedTimestamp
+    isReadyOnly: true
+    description: Time when this machine was last updated. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+- name: MachineBootType
+  description: Boot type of the machine.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: EFI
+    types:
+    - uid: string
+  - name: BIOS
+    types:
+    - uid: string
+- name: AssessedDisk
+  description: A disk assessed for an assessment.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the assessed disk.
+    types:
+    - uid: string
+  - name: gigabytesProvisioned
+    isReadyOnly: true
+    description: Gigabytes of storage provisioned for this disk.
+    types:
+    - uid: number
+  - name: gigabytesConsumed
+    isReadyOnly: true
+    description: Gigabytes of storage consumed by this disk.
+    types:
+    - uid: number
+  - name: megabytesPerSecondOfRead
+    isReadyOnly: true
+    description: Disk throughput in MegaBytes per second.
+    types:
+    - uid: number
+  - name: megabytesPerSecondOfReadDataPointsExpected
+    isReadyOnly: true
+    description: Expected data points for MegaBytes per second of read.
+    types:
+    - uid: integer
+  - name: megabytesPerSecondOfReadDataPointsReceived
+    isReadyOnly: true
+    description: Received data points for MegaBytes per second of read.
+    types:
+    - uid: integer
+  - name: megabytesPerSecondOfWrite
+    isReadyOnly: true
+    description: Disk throughput in MegaBytes per second.
+    types:
+    - uid: number
+  - name: megabytesPerSecondOfWriteDataPointsExpected
+    isReadyOnly: true
+    description: Expected data points for MegaBytes per second of write.
+    types:
+    - uid: integer
+  - name: megabytesPerSecondOfWriteDataPointsReceived
+    isReadyOnly: true
+    description: Received data points for MegaBytes per second of write.
+    types:
+    - uid: integer
+  - name: numberOfReadOperationsPerSecond
+    isReadyOnly: true
+    description: Number of read operations per second for the disk.
+    types:
+    - uid: number
+  - name: numberOfReadOperationsPerSecondDataPointsExpected
+    isReadyOnly: true
+    description: Expected number of data points for read operations per second.
+    types:
+    - uid: integer
+  - name: numberOfReadOperationsPerSecondDataPointsReceived
+    isReadyOnly: true
+    description: Received number of data points for read operations per second.
+    types:
+    - uid: integer
+  - name: numberOfWriteOperationsPerSecond
+    isReadyOnly: true
+    description: Number of read and write operations per second for the disk.
+    types:
+    - uid: number
+  - name: numberOfWriteOperationsPerSecondDataPointsExpected
+    isReadyOnly: true
+    description: Expected number of data points for write operations per second.
+    types:
+    - uid: integer
+  - name: numberOfWriteOperationsPerSecondDataPointsReceived
+    isReadyOnly: true
+    description: Received number of data points for write operations per second.
+    types:
+    - uid: integer
+  - name: monthlyStorageCost
+    isReadyOnly: true
+    description: Estimated aggregate storage cost for a 31-day month for this disk.
+    types:
+    - uid: number
+  - name: recommendedDiskType
+    isReadyOnly: true
+    description: Storage type selected for this disk.
+    types:
+    - uid: AzureDiskType
+  - name: recommendedDiskSize
+    isReadyOnly: true
+    description: Recommended Azure size for the disk, given utilization data and preferences set on Assessment.
+    types:
+    - uid: AzureDiskSize
+  - name: gigabytesForRecommendedDiskSize
+    isReadyOnly: true
+    description: Gigabytes of storage provided by the recommended Azure disk size.
+    types:
+    - uid: integer
+  - name: suitability
+    isReadyOnly: true
+    description: Whether this disk is suitable for Azure.
+    types:
+    - uid: CloudSuitability
+  - name: suitabilityExplanation
+    isReadyOnly: true
+    description: If disk is suitable, this explains the reasons and mitigation steps.
+    types:
+    - uid: AzureDiskSuitabilityExplanation
+- name: AssessedNetworkAdapter
+  description: A network adapter assessed for an assessment.
+  kind: object
+  properties:
+  - name: macAddress
+    isReadyOnly: true
+    description: MAC Address of the network adapter.
+    types:
+    - uid: string
+  - name: ipAddresses
+    isReadyOnly: true
+    description: List of IP Addresses on the network adapter.
+    types:
+    - uid: string
+      isArray: true
+  - name: monthlyBandwidthCosts
+    isReadyOnly: true
+    description: Monthly cost estimate for network bandwidth used by this network adapter.
+    types:
+    - uid: number
+  - name: megabytesPerSecondReceived
+    isReadyOnly: true
+    description: Adapter throughput for incoming traffic in MegaBytes per second.
+    types:
+    - uid: number
+  - name: megabytesPerSecondReceivedDataPointsExpected
+    isReadyOnly: true
+    description: Expected data points for incoming traffic in MegaBytes per second.
+    types:
+    - uid: integer
+  - name: megabytesPerSecondOfReadDataPointsReceived
+    isReadyOnly: true
+    description: Received data points for incoming traffic in MegaBytes per second.
+    types:
+    - uid: integer
+  - name: megabytesPerSecondTransmitted
+    isReadyOnly: true
+    description: Adapter throughput for outgoing traffic in MegaBytes per second.
+    types:
+    - uid: number
+  - name: megabytesPerSecondTransmittedDataPointsExpected
+    isReadyOnly: true
+    description: Expected data points for outgoing traffic in MegaBytes per second.
+    types:
+    - uid: integer
+  - name: megabytesPerSecondTransmittedDataPointsReceived
+    isReadyOnly: true
+    description: Received data points for outgoing traffic in MegaBytes per second.
+    types:
+    - uid: integer
+  - name: netGigabytesTransmittedPerMonth
+    description: Gigabytes transmitted through this adapter each month.
+    types:
+    - uid: number
+  - name: suitability
+    isReadyOnly: true
+    description: Whether this adapter is suitable for Azure.
+    types:
+    - uid: CloudSuitability
+  - name: suitabilityExplanation
+    isReadyOnly: true
+    description: If network adapter is suitable, this explains the reasons and mitigation steps.
+    types:
+    - uid: AzureNetworkAdapterSuitabilityExplanation
+- name: AzureVmSize
+  description: Recommended Azure size for this machine.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Basic_A0
+    types:
+    - uid: string
+  - name: Basic_A1
+    types:
+    - uid: string
+  - name: Basic_A2
+    types:
+    - uid: string
+  - name: Basic_A3
+    types:
+    - uid: string
+  - name: Basic_A4
+    types:
+    - uid: string
+  - name: Standard_A0
+    types:
+    - uid: string
+  - name: Standard_A1
+    types:
+    - uid: string
+  - name: Standard_A2
+    types:
+    - uid: string
+  - name: Standard_A3
+    types:
+    - uid: string
+  - name: Standard_A4
+    types:
+    - uid: string
+  - name: Standard_A5
+    types:
+    - uid: string
+  - name: Standard_A6
+    types:
+    - uid: string
+  - name: Standard_A7
+    types:
+    - uid: string
+  - name: Standard_A8
+    types:
+    - uid: string
+  - name: Standard_A9
+    types:
+    - uid: string
+  - name: Standard_A10
+    types:
+    - uid: string
+  - name: Standard_A11
+    types:
+    - uid: string
+  - name: Standard_A1_v2
+    types:
+    - uid: string
+  - name: Standard_A2_v2
+    types:
+    - uid: string
+  - name: Standard_A4_v2
+    types:
+    - uid: string
+  - name: Standard_A8_v2
+    types:
+    - uid: string
+  - name: Standard_A2m_v2
+    types:
+    - uid: string
+  - name: Standard_A4m_v2
+    types:
+    - uid: string
+  - name: Standard_A8m_v2
+    types:
+    - uid: string
+  - name: Standard_D1
+    types:
+    - uid: string
+  - name: Standard_D2
+    types:
+    - uid: string
+  - name: Standard_D3
+    types:
+    - uid: string
+  - name: Standard_D4
+    types:
+    - uid: string
+  - name: Standard_D11
+    types:
+    - uid: string
+  - name: Standard_D12
+    types:
+    - uid: string
+  - name: Standard_D13
+    types:
+    - uid: string
+  - name: Standard_D14
+    types:
+    - uid: string
+  - name: Standard_D1_v2
+    types:
+    - uid: string
+  - name: Standard_D2_v2
+    types:
+    - uid: string
+  - name: Standard_D3_v2
+    types:
+    - uid: string
+  - name: Standard_D4_v2
+    types:
+    - uid: string
+  - name: Standard_D5_v2
+    types:
+    - uid: string
+  - name: Standard_D11_v2
+    types:
+    - uid: string
+  - name: Standard_D12_v2
+    types:
+    - uid: string
+  - name: Standard_D13_v2
+    types:
+    - uid: string
+  - name: Standard_D14_v2
+    types:
+    - uid: string
+  - name: Standard_D15_v2
+    types:
+    - uid: string
+  - name: Standard_DS1
+    types:
+    - uid: string
+  - name: Standard_DS2
+    types:
+    - uid: string
+  - name: Standard_DS3
+    types:
+    - uid: string
+  - name: Standard_DS4
+    types:
+    - uid: string
+  - name: Standard_DS11
+    types:
+    - uid: string
+  - name: Standard_DS12
+    types:
+    - uid: string
+  - name: Standard_DS13
+    types:
+    - uid: string
+  - name: Standard_DS14
+    types:
+    - uid: string
+  - name: Standard_DS1_v2
+    types:
+    - uid: string
+  - name: Standard_DS2_v2
+    types:
+    - uid: string
+  - name: Standard_DS3_v2
+    types:
+    - uid: string
+  - name: Standard_DS4_v2
+    types:
+    - uid: string
+  - name: Standard_DS5_v2
+    types:
+    - uid: string
+  - name: Standard_DS11_v2
+    types:
+    - uid: string
+  - name: Standard_DS12_v2
+    types:
+    - uid: string
+  - name: Standard_DS13_v2
+    types:
+    - uid: string
+  - name: Standard_DS14_v2
+    types:
+    - uid: string
+  - name: Standard_DS15_v2
+    types:
+    - uid: string
+  - name: Standard_F1
+    types:
+    - uid: string
+  - name: Standard_F2
+    types:
+    - uid: string
+  - name: Standard_F4
+    types:
+    - uid: string
+  - name: Standard_F8
+    types:
+    - uid: string
+  - name: Standard_F16
+    types:
+    - uid: string
+  - name: Standard_F1s
+    types:
+    - uid: string
+  - name: Standard_F2s
+    types:
+    - uid: string
+  - name: Standard_F4s
+    types:
+    - uid: string
+  - name: Standard_F8s
+    types:
+    - uid: string
+  - name: Standard_F16s
+    types:
+    - uid: string
+  - name: Standard_G1
+    types:
+    - uid: string
+  - name: Standard_G2
+    types:
+    - uid: string
+  - name: Standard_G3
+    types:
+    - uid: string
+  - name: Standard_G4
+    types:
+    - uid: string
+  - name: Standard_G5
+    types:
+    - uid: string
+  - name: Standard_GS1
+    types:
+    - uid: string
+  - name: Standard_GS2
+    types:
+    - uid: string
+  - name: Standard_GS3
+    types:
+    - uid: string
+  - name: Standard_GS4
+    types:
+    - uid: string
+  - name: Standard_GS5
+    types:
+    - uid: string
+  - name: Standard_H8
+    types:
+    - uid: string
+  - name: Standard_H16
+    types:
+    - uid: string
+  - name: Standard_H8m
+    types:
+    - uid: string
+  - name: Standard_H16m
+    types:
+    - uid: string
+  - name: Standard_H16r
+    types:
+    - uid: string
+  - name: Standard_H16mr
+    types:
+    - uid: string
+  - name: Standard_L4s
+    types:
+    - uid: string
+  - name: Standard_L8s
+    types:
+    - uid: string
+  - name: Standard_L16s
+    types:
+    - uid: string
+  - name: Standard_L32s
+    types:
+    - uid: string
+- name: CloudSuitability
+  description: Whether this disk is suitable for Azure.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: NotSuitable
+    types:
+    - uid: string
+  - name: Suitable
+    types:
+    - uid: string
+  - name: ConditionallySuitable
+    types:
+    - uid: string
+  - name: ReadinessUnknown
+    types:
+    - uid: string
+- name: AzureVmSuitabilityExplanation
+  description: If machine is not ready to be migrated, this explains the reasons and mitigation steps.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: NotApplicable
+    types:
+    - uid: string
+  - name: GuestOperatingSystemArchitectureNotSupported
+    types:
+    - uid: string
+  - name: GuestOperatingSystemNotSupported
+    types:
+    - uid: string
+  - name: BootTypeNotSupported
+    types:
+    - uid: string
+  - name: MoreDisksThanSupported
+    types:
+    - uid: string
+  - name: NoSuitableVmSizeFound
+    types:
+    - uid: string
+  - name: OneOrMoreDisksNotSuitable
+    types:
+    - uid: string
+  - name: OneOrMoreAdaptersNotSuitable
+    types:
+    - uid: string
+  - name: InternalErrorOccuredDuringComputeEvaluation
+    types:
+    - uid: string
+  - name: InternalErrorOccuredDuringStorageEvaluation
+    types:
+    - uid: string
+  - name: InternalErrorOccuredDuringNetworkEvaluation
+    types:
+    - uid: string
+  - name: NoVmSizeSupportsStoragePerformance
+    types:
+    - uid: string
+  - name: NoVmSizeSupportsNetworkPerformance
+    types:
+    - uid: string
+  - name: NoVmSizeForSelectedPricingTier
+    types:
+    - uid: string
+  - name: NoVmSizeForSelectedAzureLocation
+    types:
+    - uid: string
+  - name: CheckRedHatLinuxVersion
+    types:
+    - uid: string
+  - name: CheckOpenSuseLinuxVersion
+    types:
+    - uid: string
+  - name: CheckWindowsServer2008R2Version
+    types:
+    - uid: string
+  - name: CheckCentOsVersion
+    types:
+    - uid: string
+  - name: CheckDebianLinuxVersion
+    types:
+    - uid: string
+  - name: CheckSuseLinuxVersion
+    types:
+    - uid: string
+  - name: CheckOracleLinuxVersion
+    types:
+    - uid: string
+  - name: CheckUbuntuLinuxVersion
+    types:
+    - uid: string
+  - name: CheckCoreOsLinuxVersion
+    types:
+    - uid: string
+  - name: WindowsServerVersionConditionallySupported
+    types:
+    - uid: string
+  - name: NoGuestOperatingSystemConditionallySupported
+    types:
+    - uid: string
+  - name: WindowsClientVersionsConditionallySupported
+    types:
+    - uid: string
+  - name: BootTypeUnknown
+    types:
+    - uid: string
+  - name: GuestOperatingSystemUnknown
+    types:
+    - uid: string
+  - name: WindowsServerVersionsSupportedWithCaveat
+    types:
+    - uid: string
+  - name: WindowsOSNoLongerUnderMSSupport
+    types:
+    - uid: string
+  - name: EndorsedWithConditionsLinuxDistributions
+    types:
+    - uid: string
+  - name: UnendorsedLinuxDistributions
+    types:
+    - uid: string
+  - name: NoVmSizeForStandardPricingTier
+    types:
+    - uid: string
+  - name: NoVmSizeForBasicPricingTier
+    types:
+    - uid: string
+- name: AzureDiskType
+  description: Storage type selected for this disk.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+- name: AzureDiskSize
+  description: Recommended Azure size for the disk, given utilization data and preferences set on Assessment.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Standard_S4
+    types:
+    - uid: string
+  - name: Standard_S6
+    types:
+    - uid: string
+  - name: Standard_S10
+    types:
+    - uid: string
+  - name: Standard_S20
+    types:
+    - uid: string
+  - name: Standard_S30
+    types:
+    - uid: string
+  - name: Standard_S40
+    types:
+    - uid: string
+  - name: Standard_S50
+    types:
+    - uid: string
+  - name: Premium_P4
+    types:
+    - uid: string
+  - name: Premium_P6
+    types:
+    - uid: string
+  - name: Premium_P10
+    types:
+    - uid: string
+  - name: Premium_P20
+    types:
+    - uid: string
+  - name: Premium_P30
+    types:
+    - uid: string
+  - name: Premium_P40
+    types:
+    - uid: string
+  - name: Premium_P50
+    types:
+    - uid: string
+- name: AzureDiskSuitabilityExplanation
+  description: If disk is suitable, this explains the reasons and mitigation steps.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: NotApplicable
+    types:
+    - uid: string
+  - name: DiskSizeGreaterThanSupported
+    types:
+    - uid: string
+  - name: NoSuitableDiskSizeForIops
+    types:
+    - uid: string
+  - name: NoSuitableDiskSizeForThroughput
+    types:
+    - uid: string
+  - name: NoDiskSizeFoundInSelectedLocation
+    types:
+    - uid: string
+  - name: NoDiskSizeFoundForSelectedRedundancy
+    types:
+    - uid: string
+  - name: InternalErrorOccurredForDiskEvaluation
+    types:
+    - uid: string
+- name: AzureNetworkAdapterSuitabilityExplanation
+  description: If network adapter is suitable, this explains the reasons and mitigation steps.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: NotApplicable
+    types:
+    - uid: string
+  - name: InternalErrorOccured
+    types:
+    - uid: string
+examples:
+- name: AssessedMachines_ListByAssessment
+  request:
+    uri: GET https://management.azure.com/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/groups/group01/assessments/assessment01/assessedMachines?api-version=2018-02-02
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/groups/group01/assessments/assessment01/assessedMachines/amansing_vm1",
+            "name": "amansing_vm1",
+            "eTag": "\"010000ef-0000-0000-0000-59b7e53e0000\"",
+            "type": "Microsoft.Migrate/projects/groups/assessments/assessedMachines",
+            "properties": {
+              "groups": [
+                "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/projects01/groups/groups01",
+                "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/projects01/groups/groups02"
+              ],
+              "discoveredTimestamp": "2018-02-02T13:17:23.5437337Z",
+              "createdTimestamp": "2018-02-03T13:17:23.5437337Z",
+              "updatedTimestamp": "2018-02-04T13:17:23.5437337Z",
+              "bootType": "BIOS",
+              "datacenterContainer": "10.184.81.34",
+              "datacenterManagementServer": "10.240.17.240",
+              "datacenterMachineId": "vmWare_amansing_vm1",
+              "datacenterManagementServerId": "vmWare_unqie_01",
+              "description": "Azure Migration Planner - Collector",
+              "displayName": "amansing_vm1",
+              "megabytesOfMemory": 8192,
+              "numberOfCores": 4,
+              "operatingSystem": "Microsoft Windows Server 2008 (64-bit)",
+              "monthlyBandwidthCost": 0,
+              "monthlyStorageCost": 0,
+              "disks": {
+                "scsi0:0": {
+                  "name": "scsi0:0",
+                  "gigabytesProvisioned": 20,
+                  "gigabytesConsumed": 0,
+                  "megabytesPerSecondOfRead": 0,
+                  "megabytesPerSecondOfReadDataPointsExpected": 300,
+                  "megabytesPerSecondOfReadDataPointsReceived": 280,
+                  "megabytesPerSecondOfWrite": 0,
+                  "megabytesPerSecondOfWriteDataPointsExpected": 300,
+                  "megabytesPerSecondOfWriteDataPointsReceived": 280,
+                  "numberOfReadOperationsPerSecond": 0,
+                  "numberOfReadOperationsPerSecondDataPointsExpected": 300,
+                  "numberOfReadOperationsPerSecondDataPointsReceived": 280,
+                  "numberOfWriteOperationsPerSecond": 0,
+                  "numberOfWriteOperationsPerSecondDataPointsExpected": 300,
+                  "numberOfWriteOperationsPerSecondDataPointsReceived": 280,
+                  "monthlyStorageCost": 0,
+                  "recommendedDiskSize": "Standard_S4",
+                  "recommendedDiskType": "Standard",
+                  "gigabytesForRecommendedDiskSize": 32,
+                  "suitability": "Suitable",
+                  "suitabilityExplanation": "NotApplicable"
+                }
+              },
+              "networkAdapters": {
+                "4000": {
+                  "macAddress": "00:50:56:ba:7f:25",
+                  "ipAddresses": [
+                    "2001:4898:e0:f099:91fd:55f:42de:c130",
+                    "2001:4898:e0:f099:ac11:23c3:e39f:533d",
+                    "fe80::91fd:55f:42de:c130",
+                    "10.184.83.206"
+                  ],
+                  "megabytesPerSecondReceived": 0,
+                  "megabytesPerSecondReceivedDataPointsExpected": 300,
+                  "megabytesPerSecondOfReadDataPointsReceived": 280,
+                  "megabytesPerSecondTransmitted": 0,
+                  "megabytesPerSecondTransmittedDataPointsExpected": 300,
+                  "megabytesPerSecondTransmittedDataPointsReceived": 280,
+                  "monthlyBandwidthCosts": 0,
+                  "netGigabytesTransmittedPerMonth": 0,
+                  "suitability": "Suitable",
+                  "suitabilityExplanation": "NotApplicable"
+                }
+              },
+              "recommendedSize": "Standard_A0",
+              "numberOfCoresForRecommendedSize": 1,
+              "megabytesOfMemoryForRecommendedSize": 786,
+              "monthlyComputeCostForRecommendedSize": 0,
+              "percentageCoresUtilization": 0.77521739130434786,
+              "percentageMemoryUtilization": 0.43666666666666665,
+              "percentageCoresUtilizationDataPointsExpected": 300,
+              "percentageCoresUtilizationDataPointsReceived": 280,
+              "percentageMemoryUtilizationDataPointsExpected": 300,
+              "percentageMemoryUtilizationDataPointsReceived": 280,
+              "suitability": "ConditionallySuitable",
+              "suitabilityExplanation": "WindowsServerVersionConditionallySupported"
+            }
+          },
+          {
+            "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/groups/group01/assessments/assessment01/assessedMachines/amansing_vm2",
+            "name": "amansing_vm2",
+            "eTag": "\"0000918f-0000-0000-0000-59c12ce90000\"",
+            "type": "Microsoft.Migrate/projects/groups/assessments/assessedMachines",
+            "properties": {
+              "groups": [
+                "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/projects01/groups/groups01",
+                "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/projects01/groups/groups02"
+              ],
+              "discoveredTimestamp": "2018-02-02T13:17:23.5437337Z",
+              "createdTimestamp": "2018-02-03T13:17:23.5437337Z",
+              "updatedTimestamp": "2018-02-04T13:17:23.5437337Z",
+              "bootType": "BIOS",
+              "datacenterContainer": "10.184.81.34",
+              "datacenterManagementServer": "10.240.17.240",
+              "datacenterMachineId": "vmWare_amansing_vm2",
+              "datacenterManagementServerId": "vmWare_unique_id",
+              "description": "Azure Migration Planner - Collector",
+              "displayName": "amansing_vm2",
+              "megabytesOfMemory": 8192,
+              "numberOfCores": 4,
+              "operatingSystem": "Microsoft Windows Server 2008 (64-bit)",
+              "monthlyBandwidthCost": 0,
+              "monthlyStorageCost": 0,
+              "disks": {
+                "scsi0:0": {
+                  "name": "scsi0:0",
+                  "gigabytesProvisioned": 20,
+                  "gigabytesConsumed": 0,
+                  "megabytesPerSecondOfRead": 0,
+                  "megabytesPerSecondOfReadDataPointsExpected": 300,
+                  "megabytesPerSecondOfReadDataPointsReceived": 280,
+                  "megabytesPerSecondOfWrite": 0,
+                  "megabytesPerSecondOfWriteDataPointsExpected": 300,
+                  "megabytesPerSecondOfWriteDataPointsReceived": 280,
+                  "numberOfReadOperationsPerSecond": 0,
+                  "numberOfReadOperationsPerSecondDataPointsExpected": 300,
+                  "numberOfReadOperationsPerSecondDataPointsReceived": 280,
+                  "numberOfWriteOperationsPerSecond": 0,
+                  "numberOfWriteOperationsPerSecondDataPointsExpected": 300,
+                  "numberOfWriteOperationsPerSecondDataPointsReceived": 280,
+                  "monthlyStorageCost": 0,
+                  "recommendedDiskSize": "Standard_S4",
+                  "recommendedDiskType": "Standard",
+                  "gigabytesForRecommendedDiskSize": 32,
+                  "suitability": "Suitable",
+                  "suitabilityExplanation": "NotApplicable"
+                }
+              },
+              "networkAdapters": {
+                "4000": {
+                  "macAddress": "00:50:56:ba:7f:25",
+                  "ipAddresses": [
+                    "2001:4898:e0:f099:91fd:55f:42de:c130",
+                    "2001:4898:e0:f099:ac11:23c3:e39f:533d",
+                    "fe80::91fd:55f:42de:c130",
+                    "10.184.83.206"
+                  ],
+                  "megabytesPerSecondReceived": 0,
+                  "megabytesPerSecondReceivedDataPointsExpected": 300,
+                  "megabytesPerSecondOfReadDataPointsReceived": 280,
+                  "megabytesPerSecondTransmitted": 0,
+                  "megabytesPerSecondTransmittedDataPointsExpected": 300,
+                  "megabytesPerSecondTransmittedDataPointsReceived": 280,
+                  "monthlyBandwidthCosts": 0,
+                  "netGigabytesTransmittedPerMonth": 0,
+                  "suitability": "Suitable",
+                  "suitabilityExplanation": "NotApplicable"
+                }
+              },
+              "recommendedSize": "Standard_A0",
+              "numberOfCoresForRecommendedSize": 1,
+              "megabytesOfMemoryForRecommendedSize": 786,
+              "monthlyComputeCostForRecommendedSize": 0,
+              "percentageCoresUtilization": 0.77521739130434786,
+              "percentageMemoryUtilization": 0.43666666666666665,
+              "percentageCoresUtilizationDataPointsExpected": 300,
+              "percentageCoresUtilizationDataPointsReceived": 280,
+              "percentageMemoryUtilizationDataPointsExpected": 300,
+              "percentageMemoryUtilizationDataPointsReceived": 280,
+              "suitability": "ConditionallySuitable",
+              "suitabilityExplanation": "WindowsServerVersionConditionallySupported"
+            }
+          }
+        ]
+      }
+  - statusCode: "401"
+  - statusCode: "404"
+  - statusCode: "500"
+  - statusCode: "503"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

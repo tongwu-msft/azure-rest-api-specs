@@ -1,0 +1,98 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.migrate.projects.getkeys
+name: Get Keys
+service: Migrate
+groupName: Projects
+apiVersion: 2018-02-02
+summary: "Get shared keys for the project.  \nGets the Log Analytics Workspace ID and Primary Key for the specified project."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/keys?api-version=2018-02-02
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription Id in which project was created.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Azure Resource Group that project is part of.
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: Name of the Azure Migrate project.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Standard request header. Used by service to identify API version used by client.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: OK.
+  types:
+  - uid: ProjectKey
+- name: 401 Unauthorized
+  description: Not authorized (No access to subscription, resource group, or project).
+- name: 404 Not Found
+  description: Not found (Invalid subscriptionId, resourceGroupName, projectName).
+- name: 500 Internal Server Error
+  description: Internal Server Error.
+- name: Other Status Codes
+  description: Service Unavailable.
+requestHeader:
+- name: Accept-Language
+  in: header
+  description: Standard request header. Used by service to respond to client in appropriate language.
+  types:
+  - uid: string
+definitions:
+- name: ProjectKey
+  description: ID and Key for Migration Project.
+  kind: object
+  properties:
+  - name: workspaceId
+    isReadyOnly: true
+    description: ID of Migration Project.
+    types:
+    - uid: string
+  - name: workspaceKey
+    isReadyOnly: true
+    description: Key of Migration Project.
+    types:
+    - uid: string
+examples:
+- name: Projects_GetKeys
+  request:
+    uri: POST https://management.azure.com/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourcegroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/keys?api-version=2018-02-02
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "workspaceId": "migrationProjectId",
+        "workspaceKey": "migrationProjectKey"
+      }
+  - statusCode: "401"
+  - statusCode: "404"
+  - statusCode: "500"
+  - statusCode: "503"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,282 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.migrate.machines.get
+name: Get
+service: Migrate
+groupName: Machines
+apiVersion: 2018-02-02
+summary: "Get a specific machine.  \nGet the machine with the specified name. Returns a json object of type 'machine' defined in Models section."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/machines/{machineName}?api-version=2018-02-02
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription Id in which project was created.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Azure Resource Group that project is part of.
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: Name of the Azure Migrate project.
+  types:
+  - uid: string
+- name: machineName
+  in: path
+  isRequired: true
+  description: Unique name of a machine in private datacenter.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Standard request header. Used by service to identify API version used by client.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: OK. Returns the machine with the specified name.
+  types:
+  - uid: Machine
+- name: 401 Unauthorized
+  description: Not authorized (No access to subscription, resource group, or project).
+- name: 404 Not Found
+  description: Not found (Invalid subscriptionId, resourceGroupName, projectName, or machineName).
+- name: 500 Internal Server Error
+  description: Internal Server Error.
+- name: Other Status Codes
+  description: Service Unavailable.
+requestHeader:
+- name: Accept-Language
+  in: header
+  description: Standard request header. Used by service to respond to client in appropriate language.
+  types:
+  - uid: string
+definitions:
+- name: Machine
+  description: A machine in a migration project.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Path reference to this machine. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/machines/{machineName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the machine. It is a GUID which is unique identifier of machine in private data center. For user-readable name, we have a displayName property on this machine.
+    types:
+    - uid: string
+  - name: eTag
+    description: For optimistic concurrency control.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the object = [Microsoft.Migrate/projects/machines].
+    types:
+    - uid: string
+  - name: properties.bootType
+    isReadyOnly: true
+    description: Boot type of the machine.
+    types:
+    - uid: MachineBootType
+  - name: properties.datacenterContainer
+    isReadyOnly: true
+    description: Container defined in the management solution that this machine is part of in the datacenter.
+    types:
+    - uid: string
+  - name: properties.datacenterManagementServer
+    isReadyOnly: true
+    description: Name of the server hosting the datacenter management solution.
+    types:
+    - uid: string
+  - name: properties.datacenterMachineId
+    isReadyOnly: true
+    description: ID of the machine as tracked by the datacenter management solution.
+    types:
+    - uid: string
+  - name: properties.datacenterManagementServerId
+    isReadyOnly: true
+    description: ID of the server hosting the datacenter management solution.
+    types:
+    - uid: string
+  - name: properties.description
+    isReadyOnly: true
+    description: Description of the machine
+    types:
+    - uid: string
+  - name: properties.displayName
+    isReadyOnly: true
+    description: User readable name of the machine as defined by the user in their private datacenter.
+    types:
+    - uid: string
+  - name: properties.megabytesOfMemory
+    isReadyOnly: true
+    description: Memory in Megabytes.
+    types:
+    - uid: number
+  - name: properties.numberOfCores
+    isReadyOnly: true
+    description: Processor count.
+    types:
+    - uid: integer
+  - name: properties.operatingSystem
+    isReadyOnly: true
+    description: Operating System of the machine.
+    types:
+    - uid: string
+  - name: properties.groups
+    isReadyOnly: true
+    description: List of references to the groups that the machine is member of.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.createdTimestamp
+    isReadyOnly: true
+    description: Time when this machine was created. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: properties.updatedTimestamp
+    isReadyOnly: true
+    description: Time when this machine was last updated. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: properties.discoveredTimestamp
+    isReadyOnly: true
+    description: Time when this machine was discovered by Azure Migrate agent. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: properties.disks
+    isReadyOnly: true
+    description: Dictionary of disks attached to the machine. Key is ID of disk. Value is a disk object
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: Disk
+  - name: properties.networkAdapters
+    isReadyOnly: true
+    description: Dictionary of network adapters attached to the machine. Key is ID of network adapter. Value is a network adapter object
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: NetworkAdapter
+- name: MachineBootType
+  description: Boot type of the machine.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: EFI
+    types:
+    - uid: string
+  - name: BIOS
+    types:
+    - uid: string
+- name: Disk
+  description: A disk discovered on a machine.
+  kind: object
+  properties:
+  - name: gigabytesAllocated
+    isReadyOnly: true
+    description: Gigabytes of storage provisioned for this disk.
+    types:
+    - uid: number
+  - name: gigabytesConsumed
+    isReadyOnly: true
+    description: Gigabytes of storage consumed by this disk.
+    types:
+    - uid: number
+- name: NetworkAdapter
+  description: A network adapter discovered on a machine.
+  kind: object
+  properties:
+  - name: macAddress
+    isReadyOnly: true
+    description: MAC Address of the network adapter.
+    types:
+    - uid: string
+  - name: ipAddresses
+    isReadyOnly: true
+    description: List of IP Addresses on the network adapter.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: Machines_Get
+  request:
+    uri: GET https://management.azure.com/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/machines/amansing_vm1?api-version=2018-02-02
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/projects01/machines/amansing_vm1",
+        "name": "amansing_vm1",
+        "type": "Microsoft.Migrate/projects/machines",
+        "eTag": "\"b701c63a-0000-0000-0000-59c12fe60000\"",
+        "properties": {
+          "bootType": "BIOS",
+          "datacenterContainer": "vmWareFolder",
+          "datacenterManagementServer": "123.123.123.123",
+          "datacenterMachineId": "vmWare_amansing_vm1",
+          "datacenterManagementServerId": "vmWare_unqie_01",
+          "description": "Azure Migration Planner - Collector",
+          "displayName": "amansing_vm1",
+          "megabytesOfMemory": 8192,
+          "numberOfCores": 4,
+          "operatingSystem": "Microsoft Windows Server 2008 (64-bit)",
+          "createdTimestamp": "2018-02-02T07:44:44.5677283Z",
+          "discoveredTimestamp": "2018-02-02T07:44:44.5677283Z",
+          "disks": {
+            "scsi0:0": {
+              "gigabytesAllocated": 20,
+              "gigabytesConsumed": 0
+            }
+          },
+          "groups": [
+            "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/projects01/groups/groups01",
+            "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/projects01/groups/groups02"
+          ],
+          "networkAdapters": {
+            "4000": {
+              "macAddress": "00:50:56:ba:7f:25",
+              "ipAddresses": [
+                "2001:4898:e0:f099:91fd:55f:42de:c130",
+                "2001:4898:e0:f099:ac11:23c3:e39f:533d",
+                "fe80::91fd:55f:42de:c130",
+                "10.184.83.206"
+              ]
+            }
+          },
+          "updatedTimestamp": "2018-02-02T10:11:25.7585427Z"
+        }
+      }
+  - statusCode: "401"
+  - statusCode: "404"
+  - statusCode: "500"
+  - statusCode: "503"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
