@@ -1,0 +1,178 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securitycenter.compliances.list
+name: List
+service: Security Center
+groupName: Compliances
+apiVersion: 2017-08-01-preview
+summary: The Compliance scores of the specific management group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Security/compliances?api-version=2017-08-01-preview
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: Scope of the query, can be subscription (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group (/providers/Microsoft.Management/managementGroups/mgName).
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ComplianceList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ComplianceList
+  description: List of Compliance objects response
+  kind: object
+  properties:
+  - name: value
+    description: List of Compliance objects
+    types:
+    - uid: Compliance
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URI to fetch the next page.
+    types:
+    - uid: string
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: Compliance
+  description: Compliance of a scope
+  kind: object
+  properties:
+  - name: properties.assessmentTimestampUtcDate
+    isReadyOnly: true
+    description: The timestamp when the Compliance calculation was conducted.
+    types:
+    - uid: string
+  - name: properties.resourceCount
+    isReadyOnly: true
+    description: The resource count of the given subscription for which the Compliance calculation was conducted (needed for Management Group Compliance calculation).
+    types:
+    - uid: integer
+  - name: properties.assessmentResult
+    isReadyOnly: true
+    description: An array of segment, which is the actually the compliance assessment.
+    types:
+    - uid: ComplianceSegment
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: ComplianceSegment
+  description: A segment of a compliance assessment.
+  kind: object
+  properties:
+  - name: segmentType
+    isReadyOnly: true
+    description: The segment type, e.g. compliant, non-compliance, insufficient coverage, N/A, etc.
+    types:
+    - uid: string
+  - name: percentage
+    isReadyOnly: true
+    description: The size (%) of the segment.
+    types:
+    - uid: number
+examples:
+- name: Get security compliance data over time
+  request:
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/compliances?api-version=2017-08-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/compliances/2018-01-01Z",
+            "name": "2018-01-01Z",
+            "type": "Microsoft.Security/compliances",
+            "properties": {
+              "assessmentResult": [
+                {
+                  "segmentType": "Compliant",
+                  "percentage": 77.777777777777786
+                }
+              ],
+              "resourceCount": 18,
+              "assessmentTimestampUtcDate": "2018-01-01T00:00:00Z"
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/compliances/2018-01-02Z",
+            "name": "2018-01-02Z",
+            "type": "Microsoft.Security/compliances",
+            "properties": {
+              "assessmentResult": [
+                {
+                  "segmentType": "Compliant",
+                  "percentage": 94.444444444444443
+                }
+              ],
+              "resourceCount": 18,
+              "assessmentTimestampUtcDate": "2018-01-02T00:00:00Z"
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/compliances/2018-01-03Z",
+            "name": "2018-01-03Z",
+            "type": "Microsoft.Security/compliances",
+            "properties": {
+              "assessmentResult": [
+                {
+                  "segmentType": "Compliant",
+                  "percentage": 100
+                }
+              ],
+              "resourceCount": 18,
+              "assessmentTimestampUtcDate": "2018-01-03T00:00:00Z"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

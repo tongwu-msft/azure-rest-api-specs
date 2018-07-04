@@ -1,0 +1,152 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securitycenter.tasks.getsubscriptionleveltask
+name: Get Subscription Level Task
+service: Security Center
+groupName: Tasks
+apiVersion: 2015-06-01-preview
+summary: Recommended tasks that will help improve the security of the subscription proactively
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/tasks/{taskName}?api-version=2015-06-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: ascLocation
+  in: path
+  isRequired: true
+  description: The location where ASC stores the data of the subscription. can be retrieved from Get locations
+  types:
+  - uid: string
+- name: taskName
+  in: path
+  isRequired: true
+  description: Name of the task object, will be a GUID
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SecurityTask
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: SecurityTask
+  description: Security task that we recommend to do in order to strengthen security
+  kind: object
+  properties:
+  - name: properties.state
+    isReadyOnly: true
+    description: State of the task (Active, Resolved etc.)
+    types:
+    - uid: string
+  - name: properties.creationTimeUtc
+    isReadyOnly: true
+    description: The time this task was discovered in UTC
+    types:
+    - uid: string
+  - name: properties.securityTaskParameters
+    description: Changing set of properties, depending on the task type that is derived from the name field
+    types:
+    - uid: SecurityTaskParameters
+  - name: properties.lastStateChangeTimeUtc
+    isReadyOnly: true
+    description: The time this task's details were last changed in UTC
+    types:
+    - uid: string
+  - name: properties.subState
+    isReadyOnly: true
+    description: Additional data on the state of the task
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: SecurityTaskParameters
+  description: Changing set of properties, depending on the task type that is derived from the name field
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the task type
+    types:
+    - uid: string
+examples:
+- name: Get security recommendation task from security data location
+  request:
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/locations/westeurope/tasks/62609ee7-d0a5-8616-9fe4-1df5cca7758d?api-version=2015-06-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/locations/westeurope/tasks/62609ee7-d0a5-8616-9fe4-1df5cca7758d",
+        "name": "62609ee7-d0a5-8616-9fe4-1df5cca7758d",
+        "type": "Microsoft.Security/locations/tasks",
+        "properties": {
+          "state": "Active",
+          "subState": "NA",
+          "creationTimeUtc": "2018-03-05T10:42:03.9935508Z",
+          "lastStateChangeTimeUtc": "2018-03-05T10:42:03.9935508Z",
+          "securityTaskParameters": {
+            "resourceName": "default",
+            "resourceType": "Subnet",
+            "resourceParent": "vnet1",
+            "location": "uksouth",
+            "resourceGroup": "myRg",
+            "name": "NetworkSecurityGroupMissingOnSubnet",
+            "uniqueKey": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/default",
+            "resourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/default"
+          }
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
