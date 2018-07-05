@@ -1,0 +1,82 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securitycenter.tasks.updatesubscriptionleveltaskstate
+name: Update Subscription Level Task State
+service: Security Center
+groupName: Tasks
+apiVersion: 2015-06-01-preview
+summary: Recommended tasks that will help improve the security of the subscription proactively
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/tasks/{taskName}/{taskUpdateActionType}?api-version=2015-06-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: ascLocation
+  in: path
+  isRequired: true
+  description: The location where ASC stores the data of the subscription. can be retrieved from Get locations
+  types:
+  - uid: string
+- name: taskName
+  in: path
+  isRequired: true
+  description: Name of the task object, will be a GUID
+  types:
+  - uid: string
+- name: taskUpdateActionType
+  in: path
+  isRequired: true
+  description: Type of the action to do on the task
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: No Content
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+examples:
+- name: Change security recommendation task state
+  request:
+    uri: POST https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/locations/westeurope/tasks/62609ee7-d0a5-8616-9fe4-1df5cca7758d/Dismiss?api-version=2015-06-01-preview
+  responses:
+  - statusCode: "204"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

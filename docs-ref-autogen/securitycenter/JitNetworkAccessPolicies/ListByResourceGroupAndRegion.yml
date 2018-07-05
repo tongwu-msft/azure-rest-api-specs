@@ -1,0 +1,311 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securitycenter.jitnetworkaccesspolicies.listbyresourcegroupandregion
+name: List By Resource Group And Region
+service: Security Center
+groupName: Jit Network Access Policies
+apiVersion: 2015-06-01-preview
+summary: Policies for protecting resources using Just-in-Time access control for the subscription, location
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/jitNetworkAccessPolicies?api-version=2015-06-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: ascLocation
+  in: path
+  isRequired: true
+  description: The location where ASC stores the data of the subscription. can be retrieved from Get locations
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: JitNetworkAccessPoliciesList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: JitNetworkAccessPoliciesList
+  kind: object
+  properties:
+  - name: value
+    description: ''
+    types:
+    - uid: JitNetworkAccessPolicy
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URI to fetch the next page.
+    types:
+    - uid: string
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: JitNetworkAccessPolicy
+  kind: object
+  properties:
+  - name: properties.virtualMachines
+    description: Configurations for Microsoft.Compute/virtualMachines resource type.
+    types:
+    - uid: JitNetworkAccessPolicyVirtualMachine
+      isArray: true
+  - name: properties.requests
+    description: ''
+    types:
+    - uid: JitNetworkAccessRequest
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Gets the provisioning state of the Just-in-Time policy.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: kind
+    isReadyOnly: true
+    description: Kind of the resource
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Location where the resource is stored
+    types:
+    - uid: string
+- name: JitNetworkAccessPolicyVirtualMachine
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID of the virtual machine that is linked to this policy
+    types:
+    - uid: string
+  - name: ports
+    description: Port configurations for the virtual machine
+    types:
+    - uid: JitNetworkAccessPortRule
+      isArray: true
+- name: JitNetworkAccessRequest
+  kind: object
+  properties:
+  - name: virtualMachines
+    description: ''
+    types:
+    - uid: JitNetworkAccessRequestVirtualMachine
+      isArray: true
+  - name: startTimeUtc
+    description: The start time of the request in UTC
+    types:
+    - uid: string
+  - name: requestor
+    description: The identity of the person who made the request
+    types:
+    - uid: string
+- name: JitNetworkAccessPortRule
+  kind: object
+  properties:
+  - name: number
+    description: ''
+    types:
+    - uid: number
+  - name: protocol
+    description: ''
+    types:
+    - uid: protocol
+  - name: allowedSourceAddressPrefix
+    description: ''
+    types:
+    - uid: string
+  - name: maxRequestAccessDuration
+    description: Maximum duration requests can be made for. In ISO 8601 duration format. Minimum 5 minutes, maximum 1 day
+    types:
+    - uid: string
+- name: JitNetworkAccessRequestVirtualMachine
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID of the virtual machine that is linked to this policy
+    types:
+    - uid: string
+  - name: ports
+    description: The ports that were opened for the virtual machine
+    types:
+    - uid: JitNetworkAccessRequestPort
+      isArray: true
+- name: protocol
+  kind: enum
+  properties:
+  - name: TCP
+    types:
+    - uid: string
+  - name: UDP
+    types:
+    - uid: string
+  - name: '*'
+    types:
+    - uid: string
+- name: JitNetworkAccessRequestPort
+  kind: object
+  properties:
+  - name: number
+    description: ''
+    types:
+    - uid: number
+  - name: allowedSourceAddressPrefix
+    description: The IP address range that the port was opened for
+    types:
+    - uid: string
+  - name: allowedSourceAddressPrefixes
+    description: The IP address ranges that the port was opened for
+    types:
+    - uid: string
+      isArray: true
+  - name: endTimeUtc
+    description: The date & time at which the request ends in UTC
+    types:
+    - uid: string
+  - name: status
+    description: The status of the port
+    types:
+    - uid: status
+  - name: statusReason
+    description: A description of why the `status` has its value
+    types:
+    - uid: statusReason
+- name: status
+  description: The status of the port
+  kind: enum
+  properties:
+  - name: Revoked
+    types:
+    - uid: string
+  - name: Initiated
+    types:
+    - uid: string
+- name: statusReason
+  description: A description of why the `status` has its value
+  kind: enum
+  properties:
+  - name: Expired
+    types:
+    - uid: string
+  - name: UserRequested
+    types:
+    - uid: string
+  - name: NewerRequestInitiated
+    types:
+    - uid: string
+examples:
+- name: Get JIT network access policies on a resource group from a security data location
+  request:
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Security/locations/westeurope/jitNetworkAccessPolicies?api-version=2015-06-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "kind": "Basic",
+            "properties": {
+              "virtualMachines": [
+                {
+                  "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
+                  "ports": [
+                    {
+                      "number": 22,
+                      "protocol": "*",
+                      "allowedSourceAddressPrefix": "*",
+                      "maxRequestAccessDuration": "PT3H"
+                    },
+                    {
+                      "number": 3389,
+                      "protocol": "*",
+                      "allowedSourceAddressPrefix": "*",
+                      "maxRequestAccessDuration": "PT3H"
+                    }
+                  ]
+                }
+              ],
+              "requests": [
+                {
+                  "virtualMachines": [
+                    {
+                      "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
+                      "ports": [
+                        {
+                          "number": 3389,
+                          "allowedSourceAddressPrefix": "192.127.0.2",
+                          "endTimeUtc": "2018-05-17T09:06:45.5691611Z",
+                          "status": "Initiated",
+                          "statusReason": "UserRequested"
+                        }
+                      ]
+                    }
+                  ],
+                  "startTimeUtc": "2018-05-17T08:06:45.5691611Z",
+                  "requestor": "barbara@contoso.com"
+                }
+              ],
+              "provisioningState": "Succeeded"
+            },
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Security/locations/westeurope/jitNetworkAccessPolicies/default",
+            "name": "default",
+            "type": "Microsoft.Security/locations/jitNetworkAccessPolicies",
+            "location": "westeurope"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
