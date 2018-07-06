@@ -1,0 +1,148 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securitycenter.jitnetworkaccesspolicies.initiate
+name: Initiate
+service: Security Center
+groupName: Jit Network Access Policies
+apiVersion: 2015-06-01-preview
+summary: Perform an action on a specific Just-in-Time policy configuration.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/jitNetworkAccessPolicies/{jitNetworkAccessPolicyName}/initiate?api-version=2015-06-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: ascLocation
+  in: path
+  isRequired: true
+  description: The location where ASC stores the data of the subscription. can be retrieved from Get locations
+  types:
+  - uid: string
+- name: jitNetworkAccessPolicyName
+  in: path
+  isRequired: true
+  description: Name of a Just-in-Time access configuration policy.
+  types:
+  - uid: string
+- name: jitNetworkAccessPolicyActionType
+  in: path
+  isRequired: true
+  description: Type of the action to do on the Just-in-Time access policy.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- parameters:
+  - name: virtualMachines
+    in: body
+    isRequired: true
+    description: A list of virtual machines & ports to open access for
+    types:
+    - uid: JitNetworkAccessPolicyActionVirtualMachine
+      isArray: true
+requestHeader: []
+definitions:
+- name: JitNetworkAccessPolicyActionVirtualMachine
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID of the virtual machine that is linked to this policy
+    types:
+    - uid: string
+  - name: ports
+    description: The ports to open for the resource with the `id`
+    types:
+    - uid: JitNetworkAccessPolicyActionPort
+      isArray: true
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: JitNetworkAccessPolicyAction
+  kind: object
+  properties:
+  - name: virtualMachines
+    description: A list of virtual machines & ports to open access for
+    types:
+    - uid: JitNetworkAccessPolicyActionVirtualMachine
+      isArray: true
+- name: JitNetworkAccessPolicyActionPort
+  kind: object
+  properties:
+  - name: number
+    description: ''
+    types:
+    - uid: number
+  - name: allowedSourceAddressPrefix
+    description: ''
+    types:
+    - uid: string
+  - name: endTimeUtc
+    description: The time to close the request in UTC
+    types:
+    - uid: string
+examples:
+- name: Initiate an action on a JIT network access policy
+  request:
+    uri: POST https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Security/locations/westeurope/jitNetworkAccessPolicies/default/initiate?api-version=2015-06-01-preview
+    body: >-
+      {
+        "virtualMachines": [
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
+            "ports": [
+              {
+                "number": 3389,
+                "duration": "PT1H",
+                "allowedSourceAddressPrefix": "192.127.0.2"
+              }
+            ]
+          }
+        ]
+      }
+  responses:
+  - statusCode: "202"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
