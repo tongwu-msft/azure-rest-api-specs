@@ -17,11 +17,11 @@ Azure Virtual WAN is a networking service that provides optimized and automated 
 
 |Operation Group|Description|
 |---|---|
-|[Hub Virtual Network Connections](xref:management.azure.com.virtualwan.hubvirtualnetworkconnections) |Provides operations for managing Hub Virtual Network Connections.|
-|[Virtual Hubs](xref:management.azure.com.virtualwan.virtualhubs)   | Provides operations for managing Virtual Hubs.|
 |[Virtual WANs](xref:management.azure.com.virtualwan.virtualwans)   |Provides operations for managing Virtual WANs.|
-|[VPN Connections](xref:management.azure.com.virtualwan.vpnconnections)   | Provides operations for managing VPN Connections.|
-|[VPN Gateways](xref:management.azure.com.virtualwan.vpngateways)  |Provides operations for managing VPN Gateways.|
+|[Virtual Hubs](xref:management.azure.com.virtualwan.virtualhubs)   | Provides operations for managing Virtual Hubs.|
 |[VPN Sites](xref:management.azure.com.virtualwan.vpnsites)  |Provides operations for managing VPN Sites.|
 |[VPN Sites Configuration](xref:management.azure.com.virtualwan.vpnsitesconfiguration)   |Provides operations for managing VPN Sites Configuration.|
+|[VPN Gateways](xref:management.azure.com.virtualwan.vpngateways)  |Provides operations for managing VPN Gateways.|
+|[VPN Connections](xref:management.azure.com.virtualwan.vpnconnections)   | Provides operations for managing VPN Connections.|
+|[Hub Virtual Network Connections](xref:management.azure.com.virtualwan.hubvirtualnetworkconnections) |Provides operations for managing Hub Virtual Network Connections.|
 
