@@ -49,7 +49,7 @@ Azure Consumption APIs provide access to:
   [Reservation Details](xref:management.azure.com.consumption.reservationsdetails) | Provides operations to get reservation detailed usage for Pay as you go and Enterprise Subscriptions. |
   [Reservation Summaries](xref:management.azure.com.consumption.reservationssummaries) | Provides operations to get reservation summary usage for Pay as you go and Enterprise Subscriptions. |
   [Reservation Recommendations](xref:management.azure.com.consumption.reservationrecommendations) | Provides reservation recommendations for Pay as you go and Enterprise Subscriptions. |
-  [Forecasts](xref:management.azure.com.consumption.forecasts) | Provides usage forcasts for Enterprise Subscriptions. |
+  [Forecasts](xref:management.azure.com.consumption.forecasts) | Provides usage forecasts for Enterprise Subscriptions. |
   [Balances](xref:management.azure.com.consumption.getbalancesbybillingaccount) | Provides balances and summaries for Enterprise Billing Accounts. |
   [Tags](xref:management.azure.com.consumption.tags) | Provides usage forcasts for Enterprise Subscriptions. |
   [Cost Tags](xref:management.azure.com.consumption.costtags) | Provides usage forcasts for Enterprise Subscriptions. |
@@ -81,12 +81,15 @@ Using this list, client can pick a specific billing period to get consumption da
 
 ## Late Arriving Data
 
-To accommodate 3rd party services that have delays in reporting usage, the reported the usage date  (usage report date) is set to the time at which the usage data was sent as opposed to when the actual usage took place (i.e. consumption time). As a result, the usage will be rated for and applied to the reported time. In order to represent the actual consumption time, the properties.AdditionalProperties field will now contain two additional properties ConsumptionBeginTime and ConsumptionEndTime  that correspond to the actual consumption time window.
+To accommodate third party services that have delays in reporting usage, the reported the usage date  (usage report date) is set to the time at which the usage data was sent as opposed to when the actual usage took place (that is, consumption time).
+
+ As a result, the usage will be rated for and applied to the reported time. In order to represent the actual consumption time, the *properties.AdditionalProperties* field will now contain two additional properties *ConsumptionBeginTime* and *ConsumptionEndTime*  that correspond to the actual consumption time window.
+
 These changes will result in a few scenarios that will need to be addressed when calling the usage details API:
 
  1. **Month End Reporting**: For usage that occurred during a month but reported during the next month, customers will need to look at the *additionalProperties* field to allocate the usage to the appropriate month if needed.
 
- 2. **Query Usagedetails**: When querying the usage details API by a date range, the query only applies to usage report date and not the consumption time in the *additionalProperties* field. For customers looking to map usage details to invoices, this update does not affect the process as the invoice will process the usage based on the usage report date. For customers looking to map usage details to a specific calendar date/month, this update is a breaking change and for these scenarios the usage report date cannot be used  and the date that the usage occurred (i.e. the consumption date) in the *additionalProperties* section must be used.
+ 2. **Query Usage details**: When querying the usage details API by a date range, the query only applies to usage report date and not the consumption time in the *additionalProperties* field. For customers looking to map usage details to invoices, this update does not affect the process as the invoice will process the usage based on the usage report date. For customers looking to map usage details to a specific calendar date/month, this update is a breaking change and for these scenarios the usage report date cannot be used  and the date that the usage occurred (that is, the consumption date) in the *additionalProperties* section must be used.
 
     
 
