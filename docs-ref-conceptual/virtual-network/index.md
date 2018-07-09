@@ -1,27 +1,31 @@
 ---
-ms.title: Virtual WAN REST APIs
-ms.date: 07/12/2018
-ms.service: virtual-wan
+ms.title: Virtual Network REST APIs
+ms.date: 08/09/2017
+ms.service: virtual-network
 ms.topic: reference
 ms.devlang: rest
-author: rossort 
-ms.author: reyandap 
-ms.manager: reyandap
+author: anavinahar 
+ms.author: annahar 
+ms.manager: narayan
 ---
 
-# Virtual WAN REST API
+# Virtual Networks REST API
 
-Azure Virtual WAN is a networking service that provides optimized and automated branch-to-branch connectivity through Azure. Virtual WAN lets you connect and configure branch devices to communicate with Azure. For a more detailed overview, see the [Azure Virtual WAN product page](https://go.microsoft.com/fwlink/p/?LinkId=2004389).
+An Azure virtual network (VNet) is a representation of your own network in the cloud. It is a logical isolation of the Azure cloud dedicated to your subscription. You can fully control the IP address blocks, DNS settings, security policies, and route tables within this network. For a more detailed overview, see the [Azure Virtual Network product page](https://azure.microsoft.com/services/virtual-network). 
 
 ## REST Operation Groups 
 
 |Operation Group|Description|
 |---|---|
-|[Virtual WANs](xref:management.azure.com.virtualwan.virtualwans)   |Provides operations for managing Virtual WANs.|
-|[Virtual Hubs](xref:management.azure.com.virtualwan.virtualhubs)   | Provides operations for managing Virtual Hubs.|
-|[VPN Sites](xref:management.azure.com.virtualwan.vpnsites)  |Provides operations for managing VPN Sites.|
-|[VPN Sites Configuration](xref:management.azure.com.virtualwan.vpnsitesconfiguration)   |Provides operations for managing VPN Sites Configuration.|
-|[VPN Gateways](xref:management.azure.com.virtualwan.vpngateways)  |Provides operations for managing VPN Gateways.|
-|[VPN Connections](xref:management.azure.com.virtualwan.vpnconnections)   | Provides operations for managing VPN Connections.|
-|[Hub Virtual Network Connections](xref:management.azure.com.virtualwan.hubvirtualnetworkconnections) |Provides operations for managing Hub Virtual Network Connections.|
+|[Network Interface Cards](xref:management.azure.com.virtualnetwork.networkinterfaces) |Provides operations for managing Network Interface Cards.|
+|[Network Security Groups](xref:management.azure.com.virtualnetwork.networksecuritygroups)   | Provides operations for managing Network Security Groups.|
+|[Network Security Rules](xref:management.azure.com.virtualnetwork.securityrules)   |Provides operations for managing Network Security Rules.|
+|[Public IP Addresses](xref:management.azure.com.virtualnetwork.publicipaddresses)   | Provides operations for managing Public IP Addresses.|
+|[Subnets](xref:management.azure.com.virtualnetwork.subnets)  |Provides operations for managing Subnets.|
+|[Virtual Networks](xref:management.azure.com.virtualnetwork.virtualnetworks)  |Provides operations for managing Virtual Networks.|
+|[Route Tables](xref:management.azure.com.virtualnetwork.routetables)   |Provides operations for managing Route Tables.|
+|[Routes](xref:management.azure.com.virtualnetwork.routes)   |Provides operations for managing Routes.|
+|[Virtual Network Peerings](xref:management.azure.com.virtualnetwork.virtualnetworkpeerings)   |Provides operations for managing Virtual Network Peerings.|
+|[Check DNS Name Availability](xref:management.azure.com.virtualnetwork.checkdnsnameavailability)   |Provides an operation for checking DNS name availability.|
+|[Usages](xref:management.azure.com.virtualnetwork.usages)   |Provides an operation for listing usages.|
 
