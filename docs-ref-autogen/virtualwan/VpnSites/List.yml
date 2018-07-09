@@ -1,0 +1,295 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.vpnsites.list
+name: List
+service: VirtualWAN
+groupName: Vpn Sites
+apiVersion: 2018-04-01
+summary: Lists all the VpnSites in a subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnSites?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns the details of all the VpnSites in the subscription.
+  types:
+  - uid: ListVpnSitesResult
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: ListVpnSitesResult
+  description: Result of the request to list VpnSites. It contains a list of VpnSites and a URL nextLink to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of VpnSites.
+    types:
+    - uid: VpnSite
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: details
+    description: ''
+    types:
+    - uid: ErrorDetails
+      isArray: true
+  - name: innerError
+    description: ''
+    types:
+    - uid: string
+- name: VpnSite
+  description: VpnSite Resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.virtualWAN
+    description: The VirtualWAN to which the vpnSite belongs
+    types:
+    - uid: SubResource
+  - name: properties.deviceProperties
+    description: The device properties
+    types:
+    - uid: DeviceProperties
+  - name: properties.ipAddress
+    description: The ip-address for the vpn-site.
+    types:
+    - uid: string
+  - name: properties.siteKey
+    description: The key for vpn-site that can be used for connections.
+    types:
+    - uid: string
+  - name: properties.addressSpace
+    description: The AddressSpace that contains an array of IP address ranges.
+    types:
+    - uid: AddressSpace
+  - name: properties.bgpProperties
+    description: The set of bgp properties.
+    types:
+    - uid: BgpSettings
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorDetails
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: DeviceProperties
+  description: List of properties of the device.
+  kind: object
+  properties:
+  - name: deviceVendor
+    description: Name of the device Vendor.
+    types:
+    - uid: string
+  - name: deviceModel
+    description: Model of the device.
+    types:
+    - uid: string
+  - name: linkSpeedInMbps
+    description: Link speed.
+    types:
+    - uid: integer
+- name: AddressSpace
+  description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
+  kind: object
+  properties:
+  - name: addressPrefixes
+    description: A list of address blocks reserved for this virtual network in CIDR notation.
+    types:
+    - uid: string
+      isArray: true
+- name: BgpSettings
+  description: BGP settings details
+  kind: object
+  properties:
+  - name: asn
+    description: The BGP speaker's ASN.
+    types:
+    - uid: integer
+  - name: bgpPeeringAddress
+    description: The BGP peering address and BGP identifier of this BGP speaker.
+    types:
+    - uid: string
+  - name: peerWeight
+    description: The weight added to routes learned from this BGP speaker.
+    types:
+    - uid: integer
+- name: ProvisioningState
+  description: The current provisisoning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: VpnSiteList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/vpnSites?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1",
+            "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+            "location": "West US",
+            "name": "vpnSite1",
+            "type": "Microsoft.Network/vpnSites",
+            "tags": {
+              "key1": "value1"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "virtualWAN": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan1",
+              "deviceProperties": {
+                "deviceVendor": "vendor1",
+                "deviceModel": "model01",
+                "linkSpeedInMbps": 200
+              },
+              "ipAddress": "10.0.0.0",
+              "addressSpace": {
+                "addressPrefixes": [
+                  "10.0.0.0/16"
+                ]
+              },
+              "bgpProperties": {
+                "bgpPeeringAddress": "192.168.0.0",
+                "asn": 1234
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/vpnSites/vpnSite2",
+            "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+            "location": "East US",
+            "name": "vpnSite2",
+            "type": "Microsoft.Network/vpnSites",
+            "tags": {
+              "key1": "value1"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "virtualWAN": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualWANs/wan1",
+              "deviceProperties": {
+                "deviceVendor": "vendor1",
+                "deviceModel": "model01",
+                "linkSpeedInMbps": 200
+              },
+              "ipAddress": "10.1.0.0",
+              "addressSpace": {
+                "addressPrefixes": [
+                  "10.0.0.0/16"
+                ]
+              },
+              "bgpProperties": {
+                "bgpPeeringAddress": "192.168.0.0",
+                "asn": 1234
+              }
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,144 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.vpnsitesconfiguration.download
+name: Download
+service: VirtualWAN
+groupName: Vpn Sites Configuration
+apiVersion: 2018-04-01
+summary: Gives the sas-url to download the configurations for vpn-sites in a resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnConfiguration?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: virtualWANName
+  in: path
+  isRequired: true
+  description: The name of the VirtualWAN for which configuration of all vpn-sites is needed.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Follow the location header for sas-url to output blob.
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously. Follow the location header for sas-url to output blob.
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: Error
+requestBody:
+- parameters:
+  - name: vpnSites
+    in: body
+    description: List of resource-ids of the vpn-sites for which config is to be downloaded.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: outputBlobSasUrl
+    in: body
+    description: The sas-url to download the configurations for vpn-sites
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: details
+    description: ''
+    types:
+    - uid: ErrorDetails
+      isArray: true
+  - name: innerError
+    description: ''
+    types:
+    - uid: string
+- name: GetVpnSitesConfigurationRequest
+  description: List of Vpn-Sites
+  kind: object
+  properties:
+  - name: vpnSites
+    description: List of resource-ids of the vpn-sites for which config is to be downloaded.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: outputBlobSasUrl
+    description: The sas-url to download the configurations for vpn-sites
+    types:
+    - uid: string
+- name: ErrorDetails
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: VpnSitesConfigurationDownload
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/wan1/vpnConfiguration?api-version=2018-04-01
+    body: >-
+      {
+        "vpnSites": [
+          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/abc"
+        ],
+        "outputBlobSasUrl": "https://blobcortextesturl.blob.core.windows.net/folderforconfig/vpnFile?sp=rw&se=2018-01-10T03%3A42%3A04Z&sv=2017-04-17&sig=WvXrT5bDmDFfgHs%2Brz%2BjAu123eRCNE9BO0eQYcPDT7pY%3D&sr=b"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
