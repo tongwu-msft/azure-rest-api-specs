@@ -24,4 +24,3 @@ Azure Virtual WAN is a networking service that provides optimized and automated 
 |[VPN Gateways](xref:management.azure.com.virtualwan.vpngateways)  |Provides operations for managing VPN Gateways.|
 |[VPN Connections](xref:management.azure.com.virtualwan.vpnconnections)   | Provides operations for managing VPN Connections.|
 |[Hub Virtual Network Connections](xref:management.azure.com.virtualwan.hubvirtualnetworkconnections) |Provides operations for managing Hub Virtual Network Connections.|
-
