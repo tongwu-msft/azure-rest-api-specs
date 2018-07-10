@@ -43,16 +43,16 @@ Azure Consumption APIs provide access to:
 | Operation Group | Description |
 |-----------------|-------------|
 | [Budgets](xref:management.azure.com.consumption.budgets) | Provides operations to set, update, and delete budgets at a Subscription or resource group scope. Supports cost and usage budgets.
-  [Price Sheet](xref:management.azure.com.consumption.pricesheet) | For Enterprise Subscriptions, an API to get the current price sheet.
-  [Marketplace Charges](xref:management.azure.com.consumption.marketplaces) | Provides operations to get usage information for marketplace resources on subscription.
-  [Usage Details](xref:management.azure.com.consumption.usagedetails) | Provides operations to get usage information on subscription. |
+  [Price Sheet](xref:management.azure.com.consumption.pricesheet) | Provides operations to get price sheet for Enterprise Subscriptions and Billing accounts.
+  [Marketplace Charges](xref:management.azure.com.consumption.marketplaces) | Provides operations to get usage information for marketplace resources on subscription or Enterprise Billing accounts.
+  [Usage Details](xref:management.azure.com.consumption.usagedetails) | Provides operations to get usage information on subscription or Enterprise Billing accounts. |
   [Reservation Details](xref:management.azure.com.consumption.reservationsdetails) | Provides operations to get reservation detailed usage for Pay as you go and Enterprise Subscriptions. |
   [Reservation Summaries](xref:management.azure.com.consumption.reservationssummaries) | Provides operations to get reservation summary usage for Pay as you go and Enterprise Subscriptions. |
-  [Reservation Recommendations](xref:management.azure.com.consumption.reservationrecommendations) | Provides reservation recommendations for Pay as you go and Enterprise Subscriptions. |
-  [Forecasts](xref:management.azure.com.consumption.forecasts) | Provides usage forecasts for Enterprise Subscriptions. |
-  [Balances](xref:management.azure.com.consumption.getbalancesbybillingaccount) | Provides balances and summaries for Enterprise Billing Accounts. |
-  [Tags](xref:management.azure.com.consumption.tags) | Provides usage forcasts for Enterprise Subscriptions. |
-  [Cost Tags](xref:management.azure.com.consumption.costtags) | Provides usage forcasts for Enterprise Subscriptions. |
+  [Reservation Recommendations](xref:management.azure.com.consumption.reservationrecommendations) | Provides operations to get reservation recommendations for Pay as you go and Enterprise Subscriptions. |
+  [Forecasts](xref:management.azure.com.consumption.forecasts) | Provides operations to get usage forecasts for Enterprise Subscriptions. |
+  [Balances](xref:management.azure.com.consumption.getbalancesbybillingaccount) | Provides operations to get balances and summaries for Enterprise Billing Accounts. |
+  [Tags](xref:management.azure.com.consumption.tags) | Provides operations to get tags info for Enterprise Subscriptions. |
+  [Cost Tags](xref:management.azure.com.consumption.costtags) | Provides operations for reading and writing cost tags for Enterprise Subscriptions. |
 
 ## Working with billing periods and date ranges
 [Usage Details](xref:management.azure.com.consumption.usagedetails) and [Marketplace Charges](xref:management.azure.com.consumption.marketplaces) accept billing period or date ranges for defining the start and end dates for the usage data.
