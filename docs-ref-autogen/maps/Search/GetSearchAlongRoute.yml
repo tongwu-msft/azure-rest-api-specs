@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.search.getsearchaddressstructured
-name: Get Search Address Structured
+uid: atlas.microsoft.com.maps.search.getsearchalongroute
+name: Get Search Along Route
 service: Maps
 groupName: Search
 apiVersion: "1.0"
-summary: '**Structured Address Geocoding**<br><br>Azure Address Geocoding can also be accessed for structured address look up exclusively. The geocoding search index will be queried for everything above the street level data. No POIs will be returned. Note that the geocoder is very tolerant of typos and incomplete addresses. It will also handle everything from exact street addresses or street or intersections as well as higher level geographies such as city centers, counties, states etc.'
+summary: The Search Along Route endpoint allows you to perform a fuzzy search for POIs along a specified route. This search is constrained by specifying the `maxDetourTime` limiting measure.<br><br>To send the route-points you will use a `GET` request where the `route` parameter is represented as a `GeoJSON LineString` type. Each route-point in `route` is represented as a `GeoJSON Position` type i.e. an array where the _longitude_ value is followed by the _latitude_ value and the _altitude_ value is ignored. The `route` should contain at least 2 route-points.<br><br>It is possible that original route will be altered, some of it's points may be skipped. If the route that passes through the found point is faster than the original one, the `detourTime` value in the response is negative.
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/search/address/structured/{format}?subscription-key={subscription-key}&api-version=1.0&countryCode={countryCode}
-- content: GET https://atlas.microsoft.com/search/address/structured/{format}?subscription-key={subscription-key}&api-version=1.0&language={language}&countryCode={countryCode}&limit={limit}&ofs={ofs}&streetNumber={streetNumber}&streetName={streetName}&crossStreet={crossStreet}&municipality={municipality}&municipalitySubdivision={municipalitySubdivision}&countryTertiarySubdivision={countryTertiarySubdivision}&countrySecondarySubdivision={countrySecondarySubdivision}&countrySubdivision={countrySubdivision}&postalCode={postalCode}&extendedPostalCodesFor={extendedPostalCodesFor}
+- content: GET https://atlas.microsoft.com/search/alongRoute/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&route={route}&maxDetourTime={maxDetourTime}
+- content: GET https://atlas.microsoft.com/search/alongRoute/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&route={route}&maxDetourTime={maxDetourTime}&limit={limit}
   isOptional: true
 uriParameters:
 - name: format
@@ -32,86 +32,34 @@ uriParameters:
   description: Version number of Azure Maps API. Current version is 1.0
   types:
   - uid: string
-- name: language
-  in: query
-  description: >-
-    Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used.
-
-
-    Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages) for details.
-  types:
-  - uid: string
-- name: countryCode
+- name: query
   in: query
   isRequired: true
-  description: The 2 or 3 letter country code portion of an address. E.g. US
+  description: The applicable query string (e.g., "burger joints", "pizza"). Can _also_ be specified as a comma separated string composed by latitude followed by longitude (e.g., "47.641268, -122.125679"). Must be properly URL encoded.
   types:
   - uid: string
+- name: route
+  in: query
+  isRequired: true
+  description: This represents the route to search along and should be a valid `GeoJSON LineString` type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details.
+  types:
+  - uid: string
+- name: maxDetourTime
+  in: query
+  isRequired: true
+  description: Maximum detour time of the point of interest in seconds. Max value is 3600 seconds
+  types:
+  - uid: integer
 - name: limit
   in: query
-  description: Maximum number of responses that will be returned
+  description: Maximum number of responses that will be returned. Default value is 10. Max value is 20
   types:
   - uid: integer
-- name: ofs
-  in: query
-  description: Starting offset of the returned results within the full result set
-  types:
-  - uid: integer
-- name: streetNumber
-  in: query
-  description: The street number portion of an address
-  types:
-  - uid: string
-- name: streetName
-  in: query
-  description: The street name portion of an address
-  types:
-  - uid: string
-- name: crossStreet
-  in: query
-  description: The cross street name for the structured address
-  types:
-  - uid: string
-- name: municipality
-  in: query
-  description: The municipality portion of an address
-  types:
-  - uid: string
-- name: municipalitySubdivision
-  in: query
-  description: The municipality subdivision (sub/super city) for the structured address
-  types:
-  - uid: string
-- name: countryTertiarySubdivision
-  in: query
-  description: The named area for the structured address
-  types:
-  - uid: string
-- name: countrySecondarySubdivision
-  in: query
-  description: The county for the structured address
-  types:
-  - uid: string
-- name: countrySubdivision
-  in: query
-  description: The country subdividion portion of an address
-  types:
-  - uid: string
-- name: postalCode
-  in: query
-  description: The postal code portion of an address
-  types:
-  - uid: string
-- name: extendedPostalCodesFor
-  in: query
-  description: "Indexes for which extended postal codes should be included in the results.\n\nAvailable indexes are: \n\n **Addr** = Address ranges \n\n **Geo** = Geographies \n\n **PAD** = Point Addresses \n\n **POI** = Points of Interest \n\n **Str** = Streets \n\n **XStr** = Cross Streets (intersections)\n\nValue should be a comma separated list of index types (in any order) or **None** for no indexes.\n\nBy default extended postal codes are included for all indexes except Geo. Extended postal code lists for geographies can be quite long so they have to be explicitly requested when needed.\n\nUsage examples:\n\n extendedPostalCodesFor=POI \n\n extendedPostalCodesFor=PAD,Addr,POI \n\n extendedPostalCodesFor=None\n\nExtended postal code is returned as an **extendedPostalCode** property of an address. Availability is region-dependent."
-  types:
-  - uid: string
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SearchAddressStructuredResponse
+  - uid: SearchAlongRouteResponse
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -146,8 +94,8 @@ definitions:
     description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
     types:
     - uid: string
-- name: SearchAddressStructuredResponse
-  description: This object is returned from a successful Search Address Structured call
+- name: SearchAlongRouteResponse
+  description: This object is returned from a successful Search Along Route call.
   kind: object
   properties:
   - name: summary
@@ -157,9 +105,9 @@ definitions:
     - uid: Summary
   - name: results
     isReadyOnly: true
-    description: Results array
+    description: A list of Search Along Route results.
     types:
-    - uid: SearchAddressStructuredResult
+    - uid: SearchAlongRouteResult
       isArray: true
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
@@ -208,7 +156,8 @@ definitions:
     description: FuzzyLevel property
     types:
     - uid: integer
-- name: SearchAddressStructuredResult
+- name: SearchAlongRouteResult
+  description: This type represents the Search Along Route result object.
   kind: object
   properties:
   - name: type
@@ -226,11 +175,20 @@ definitions:
     description: Score property
     types:
     - uid: number
-  - name: dist
+  - name: info
     isReadyOnly: true
-    description: Dist property
+    description: Info property
     types:
-    - uid: number
+    - uid: string
+  - name: entityType
+    isReadyOnly: true
+    description: Entity Type property
+    types:
+    - uid: string
+  - name: poi
+    description: Details of the poi including the name, phone, url, and categories.
+    types:
+    - uid: SearchResultPoi
   - name: address
     description: The address of the result
     types:
@@ -248,10 +206,16 @@ definitions:
     types:
     - uid: SearchResultEntryPoint
       isArray: true
-  - name: addressRanges
-    description: ''
+  - name: dist
+    isReadyOnly: true
+    description: Distance in meters
     types:
-    - uid: SearchResultAddressRanges
+    - uid: number
+  - name: detourTime
+    isReadyOnly: true
+    description: Detour time in seconds
+    types:
+    - uid: number
 - name: Error
   description: This object is returned when an error occurs in the Maps API
   kind: object
@@ -266,6 +230,37 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
+- name: SearchResultPoi
+  description: Details of the poi including the name, phone, url, and categories.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: string
+  - name: phone
+    isReadyOnly: true
+    description: Phone property
+    types:
+    - uid: string
+  - name: url
+    isReadyOnly: true
+    description: URL property
+    types:
+    - uid: string
+  - name: categories
+    isReadyOnly: true
+    description: Categories array
+    types:
+    - uid: string
+      isArray: true
+  - name: classifications
+    isReadyOnly: true
+    description: Classification array
+    types:
+    - uid: SearchResultPoiClassification
+      isArray: true
 - name: SearchResultAddress
   description: The address of the result
   kind: object
@@ -408,25 +403,21 @@ definitions:
     description: Name property
     types:
     - uid: Position
-- name: SearchResultAddressRanges
+- name: SearchResultPoiClassification
+  description: The classification for the POI being returned
   kind: object
   properties:
-  - name: rangeLeft
-    description: ''
+  - name: code
+    isReadyOnly: true
+    description: Code property
     types:
     - uid: string
-  - name: rangeRight
-    description: ''
+  - name: names
+    isReadyOnly: true
+    description: Names array
     types:
-    - uid: string
-  - name: from
-    description: A postion of start point
-    types:
-    - uid: From
-  - name: to
-    description: A postion of destination
-    types:
-    - uid: To
+    - uid: Names
+      isArray: true
 - name: TopLeftPoint
   description: Top left of the viewport
   kind: object
@@ -469,96 +460,179 @@ definitions:
     description: Longitude property
     types:
     - uid: number
-- name: From
-  description: A postion of start point
+- name: Names
+  description: Names array
   kind: object
   properties:
-  - name: lon
-    description: longitude of start point
+  - name: nameLocale
+    isReadyOnly: true
+    description: Name Locale property
     types:
-    - uid: number
-  - name: lat
-    description: latitude of start point
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name property
     types:
-    - uid: number
-- name: To
-  description: A postion of destination
-  kind: object
-  properties:
-  - name: lon
-    description: longitude of destination
-    types:
-    - uid: number
-  - name: lat
-    description: latitude of destination
-    types:
-    - uid: number
+    - uid: string
 examples:
-- name: GetSearchAddressStructured
+- name: Search for burger joints along a route
   request:
-    uri: GET https://atlas.microsoft.com/search/address/structured/json?subscription-key=[subscription-key]&api-version=1.0&countryCode=US&streetNumber=15127&streetName=NE&2024th&20Street&municipality=Redmond&countrySubdivision=WA&postalCode=98052
+    uri: GET https://atlas.microsoft.com/search/alongRoute/json?subscription-key=[subscription-key]&api-version=1.0&query=burger&maxDetourTime=1000&limit=2
   responses:
   - statusCode: "200"
     body: >-
       {
         "summary": {
-          "query": "15127 98052 ne redmond wa",
+          "query": "burger",
           "queryType": "NON_NEAR",
-          "queryTime": 57,
-          "numResults": 1,
+          "queryTime": 409,
+          "numResults": 13,
           "offset": 0,
-          "totalResults": 34,
-          "fuzzyLevel": 1,
-          "geoBias": {
-            "lat": 47.301293179130347,
-            "lon": -120.88247999999997
-          }
+          "totalResults": 13,
+          "fuzzyLevel": 1
         },
         "results": [
           {
-            "type": "Point Address",
-            "id": "US/PAD/p0/37974392",
-            "score": 8.074,
-            "dist": 101274.64693865852,
+            "type": "POI",
+            "id": "US/POI/p0/3492825",
+            "score": 4.89,
+            "dist": 3479.404482853342,
+            "info": "search:decarta:ta:840539000647577-US",
+            "poi": {
+              "name": "Mugshots Burger N' Brew",
+              "phone": "+(1)-(425)-7468852",
+              "url": "www.mugshotsburgernbrew.com/",
+              "categories": [
+                "cocktail bar",
+                "nightlife"
+              ],
+              "classifications": [
+                {
+                  "code": "NIGHTLIFE",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "nightlife"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "cocktail bar"
+                    }
+                  ]
+                }
+              ]
+            },
             "address": {
-              "streetNumber": "15127",
-              "streetName": "NE 24th St",
-              "municipalitySubdivision": "Redmond",
-              "municipality": "Redmond, Earlmount, Avondale, Ames Lake, Adelaide",
+              "streetNumber": "1428",
+              "streetName": "156th Ave NE",
+              "municipalitySubdivision": "Bellevue, Crossroads",
+              "municipality": "Bellevue, Eastgate",
               "countrySecondarySubdivision": "King",
               "countryTertiarySubdivision": "Seattle East",
               "countrySubdivision": "WA",
-              "postalCode": "98052",
-              "extendedPostalCode": "980525544",
+              "postalCode": "98007",
+              "extendedPostalCode": "980074421",
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "15127 NE 24th St, Redmond, WA 98052",
+              "freeformAddress": "1428 156th Ave NE, Bellevue, WA 98007",
               "countrySubdivisionName": "Washington"
             },
             "position": {
-              "lat": 47.6308,
-              "lon": -122.1385
+              "lat": 47.62272,
+              "lon": -122.13239
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.6317,
-                "lon": -122.13983
+                "lat": 47.62362,
+                "lon": -122.13372
               },
               "btmRightPoint": {
-                "lat": 47.6299,
-                "lon": -122.13717
+                "lat": 47.62182,
+                "lon": -122.13106
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.6315,
-                  "lon": -122.13852
+                  "lat": 47.62303,
+                  "lon": -122.13235
                 }
               }
-            ]
+            ],
+            "detourTime": -549
+          },
+          {
+            "type": "POI",
+            "id": "US/POI/p1/205585",
+            "score": 4.927,
+            "dist": 2296.770006012297,
+            "info": "search:decarta:ta:840539000615501-US",
+            "poi": {
+              "name": "Wendy's Old Fashioned Hamburgers",
+              "phone": "+(1)-(425)-8850988",
+              "url": "https://wendys.com",
+              "categories": [
+                "fast food",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "fast food"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "15945",
+              "streetName": "Redmond Way",
+              "municipalitySubdivision": "Redmond",
+              "municipality": "Adelaide, Ames Lake, Avondale, Earlmount, Redmond",
+              "countrySecondarySubdivision": "King",
+              "countryTertiarySubdivision": "Seattle East",
+              "countrySubdivision": "WA",
+              "postalCode": "98052",
+              "extendedPostalCode": "980523836",
+              "countryCode": "US",
+              "country": "United States Of America",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "15945 Redmond Way, Redmond, WA 98052",
+              "countrySubdivisionName": "Washington"
+            },
+            "position": {
+              "lat": 47.6744,
+              "lon": -122.12786
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.6753,
+                "lon": -122.1292
+              },
+              "btmRightPoint": {
+                "lat": 47.6735,
+                "lon": -122.12652
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.67474,
+                  "lon": -122.12798
+                }
+              }
+            ],
+            "detourTime": -484
           }
         ]
       }

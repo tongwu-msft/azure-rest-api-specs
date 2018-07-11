@@ -12,7 +12,25 @@ operations:
     Information returned includes the distance, estimated travel time, and a representation of the route geometry. Additional routing information such as optimized waypoint order or turn by turn instructions is also available, depending on the options selected.
 
 
-    Routing service provides a set of parameters for a detailed description of vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/en-us/azure/azure-maps/consumption-model) for detailed explanation of the concepts and parameters involved.
+    Routing service provides a set of parameters for a detailed description of vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/azure/azure-maps/consumption-model) for detailed explanation of the concepts and parameters involved.
+- uid: atlas.microsoft.com.maps.route.getroutematrixpreview
+  summary: >-
+    This service allows users to query for the results of the asynchronous [matrix POST request](./postroutematrixpreview).
+
+
+    If the request has not been completed, this call returns a 202 response with the location header identical to the current call. It should be tried again.
+
+
+    The response for the known requestId can be queried for 14 days.
+- uid: atlas.microsoft.com.maps.route.getrouterangepreview
+  summary: >-
+    __Route Range (Isochrone) API__
+
+
+    This service will calculate a set of locations that can be reached from the origin point based on fuel, energy,  or time budget that is specified. A polygon boundary (or Isochrone) is returned in a counterclockwise  orientation as well as the precise polygon center which was the result of the origin point.
+
+
+    The returned polygon can be used for further processing such as  [Search Inside Geometry](../search/getsearchinsidegeometry) to search for POIs within the provided Isochrone.
 - uid: atlas.microsoft.com.maps.route.postroutedirections
   summary: >-
     Returns  a route between an origin and a destination, passing through waypoints if they are specified. The route will take into account factors such as current traffic and the typical road speeds on the requested day of the week and time of day.
@@ -22,3 +40,7 @@ operations:
 
 
     Routing service provides a set of parameters for a detailed description of vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/en-us/rest/api/maps/consumption-model) for detailed explanation of the concepts and parameters involved.
+- uid: atlas.microsoft.com.maps.route.postroutedirectionsbatchpreview
+  summary: "**Route Directions Batch API**<br><br> The Route Directions Batch API allows the caller to batch up to 1000 [Route Directions API](https://docs.microsoft.com/en-us/rest/api/maps/routeservice/getroutedirections) queries/requests using just a single api call. To send the _route directions_ queries you will use a `POST` request where the request body will contain the `queries` array in `JSON` format and the `Content-Type` header will be set to `application/json`.<br><br>An _route directions_ query in a batch is just a partial URL without the protocol, base URL, path, api-version and subscription-key. All these values will be reused from the Route Directions Batch API call itself. The string values in the _route directions_ query must be properly escaped (e.g. \" character should be escaped with \\\\) and it should also be properly URL-encoded.<br><br> for example: \"?_query_=47.639987,-122.128384:47.621252,-122.184408:47.596437,-122.332000&_routeType_=fastest&_travelMode_=car\"<br><br> The maximum number of queries that can be specified in the batch is 1000 and the batch should contain at least 1 query.<br><br>Please note that the Route Directions Batch API is a long-running request. When the client `POST`'s the initial batch request, the server responds immediately with a `202 Accepted` response with the `Location` header containing the URL to download the results of the batch request later. To download the batch results you will issue a `GET` request to this download endpoint. If the batch processing has finished, this call returns a `200 OK` response with all the batch results, else it continues to return a `202 Accepted` response. Please, be aware that batch results are available for download for 14 days, after which the request for results download will return `400 Bad Request` response."
+- uid: atlas.microsoft.com.maps.route.postroutematrixpreview
+  summary: "The Matrix Routing service allows calculation of a matrix of route summaries for a set of routes defined by origin and destination locations. For every given origin, this service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. For each route, the travel times and distances are calculated. You can use the computed costs to determine which routes to calculate using the Routing Directions API. If the computation takes longer than 20 seconds or forceAsyn parameter in the request is set to true, this API returns a 202 response code along a redirect URL in the Location field of the response header. This URL should be checked periodically until the response data or error information is available. \n\nThe asynchronous responses are stored for 14 days. The redirect URL returns a 400 response if used after the expiration period."

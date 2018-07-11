@@ -1,20 +1,16 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.render.getcopyrightcaption
-name: Get Copyright Caption
+uid: atlas.microsoft.com.maps.search.postsearchfuzzybatchpreview
+name: Post Search Fuzzy Batch Preview
 service: Maps
-groupName: Render
+groupName: Search
 apiVersion: "1.0"
-summary: >-
-  Copyrights API is designed to serve copyright information for Render Tile  service. In addition to basic copyright for the whole map, API is serving  specific groups of copyrights for some countries.
-
-
-  As an alternative to copyrights for map request, one can receive captions  for displaying the map provider information on the map.
+summary: "**Search Fuzzy Batch API**<br><br> The Search Fuzzy Batch API allows the caller to batch up to 10,000 [Search Fuzzy API](https://docs.microsoft.com/en-us/rest/api/maps/searchservice/getsearchfuzzy) queries/requests using just a single API call. To send the _search fuzzy_ queries you will use a `POST` request where the request body will contain the `queries` array in `JSON` format and the `Content-Type` header will be set to `application/json`.<br><br>A _search fuzzy_ query in a batch is just a partial URL without the protocol, base URL, path, api-version and subscription-key. All these values will be reused from the Search Fuzzy Batch API call itself. The string values in the _search fuzzy_ query must be properly escaped (e.g. \" character should be escaped with \\\\) and it should also be properly URL-encoded.<br><br> for example: \"?_query_=atm&_lat_=47.639769&_lon_=-122.128362&_radius_=5000&_limit_=5\"<br><br> The maximum number of queries that can be specified in the batch is 10,000  and the batch should contain at least 1 query.<br><br>Please note that the Search Fuzzy Batch API is a long-running request. When the client `POST`'s the initial batch request, the server responds immediately with a `202 Accepted` response with the `Location` header containing the URL to download the results of the batch request later. To download the batch results you will issue a `GET` request to this download endpoint. If the batch processing has finished, this call returns a `200 OK` response with all the batch results, else it continues to return a `202 Accepted` response. Please, be aware that batch results are available for download for 14 days, after which the request for results download will return `400 Bad Request` response."
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/map/copyright/caption/{format}?subscription-key={subscription-key}&api-version=1.0
+- content: POST https://atlas.microsoft.com/search/fuzzy/batch/{format}?subscription-key={subscription-key}&api-version=1.0
 uriParameters:
 - name: format
   in: path
@@ -35,10 +31,8 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: OK
-  types:
-  - uid: CopyrightCaptionResult
+- name: 202 Accepted
+  description: 'Request Accepted: The request has been accepted for processing. Please use the URL in the Location Header to retry or access the results.'
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -59,6 +53,15 @@ responses:
   description: An error occurred while processing the request. Please try again later.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: queries
+    in: body
+    description: The list of queries/requests to process
+    types:
+    - uid: string
+      isArray: true
 requestHeader: []
 definitions:
 - name: TextFormat
@@ -73,20 +76,6 @@ definitions:
     description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
     types:
     - uid: string
-- name: CopyrightCaptionResult
-  description: This object is returned from a successful Copyright Caption call
-  kind: object
-  properties:
-  - name: formatVersion
-    isReadyOnly: true
-    description: Format Version property
-    types:
-    - uid: string
-  - name: copyrightsCaption
-    isReadyOnly: true
-    description: Copyrights Caption property
-    types:
-    - uid: string
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
   kind: object
@@ -95,6 +84,15 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
+- name: BatchRequestBody
+  description: This type represents the request body for the Batch service.
+  kind: object
+  properties:
+  - name: queries
+    description: The list of queries/requests to process
+    types:
+    - uid: string
+      isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Maps API
   kind: object
@@ -110,16 +108,25 @@ definitions:
     types:
     - uid: string
 examples:
-- name: GetCopyrightCaption
+- name: A Search Fuzzy Batch API call containing 5 Search Fuzzy API queries
   request:
-    uri: GET https://atlas.microsoft.com/map/copyright/caption/json?subscription-key=[subscription-key]&api-version=1.0
-  responses:
-  - statusCode: "200"
+    uri: POST https://atlas.microsoft.com/search/fuzzy/batch/json?subscription-key=[subscription-key]&api-version=1.0
     body: >-
       {
-        "formatVersion": "0.0.1",
-        "copyrightsCaption": "© 1992 - 2017 TomTom."
+        "queries": [
+          "?query=atm&lat=47.639769&lon=-122.128362&radius=5000&limit=5",
+          "?query=Statue Of Liberty&limit=2",
+          "?query=Starbucks&lat=47.639769&lon=-122.128362&radius=5000",
+          "?query=Space Needle",
+          "?query=pizza&limit=10"
+        ]
       }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: URL to download the results of the long-running batch request.
+    body: '{}'
   - statusCode: "400"
     body: >-
       {

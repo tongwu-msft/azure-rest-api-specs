@@ -1,0 +1,524 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.route.postroutematrixpreview
+name: Post Route Matrix Preview
+service: Maps
+groupName: Route
+apiVersion: "1.0"
+summary: "The Matrix Routing service allows calculation of a matrix of route summaries for a set of routes defined by origin and destination locations. For every given origin, this service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. For each route, the travel times and distances are calculated. You can use the computed costs to determine which routes to calculate using the Routing Directions API. If the computation takes longer than 20 seconds or forceAsyn parameter in the request is set to true, this API returns a 202 response code along a redirect URL in the Location field of the response header. This URL should be checked periodically until the response data or error information is available. \n\nThe asynchronous responses are stored for 14 days. The redirect URL returns a 400 response if used after the expiration period."
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: POST https://atlas.microsoft.com/route/matrix/{format}?subscription-key={subscription-key}&api-version=1.0
+- content: POST https://atlas.microsoft.com/route/matrix/{format}?subscription-key={subscription-key}&api-version=1.0&forceAsync={forceAsync}&computeTravelTimeFor={computeTravelTimeFor}&sectionType={sectionType}&arriveAt={arriveAt}&departAt={departAt}&vehicleAxleWeight={vehicleAxleWeight}&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleMaxSpeed={vehicleMaxSpeed}&vehicleWeight={vehicleWeight}&windingness={windingness}&hilliness={hilliness}&travelMode={travelMode}&avoid={avoid}&traffic={traffic}&routeType={routeType}&vehicleLoadType={vehicleLoadType}
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Only `JSON` format is supported.
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+- name: forceAsync
+  in: query
+  description: Boolean to indicate whether to execute the request asynchronously. If set to true, user will get a 202 response right away. Otherwise, user will get a 202 response only if the request takes longer than 20 seconds to finish. Please refer to the API description for more details on 202 response.
+  types:
+  - uid: boolean
+- name: computeTravelTimeFor
+  in: query
+  description: Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time.
+  types:
+  - uid: ComputeTravelTimeFor
+- name: sectionType
+  in: query
+  description: Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car
+  types:
+  - uid: SectionType
+- name: arriveAt
+  in: query
+  description: The date and time of arrival at the destination point. It must be specified as a dateTime. When a time zone offset is not specified it will be assumed to be that of the destination point. The arriveAt value must be in the future. The arriveAt parameter cannot be used in conjunction with departAt, minDeviationDistance or minDeviationTime.
+  types:
+  - uid: string
+  format: date-time
+- name: departAt
+  in: query
+  description: The date and time of departure from the origin point. Departure times apart from now must be specified as a dateTime. When a time zone offset is not specified, it will be assumed to be that of the origin point. The departAt value must be in the future in the date-time format (1996-12-19T16:39:57-08:00).
+  types:
+  - uid: string
+  format: date-time
+- name: vehicleAxleWeight
+  in: query
+  description: Weight per axle of the vehicle in kg. A value of 0 means that weight restrictions per axle are not considered.
+  types:
+  - uid: integer
+- name: vehicleLength
+  in: query
+  description: Length of the vehicle in meters. A value of 0 means that length restrictions are not considered.
+  types:
+  - uid: number
+  format: float
+- name: vehicleHeight
+  in: query
+  description: Height of the vehicle in meters. A value of 0 means that height restrictions are not considered.
+  types:
+  - uid: number
+  format: float
+- name: vehicleWidth
+  in: query
+  description: Width of the vehicle in meters. A value of 0 means that width restrictions are not considered.
+  types:
+  - uid: number
+  format: float
+- name: vehicleMaxSpeed
+  in: query
+  description: Maximum speed of the vehicle in km/hour. A value of 0 means that an appropriate value for the vehicle will be determined and applied during route planning. A non-zero value may be overridden during route planning.
+  types:
+  - uid: integer
+- name: vehicleWeight
+  in: query
+  description: Weight of the vehicle in kilograms.
+  types:
+  - uid: integer
+- name: windingness
+  in: query
+  description: Level of turns for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
+  types:
+  - uid: Windingness
+- name: hilliness
+  in: query
+  description: Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
+  types:
+  - uid: Hilliness
+- name: travelMode
+  in: query
+  description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In calculateReachableRange requests, the values bicycle and pedestrian must not be used
+  types:
+  - uid: TravelMode
+- name: avoid
+  in: query
+  description: 'Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times. Possible values: (tollRoads avoids toll roads), (motorways avoids motorways), (ferries avoids ferries), (unpavedRoads avoids unpaved roads), (carpools avoids routes that require use of carpool (HOV/ High Occupancy Vehicle) lanes), (alreadyUsedRoads avoids using the same road multiple times. Most useful in conjunction with routeType=thrilling). In calculateReachableRange requests, the value alreadyUsedRoads must not be used.'
+  types:
+  - uid: Avoid
+- name: traffic
+  in: query
+  description: "Possible values: \n  * true - Do consider all available traffic information during routing\n  * false - Ignore current traffic data during routing. Note that although the current traffic data is ignored during routing, the\neffect of historic traffic on effective road speeds is still incorporated."
+  types:
+  - uid: boolean
+- name: routeType
+  in: query
+  description: The type of route requested.
+  types:
+  - uid: RouteType
+- name: vehicleLoadType
+  in: query
+  description: Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck.
+  types:
+  - uid: VehicleLoadType
+responses:
+- name: 202 Accepted
+  description: 'Request Accepted: The request has been accepted for processing. Please use the URL in the Location Header to retry or access the results.'
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
+  types:
+  - uid: ErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: origins
+    in: body
+    description: A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details.
+    types:
+    - uid: GeoJSONMultiPoint
+  - name: destinations
+    in: body
+    description: A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details.
+    types:
+    - uid: GeoJSONMultiPoint
+requestHeader: []
+definitions:
+- name: ComputeTravelTimeFor
+  description: Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time.
+  kind: enum
+  properties:
+  - name: none
+    description: Does not compute additional travel times.
+    types:
+    - uid: string
+  - name: all
+    description: Computes travel times for all types of traffic information and specifies all results in the fields noTrafficTravelTimeInSeconds, historicTrafficTravelTimeInSeconds and liveTrafficIncidentsTravelTimeInSeconds being included in the summaries in the route response.
+    types:
+    - uid: string
+- name: SectionType
+  description: Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car
+  kind: enum
+  properties:
+  - name: carTrain
+    description: Get sections if the route includes car trains.
+    types:
+    - uid: string
+  - name: country
+    description: Countries the route has parts in.
+    types:
+    - uid: string
+  - name: ferry
+    description: Get sections if the route includes ferries.
+    types:
+    - uid: string
+  - name: motorway
+    description: Get sections if the route includes motorways.
+    types:
+    - uid: string
+  - name: pedestrian
+    description: Get sections which are suited for pedestrians.
+    types:
+    - uid: string
+  - name: tollRoad
+    description: Get sections which require a toll to be payed.
+    types:
+    - uid: string
+  - name: tollVignette
+    description: Get sections which require a toll vignette to be present.
+    types:
+    - uid: string
+  - name: traffic
+    description: Get sections which contain traffic information.
+    types:
+    - uid: string
+  - name: travelMode
+    description: Get sections in relation to the request parameter `travelMode`.
+    types:
+    - uid: string
+  - name: tunnel
+    description: Get sections if the route includes tunnels.
+    types:
+    - uid: string
+- name: Windingness
+  description: Level of turns for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
+  kind: enum
+  properties:
+  - name: low
+    description: low
+    types:
+    - uid: string
+  - name: normal
+    description: normal
+    types:
+    - uid: string
+  - name: high
+    description: high
+    types:
+    - uid: string
+- name: Hilliness
+  description: Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
+  kind: enum
+  properties:
+  - name: low
+    description: low
+    types:
+    - uid: string
+  - name: normal
+    description: normal
+    types:
+    - uid: string
+  - name: high
+    description: high
+    types:
+    - uid: string
+- name: TravelMode
+  description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In calculateReachableRange requests, the values bicycle and pedestrian must not be used
+  kind: enum
+  properties:
+  - name: car
+    description: car
+    types:
+    - uid: string
+  - name: truck
+    description: truck
+    types:
+    - uid: string
+  - name: taxi
+    description: taxi
+    types:
+    - uid: string
+  - name: bus
+    description: bus
+    types:
+    - uid: string
+  - name: van
+    description: van
+    types:
+    - uid: string
+  - name: motorcycle
+    description: motorcycle
+    types:
+    - uid: string
+  - name: bicycle
+    description: bicycle
+    types:
+    - uid: string
+  - name: pedestrian
+    description: pedestrian
+    types:
+    - uid: string
+- name: Avoid
+  description: 'Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times. Possible values: (tollRoads avoids toll roads), (motorways avoids motorways), (ferries avoids ferries), (unpavedRoads avoids unpaved roads), (carpools avoids routes that require use of carpool (HOV/ High Occupancy Vehicle) lanes), (alreadyUsedRoads avoids using the same road multiple times. Most useful in conjunction with routeType=thrilling). In calculateReachableRange requests, the value alreadyUsedRoads must not be used.'
+  kind: enum
+  properties:
+  - name: tollRoads
+    description: Avoids toll roads.
+    types:
+    - uid: string
+  - name: motorways
+    description: Avoids motorways
+    types:
+    - uid: string
+  - name: ferries
+    description: Avoids ferries
+    types:
+    - uid: string
+  - name: unpavedRoads
+    description: Avoids unpaved roads
+    types:
+    - uid: string
+  - name: carpools
+    description: Avoids carpools
+    types:
+    - uid: string
+  - name: alreadyUsedRoads
+    description: Avoids using the same road multiple times. Most useful in conjunction with `routeType`=thrilling.
+    types:
+    - uid: string
+- name: RouteType
+  description: The type of route requested.
+  kind: enum
+  properties:
+  - name: fastest
+    description: The fastest route.
+    types:
+    - uid: string
+  - name: shortest
+    description: The shortest route by distance.
+    types:
+    - uid: string
+  - name: eco
+    description: A route balanced by economy and speed.
+    types:
+    - uid: string
+  - name: thrilling
+    description: Includes interesting or challenging roads and uses as few motorways as possible. You can choose the level of turns included and also the degree of hilliness. See the hilliness and windingness parameters for how to set this. There is a limit of 900 km on routes planned with routeType=thrilling
+    types:
+    - uid: string
+- name: VehicleLoadType
+  description: Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck.
+  kind: enum
+  properties:
+  - name: USHazmatClass1
+    description: Explosives
+    types:
+    - uid: string
+  - name: USHazmatClass2
+    description: Compressed gas
+    types:
+    - uid: string
+  - name: USHazmatClass3
+    description: Flammable liquids
+    types:
+    - uid: string
+  - name: USHazmatClass4
+    description: Flammable solids
+    types:
+    - uid: string
+  - name: USHazmatClass5
+    description: Oxidizers
+    types:
+    - uid: string
+  - name: USHazmatClass6
+    description: Poisons
+    types:
+    - uid: string
+  - name: USHazmatClass7
+    description: Radioactive
+    types:
+    - uid: string
+  - name: USHazmatClass8
+    description: Corrosives
+    types:
+    - uid: string
+  - name: USHazmatClass9
+    description: Miscellaneous
+    types:
+    - uid: string
+  - name: otherHazmatExplosive
+    description: Explosives
+    types:
+    - uid: string
+  - name: otherHazmatGeneral
+    description: Miscellaneous
+    types:
+    - uid: string
+  - name: otherHazmatHarmfulToWater
+    description: Harmful to water
+    types:
+    - uid: string
+- name: GeoJSONMultiPoint
+  description: A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `type` for the geometry. Value should always be equal to "MultiPoint".
+    types:
+    - uid: string
+  - name: coordinates
+    description: Coordinates for the `MultiPoint` geometry.
+    types:
+    - uid: array
+      isArray: true
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: RouteMatrixRequestBody
+  description: An object with a matrix of coordinates.
+  kind: object
+  properties:
+  - name: origins
+    description: A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details.
+    types:
+    - uid: GeoJSONMultiPoint
+  - name: destinations
+    description: A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details.
+    types:
+    - uid: GeoJSONMultiPoint
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+examples:
+- name: DistanceMatrix
+  request:
+    uri: POST https://atlas.microsoft.com/route/matrix/json?subscription-key=[subscription-key]&api-version=1.0&routeType=shortest
+    body: >-
+      {
+        "origins": {
+          "type": "MultiPoint",
+          "coordinates": [
+            [
+              4.85106,
+              52.36006
+            ],
+            [
+              4.85056,
+              52.36187
+            ]
+          ]
+        },
+        "destinations": {
+          "type": "MultiPoint",
+          "coordinates": [
+            [
+              4.85003,
+              52.36241
+            ],
+            [
+              13.42937,
+              52.50931
+            ]
+          ]
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: New URL to check the status of the long running request.
+    body: '{}'
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: subscription-key
+  type: apiKey
+  in: query

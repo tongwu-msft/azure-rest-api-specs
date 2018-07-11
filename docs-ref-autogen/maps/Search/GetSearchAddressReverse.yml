@@ -11,7 +11,7 @@ produces:
 - application/xml
 paths:
 - content: GET https://atlas.microsoft.com/search/address/reverse/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/search/address/reverse/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&returnSpeedLimit={returnSpeedLimit}&heading={heading}&radius={radius}&number={number}&returnRoadUse={returnRoadUse}&roadUse={roadUse}
+- content: GET https://atlas.microsoft.com/search/address/reverse/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&language={language}&returnSpeedLimit={returnSpeedLimit}&heading={heading}&radius={radius}&number={number}&returnRoadUse={returnRoadUse}&roadUse={roadUse}&allowFreeformNewline={allowFreeformNewline}&dateTime={dateTime}&returnMatchType={returnMatchType}
   isOptional: true
 uriParameters:
 - name: format
@@ -19,7 +19,7 @@ uriParameters:
   isRequired: true
   description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
-  - uid: string
+  - uid: TextFormat
 - name: subscription-key
   in: query
   isRequired: true
@@ -36,6 +36,15 @@ uriParameters:
   in: query
   isRequired: true
   description: The applicable query specified as a comma separated string composed by latitude followed by longitude e.g. "47.641268, -122.125679".
+  types:
+  - uid: string
+- name: language
+  in: query
+  description: >-
+    Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used.
+
+
+    Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages) for details.
   types:
   - uid: string
 - name: returnSpeedLimit
@@ -68,11 +77,41 @@ uriParameters:
   description: To restrict reversegeocodes to a certain type of roaduse. The road use array for reversegeocodes can be one or more of LimitedAccess, Arterial, Terminal, Ramp, Rotary, LocalStreet
   types:
   - uid: string
+- name: allowFreeformNewline
+  in: query
+  description: >-
+    Format of newlines in the formatted address.
+
+
+    If true, the address will contain newlines.
+
+    If false, newlines will be converted to commas.
+  types:
+  - uid: boolean
+- name: dateTime
+  in: query
+  description: >-
+    The date and time to return time zone information for. It allows  the service to decide whether Daylight Saving Time time zone should  be used or not. It must conform to  [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt).
+
+
+    Examples:
+
+    * 2017-12-19T16:39:57
+
+    * 2017-12-19T16:39:57-08:00
+  types:
+  - uid: string
+  format: date-time
+- name: returnMatchType
+  in: query
+  description: Include information on the type of match the geocoder achieved in the response.
+  types:
+  - uid: boolean
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SearchAddressReverseResult
+  - uid: SearchAddressReverseResponse
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -95,7 +134,19 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: SearchAddressReverseResult
+- name: TextFormat
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+  - name: xml
+    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
+    types:
+    - uid: string
+- name: SearchAddressReverseResponse
   description: This object is returned from a successful Search Address Reverse call
   kind: object
   properties:
@@ -108,7 +159,7 @@ definitions:
     isReadyOnly: true
     description: Addresses array
     types:
-    - uid: AddressResult
+    - uid: SearchAddressReverseResult
       isArray: true
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
@@ -157,16 +208,16 @@ definitions:
     description: FuzzyLevel property
     types:
     - uid: integer
-- name: AddressResult
+- name: SearchAddressReverseResult
   kind: object
   properties:
   - name: address
     description: The address of the result
     types:
-    - uid: Address
+    - uid: SearchResultAddress
   - name: position
     isReadyOnly: true
-    description: Position property
+    description: Position property in the form of "{latitude},{longitude}"
     types:
     - uid: string
 - name: Error
@@ -183,7 +234,7 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
-- name: Address
+- name: SearchResultAddress
   description: The address of the result
   kind: object
   properties:
@@ -283,24 +334,6 @@ definitions:
     description: Country Subdividion Name property
     types:
     - uid: string
-  - name: boundingBox
-    description: Bounding Box for the address
-    types:
-    - uid: BoundingBox
-- name: BoundingBox
-  description: Bounding Box for the address
-  kind: object
-  properties:
-  - name: northEast
-    isReadyOnly: true
-    description: The North East coordinates for the Bounding Box
-    types:
-    - uid: string
-  - name: southWest
-    isReadyOnly: true
-    description: The South West coordinates for the Bounding Box
-    types:
-    - uid: string
 examples:
 - name: GetSearchAddressReverse
   request:
@@ -330,12 +363,7 @@ examples:
               "country": "United States of America",
               "countryCodeISO3": "USA",
               "freeformAddress": "31 N 2nd St, San Jose CA 95113",
-              "extendedPostalCode": "951131217",
-              "boundingBox": {
-                "northEast": "37.341590,-121.884160",
-                "southWest": "37.332590,-121.895480",
-                "entity": "position"
-              }
+              "extendedPostalCode": "951131217"
             },
             "position": "37.337090,-121.889820"
           }

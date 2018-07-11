@@ -1,27 +1,30 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.render.getcopyrightcaption
-name: Get Copyright Caption
+uid: atlas.microsoft.com.maps.route.getroutematrixpreview
+name: Get Route Matrix Preview
 service: Maps
-groupName: Render
+groupName: Route
 apiVersion: "1.0"
 summary: >-
-  Copyrights API is designed to serve copyright information for Render Tile  service. In addition to basic copyright for the whole map, API is serving  specific groups of copyrights for some countries.
+  This service allows users to query for the results of the asynchronous [matrix POST request](./postroutematrixpreview).
 
 
-  As an alternative to copyrights for map request, one can receive captions  for displaying the map provider information on the map.
+  If the request has not been completed, this call returns a 202 response with the location header identical to the current call. It should be tried again.
+
+
+  The response for the known requestId can be queried for 14 days.
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/map/copyright/caption/{format}?subscription-key={subscription-key}&api-version=1.0
+- content: GET https://atlas.microsoft.com/route/matrix/{format}?subscription-key={subscription-key}&api-version=1.0&matrixRequestId={matrixRequestId}
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Value can be either _json_ or _xml_.
+  description: Desired format of the response. Only `JSON` format is supported.
   types:
-  - uid: TextFormat
+  - uid: string
 - name: subscription-key
   in: query
   isRequired: true
@@ -34,11 +37,15 @@ uriParameters:
   description: Version number of Azure Maps API. Current version is 1.0
   types:
   - uid: string
-responses:
-- name: 200 OK
-  description: OK
+- name: matrixRequestId
+  in: query
+  isRequired: true
+  description: Matrix request Id returned from the asynchronous call. The Location header of the 202 response from the POST has this as one of the query parameters.
   types:
-  - uid: CopyrightCaptionResult
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: 'Request Accepted: The request has been accepted for processing. Please use the URL in the Location Header to retry or access the results.'
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -61,32 +68,6 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: TextFormat
-  description: Desired format of the response. Value can be either _json_ or _xml_.
-  kind: enum
-  properties:
-  - name: json
-    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
-    types:
-    - uid: string
-  - name: xml
-    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
-    types:
-    - uid: string
-- name: CopyrightCaptionResult
-  description: This object is returned from a successful Copyright Caption call
-  kind: object
-  properties:
-  - name: formatVersion
-    isReadyOnly: true
-    description: Format Version property
-    types:
-    - uid: string
-  - name: copyrightsCaption
-    isReadyOnly: true
-    description: Copyrights Caption property
-    types:
-    - uid: string
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
   kind: object
@@ -110,16 +91,15 @@ definitions:
     types:
     - uid: string
 examples:
-- name: GetCopyrightCaption
+- name: DistanceMatrix
   request:
-    uri: GET https://atlas.microsoft.com/map/copyright/caption/json?subscription-key=[subscription-key]&api-version=1.0
+    uri: GET https://atlas.microsoft.com/route/matrix/json?subscription-key=[subscription-key]&api-version=1.0&matrixRequestId=[matrixRequestId]
   responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "formatVersion": "0.0.1",
-        "copyrightsCaption": "© 1992 - 2017 TomTom."
-      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: New URL to check the status of the long running request.
+    body: '{}'
   - statusCode: "400"
     body: >-
       {
