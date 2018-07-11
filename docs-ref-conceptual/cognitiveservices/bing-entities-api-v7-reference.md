@@ -16,7 +16,8 @@ ms.author: scottwhi
 # Bing Entity Search API v7 reference
 
 The Entity Search API lets you send a search query to Bing and get back search results that include entities and places. Place results include restaurants, hotel, or other local businesses. For places, the query can specify the name of the local business or it can ask for a list (for example, restaurants near me). Entity results include persons, places, or things. Place in this context is tourist attractions, states, countries, etc.  
-
+> [!NOTE]
+> Entity responses support multiple markets, but the Places response supports only US Business locations. 
 
 This section provides technical details about the response objects, and the query parameters and headers that affect the search results. For examples that show how to make requests, see [Search the web for entities and places](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/search-the-web). 
   
@@ -236,7 +237,9 @@ Note that a publisher may provide their name or their website or both.
   
 
 ### Place  
-Defines information about a local entity, such as a restaurant or hotel.  
+Defines information about a local entity, such as a restaurant or hotel.
+> [!NOTE]
+> Entity responses support multiple markets, but the Places response supports only US Business locations. 
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
@@ -405,6 +408,8 @@ The following are unrelated entity hints.
 
 ## Market codes 
 The following table lists the market code values that you may use to specify the `mkt` query parameter. Bing returns content for only these markets. The list is subject to change. 
+> [!NOTE]
+> Entity responses support multiple markets, but the Places response supports only US Business locations. 
   
 |Country/Region|Language|Market code|  
 |---------------------|--------------|-----------------|   
