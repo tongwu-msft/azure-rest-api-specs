@@ -7463,7 +7463,7 @@
 ### [List All](virtualnetwork/VirtualNetworks/ListAll.yml)
 ### [List Usage](virtualnetwork/VirtualNetworks/ListUsage.yml)
 ### [Update Tags](virtualnetwork/VirtualNetworks/UpdateTags.yml)
-# [VirtualWAN](../docs-ref-conceptual/virtualwan/index.md)
+# [Virtual WAN](../docs-ref-conceptual/virtualwan/index.md)
 ## [Hub Virtual Network Connections](virtualwan/HubVirtualNetworkConnections.yml)
 ### [Get](virtualwan/HubVirtualNetworkConnections/Get.yml)
 ### [List](virtualwan/HubVirtualNetworkConnections/List.yml)
