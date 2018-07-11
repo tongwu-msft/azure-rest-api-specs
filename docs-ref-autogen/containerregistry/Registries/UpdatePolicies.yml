@@ -1,0 +1,145 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerregistry.registries.updatepolicies
+name: Update Policies
+service: Container Registry
+groupName: Registries
+apiVersion: 2017-10-01
+summary: Updates the policies for the specified container registry.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/updatePolicies?api-version=2017-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: registryName
+  in: path
+  isRequired: true
+  description: The name of the container registry.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: RegistryPolicies
+- name: 202 Accepted
+  description: The request was successful; the operation will complete asynchronously.
+requestBody:
+- name: default
+  parameters:
+  - name: quarantinePolicy
+    in: body
+    description: An object that represents quarantine policy for a container registry.
+    types:
+    - uid: QuarantinePolicy
+  - name: trustPolicy
+    in: body
+    description: An object that represents content trust policy for a container registry.
+    types:
+    - uid: TrustPolicy
+requestHeader: []
+definitions:
+- name: QuarantinePolicy
+  description: An object that represents quarantine policy for a container registry.
+  kind: object
+  properties:
+  - name: status
+    description: The value that indicates whether the policy is enabled or not.
+    types:
+    - uid: PolicyStatus
+- name: TrustPolicy
+  description: An object that represents content trust policy for a container registry.
+  kind: object
+  properties:
+  - name: type
+    description: The type of trust policy.
+    types:
+    - uid: TrustPolicyType
+  - name: status
+    description: The value that indicates whether the policy is enabled or not.
+    types:
+    - uid: PolicyStatus
+- name: RegistryPolicies
+  description: An object that represents policies for a container registry.
+  kind: object
+  properties:
+  - name: quarantinePolicy
+    description: An object that represents quarantine policy for a container registry.
+    types:
+    - uid: QuarantinePolicy
+  - name: trustPolicy
+    description: An object that represents content trust policy for a container registry.
+    types:
+    - uid: TrustPolicy
+- name: PolicyStatus
+  description: The value that indicates whether the policy is enabled or not.
+  kind: enum
+  properties:
+  - name: enabled
+    types:
+    - uid: string
+  - name: disabled
+    types:
+    - uid: string
+- name: TrustPolicyType
+  description: The type of trust policy.
+  kind: enum
+  properties:
+  - name: Notary
+    types:
+    - uid: string
+examples:
+- name: RegistryUpdatePolicies
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/updatePolicies?api-version=2017-10-01
+    body: >-
+      {
+        "quarantinePolicy": {
+          "status": "disabled"
+        },
+        "trustPolicy": {
+          "status": "enabled",
+          "type": "Notary"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "quarantinePolicy": {
+          "status": "disabled"
+        },
+        "trustPolicy": {
+          "status": "enabled",
+          "type": "Notary"
+        }
+      }
+  - statusCode: "202"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,133 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securitycenter.workspacesettings.update
+name: Update
+service: Security Center
+groupName: Workspace Settings
+apiVersion: 2017-08-01-preview
+summary: Settings about where we should store your security data and logs
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}?api-version=2017-08-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: workspaceSettingName
+  in: path
+  isRequired: true
+  description: Name of the security setting
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: WorkspaceSetting
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.workspaceId
+    in: body
+    isRequired: true
+    description: The full Azure ID of the workspace to save the data in
+    types:
+    - uid: string
+  - name: properties.scope
+    in: body
+    isRequired: true
+    description: All the VMs in this scope will send their security data to the mentioned workspace unless overridden by a setting with more specific scope
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: WorkspaceSetting
+  description: Configures where to store the OMS agent data for workspaces under a scope
+  kind: object
+  properties:
+  - name: properties.workspaceId
+    description: The full Azure ID of the workspace to save the data in
+    types:
+    - uid: string
+  - name: properties.scope
+    description: All the VMs in this scope will send their security data to the mentioned workspace unless overridden by a setting with more specific scope
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+examples:
+- name: Update a workspace setting data for subscription
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/workspaceSettings/default?api-version=2017-08-01-preview
+    body: >-
+      {
+        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/workspaceSettings/default",
+        "name": "default",
+        "type": "Microsoft.Security/workspaceSettings",
+        "properties": {
+          "workspaceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/workspaceSettings/default",
+        "name": "default",
+        "type": "Microsoft.Security/workspaceSettings",
+        "properties": {
+          "workspaceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace",
+          "scope": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,134 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securitycenter.pricings.updatesubscriptionpricing
+name: Update Subscription Pricing
+service: Security Center
+groupName: Pricings
+apiVersion: 2017-08-01-preview
+summary: Security pricing configuration in the subscription
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings/{pricingName}?api-version=2017-08-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: pricingName
+  in: path
+  isRequired: true
+  description: name of the pricing configuration
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Pricing
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.pricingTier
+    in: body
+    isRequired: true
+    description: Pricing tier type
+    types:
+    - uid: pricingTier
+requestHeader: []
+definitions:
+- name: Pricing
+  description: Pricing tier will be applied for the scope based on the resource ID
+  kind: object
+  properties:
+  - name: properties.pricingTier
+    description: Pricing tier type
+    types:
+    - uid: pricingTier
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: pricingTier
+  description: Pricing tier type
+  kind: enum
+  properties:
+  - name: Free
+    description: Get free Azure security center experience with basic security features
+    types:
+    - uid: string
+  - name: Standard
+    description: Get the standard Azure security center experience with advanced security features
+    types:
+    - uid: string
+examples:
+- name: Update pricings on subscription
+  request:
+    uri: PUT https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/default?api-version=2017-08-01-preview
+    body: >-
+      {
+        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/default",
+        "name": "default",
+        "type": "Microsoft.Security/pricings",
+        "properties": {
+          "pricingTier": "Standard"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/default",
+        "name": "default",
+        "type": "Microsoft.Security/pricings",
+        "properties": {
+          "pricingTier": "Standard"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,783 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.migrate.assessments.create
+name: Create
+service: Migrate
+groupName: Assessments
+apiVersion: 2018-02-02
+summary: "Create or Update assessment.  \nCreate a new assessment with the given name and the specified settings. Since name of an assessment in a project is a unique identiefier, if an assessment with the name provided already exists, then the existing assessment is updated.\n\nAny PUT operation, resulting in either create or update on an assessment, will cause the assessment to go in a \"InProgress\" state. This will be indicated by the field 'computationState' on the Assessment object. During this time no other PUT operation will be allowed on that assessment object, nor will a Delete operation. Once the computation for the assessment is complete, the field 'computationState' will be updated to 'Ready', and then other PUT or DELETE operations can happen on the assessment.\n\nWhen assessment is under computation, any PUT will lead to a 400 - Bad Request error."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}?api-version=2018-02-02
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription Id in which project was created.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Azure Resource Group that project is part of.
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: Name of the Azure Migrate project.
+  types:
+  - uid: string
+- name: groupName
+  in: path
+  isRequired: true
+  description: Unique name of a group within a project.
+  types:
+  - uid: string
+- name: assessmentName
+  in: path
+  isRequired: true
+  description: Unique name of an assessment within a project.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Standard request header. Used by service to identify API version used by client.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: OK. Existing assessment updated.
+  types:
+  - uid: Assessment
+- name: 201 Created
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: Created. New assessment was created.
+  types:
+  - uid: Assessment
+- name: 400 Bad Request
+  description: Bad Request. Assessment is under computation and cannot be updated yet.
+- name: 401 Unauthorized
+  description: Not authorized (No access to subscription, resource group, or project).
+- name: 500 Internal Server Error
+  description: Internal Server Error.
+- name: Other Status Codes
+  description: Service Unavailable.
+requestBody:
+- name: default
+  parameters:
+  - name: eTag
+    in: body
+    description: For optimistic concurrency control.
+    types:
+    - uid: string
+  - name: properties.azureLocation
+    in: body
+    isRequired: true
+    description: Target Azure location for which the machines should be assessed. These enums are the same as used by Compute API.
+    types:
+    - uid: AzureLocation
+  - name: properties.azureOfferCode
+    in: body
+    isRequired: true
+    description: Offer code according to which cost estimation is done.
+    types:
+    - uid: AzureOfferCode
+  - name: properties.azurePricingTier
+    in: body
+    isRequired: true
+    description: Pricing tier for Size evaluation.
+    types:
+    - uid: AzurePricingTier
+  - name: properties.azureStorageRedundancy
+    in: body
+    isRequired: true
+    description: Storage Redundancy type offered by Azure.
+    types:
+    - uid: AzureStorageRedundancy
+  - name: properties.scalingFactor
+    in: body
+    isRequired: true
+    description: Scaling factor used over utilization data to add a performance buffer for new machines to be created in Azure. Min Value = 1.0, Max value = 1.9, Default = 1.3.
+    types:
+    - uid: number
+  - name: properties.percentile
+    in: body
+    isRequired: true
+    description: Percentile of performance data used to recommend Azure size.
+    types:
+    - uid: Percentile
+  - name: properties.timeRange
+    in: body
+    isRequired: true
+    description: Time range of performance data used to recommend a size.
+    types:
+    - uid: TimeRange
+  - name: properties.stage
+    in: body
+    isRequired: true
+    description: User configurable setting that describes the status of the assessment.
+    types:
+    - uid: AssessmentStage
+  - name: properties.currency
+    in: body
+    isRequired: true
+    description: Currency to report prices in.
+    types:
+    - uid: Currency
+  - name: properties.azureHybridUseBenefit
+    in: body
+    isRequired: true
+    description: AHUB discount on windows virtual machines.
+    types:
+    - uid: AzureHybridUseBenefit
+  - name: properties.discountPercentage
+    in: body
+    isRequired: true
+    description: Custom discount percentage to be applied on final costs. Can be in the range [0, 100].
+    types:
+    - uid: number
+  - name: properties.sizingCriterion
+    in: body
+    isRequired: true
+    description: Assessment sizing criterion.
+    types:
+    - uid: AssessmentSizingCriterion
+requestHeader:
+- name: Accept-Language
+  in: header
+  description: Standard request header. Used by service to respond to client in appropriate language.
+  types:
+  - uid: string
+definitions:
+- name: Assessment
+  description: An assessment created for a group in the Migration project.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Path reference to this assessment. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessment/{assessmentName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Unique name of an assessment.
+    types:
+    - uid: string
+  - name: eTag
+    description: For optimistic concurrency control.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the object = [Microsoft.Migrate/projects/groups/assessments].
+    types:
+    - uid: string
+  - name: properties.azureLocation
+    description: Target Azure location for which the machines should be assessed. These enums are the same as used by Compute API.
+    types:
+    - uid: AzureLocation
+  - name: properties.azureOfferCode
+    description: Offer code according to which cost estimation is done.
+    types:
+    - uid: AzureOfferCode
+  - name: properties.azurePricingTier
+    description: Pricing tier for Size evaluation.
+    types:
+    - uid: AzurePricingTier
+  - name: properties.azureStorageRedundancy
+    description: Storage Redundancy type offered by Azure.
+    types:
+    - uid: AzureStorageRedundancy
+  - name: properties.scalingFactor
+    description: Scaling factor used over utilization data to add a performance buffer for new machines to be created in Azure. Min Value = 1.0, Max value = 1.9, Default = 1.3.
+    types:
+    - uid: number
+  - name: properties.percentile
+    description: Percentile of performance data used to recommend Azure size.
+    types:
+    - uid: Percentile
+  - name: properties.timeRange
+    description: Time range of performance data used to recommend a size.
+    types:
+    - uid: TimeRange
+  - name: properties.stage
+    description: User configurable setting that describes the status of the assessment.
+    types:
+    - uid: AssessmentStage
+  - name: properties.currency
+    description: Currency to report prices in.
+    types:
+    - uid: Currency
+  - name: properties.azureHybridUseBenefit
+    description: AHUB discount on windows virtual machines.
+    types:
+    - uid: AzureHybridUseBenefit
+  - name: properties.discountPercentage
+    description: Custom discount percentage to be applied on final costs. Can be in the range [0, 100].
+    types:
+    - uid: number
+  - name: properties.confidenceRatingInPercentage
+    isReadyOnly: true
+    description: Confidence rating percentage for assessment. Can be in the range [0, 100].
+    types:
+    - uid: number
+  - name: properties.sizingCriterion
+    description: Assessment sizing criterion.
+    types:
+    - uid: AssessmentSizingCriterion
+  - name: properties.pricesTimestamp
+    isReadyOnly: true
+    description: Time when the Azure Prices were queried. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: properties.createdTimestamp
+    isReadyOnly: true
+    description: Time when this project was created. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: properties.updatedTimestamp
+    isReadyOnly: true
+    description: Time when this project was last updated. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: properties.monthlyComputeCost
+    isReadyOnly: true
+    description: Monthly compute cost estimate for the machines that are part of this assessment as a group, for a 31-day month.
+    types:
+    - uid: number
+  - name: properties.monthlyBandwidthCost
+    isReadyOnly: true
+    description: Monthly network cost estimate for the machines that are part of this assessment as a group, for a 31-day month.
+    types:
+    - uid: number
+  - name: properties.monthlyStorageCost
+    isReadyOnly: true
+    description: Monthly storage cost estimate for the machines that are part of this assessment as a group, for a 31-day month.
+    types:
+    - uid: number
+  - name: properties.status
+    isReadyOnly: true
+    description: Wheter the assessment has been created and is valid.
+    types:
+    - uid: AssessmentStatus
+  - name: properties.numberOfMachines
+    isReadyOnly: true
+    description: Number of assessed machines part of this assessment.
+    types:
+    - uid: integer
+- name: AzureLocation
+  description: Target Azure location for which the machines should be assessed. These enums are the same as used by Compute API.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: EastAsia
+    types:
+    - uid: string
+  - name: SoutheastAsia
+    types:
+    - uid: string
+  - name: AustraliaEast
+    types:
+    - uid: string
+  - name: AustraliaSoutheast
+    types:
+    - uid: string
+  - name: BrazilSouth
+    types:
+    - uid: string
+  - name: CanadaCentral
+    types:
+    - uid: string
+  - name: CanadaEast
+    types:
+    - uid: string
+  - name: WestEurope
+    types:
+    - uid: string
+  - name: NorthEurope
+    types:
+    - uid: string
+  - name: CentralIndia
+    types:
+    - uid: string
+  - name: SouthIndia
+    types:
+    - uid: string
+  - name: WestIndia
+    types:
+    - uid: string
+  - name: JapanEast
+    types:
+    - uid: string
+  - name: JapanWest
+    types:
+    - uid: string
+  - name: KoreaCentral
+    types:
+    - uid: string
+  - name: KoreaSouth
+    types:
+    - uid: string
+  - name: UkWest
+    types:
+    - uid: string
+  - name: UkSouth
+    types:
+    - uid: string
+  - name: NorthCentralUs
+    types:
+    - uid: string
+  - name: EastUs
+    types:
+    - uid: string
+  - name: WestUs2
+    types:
+    - uid: string
+  - name: SouthCentralUs
+    types:
+    - uid: string
+  - name: CentralUs
+    types:
+    - uid: string
+  - name: EastUs2
+    types:
+    - uid: string
+  - name: WestUs
+    types:
+    - uid: string
+  - name: WestCentralUs
+    types:
+    - uid: string
+  - name: GermanyCentral
+    types:
+    - uid: string
+  - name: GermanyNortheast
+    types:
+    - uid: string
+  - name: ChinaNorth
+    types:
+    - uid: string
+  - name: ChinaEast
+    types:
+    - uid: string
+- name: AzureOfferCode
+  description: Offer code according to which cost estimation is done.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: MSAZR0003P
+    types:
+    - uid: string
+  - name: MSAZR0044P
+    types:
+    - uid: string
+  - name: MSAZR0059P
+    types:
+    - uid: string
+  - name: MSAZR0060P
+    types:
+    - uid: string
+  - name: MSAZR0062P
+    types:
+    - uid: string
+  - name: MSAZR0063P
+    types:
+    - uid: string
+  - name: MSAZR0064P
+    types:
+    - uid: string
+  - name: MSAZR0029P
+    types:
+    - uid: string
+  - name: MSAZR0022P
+    types:
+    - uid: string
+  - name: MSAZR0023P
+    types:
+    - uid: string
+  - name: MSAZR0148P
+    types:
+    - uid: string
+  - name: MSAZR0025P
+    types:
+    - uid: string
+  - name: MSAZR0036P
+    types:
+    - uid: string
+  - name: MSAZR0120P
+    types:
+    - uid: string
+  - name: MSAZR0121P
+    types:
+    - uid: string
+  - name: MSAZR0122P
+    types:
+    - uid: string
+  - name: MSAZR0123P
+    types:
+    - uid: string
+  - name: MSAZR0124P
+    types:
+    - uid: string
+  - name: MSAZR0125P
+    types:
+    - uid: string
+  - name: MSAZR0126P
+    types:
+    - uid: string
+  - name: MSAZR0127P
+    types:
+    - uid: string
+  - name: MSAZR0128P
+    types:
+    - uid: string
+  - name: MSAZR0129P
+    types:
+    - uid: string
+  - name: MSAZR0130P
+    types:
+    - uid: string
+  - name: MSAZR0111P
+    types:
+    - uid: string
+  - name: MSAZR0144P
+    types:
+    - uid: string
+  - name: MSAZR0149P
+    types:
+    - uid: string
+  - name: MSMCAZR0044P
+    types:
+    - uid: string
+  - name: MSMCAZR0059P
+    types:
+    - uid: string
+  - name: MSMCAZR0060P
+    types:
+    - uid: string
+  - name: MSMCAZR0063P
+    types:
+    - uid: string
+  - name: MSMCAZR0120P
+    types:
+    - uid: string
+  - name: MSMCAZR0121P
+    types:
+    - uid: string
+  - name: MSMCAZR0125P
+    types:
+    - uid: string
+  - name: MSMCAZR0128P
+    types:
+    - uid: string
+  - name: MSAZRDE0003P
+    types:
+    - uid: string
+  - name: MSAZRDE0044P
+    types:
+    - uid: string
+- name: AzurePricingTier
+  description: Pricing tier for Size evaluation.
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+- name: AzureStorageRedundancy
+  description: Storage Redundancy type offered by Azure.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: LocallyRedundant
+    types:
+    - uid: string
+  - name: ZoneRedundant
+    types:
+    - uid: string
+  - name: GeoRedundant
+    types:
+    - uid: string
+  - name: ReadAccessGeoRedundant
+    types:
+    - uid: string
+- name: Percentile
+  description: Percentile of performance data used to recommend Azure size.
+  kind: enum
+  properties:
+  - name: Percentile50
+    types:
+    - uid: string
+  - name: Percentile90
+    types:
+    - uid: string
+  - name: Percentile95
+    types:
+    - uid: string
+  - name: Percentile99
+    types:
+    - uid: string
+- name: TimeRange
+  description: Time range of performance data used to recommend a size.
+  kind: enum
+  properties:
+  - name: Day
+    types:
+    - uid: string
+  - name: Week
+    types:
+    - uid: string
+  - name: Month
+    types:
+    - uid: string
+- name: AssessmentStage
+  description: User configurable setting that describes the status of the assessment.
+  kind: enum
+  properties:
+  - name: InProgress
+    types:
+    - uid: string
+  - name: UnderReview
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+- name: Currency
+  description: Currency to report prices in.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: USD
+    types:
+    - uid: string
+  - name: DKK
+    types:
+    - uid: string
+  - name: CAD
+    types:
+    - uid: string
+  - name: IDR
+    types:
+    - uid: string
+  - name: JPY
+    types:
+    - uid: string
+  - name: KRW
+    types:
+    - uid: string
+  - name: NZD
+    types:
+    - uid: string
+  - name: NOK
+    types:
+    - uid: string
+  - name: RUB
+    types:
+    - uid: string
+  - name: SAR
+    types:
+    - uid: string
+  - name: ZAR
+    types:
+    - uid: string
+  - name: SEK
+    types:
+    - uid: string
+  - name: TRY
+    types:
+    - uid: string
+  - name: GBP
+    types:
+    - uid: string
+  - name: MXN
+    types:
+    - uid: string
+  - name: MYR
+    types:
+    - uid: string
+  - name: INR
+    types:
+    - uid: string
+  - name: HKD
+    types:
+    - uid: string
+  - name: BRL
+    types:
+    - uid: string
+  - name: TWD
+    types:
+    - uid: string
+  - name: EUR
+    types:
+    - uid: string
+  - name: CHF
+    types:
+    - uid: string
+  - name: ARS
+    types:
+    - uid: string
+  - name: AUD
+    types:
+    - uid: string
+  - name: CNY
+    types:
+    - uid: string
+- name: AzureHybridUseBenefit
+  description: AHUB discount on windows virtual machines.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Yes
+    types:
+    - uid: string
+  - name: No
+    types:
+    - uid: string
+- name: AssessmentSizingCriterion
+  description: Assessment sizing criterion.
+  kind: enum
+  properties:
+  - name: PerformanceBased
+    types:
+    - uid: string
+  - name: AsOnPremises
+    types:
+    - uid: string
+- name: AssessmentStatus
+  description: Wheter the assessment has been created and is valid.
+  kind: enum
+  properties:
+  - name: Created
+    types:
+    - uid: string
+  - name: Updated
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+  - name: Invalid
+    types:
+    - uid: string
+examples:
+- name: Assessments_Create
+  request:
+    uri: PUT https://management.azure.com/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/groups/group01/assessments/assessment01?api-version=2018-02-02
+    body: >-
+      {
+        "eTag": "\"1100637e-0000-0000-0000-59f6ed1f0000\"",
+        "properties": {
+          "azureLocation": "WestUs",
+          "azureOfferCode": "MSAZR0003P",
+          "azurePricingTier": "Standard",
+          "azureStorageRedundancy": "LocallyRedundant",
+          "scalingFactor": 1.2,
+          "percentile": "Percentile50",
+          "timeRange": "Day",
+          "stage": "InProgress",
+          "currency": "USD",
+          "azureHybridUseBenefit": "Yes",
+          "discountPercentage": 100,
+          "sizingCriterion": "PerformanceBased"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/groups/group01/assessments/assessment01",
+        "name": "assessment01",
+        "eTag": "\"1100637e-0000-0000-0000-59f6ed1f0000\"",
+        "type": "Microsoft.Migrate/projects/groups/assessments",
+        "properties": {
+          "azureLocation": "WestUs",
+          "azureOfferCode": "MSAZR0003P",
+          "azurePricingTier": "Standard",
+          "azureStorageRedundancy": "LocallyRedundant",
+          "scalingFactor": 1.2,
+          "percentile": "Percentile50",
+          "timeRange": "Day",
+          "stage": "InProgress",
+          "currency": "USD",
+          "azureHybridUseBenefit": "Yes",
+          "discountPercentage": 100,
+          "confidenceRatingInPercentage": 93.52,
+          "sizingCriterion": "PerformanceBased",
+          "pricesTimestamp": "2018-02-02T13:25:02.6983504Z",
+          "createdTimestamp": "2018-02-02T13:25:02.6983504Z",
+          "updatedTimestamp": "2018-02-02T13:45:57.0489951Z",
+          "monthlyComputeCost": 0,
+          "monthlyBandwidthCost": 0,
+          "monthlyStorageCost": 0,
+          "status": "Invalid",
+          "numberOfMachines": 4
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/groups/group01/assessments/assessment01",
+        "name": "assessment01",
+        "eTag": "\"1100637e-0000-0000-0000-59f6ed1f0000\"",
+        "type": "Microsoft.Migrate/projects/groups/assessments",
+        "properties": {
+          "azureLocation": "WestUs",
+          "azureOfferCode": "MSAZR0003P",
+          "azurePricingTier": "Standard",
+          "azureStorageRedundancy": "LocallyRedundant",
+          "scalingFactor": 1.2,
+          "percentile": "Percentile50",
+          "timeRange": "Day",
+          "stage": "InProgress",
+          "currency": "USD",
+          "azureHybridUseBenefit": "Yes",
+          "discountPercentage": 100,
+          "confidenceRatingInPercentage": 93.52,
+          "sizingCriterion": "PerformanceBased",
+          "pricesTimestamp": "2018-02-02T13:25:02.6983504Z",
+          "createdTimestamp": "2018-02-02T13:25:02.6983504Z",
+          "updatedTimestamp": "2018-02-02T13:45:57.0489951Z",
+          "monthlyComputeCost": 0,
+          "monthlyBandwidthCost": 0,
+          "monthlyStorageCost": 0,
+          "status": "Invalid",
+          "numberOfMachines": 4
+        }
+      }
+  - statusCode: "401"
+  - statusCode: "400"
+  - statusCode: "500"
+  - statusCode: "503"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

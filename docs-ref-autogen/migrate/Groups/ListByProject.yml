@@ -1,0 +1,171 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.migrate.groups.listbyproject
+name: List By Project
+service: Migrate
+groupName: Groups
+apiVersion: 2018-02-02
+summary: "Get all groups  \nGet all groups created in the project. Returns a json array of objects of type 'group' as specified in the Models section."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups?api-version=2018-02-02
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription Id in which project was created.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Azure Resource Group that project is part of.
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: Name of the Azure Migrate project.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Standard request header. Used by service to identify API version used by client.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: OK. Returns list of groups.
+  types:
+  - uid: GroupResultList
+- name: 401 Unauthorized
+  description: Not authorized (No access to subscription, resource group, or project).
+- name: 404 Not Found
+  description: Not found (Invalid subscriptionId, resourceGroupName, projectName).
+- name: 500 Internal Server Error
+  description: Internal Server Error.
+- name: Other Status Codes
+  description: Service Unavailable.
+requestHeader:
+- name: Accept-Language
+  in: header
+  description: Standard request header. Used by service to respond to client in appropriate language.
+  types:
+  - uid: string
+definitions:
+- name: GroupResultList
+  description: List of groups.
+  kind: object
+  properties:
+  - name: value
+    description: List of groups.
+    types:
+    - uid: Group
+      isArray: true
+- name: Group
+  description: A group created in a Migration project.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Path reference to this group. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the group.
+    types:
+    - uid: string
+  - name: eTag
+    description: For optimistic concurrency control.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the object = [Microsoft.Migrate/projects/groups].
+    types:
+    - uid: string
+  - name: properties.machines
+    description: List of machine names that are part of this group.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.assessments
+    isReadyOnly: true
+    description: List of References to Assessments created on this group.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.createdTimestamp
+    isReadyOnly: true
+    description: Time when this project was created. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: properties.updatedTimestamp
+    isReadyOnly: true
+    description: Time when this project was last updated. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+examples:
+- name: Groups_ListByProject
+  request:
+    uri: GET https://management.azure.com/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/groups?api-version=2018-02-02
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/groups/group01",
+            "name": "group01",
+            "eTag": "\"1100637e-0000-0000-0000-59f6ed1f0000\"",
+            "type": "Microsoft.Migrate/projects/groups",
+            "properties": {
+              "machines": [
+                "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/machines/amansing_vm1",
+                "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/machines/amansing_vm2"
+              ],
+              "assessments": [
+                "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/groups/group01/assessments/assessment01",
+                "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/groups/group01/assessments/assessment02"
+              ],
+              "createdTimestamp": "2018-02-02T13:17:23.5437337Z",
+              "updatedTimestamp": "2018-02-02T09:13:02.7580235Z"
+            }
+          },
+          {
+            "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/groups/group02",
+            "name": "group02",
+            "eTag": "\"0000470d-0000-0000-0000-59b90d820000\"",
+            "type": "Microsoft.Migrate/projects/groups",
+            "properties": {
+              "machines": [
+                "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/machines/amansing_vm1"
+              ],
+              "assessments": [
+                "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01/groups/group02/assessments/assessment03"
+              ],
+              "createdTimestamp": "2018-02-02T10:50:43.4356428Z",
+              "updatedTimestamp": "2018-02-02T10:50:43.4356428Z"
+            }
+          }
+        ]
+      }
+  - statusCode: "401"
+  - statusCode: "404"
+  - statusCode: "500"
+  - statusCode: "503"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

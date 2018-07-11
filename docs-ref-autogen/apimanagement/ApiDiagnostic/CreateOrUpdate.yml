@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apidiagnostic.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Api Diagnostic
-apiVersion: 2018-01-01
+apiVersion: 2018-06-01-preview
 summary: Creates a new Diagnostic for an API or updates an existing one.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}?api-version=2018-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}?api-version=2018-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -65,13 +65,34 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
-  - name: properties.enabled
+- name: default
+  parameters:
+  - name: properties.alwaysLog
+    in: body
+    description: Specifies for what type of messages sampling settings should not apply.
+    types:
+    - uid: AlwaysLog
+  - name: properties.loggerId
     in: body
     isRequired: true
-    description: Indicates whether a diagnostic should receive data or not.
+    description: Resource Id of a target logger.
     types:
-    - uid: boolean
+    - uid: string
+  - name: properties.sampling
+    in: body
+    description: Sampling settings for Diagnostic.
+    types:
+    - uid: SamplingSettings
+  - name: properties.frontend
+    in: body
+    description: Diagnostic settings for incoming/outcoming HTTP messages to the Gateway.
+    types:
+    - uid: PipelineDiagnosticSettings
+  - name: properties.backend
+    in: body
+    description: Diagnostic settings for incoming/outcoming HTTP messages to the Backend
+    types:
+    - uid: PipelineDiagnosticSettings
 requestHeader:
 - name: If-Match
   in: header
@@ -79,14 +100,54 @@ requestHeader:
   types:
   - uid: string
 definitions:
+- name: SamplingSettings
+  description: Sampling settings for Diagnostic.
+  kind: object
+  properties:
+  - name: samplingType
+    description: Sampling type.
+    types:
+    - uid: SamplingType
+  - name: percentage
+    description: Rate of sampling for fixed-rate sampling.
+    types:
+    - uid: number
+- name: PipelineDiagnosticSettings
+  description: Diagnostic settings for incoming/outcoming HTTP messages to the Gateway.
+  kind: object
+  properties:
+  - name: request
+    description: Diagnostic settings for request.
+    types:
+    - uid: HttpMessageDiagnostic
+  - name: response
+    description: Diagnostic settings for response.
+    types:
+    - uid: HttpMessageDiagnostic
 - name: DiagnosticContract
   description: Diagnostic details.
   kind: object
   properties:
-  - name: properties.enabled
-    description: Indicates whether a diagnostic should receive data or not.
+  - name: properties.alwaysLog
+    description: Specifies for what type of messages sampling settings should not apply.
     types:
-    - uid: boolean
+    - uid: AlwaysLog
+  - name: properties.loggerId
+    description: Resource Id of a target logger.
+    types:
+    - uid: string
+  - name: properties.sampling
+    description: Sampling settings for Diagnostic.
+    types:
+    - uid: SamplingSettings
+  - name: properties.frontend
+    description: Diagnostic settings for incoming/outcoming HTTP messages to the Gateway.
+    types:
+    - uid: PipelineDiagnosticSettings
+  - name: properties.backend
+    description: Diagnostic settings for incoming/outcoming HTTP messages to the Backend
+    types:
+    - uid: PipelineDiagnosticSettings
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -119,6 +180,35 @@ definitions:
     types:
     - uid: ErrorFieldContract
       isArray: true
+- name: SamplingType
+  description: Sampling type.
+  kind: enum
+  properties:
+  - name: fixed
+    description: Fixed-rate sampling.
+    types:
+    - uid: string
+- name: HttpMessageDiagnostic
+  description: Http message diagnostic settings.
+  kind: object
+  properties:
+  - name: headers
+    description: Array of HTTP Headers to log.
+    types:
+    - uid: string
+      isArray: true
+  - name: body
+    description: Body logging settings.
+    types:
+    - uid: BodyDiagnosticSettings
+- name: AlwaysLog
+  description: Specifies for what type of messages sampling settings should not apply.
+  kind: enum
+  properties:
+  - name: allErrors
+    description: Always log all erroneous request regardless of sampling settings.
+    types:
+    - uid: string
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -135,35 +225,166 @@ definitions:
     description: Property name.
     types:
     - uid: string
+- name: BodyDiagnosticSettings
+  description: Body logging settings.
+  kind: object
+  properties:
+  - name: bytes
+    description: Number of request body bytes to log.
+    types:
+    - uid: integer
 examples:
 - name: ApiManagementCreateApiDiagnostic
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/diagnostics/default?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/diagnostics/applicationinsights?api-version=2018-06-01-preview
     body: >-
       {
         "properties": {
-          "enabled": true
+          "alwaysLog": "allErrors",
+          "loggerId": "/loggers/applicationinsights",
+          "sampling": {
+            "samplingType": "fixed",
+            "percentage": 50
+          },
+          "frontend": {
+            "request": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            },
+            "response": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            }
+          },
+          "backend": {
+            "request": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            },
+            "response": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            }
+          }
         }
       }
   responses:
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/diagnostics/default",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/diagnostics/applicationinsights",
         "type": "Microsoft.ApiManagement/service/apis/diagnostics",
-        "name": "default",
+        "name": "applicationinsights",
         "properties": {
-          "enabled": true
+          "alwaysLog": "allErrors",
+          "loggerId": "/loggers/applicationinsights",
+          "sampling": {
+            "samplingType": "fixed",
+            "percentage": 50
+          },
+          "frontend": {
+            "request": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            },
+            "response": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            }
+          },
+          "backend": {
+            "request": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            },
+            "response": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            }
+          }
         }
       }
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/diagnostics/default",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/diagnostics/applicationinsights",
         "type": "Microsoft.ApiManagement/service/apis/diagnostics",
-        "name": "default",
+        "name": "applicationinsights",
         "properties": {
-          "enabled": true
+          "alwaysLog": "allErrors",
+          "loggerId": "/loggers/applicationinsights",
+          "sampling": {
+            "samplingType": "fixed",
+            "percentage": 50
+          },
+          "frontend": {
+            "request": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            },
+            "response": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            }
+          },
+          "backend": {
+            "request": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            },
+            "response": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            }
+          }
         }
       }
 security:

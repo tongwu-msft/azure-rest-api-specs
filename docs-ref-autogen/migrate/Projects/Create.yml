@@ -1,0 +1,305 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.migrate.projects.create
+name: Create
+service: Migrate
+groupName: Projects
+apiVersion: 2018-02-02
+summary: "Create or update project.  \nCreate a project with specified name. If a project already exists, update it."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}?api-version=2018-02-02
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription Id in which project was created.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Azure Resource Group that project is part of.
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: Name of the Azure Migrate project.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Standard request header. Used by service to identify API version used by client.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: OK. Existing project updated.
+  types:
+  - uid: Project
+- name: 201 Created
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: Created. New project was created.
+  types:
+  - uid: Project
+- name: 400 Bad Request
+  description: Bad Request (Read only settings of an existing project cannot be changed).
+- name: 401 Unauthorized
+  description: Not authorized (No access to subscription, resource group, or project).
+- name: 500 Internal Server Error
+  description: Internal Server Error.
+- name: Other Status Codes
+  description: Service Unavailable.
+requestBody:
+- name: default
+  parameters:
+  - name: eTag
+    in: body
+    description: For optimistic concurrency control.
+    types:
+    - uid: string
+  - name: location
+    in: body
+    description: Azure location in which project is created.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Tags provided by Azure Tagging service.
+    types:
+    - uid: object
+  - name: properties.customerWorkspaceId
+    in: body
+    description: ARM ID of the Service Map workspace created by user.
+    types:
+    - uid: string
+  - name: properties.customerWorkspaceLocation
+    in: body
+    description: Location of the Service Map workspace created by user.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    in: body
+    description: Provisioning state of the project.
+    types:
+    - uid: ProvisioningState
+requestHeader:
+- name: Accept-Language
+  in: header
+  description: Standard request header. Used by service to respond to client in appropriate language.
+  types:
+  - uid: string
+definitions:
+- name: Project
+  description: Azure Migrate Project.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Path reference to this project /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the project.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the object = [Microsoft.Migrate/projects].
+    types:
+    - uid: string
+  - name: eTag
+    description: For optimistic concurrency control.
+    types:
+    - uid: string
+  - name: location
+    description: Azure location in which project is created.
+    types:
+    - uid: string
+  - name: tags
+    description: Tags provided by Azure Tagging service.
+    types:
+    - uid: object
+  - name: properties.createdTimestamp
+    isReadyOnly: true
+    description: Time when this project was created. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: properties.updatedTimestamp
+    isReadyOnly: true
+    description: Time when this project was last updated. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: properties.discoveryStatus
+    isReadyOnly: true
+    description: Reports whether project is under discovery.
+    types:
+    - uid: DiscoveryStatus
+  - name: properties.customerWorkspaceId
+    description: ARM ID of the Service Map workspace created by user.
+    types:
+    - uid: string
+  - name: properties.customerWorkspaceLocation
+    description: Location of the Service Map workspace created by user.
+    types:
+    - uid: string
+  - name: properties.lastDiscoveryTimestamp
+    isReadyOnly: true
+    description: Time when this project was created. Date-Time represented in ISO-8601 format. This value will be null until discovery is complete.
+    types:
+    - uid: string
+  - name: properties.lastDiscoverySessionId
+    isReadyOnly: true
+    description: Session id of the last discovery.
+    types:
+    - uid: string
+  - name: properties.numberOfGroups
+    isReadyOnly: true
+    description: Number of groups created in the project.
+    types:
+    - uid: integer
+  - name: properties.numberOfMachines
+    isReadyOnly: true
+    description: Number of machines in the project.
+    types:
+    - uid: integer
+  - name: properties.numberOfAssessments
+    isReadyOnly: true
+    description: Number of assessments created in the project.
+    types:
+    - uid: integer
+  - name: properties.lastAssessmentTimestamp
+    isReadyOnly: true
+    description: Time when last assessment was created. Date-Time represented in ISO-8601 format. This value will be null until assessment is created.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: Provisioning state of the project.
+    types:
+    - uid: ProvisioningState
+- name: DiscoveryStatus
+  description: Reports whether project is under discovery.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: NotStarted
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Provisioning state of the project.
+  kind: enum
+  properties:
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Moving
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+examples:
+- name: Projects_Create
+  request:
+    uri: PUT https://management.azure.com/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourcegroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01?api-version=2018-02-02
+    body: >-
+      {
+        "properties": {
+          "customerWorkspaceId": "url-to-customers-service-map",
+          "customerWorkspaceLocation": "West Us"
+        },
+        "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01",
+        "name": "project01",
+        "type": "Microsoft.Migrate/projects",
+        "eTag": "\"b701c73a-0000-0000-0000-59c12ff00000\"",
+        "location": "West Us",
+        "tags": {}
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "numberOfGroups": 2,
+          "numberOfMachines": 5,
+          "numberOfAssessments": 5,
+          "createdTimestamp": "2018-02-02T13:11:30.8808917Z",
+          "updatedTimestamp": "2018-02-02T13:11:30.8848966Z",
+          "discoveryStatus": "NotStarted",
+          "customerWorkspaceId": "url-to-customers-service-map",
+          "customerWorkspaceLocation": "West Us",
+          "lastDiscoveryTimestamp": "2018-02-02T13:11:30.8808917Z",
+          "lastDiscoverySessionId": "2c213c69-e2d3-4c3e-b871-83e5f42f3299",
+          "lastAssessmentTimestamp": "2018-02-02T13:11:30.8808917Z",
+          "provisioningState": "Succeeded"
+        },
+        "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01",
+        "name": "project01",
+        "type": "Microsoft.Migrate/projects",
+        "eTag": "\"b701c73a-0000-0000-0000-59c12ff00000\"",
+        "location": "West Us",
+        "tags": {}
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "numberOfGroups": 2,
+          "numberOfMachines": 5,
+          "numberOfAssessments": 5,
+          "createdTimestamp": "2018-02-02T13:11:30.8808917Z",
+          "updatedTimestamp": "2018-02-02T13:11:30.8848966Z",
+          "discoveryStatus": "NotStarted",
+          "customerWorkspaceId": "url-to-customers-service-map",
+          "customerWorkspaceLocation": "West Us",
+          "lastDiscoveryTimestamp": "2018-02-02T13:11:30.8808917Z",
+          "lastDiscoverySessionId": "2c213c69-e2d3-4c3e-b871-83e5f42f3299",
+          "lastAssessmentTimestamp": "2018-02-02T13:11:30.8808917Z",
+          "provisioningState": "Succeeded"
+        },
+        "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01",
+        "name": "project01",
+        "type": "Microsoft.Migrate/projects",
+        "eTag": "\"b701c73a-0000-0000-0000-59c12ff00000\"",
+        "location": "West Us",
+        "tags": {}
+      }
+  - statusCode: "400"
+  - statusCode: "401"
+  - statusCode: "500"
+  - statusCode: "503"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

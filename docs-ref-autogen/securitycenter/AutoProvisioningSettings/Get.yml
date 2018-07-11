@@ -1,0 +1,116 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securitycenter.autoprovisioningsettings.get
+name: Get
+service: Security Center
+groupName: Auto Provisioning Settings
+apiVersion: 2017-08-01-preview
+summary: Details of a specific setting
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/autoProvisioningSettings/{settingName}?api-version=2017-08-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: settingName
+  in: path
+  isRequired: true
+  description: Auto provisioning setting key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: AutoProvisioningSetting
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: AutoProvisioningSetting
+  description: Auto provisioning setting
+  kind: object
+  properties:
+  - name: properties.provisioningSetting
+    description: Describes what kind of security agent provisioning action to take
+    types:
+    - uid: provisioningSetting
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: provisioningSetting
+  description: Describes what kind of security agent provisioning action to take
+  kind: enum
+  properties:
+  - name: Automatic
+    description: Install missing security agent on VMs automatically
+    types:
+    - uid: string
+  - name: Off
+    description: Do not install security agent on the VMs automatically
+    types:
+    - uid: string
+examples:
+- name: Get an auto provisioning setting for subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/autoProvisioningSettings/default?api-version=2017-08-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/autoProvisioningSettings/default",
+        "name": "default",
+        "type": "Microsoft.Security/autoProvisioningSettings",
+        "properties": {
+          "provisioningSetting": "Automatic"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
