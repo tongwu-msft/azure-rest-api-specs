@@ -17,4 +17,4 @@ Azure Firewall is a managed cloud-based network security service that protects y
 
 |Operation Group|Description|
 |---|---|
-|[Azure Firewall](xref:management.azure.com.azure-firewall.azurefirewalls) |Provides operations for managing Azure Firewalls.|
+|[Azure Firewall](xref:management.azure.com.firewall.azurefirewalls) |Provides operations for managing Azure Firewalls.|
