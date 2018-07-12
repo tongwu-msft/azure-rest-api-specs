@@ -1,6 +1,6 @@
 ---
 title: Azure IoT Maps Functional API | Microsoft Docs
-ms.date: 05/07/2018
+ms.date: 07/12/2018
 ms.service: maps
 ms.topic: reference
 ms.devlang: rest-api
