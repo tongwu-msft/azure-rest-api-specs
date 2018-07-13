@@ -10,4 +10,7 @@ ms.author: sethm
 
 # Azure IoT Maps Functional API
 
-Azure Maps (AzMaps) is a portfolio of geospatial services that include service APIs for Maps, Search, Routing, Traffic and Time Zones. The portfolio of Azure Maps services allows you to use familiar developer tools to quickly develop and scale solutions that integrate location information into your Azure solutions. Azure Maps provides developers from all industries powerful geospatial capabilities packed with fresh mapping data imperative to providing geographic context to web and mobile applications. 
+Azure Maps (AzMaps) is a portfolio of geospatial services. The current geospatial services include Maps, Search, Routing, 
+Traffic, and Time Zones. These services allow a developer to use familiar tools to integrate location information into 
+their Azure solutions. Azure Maps provides both web and mobile developers powerful geospatial capabilities supported by 
+fresh mapping data. 
