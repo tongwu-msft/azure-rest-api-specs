@@ -11,7 +11,7 @@ produces:
 - application/xml
 paths:
 - content: GET https://atlas.microsoft.com/search/address/structured/{format}?subscription-key={subscription-key}&api-version=1.0&countryCode={countryCode}
-- content: GET https://atlas.microsoft.com/search/address/structured/{format}?subscription-key={subscription-key}&api-version=1.0&countryCode={countryCode}&limit={limit}&ofs={ofs}&streetNumber={streetNumber}&streetName={streetName}&crossStreet={crossStreet}&municipality={municipality}&municipalitySubdivision={municipalitySubdivision}&countryTertiarySubdivision={countryTertiarySubdivision}&countrySecondarySubdivision={countrySecondarySubdivision}&countrySubdivision={countrySubdivision}&postalCode={postalCode}&extendedPostalCodesFor={extendedPostalCodesFor}
+- content: GET https://atlas.microsoft.com/search/address/structured/{format}?subscription-key={subscription-key}&api-version=1.0&language={language}&countryCode={countryCode}&limit={limit}&ofs={ofs}&streetNumber={streetNumber}&streetName={streetName}&crossStreet={crossStreet}&municipality={municipality}&municipalitySubdivision={municipalitySubdivision}&countryTertiarySubdivision={countryTertiarySubdivision}&countrySecondarySubdivision={countrySecondarySubdivision}&countrySubdivision={countrySubdivision}&postalCode={postalCode}&extendedPostalCodesFor={extendedPostalCodesFor}
   isOptional: true
 uriParameters:
 - name: format
@@ -19,7 +19,7 @@ uriParameters:
   isRequired: true
   description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
-  - uid: string
+  - uid: TextFormat
 - name: subscription-key
   in: query
   isRequired: true
@@ -30,6 +30,15 @@ uriParameters:
   in: query
   isRequired: true
   description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+- name: language
+  in: query
+  description: >-
+    Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used.
+
+
+    Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages) for details.
   types:
   - uid: string
 - name: countryCode
@@ -102,7 +111,7 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SearchAddressStructuredResult
+  - uid: SearchAddressStructuredResponse
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -125,7 +134,19 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: SearchAddressStructuredResult
+- name: TextFormat
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+  - name: xml
+    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
+    types:
+    - uid: string
+- name: SearchAddressStructuredResponse
   description: This object is returned from a successful Search Address Structured call
   kind: object
   properties:
@@ -138,7 +159,7 @@ definitions:
     isReadyOnly: true
     description: Results array
     types:
-    - uid: SearchAddressStructuredResultArray
+    - uid: SearchAddressStructuredResult
       isArray: true
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
@@ -187,7 +208,7 @@ definitions:
     description: FuzzyLevel property
     types:
     - uid: integer
-- name: SearchAddressStructuredResultArray
+- name: SearchAddressStructuredResult
   kind: object
   properties:
   - name: type
@@ -202,35 +223,35 @@ definitions:
     - uid: string
   - name: score
     isReadyOnly: true
-    description: Score property
+    description: The value within a result set to indicate the relative matching score between results.  You can use this to  determine that result x is twice as likely to be as relevant as result y if the value of x is 2x the value of y.   The values vary between queries and is only meant as a relative value for one result set.
     types:
     - uid: number
   - name: dist
     isReadyOnly: true
-    description: Dist property
+    description: Straight line distance between the result and geobias location in meters.
     types:
     - uid: number
   - name: address
     description: The address of the result
     types:
-    - uid: Address
+    - uid: SearchResultAddress
   - name: position
     description: Coordinates of the result
     types:
-    - uid: Position
+    - uid: SearchResultPosition
   - name: viewport
     description: The viewport that covers the result
     types:
-    - uid: Viewport
+    - uid: SearchResultViewport
   - name: entryPoints
     description: Entry Points array
     types:
-    - uid: EntryPoint
+    - uid: SearchResultEntryPoint
       isArray: true
   - name: addressRanges
     description: ''
     types:
-    - uid: AddressRanges
+    - uid: SearchResultAddressRanges
 - name: Error
   description: This object is returned when an error occurs in the Maps API
   kind: object
@@ -245,7 +266,7 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
-- name: Address
+- name: SearchResultAddress
   description: The address of the result
   kind: object
   properties:
@@ -345,11 +366,7 @@ definitions:
     description: Country Subdividion Name property
     types:
     - uid: string
-  - name: boundingBox
-    description: Bounding Box for the address
-    types:
-    - uid: BoundingBox
-- name: Position
+- name: SearchResultPosition
   description: Coordinates of the result
   kind: object
   properties:
@@ -363,7 +380,7 @@ definitions:
     description: Longitude property
     types:
     - uid: number
-- name: Viewport
+- name: SearchResultViewport
   description: The viewport that covers the result
   kind: object
   properties:
@@ -375,7 +392,7 @@ definitions:
     description: Bottom right of the viewport
     types:
     - uid: BtmRightPoint
-- name: EntryPoint
+- name: SearchResultEntryPoint
   description: The entry point for the POI being returned.
   kind: object
   properties:
@@ -391,7 +408,7 @@ definitions:
     description: Name property
     types:
     - uid: Position
-- name: AddressRanges
+- name: SearchResultAddressRanges
   kind: object
   properties:
   - name: rangeLeft
@@ -410,20 +427,6 @@ definitions:
     description: A postion of destination
     types:
     - uid: To
-- name: BoundingBox
-  description: Bounding Box for the address
-  kind: object
-  properties:
-  - name: northEast
-    isReadyOnly: true
-    description: The North East coordinates for the Bounding Box
-    types:
-    - uid: string
-  - name: southWest
-    isReadyOnly: true
-    description: The South West coordinates for the Bounding Box
-    types:
-    - uid: string
 - name: TopLeftPoint
   description: Top left of the viewport
   kind: object
@@ -450,6 +453,20 @@ definitions:
   - name: lon
     isReadyOnly: true
     description: Longitude
+    types:
+    - uid: number
+- name: Position
+  description: Name property
+  kind: object
+  properties:
+  - name: lat
+    isReadyOnly: true
+    description: Latitude property
+    types:
+    - uid: number
+  - name: lon
+    isReadyOnly: true
+    description: Longitude property
     types:
     - uid: number
 - name: From

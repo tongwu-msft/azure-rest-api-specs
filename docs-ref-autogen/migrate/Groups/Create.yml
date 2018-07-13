@@ -57,14 +57,10 @@ responses:
   description: Created. New group was created.
   types:
   - uid: Group
-- name: 400 Bad Request
-  description: Bad Request (Read only settings of an existing group cannot be changed).
-- name: 401 Unauthorized
-  description: Not authorized (No access to subscription, resource group, or project).
-- name: 500 Internal Server Error
-  description: Internal Server Error.
 - name: Other Status Codes
-  description: Service Unavailable.
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -131,6 +127,35 @@ definitions:
     description: Time when this project was last updated. Date-Time represented in ISO-8601 format.
     types:
     - uid: string
+- name: CloudError
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Azure Migrate service.
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 examples:
 - name: Groups_Create
   request:
@@ -189,10 +214,6 @@ examples:
           "updatedTimestamp": "2018-02-02T09:13:02.7580235Z"
         }
       }
-  - statusCode: "401"
-  - statusCode: "400"
-  - statusCode: "500"
-  - statusCode: "503"
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

@@ -1,0 +1,925 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.route.getrouterangepreview
+name: Get Route Range Preview
+service: Maps
+groupName: Route
+apiVersion: "1.0"
+summary: >-
+  __Route Range (Isochrone) API__
+
+
+  This service will calculate a set of locations that can be reached from the origin point based on fuel, energy,  or time budget that is specified. A polygon boundary (or Isochrone) is returned in a counterclockwise  orientation as well as the precise polygon center which was the result of the origin point.
+
+
+  The returned polygon can be used for further processing such as  [Search Inside Geometry](../search/getsearchinsidegeometry) to search for POIs within the provided Isochrone.
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: GET https://atlas.microsoft.com/route/range/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/route/range/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&fuelBudgetInLiters={fuelBudgetInLiters}&energyBudgetInkWh={energyBudgetInkWh}&timeBudgetInSec={timeBudgetInSec}&departAt={departAt}&routeType={routeType}&traffic={traffic}&avoid={avoid}&travelMode={travelMode}&hilliness={hilliness}&windingness={windingness}&vehicleAxleWeight={vehicleAxleWeight}&vehicleWidth={vehicleWidth}&vehicleHeight={vehicleHeight}&vehicleLength={vehicleLength}&vehicleMaxSpeed={vehicleMaxSpeed}&vehicleWeight={vehicleWeight}&vehicleLoadType={vehicleLoadType}&vehicleEngineType={vehicleEngineType}&constantSpeedConsumptionInLitersPerHundredkm={constantSpeedConsumptionInLitersPerHundredkm}&currentFuelInLiters={currentFuelInLiters}&auxiliaryPowerInLitersPerHour={auxiliaryPowerInLitersPerHour}&fuelEnergyDensityInMJoulesPerLiter={fuelEnergyDensityInMJoulesPerLiter}&accelerationEfficiency={accelerationEfficiency}&decelerationEfficiency={decelerationEfficiency}&uphillEfficiency={uphillEfficiency}&downhillEfficiency={downhillEfficiency}&constantSpeedConsumptionInkWhPerHundredkm={constantSpeedConsumptionInkWhPerHundredkm}&currentChargeInkWh={currentChargeInkWh}&maxChargeInkWh={maxChargeInkWh}&auxiliaryPowerInkW={auxiliaryPowerInkW}
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  types:
+  - uid: TextFormat
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+- name: query
+  in: query
+  isRequired: true
+  description: The Coordinate from which the range calculation should start.
+  types:
+  - uid: string
+- name: fuelBudgetInLiters
+  in: query
+  description: Fuel budget in liters that determines maximal range which can be travelled using the specified Combustion Consumption Model. Either fuelBudgetInLiters, vehicleEngineType or timeBudgetInSec must be provided.
+  types:
+  - uid: string
+- name: energyBudgetInkWh
+  in: query
+  description: Electric energy budget in kilowatt hours (kWh) that determines maximal range which can be travelled using the specified Electric Consumption Model. Either fuelBudgetInLiters, vehicleEngineType or timeBudgetInSec must be provided.
+  types:
+  - uid: string
+- name: timeBudgetInSec
+  in: query
+  description: Time budget in seconds that determines maximal range which can be travelled using driving time. The consumption parameters will only affect eco-routes and thereby indirectly the driving time. Either fuelBudgetInLiters, vehicleEngineType or timeBudgetInSec must be provided.
+  types:
+  - uid: string
+- name: departAt
+  in: query
+  description: The date and time of departure from the origin point. Departure times apart from now must be specified as a dateTime. When a time zone offset is not specified, it will be assumed to be that of the origin point. The departAt value must be in the future in the date-time format (1996-12-19T16:39:57-08:00).
+  types:
+  - uid: string
+  format: date-time
+- name: routeType
+  in: query
+  description: The type of route requested.
+  types:
+  - uid: RouteType
+- name: traffic
+  in: query
+  description: "Possible values: \n  * true - Do consider all available traffic information during routing\n  * false - Ignore current traffic data during routing. Note that although the current traffic data is ignored during routing, the\neffect of historic traffic on effective road speeds is still incorporated."
+  types:
+  - uid: boolean
+- name: avoid
+  in: query
+  description: 'Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times. Possible values: (tollRoads avoids toll roads), (motorways avoids motorways), (ferries avoids ferries), (unpavedRoads avoids unpaved roads), (carpools avoids routes that require use of carpool (HOV/ High Occupancy Vehicle) lanes), (alreadyUsedRoads avoids using the same road multiple times. Most useful in conjunction with routeType=thrilling). In calculateReachableRange requests, the value alreadyUsedRoads must not be used.'
+  types:
+  - uid: Avoid
+- name: travelMode
+  in: query
+  description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In calculateReachableRange requests, the values bicycle and pedestrian must not be used
+  types:
+  - uid: TravelMode
+- name: hilliness
+  in: query
+  description: Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
+  types:
+  - uid: Hilliness
+- name: windingness
+  in: query
+  description: Level of turns for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
+  types:
+  - uid: Windingness
+- name: vehicleAxleWeight
+  in: query
+  description: Weight per axle of the vehicle in kg. A value of 0 means that weight restrictions per axle are not considered.
+  types:
+  - uid: integer
+- name: vehicleWidth
+  in: query
+  description: Width of the vehicle in meters. A value of 0 means that width restrictions are not considered.
+  types:
+  - uid: number
+  format: float
+- name: vehicleHeight
+  in: query
+  description: Height of the vehicle in meters. A value of 0 means that height restrictions are not considered.
+  types:
+  - uid: number
+  format: float
+- name: vehicleLength
+  in: query
+  description: Length of the vehicle in meters. A value of 0 means that length restrictions are not considered.
+  types:
+  - uid: number
+  format: float
+- name: vehicleMaxSpeed
+  in: query
+  description: Maximum speed of the vehicle in km/hour. A value of 0 means that an appropriate value for the vehicle will be determined and applied during route planning. A non-zero value may be overridden during route planning.
+  types:
+  - uid: integer
+- name: vehicleWeight
+  in: query
+  description: >-
+    Weight of the vehicle in kilograms.
+
+
+    * It is mandatory if any of the *Efficiency parameters are set.
+
+
+    * It must be strictly positive when used in the context of the Consumption Model. Weight restrictions are considered.
+
+
+    * If no detailed **Consumption Model** is specified and the value of **vehicleWeight** is non-zero, then weight restrictions are considered.
+
+
+    * In all other cases, this parameter is ignored.
+
+
+    Sensible Values : for **Combustion Model** : 1600, for **Electric Model** : 1900
+  types:
+  - uid: integer
+- name: vehicleLoadType
+  in: query
+  description: Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck.
+  types:
+  - uid: VehicleLoadType
+- name: vehicleEngineType
+  in: query
+  description: Engine type of the vehicle. When a detailed Consumption Model is specified, it must be consistent with the value of **vehicleEngineType**.
+  types:
+  - uid: VehicleEngineType
+- name: constantSpeedConsumptionInLitersPerHundredkm
+  in: query
+  description: "\n\nSpecifies the speed-dependent component of consumption.\n\nProvided as an unordered list of colon-delimited speed & consumption-rate pairs. The list defines points on a consumption curve. Consumption rates for speeds not in the list are found as follows:\n\n * by linear interpolation, if the given speed lies in between two speeds in the list\n\n * by linear extrapolation otherwise, assuming a constant (ΔConsumption/ΔSpeed) determined by the nearest two points in the list\n\nThe list must contain between 1 and 25 points (inclusive), and may not contain duplicate points for the same speed. If it only contains a single point, then the consumption rate of that point is used without further processing.\n\nConsumption specified for the largest speed must be greater than or equal to that of the penultimate largest speed. This ensures that extrapolation does not lead to negative consumption rates.\n\nSimilarly, consumption values specified for the two smallest speeds in the list cannot lead to a negative consumption rate for any smaller speed.\n\nThe valid range for the consumption values(expressed in l/100km) is between 0.01 and 100000.0.\n\nSensible Values : 50,6.3:130,11.5\n\n**Note** : This parameter is required for **The Combustion Consumption Model**."
+  types:
+  - uid: number
+  format: float
+- name: currentFuelInLiters
+  in: query
+  description: >-
+    Specifies the current supply of fuel in liters.
+
+
+    Sensible Values : 55
+  types:
+  - uid: number
+  format: float
+- name: auxiliaryPowerInLitersPerHour
+  in: query
+  description: >-
+    Specifies the amount of fuel consumed for sustaining auxiliary systems of the vehicle, in liters per hour.
+
+
+    It can be used to specify consumption due to devices and systems such as AC systems, radio, heating, etc.
+
+
+    Sensible Values : 0.2
+  types:
+  - uid: number
+  format: float
+- name: fuelEnergyDensityInMJoulesPerLiter
+  in: query
+  description: >-
+    Specifies the amount of chemical energy stored in one liter of fuel in megajoules (MJ). It is used in conjunction with the ***Efficiency** parameters for conversions between saved or consumed energy and fuel. For example, energy density is 34.2 MJ/l for gasoline, and 35.8 MJ/l for Diesel fuel.
+
+
+    This parameter is required if any ***Efficiency** parameter is set.
+
+
+    Sensible Values : 34.2
+  types:
+  - uid: number
+  format: float
+- name: accelerationEfficiency
+  in: query
+  description: >-
+    Specifies the efficiency of converting chemical energy stored in fuel to kinetic energy when the vehicle accelerates _(i.e. KineticEnergyGained/ChemicalEnergyConsumed). ChemicalEnergyConsumed_ is obtained by converting consumed fuel to chemical energy using **fuelEnergyDensityInMJoulesPerLiter**.
+
+
+    Must be paired with **decelerationEfficiency**.
+
+
+    The range of values allowed are 0.0 to 1/**decelerationEfficiency**.
+
+
+    Sensible Values : for **Combustion Model** : 0.33, for **Electric Model** : 0.66
+  types:
+  - uid: number
+  format: float
+- name: decelerationEfficiency
+  in: query
+  description: >-
+    Specifies the efficiency of converting kinetic energy to saved (not consumed) fuel when the vehicle decelerates _(i.e. ChemicalEnergySaved/KineticEnergyLost). ChemicalEnergySaved_ is obtained by converting saved (not consumed) fuel to energy using **fuelEnergyDensityInMJoulesPerLiter**.
+
+
+    Must be paired with **accelerationEfficiency**.
+
+
+    The range of values allowed are 0.0 to 1/**accelerationEfficiency**.
+
+
+    Sensible Values : for **Combustion Model** : 0.83, for **Electric Model** : 0.91
+  types:
+  - uid: number
+  format: float
+- name: uphillEfficiency
+  in: query
+  description: >-
+    Specifies the efficiency of converting chemical energy stored in fuel to potential energy when the vehicle gains elevation _(i.e. PotentialEnergyGained/ChemicalEnergyConsumed). ChemicalEnergyConsumed_ is obtained by converting consumed fuel to chemical energy using **fuelEnergyDensityInMJoulesPerLiter**.
+
+
+    Must be paired with **downhillEfficiency**.
+
+
+    The range of values allowed are 0.0 to 1/**downhillEfficiency**.
+
+
+    Sensible Values : for **Combustion Model** : 0.27, for **Electric Model** : 0.74
+  types:
+  - uid: number
+  format: float
+- name: downhillEfficiency
+  in: query
+  description: >-
+    Specifies the efficiency of converting potential energy to saved (not consumed) fuel when the vehicle loses elevation _(i.e. ChemicalEnergySaved/PotentialEnergyLost).ChemicalEnergySaved_ is obtained by converting saved (not consumed) fuel to energy using **fuelEnergyDensityInMJoulesPerLiter**.
+
+
+    Must be paired with **uphillEfficiency**.
+
+
+    The range of values allowed are 0.0 to 1/**uphillEfficiency**.
+
+
+    Sensible Values : for **Combustion Model** : 0.51, for **Electric Model** : 0.73
+  types:
+  - uid: number
+  format: float
+- name: constantSpeedConsumptionInkWhPerHundredkm
+  in: query
+  description: >-
+    Specifies the speed-dependent component of consumption.
+
+
+    Provided as an unordered list of speed/consumption-rate pairs. The list defines points on a consumption curve. Consumption rates for speeds not in the list are found as follows:
+
+
+    * by linear interpolation, if the given speed lies in between two speeds in the list
+
+
+    * by linear extrapolation otherwise, assuming a constant (ΔConsumption/ΔSpeed) determined by the nearest two points in the list
+
+
+    The list must contain between 1 and 25 points (inclusive), and may not contain duplicate points for the same speed. If it only contains a single point, then the consumption rate of that point is used without further processing.
+
+
+    Consumption specified for the largest speed must be greater than or equal to that of the penultimate largest speed. This ensures that extrapolation does not lead to negative consumption rates.
+
+
+    Similarly, consumption values specified for the two smallest speeds in the list cannot lead to a negative consumption rate for any smaller  speed.
+
+
+    The valid range for the consumption values(expressed in kWh/100km) is between 0.01 and 100000.0.
+
+
+    Sensible Values : 50,8.2:130,21.3
+
+
+    This parameter is required for **Electric consumption model**.
+  types:
+  - uid: number
+  format: float
+- name: currentChargeInkWh
+  in: query
+  description: >-
+    Specifies the current electric energy supply in kilowatt hours (kWh).
+
+
+    This parameter co-exists with **maxChargeInkWh** parameter.
+
+
+    The range of values allowed are 0.0 to **maxChargeInkWh**.
+
+
+    Sensible Values : 43
+  types:
+  - uid: string
+- name: maxChargeInkWh
+  in: query
+  description: >-
+    Specifies the maximum electric energy supply in kilowatt hours (kWh) that may be stored in the vehicle's battery.
+
+
+    This parameter co-exists with **currentChargeInkWh** parameter.
+
+
+    Minimum value has to be greater than or equal to **currentChargeInkWh**.
+
+
+    Sensible Values : 85
+  types:
+  - uid: string
+- name: auxiliaryPowerInkW
+  in: query
+  description: >-
+    Specifies the amount of power consumed for sustaining auxiliary systems, in kilowatts (kW).
+
+
+    It can be used to specify consumption due to devices and systems such as AC systems, radio, heating, etc.
+
+
+    Sensible Values : 1.7
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: RouteRangeResponse
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
+  types:
+  - uid: ErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: TextFormat
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+  - name: xml
+    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
+    types:
+    - uid: string
+- name: RouteType
+  description: The type of route requested.
+  kind: enum
+  properties:
+  - name: fastest
+    description: The fastest route.
+    types:
+    - uid: string
+  - name: shortest
+    description: The shortest route by distance.
+    types:
+    - uid: string
+  - name: eco
+    description: A route balanced by economy and speed.
+    types:
+    - uid: string
+  - name: thrilling
+    description: Includes interesting or challenging roads and uses as few motorways as possible. You can choose the level of turns included and also the degree of hilliness. See the hilliness and windingness parameters for how to set this. There is a limit of 900 km on routes planned with routeType=thrilling
+    types:
+    - uid: string
+- name: Avoid
+  description: 'Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times. Possible values: (tollRoads avoids toll roads), (motorways avoids motorways), (ferries avoids ferries), (unpavedRoads avoids unpaved roads), (carpools avoids routes that require use of carpool (HOV/ High Occupancy Vehicle) lanes), (alreadyUsedRoads avoids using the same road multiple times. Most useful in conjunction with routeType=thrilling). In calculateReachableRange requests, the value alreadyUsedRoads must not be used.'
+  kind: enum
+  properties:
+  - name: tollRoads
+    description: Avoids toll roads.
+    types:
+    - uid: string
+  - name: motorways
+    description: Avoids motorways
+    types:
+    - uid: string
+  - name: ferries
+    description: Avoids ferries
+    types:
+    - uid: string
+  - name: unpavedRoads
+    description: Avoids unpaved roads
+    types:
+    - uid: string
+  - name: carpools
+    description: Avoids carpools
+    types:
+    - uid: string
+  - name: alreadyUsedRoads
+    description: Avoids using the same road multiple times. Most useful in conjunction with `routeType`=thrilling.
+    types:
+    - uid: string
+- name: TravelMode
+  description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In calculateReachableRange requests, the values bicycle and pedestrian must not be used
+  kind: enum
+  properties:
+  - name: car
+    description: car
+    types:
+    - uid: string
+  - name: truck
+    description: truck
+    types:
+    - uid: string
+  - name: taxi
+    description: taxi
+    types:
+    - uid: string
+  - name: bus
+    description: bus
+    types:
+    - uid: string
+  - name: van
+    description: van
+    types:
+    - uid: string
+  - name: motorcycle
+    description: motorcycle
+    types:
+    - uid: string
+  - name: bicycle
+    description: bicycle
+    types:
+    - uid: string
+  - name: pedestrian
+    description: pedestrian
+    types:
+    - uid: string
+- name: Hilliness
+  description: Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
+  kind: enum
+  properties:
+  - name: low
+    description: low
+    types:
+    - uid: string
+  - name: normal
+    description: normal
+    types:
+    - uid: string
+  - name: high
+    description: high
+    types:
+    - uid: string
+- name: Windingness
+  description: Level of turns for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
+  kind: enum
+  properties:
+  - name: low
+    description: low
+    types:
+    - uid: string
+  - name: normal
+    description: normal
+    types:
+    - uid: string
+  - name: high
+    description: high
+    types:
+    - uid: string
+- name: VehicleLoadType
+  description: Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck.
+  kind: enum
+  properties:
+  - name: USHazmatClass1
+    description: Explosives
+    types:
+    - uid: string
+  - name: USHazmatClass2
+    description: Compressed gas
+    types:
+    - uid: string
+  - name: USHazmatClass3
+    description: Flammable liquids
+    types:
+    - uid: string
+  - name: USHazmatClass4
+    description: Flammable solids
+    types:
+    - uid: string
+  - name: USHazmatClass5
+    description: Oxidizers
+    types:
+    - uid: string
+  - name: USHazmatClass6
+    description: Poisons
+    types:
+    - uid: string
+  - name: USHazmatClass7
+    description: Radioactive
+    types:
+    - uid: string
+  - name: USHazmatClass8
+    description: Corrosives
+    types:
+    - uid: string
+  - name: USHazmatClass9
+    description: Miscellaneous
+    types:
+    - uid: string
+  - name: otherHazmatExplosive
+    description: Explosives
+    types:
+    - uid: string
+  - name: otherHazmatGeneral
+    description: Miscellaneous
+    types:
+    - uid: string
+  - name: otherHazmatHarmfulToWater
+    description: Harmful to water
+    types:
+    - uid: string
+- name: VehicleEngineType
+  description: Engine type of the vehicle. When a detailed Consumption Model is specified, it must be consistent with the value of **vehicleEngineType**.
+  kind: enum
+  properties:
+  - name: combustion
+    description: Internal combustion engine.
+    types:
+    - uid: string
+  - name: electric
+    description: Electric engine.
+    types:
+    - uid: string
+- name: RouteRangeResponse
+  description: This object is returned from a successful Route Reachable Range call
+  kind: object
+  properties:
+  - name: formatVersion
+    isReadyOnly: true
+    description: Format Version property
+    types:
+    - uid: string
+  - name: copyright
+    isReadyOnly: true
+    description: Copyright property
+    types:
+    - uid: string
+  - name: privacy
+    isReadyOnly: true
+    description: Privacy property
+    types:
+    - uid: string
+  - name: reachableRange
+    description: Reachable Ranges
+    types:
+    - uid: ReachableRange
+  - name: report
+    description: Reports the effective settings used in the current call.
+    types:
+    - uid: RouteResponseReport
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: ReachableRange
+  description: Reachable Ranges
+  kind: object
+  properties:
+  - name: center
+    description: Center point of the reachable range
+    types:
+    - uid: Coordinate
+  - name: boundary
+    isReadyOnly: true
+    description: Polygon boundary of the reachable range represented as a list of points.
+    types:
+    - uid: Coordinate
+      isArray: true
+- name: RouteResponseReport
+  description: Reports the effective settings used in the current call.
+  kind: object
+  properties:
+  - name: effectiveSettings
+    isReadyOnly: true
+    description: Effective parameters or data used when calling this Route API.
+    types:
+    - uid: EffectiveSettings
+      isArray: true
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+- name: Coordinate
+  kind: object
+  properties:
+  - name: latitude
+    isReadyOnly: true
+    description: Latitude property
+    types:
+    - uid: number
+  - name: longitude
+    isReadyOnly: true
+    description: Longitude property
+    types:
+    - uid: number
+- name: EffectiveSettings
+  description: Effective parameters or data used when calling this Route API.
+  kind: object
+  properties:
+  - name: key
+    isReadyOnly: true
+    description: Name of the parameter used.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: Value of the parameter used.
+    types:
+    - uid: string
+examples:
+- name: GetRouteRange
+  request:
+    uri: GET https://atlas.microsoft.com/route/range/json?subscription-key=[subscription-key]&api-version=1.0&query=50.97452,5.86605&timeBudgetInSec=6000
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "formatVersion": "0.0.1",
+        "copyright": "Copyright 2018 TomTom International BV. All rights reserved. This navigation data is the proprietary copyright of TomTom International BV and may be used only in accordance with the terms of a fully executed license agreement entered into between TomTom International BV, or an authorised reseller and yourself. If you have not entered into such a license agreement you are not authorised to use this data in any manner and should immediately return it to TomTom International BV.",
+        "privacy": "TomTom keeps information that tells us how and when you use our services. This includes information about the device you are using and the information we receive while you use the service, such as locations, routes, destinations and search queries. TomTom is unable to identify you based on the information it collects, and will not try to. TomTom uses the information for technical diagnostics, to detect fraud and abuse, to create usage reports, and to improve its services. The information is kept only for these purposes and for a limited period of time, after which it is destroyed. TomTom applies security methods based on industry standards to protect the information against unauthorised access. TomTom will not give anyone else access to the information or use it for any other purpose, unless explicitly and lawfully ordered to do so following due legal process. You can find out more at http://tomtom.com/privacy. You can contact TomTom by going to http://tomtom.com/support.",
+        "reachableRange": {
+          "center": {
+            "latitude": 50.9745,
+            "longitude": 5.86605
+          },
+          "boundary": [
+            {
+              "latitude": 52.03704,
+              "longitude": 5.73602
+            },
+            {
+              "latitude": 52.09456,
+              "longitude": 5.59435
+            },
+            {
+              "latitude": 52.16815,
+              "longitude": 5.42279
+            },
+            {
+              "latitude": 52.25047,
+              "longitude": 5.21276
+            },
+            {
+              "latitude": 52.21374,
+              "longitude": 5.15355
+            },
+            {
+              "latitude": 52.25674,
+              "longitude": 4.96687
+            },
+            {
+              "latitude": 52.07834,
+              "longitude": 4.739
+            },
+            {
+              "latitude": 52.05647,
+              "longitude": 4.72513
+            },
+            {
+              "latitude": 51.94553,
+              "longitude": 4.53237
+            },
+            {
+              "latitude": 51.70119,
+              "longitude": 4.31165
+            },
+            {
+              "latitude": 51.5837,
+              "longitude": 4.28917
+            },
+            {
+              "latitude": 51.48463,
+              "longitude": 3.82685
+            },
+            {
+              "latitude": 51.21096,
+              "longitude": 3.62838
+            },
+            {
+              "latitude": 50.6814,
+              "longitude": 3.89244
+            },
+            {
+              "latitude": 50.66791,
+              "longitude": 3.93493
+            },
+            {
+              "latitude": 50.49042,
+              "longitude": 3.98156
+            },
+            {
+              "latitude": 50.30944,
+              "longitude": 4.47995
+            },
+            {
+              "latitude": 50.24448,
+              "longitude": 4.60502
+            },
+            {
+              "latitude": 50.24467,
+              "longitude": 4.89999
+            },
+            {
+              "latitude": 50.08735,
+              "longitude": 5.04206
+            },
+            {
+              "latitude": 49.99214,
+              "longitude": 5.23042
+            },
+            {
+              "latitude": 49.88478,
+              "longitude": 5.40994
+            },
+            {
+              "latitude": 49.85797,
+              "longitude": 5.46178
+            },
+            {
+              "latitude": 49.86279,
+              "longitude": 5.7196
+            },
+            {
+              "latitude": 49.83259,
+              "longitude": 5.74151
+            },
+            {
+              "latitude": 50.22239,
+              "longitude": 5.9387
+            },
+            {
+              "latitude": 50.0011,
+              "longitude": 6.08535
+            },
+            {
+              "latitude": 50.04616,
+              "longitude": 6.12089
+            },
+            {
+              "latitude": 50.09472,
+              "longitude": 6.28373
+            },
+            {
+              "latitude": 49.95863,
+              "longitude": 6.51654
+            },
+            {
+              "latitude": 50.00485,
+              "longitude": 6.61034
+            },
+            {
+              "latitude": 50.00587,
+              "longitude": 6.70295
+            },
+            {
+              "latitude": 50.2947,
+              "longitude": 6.65865
+            },
+            {
+              "latitude": 50.36903,
+              "longitude": 6.79276
+            },
+            {
+              "latitude": 50.31614,
+              "longitude": 7.32163
+            },
+            {
+              "latitude": 50.36737,
+              "longitude": 7.58782
+            },
+            {
+              "latitude": 50.46919,
+              "longitude": 7.7626
+            },
+            {
+              "latitude": 50.96246,
+              "longitude": 7.9826
+            },
+            {
+              "latitude": 51.07086,
+              "longitude": 7.55924
+            },
+            {
+              "latitude": 51.36614,
+              "longitude": 7.58138
+            },
+            {
+              "latitude": 51.52015,
+              "longitude": 7.67861
+            },
+            {
+              "latitude": 51.65781,
+              "longitude": 7.35175
+            },
+            {
+              "latitude": 51.81916,
+              "longitude": 7.21664
+            },
+            {
+              "latitude": 51.9587,
+              "longitude": 7.0467
+            },
+            {
+              "latitude": 51.82713,
+              "longitude": 6.67267
+            },
+            {
+              "latitude": 51.81133,
+              "longitude": 6.48424
+            },
+            {
+              "latitude": 51.9368,
+              "longitude": 6.27316
+            },
+            {
+              "latitude": 52.01701,
+              "longitude": 6.14452
+            },
+            {
+              "latitude": 52.20847,
+              "longitude": 6.09312
+            },
+            {
+              "latitude": 52.23705,
+              "longitude": 6.01297
+            }
+          ]
+        }
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: subscription-key
+  type: apiKey
+  in: query

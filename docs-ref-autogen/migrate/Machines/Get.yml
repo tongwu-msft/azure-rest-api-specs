@@ -50,14 +50,10 @@ responses:
   description: OK. Returns the machine with the specified name.
   types:
   - uid: Machine
-- name: 401 Unauthorized
-  description: Not authorized (No access to subscription, resource group, or project).
-- name: 404 Not Found
-  description: Not found (Invalid subscriptionId, resourceGroupName, projectName, or machineName).
-- name: 500 Internal Server Error
-  description: Internal Server Error.
 - name: Other Status Codes
-  description: Service Unavailable.
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader:
 - name: Accept-Language
   in: header
@@ -177,6 +173,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: NetworkAdapter
+- name: CloudError
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Azure Migrate service.
+    types:
+    - uid: CloudErrorBody
 - name: MachineBootType
   description: Boot type of the machine.
   kind: enum
@@ -218,6 +222,27 @@ definitions:
     description: List of IP Addresses on the network adapter.
     types:
     - uid: string
+      isArray: true
+- name: CloudErrorBody
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
       isArray: true
 examples:
 - name: Machines_Get
@@ -268,10 +293,6 @@ examples:
           "updatedTimestamp": "2018-02-02T10:11:25.7585427Z"
         }
       }
-  - statusCode: "401"
-  - statusCode: "404"
-  - statusCode: "500"
-  - statusCode: "503"
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
