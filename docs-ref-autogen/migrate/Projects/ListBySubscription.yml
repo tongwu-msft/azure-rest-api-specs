@@ -1,33 +1,21 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.migrate.projects.get
-name: Get
+uid: management.azure.com.migrate.projects.listbysubscription
+name: List By Subscription
 service: Migrate
 groupName: Projects
 apiVersion: 2018-02-02
-summary: "Get the specified project.  \nGet the project with the specified name."
+summary: "Get all projects.  \nGet all the projects in the subscription."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}?api-version=2018-02-02
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Migrate/projects?api-version=2018-02-02
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: Azure Subscription Id in which project was created.
-  types:
-  - uid: string
-- name: resourceGroupName
-  in: path
-  isRequired: true
-  description: Name of the Azure Resource Group that project is part of.
-  types:
-  - uid: string
-- name: projectName
-  in: path
-  isRequired: true
-  description: Name of the Azure Migrate project.
   types:
   - uid: string
 - name: api-version
@@ -43,7 +31,7 @@ responses:
     value: string
   description: OK.
   types:
-  - uid: Project
+  - uid: ProjectResultList
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -55,6 +43,23 @@ requestHeader:
   types:
   - uid: string
 definitions:
+- name: ProjectResultList
+  description: List of projects.
+  kind: object
+  properties:
+  - name: value
+    description: List of projects.
+    types:
+    - uid: Project
+      isArray: true
+- name: CloudError
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Azure Migrate service.
+    types:
+    - uid: CloudErrorBody
 - name: Project
   description: Azure Migrate Project.
   kind: object
@@ -143,14 +148,27 @@ definitions:
     description: Provisioning state of the project.
     types:
     - uid: ProvisioningState
-- name: CloudError
+- name: CloudErrorBody
   description: An error response from the Azure Migrate service.
   kind: object
   properties:
-  - name: error
-    description: An error response from the Azure Migrate service.
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
     types:
     - uid: CloudErrorBody
+      isArray: true
 - name: DiscoveryStatus
   description: Reports whether project is under discovery.
   kind: enum
@@ -189,55 +207,60 @@ definitions:
   - name: Succeeded
     types:
     - uid: string
-- name: CloudErrorBody
-  description: An error response from the Azure Migrate service.
-  kind: object
-  properties:
-  - name: code
-    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-  - name: message
-    description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error. For example, the name of the property in error.
-    types:
-    - uid: string
-  - name: details
-    description: A list of additional details about the error.
-    types:
-    - uid: CloudErrorBody
-      isArray: true
 examples:
-- name: Projects_Get
+- name: Projects_List
   request:
-    uri: GET https://management.azure.com/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourcegroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01?api-version=2018-02-02
+    uri: GET https://management.azure.com/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/providers/Microsoft.Migrate/projects?api-version=2018-02-02
   responses:
   - statusCode: "200"
     body: >-
       {
-        "properties": {
-          "numberOfGroups": 2,
-          "numberOfMachines": 5,
-          "numberOfAssessments": 5,
-          "createdTimestamp": "2018-02-02T13:11:30.8808917Z",
-          "updatedTimestamp": "2018-02-02T13:11:30.8848966Z",
-          "discoveryStatus": "NotStarted",
-          "customerWorkspaceId": "url-to-customers-service-map",
-          "customerWorkspaceLocation": "West Us",
-          "lastDiscoveryTimestamp": "2018-02-02T13:11:30.8808917Z",
-          "lastDiscoverySessionId": "2c213c69-e2d3-4c3e-b871-83e5f42f3299",
-          "lastAssessmentTimestamp": "2018-02-02T13:11:30.8808917Z",
-          "provisioningState": "Succeeded"
-        },
-        "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01",
-        "name": "project01",
-        "type": "Microsoft.Migrate/projects",
-        "eTag": "\"b701c73a-0000-0000-0000-59c12ff00000\"",
-        "location": "West Us",
-        "tags": {}
+        "value": [
+          {
+            "properties": {
+              "numberOfGroups": 2,
+              "numberOfMachines": 5,
+              "numberOfAssessments": 5,
+              "createdTimestamp": "2018-02-02T13:11:30.8808917Z",
+              "updatedTimestamp": "2018-02-02T13:11:30.8848966Z",
+              "discoveryStatus": "NotStarted",
+              "customerWorkspaceId": "url-to-customers-service-map",
+              "customerWorkspaceLocation": "West Us",
+              "lastDiscoveryTimestamp": "2018-02-02T13:11:30.8808917Z",
+              "lastDiscoverySessionId": "2c213c69-e2d3-4c3e-b871-83e5f42f3299",
+              "lastAssessmentTimestamp": "2018-02-02T13:11:30.8808917Z",
+              "provisioningState": "Succeeded"
+            },
+            "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project01",
+            "name": "project01",
+            "type": "Microsoft.Migrate/projects",
+            "eTag": "\"b701c73a-0000-0000-0000-59c12ff00000\"",
+            "location": "West Us",
+            "tags": {}
+          },
+          {
+            "properties": {
+              "numberOfGroups": 4,
+              "numberOfMachines": 6,
+              "numberOfAssessments": 4,
+              "createdTimestamp": "2018-02-02T10:50:05.3206647Z",
+              "updatedTimestamp": "2018-02-02T10:50:05.3236679Z",
+              "discoveryStatus": "NotStarted",
+              "customerWorkspaceId": "url-to-customers-service-map",
+              "customerWorkspaceLocation": "West Us",
+              "lastDiscoveryTimestamp": "2018-02-02T13:11:30.8808917Z",
+              "lastDiscoverySessionId": "2c213c69-e2d3-4c3e-b871-83e5f42f3299",
+              "lastAssessmentTimestamp": "2018-02-02T13:11:30.8808917Z",
+              "provisioningState": "Succeeded"
+            },
+            "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/projects/project02",
+            "name": "project02",
+            "type": "Microsoft.Migrate/projects",
+            "eTag": "\"b701c73a-0000-1111-0000-59c12ff02222\"",
+            "location": "West Us",
+            "tags": {}
+          }
+        ]
       }
 security:
 - type: oauth2
