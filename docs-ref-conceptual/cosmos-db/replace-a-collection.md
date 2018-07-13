@@ -43,6 +43,11 @@ translation.priority.mt:
 |--------------|--------------|----------|-----------------|  
 |**id**|Required|String|The user generated unique name for the collection. No two collections can have the same ids. It is a string that must not be more than 255 characters.|  
 |**indexingPolicy**|Optional|Object|It is a system generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the permission resource.|  
+
+> [!NOTE]
+> When you set custom index paths, you are required to specify the default indexing rule for the entire document tree, which is denoted by the special path "/*". 
+> 
+> 
   
 ```  
 {  
