@@ -1,0 +1,164 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.search.postsearchaddressbatchpreview
+name: Post Search Address Batch Preview
+service: Maps
+groupName: Search
+apiVersion: "1.0"
+summary: "**Address Geocoding Batch API**<br><br> The Address Geocoding Batch API allows the caller to batch up to 10,000 [Address Geocoding API](https://docs.microsoft.com/en-us/rest/api/maps/searchservice/getsearchaddress) queries/requests using just a single API call. To send the _address geocoding_ queries you will use a `POST` request where the request body will contain the `queries` array in `JSON` format and the `Content-Type` header will be set to `application/json`.<br><br>An _address geocoding_ query in a batch is just a partial URL without the protocol, base URL, path, api-version and subscription-key. All these values will be reused from the Address Geocoding Batch API call itself. The string values in the _address geocoding_ query must be properly escaped (e.g. \" character should be escaped with \\\\) and it should also be properly URL-encoded.<br><br> for example: \"?_query_=Pike Pl, Seattle, WA 98101&_lat_=47.610970&_lon_=-122.342469&_radius_=1000&_limit_=3\"<br><br> The maximum number of queries that can be specified in the batch is 10,000  and the batch should contain at least 1 query.<br><br>Please note that the Address Geocoding Batch API is a long-running request. When the client `POST`'s the initial batch request, the server responds immediately with a `202 Accepted` response with the `Location` header containing the URL to download the results of the batch request later. To download the batch results you will issue a `GET` request to this download endpoint. If the batch processing has finished, this call returns a `200 OK` response with all the batch results, else it continues to return a `202 Accepted` response. Please, be aware that batch results are available for download for 14 days, after which the request for results download will return `400 Bad Request` response."
+consumes: []
+produces:
+- application/json
+- application/xml
+paths:
+- content: POST https://atlas.microsoft.com/search/address/batch/{format}?subscription-key={subscription-key}&api-version=1.0
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Only `JSON` format is supported.
+  types:
+  - uid: string
+- name: subscription-key
+  in: query
+  isRequired: true
+  description: Azure Maps subscription key
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 1.0
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: 'Request Accepted: The request has been accepted for processing. Please use the URL in the Location Header to retry or access the results.'
+- name: 400 Bad Request
+  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
+  types:
+  - uid: ErrorResponse
+- name: 403 Forbidden
+  description: Permission, capacity, or authentication issues.
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: An error occurred while processing the request. Please try again later.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: queries
+    in: body
+    description: The list of queries/requests to process
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: This response object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: error
+    description: This object is returned when an error occurs in the Maps API
+    types:
+    - uid: Error
+- name: BatchRequestBody
+  description: This type represents the request body for the Batch service.
+  kind: object
+  properties:
+  - name: queries
+    description: The list of queries/requests to process
+    types:
+    - uid: string
+      isArray: true
+- name: Error
+  description: This object is returned when an error occurs in the Maps API
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: If available, a human readable description of the error.
+    types:
+    - uid: string
+examples:
+- name: An Address Geocoding Batch API call containing 5 Address Geocoding API queries
+  request:
+    uri: POST https://atlas.microsoft.com/search/address/batch/json?subscription-key=[subscription-key]&api-version=1.0
+    body: >-
+      {
+        "queries": [
+          "?query=400 Broad St, Seattle, WA 98109&limit=3",
+          "?query=One, Microsoft Way, Redmond, WA 98052&limit=3",
+          "?query=350 5th Ave, New York, NY 10118&limit=1",
+          "?query=Pike Pl, Seattle, WA 98101&lat=47.610970&lon=-122.342469&radius=1000",
+          "?query=Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France&limit=1"
+        ]
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: URL to download the results of the long-running batch request.
+    body: '{}'
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400 BadRequest",
+          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401 Unauthorized",
+          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403 Forbidden",
+          "message": "Permission, capacity, or authentication issues."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404 NotFound",
+          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500 InternalServerError",
+          "message": "An error occurred while processing the request. Please try again later."
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+- name: subscription-key
+  type: apiKey
+  in: query

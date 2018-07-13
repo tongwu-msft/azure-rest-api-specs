@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.search.postsearchinsidegeometry
-name: Post Search Inside Geometry
+uid: atlas.microsoft.com.maps.search.getsearchinsidegeometry
+name: Get Search Inside Geometry
 service: Maps
 groupName: Search
 apiVersion: "1.0"
-summary: The Search Geometry endpoint allows you to perform a free form search inside a single geometry or many of them. The search results that fall inside the geometry/geometries will be returned.<br><br>To send the geometry you will use a `POST` request where the request body will contain the `geometry` object represented as a `GeoJSON` type and the `Content-Type` header will be set to `application/json`. The geographical features to be searched can be modeled as Polygon and/or Circle geometries represented using any one of the following `GeoJSON` types:<ul><li>**GeoJSON FeatureCollection** <br>The `geometry` can be represented as a `GeoJSON FeatureCollection` object. This is the recommended option if the geometry contains both Polygons and Circles. The `FeatureCollection` can contain a max of 50 `GeoJSON Feature` objects. Each `Feature` object should represent either a Polygon or a Circle with the following conditions:<ul style="list-style-type:none"><li>A `Feature` object for the Polygon geometry can have a max of 50 coordinates and it's properties must be empty.</li><li>A `Feature` object for the Circle geometry is composed of a _center_ represented using a `GeoJSON Point` type and a _radius_ value (in meters) which must be specified in the object's properties along with the _subType_ property whose value should be 'Circle'.</li></ul><br> Please see the Examples section below for a sample `FeatureCollection` representation.<br><br></li><li>**GeoJSON GeometryCollection**<br>The `geometry` can be represented as a `GeoJSON GeometryCollection` object. This is the recommended option if the geometry contains a list of Polygons only. The `GeometryCollection` can contain a max of 50 `GeoJSON Polygon` objects. Each `Polygon` object can have a max of 50 coordinates. Please see the Examples section below for a sample `GeometryCollection` representation.<br><br></li><li>**GeoJSON Polygon**<br>The `geometry` can be represented as a `GeoJSON Polygon` object. This is the recommended option if the geometry contains a single Polygon. The `Polygon` object can have a max of 50 coordinates. Please see the Examples section below for a sample `Polygon` representation.<br><br></li></ul>.<br><br>
+summary: The Search Geometry endpoint allows you to perform a free form search inside a single geometry or many of them. The search results that fall inside the geometry/geometries will be returned.<br><br>To send the geometry you will use a `GET` request where the `geometry` parameter is represented as a `GeoJSON` type. The geographical features to be searched can be modeled as Polygon and/or Circle geometries represented using any one of the following `GeoJSON` types:<ul><li>**GeoJSON FeatureCollection** <br>The `geometry` can be represented as a `GeoJSON FeatureCollection` object. This is the recommended option if the geometry contains both Polygons and Circles. The `FeatureCollection` can contain a max of 50 `GeoJSON Feature` objects. Each `Feature` object should represent either a Polygon or a Circle with the following conditions:<ul style="list-style-type:none"><li>A `Feature` object for the Polygon geometry can have a max of 50 coordinates and it's properties must be empty.</li><li>A `Feature` object for the Circle geometry is composed of a _center_ represented using a `GeoJSON Point` type and a _radius_ value (in meters) which must be specified in the object's properties along with the _subType_ property whose value should be 'Circle'.</li></ul><br> Please see the Examples section below for a sample `FeatureCollection` representation.<br><br></li><li>**GeoJSON GeometryCollection**<br>The `geometry` can be represented as a `GeoJSON GeometryCollection` object. This is the recommended option if the geometry contains a list of Polygons only. The `GeometryCollection` can contain a max of 50 `GeoJSON Polygon` objects. Each `Polygon` object can have a max of 50 coordinates. Please see the Examples section below for a sample `GeometryCollection` representation.<br><br></li><li>**GeoJSON Polygon**<br>The `geometry` can be represented as a `GeoJSON Polygon` object. This is the recommended option if the geometry contains a single Polygon. The `Polygon` object can have a max of 50 coordinates. Please see the Examples section below for a sample `Polygon` representation.<br><br></li></ul>.<br><br>
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: POST https://atlas.microsoft.com/search/geometry/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
-- content: POST https://atlas.microsoft.com/search/geometry/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&limit={limit}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&idxSet={idxSet}
+- content: GET https://atlas.microsoft.com/search/geometry/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&geometry={geometry}
+- content: GET https://atlas.microsoft.com/search/geometry/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&geometry={geometry}&limit={limit}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&idxSet={idxSet}
   isOptional: true
 uriParameters:
 - name: format
@@ -36,6 +36,12 @@ uriParameters:
   in: query
   isRequired: true
   description: The applicable query string (e.g., "burger joints", "pizza"). Can _also_ be specified as a comma separated string composed by latitude followed by longitude (e.g., "47.641268, -122.125679"). Must be properly URL encoded.
+  types:
+  - uid: string
+- name: geometry
+  in: query
+  isRequired: true
+  description: This represents the geometry for one or more geographical features (parks, state boundary etc.) to search in and should be a GeoJSON compliant type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946) for details.
   types:
   - uid: string
 - name: limit
@@ -87,14 +93,6 @@ responses:
   description: An error occurred while processing the request. Please try again later.
   types:
   - uid: ErrorResponse
-requestBody:
-- name: default
-  parameters:
-  - name: geometry
-    in: body
-    description: This represents the geometry for one or more geographical features (parks, state boundary etc.) and should be a `GeoJSON` compliant type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946) for details.
-    types:
-    - uid: Geometry
 requestHeader: []
 definitions:
 - name: TextFormat
@@ -132,14 +130,6 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
-- name: SearchInsideGeometryRequestBody
-  description: This type represents the request body for the Search Inside Geometry service.
-  kind: object
-  properties:
-  - name: geometry
-    description: This represents the geometry for one or more geographical features (parks, state boundary etc.) and should be a `GeoJSON` compliant type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946) for details.
-    types:
-    - uid: Geometry
 - name: Summary
   description: Summary object
   kind: object
@@ -490,60 +480,7 @@ definitions:
 examples:
 - name: Search for pizza places inside a geometry represented as a GeoJSON FeatureCollection type
   request:
-    uri: POST https://atlas.microsoft.com/search/geometry/json?subscription-key=[subscription-key]&api-version=1.0&query=pizza&limit=2
-    body: >-
-      {
-        "geometry": {
-          "type": "FeatureCollection",
-          "features": [
-            {
-              "type": "Feature",
-              "geometry": {
-                "type": "Polygon",
-                "coordinates": [
-                  [
-                    [
-                      -122.143035,
-                      47.653536
-                    ],
-                    [
-                      -122.187164,
-                      47.617556
-                    ],
-                    [
-                      -122.114981,
-                      47.570599
-                    ],
-                    [
-                      -122.132756,
-                      47.654009
-                    ],
-                    [
-                      -122.143035,
-                      47.653536
-                    ]
-                  ]
-                ]
-              },
-              "properties": {}
-            },
-            {
-              "type": "Feature",
-              "geometry": {
-                "type": "Point",
-                "coordinates": [
-                  -122.126986,
-                  47.639754
-                ]
-              },
-              "properties": {
-                "subType": "Circle",
-                "radius": 100
-              }
-            }
-          ]
-        }
-      }
+    uri: GET https://atlas.microsoft.com/search/geometry/json?subscription-key=[subscription-key]&api-version=1.0&query=pizza&limit=2
   responses:
   - statusCode: "200"
     body: >-
@@ -738,38 +675,7 @@ examples:
       }
 - name: Search for burger joints inside a geometry represented as a GeoJSON GeometryCollection type
   request:
-    uri: POST https://atlas.microsoft.com/search/geometry/json?subscription-key=[subscription-key]&api-version=1.0&query=burger&limit=2
-    body: >-
-      {
-        "geometry": {
-          "type": "GeometryCollection",
-          "geometries": [
-            {
-              "type": "Polygon",
-              "coordinates": [
-                [
-                  [
-                    -122.43576049804686,
-                    37.7524152343544
-                  ],
-                  [
-                    -122.43301391601563,
-                    37.706604725423119
-                  ],
-                  [
-                    -122.36434936523438,
-                    37.712059855877314
-                  ],
-                  [
-                    -122.43576049804686,
-                    37.7524152343544
-                  ]
-                ]
-              ]
-            }
-          ]
-        }
-      }
+    uri: GET https://atlas.microsoft.com/search/geometry/json?subscription-key=[subscription-key]&api-version=1.0&query=burger&limit=2
   responses:
   - statusCode: "200"
     body: >-
@@ -960,33 +866,7 @@ examples:
       }
 - name: Search for subs joints inside a geometry represented as a GeoJSON Polygon type
   request:
-    uri: POST https://atlas.microsoft.com/search/geometry/json?subscription-key=[subscription-key]&api-version=1.0&query=subs&limit=2
-    body: >-
-      {
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [
-            [
-              [
-                -122.43576049804686,
-                37.7524152343544
-              ],
-              [
-                -122.43301391601563,
-                37.706604725423119
-              ],
-              [
-                -122.36434936523438,
-                37.712059855877314
-              ],
-              [
-                -122.43576049804686,
-                37.7524152343544
-              ]
-            ]
-          ]
-        }
-      }
+    uri: GET https://atlas.microsoft.com/search/geometry/json?subscription-key=[subscription-key]&api-version=1.0&query=subs&limit=2
   responses:
   - statusCode: "200"
     body: >-

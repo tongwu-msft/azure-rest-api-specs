@@ -26,7 +26,7 @@ uriParameters:
   isRequired: true
   description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
-  - uid: string
+  - uid: TextFormat
 - name: subscription-key
   in: query
   isRequired: true
@@ -102,11 +102,7 @@ uriParameters:
   - uid: string
 - name: sectionType
   in: query
-  description: >-
-    Specifies which of the section types is reported in the route response.
-
-
-    For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car
+  description: Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car
   types:
   - uid: SectionType
 - name: arriveAt
@@ -177,7 +173,7 @@ uriParameters:
   - uid: Windingness
 - name: hilliness
   in: query
-  description: Degree of hilliness for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
+  description: Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
   types:
   - uid: Hilliness
 - name: travelMode
@@ -192,7 +188,7 @@ uriParameters:
   - uid: Avoid
 - name: traffic
   in: query
-  description: 'Possible values: (true (do consider all available traffic information during routing)), (false (ignore current traffic data during routing). Note that although the current traffic data is ignored during routing, the effect of historic traffic on effective road speeds is still incorporated).'
+  description: "Possible values: \n  * true - Do consider all available traffic information during routing\n  * false - Ignore current traffic data during routing. Note that although the current traffic data is ignored during routing, the\neffect of historic traffic on effective road speeds is still incorporated."
   types:
   - uid: boolean
 - name: routeType
@@ -212,7 +208,7 @@ uriParameters:
   - uid: VehicleEngineType
 - name: constantSpeedConsumptionInLitersPerHundredkm
   in: query
-  description: "\n\nSpecifies the speed-dependent component of consumption.\n\nProvided as an unordered list of colon-delimited speed & consumption-rate pairs. The list defines points on a consumption curve. Consumption rates for speeds not in the list are found as follows:\n\n * by linear interpolation, if the given speed lies in between two speeds in the list\n\n * by linear extrapolation otherwise, assuming a constant (?Consumption/?Speed) determined by the nearest two points in the list\n\nThe list must contain between 1 and 25 points (inclusive), and may not contain duplicate points for the same speed. If it only contains a single point, then the consumption rate of that point is used without further processing.\n\nConsumption specified for the largest speed must be greater than or equal to that of the penultimate largest speed. This ensures that extrapolation does not lead to negative consumption rates.\n\nSimilarly, consumption values specified for the two smallest speeds in the list cannot lead to a negative consumption rate for any smaller speed.\n\nThe valid range for the consumption values(expressed in l/100km) is between 0.01 and 100000.0.\n\nSensible Values : 50,6.3:130,11.5\n\n**Note** : This parameter is required for **The Combustion Consumption Model**."
+  description: "\n\nSpecifies the speed-dependent component of consumption.\n\nProvided as an unordered list of colon-delimited speed & consumption-rate pairs. The list defines points on a consumption curve. Consumption rates for speeds not in the list are found as follows:\n\n * by linear interpolation, if the given speed lies in between two speeds in the list\n\n * by linear extrapolation otherwise, assuming a constant (ΔConsumption/ΔSpeed) determined by the nearest two points in the list\n\nThe list must contain between 1 and 25 points (inclusive), and may not contain duplicate points for the same speed. If it only contains a single point, then the consumption rate of that point is used without further processing.\n\nConsumption specified for the largest speed must be greater than or equal to that of the penultimate largest speed. This ensures that extrapolation does not lead to negative consumption rates.\n\nSimilarly, consumption values specified for the two smallest speeds in the list cannot lead to a negative consumption rate for any smaller speed.\n\nThe valid range for the consumption values(expressed in l/100km) is between 0.01 and 100000.0.\n\nSensible Values : 50,6.3:130,11.5\n\n**Note** : This parameter is required for **The Combustion Consumption Model**."
   types:
   - uid: number
   format: float
@@ -328,7 +324,7 @@ uriParameters:
     * by linear interpolation, if the given speed lies in between two speeds in the list
 
 
-    * by linear extrapolation otherwise, assuming a constant (?Consumption/?Speed) determined by the nearest two points in the list
+    * by linear extrapolation otherwise, assuming a constant (ΔConsumption/ΔSpeed) determined by the nearest two points in the list
 
 
     The list must contain between 1 and 25 points (inclusive), and may not contain duplicate points for the same speed. If it only contains a single point, then the consumption rate of that point is used without further processing.
@@ -396,7 +392,7 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: RouteDirectionsResult
+  - uid: RouteDirectionsResponse
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -434,10 +430,22 @@ requestBody:
     isRequired: true
     description: Contains a list of valid `GeoJSON Feature` objects.
     types:
-    - uid: GeoJSONFeature
+    - uid: Features
       isArray: true
 requestHeader: []
 definitions:
+- name: TextFormat
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+  - name: xml
+    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
+    types:
+    - uid: string
 - name: AlternativeRouteType
   description: Controls the optimality, with respect to the given planning criteria, of the calculated alternatives compared to the reference route.
   kind: enum
@@ -491,41 +499,47 @@ definitions:
     types:
     - uid: string
 - name: SectionType
-  description: >-
-    Specifies which of the section types is reported in the route response.
-
-
-    For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car
+  description: Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car
   kind: enum
   properties:
   - name: carTrain
+    description: Get sections if the route includes car trains.
     types:
     - uid: string
   - name: country
+    description: Countries the route has parts in.
     types:
     - uid: string
   - name: ferry
+    description: Get sections if the route includes ferries.
     types:
     - uid: string
   - name: motorway
+    description: Get sections if the route includes motorways.
     types:
     - uid: string
   - name: pedestrian
+    description: Get sections which are suited for pedestrians.
     types:
     - uid: string
   - name: tollRoad
+    description: Get sections which require a toll to be payed.
     types:
     - uid: string
   - name: tollVignette
+    description: Get sections which require a toll vignette to be present.
     types:
     - uid: string
   - name: traffic
+    description: Get sections which contain traffic information.
     types:
     - uid: string
   - name: travelMode
+    description: Get sections in relation to the request parameter `travelMode`.
     types:
     - uid: string
   - name: tunnel
+    description: Get sections if the route includes tunnels.
     types:
     - uid: string
 - name: Windingness
@@ -533,25 +547,31 @@ definitions:
   kind: enum
   properties:
   - name: low
+    description: low
     types:
     - uid: string
   - name: normal
+    description: normal
     types:
     - uid: string
   - name: high
+    description: high
     types:
     - uid: string
 - name: Hilliness
-  description: Degree of hilliness for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
+  description: Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
   kind: enum
   properties:
   - name: low
+    description: low
     types:
     - uid: string
   - name: normal
+    description: normal
     types:
     - uid: string
   - name: high
+    description: high
     types:
     - uid: string
 - name: TravelMode
@@ -559,27 +579,35 @@ definitions:
   kind: enum
   properties:
   - name: car
+    description: car
     types:
     - uid: string
   - name: truck
+    description: truck
     types:
     - uid: string
   - name: taxi
+    description: taxi
     types:
     - uid: string
   - name: bus
+    description: bus
     types:
     - uid: string
   - name: van
+    description: van
     types:
     - uid: string
   - name: motorcycle
+    description: motorcycle
     types:
     - uid: string
   - name: bicycle
+    description: bicycle
     types:
     - uid: string
   - name: pedestrian
+    description: pedestrian
     types:
     - uid: string
 - name: Avoid
@@ -587,21 +615,27 @@ definitions:
   kind: enum
   properties:
   - name: tollRoads
+    description: Avoids toll roads.
     types:
     - uid: string
   - name: motorways
+    description: Avoids motorways
     types:
     - uid: string
   - name: ferries
+    description: Avoids ferries
     types:
     - uid: string
   - name: unpavedRoads
+    description: Avoids unpaved roads
     types:
     - uid: string
   - name: carpools
+    description: Avoids carpools
     types:
     - uid: string
   - name: alreadyUsedRoads
+    description: Avoids using the same road multiple times. Most useful in conjunction with `routeType`=thrilling.
     types:
     - uid: string
 - name: RouteType
@@ -681,13 +715,15 @@ definitions:
   kind: enum
   properties:
   - name: combustion
+    description: Internal combustion engine.
     types:
     - uid: string
   - name: electric
+    description: Electric engine.
     types:
     - uid: string
-- name: GeoJSONFeature
-  description: A valid `GeoJSON Feature` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.2) for details.
+- name: Features
+  description: Contains a list of valid `GeoJSON Feature` objects.
   kind: object
   properties:
   - name: type
@@ -697,12 +733,12 @@ definitions:
   - name: geometry
     description: A valid `GeoJSON` geometry object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
     types:
-    - uid: GeoJSONGeometry
+    - uid: Geometry
   - name: properties
     description: Properties can contain any additional metadata about the `Feature`. Value can be any JSON object or a JSON null value
     types:
     - uid: object
-- name: RouteDirectionsResult
+- name: RouteDirectionsResponse
   description: This object is returned from a successful Route Directions call
   kind: object
   properties:
@@ -725,18 +761,18 @@ definitions:
     isReadyOnly: true
     description: Routes array
     types:
-    - uid: RouteDef
+    - uid: RouteDirectionsResult
       isArray: true
   - name: optimizedWaypoints
     isReadyOnly: true
     description: Optimized way points array
     types:
-    - uid: OptimizedWaypoint
+    - uid: RouteOptimizedWaypoint
       isArray: true
   - name: report
     description: Reports the effective settings used in the current call.
     types:
-    - uid: ReportInResponse
+    - uid: RouteResponseReport
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
   kind: object
@@ -759,9 +795,9 @@ definitions:
   - name: features
     description: Contains a list of valid `GeoJSON Feature` objects.
     types:
-    - uid: GeoJSONFeature
+    - uid: Features
       isArray: true
-- name: GeoJSONGeometry
+- name: Geometry
   description: A valid `GeoJSON` geometry object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
   kind: object
   properties:
@@ -774,7 +810,7 @@ definitions:
     types:
     - uid: array
       isArray: true
-- name: RouteDef
+- name: RouteDirectionsResult
   kind: object
   properties:
   - name: summary
@@ -786,20 +822,20 @@ definitions:
     isReadyOnly: true
     description: Legs array
     types:
-    - uid: Leg
+    - uid: RouteResultLeg
       isArray: true
   - name: sections
     isReadyOnly: true
     description: Sections array
     types:
-    - uid: Section
+    - uid: RouteResultSection
       isArray: true
   - name: guidance
     isReadyOnly: true
     description: Contains guidance related elements. This field is present only when guidance was requested and is available.
     types:
     - uid: Guidance
-- name: OptimizedWaypoint
+- name: RouteOptimizedWaypoint
   description: Optimized way point object.
   kind: object
   properties:
@@ -813,7 +849,7 @@ definitions:
     description: Optimized way point index from the system.
     types:
     - uid: integer
-- name: ReportInResponse
+- name: RouteResponseReport
   description: Reports the effective settings used in the current call.
   kind: object
   properties:
@@ -821,7 +857,7 @@ definitions:
     isReadyOnly: true
     description: Effective parameters or data used when calling this Route API.
     types:
-    - uid: EffectiveSetting
+    - uid: EffectiveSettings
       isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Maps API
@@ -873,42 +909,32 @@ definitions:
   description: Summary object
   kind: object
   properties:
-  - name: query
+  - name: lengthInMeters
     isReadyOnly: true
-    description: Query property
+    description: Length In Meters property
+    types:
+    - uid: integer
+  - name: travelTimeInSeconds
+    isReadyOnly: true
+    description: Travel Time In Seconds property
+    types:
+    - uid: integer
+  - name: trafficDelayInSeconds
+    isReadyOnly: true
+    description: Traffic Delay In Seconds property
+    types:
+    - uid: integer
+  - name: departureTime
+    isReadyOnly: true
+    description: Departure Time property
     types:
     - uid: string
-  - name: queryType
+  - name: arrivalTime
     isReadyOnly: true
-    description: QueryType property
+    description: Arrival Time property
     types:
     - uid: string
-  - name: queryTime
-    isReadyOnly: true
-    description: QueryTime property
-    types:
-    - uid: integer
-  - name: numResults
-    isReadyOnly: true
-    description: NumResults property
-    types:
-    - uid: integer
-  - name: offset
-    isReadyOnly: true
-    description: Offset property
-    types:
-    - uid: integer
-  - name: totalResults
-    isReadyOnly: true
-    description: TotalResults property
-    types:
-    - uid: integer
-  - name: fuzzyLevel
-    isReadyOnly: true
-    description: FuzzyLevel property
-    types:
-    - uid: integer
-- name: Leg
+- name: RouteResultLeg
   kind: object
   properties:
   - name: summary
@@ -920,9 +946,9 @@ definitions:
     isReadyOnly: true
     description: Points array
     types:
-    - uid: Points
+    - uid: Coordinate
       isArray: true
-- name: Section
+- name: RouteResultSection
   kind: object
   properties:
   - name: startPointIndex
@@ -968,7 +994,7 @@ definitions:
   - name: tec
     description: Details of the traffic event, using definitions in the TPEG2-TEC standard. Can contain <effectCode> and <causes> elements.
     types:
-    - uid: Tec
+    - uid: RouteResultSectionTec
 - name: Guidance
   description: Contains guidance related elements. This field is present only when guidance was requested and is available.
   kind: object
@@ -977,16 +1003,16 @@ definitions:
     isReadyOnly: true
     description: A list of instructions describing maneuvers.
     types:
-    - uid: GuidanceInstruction
+    - uid: RouteResultInstruction
       isArray: true
   - name: instructionGroups
     isReadyOnly: true
-    description: xxxxx.
+    description: Groups a sequence of instruction elements which are related to each other.
     types:
-    - uid: GuidanceInstructionGroup
+    - uid: RouteResultInstructionGroup
       isArray: true
-- name: EffectiveSetting
-  description: Effective parameter or data used when calling this Route API.
+- name: EffectiveSettings
+  description: Effective parameters or data used when calling this Route API.
   kind: object
   properties:
   - name: key
@@ -999,8 +1025,7 @@ definitions:
     description: Value of the parameter used.
     types:
     - uid: string
-- name: Points
-  description: Points array
+- name: Coordinate
   kind: object
   properties:
   - name: latitude
@@ -1037,7 +1062,7 @@ definitions:
     description: Undefined, used for road closures and other indefinite delays.
     types:
     - uid: string
-- name: Tec
+- name: RouteResultSectionTec
   description: Details of the traffic event, using definitions in the TPEG2-TEC standard. Can contain <effectCode> and <causes> elements.
   kind: object
   properties:
@@ -1049,15 +1074,15 @@ definitions:
   - name: causes
     description: List of <cause> elements.
     types:
-    - uid: TecCause
+    - uid: Causes
       isArray: true
-- name: GuidanceInstruction
+- name: RouteResultInstruction
   description: A set of attributes describing a maneuver, e.g. 'Turn right', 'Keep left', 'Take the ferry', 'Take the motorway', 'Arrive'.
   kind: object
   properties:
   - name: routeOffsetInMeters
     isReadyOnly: true
-    description: Distance from the start of the route to the point of the instruction..
+    description: Distance from the start of the route to the point of the instruction.
     types:
     - uid: integer
   - name: travelTimeInSeconds
@@ -1066,10 +1091,9 @@ definitions:
     types:
     - uid: integer
   - name: point
-    isReadyOnly: true
-    description: A location of the maneuver defined as a latitude longitude pair. .
+    description: ''
     types:
-    - uid: Point
+    - uid: Coordinate
   - name: instructionType
     description: Type of the instruction, e.g., turn or change of road form.
     types:
@@ -1104,7 +1128,7 @@ definitions:
     description: A human-readable message for the maneuver.
     types:
     - uid: string
-- name: GuidanceInstructionGroup
+- name: RouteResultInstructionGroup
   description: Groups a sequence of instruction elements which are related to each other. The sequence range is constrained with firstInstructionIndex and lastInstructionIndex. When human-readable text messages are requested for guidance (instructionType=text or tagged), then the instructionGroup has a summary message returned when available.
   kind: object
   properties:
@@ -1128,8 +1152,8 @@ definitions:
     description: Summary message when human-readable text messages are requested for guidance (instructionType=text or tagged).
     types:
     - uid: string
-- name: TecCause
-  description: The cause of the traffic event. Can contain <mainCauseCode> and <subCauseCode> elements. Can be used to define iconography and descriptions.
+- name: Causes
+  description: List of <cause> elements.
   kind: object
   properties:
   - name: mainCauseCode
@@ -1142,40 +1166,32 @@ definitions:
     description: The subcause of the traffic event. Contains a value in the sub cause table defined by the mainCauseCode, as defined in the TPEG2-TEC standard.
     types:
     - uid: integer
-- name: Point
-  description: A location of the maneuver defined as a latitude longitude pair. .
-  kind: object
-  properties:
-  - name: latitude
-    isReadyOnly: true
-    description: Latitude.
-    types:
-    - uid: number
-  - name: longitude
-    isReadyOnly: true
-    description: Longitude.
-    types:
-    - uid: number
 - name: GuidanceInstructionType
   description: Type of the instruction, e.g., turn or change of road form.
   kind: enum
   properties:
   - name: TURN
+    description: Turn.
     types:
     - uid: string
   - name: ROAD_CHANGE
+    description: Road Change.
     types:
     - uid: string
   - name: LOCATION_DEPARTURE
+    description: Departure location.
     types:
     - uid: string
   - name: LOCATION_ARRIVAL
+    description: Arrival location.
     types:
     - uid: string
   - name: DIRECTION_INFO
+    description: Direction information.
     types:
     - uid: string
   - name: LOCATION_WAYPOINT
+    description: Way point location.
     types:
     - uid: string
 - name: DrivingSide
@@ -1183,9 +1199,11 @@ definitions:
   kind: enum
   properties:
   - name: LEFT
+    description: Left side.
     types:
     - uid: string
   - name: RIGHT
+    description: Right side.
     types:
     - uid: string
 - name: GuidanceManeuver

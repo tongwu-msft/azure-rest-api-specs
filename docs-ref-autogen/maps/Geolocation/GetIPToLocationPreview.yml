@@ -1,20 +1,16 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.render.getcopyrightcaption
-name: Get Copyright Caption
+uid: atlas.microsoft.com.maps.geolocation.getiptolocationpreview
+name: Get IP To Location Preview
 service: Maps
-groupName: Render
+groupName: Geolocation
 apiVersion: "1.0"
-summary: >-
-  Copyrights API is designed to serve copyright information for Render Tile  service. In addition to basic copyright for the whole map, API is serving  specific groups of copyrights for some countries.
-
-
-  As an alternative to copyrights for map request, one can receive captions  for displaying the map provider information on the map.
+summary: "This service will return the ISO country code for the provided IP address. Developers can use this information  to block or alter certain content based on geographical locations where the application is being viewed from. \n\n\n__Note:__ This service returns results from IANA and does not necessarily reflect the views of Microsoft  Corporation."
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/map/copyright/caption/{format}?subscription-key={subscription-key}&api-version=1.0
+- content: GET https://atlas.microsoft.com/geolocation/ip/{format}?subscription-key={subscription-key}&api-version=1.0&ip={ip}
 uriParameters:
 - name: format
   in: path
@@ -34,11 +30,18 @@ uriParameters:
   description: Version number of Azure Maps API. Current version is 1.0
   types:
   - uid: string
+- name: ip
+  in: query
+  isRequired: true
+  description: The IP address
+  types:
+  - uid: string
+  format: IPv4 or IPv6
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: CopyrightCaptionResult
+  - uid: IpAddressToLocationResult
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -73,18 +76,18 @@ definitions:
     description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
     types:
     - uid: string
-- name: CopyrightCaptionResult
-  description: This object is returned from a successful Copyright Caption call
+- name: IpAddressToLocationResult
+  description: This object is returned from a successful call to IP Address to country/region API
   kind: object
   properties:
-  - name: formatVersion
+  - name: CountryRegion
     isReadyOnly: true
-    description: Format Version property
+    description: The object containing the country/region information.
     types:
-    - uid: string
-  - name: copyrightsCaption
+    - uid: CountryRegion
+  - name: IPAddress
     isReadyOnly: true
-    description: Copyrights Caption property
+    description: The IP Address of the request.
     types:
     - uid: string
 - name: ErrorResponse
@@ -95,6 +98,15 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
+- name: CountryRegion
+  description: The object containing the country/region information.
+  kind: object
+  properties:
+  - name: IsoCode
+    isReadyOnly: true
+    description: "The IP Address's 2-character code (ISO 3166-1) of the country or region as assigned by IANA and regional internet authorities. Please note, IP address in ranges reserved for special purpose will return Null for country/region. "
+    types:
+    - uid: string
 - name: Error
   description: This object is returned when an error occurs in the Maps API
   kind: object
@@ -110,15 +122,17 @@ definitions:
     types:
     - uid: string
 examples:
-- name: GetCopyrightCaption
+- name: GetIpAddressToCountry
   request:
-    uri: GET https://atlas.microsoft.com/map/copyright/caption/json?subscription-key=[subscription-key]&api-version=1.0
+    uri: GET https://atlas.microsoft.com/geolocation/ip/json?subscription-key=[subscription-key]&api-version=1.0&ip=2001:4898:80e8:b::189
   responses:
   - statusCode: "200"
     body: >-
       {
-        "formatVersion": "0.0.1",
-        "copyrightsCaption": "© 1992 - 2017 TomTom."
+        "CountryRegion": {
+          "IsoCode": "US"
+        },
+        "IPAddress": "2001:4898:80e8:b::189"
       }
   - statusCode: "400"
     body: >-
