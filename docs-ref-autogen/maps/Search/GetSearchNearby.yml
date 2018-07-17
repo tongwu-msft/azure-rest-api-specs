@@ -123,9 +123,9 @@ definitions:
   properties:
   - name: summary
     isReadyOnly: true
-    description: Summary object
+    description: Summary object for a Search Nearby response
     types:
-    - uid: Summary
+    - uid: SearchNearbySummary
   - name: results
     isReadyOnly: true
     description: Results array
@@ -140,15 +140,10 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
-- name: Summary
-  description: Summary object
+- name: SearchNearbySummary
+  description: Summary object for a Search Nearby response
   kind: object
   properties:
-  - name: query
-    isReadyOnly: true
-    description: Query property
-    types:
-    - uid: string
   - name: queryType
     isReadyOnly: true
     description: QueryType property
@@ -179,6 +174,11 @@ definitions:
     description: FuzzyLevel property
     types:
     - uid: integer
+  - name: geoBias
+    isReadyOnly: true
+    description: Indication when the internal search engine has applied a geospatial bias to improve the ranking of results.  In  some methods, this can be affected by setting the lat and lon parameters where available.  In other cases it is  purely internal.
+    types:
+    - uid: SearchSummaryGeoBias
 - name: SearchNearbyResult
   kind: object
   properties:
@@ -216,11 +216,11 @@ definitions:
     types:
     - uid: SearchResultAddress
   - name: position
-    description: Coordinates of the result
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: SearchResultPosition
+    - uid: position
   - name: viewport
-    description: The viewport that covers the result
+    description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the  viewport.
     types:
     - uid: SearchResultViewport
   - name: entryPoints
@@ -242,6 +242,20 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
+- name: SearchSummaryGeoBias
+  description: Indication when the internal search engine has applied a geospatial bias to improve the ranking of results.  In  some methods, this can be affected by setting the lat and lon parameters where available.  In other cases it is  purely internal.
+  kind: object
+  properties:
+  - name: lat
+    isReadyOnly: true
+    description: Latitude property
+    types:
+    - uid: number
+  - name: lon
+    isReadyOnly: true
+    description: Longitude property
+    types:
+    - uid: number
 - name: SearchResultPoi
   description: Details of the poi including the name, phone, url, and categories.
   kind: object
@@ -373,8 +387,8 @@ definitions:
     description: Country Subdividion Name property
     types:
     - uid: string
-- name: SearchResultPosition
-  description: Coordinates of the result
+- name: position
+  description: A location represented as a latitude and longitude.
   kind: object
   properties:
   - name: lat
@@ -388,17 +402,17 @@ definitions:
     types:
     - uid: number
 - name: SearchResultViewport
-  description: The viewport that covers the result
+  description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the  viewport.
   kind: object
   properties:
   - name: topLeftPoint
-    description: Top left of the viewport
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: TopLeftPoint
+    - uid: position
   - name: btmRightPoint
-    description: Bottom right of the viewport
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: BtmRightPoint
+    - uid: position
 - name: SearchResultEntryPoint
   description: The entry point for the POI being returned.
   kind: object
@@ -411,10 +425,9 @@ definitions:
     - uid: minor
     typesTitle: enum
   - name: position
-    isReadyOnly: true
-    description: Name property
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: Position
+    - uid: position
 - name: SearchResultPoiClassification
   description: The classification for the POI being returned
   kind: object
@@ -428,52 +441,10 @@ definitions:
     isReadyOnly: true
     description: Names array
     types:
-    - uid: Names
+    - uid: SearchResultPoiClassificationName
       isArray: true
-- name: TopLeftPoint
-  description: Top left of the viewport
-  kind: object
-  properties:
-  - name: lat
-    isReadyOnly: true
-    description: Latitude
-    types:
-    - uid: number
-  - name: lon
-    isReadyOnly: true
-    description: Longitude
-    types:
-    - uid: number
-- name: BtmRightPoint
-  description: Bottom right of the viewport
-  kind: object
-  properties:
-  - name: lat
-    isReadyOnly: true
-    description: Latitude
-    types:
-    - uid: number
-  - name: lon
-    isReadyOnly: true
-    description: Longitude
-    types:
-    - uid: number
-- name: Position
-  description: Name property
-  kind: object
-  properties:
-  - name: lat
-    isReadyOnly: true
-    description: Latitude property
-    types:
-    - uid: number
-  - name: lon
-    isReadyOnly: true
-    description: Longitude property
-    types:
-    - uid: number
-- name: Names
-  description: Names array
+- name: SearchResultPoiClassificationName
+  description: Name for the classification
   kind: object
   properties:
   - name: nameLocale
