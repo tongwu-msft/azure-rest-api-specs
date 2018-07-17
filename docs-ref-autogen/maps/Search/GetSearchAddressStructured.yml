@@ -152,9 +152,9 @@ definitions:
   properties:
   - name: summary
     isReadyOnly: true
-    description: Summary object
+    description: Summary object for a Search Address Structured response
     types:
-    - uid: Summary
+    - uid: SearchAddressStructuredSummary
   - name: results
     isReadyOnly: true
     description: Results array
@@ -169,8 +169,8 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
-- name: Summary
-  description: Summary object
+- name: SearchAddressStructuredSummary
+  description: Summary object for a Search Address Structured response
   kind: object
   properties:
   - name: query
@@ -193,6 +193,11 @@ definitions:
     description: NumResults property
     types:
     - uid: integer
+  - name: limit
+    isReadyOnly: true
+    description: Maximum number of responses that will be returned
+    types:
+    - uid: integer
   - name: offset
     isReadyOnly: true
     description: Offset property
@@ -208,6 +213,11 @@ definitions:
     description: FuzzyLevel property
     types:
     - uid: integer
+  - name: geoBias
+    isReadyOnly: true
+    description: Indication when the internal search engine has applied a geospatial bias to improve the ranking of results.  In  some methods, this can be affected by setting the lat and lon parameters where available.  In other cases it is  purely internal.
+    types:
+    - uid: SearchSummaryGeoBias
 - name: SearchAddressStructuredResult
   kind: object
   properties:
@@ -236,11 +246,11 @@ definitions:
     types:
     - uid: SearchResultAddress
   - name: position
-    description: Coordinates of the result
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: SearchResultPosition
+    - uid: position
   - name: viewport
-    description: The viewport that covers the result
+    description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the  viewport.
     types:
     - uid: SearchResultViewport
   - name: entryPoints
@@ -249,7 +259,7 @@ definitions:
     - uid: SearchResultEntryPoint
       isArray: true
   - name: addressRanges
-    description: ''
+    description: Describes the address range on both sides of the street for a search result. Coordinates for the start and end locations of the address range are included.
     types:
     - uid: SearchResultAddressRanges
 - name: Error
@@ -266,6 +276,20 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
+- name: SearchSummaryGeoBias
+  description: Indication when the internal search engine has applied a geospatial bias to improve the ranking of results.  In  some methods, this can be affected by setting the lat and lon parameters where available.  In other cases it is  purely internal.
+  kind: object
+  properties:
+  - name: lat
+    isReadyOnly: true
+    description: Latitude property
+    types:
+    - uid: number
+  - name: lon
+    isReadyOnly: true
+    description: Longitude property
+    types:
+    - uid: number
 - name: SearchResultAddress
   description: The address of the result
   kind: object
@@ -366,8 +390,8 @@ definitions:
     description: Country Subdividion Name property
     types:
     - uid: string
-- name: SearchResultPosition
-  description: Coordinates of the result
+- name: position
+  description: A location represented as a latitude and longitude.
   kind: object
   properties:
   - name: lat
@@ -381,17 +405,17 @@ definitions:
     types:
     - uid: number
 - name: SearchResultViewport
-  description: The viewport that covers the result
+  description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the  viewport.
   kind: object
   properties:
   - name: topLeftPoint
-    description: Top left of the viewport
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: TopLeftPoint
+    - uid: position
   - name: btmRightPoint
-    description: Bottom right of the viewport
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: BtmRightPoint
+    - uid: position
 - name: SearchResultEntryPoint
   description: The entry point for the POI being returned.
   kind: object
@@ -404,11 +428,11 @@ definitions:
     - uid: minor
     typesTitle: enum
   - name: position
-    isReadyOnly: true
-    description: Name property
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: Position
+    - uid: position
 - name: SearchResultAddressRanges
+  description: Describes the address range on both sides of the street for a search result. Coordinates for the start and end locations of the address range are included.
   kind: object
   properties:
   - name: rangeLeft
@@ -420,79 +444,13 @@ definitions:
     types:
     - uid: string
   - name: from
-    description: A postion of start point
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: From
+    - uid: position
   - name: to
-    description: A postion of destination
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: To
-- name: TopLeftPoint
-  description: Top left of the viewport
-  kind: object
-  properties:
-  - name: lat
-    isReadyOnly: true
-    description: Latitude
-    types:
-    - uid: number
-  - name: lon
-    isReadyOnly: true
-    description: Longitude
-    types:
-    - uid: number
-- name: BtmRightPoint
-  description: Bottom right of the viewport
-  kind: object
-  properties:
-  - name: lat
-    isReadyOnly: true
-    description: Latitude
-    types:
-    - uid: number
-  - name: lon
-    isReadyOnly: true
-    description: Longitude
-    types:
-    - uid: number
-- name: Position
-  description: Name property
-  kind: object
-  properties:
-  - name: lat
-    isReadyOnly: true
-    description: Latitude property
-    types:
-    - uid: number
-  - name: lon
-    isReadyOnly: true
-    description: Longitude property
-    types:
-    - uid: number
-- name: From
-  description: A postion of start point
-  kind: object
-  properties:
-  - name: lon
-    description: longitude of start point
-    types:
-    - uid: number
-  - name: lat
-    description: latitude of start point
-    types:
-    - uid: number
-- name: To
-  description: A postion of destination
-  kind: object
-  properties:
-  - name: lon
-    description: longitude of destination
-    types:
-    - uid: number
-  - name: lat
-    description: latitude of destination
-    types:
-    - uid: number
+    - uid: position
 examples:
 - name: GetSearchAddressStructured
   request:

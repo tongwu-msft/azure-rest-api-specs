@@ -416,15 +416,6 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: type
-    in: body
-    isRequired: true
-    description: 'Specifies the `type` for the geometry object. This value must be one of: `FeatureCollection`, `GeometryCollection` and `Polygon`.'
-    types:
-    - uid: FeatureCollection
-    - uid: GeometryCollection
-    - uid: Polygon
-    typesTitle: enum
   - name: features
     in: body
     isRequired: true
@@ -785,13 +776,6 @@ definitions:
   description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details.
   kind: object
   properties:
-  - name: type
-    description: 'Specifies the `type` for the geometry object. This value must be one of: `FeatureCollection`, `GeometryCollection` and `Polygon`.'
-    types:
-    - uid: FeatureCollection
-    - uid: GeometryCollection
-    - uid: Polygon
-    typesTitle: enum
   - name: features
     description: Contains a list of valid `GeoJSON Feature` objects.
     types:
@@ -817,7 +801,7 @@ definitions:
     isReadyOnly: true
     description: Summary object
     types:
-    - uid: Summary
+    - uid: RouteDirectionsSummary
   - name: legs
     isReadyOnly: true
     description: Legs array
@@ -834,7 +818,7 @@ definitions:
     isReadyOnly: true
     description: Contains guidance related elements. This field is present only when guidance was requested and is available.
     types:
-    - uid: Guidance
+    - uid: RouteResultGuidance
 - name: RouteOptimizedWaypoint
   description: Optimized way point object.
   kind: object
@@ -857,7 +841,7 @@ definitions:
     isReadyOnly: true
     description: Effective parameters or data used when calling this Route API.
     types:
-    - uid: EffectiveSettings
+    - uid: RouteResponseReportEffectiveSetting
       isArray: true
 - name: Error
   description: This object is returned when an error occurs in the Maps API
@@ -905,7 +889,7 @@ definitions:
     description: '`GeoJSON GeometryCollection` geometry.'
     types:
     - uid: string
-- name: Summary
+- name: RouteDirectionsSummary
   description: Summary object
   kind: object
   properties:
@@ -939,9 +923,9 @@ definitions:
   properties:
   - name: summary
     isReadyOnly: true
-    description: Summary object
+    description: Summary object for route section.
     types:
-    - uid: Summary
+    - uid: RouteResultLegSummary
   - name: points
     isReadyOnly: true
     description: Points array
@@ -995,7 +979,7 @@ definitions:
     description: Details of the traffic event, using definitions in the TPEG2-TEC standard. Can contain <effectCode> and <causes> elements.
     types:
     - uid: RouteResultSectionTec
-- name: Guidance
+- name: RouteResultGuidance
   description: Contains guidance related elements. This field is present only when guidance was requested and is available.
   kind: object
   properties:
@@ -1011,8 +995,8 @@ definitions:
     types:
     - uid: RouteResultInstructionGroup
       isArray: true
-- name: EffectiveSettings
-  description: Effective parameters or data used when calling this Route API.
+- name: RouteResponseReportEffectiveSetting
+  description: Effective parameter or data used when calling this Route API.
   kind: object
   properties:
   - name: key
@@ -1025,7 +1009,62 @@ definitions:
     description: Value of the parameter used.
     types:
     - uid: string
+- name: RouteResultLegSummary
+  description: Summary object for route section.
+  kind: object
+  properties:
+  - name: lengthInMeters
+    isReadyOnly: true
+    description: Length In Meters property
+    types:
+    - uid: integer
+  - name: travelTimeInSeconds
+    isReadyOnly: true
+    description: Estimated travel Time In Seconds property
+    types:
+    - uid: integer
+  - name: trafficDelayInSeconds
+    isReadyOnly: true
+    description: Traffic Delay In Seconds property
+    types:
+    - uid: integer
+  - name: departureTime
+    isReadyOnly: true
+    description: Departure Time property
+    types:
+    - uid: string
+  - name: arrivalTime
+    isReadyOnly: true
+    description: Arrival Time property
+    types:
+    - uid: string
+  - name: noTrafficTravelTimeInSeconds
+    isReadyOnly: true
+    description: Estimated travel time calculated as if there are no delays on the route due to traffic conditions (e.g. congestion). Included only if computeTravelTimeFor = all is used in the query.
+    types:
+    - uid: integer
+  - name: historicTrafficTravelTimeInSeconds
+    isReadyOnly: true
+    description: Estimated travel time calculated using time-dependent historic traffic data. Included only if computeTravelTimeFor = all is used in the query.
+    types:
+    - uid: integer
+  - name: liveTrafficIncidentsTravelTimeInSeconds
+    isReadyOnly: true
+    description: Estimated travel time calculated using real-time speed data. Included only if computeTravelTimeFor = all is used in the query.
+    types:
+    - uid: integer
+  - name: fuelConsumptionInLiters
+    isReadyOnly: true
+    description: Estimated fuel consumption in liters using the Combustion Consumption Model. Included if vehicleEngineType is set to _combustion_ and constantSpeedConsumptionInLitersPerHundredkm is specified. The value will be non-negative.
+    types:
+    - uid: number
+  - name: batteryConsumptionInkWh
+    isReadyOnly: true
+    description: Estimated electric energy consumption in kilowatt hours (kWh) using the Electric Consumption Model. Included if vehicleEngineType is set to electric and constantSpeedConsumptionInkWhPerHundredkm is specified. The value of batteryConsumptionInkWh includes the recuperated electric energy and can therefore be negative (which indicates gaining energy). If both maxChargeInkWh and currentChargeInkWh are specified, recuperation will be capped to ensure that the battery charge level never exceeds maxChargeInkWh. If neither maxChargeInkWh nor currentChargeInkWh are specified, unconstrained recuperation is assumed in the consumption calculation.
+    types:
+    - uid: number
 - name: Coordinate
+  description: A location represented as a latitude and longitude.
   kind: object
   properties:
   - name: latitude
@@ -1074,7 +1113,7 @@ definitions:
   - name: causes
     description: List of <cause> elements.
     types:
-    - uid: Causes
+    - uid: RouteResultSectionTecCause
       isArray: true
 - name: RouteResultInstruction
   description: A set of attributes describing a maneuver, e.g. 'Turn right', 'Keep left', 'Take the ferry', 'Take the motorway', 'Arrive'.
@@ -1091,7 +1130,7 @@ definitions:
     types:
     - uid: integer
   - name: point
-    description: ''
+    description: A location represented as a latitude and longitude.
     types:
     - uid: Coordinate
   - name: instructionType
@@ -1152,8 +1191,8 @@ definitions:
     description: Summary message when human-readable text messages are requested for guidance (instructionType=text or tagged).
     types:
     - uid: string
-- name: Causes
-  description: List of <cause> elements.
+- name: RouteResultSectionTecCause
+  description: The cause of the traffic event. Can contain <mainCauseCode> and <subCauseCode> elements. Can be used to define iconography and descriptions.
   kind: object
   properties:
   - name: mainCauseCode
