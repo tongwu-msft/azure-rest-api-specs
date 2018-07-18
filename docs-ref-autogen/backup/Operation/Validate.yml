@@ -1,19 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.backup.restores.trigger
-name: Trigger
+uid: management.azure.com.backup.operation.validate
+name: Validate
 service: Recovery Services - Backup
-groupName: Restores
-apiVersion: 2016-12-01
-summary: >-
-  Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
-
-              GetProtectedItemOperationResult API.
+groupName: Operation
+apiVersion: 2017-07-01
+summary: Validate operation for specified backed up item. This is a synchronous operation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/restore?api-version=2016-12-01
+- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupValidateOperation?api-version=2017-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,30 +30,6 @@ uriParameters:
   description: The name of the recovery services vault.
   types:
   - uid: string
-- name: fabricName
-  in: path
-  isRequired: true
-  description: Fabric name associated with the backed up items.
-  types:
-  - uid: string
-- name: containerName
-  in: path
-  isRequired: true
-  description: Container name associated with the backed up items.
-  types:
-  - uid: string
-- name: protectedItemName
-  in: path
-  isRequired: true
-  description: Backed up item to be restored.
-  types:
-  - uid: string
-- name: recoveryPointId
-  in: path
-  isRequired: true
-  description: Recovery point ID which represents the backed up data to be restored.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -64,84 +37,82 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 202 Accepted
-  description: Accepted
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ValidateOperationsResponse
 requestBody:
-- name: default
+- name: ValidateRestoreOperationRequest
+  description: AzureRestoreValidation request.
   parameters:
-  - name: properties
+  - name: restoreRequest
     in: body
-    description: RestoreRequestResource properties
+    description: Sets restore request to be validated
     types:
     - uid: AzureFileShareRestoreRequest
     - uid: AzureWorkloadRestoreRequest
     - uid: AzureWorkloadSAPHanaRestoreRequest
     - uid: IaasVMRestoreRequest
     typesTitle: RestoreRequest
-  - name: location
+  - name: objectType
     in: body
-    description: Resource location.
+    isRequired: true
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
     types:
-    - uid: string
-  - name: tags
-    in: body
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: eTag
-    in: body
-    description: Optional ETag.
-    types:
-    - uid: string
+    - uid: ValidateRestoreOperationRequest
+    typesTitle: string
 requestHeader: []
 definitions:
-- name: RestoreRequestResource
-  description: Base class for restore request. Workload-specific restore requests are derived from this class.
+- name: ValidateOperationsResponse
   kind: object
   properties:
-  - name: properties
-    description: RestoreRequestResource properties
+  - name: validateOperationResponse
+    description: Base class for validate operation response.
+    types:
+    - uid: ValidateOperationResponse
+- name: ValidateIaasVMRestoreOperationRequest
+  description: AzureRestoreValidation request.
+  kind: object
+  properties:
+  - name: restoreRequest
+    description: Sets restore request to be validated
     types:
     - uid: AzureFileShareRestoreRequest
     - uid: AzureWorkloadRestoreRequest
     - uid: AzureWorkloadSAPHanaRestoreRequest
     - uid: IaasVMRestoreRequest
     typesTitle: RestoreRequest
-  - name: id
-    isReadyOnly: true
-    description: Resource Id represents the complete path to the resource.
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorhpic chain of types.
+    types:
+    - uid: ValidateRestoreOperationRequest
+    typesTitle: string
+- name: ValidateOperationResponse
+  description: Base class for validate operation response.
+  kind: object
+  properties:
+  - name: validationResults
+    description: Gets the validation result
+    types:
+    - uid: ErrorDetail
+      isArray: true
+- name: ErrorDetail
+  description: Error Detail class which encapsulates Code, Message and Recommendations.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
     types:
     - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name associated with the resource.
+  - name: message
+    description: Error Message related to the Code.
     types:
     - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+  - name: recommendations
+    description: List of recommendation strings.
     types:
     - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: eTag
-    description: Optional ETag.
-    types:
-    - uid: string
+      isArray: true
 - name: AzureFileShareRestoreRequest
   description: AzureFileShare Restore Request
   kind: object
@@ -496,64 +467,42 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Restore to New Azure IaasVm
+- name: Validate Operation
   request:
-    uri: POST https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1/protectedItems/VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1/recoveryPoints/348916168024334/restore?api-version=2016-12-01
+    uri: POST https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRG/providers/Microsoft.RecoveryServices/vaults/testVault/backupValidateOperation?api-version=2017-07-01
     body: >-
       {
-        "recoveryPointId": "348916168024334",
-        "recoveryType": "AlternateLocation",
-        "sourceResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1",
-        "targetVirtualMachineId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg2/providers/Microsoft.Compute/virtualmachines/RSMDALRVM981435",
-        "targetResourceGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg2",
-        "storageAccountId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRg/providers/Microsoft.Storage/storageAccounts/testingAccount",
-        "virtualNetworkId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRg/providers/Microsoft.Network/virtualNetworks/testNet",
-        "subnetId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRg/providers/Microsoft.Network/virtualNetworks/testNet/subnets/default",
-        "region": "southeastasia",
-        "createNewCloudService": false,
-        "originalStorageAccountOption": false,
-        "api-version": "2016-12-01",
-        "encryptionDetails": {
-          "encryptionEnabled": false
+        "objectType": "ValidateIaasVMRestoreOperationRequest",
+        "restoreRequest": {
+          "recoveryPointId": "348916168024334",
+          "objectType": "IaasVMRestoreRequest",
+          "recoveryType": "RestoreDisks",
+          "sourceResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1",
+          "storageAccountId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testingRg/providers/Microsoft.Storage/storageAccounts/testAccount",
+          "region": "southeastasia",
+          "createNewCloudService": true,
+          "originalStorageAccountOption": false,
+          "encryptionDetails": {
+            "encryptionEnabled": false
+          }
         }
       }
   responses:
-  - statusCode: "202"
-    headers:
-    - name: Location
-      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/Azure/protectionContainers/iaasvmcontainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1/protectedItems/vm;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1/operationResults/00000000-0000-0000-0000-000000000000?api-version=2017-07-01
-    - name: Azure-AsyncOperation
-      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/Azure/protectionContainers/iaasvmcontainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1/protectedItems/vm;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1/operationsStatus/00000000-0000-0000-0000-000000000000?api-version=2017-07-01
-    - name: Retry-After
-      value: "60"
-    body: '{}'
-- name: Restore Disks
-  request:
-    uri: POST https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1/protectedItems/VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1/recoveryPoints/348916168024334/restore?api-version=2016-12-01
+  - statusCode: "200"
     body: >-
       {
-        "recoveryPointId": "348916168024334",
-        "recoveryType": "RestoreDisks",
-        "sourceResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.Compute/virtualMachines/netvmtestv2vm1",
-        "storageAccountId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testingRg/providers/Microsoft.Storage/storageAccounts/testAccount",
-        "region": "southeastasia",
-        "createNewCloudService": true,
-        "originalStorageAccountOption": false,
-        "api-version": "2016-12-01",
-        "encryptionDetails": {
-          "encryptionEnabled": false
+        "validateOperationResponse": {
+          "validationResults": [
+            {
+              "code": "UserErrorCoreCountSubscriptionQuotaReached",
+              "message": "Core Count subscription quota has been reached.",
+              "recommendations": [
+                "Contact Azure support to increase the limits."
+              ]
+            }
+          ]
         }
       }
-  responses:
-  - statusCode: "202"
-    headers:
-    - name: Location
-      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/Azure/protectionContainers/iaasvmcontainer;iaasVMContainerV2;netsdktestrg;netvmtestv2vm1/protectedItems/vm;iaasVMContainerV2;netsdktestrg;netvmtestv2vm1/operationResults/00000000-0000-0000-0000-000000000000?api-version=2016-12-01
-    - name: Azure-AsyncOperation
-      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/netsdktestrg/providers/Microsoft.RecoveryServices/vaults/testVault/backupFabrics/Azure/protectionContainers/iaasvmcontainer;iaasVMContainerV2;netsdktestrg;netvmtestv2vm1/protectedItems/vm;iaasVMContainerV2;netsdktestrg;netvmtestv2vm1/operationsStatus/00000000-0000-0000-0000-000000000000?api-version=2016-12-01
-    - name: Retry-After
-      value: "60"
-    body: '{}'
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
