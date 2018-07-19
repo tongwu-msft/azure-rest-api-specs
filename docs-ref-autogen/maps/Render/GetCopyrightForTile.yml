@@ -4,7 +4,11 @@ name: Get Copyright For Tile
 service: Maps
 groupName: Render
 apiVersion: "1.0"
-summary: Returns the copyright information for a particular tile. To obtain the copyright information for a particular tile, the request should specify the tile's zoom level and x and y coordinates.
+summary: >-
+  Copyrights API is designed to serve copyright information for Render Tile  service. In addition to basic copyright for the whole map, API is serving  specific groups of copyrights for some countries.
+
+
+  Returns the copyright information for a given tile. To obtain the  copyright information for a particular tile, the request should specify  the tile's zoom level and x and y coordinates (see: Zoom Levels and Tile  Grid).
 consumes: []
 produces:
 - application/json
@@ -19,7 +23,7 @@ uriParameters:
   isRequired: true
   description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
-  - uid: string
+  - uid: TextFormat
 - name: subscription-key
   in: query
   isRequired: true
@@ -35,19 +39,31 @@ uriParameters:
 - name: zoom
   in: query
   isRequired: true
-  description: 'Zoom level for the desired tile. Zoom value must be in the range: 0-18 (inclusive).<br><br>Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.'
+  description: >-
+    Zoom level for the desired tile. Zoom value must be in the range: 0-18 (inclusive).
+
+
+    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
   types:
   - uid: integer
 - name: x
   in: query
   isRequired: true
-  description: X coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].<br><br>Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+  description: >-
+    X coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
+
+
+    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
   types:
   - uid: integer
 - name: y
   in: query
   isRequired: true
-  description: Y coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].<br><br>Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+  description: >-
+    Y coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
+
+
+    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
   types:
   - uid: integer
 - name: text
@@ -82,6 +98,18 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: TextFormat
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+  - name: xml
+    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
+    types:
+    - uid: string
 - name: CopyrightTileResult
   description: This object is returned from a successful Copyright Tile call
   kind: object
@@ -140,16 +168,17 @@ definitions:
     types:
     - uid: string
 - name: Country
+  description: Country property
   kind: object
   properties:
-  - name: Name
+  - name: ISO3
     isReadyOnly: true
-    description: Country Name
+    description: ISO3 property
     types:
     - uid: string
-  - name: Code
+  - name: label
     isReadyOnly: true
-    description: Country Code
+    description: Label property
     types:
     - uid: string
 examples:

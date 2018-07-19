@@ -19,7 +19,7 @@ uriParameters:
   isRequired: true
   description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
-  - uid: string
+  - uid: TextFormat
 - name: subscription-key
   in: query
   isRequired: true
@@ -50,14 +50,18 @@ uriParameters:
   - uid: number
 - name: language
   in: query
-  description: Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used. Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/maps/supported-languages) for details.
+  description: >-
+    Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used.
+
+
+    Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages) for details.
   types:
   - uid: string
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SearchAddressReverseCrossStreetResult
+  - uid: SearchAddressReverseCrossStreetResponse
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -80,20 +84,32 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: SearchAddressReverseCrossStreetResult
+- name: TextFormat
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+  - name: xml
+    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
+    types:
+    - uid: string
+- name: SearchAddressReverseCrossStreetResponse
   description: This object is returned from a successful Search Address Reverse CrossStreet call
   kind: object
   properties:
   - name: summary
     isReadyOnly: true
-    description: Summary object
+    description: Summary object for a Search Address Reverse Cross Street response
     types:
-    - uid: Summary
+    - uid: SearchAddressReverseCrossStreetSummary
   - name: addresses
     isReadyOnly: true
     description: Addresses array
     types:
-    - uid: AddressResult
+    - uid: SearchAddressReverseCrossStreetResult
       isArray: true
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
@@ -103,20 +119,10 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
-- name: Summary
-  description: Summary object
+- name: SearchAddressReverseCrossStreetSummary
+  description: Summary object for a Search Address Reverse Cross Street response
   kind: object
   properties:
-  - name: query
-    isReadyOnly: true
-    description: Query property
-    types:
-    - uid: string
-  - name: queryType
-    isReadyOnly: true
-    description: QueryType property
-    types:
-    - uid: string
   - name: queryTime
     isReadyOnly: true
     description: QueryTime property
@@ -127,31 +133,16 @@ definitions:
     description: NumResults property
     types:
     - uid: integer
-  - name: offset
-    isReadyOnly: true
-    description: Offset property
-    types:
-    - uid: integer
-  - name: totalResults
-    isReadyOnly: true
-    description: TotalResults property
-    types:
-    - uid: integer
-  - name: fuzzyLevel
-    isReadyOnly: true
-    description: FuzzyLevel property
-    types:
-    - uid: integer
-- name: AddressResult
+- name: SearchAddressReverseCrossStreetResult
   kind: object
   properties:
   - name: address
     description: The address of the result
     types:
-    - uid: Address
+    - uid: SearchResultAddress
   - name: position
     isReadyOnly: true
-    description: Position property
+    description: Position property in the form of "{latitude},{longitude}"
     types:
     - uid: string
 - name: Error
@@ -168,7 +159,7 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
-- name: Address
+- name: SearchResultAddress
   description: The address of the result
   kind: object
   properties:
@@ -268,24 +259,6 @@ definitions:
     description: Country Subdividion Name property
     types:
     - uid: string
-  - name: boundingBox
-    description: Bounding Box for the address
-    types:
-    - uid: BoundingBox
-- name: BoundingBox
-  description: Bounding Box for the address
-  kind: object
-  properties:
-  - name: northEast
-    isReadyOnly: true
-    description: The North East coordinates for the Bounding Box
-    types:
-    - uid: string
-  - name: southWest
-    isReadyOnly: true
-    description: The South West coordinates for the Bounding Box
-    types:
-    - uid: string
 examples:
 - name: GetSearchAddressReverseCrossStreet
   request:
@@ -316,12 +289,7 @@ examples:
               "country": "United States of America",
               "countryCodeISO3": "USA",
               "freeformAddress": "31 N 2nd St, San Jose CA 95113",
-              "extendedPostalCode": "951131217",
-              "boundingBox": {
-                "northEast": "37.341590,-121.884170",
-                "southWest": "37.332590,-121.895490",
-                "entity": "position"
-              }
+              "extendedPostalCode": "951131217"
             },
             "position": "37.337090,-121.889830"
           }

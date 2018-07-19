@@ -19,7 +19,7 @@ uriParameters:
   isRequired: true
   description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
-  - uid: string
+  - uid: TextFormat
 - name: subscription-key
   in: query
   isRequired: true
@@ -35,7 +35,7 @@ uriParameters:
 - name: query
   in: query
   isRequired: true
-  description: The applicable query string. Must be properly URL encoded.
+  description: The applicable query string (e.g., "burger joints", "pizza"). Can _also_ be specified as a comma separated string composed by latitude followed by longitude (e.g., "47.641268, -122.125679"). Must be properly URL encoded.
   types:
   - uid: string
 - name: maxDetourTime
@@ -75,15 +75,28 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: route
     in: body
     description: A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details.
     types:
-    - uid: GeoJSONLineString
+    - uid: Route
 requestHeader: []
 definitions:
-- name: GeoJSONLineString
+- name: TextFormat
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+  - name: xml
+    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
+    types:
+    - uid: string
+- name: Route
   description: A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details.
   kind: object
   properties:
@@ -102,9 +115,9 @@ definitions:
   properties:
   - name: summary
     isReadyOnly: true
-    description: Summary object
+    description: Summary object for a Search Along Route response
     types:
-    - uid: Summary
+    - uid: SearchAlongRouteSummary
   - name: results
     isReadyOnly: true
     description: A list of Search Along Route results.
@@ -126,9 +139,9 @@ definitions:
   - name: route
     description: A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details.
     types:
-    - uid: GeoJSONLineString
-- name: Summary
-  description: Summary object
+    - uid: Route
+- name: SearchAlongRouteSummary
+  description: Summary object for a Search Along Route response
   kind: object
   properties:
   - name: query
@@ -182,7 +195,7 @@ definitions:
     - uid: string
   - name: score
     isReadyOnly: true
-    description: Score property
+    description: The value within a result set to indicate the relative matching score between results.  You can use this to  determine that result x is twice as likely to be as relevant as result y if the value of x is 2x the value of y.   The values vary between queries and is only meant as a relative value for one result set.
     types:
     - uid: number
   - name: info
@@ -198,27 +211,27 @@ definitions:
   - name: poi
     description: Details of the poi including the name, phone, url, and categories.
     types:
-    - uid: Poi
+    - uid: SearchResultPoi
   - name: address
     description: The address of the result
     types:
-    - uid: Address
+    - uid: SearchResultAddress
   - name: position
-    description: Coordinates of the result
+    description: A location represented as a latitude and longitude.
     types:
     - uid: Position
   - name: viewport
-    description: The viewport that covers the result
+    description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the  viewport.
     types:
-    - uid: Viewport
+    - uid: SearchResultViewport
   - name: entryPoints
     description: Entry Points array
     types:
-    - uid: EntryPoint
+    - uid: SearchResultEntryPoint
       isArray: true
   - name: dist
     isReadyOnly: true
-    description: Distance in meters
+    description: Straight line distance between the result and geobias location in meters.
     types:
     - uid: number
   - name: detourTime
@@ -240,7 +253,7 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
-- name: Poi
+- name: SearchResultPoi
   description: Details of the poi including the name, phone, url, and categories.
   kind: object
   properties:
@@ -269,9 +282,9 @@ definitions:
     isReadyOnly: true
     description: Classification array
     types:
-    - uid: Classification
+    - uid: SearchResultPoiClassification
       isArray: true
-- name: Address
+- name: SearchResultAddress
   description: The address of the result
   kind: object
   properties:
@@ -371,12 +384,8 @@ definitions:
     description: Country Subdividion Name property
     types:
     - uid: string
-  - name: boundingBox
-    description: Bounding Box for the address
-    types:
-    - uid: BoundingBox
 - name: Position
-  description: Coordinates of the result
+  description: A location represented as a latitude and longitude.
   kind: object
   properties:
   - name: lat
@@ -389,19 +398,19 @@ definitions:
     description: Longitude property
     types:
     - uid: number
-- name: Viewport
-  description: The viewport that covers the result
+- name: SearchResultViewport
+  description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the  viewport.
   kind: object
   properties:
   - name: topLeftPoint
-    description: Top left of the viewport
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: TopLeftPoint
+    - uid: position
   - name: btmRightPoint
-    description: Bottom right of the viewport
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: BtmRightPoint
-- name: EntryPoint
+    - uid: position
+- name: SearchResultEntryPoint
   description: The entry point for the POI being returned.
   kind: object
   properties:
@@ -413,11 +422,10 @@ definitions:
     - uid: minor
     typesTitle: enum
   - name: position
-    isReadyOnly: true
-    description: Name property
+    description: A location represented as a latitude and longitude.
     types:
-    - uid: Position
-- name: Classification
+    - uid: position
+- name: SearchResultPoiClassification
   description: The classification for the POI being returned
   kind: object
   properties:
@@ -430,51 +438,23 @@ definitions:
     isReadyOnly: true
     description: Names array
     types:
-    - uid: ClassificationName
+    - uid: SearchResultPoiClassificationName
       isArray: true
-- name: BoundingBox
-  description: Bounding Box for the address
-  kind: object
-  properties:
-  - name: northEast
-    isReadyOnly: true
-    description: The North East coordinates for the Bounding Box
-    types:
-    - uid: string
-  - name: southWest
-    isReadyOnly: true
-    description: The South West coordinates for the Bounding Box
-    types:
-    - uid: string
-- name: TopLeftPoint
-  description: Top left of the viewport
+- name: position
+  description: A location represented as a latitude and longitude.
   kind: object
   properties:
   - name: lat
     isReadyOnly: true
-    description: Latitude
+    description: Latitude property
     types:
     - uid: number
   - name: lon
     isReadyOnly: true
-    description: Longitude
+    description: Longitude property
     types:
     - uid: number
-- name: BtmRightPoint
-  description: Bottom right of the viewport
-  kind: object
-  properties:
-  - name: lat
-    isReadyOnly: true
-    description: Latitude
-    types:
-    - uid: number
-  - name: lon
-    isReadyOnly: true
-    description: Longitude
-    types:
-    - uid: number
-- name: ClassificationName
+- name: SearchResultPoiClassificationName
   description: Name for the classification
   kind: object
   properties:

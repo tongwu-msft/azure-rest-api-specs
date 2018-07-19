@@ -32,7 +32,7 @@ translation.priority.mt:
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|PUT|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}|Note that the {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection to be replaced.|  
+|PUT|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}| The {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated id (rid). The {coll-id} value is the name of the collection to be replaced.|  
   
 ### Headers  
  See [Common Azure Cosmos DB REST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
@@ -43,6 +43,11 @@ translation.priority.mt:
 |--------------|--------------|----------|-----------------|  
 |**id**|Required|String|The user generated unique name for the collection. No two collections can have the same ids. It is a string that must not be more than 255 characters.|  
 |**indexingPolicy**|Optional|Object|It is a system generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the permission resource.|  
+
+> [!NOTE]
+> When you set custom index paths, you are required to specify the default indexing rule for the entire document tree, which is denoted by the special path "/*". 
+> 
+> 
   
 ```  
 {  
@@ -119,7 +124,7 @@ translation.priority.mt:
 |Property|Description|  
 |--------------|-----------------|  
 |path|Path for which the indexing behavior applies to. Index paths start with the root (/) and typically end with the ? wildcard operator, denoting that there are multiple possible values for the prefix. For example, to serve SELECT * FROM Families F WHERE F.familyName = "Andersen", you must include an index path for /familyName/? in the collection’s index policy.<br /><br /> Index paths can also use the \* wildcard operator to specify the behavior for paths recursively under the prefix. For example, /payload/\* can be used to exclude everything under the payload property from indexing.|  
-|dataType|It is the datatype for which the indexing behavior is applied to. Can be **String**, **Number**, *Point**, **Polygon**, or **LineString**. Note that Booleans and nulls are automatically indexed|  
+|dataType|It is the datatype for which the indexing behavior is applied to. Can be **String**, **Number**, *Point**, **Polygon**, or **LineString**. Booleans and nulls are automatically indexed|  
 |kind|The type of index. **Hash** indexes are useful for equality comparisons while **Range** indexes are useful for equality, range comparisons and sorting. **Spatial** indexes are useful for spatial queries.|  
 |precision|The precision of the index. Can be either set to -1 for maximum precision or between 1-8 for **Number**, and 1-100 for **String**. Not applicable for **Point**, **Polygon**, and **LineString** data types.| 
   

@@ -4,7 +4,7 @@ name: Initiate
 service: Security Center
 groupName: Jit Network Access Policies
 apiVersion: 2015-06-01-preview
-summary: Perform an action on a specific Just-in-Time policy configuration.
+summary: Initiate a JIT access from a specific Just-in-Time policy configuration.
 consumes:
 - application/json
 produces:
@@ -38,7 +38,7 @@ uriParameters:
   description: Name of a Just-in-Time access configuration policy.
   types:
   - uid: string
-- name: jitNetworkAccessPolicyActionType
+- name: jitNetworkAccessPolicyInitiateType
   in: path
   isRequired: true
   description: Type of the action to do on the Just-in-Time access policy.
@@ -53,22 +53,25 @@ uriParameters:
 responses:
 - name: 202 Accepted
   description: Accepted
+  types:
+  - uid: JitNetworkAccessRequest
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: virtualMachines
     in: body
     isRequired: true
     description: A list of virtual machines & ports to open access for
     types:
-    - uid: JitNetworkAccessPolicyActionVirtualMachine
+    - uid: JitNetworkAccessPolicyInitiateVirtualMachine
       isArray: true
 requestHeader: []
 definitions:
-- name: JitNetworkAccessPolicyActionVirtualMachine
+- name: JitNetworkAccessPolicyInitiateVirtualMachine
   kind: object
   properties:
   - name: id
@@ -78,8 +81,24 @@ definitions:
   - name: ports
     description: The ports to open for the resource with the `id`
     types:
-    - uid: JitNetworkAccessPolicyActionPort
+    - uid: JitNetworkAccessPolicyInitiatePort
       isArray: true
+- name: JitNetworkAccessRequest
+  kind: object
+  properties:
+  - name: virtualMachines
+    description: ''
+    types:
+    - uid: JitNetworkAccessRequestVirtualMachine
+      isArray: true
+  - name: startTimeUtc
+    description: The start time of the request in UTC
+    types:
+    - uid: string
+  - name: requestor
+    description: The identity of the person who made the request
+    types:
+    - uid: string
 - name: CloudError
   description: Error response structure.
   kind: object
@@ -94,27 +113,90 @@ definitions:
     description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
-- name: JitNetworkAccessPolicyAction
+- name: JitNetworkAccessPolicyInitiateRequest
   kind: object
   properties:
   - name: virtualMachines
     description: A list of virtual machines & ports to open access for
     types:
-    - uid: JitNetworkAccessPolicyActionVirtualMachine
+    - uid: JitNetworkAccessPolicyInitiateVirtualMachine
       isArray: true
-- name: JitNetworkAccessPolicyActionPort
+- name: JitNetworkAccessPolicyInitiatePort
   kind: object
   properties:
   - name: number
     description: ''
     types:
-    - uid: number
+    - uid: integer
   - name: allowedSourceAddressPrefix
-    description: ''
+    description: Source of the allowed traffic. If omitted, the request will be for the source IP address of the initiate request.
     types:
     - uid: string
   - name: endTimeUtc
     description: The time to close the request in UTC
+    types:
+    - uid: string
+- name: JitNetworkAccessRequestVirtualMachine
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID of the virtual machine that is linked to this policy
+    types:
+    - uid: string
+  - name: ports
+    description: The ports that were opened for the virtual machine
+    types:
+    - uid: JitNetworkAccessRequestPort
+      isArray: true
+- name: JitNetworkAccessRequestPort
+  kind: object
+  properties:
+  - name: number
+    description: ''
+    types:
+    - uid: integer
+  - name: allowedSourceAddressPrefix
+    description: Mutually exclusive with the "allowedSourceAddressPrefixes" parameter. Should be an IP address or CIDR, for example "192.168.0.3" or "192.168.0.0/16".
+    types:
+    - uid: string
+  - name: allowedSourceAddressPrefixes
+    description: Mutually exclusive with the "allowedSourceAddressPrefix" parameter.
+    types:
+    - uid: string
+      isArray: true
+  - name: endTimeUtc
+    description: The date & time at which the request ends in UTC
+    types:
+    - uid: string
+  - name: status
+    description: The status of the port
+    types:
+    - uid: status
+  - name: statusReason
+    description: A description of why the `status` has its value
+    types:
+    - uid: statusReason
+- name: status
+  description: The status of the port
+  kind: enum
+  properties:
+  - name: Revoked
+    types:
+    - uid: string
+  - name: Initiated
+    types:
+    - uid: string
+- name: statusReason
+  description: A description of why the `status` has its value
+  kind: enum
+  properties:
+  - name: Expired
+    types:
+    - uid: string
+  - name: UserRequested
+    types:
+    - uid: string
+  - name: NewerRequestInitiated
     types:
     - uid: string
 examples:
@@ -138,6 +220,25 @@ examples:
       }
   responses:
   - statusCode: "202"
+    body: >-
+      {
+        "virtualMachines": [
+          {
+            "id": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
+            "ports": [
+              {
+                "number": 3389,
+                "allowedSourceAddressPrefix": "192.127.0.2",
+                "endTimeUtc": "2018-07-12T09:53:03.3658798Z",
+                "status": "Initiating",
+                "statusReason": "UserRequested"
+              }
+            ]
+          }
+        ],
+        "startTimeUtc": "2018-07-12T08:53:03.3658798Z",
+        "requestor": "barbara@contoso.com"
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

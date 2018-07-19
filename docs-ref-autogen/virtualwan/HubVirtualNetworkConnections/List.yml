@@ -1,0 +1,220 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.hubvirtualnetworkconnections.list
+name: List
+service: Virtual WAN
+groupName: Hub Virtual Network Connections
+apiVersion: 2018-04-01
+summary: Retrieves the details of all HubVirtualNetworkConnections.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name of the VirtualHub.
+  types:
+  - uid: string
+- name: virtualHubName
+  in: path
+  isRequired: true
+  description: The name of the VirtualHub.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns the details of all the HubVirtualNetworkConnections for the VirtualHub.
+  types:
+  - uid: ListHubVirtualNetworkConnectionsResult
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: ListHubVirtualNetworkConnectionsResult
+  description: List of HubVirtualNetworkConnections and a URL nextLink to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of HubVirtualNetworkConnections.
+    types:
+    - uid: HubVirtualNetworkConnection
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: details
+    description: ''
+    types:
+    - uid: ErrorDetails
+      isArray: true
+  - name: innerError
+    description: ''
+    types:
+    - uid: string
+- name: HubVirtualNetworkConnection
+  description: HubVirtualNetworkConnection Resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.remoteVirtualNetwork
+    description: Reference to the remote virtual network.
+    types:
+    - uid: SubResource
+  - name: properties.allowHubToRemoteVnetTransit
+    description: VirtualHub to RemoteVnet transit to enabled or not.
+    types:
+    - uid: boolean
+  - name: properties.allowRemoteVnetToUseHubVnetGateways
+    description: Allow RemoteVnet to use Virtual Hub's gateways.
+    types:
+    - uid: boolean
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorDetails
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisisoning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: HubVirtualNetworkConnectionList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubVirtualNetworkConnections?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "name": "connection1",
+          "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/virtualHubs/virtualHub1/virtualHubVnetConnections/connection1",
+          "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+          "properties": {
+            "provisioningState": "Succeeded",
+            "remoteVirtualNetwork": {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/virtualNetworks/vnet1"
+            },
+            "allowHubToRemoteVnetTransit": true,
+            "allowRemoteVnetToUseHubVnetGateways": false
+          }
+        },
+        {
+          "name": "connection2",
+          "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/virtualHubs/virtualHub1/virtualHubVnetConnections/connection2",
+          "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+          "properties": {
+            "provisioningState": "Succeeded",
+            "remoteVirtualNetwork": {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsofot.Network/virtualNetworks/vnet2"
+            },
+            "allowHubToRemoteVnetTransit": true,
+            "allowRemoteVnetToUseHubVnetGateways": false
+          }
+        }
+      ]
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

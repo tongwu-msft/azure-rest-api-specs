@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.logger.listbyservice
 name: List By Service
 service: API Management
 groupName: Logger
-apiVersion: 2018-01-01
+apiVersion: 2018-06-01-preview
 summary: Lists a collection of loggers in the specified service instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers?api-version=2018-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers?api-version=2018-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-06-01-preview
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -135,6 +135,10 @@ definitions:
     description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
     types:
     - uid: boolean
+  - name: properties.resourceId
+    description: Azure Resource Id of a log target (either Azure Event Hub resource or Azure Application Insights resource).
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -181,7 +185,7 @@ definitions:
 examples:
 - name: ApiManagementListLoggers
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers?api-version=2018-06-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -197,7 +201,8 @@ examples:
               "credentials": {
                 "connectionString": "Endpoint=sb://apimaccounts.servicebus.windows.net/;SharedAccessKeyName=Send;SharedAccessKey=*******************h=****"
               },
-              "isBuffered": true
+              "isBuffered": true,
+              "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.EventHub/namespaces/apimaccounts"
             }
           },
           {
@@ -211,7 +216,8 @@ examples:
                 "name": "hydraeventhub",
                 "connectionString": "{{Logger-Credentials-59544ef2e4bbd50d9468c618}}"
               },
-              "isBuffered": true
+              "isBuffered": true,
+              "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.EventHub/namespaces/hydraeventhub-ns"
             }
           }
         ],

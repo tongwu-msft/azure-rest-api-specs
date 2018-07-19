@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.logger.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Logger
-apiVersion: 2018-01-01
+apiVersion: 2018-06-01-preview
 summary: Creates or Updates a logger.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerid}?api-version=2018-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerid}?api-version=2018-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -58,7 +58,8 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.loggerType
     in: body
     isRequired: true
@@ -88,6 +89,11 @@ requestBody:
     description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
     types:
     - uid: boolean
+  - name: properties.resourceId
+    in: body
+    description: Azure Resource Id of a log target (either Azure Event Hub resource or Azure Application Insights resource).
+    types:
+    - uid: string
 requestHeader:
 - name: If-Match
   in: header
@@ -122,6 +128,10 @@ definitions:
     description: Whether records are buffered in the logger before publishing. Default is assumed to be true.
     types:
     - uid: boolean
+  - name: properties.resourceId
+    description: Azure Resource Id of a log target (either Azure Event Hub resource or Azure Application Insights resource).
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -185,7 +195,7 @@ definitions:
 examples:
 - name: ApiManagementCreateEHLogger
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2018-06-01-preview
     body: >-
       {
         "properties": {
@@ -211,7 +221,8 @@ examples:
             "name": "hydraeventhub",
             "connectionString": "{{59544ef2e4bbd50d9468c617}}"
           },
-          "isBuffered": true
+          "isBuffered": true,
+          "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.EventHub/namespaces/hydraeventhub-ns"
         }
       }
   - statusCode: "200"
@@ -227,12 +238,13 @@ examples:
             "name": "hydraeventhub",
             "connectionString": "{{59544ef2e4bbd50d9468c617}}"
           },
-          "isBuffered": true
+          "isBuffered": true,
+          "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.EventHub/namespaces/hydraeventhub-ns"
         }
       }
 - name: ApiManagementCreateAILogger
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/loggers/loggerId?api-version=2018-06-01-preview
     body: >-
       {
         "properties": {
@@ -256,7 +268,8 @@ examples:
           "credentials": {
             "instrumentationKey": "{{5a.......2a}}"
           },
-          "isBuffered": false
+          "isBuffered": false,
+          "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/microsoft.insights/components/airesource"
         }
       }
   - statusCode: "200"

@@ -3,7 +3,7 @@ uid: management.azure.com.apimanagement.api.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Api
-apiVersion: 2018-01-01
+apiVersion: 2018-06-01-preview
 summary: Creates new or updates existing specified API of the API Management service instance.
 consumes:
 - application/json
@@ -13,7 +13,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?api-version=2018-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?api-version=2018-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -67,7 +67,8 @@ responses:
   types:
   - uid: ErrorResponse
 requestBody:
-- parameters:
+- name: default
+  parameters:
   - name: properties.contentValue
     in: body
     description: Content value when Importing an API.
@@ -143,6 +144,16 @@ requestBody:
   - name: apiVersion
     in: body
     description: Indicates the Version identifier of the API if the API is versioned
+    types:
+    - uid: string
+  - name: apiRevisionDescription
+    in: body
+    description: Description of the Api Revision.
+    types:
+    - uid: string
+  - name: apiVersionDescription
+    in: body
+    description: Description of the Api Version.
     types:
     - uid: string
   - name: apiVersionSetId
@@ -290,6 +301,14 @@ definitions:
     description: Indicates if API revision is accessible via the gateway.
     types:
     - uid: boolean
+  - name: properties.apiRevisionDescription
+    description: Description of the Api Revision.
+    types:
+    - uid: string
+  - name: properties.apiVersionDescription
+    description: Description of the Api Version.
+    types:
+    - uid: string
   - name: properties.apiVersionSetId
     description: A resource identifier for the related ApiVersionSet.
     types:
@@ -386,6 +405,14 @@ definitions:
     description: Indicates if API revision is accessible via the gateway.
     types:
     - uid: boolean
+  - name: apiRevisionDescription
+    description: Description of the Api Revision.
+    types:
+    - uid: string
+  - name: apiVersionDescription
+    description: Description of the Api Version.
+    types:
+    - uid: string
   - name: apiVersionSetId
     description: A resource identifier for the related ApiVersionSet.
     types:
@@ -471,7 +498,7 @@ definitions:
 examples:
 - name: ApiManagementCreateApiUsingSwaggerImport
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/petstore?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/petstore?api-version=2018-06-01-preview
     body: >-
       {
         "properties": {
@@ -527,7 +554,7 @@ examples:
       }
 - name: ApiManagementCreateApiUsingWadlImport
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/petstore?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/petstore?api-version=2018-06-01-preview
     body: >-
       {
         "properties": {
@@ -583,7 +610,7 @@ examples:
       }
 - name: ApiManagementCreateSoapToRestApiUsingWsdlImport
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/soapApi?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/soapApi?api-version=2018-06-01-preview
     body: >-
       {
         "properties": {
@@ -641,7 +668,7 @@ examples:
       }
 - name: ApiManagementCreateSoapPassThroughApiUsingWsdlImport
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/soapApi?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/soapApi?api-version=2018-06-01-preview
     body: >-
       {
         "properties": {
@@ -702,7 +729,7 @@ examples:
       }
 - name: ApiManagementCreateApi
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/tempgroup?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/tempgroup?api-version=2018-06-01-preview
     body: >-
       {
         "properties": {
@@ -789,13 +816,13 @@ examples:
       }
 - name: ApiManagementCreateApiRevision
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5a838fd48f33670ed070d77c;rev=4?api-version=2018-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api;rev=4?api-version=2018-06-01-preview
     body: >-
       {
         "properties": {
-          "displayName": "Swagger Petstore V2",
+          "displayName": "Echo API",
           "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
-          "serviceUrl": "http://petstore.swagger.io/v4",
+          "serviceUrl": "http://petstore.swagger.io/v5",
           "path": "petstore2",
           "protocols": [
             "https"
@@ -804,21 +831,22 @@ examples:
             "header": "Ocp-Apim-Subscription-Key",
             "query": "subscription-key"
           },
-          "isCurrent": false
+          "isCurrent": false,
+          "apiRevisionDescription": "moved to swagger petstore backend"
         }
       }
   responses:
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5a838fd48f33670ed070d77c;rev=4",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api;rev=4",
         "type": "Microsoft.ApiManagement/service/apis",
-        "name": "5a838fd48f33670ed070d77c;rev=4",
+        "name": "echo-api;rev=4",
         "properties": {
-          "displayName": "Swagger Petstore 2",
+          "displayName": "Echo API",
           "apiRevision": "4",
           "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
-          "serviceUrl": "http://petstore.swagger.io/v4",
+          "serviceUrl": "http://petstore.swagger.io/v5",
           "path": "petstore2",
           "protocols": [
             "https"
@@ -826,20 +854,21 @@ examples:
           "subscriptionKeyParameterNames": {
             "header": "Ocp-Apim-Subscription-Key",
             "query": "subscription-key"
-          }
+          },
+          "apiRevisionDescription": "moved to swagger petstore backend"
         }
       }
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5a838fd48f33670ed070d77c;rev=4",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api;rev=4",
         "type": "Microsoft.ApiManagement/service/apis",
-        "name": "5a838fd48f33670ed070d77c;rev=4",
+        "name": "echo-api;rev=4",
         "properties": {
-          "displayName": "Swagger Petstore 2",
+          "displayName": "Echo API",
           "apiRevision": "4",
           "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
-          "serviceUrl": "http://petstore.swagger.io/v4",
+          "serviceUrl": "http://petstore.swagger.io/v5",
           "path": "petstore2",
           "protocols": [
             "https"
@@ -847,7 +876,8 @@ examples:
           "subscriptionKeyParameterNames": {
             "header": "Ocp-Apim-Subscription-Key",
             "query": "subscription-key"
-          }
+          },
+          "apiRevisionDescription": "moved to swagger petstore backend"
         }
       }
 security:
