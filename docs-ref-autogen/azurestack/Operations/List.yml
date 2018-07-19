@@ -3,34 +3,31 @@ uid: adminmanagement.local.azurestack.external.azurestack.operations.list
 name: List
 service: Azure Stack Admin
 groupName: Operations
-apiVersion: 2015-12-01-preview
-summary: Get the list of support rest operations.
-consumes:
-- application/json
-produces:
-- application/json
+apiVersion: 2016-01-01
+summary: Returns the list of support REST operations.
 paths:
-- content: GET https://adminmanagement.local.azurestack.external/providers/Microsoft.Storage.Admin/operations?api-version=2015-12-01-preview
+- content: GET https://adminmanagement.local.azurestack.external/providers/Microsoft.AzureBridge.Admin/operations?api-version=2016-01-01
 uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: REST Api Version.
+  description: Client Api Version.
   types:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK -- The list of operations has been returned.
+  description: OK
   types:
   - uid: OperationList
 requestHeader: []
 definitions:
 - name: OperationList
-  description: Pageable list of supported operations.
+  description: List of Operations
   kind: object
   properties:
   - name: value
-    description: List of operations
+    isReadyOnly: true
+    description: Array of operations
     types:
     - uid: Operation
       isArray: true
@@ -45,7 +42,7 @@ definitions:
   properties:
   - name: name
     isReadyOnly: true
-    description: The name of the operation being performed on this particular object. It should match the action name that appears in RBAC / the event service.
+    description: The name of the operation being performed on this particular object. This name should match the name that appears in RBAC or the event service.
     types:
     - uid: string
   - name: display
@@ -64,28 +61,29 @@ definitions:
     - uid: string
   - name: resource
     isReadyOnly: true
-    description: The localized friendly form of the resource type related to this action/operation – it should match the public documentation for the resource provider.
+    description: The localized, friendly version of the resource type related to this action or operation; the resource type should match the public documentation for the resource provider.
     types:
     - uid: string
   - name: operation
     isReadyOnly: true
-    description: The localized friendly name for the operation, as it should be shown to the user.
+    description: The localized, friendly name for the operation. Use the name as it will displayed to the user.
     types:
     - uid: string
   - name: description
     isReadyOnly: true
-    description: The localized friendly description for the operation, as it should be shown to the user. It should be thorough, yet concise – it will be used in tool tips and detailed views.
+    description: The localized, friendly description for the operation. The description will be displayed to the user. It should be thorough and concise for used in both tooltips and detailed views.
     types:
     - uid: string
 examples:
-- name: Get the list of support rest operations.
+- name: Returns the list of support REST operations.
   request:
-    uri: GET https://adminmanagement.local.azurestack.external/providers/Microsoft.Storage.Admin/operations?api-version=2015-12-01-preview
+    uri: GET https://adminmanagement.local.azurestack.external/providers/Microsoft.AzureBridge.Admin/operations?api-version=2016-01-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": []
+        "value": [],
+        "nextLink": ""
       }
 security:
 - type: oauth2
