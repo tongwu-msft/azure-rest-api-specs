@@ -1,6 +1,6 @@
 ---
 title: "Get Property Info List"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Property Info List
 Gets information on all Service Fabric properties under a given name.
 
-A Service Fabric name can have one or more named properties that stores custom information. This operation gets the information about these properties in a paged list. The information include name, value and metadata about each of the properties.
+A Service Fabric name can have one or more named properties that store custom information. This operation gets the information about these properties in a paged list. The information includes name, value, and metadata about each of the properties.
 
 ## Request
 | Method | Request URI |
@@ -80,7 +80,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The continuation token parameter is used to obtain next set of results. A continuation token with a non empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
+The continuation token parameter is used to obtain next set of results. A continuation token with a non-empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results, then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
 
 ____
 ### `timeout`

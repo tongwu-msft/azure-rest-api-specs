@@ -1,6 +1,6 @@
 ---
 title: "Rollback Application Upgrade"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Rollback Application Upgrade
 Starts rolling back the currently on-going upgrade of an application in the Service Fabric cluster.
 
-Starts rolling back the current application upgrade to the previous version. This API can only be used to rollback the current in-progress upgrade that is rolling forward to new version. If the application is not currently being upgraded use StartApplicationUpgrade API to upgrade it to desired version, including rolling back to a previous version.
+Starts rolling back the current application upgrade to the previous version. This API can only be used to roll back the current in-progress upgrade that is rolling forward to new version. If the application is not currently being upgraded use StartApplicationUpgrade API to upgrade it to desired version, including rolling back to a previous version.
 
 ## Request
 | Method | Request URI |
@@ -82,5 +82,5 @@ The server timeout for performing the operation in seconds. This timeout specifi
 
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
-| 200 (OK) | A successful response means that the application has started to rollback. Use GetApplicationUpgrade operation to get the status of the upgrade.<br/> |  |
+| 200 (OK) | A successful response means that the application has started to roll back. Use GetApplicationUpgrade operation to get the status of the upgrade.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |

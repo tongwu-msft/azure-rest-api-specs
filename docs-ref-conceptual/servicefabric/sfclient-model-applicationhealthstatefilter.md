@@ -1,6 +1,6 @@
 ---
 title: "ApplicationHealthStateFilter"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -74,7 +74,7 @@ __Default__: `0` <br/>
 The filter for the health state of the applications. It allows selecting applications if they match the desired health states.
 The possible values are integer value of one of the following health states. Only applications that match the filter are returned. All applications are used to evaluate the cluster aggregated health state.
 If not specified, default value is None, unless the application name or the application type name are specified. If the filter has default value and application name is specified, the matching application is returned.
-The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+The state values are flag-based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
 For example, if the provided value is 6, it matches applications with HealthState value of OK (2) and Warning (4).
 
 - Default - Default value. Matches any HealthState. The value is zero.

@@ -1,6 +1,6 @@
 ---
 title: "ClusterConfigurationUpgradeDescription"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -44,6 +44,7 @@ Describes the parameters for a standalone cluster configuration upgrade.
 | [`MaxPercentUnhealthyNodes`](#maxpercentunhealthynodes) | integer | No |
 | [`MaxPercentDeltaUnhealthyNodes`](#maxpercentdeltaunhealthynodes) | integer | No |
 | [`MaxPercentUpgradeDomainDeltaUnhealthyNodes`](#maxpercentupgradedomaindeltaunhealthynodes) | integer | No |
+| [`ApplicationHealthPolicies`](#applicationhealthpolicies) | [ApplicationHealthPolicies](sfclient-model-applicationhealthpolicies.md) | No |
 
 ____
 ### `ClusterConfig`
@@ -123,3 +124,11 @@ __Required__: No<br/>
 __Default__: `0` <br/>
 <br/>
 The maximum allowed percentage of upgrade domain delta health degradation during the upgrade. Allowed values are integer values from zero to 100.
+
+____
+### `ApplicationHealthPolicies`
+__Type__: [ApplicationHealthPolicies](sfclient-model-applicationhealthpolicies.md) <br/>
+__Required__: No<br/>
+<br/>
+Defines the application health policy map used to evaluate the health of an application or one of its children entities.
+

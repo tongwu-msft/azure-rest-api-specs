@@ -1,6 +1,6 @@
 ---
 title: "Get Replica Info"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Replica Info
 Gets the information about a replica of a Service Fabric partition.
 
-The response includes the id, role, status, health, node name, uptime, and other details about the replica.
+The response includes the ID, role, status, health, node name, uptime, and other details about the replica.
 
 ## Request
 | Method | Request URI |

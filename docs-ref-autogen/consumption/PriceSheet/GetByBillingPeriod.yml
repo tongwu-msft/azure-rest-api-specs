@@ -3,15 +3,15 @@ uid: management.azure.com.consumption.pricesheet.getbybillingperiod
 name: Get By Billing Period
 service: Consumption
 groupName: Price Sheet
-apiVersion: 2018-03-31
+apiVersion: 2018-06-30
 summary: Get the price sheet for a scope by subscriptionId and billing period. Price sheet is available via this API only for May 1, 2014 or later.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/pricesheets/default?api-version=2018-03-31
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/pricesheets/default?$expand={$expand}&$skiptoken={$skiptoken}&$top={$top}&api-version=2018-03-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/pricesheets/default?api-version=2018-06-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/pricesheets/default?$expand={$expand}&$skiptoken={$skiptoken}&$top={$top}&api-version=2018-06-30
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -44,7 +44,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2018-03-31.
+  description: Version of the API to be used with the client request. The current version is 2018-06-30.
   types:
   - uid: string
 responses:
@@ -149,6 +149,11 @@ definitions:
     description: Currency Code
     types:
     - uid: string
+  - name: offerId
+    isReadyOnly: true
+    description: Offer Id
+    types:
+    - uid: string
 - name: ErrorDetails
   description: The details of the error.
   kind: object
@@ -202,10 +207,20 @@ definitions:
     description: The pretax listing price.
     types:
     - uid: number
+  - name: serviceName
+    isReadyOnly: true
+    description: The name of the service.
+    types:
+    - uid: string
+  - name: serviceTier
+    isReadyOnly: true
+    description: The service tier.
+    types:
+    - uid: string
 examples:
 - name: PriceSheetForBillingPeriod
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201801/providers/Microsoft.Consumption/pricesheets/default?api-version=2018-03-31
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201801/providers/Microsoft.Consumption/pricesheets/default?api-version=2018-06-30
   responses:
   - statusCode: "200"
     body: >-
@@ -223,14 +238,15 @@ examples:
               "includedQuantity": 100,
               "partNumber": "XX-11110",
               "unitPrice": 0.00328,
-              "currencyCode": "EUR"
+              "currencyCode": "EUR",
+              "offerId": "OfferId 1"
             }
           ]
         }
       }
 - name: PriceSheetExpand
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201801/providers/Microsoft.Consumption/pricesheets/default?$expand=meterDetails&api-version=2018-03-31
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201801/providers/Microsoft.Consumption/pricesheets/default?$expand=meterDetails&api-version=2018-06-30
   responses:
   - statusCode: "200"
     body: >-
@@ -249,6 +265,7 @@ examples:
               "partNumber": "XX-11110",
               "unitPrice": 0.00328,
               "currencyCode": "EUR",
+              "offerId": "OfferId 1",
               "meterDetails": {
                 "meterName": "Data Transfer Out (GB)",
                 "meterCategory": "Networking",

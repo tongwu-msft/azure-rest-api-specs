@@ -1,6 +1,6 @@
 ---
 title: "ApplicationUpgradeProgressInfo"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -132,7 +132,7 @@ ____
 __Type__: [ApplicationUpgradeDescription](sfclient-model-applicationupgradedescription.md) <br/>
 __Required__: No<br/>
 <br/>
-Describes the parameters for an application upgrade. Please note that upgrade description replaces the existing application description. This means that if the parameters are not specified, the existing parameters on the applications will be overwritten with the empty parameters list. This would results in application using the default value of the parameters from the application manifest. If you do not want to change any existing parameter values, please get the application parameters first using the GetApplicationInfo query and then supply those values as Parameters in this ApplicationUpgradeDescription.
+Describes the parameters for an application upgrade. Note that upgrade description replaces the existing application description. This means that if the parameters are not specified, the existing parameters on the applications will be overwritten with the empty parameters list. This would result in the application using the default value of the parameters from the application manifest. If you do not want to change any existing parameter values, please get the application parameters first using the GetApplicationInfo query and then supply those values as Parameters in this ApplicationUpgradeDescription.
 
 ____
 ### `UpgradeDurationInMilliseconds`
@@ -188,7 +188,7 @@ The cause of an upgrade failure that resulted in FailureAction being executed.
 Possible values are: 
 
   - `None` - Indicates the reason is invalid or unknown. All Service Fabric enumerations have the invalid type. The value is zero.
-  - `Interrupted` - There was an external request to rollback the upgrade. The value is 1
+  - `Interrupted` - There was an external request to roll back the upgrade. The value is 1
   - `HealthCheck` - The upgrade failed due to health policy violations. The value is 2
   - `UpgradeDomainTimeout` - An upgrade domain took longer than the allowed upgrade domain timeout to process. The value is 3
   - `OverallUpgradeTimeout` - The overall upgrade took longer than the allowed upgrade timeout to process. The value is 4

@@ -1,6 +1,6 @@
 ---
 title: "Get Service Health"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -57,7 +57,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
+The identity of the service. This ID is typically the full name of the service without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.
 For example, if the service name is "fabric:/myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
 
@@ -84,7 +84,7 @@ __Default__: `0` <br/>
 Allows filtering the collection of HealthEvent objects returned based on health state.
 The possible values for this parameter include integer value of one of the following health states.
 Only events that match the filter are returned. All events are used to evaluate the aggregated health state.
-If not specified, all entries are returned. The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) are returned.
+If not specified, all entries are returned. The state values are flag-based enumeration, so the value could be a combination of these values, obtained using the bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) are returned.
 
 - Default - Default value. Matches any HealthState. The value is zero.
 - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
@@ -103,7 +103,7 @@ __Default__: `0` <br/>
 Allows filtering of the partitions health state objects returned in the result of service health query based on their health state.
 The possible values for this parameter include integer value of one of the following health states.
 Only partitions that match the filter are returned. All partitions are used to evaluate the aggregated health state.
-If not specified, all entries are returned. The state values are flag based enumeration, so the value could be a combination of these value
+If not specified, all entries are returned. The state values are flag-based enumeration, so the value could be a combination of these value
 obtained using bitwise 'OR' operator. For example, if the provided value is 6 then health state of partitions with HealthState value of OK (2) and Warning (4) will be returned.
 
 - Default - Default value. Matches any HealthState. The value is zero.

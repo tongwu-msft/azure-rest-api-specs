@@ -1,6 +1,6 @@
 ---
 title: "UnprovisionApplicationTypeDescriptionInfo"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -49,4 +49,4 @@ ____
 __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>
-The flag indicating whether or not unprovision should occur asynchronously. When set to true, the unprovision operation returns when the request is accepted by the system, and the unprovision operation continues without any timeout limit. The default value is false. However, we recommend to set it to true for large application packages that were provisioned.
+The flag indicating whether or not unprovision should occur asynchronously. When set to true, the unprovision operation returns when the request is accepted by the system, and the unprovision operation continues without any timeout limit. The default value is false. However, we recommend setting it to true for large application packages that were provisioned.

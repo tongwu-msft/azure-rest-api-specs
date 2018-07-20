@@ -1,6 +1,6 @@
 ---
 title: "PropertyDescription"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -50,7 +50,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The property's custom type id. Using this property, the user is able to tag the type of the value of the property.
+The property's custom type ID. Using this property, the user is able to tag the type of the value of the property.
 
 ____
 ### `Value`

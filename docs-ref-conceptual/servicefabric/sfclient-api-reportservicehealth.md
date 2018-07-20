@@ -1,6 +1,6 @@
 ---
 title: "Report Service Health"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -57,7 +57,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
+The identity of the service. This ID is typically the full name of the service without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.
 For example, if the service name is "fabric:/myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
 
@@ -81,7 +81,7 @@ __Type__: boolean <br/>
 __Required__: No<br/>
 __Default__: `false` <br/>
 <br/>
-A flag which indicates whether the report should be sent immediately.
+A flag that indicates whether the report should be sent immediately.
 A health report is sent to a Service Fabric gateway Application, which forwards to the health store.
 If Immediate is set to true, the report is sent immediately from HTTP Gateway to the health store, regardless of the fabric client settings that the HTTP Gateway Application is using.
 This is useful for critical reports that should be sent as soon as possible.

@@ -1,6 +1,6 @@
 ---
 title: "Copy Image Store Content"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"

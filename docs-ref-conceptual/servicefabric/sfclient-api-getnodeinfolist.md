@@ -1,6 +1,6 @@
 ---
 title: "Get Node Info List"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,12 +30,12 @@ translation.priority.mt:
 # Get Node Info List
 Gets the list of nodes in the Service Fabric cluster.
 
-Gets the list of nodes in the Service Fabric cluster. The response includes the name, status, id, health, uptime, and other details about the node.
+The response includes the name, status, ID, health, uptime, and other details about the nodes.
 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Nodes?api-version=6.0&ContinuationToken={ContinuationToken}&NodeStatusFilter={NodeStatusFilter}&timeout={timeout}` |
+| GET | `/Nodes?api-version=6.3&ContinuationToken={ContinuationToken}&NodeStatusFilter={NodeStatusFilter}&MaxResults={MaxResults}&timeout={timeout}` |
 
 
 ## Parameters
@@ -44,19 +44,20 @@ Gets the list of nodes in the Service Fabric cluster. The response includes the 
 | [`api-version`](#api-version) | string | Yes | Query |
 | [`ContinuationToken`](#continuationtoken) | string | No | Query |
 | [`NodeStatusFilter`](#nodestatusfilter) | string (enum) | No | Query |
+| [`MaxResults`](#maxresults) | integer (int64) | No | Query |
 | [`timeout`](#timeout) | integer (int64) | No | Query |
 
 ____
 ### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: `6.0` <br/>
+__Default__: `6.3` <br/>
 <br/>
-The version of the API. This parameter is required and its value must be '6.0'.
+The version of the API. This parameter is required and its value must be '6.3'.
 
-Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This version is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
 
-Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+Additionally the runtime accepts any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0 and the runtime is 6.1, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
 
 
 ____
@@ -64,7 +65,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The continuation token parameter is used to obtain next set of results. A continuation token with a non empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
+The continuation token parameter is used to obtain next set of results. A continuation token with a non-empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results, then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
 
 ____
 ### `NodeStatusFilter`
@@ -73,6 +74,15 @@ __Required__: No<br/>
 __Default__: `default` <br/>
 <br/>
 Allows filtering the nodes based on the NodeStatus. Only the nodes that are matching the specified filter value will be returned. The filter value can be one of the following. Possible values include: 'default', 'all', 'up', 'down', 'enabling', 'disabling', 'disabled', 'unknown', 'removed'
+
+____
+### `MaxResults`
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: `0` <br/>
+__InclusiveMinimum__: `0` <br/>
+<br/>
+The maximum number of results to be returned as part of the paged queries. This parameter defines the upper bound on the number of results returned. The results returned can be less than the specified maximum results if they do not fit in the message as per the max message size restrictions defined in the configuration. If this parameter is zero or not specified, the paged query includes as many results as possible that fit in the return message.
 
 ____
 ### `timeout`
@@ -99,7 +109,236 @@ This example shows how to get information about all the nodes in the cluster whe
 
 #### Request
 ```
-GET http://localhost:19080/Nodes?api-version=6.0
+GET http://localhost:19080/Nodes?api-version=6.3
+```
+
+#### 200 Response
+##### Body
+```json
+{
+  "ContinuationToken": "",
+  "Items": [
+    {
+      "Name": "_Node_1",
+      "IpAddressOrFQDN": "10.0.0.5",
+      "Type": "testnode",
+      "CodeVersion": "6.3.139.9494",
+      "ConfigVersion": "5",
+      "NodeStatus": "Up",
+      "NodeUpTimeInSeconds": "15275",
+      "HealthState": "Ok",
+      "IsSeedNode": true,
+      "UpgradeDomain": "1",
+      "FaultDomain": "fd:/1",
+      "Id": {
+        "Id": "ebd986a1134b3643a8117fb41b259bf"
+      },
+      "InstanceId": "131738274982501335",
+      "NodeDeactivationInfo": {
+        "NodeDeactivationIntent": "Invalid",
+        "NodeDeactivationStatus": "None",
+        "NodeDeactivationTask": [],
+        "PendingSafetyChecks": []
+      },
+      "IsStopped": false,
+      "NodeDownTimeInSeconds": "0",
+      "NodeUpAt": "2018-06-18T20:31:39.842Z",
+      "NodeDownAt": "2018-06-18T20:31:37.374Z"
+    },
+    {
+      "Name": "_Node_0",
+      "IpAddressOrFQDN": "10.0.0.4",
+      "Type": "testnode",
+      "CodeVersion": "6.3.139.9494",
+      "ConfigVersion": "5",
+      "NodeStatus": "Up",
+      "NodeUpTimeInSeconds": "18742",
+      "HealthState": "Ok",
+      "IsSeedNode": true,
+      "UpgradeDomain": "0",
+      "FaultDomain": "fd:/0",
+      "Id": {
+        "Id": "2acb9f55540659b1c95f27cc128ab326"
+      },
+      "InstanceId": "131738240209152398",
+      "NodeDeactivationInfo": {
+        "NodeDeactivationIntent": "Invalid",
+        "NodeDeactivationStatus": "None",
+        "NodeDeactivationTask": [],
+        "PendingSafetyChecks": []
+      },
+      "IsStopped": false,
+      "NodeDownTimeInSeconds": "0",
+      "NodeUpAt": "2018-06-18T19:33:52.944Z",
+      "NodeDownAt": "2018-06-18T19:33:39.514Z"
+    },
+    {
+      "Name": "_Node_4",
+      "IpAddressOrFQDN": "10.0.0.8",
+      "Type": "testnode",
+      "CodeVersion": "6.3.139.9494",
+      "ConfigVersion": "5",
+      "NodeStatus": "Up",
+      "NodeUpTimeInSeconds": "101168",
+      "HealthState": "Ok",
+      "IsSeedNode": true,
+      "UpgradeDomain": "4",
+      "FaultDomain": "fd:/4",
+      "Id": {
+        "Id": "ba9383d728221add7fa996bf67b757fb"
+      },
+      "InstanceId": "131737415865259763",
+      "NodeDeactivationInfo": {
+        "NodeDeactivationIntent": "Invalid",
+        "NodeDeactivationStatus": "None",
+        "NodeDeactivationTask": [],
+        "PendingSafetyChecks": []
+      },
+      "IsStopped": false,
+      "NodeDownTimeInSeconds": "0",
+      "NodeUpAt": "2018-06-17T20:40:07.378Z",
+      "NodeDownAt": "2018-06-17T20:33:11.877Z"
+    },
+    {
+      "Name": "_Node_3",
+      "IpAddressOrFQDN": "10.0.0.7",
+      "Type": "testnode",
+      "CodeVersion": "6.3.139.9494",
+      "ConfigVersion": "5",
+      "NodeStatus": "Up",
+      "NodeUpTimeInSeconds": "15236",
+      "HealthState": "Ok",
+      "IsSeedNode": true,
+      "UpgradeDomain": "3",
+      "FaultDomain": "fd:/3",
+      "Id": {
+        "Id": "d6a18a0935a3e39aeae2a049eb97255d"
+      },
+      "InstanceId": "131738275300526952",
+      "NodeDeactivationInfo": {
+        "NodeDeactivationIntent": "Invalid",
+        "NodeDeactivationStatus": "None",
+        "NodeDeactivationTask": [],
+        "PendingSafetyChecks": []
+      },
+      "IsStopped": false,
+      "NodeDownTimeInSeconds": "0",
+      "NodeUpAt": "2018-06-18T20:32:18.884Z",
+      "NodeDownAt": "2018-06-18T20:31:59.128Z"
+    },
+    {
+      "Name": "_Node_2",
+      "IpAddressOrFQDN": "10.0.0.6",
+      "Type": "testnode",
+      "CodeVersion": "6.3.139.9494",
+      "ConfigVersion": "5",
+      "NodeStatus": "Up",
+      "NodeUpTimeInSeconds": "19440",
+      "HealthState": "Ok",
+      "IsSeedNode": true,
+      "UpgradeDomain": "2",
+      "FaultDomain": "fd:/2",
+      "Id": {
+        "Id": "f2af91e5e9c8254dedb75b1424a9e3fc"
+      },
+      "InstanceId": "131738233282843485",
+      "NodeDeactivationInfo": {
+        "NodeDeactivationIntent": "Invalid",
+        "NodeDeactivationStatus": "None",
+        "NodeDeactivationTask": [],
+        "PendingSafetyChecks": []
+      },
+      "IsStopped": false,
+      "NodeDownTimeInSeconds": "0",
+      "NodeUpAt": "2018-06-18T19:22:15.272Z",
+      "NodeDownAt": "2018-06-18T19:22:02.74Z"
+    }
+  ]
+}
+```
+
+
+### Limit maximum results
+
+This example shows how to get information about the nodes in the cluster when the number of results returned is limited by the MaxResults parameter.
+
+#### Request
+```
+GET http://localhost:19080/Nodes?api-version=6.3&MaxResults=2
+```
+
+#### 200 Response
+##### Body
+```json
+{
+  "ContinuationToken": "2acb9f55540659b1c95f27cc128ab326",
+  "Items": [
+    {
+      "Name": "_testnode_1",
+      "IpAddressOrFQDN": "10.0.0.5",
+      "Type": "testnode",
+      "CodeVersion": "6.3.139.9494",
+      "ConfigVersion": "5",
+      "NodeStatus": "Up",
+      "NodeUpTimeInSeconds": "102016",
+      "HealthState": "Ok",
+      "IsSeedNode": true,
+      "UpgradeDomain": "1",
+      "FaultDomain": "fd:/1",
+      "Id": {
+        "Id": "ebd986a1134b3643a8117fb41b259bf"
+      },
+      "InstanceId": "131738274982501335",
+      "NodeDeactivationInfo": {
+        "NodeDeactivationIntent": "Invalid",
+        "NodeDeactivationStatus": "None",
+        "NodeDeactivationTask": [],
+        "PendingSafetyChecks": []
+      },
+      "IsStopped": false,
+      "NodeDownTimeInSeconds": "0",
+      "NodeUpAt": "2018-06-18T20:31:39.842Z",
+      "NodeDownAt": "2018-06-18T20:31:37.374Z"
+    },
+    {
+      "Name": "_testnode_0",
+      "IpAddressOrFQDN": "10.0.0.4",
+      "Type": "testnode",
+      "CodeVersion": "6.3.139.9494",
+      "ConfigVersion": "5",
+      "NodeStatus": "Up",
+      "NodeUpTimeInSeconds": "105483",
+      "HealthState": "Ok",
+      "IsSeedNode": true,
+      "UpgradeDomain": "0",
+      "FaultDomain": "fd:/0",
+      "Id": {
+        "Id": "2acb9f55540659b1c95f27cc128ab326"
+      },
+      "InstanceId": "131738240209152398",
+      "NodeDeactivationInfo": {
+        "NodeDeactivationIntent": "Invalid",
+        "NodeDeactivationStatus": "None",
+        "NodeDeactivationTask": [],
+        "PendingSafetyChecks": []
+      },
+      "IsStopped": false,
+      "NodeDownTimeInSeconds": "0",
+      "NodeUpAt": "2018-06-18T19:33:52.944Z",
+      "NodeDownAt": "2018-06-18T19:33:39.514Z"
+    }
+  ]
+}
+```
+
+
+### Page using continuation token
+
+This example shows how to get information about nodes in the cluster which appear on a sequential page, by using the ContinuationToken parameter.
+
+#### Request
+```
+GET http://localhost:19080/Nodes?api-version=6.3&ContinuationToken=2acb9f55540659b1c95f27cc128ab326
 ```
 
 #### 200 Response
@@ -110,20 +349,20 @@ GET http://localhost:19080/Nodes?api-version=6.0
   "Items": [
     {
       "Name": "_Node_4",
-      "IpAddressOrFQDN": "localhost",
-      "Type": "NodeType4",
-      "CodeVersion": "5.6.135.9494",
-      "ConfigVersion": "1.0",
+      "IpAddressOrFQDN": "10.0.0.8",
+      "Type": "testnode",
+      "CodeVersion": "6.3.139.9494",
+      "ConfigVersion": "5",
       "NodeStatus": "Up",
-      "NodeUpTimeInSeconds": "526996",
+      "NodeUpTimeInSeconds": "101547",
       "HealthState": "Ok",
-      "IsSeedNode": false,
+      "IsSeedNode": true,
       "UpgradeDomain": "4",
       "FaultDomain": "fd:/4",
       "Id": {
-        "Id": "4f4e3698a196896b5efe8156cc4e1351"
+        "Id": "ba9383d728221add7fa996bf67b757fb"
       },
-      "InstanceId": "131353697443064929",
+      "InstanceId": "131737415865259763",
       "NodeDeactivationInfo": {
         "NodeDeactivationIntent": "Invalid",
         "NodeDeactivationStatus": "None",
@@ -132,25 +371,25 @@ GET http://localhost:19080/Nodes?api-version=6.0
       },
       "IsStopped": false,
       "NodeDownTimeInSeconds": "0",
-      "NodeUpAt": "2018-01-10T19:10:59.812Z",
-      "NodeDownAt": "0001-01-01T00:00:00Z"
+      "NodeUpAt": "2018-06-17T20:40:07.378Z",
+      "NodeDownAt": "2018-06-17T20:33:11.877Z"
     },
     {
       "Name": "_Node_3",
-      "IpAddressOrFQDN": "localhost",
-      "Type": "NodeType3",
-      "CodeVersion": "5.6.135.9494",
-      "ConfigVersion": "1.0",
+      "IpAddressOrFQDN": "10.0.0.7",
+      "Type": "testnode",
+      "CodeVersion": "6.3.139.9494",
+      "ConfigVersion": "5",
       "NodeStatus": "Up",
-      "NodeUpTimeInSeconds": "526954",
+      "NodeUpTimeInSeconds": "15615",
       "HealthState": "Ok",
-      "IsSeedNode": false,
+      "IsSeedNode": true,
       "UpgradeDomain": "3",
       "FaultDomain": "fd:/3",
       "Id": {
-        "Id": "6b5c3db003a0bd126f7b8a86fc3916a4"
+        "Id": "d6a18a0935a3e39aeae2a049eb97255d"
       },
-      "InstanceId": "131353697864903666",
+      "InstanceId": "131738275300526952",
       "NodeDeactivationInfo": {
         "NodeDeactivationIntent": "Invalid",
         "NodeDeactivationStatus": "None",
@@ -159,101 +398,25 @@ GET http://localhost:19080/Nodes?api-version=6.0
       },
       "IsStopped": false,
       "NodeDownTimeInSeconds": "0",
-      "NodeUpAt": "2018-01-10T19:10:59.812Z",
-      "NodeDownAt": "0001-01-01T00:00:00Z"
+      "NodeUpAt": "2018-06-18T20:32:18.884Z",
+      "NodeDownAt": "2018-06-18T20:31:59.128Z"
     },
     {
       "Name": "_Node_2",
-      "IpAddressOrFQDN": "localhost",
-      "Type": "NodeType2",
-      "CodeVersion": "5.6.135.9494",
-      "ConfigVersion": "1.0",
-      "NodeStatus": "Disabled",
-      "NodeUpTimeInSeconds": "1710571",
+      "IpAddressOrFQDN": "10.0.0.6",
+      "Type": "testnode",
+      "CodeVersion": "6.3.139.9494",
+      "ConfigVersion": "5",
+      "NodeStatus": "Up",
+      "NodeUpTimeInSeconds": "19819",
       "HealthState": "Ok",
       "IsSeedNode": true,
       "UpgradeDomain": "2",
       "FaultDomain": "fd:/2",
       "Id": {
-        "Id": "876a44d9185bf9416336b22e5d37cde8"
+        "Id": "f2af91e5e9c8254dedb75b1424a9e3fc"
       },
-      "InstanceId": "131341861291227632",
-      "NodeDeactivationInfo": {
-        "NodeDeactivationIntent": "Pause",
-        "NodeDeactivationStatus": "Completed",
-        "NodeDeactivationTask": [
-          {
-            "NodeDeactivationTaskId": {
-              "Id": "876a44d9185bf9416336b22e5d37cde8",
-              "NodeDeactivationTaskType": "Client"
-            },
-            "NodeDeactivationIntent": "Pause"
-          }
-        ],
-        "PendingSafetyChecks": []
-      },
-      "IsStopped": false,
-      "NodeDownTimeInSeconds": "0",
-      "NodeUpAt": "2018-01-10T19:10:59.812Z",
-      "NodeDownAt": "0001-01-01T00:00:00Z"
-    },
-    {
-      "Name": "_Node_1",
-      "IpAddressOrFQDN": "localhost",
-      "Type": "NodeType1",
-      "CodeVersion": "5.6.135.9494",
-      "ConfigVersion": "1.0",
-      "NodeStatus": "Disabling",
-      "NodeUpTimeInSeconds": "1710571",
-      "HealthState": "Ok",
-      "IsSeedNode": true,
-      "UpgradeDomain": "1",
-      "FaultDomain": "fd:/1",
-      "Id": {
-        "Id": "a3784be1d81710242ed0a9632647b4f7"
-      },
-      "InstanceId": "131341861290236579",
-      "NodeDeactivationInfo": {
-        "NodeDeactivationIntent": "Pause",
-        "NodeDeactivationStatus": "SafetyCheckInProgress",
-        "NodeDeactivationTask": [
-          {
-            "NodeDeactivationTaskId": {
-              "Id": "a3784be1d81710242ed0a9632647b4f7",
-              "NodeDeactivationTaskType": "Client"
-            },
-            "NodeDeactivationIntent": "Pause"
-          }
-        ],
-        "PendingSafetyChecks": [
-          {
-            "SafetyCheck": {
-              "Kind": "EnsureSeedNodeQuorum"
-            }
-          }
-        ]
-      },
-      "IsStopped": false,
-      "NodeDownTimeInSeconds": "0",
-      "NodeUpAt": "2018-01-10T19:10:59.812Z",
-      "NodeDownAt": "0001-01-01T00:00:00Z"
-    },
-    {
-      "Name": "_Node_0",
-      "IpAddressOrFQDN": "localhost",
-      "Type": "NodeType0",
-      "CodeVersion": "5.6.135.9494",
-      "ConfigVersion": "1.0",
-      "NodeStatus": "Up",
-      "NodeUpTimeInSeconds": "1710571",
-      "HealthState": "Ok",
-      "IsSeedNode": true,
-      "UpgradeDomain": "0",
-      "FaultDomain": "fd:/0",
-      "Id": {
-        "Id": "bf865279ba277deb864a976fbf4c200e"
-      },
-      "InstanceId": "131341861289826291",
+      "InstanceId": "131738233282843485",
       "NodeDeactivationInfo": {
         "NodeDeactivationIntent": "Invalid",
         "NodeDeactivationStatus": "None",
@@ -262,8 +425,8 @@ GET http://localhost:19080/Nodes?api-version=6.0
       },
       "IsStopped": false,
       "NodeDownTimeInSeconds": "0",
-      "NodeUpAt": "2018-01-10T19:10:59.812Z",
-      "NodeDownAt": "0001-01-01T00:00:00Z"
+      "NodeUpAt": "2018-06-18T19:22:15.272Z",
+      "NodeDownAt": "2018-06-18T19:22:02.74Z"
     }
   ]
 }

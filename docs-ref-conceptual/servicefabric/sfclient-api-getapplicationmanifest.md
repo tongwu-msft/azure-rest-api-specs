@@ -1,6 +1,6 @@
 ---
 title: "Get Application Manifest"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Application Manifest
 Gets the manifest describing an application type.
 
-Gets the manifest describing an application type. The response contains the application manifest XML as a string.
+The response contains the application manifest XML as a string.
 
 ## Request
 | Method | Request URI |

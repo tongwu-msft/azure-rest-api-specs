@@ -1,6 +1,6 @@
 ---
 title: "Get Repair Task List"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -73,6 +73,7 @@ __Type__: integer <br/>
 __Required__: No<br/>
 <br/>
 A bitwise-OR of the following values, specifying which task states should be included in the result list.
+
 - 1 - Created
 - 2 - Claimed
 - 4 - Preparing

@@ -1,6 +1,6 @@
 ---
 title: "Get Deployed Service Replica Detail Info By Partition Id"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Deployed Service Replica Detail Info By Partition Id
 Gets the details of replica deployed on a Service Fabric node.
 
-Gets the details of the replica deployed on a Service Fabric node. The information include service kind, service name, current service operation, current service operation start date time, partition ID, replica/instance ID, reported load, and other information.
+Gets the details of the replica deployed on a Service Fabric node. The information includes service kind, service name, current service operation, current service operation start date time, partition ID, replica/instance ID, reported load, and other information.
 
 ## Request
 | Method | Request URI |

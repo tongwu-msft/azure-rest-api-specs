@@ -1,6 +1,6 @@
 ---
 title: "Recover System Partitions"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -28,9 +28,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Recover System Partitions
-Indicates to the Service Fabric cluster that it should attempt to recover the system services which are currently stuck in quorum loss.
+Indicates to the Service Fabric cluster that it should attempt to recover the system services that are currently stuck in quorum loss.
 
-Indicates to the Service Fabric cluster that it should attempt to recover the system services which are currently stuck in quorum loss. This operation should only be performed if it is known that the replicas that are down cannot be recovered. Incorrect use of this API can cause potential data loss.
+Indicates to the Service Fabric cluster that it should attempt to recover the system services that are currently stuck in quorum loss. This operation should only be performed if it is known that the replicas that are down cannot be recovered. Incorrect use of this API can cause potential data loss.
 
 ## Request
 | Method | Request URI |

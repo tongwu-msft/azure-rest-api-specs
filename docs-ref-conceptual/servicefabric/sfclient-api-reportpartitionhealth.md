@@ -1,6 +1,6 @@
 ---
 title: "Report Partition Health"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -78,7 +78,7 @@ __Type__: boolean <br/>
 __Required__: No<br/>
 __Default__: `false` <br/>
 <br/>
-A flag which indicates whether the report should be sent immediately.
+A flag that indicates whether the report should be sent immediately.
 A health report is sent to a Service Fabric gateway Application, which forwards to the health store.
 If Immediate is set to true, the report is sent immediately from HTTP Gateway to the health store, regardless of the fabric client settings that the HTTP Gateway Application is using.
 This is useful for critical reports that should be sent as soon as possible.

@@ -1,6 +1,6 @@
 ---
 title: "Get Cluster Configuration"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,8 +30,8 @@ translation.priority.mt:
 # Get Cluster Configuration
 Get the Service Fabric standalone cluster configuration.
 
-Get the Service Fabric standalone cluster configuration. The cluster configuration contains properties of the cluster that include different node types on the cluster,
-security configurations, fault and upgrade domain topologies, etc.
+The cluster configuration contains properties of the cluster that include different node types on the cluster,
+security configurations, fault, and upgrade domain topologies, etc.
 
 
 ## Request

@@ -1,6 +1,6 @@
 ---
 title: "Get Deployed Service Package Info List By Name"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -98,6 +98,6 @@ The server timeout for performing the operation in seconds. This timeout specifi
 
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
-| 200 (OK) | A successful operation will return 200 status code and the list of deployed service packages information.<br/> |  |
-| 204 (NoContent) | An empty response is returned if the specified service package from the application is not deployed on the node.<br/> | array of [DeployedServicePackageInfo](sfclient-model-deployedservicepackageinfo.md) |
+| 200 (OK) | A successful operation will return 200 status code and the list of deployed service packages information.<br/> | array of [DeployedServicePackageInfo](sfclient-model-deployedservicepackageinfo.md) |
+| 204 (NoContent) | An empty response is returned if the specified service package from the application is not deployed on the node.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |

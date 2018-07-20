@@ -1,6 +1,6 @@
 ---
 title: "HealthEvent"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -54,7 +54,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The source name which identifies the client/watchdog/system component which generated the health information.
+The source name that identifies the client/watchdog/system component that generated the health information.
 
 
 ____

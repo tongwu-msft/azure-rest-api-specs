@@ -1,6 +1,6 @@
 ---
 title: "Unprovision Cluster"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Unprovision Cluster
 Unprovision the code or configuration packages of a Service Fabric cluster.
 
-Unprovision the code or configuration packages of a Service Fabric cluster. It is supported to unprovision code and configuration separately.
+It is supported to unprovision code and configuration separately.
 
 ## Request
 | Method | Request URI |
