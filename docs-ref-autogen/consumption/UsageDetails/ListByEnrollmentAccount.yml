@@ -1,29 +1,23 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.consumption.usagedetailsbybillingaccount.listbybillingperiod
-name: List By Billing Period
+uid: management.azure.com.consumption.usagedetails.listbyenrollmentaccount
+name: List By Enrollment Account
 service: Consumption
-groupName: Usage Details By Billing Account
-apiVersion: 2018-03-31
-summary: Lists the usage details based on billingAccountId for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
+groupName: Usage Details
+apiVersion: 2018-06-30
+summary: Lists the usage details by enrollmentAccountId for a scope by current billing period. Usage details are available via this API only for May 1, 2014 or later.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/usageDetails?api-version=2018-03-31
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$apply={$apply}&$skiptoken={$skiptoken}&$top={$top}&api-version=2018-03-31
+- content: GET https://management.azure.com/providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.Consumption/usageDetails?api-version=2018-06-30
+- content: GET https://management.azure.com/providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&$apply={$apply}&api-version=2018-06-30
   isOptional: true
 uriParameters:
-- name: billingAccountId
+- name: enrollmentAccountId
   in: path
   isRequired: true
-  description: BillingAccount ID
-  types:
-  - uid: string
-- name: billingPeriodName
-  in: path
-  isRequired: true
-  description: Billing Period Name.
+  description: EnrollmentAccount ID
   types:
   - uid: string
 - name: $expand
@@ -33,12 +27,7 @@ uriParameters:
   - uid: string
 - name: $filter
   in: query
-  description: May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:).
-  types:
-  - uid: string
-- name: $apply
-  in: query
-  description: OData apply expression to aggregate usageDetails by tags or (tags and properties/usageStart) for specified billing period
+  description: May be used to filter usageDetails by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName, properties/instanceId or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:).
   types:
   - uid: string
 - name: $skiptoken
@@ -51,10 +40,15 @@ uriParameters:
   description: May be used to limit the number of results to the most recent N usageDetails.
   types:
   - uid: integer
+- name: $apply
+  in: query
+  description: OData apply expression to aggregate usageDetails by tags or (tags and properties/usageStart)
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2018-03-31.
+  description: Version of the API to be used with the client request. The current version is 2018-06-30.
   types:
   - uid: string
 responses:
@@ -200,6 +194,31 @@ definitions:
     description: The cost center of this department if it is a department and a costcenter exists
     types:
     - uid: string
+  - name: properties.partNumber
+    isReadyOnly: true
+    description: Part Number
+    types:
+    - uid: string
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: Resource Guid
+    types:
+    - uid: string
+  - name: properties.offerId
+    isReadyOnly: true
+    description: Offer Id
+    types:
+    - uid: string
+  - name: properties.chargesBilledSeparately
+    isReadyOnly: true
+    description: Charges billed separately
+    types:
+    - uid: boolean
+  - name: properties.location
+    isReadyOnly: true
+    description: Resource Location
+    types:
+    - uid: string
   - name: properties.additionalProperties
     isReadyOnly: true
     description: Additional details of this usage item. By default this is not populated, unless it's specified in $expand.
@@ -282,17 +301,27 @@ definitions:
     description: The pretax listing price.
     types:
     - uid: number
+  - name: serviceName
+    isReadyOnly: true
+    description: The name of the service.
+    types:
+    - uid: string
+  - name: serviceTier
+    isReadyOnly: true
+    description: The service tier.
+    types:
+    - uid: string
 examples:
-- name: UsageDetailsListForBillingPeriod
+- name: UsageDetailsList
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails?api-version=2018-03-31
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/enrollmentAccounts/1234/providers/Microsoft.Consumption/usageDetails?api-version=2018-06-30
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "id": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
             "name": "usageDetailsId1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
@@ -300,8 +329,8 @@ examples:
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/invoices/201703-123456789",
+              "billingPeriodId": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702",
+              "invoiceId": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/invoices/201703-123456789",
               "usageStart": "2017-02-13T00:00:00Z",
               "usageEnd": "2017-02-13T23:59:59Z",
               "instanceName": "shared1",
@@ -312,7 +341,12 @@ examples:
               "billableQuantity": 0.00328,
               "pretaxCost": 0.67,
               "isEstimated": false,
-              "meterId": "00000000-0000-0000-0000-000000000000"
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West"
             }
           }
         ]
