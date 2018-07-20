@@ -1,23 +1,23 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.consumption.usagedetailsbydepartment.list
-name: List
+uid: management.azure.com.consumption.usagedetails.listbybillingaccount
+name: List By Billing Account
 service: Consumption
-groupName: Usage Details By Department
-apiVersion: 2018-03-31
-summary: Lists the usage details by departmentId for a scope by current billing period. Usage details are available via this API only for May 1, 2014 or later.
+groupName: Usage Details
+apiVersion: 2018-06-30
+summary: Lists the usage details by billingAccountId for a scope by current billing period. Usage details are available via this API only for May 1, 2014 or later.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Billing/departments/{departmentId}/providers/Microsoft.Consumption/usageDetails?api-version=2018-03-31
-- content: GET https://management.azure.com/providers/Microsoft.Billing/departments/{departmentId}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&$apply={$apply}&api-version=2018-03-31
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/usageDetails?api-version=2018-06-30
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&$apply={$apply}&api-version=2018-06-30
   isOptional: true
 uriParameters:
-- name: departmentId
+- name: billingAccountId
   in: path
   isRequired: true
-  description: Department ID
+  description: BillingAccount ID
   types:
   - uid: string
 - name: $expand
@@ -48,7 +48,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2018-03-31.
+  description: Version of the API to be used with the client request. The current version is 2018-06-30.
   types:
   - uid: string
 responses:
@@ -194,6 +194,31 @@ definitions:
     description: The cost center of this department if it is a department and a costcenter exists
     types:
     - uid: string
+  - name: properties.partNumber
+    isReadyOnly: true
+    description: Part Number
+    types:
+    - uid: string
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: Resource Guid
+    types:
+    - uid: string
+  - name: properties.offerId
+    isReadyOnly: true
+    description: Offer Id
+    types:
+    - uid: string
+  - name: properties.chargesBilledSeparately
+    isReadyOnly: true
+    description: Charges billed separately
+    types:
+    - uid: boolean
+  - name: properties.location
+    isReadyOnly: true
+    description: Resource Location
+    types:
+    - uid: string
   - name: properties.additionalProperties
     isReadyOnly: true
     description: Additional details of this usage item. By default this is not populated, unless it's specified in $expand.
@@ -276,17 +301,27 @@ definitions:
     description: The pretax listing price.
     types:
     - uid: number
+  - name: serviceName
+    isReadyOnly: true
+    description: The name of the service.
+    types:
+    - uid: string
+  - name: serviceTier
+    isReadyOnly: true
+    description: The service tier.
+    types:
+    - uid: string
 examples:
 - name: UsageDetailsList
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/departments/1234/providers/Microsoft.Consumption/usageDetails?api-version=2018-03-31
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234/providers/Microsoft.Consumption/usageDetails?api-version=2018-06-30
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "id": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
             "name": "usageDetailsId1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
@@ -294,8 +329,8 @@ examples:
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/invoices/201703-123456789",
+              "billingPeriodId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702",
+              "invoiceId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/invoices/201703-123456789",
               "usageStart": "2017-02-13T00:00:00Z",
               "usageEnd": "2017-02-13T23:59:59Z",
               "instanceName": "shared1",
@@ -306,7 +341,12 @@ examples:
               "billableQuantity": 0.00328,
               "pretaxCost": 0.67,
               "isEstimated": false,
-              "meterId": "00000000-0000-0000-0000-000000000000"
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West"
             }
           }
         ]

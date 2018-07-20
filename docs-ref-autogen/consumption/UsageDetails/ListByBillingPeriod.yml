@@ -3,15 +3,15 @@ uid: management.azure.com.consumption.usagedetails.listbybillingperiod
 name: List By Billing Period
 service: Consumption
 groupName: Usage Details
-apiVersion: 2018-03-31
+apiVersion: 2018-06-30
 summary: Lists the usage details for a scope by billing period. Usage details are available via this API only for May 1, 2014 or later.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/usageDetails?api-version=2018-03-31
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$apply={$apply}&$skiptoken={$skiptoken}&$top={$top}&api-version=2018-03-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/usageDetails?api-version=2018-06-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$apply={$apply}&$skiptoken={$skiptoken}&$top={$top}&api-version=2018-06-30
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -54,7 +54,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2018-03-31.
+  description: Version of the API to be used with the client request. The current version is 2018-06-30.
   types:
   - uid: string
 responses:
@@ -200,6 +200,31 @@ definitions:
     description: The cost center of this department if it is a department and a costcenter exists
     types:
     - uid: string
+  - name: properties.partNumber
+    isReadyOnly: true
+    description: Part Number
+    types:
+    - uid: string
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: Resource Guid
+    types:
+    - uid: string
+  - name: properties.offerId
+    isReadyOnly: true
+    description: Offer Id
+    types:
+    - uid: string
+  - name: properties.chargesBilledSeparately
+    isReadyOnly: true
+    description: Charges billed separately
+    types:
+    - uid: boolean
+  - name: properties.location
+    isReadyOnly: true
+    description: Resource Location
+    types:
+    - uid: string
   - name: properties.additionalProperties
     isReadyOnly: true
     description: Additional details of this usage item. By default this is not populated, unless it's specified in $expand.
@@ -282,10 +307,20 @@ definitions:
     description: The pretax listing price.
     types:
     - uid: number
+  - name: serviceName
+    isReadyOnly: true
+    description: The name of the service.
+    types:
+    - uid: string
+  - name: serviceTier
+    isReadyOnly: true
+    description: The service tier.
+    types:
+    - uid: string
 examples:
 - name: UsageDetailsListForBillingPeriod
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails?api-version=2018-03-31
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails?api-version=2018-06-30
   responses:
   - statusCode: "200"
     body: >-
@@ -312,14 +347,19 @@ examples:
               "billableQuantity": 0.00328,
               "pretaxCost": 0.67,
               "isEstimated": false,
-              "meterId": "00000000-0000-0000-0000-000000000000"
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West"
             }
           }
         ]
       }
 - name: UsageDetailsExpand
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails?$expand=meterDetails,additionalProperties&$filter=properties/usageEnd ge '2018-01-14' AND properties/usageEnd le '2018-02-14' AND tags eq 'dev:tools'&$top=1&api-version=2018-03-31
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails?$expand=meterDetails,additionalProperties&$filter=properties/usageEnd ge '2018-01-14' AND properties/usageEnd le '2018-02-14' AND tags eq 'dev:tools'&$top=1&api-version=2018-06-30
   responses:
   - statusCode: "200"
     body: >-
@@ -353,7 +393,9 @@ examples:
                 "unit": "GB",
                 "meterLocation": "Zone 2",
                 "totalIncludedQuantity": 0,
-                "pretaxStandardRate": 0.138
+                "pretaxStandardRate": 0.138,
+                "serviceName": "Bandwidth",
+                "serviceTier": "Bandwidth - Outbound Data Transfer"
               },
               "subscriptionGuid": "00000000-0000-0000-0000-000000000000",
               "subscriptionName": "Dummy subscription",
@@ -362,6 +404,11 @@ examples:
               "product": "My product name",
               "consumedService": "My consumed service",
               "costCenter": "Cost center 1",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West",
               "additionalProperties": "{\"MyType\":\"\",\"ServiceType\":\"\",\"VMName\":\"\",\"UsageType\":\"MyUsage\"}"
             }
           }
@@ -369,7 +416,7 @@ examples:
       }
 - name: UsageDetailsListForBillingPeriodGroupByTag
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201803/providers/Microsoft.Consumption/usageDetails?$apply=groupby((tags))&api-version=2018-03-31
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201803/providers/Microsoft.Consumption/usageDetails?$apply=groupby((tags))&api-version=2018-06-30
   responses:
   - statusCode: "200"
     body: >-
