@@ -83,8 +83,8 @@ http://65.52.117.43:{connection-port}
 
 Service Fabric Resource APIs allows deploying and managed [Service Fabric Mesh](http://aka.ms/sfmesh) applications in a Service Fabric Cluster. 
 
-* [Service Fabric Application Resource APIs](#applicationresource-apis)
-* [Service Fabric Volume Resource APIs](#volumeresource-apis)
+* [Service Fabric Application Resource APIs](#applicationresource-apissfclient-index-applicationresourcemd)
+* [Service Fabric Volume Resource APIs](#volumeresource-apissfclient-index-volumeresourcemd)
 
 ## Client API Reference
 Following is a list of Service Fabric Client REST APIs.
