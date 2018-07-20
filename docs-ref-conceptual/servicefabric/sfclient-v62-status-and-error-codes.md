@@ -31,7 +31,7 @@ translation.priority.mt:
 # Status and Error Codes
 REST API operations for Service Fabric return standard HTTP status codes, as defined in the [HTTP/1.1 Status Code Definitions](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).  
 
-API operations may also return additional error information that is defined by Service Fabric. This additional error information is returned in the response body. The body of the error response is of [FabricError](sfclient-v62-model-FabricError.md) schema as shown below:
+API operations may also return additional error information that is defined by Service Fabric. This additional error information is returned in the response body. The body of the error response is of [FabricError](sfclient-model-FabricError.md) schema as shown below:
 
 ```json
 
