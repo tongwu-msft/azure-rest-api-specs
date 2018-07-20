@@ -1,6 +1,6 @@
 ---
 title: "Invoke Infrastructure Command"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -79,7 +79,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The identity of the infrastructure service. This is  the full name of the infrastructure service without the 'fabric:' URI scheme. This parameter required only for the cluster that have more than one instance of infrastructure service running.
+The identity of the infrastructure service. This is the full name of the infrastructure service without the 'fabric:' URI scheme. This parameter required only for the cluster that has more than one instance of infrastructure service running.
 
 ____
 ### `timeout`

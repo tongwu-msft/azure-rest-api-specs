@@ -1,6 +1,6 @@
 ---
 title: "Get Node Info"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Node Info
 Gets the information about a specific node in the Service Fabric cluster.
 
-Gets the information about a specific node in the Service Fabric Cluster. The response includes the name, status, id, health, uptime, and other details about the node.
+The response includes the name, status, ID, health, uptime, and other details about the node.
 
 ## Request
 | Method | Request URI |
@@ -82,3 +82,51 @@ The server timeout for performing the operation in seconds. This timeout specifi
 | 200 (OK) | A successful operation will return information about the node with the specified nodeName.<br/> | [NodeInfo](sfclient-model-nodeinfo.md) |
 | 204 (NoContent) | An empty response is returned if the specified nodeName is not found.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |
+
+## Examples
+
+### Get a specific node by node name
+
+This example shows how to get information about an node using it's identifier. If the node is found, information about it is returned with 200 status code. If the node is not found, empty content is returned with 204 status code.
+
+#### Request
+```
+GET http://localhost:19080/Nodes/_Node_1?api-version=6.0
+```
+
+#### 200 Response
+##### Body
+```json
+{
+  "Name": "_testnode_0",
+  "IpAddressOrFQDN": "10.0.0.4",
+  "Type": "testnode",
+  "CodeVersion": "6.3.139.9494",
+  "ConfigVersion": "5",
+  "NodeStatus": "Up",
+  "NodeUpTimeInSeconds": "18688",
+  "HealthState": "Ok",
+  "IsSeedNode": true,
+  "UpgradeDomain": "0",
+  "FaultDomain": "fd:/0",
+  "Id": {
+    "Id": "2acb9f55540659b1c95f27cc128ab326"
+  },
+  "InstanceId": "131738240209152398",
+  "NodeDeactivationInfo": {
+    "NodeDeactivationIntent": "Invalid",
+    "NodeDeactivationStatus": "None",
+    "NodeDeactivationTask": [],
+    "PendingSafetyChecks": []
+  },
+  "IsStopped": false,
+  "NodeDownTimeInSeconds": "0",
+  "NodeUpAt": "2018-06-18T19:33:52.944Z",
+  "NodeDownAt": "2018-06-18T19:33:39.514Z"
+}
+```
+
+
+#### 204 Response
+##### Body
+The response body is empty.

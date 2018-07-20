@@ -1,6 +1,6 @@
 ---
 title: "Unprovision Application Type"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Unprovision Application Type
 Removes or unregisters a Service Fabric application type from the cluster.
 
-Removes or unregisters a Service Fabric application type from the cluster. This operation can only be performed if all application instances of the application type has been deleted. Once the application type is unregistered, no new application instances can be created for this particular application type.
+This operation can only be performed if all application instances of the application type have been deleted. Once the application type is unregistered, no new application instances can be created for this particular application type.
 
 ## Request
 | Method | Request URI |

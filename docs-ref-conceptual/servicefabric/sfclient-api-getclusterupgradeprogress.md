@@ -1,6 +1,6 @@
 ---
 title: "Get Cluster Upgrade Progress"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Cluster Upgrade Progress
 Gets the progress of the current cluster upgrade.
 
-Gets the current progress of the ongoing cluster upgrade. If no upgrade is currently in progress, gets the last state of the previous cluster upgrade.
+Gets the current progress of the ongoing cluster upgrade. If no upgrade is currently in progress, get the last state of the previous cluster upgrade.
 
 ## Request
 | Method | Request URI |

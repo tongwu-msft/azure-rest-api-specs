@@ -1,6 +1,6 @@
 ---
 title: "Get Deployed Service Package Health"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -28,9 +28,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Get Deployed Service Package Health
-Gets the information about health of an service package for a specific application deployed for a Service Fabric node and application.
+Gets the information about health of a service package for a specific application deployed for a Service Fabric node and application.
 
-Gets the information about health of service package for a specific application deployed on a Service Fabric node. Use EventsHealthStateFilter to optionally filter for the collection of HealthEvent objects reported on the deployed service package based on health state.
+Gets the information about health of a service package for a specific application deployed on a Service Fabric node. Use EventsHealthStateFilter to optionally filter for the collection of HealthEvent objects reported on the deployed service package based on health state.
 
 ## Request
 | Method | Request URI |
@@ -94,7 +94,7 @@ __Default__: `0` <br/>
 Allows filtering the collection of HealthEvent objects returned based on health state.
 The possible values for this parameter include integer value of one of the following health states.
 Only events that match the filter are returned. All events are used to evaluate the aggregated health state.
-If not specified, all entries are returned. The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) are returned.
+If not specified, all entries are returned. The state values are flag-based enumeration, so the value could be a combination of these values, obtained using the bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) are returned.
 
 - Default - Default value. Matches any HealthState. The value is zero.
 - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.

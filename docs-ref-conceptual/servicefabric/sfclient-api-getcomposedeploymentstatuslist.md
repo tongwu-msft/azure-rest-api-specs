@@ -1,6 +1,6 @@
 ---
 title: "Get Compose Deployment Status List"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Compose Deployment Status List
 Gets the list of compose deployments created in the Service Fabric cluster.
 
-Gets the status about the compose deployments that were created or in the process of being created in the Service Fabric cluster. The response includes the name, status and other details about the compose deployments. If the list of deployments do not fit in a page, one page of results is returned as well as a continuation token which can be used to get the next page.
+Gets the status about the compose deployments that were created or in the process of being created in the Service Fabric cluster. The response includes the name, status, and other details about the compose deployments. If the list of deployments do not fit in a page, one page of results is returned as well as a continuation token, which can be used to get the next page.
 
 ## Request
 | Method | Request URI |
@@ -59,7 +59,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The continuation token parameter is used to obtain next set of results. A continuation token with a non empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
+The continuation token parameter is used to obtain next set of results. A continuation token with a non-empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results, then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
 
 ____
 ### `MaxResults`
@@ -68,7 +68,7 @@ __Required__: No<br/>
 __Default__: `0` <br/>
 __InclusiveMinimum__: `0` <br/>
 <br/>
-The maximum number of results to be returned as part of the paged queries. This parameter defines the upper bound on the number of results returned. The results returned can be less than the specified maximum results if they do not fit in the message as per the max message size restrictions defined in the configuration. If this parameter is zero or not specified, the paged queries includes as many results as possible that fit in the return message.
+The maximum number of results to be returned as part of the paged queries. This parameter defines the upper bound on the number of results returned. The results returned can be less than the specified maximum results if they do not fit in the message as per the max message size restrictions defined in the configuration. If this parameter is zero or not specified, the paged query includes as many results as possible that fit in the return message.
 
 ____
 ### `timeout`

@@ -1,6 +1,6 @@
 ---
 title: "Node"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -38,7 +38,7 @@ translation.priority.mt:
 | [Report Node Health](sfclient-api-reportnodehealth.md) | Sends a health report on the Service Fabric node.<br/> |
 | [Get Node Load Info](sfclient-api-getnodeloadinfo.md) | Gets the load information of a Service Fabric node.<br/> |
 | [Disable Node](sfclient-api-disablenode.md) | Deactivate a Service Fabric cluster node with the specified deactivation intent.<br/> |
-| [Enable Node](sfclient-api-enablenode.md) | Activate a Service Fabric cluster node which is currently deactivated.<br/> |
+| [Enable Node](sfclient-api-enablenode.md) | Activate a Service Fabric cluster node that is currently deactivated.<br/> |
 | [Remove Node State](sfclient-api-removenodestate.md) | Notifies Service Fabric that the persisted state on a node has been permanently removed or lost.<br/> |
 | [Restart Node](sfclient-api-restartnode.md) | Restarts a Service Fabric cluster node.<br/> |
 

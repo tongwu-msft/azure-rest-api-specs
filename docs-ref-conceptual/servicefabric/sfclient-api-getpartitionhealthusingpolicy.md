@@ -1,6 +1,6 @@
 ---
 title: "Get Partition Health Using Policy"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -84,7 +84,7 @@ __Default__: `0` <br/>
 Allows filtering the collection of HealthEvent objects returned based on health state.
 The possible values for this parameter include integer value of one of the following health states.
 Only events that match the filter are returned. All events are used to evaluate the aggregated health state.
-If not specified, all entries are returned. The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) are returned.
+If not specified, all entries are returned. The state values are flag-based enumeration, so the value could be a combination of these values, obtained using the bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) are returned.
 
 - Default - Default value. Matches any HealthState. The value is zero.
 - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
@@ -100,7 +100,7 @@ __Type__: integer <br/>
 __Required__: No<br/>
 __Default__: `0` <br/>
 <br/>
-Allows filtering the collection of ReplicaHealthState objects on the partition. The value can be obtained from members or bitwise operations on members of HealthStateFilter. Only replicas that match the filter will be returned. All replicas will be used to evaluate the aggregated health state. If not specified, all entries will be returned.The state values are flag based enumeration, so the value could be a combination of these value obtained using bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) will be returned. The possible values for this parameter include integer value of one of the following health states.
+Allows filtering the collection of ReplicaHealthState objects on the partition. The value can be obtained from members or bitwise operations on members of HealthStateFilter. Only replicas that match the filter will be returned. All replicas will be used to evaluate the aggregated health state. If not specified, all entries will be returned.The state values are flag-based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator. For example, If the provided value is 6 then all of the events with HealthState value of OK (2) and Warning (4) will be returned. The possible values for this parameter include integer value of one of the following health states.
 
 - Default - Default value. Matches any HealthState. The value is zero.
 - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.

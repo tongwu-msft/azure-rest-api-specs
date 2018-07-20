@@ -1,6 +1,6 @@
 ---
 title: "Recover Partition"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -28,9 +28,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Recover Partition
-Indicates to the Service Fabric cluster that it should attempt to recover a specific partition which is currently stuck in quorum loss.
+Indicates to the Service Fabric cluster that it should attempt to recover a specific partition that is currently stuck in quorum loss.
 
-Indicates to the Service Fabric cluster that it should attempt to recover a specific partition which is currently stuck in quorum loss. This operation should only be performed if it is known that the replicas that are down cannot be recovered. Incorrect use of this API can cause potential data loss.
+This operation should only be performed if it is known that the replicas that are down cannot be recovered. Incorrect use of this API can cause potential data loss.
 
 ## Request
 | Method | Request URI |

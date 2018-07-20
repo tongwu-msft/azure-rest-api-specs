@@ -1,6 +1,6 @@
 ---
 title: "ServiceLoadMetricDescription"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -45,7 +45,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The name of the metric. If the service chooses to report load during runtime, the load metric name should match the name that is specified in Name exactly. Note that metric names are case sensitive.
+The name of the metric. If the service chooses to report load during runtime, the load metric name should match the name that is specified in Name exactly. Note that metric names are case-sensitive.
 
 ____
 ### `Weight`

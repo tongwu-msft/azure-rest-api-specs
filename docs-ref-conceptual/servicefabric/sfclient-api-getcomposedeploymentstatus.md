@@ -1,6 +1,6 @@
 ---
 title: "Get Compose Deployment Status"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Compose Deployment Status
 Gets information about a Service Fabric compose deployment.
 
-Returns the status of the compose deployment that was created or in the process of being created in the Service Fabric cluster and whose name matches the one specified as the parameter. The response includes the name, status and other details about the deployment.
+Returns the status of the compose deployment that was created or in the process of being created in the Service Fabric cluster and whose name matches the one specified as the parameter. The response includes the name, status, and other details about the deployment.
 
 ## Request
 | Method | Request URI |

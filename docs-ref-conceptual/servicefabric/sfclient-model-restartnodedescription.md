@@ -1,6 +1,6 @@
 ---
 title: "RestartNodeDescription"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -51,7 +51,7 @@ __Type__: string (enum) <br/>
 __Required__: No<br/>
 __Default__: `False` <br/>
 <br/>
-Specify True to create a dump of the fabric node process. This is case sensitive.
+Specify True to create a dump of the fabric node process. This is case-sensitive.
 
 
 

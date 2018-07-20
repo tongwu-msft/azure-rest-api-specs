@@ -1,6 +1,6 @@
 ---
 title: "NodeHealthStateFilter"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -60,7 +60,7 @@ __Default__: `0` <br/>
 The filter for the health state of the nodes. It allows selecting nodes if they match the desired health states.
 The possible values are integer value of one of the following health states. Only nodes that match the filter are returned. All nodes are used to evaluate the cluster aggregated health state.
 If not specified, default value is None, unless the node name is specified. If the filter has default value and node name is specified, the matching node is returned.
-The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+The state values are flag-based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
 For example, if the provided value is 6, it matches nodes with HealthState value of OK (2) and Warning (4).
 
 - Default - Default value. Matches any HealthState. The value is zero.

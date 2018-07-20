@@ -1,6 +1,6 @@
 ---
 title: "Get Sub Name Info List"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Sub Name Info List
 Enumerates all the Service Fabric names under a given name.
 
-Enumerates all the Service Fabric names under a given name. If the subnames do not fit in a page, one page of results is returned as well as a continuation token which can be used to get the next page. Querying a name that doesn't exist will fail.
+Enumerates all the Service Fabric names under a given name. If the subnames do not fit in a page, one page of results is returned as well as a continuation token, which can be used to get the next page. Querying a name that doesn't exist will fail.
 
 ## Request
 | Method | Request URI |
@@ -80,7 +80,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The continuation token parameter is used to obtain next set of results. A continuation token with a non empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
+The continuation token parameter is used to obtain next set of results. A continuation token with a non-empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results, then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
 
 ____
 ### `timeout`

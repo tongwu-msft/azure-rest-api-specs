@@ -1,6 +1,6 @@
 ---
 title: "Get Image Store Content"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Image Store Content
 Gets the image store content information.
 
-Returns the information about the image store content at the specified contentPath relative to the root of the image store.
+Returns the information about the image store content at the specified contentPath. The contentPath is relative to the root of the image store.
 
 ## Request
 | Method | Request URI |

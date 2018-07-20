@@ -1,6 +1,6 @@
 ---
 title: "Start Data Loss"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -31,9 +31,10 @@ translation.priority.mt:
 This API will induce data loss for the specified partition. It will trigger a call to the OnDataLossAsync API of the partition.
 
 This API will induce data loss for the specified partition. It will trigger a call to the OnDataLoss API of the partition.
-Actual data loss will depend on the specified DataLossMode
-PartialDataLoss - Only a quorum of replicas are removed and OnDataLoss is triggered for the partition but actual data loss depends on the presence of in-flight replication.
-FullDataLoss - All replicas are removed hence all data is lost and OnDataLoss is triggered.
+Actual data loss will depend on the specified DataLossMode.
+
+- PartialDataLoss - Only a quorum of replicas are removed and OnDataLoss is triggered for the partition but actual data loss depends on the presence of in-flight replication.
+- FullDataLoss - All replicas are removed hence all data is lost and OnDataLoss is triggered.
 
 This API should only be called with a stateful service as the target.
 
@@ -66,7 +67,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme.
+The identity of the service. This ID is typically the full name of the service without the 'fabric:' URI scheme.
 Starting from version 6.0, hierarchical names are delimited with the "~" character.
 For example, if the service name is "fabric:/myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
 

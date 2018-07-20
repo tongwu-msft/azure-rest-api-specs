@@ -1,6 +1,6 @@
 ---
 title: "Post Chaos Schedule"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -30,23 +30,24 @@ translation.priority.mt:
 # Post Chaos Schedule
 Set the schedule used by Chaos.
 
-Set the Chaos Schedule currently in use by Chaos. Chaos will automatically schedule runs based on the Chaos Schedule.
-The version in the provided input schedule must match the version of the Chaos Schedule on the server.
-If the version provided does not match the version on the server, the Chaos Schedule is not updated.
-If the version provided matches the version on the server, then the Chaos Schedule is updated and the version of the Chaos Schedule on the server is incremented up by one and wraps back to 0 after 2,147,483,647.
+Chaos will automatically schedule runs based on the Chaos Schedule.
+The Chaos Schedule will be updated if the provided version matches the version on the server.
+When updating the Chaos Schedule, the version on the server is incremented by 1.
+The version on the server will wrap back to 0 after reaching a large number.
 If Chaos is running when this call is made, the call will fail.
 
 
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/Tools/Chaos/Schedule?api-version=6.2` |
+| POST | `/Tools/Chaos/Schedule?api-version=6.2&timeout={timeout}` |
 
 
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
 | [`api-version`](#api-version) | string | Yes | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
 | [`ChaosSchedule`](#chaosschedule) | [ChaosScheduleDescription](sfclient-model-chaosscheduledescription.md) | Yes | Body |
 
 ____
@@ -61,6 +62,16 @@ Service Fabric REST API version is based on the runtime version in which the API
 
 Additionally the runtime accepts any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0 and the runtime is 6.1, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
 
+
+____
+### `timeout`
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
+<br/>
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
 ### `ChaosSchedule`

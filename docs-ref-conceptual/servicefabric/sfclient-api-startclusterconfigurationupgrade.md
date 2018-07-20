@@ -1,6 +1,6 @@
 ---
 title: "Start Cluster Configuration Upgrade"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -81,3 +81,51 @@ Parameters for a standalone cluster configuration upgrade.
 | --- | --- | --- |
 | 202 (Accepted) | A successful response means that the cluster configuration upgrade has started. Use GetClusterConfigurationUpgradeStatus operation to get the status of the upgrade.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |
+
+## Examples
+
+### Start upgrading the configuration of a Service Fabric standalone cluster
+
+This example shows how to start upgrading the configuration of a Service Fabric standalone cluster.
+
+#### Request
+```
+POST http://localhost:19080/$/StartClusterConfigurationUpgrade?api-version=6.0
+```
+
+##### Body
+```json
+{
+  "ClusterConfig": "<PutYourClusterConfigHere>",
+  "ApplicationHealthPolicies": {
+    "ApplicationHealthPolicyMap": [
+      {
+        "Key": "fabric:/samples/CalculatorApp",
+        "Value": {
+          "ConsiderWarningAsError": true,
+          "MaxPercentUnhealthyDeployedApplications": "10",
+          "DefaultServiceTypeHealthPolicy": {
+            "MaxPercentUnhealthyPartitionsPerService": "0",
+            "MaxPercentUnhealthyReplicasPerPartition": "0",
+            "MaxPercentUnhealthyServices": "0"
+          },
+          "ServiceTypeHealthPolicyMap": [
+            {
+              "Key": "Svc1Type",
+              "Value": {
+                "MaxPercentUnhealthyPartitionsPerService": "0",
+                "MaxPercentUnhealthyReplicasPerPartition": "0",
+                "MaxPercentUnhealthyServices": "10"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+#### 202 Response
+##### Body
+The response body is empty.

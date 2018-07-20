@@ -1,6 +1,6 @@
 ---
 title: "PropertyMetadata"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -66,14 +66,14 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The property's custom type id.
+The property's custom type ID.
 
 ____
 ### `Parent`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The name of the parent Service Fabric Name for the property. It could be thought of as the namespace/table under which the property exists.
+The name of the parent Service Fabric Name for the property. It could be thought of as the name-space/table under which the property exists.
 
 ____
 ### `SizeInBytes`

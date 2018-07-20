@@ -1,6 +1,6 @@
 ---
 title: "Service"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -31,7 +31,7 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
-| [Get Service Info List](sfclient-api-getserviceinfolist.md) | Gets the information about all services belonging to the application specified by the application id.<br/> |
+| [Get Service Info List](sfclient-api-getserviceinfolist.md) | Gets the information about all services belonging to the application specified by the application ID.<br/> |
 | [Get Service Info](sfclient-api-getserviceinfo.md) | Gets the information about the specific service belonging to the Service Fabric application.<br/> |
 | [Get Application Name Info](sfclient-api-getapplicationnameinfo.md) | Gets the name of the Service Fabric application for a service.<br/> |
 | [Create Service](sfclient-api-createservice.md) | Creates the specified Service Fabric service.<br/> |

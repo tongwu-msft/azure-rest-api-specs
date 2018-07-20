@@ -1,6 +1,6 @@
 ---
 title: "DeployedStatelessServiceInstanceDetailInfo"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # DeployedStatelessServiceInstanceDetailInfo
 
-Information about a stateless instance running in a code package. Please note that DeployedServiceReplicaQueryResult will contain duplicate data like ServiceKind, ServiceName, PartitionId and InstanceId.
+Information about a stateless instance running in a code package. Note that DeployedServiceReplicaQueryResult will contain duplicate data like ServiceKind, ServiceName, PartitionId and InstanceId.
 
 ## Properties
 | Name | Type | Required |

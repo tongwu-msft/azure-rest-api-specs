@@ -1,6 +1,6 @@
 ---
 title: "ChaosParameters"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -76,7 +76,7 @@ __InclusiveMinimum__: `0` <br/>
 <br/>
 MaxConcurrentFaults is the maximum number of concurrent faults induced per iteration.
 Chaos executes in iterations and two consecutive iterations are separated by a validation phase.
-The higher the concurrency, the more aggressive the injection of faults -- inducing more complex series of states to uncover bugs.
+The higher the concurrency, the more aggressive the injection of faults, leading to inducing more complex series of states to uncover bugs.
 The recommendation is to start with a value of 2 or 3 and to exercise caution while moving up.
 
 

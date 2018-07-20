@@ -1,6 +1,6 @@
 ---
 title: "Enable Node"
-ms.date: "2018-04-23"
+ms.date: "2018-07-20"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -28,9 +28,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Enable Node
-Activate a Service Fabric cluster node which is currently deactivated.
+Activate a Service Fabric cluster node that is currently deactivated.
 
-Activates a Service Fabric cluster node which is currently deactivated. Once activated, the node will again become a viable target for placing new replicas, and any deactivated replicas remaining on the node will be reactivated.
+Activates a Service Fabric cluster node that is currently deactivated. Once activated, the node will again become a viable target for placing new replicas, and any deactivated replicas remaining on the node will be reactivated.
 
 ## Request
 | Method | Request URI |
