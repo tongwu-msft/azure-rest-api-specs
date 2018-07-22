@@ -3115,7 +3115,6 @@
 #### [Get Service Statistics](iothub/Service/GetServiceStatistics.yml)
 #### [Get Twin](iothub/Service/GetTwin.yml)
 #### [Invoke Device Method](iothub/Service/InvokeDeviceMethod.yml)
-#### [Invoke Device Module Method](iothub/Service/InvokeDeviceModuleMethod.yml)
 #### [Purge Command Queue](iothub/Service/PurgeCommandQueue.yml)
 #### [Query Iot Hub](iothub/Service/QueryIotHub.yml)
 #### [Query Jobs](iothub/Service/QueryJobs.yml)
