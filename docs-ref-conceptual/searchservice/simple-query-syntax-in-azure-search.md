@@ -27,16 +27,17 @@ Azure Search implements two Lucene-based query languages: [Simple Query Parser](
 > [!NOTE]  
 >  Azure Search provides an alternative [Lucene Query Syntax](lucene-query-syntax-in-azure-search.md) for more complex queries. To learn more about query parsing architecture and benefits of each syntax, see [How full text search works in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture).
 
-## How to invoke simple query parsing
+## How to invoke simple parsing
 
 Simple syntax is the default. Invocation is only necessary if you are resetting the syntax from full to simple. To explicitly set the syntax, use the `queryType` search parameter. Valid values include `simple|full`, with `simple` as the default, and `full` for Lucene. 
 
-## Query expansion and searchMode
+## Query behavior anomalies
+
 Any text with one or more terms is considered a valid starting point for query execution. Azure Search will match documents containing any or all of the terms, including any variations found during analysis of the text. 
 
 As straightforward as this sounds, there is one aspect of query execution in Azure Search that *might* produce unexpected results, increasing rather than decreasing search results as more terms and operators are added to the input string. Whether this expansion actually occurs depends on the inclusion of a NOT operator, combined with a `searchMode` parameter setting that determines how NOT is interpreted in terms of AND or OR behaviors. Given the default, `searchMode=Any`, and a NOT operator, the operation is computed as an OR action, such that `"New York" NOT Seattle` returns all cities that are not Seattle.  
 
-Typically, you're more likely to see these behaviors in user interaction patterns for applications that search over content, where users are more likely to include an operator in a query, as opposed to e-commerce sites that have more built-in navigation structures. See below for more detail about `searchMode.`  
+Typically, you're more likely to see these behaviors in user interaction patterns for applications that search over content, where users are more likely to include an operator in a query, as opposed to e-commerce sites that have more built-in navigation structures. For more information, see [NOT operator](#not-operator). 
 
 ## Operators in simple search
 
@@ -49,6 +50,8 @@ The AND operator is a plus sign. For example, `wifi+luxury` will search for docu
 ## OR operator `|`
 
 The OR operator is a vertical bar or pipe character. For example, `wifi | luxury` will search for documents containing either `wifi` or `luxury` or both.
+
+<a name="not-operator"></a>
 
 ## NOT operator `-`
 
