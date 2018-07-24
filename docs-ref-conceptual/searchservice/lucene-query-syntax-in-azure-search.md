@@ -27,7 +27,7 @@ translation.priority.mt:
 > [!NOTE]  
 >  Azure Search also supports [Simple Query Syntax](simple-query-syntax-in-azure-search.md), a simple and robust query language that can be used for straightforward keyword search.  
 
-## Key scenarios enabled by Lucene query syntax  
+## Key scenarios
  The Lucene query syntax is more powerful than the alternative [Simple Query Syntax](simple-query-syntax-in-azure-search.md) supported by Azure Search. You should plan on using Lucene query syntax if you want to implement any of these query operations:  
 
 -   [Field-scoped queries](#bkmk_fields)  
@@ -54,10 +54,11 @@ translation.priority.mt:
 
  Both Lucene and simple query syntax are functionally similar for [Wildcard search](#bkmk_wildcard) and [Boolean operators](#bkmk_boolean). The sections on wildcard search and boolean operators are mostly the same for both syntax.  
 
-## Designate the Lucene query parser for query execution  
- Use the `queryType` search parameter to specify which parser to use. Valid values include `simple|full`, with `simple` as the default.
+## Invoke Lucene query parser
 
-For details about specifying query parameter, see [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md). Refer to the [Example](#bkmk_example) at the end of this page for an illustration of how to structure the request.  
+ Use the `queryType` search parameter to specify which parser to use. Valid values include `simple|full`, with `simple` as the default, and `full` for Lucene.
+
+For details about specifying query parameters, see [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md). Refer to the [Example](#bkmk_example) at the end of this page for an illustration of how to structure the request.  
 
 ##  <a name="bkmk_fields"></a> Field-scoped queries  
  You can specify a `fieldname:searchterm` construction to define a fielded query operation, where the field is a single word, and the search term is also a single word or a phrase, optionally with boolean operators. Some examples include the following:  

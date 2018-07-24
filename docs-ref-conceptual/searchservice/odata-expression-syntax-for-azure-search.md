@@ -22,7 +22,7 @@ translation.priority.mt:
 ---
 # OData expression syntax for filters and orderby clauses in Azure Search
 
-Azure Search supports a subset of the OData expression syntax for **$filter** and **$orderby** expressions. Filter expressions are used during the query operation, restricting search to specific fields or adding match criteria used during index scans. Orderby expressions are applied as a post-processing step over a result set. Both filters and sort expressions are included in a query request, following an OData syntax independent of the [simple](simple-query-syntax-in-azure-search.md) or [full](lucene-query-syntax-in-azure-search.md) query syntax used in a **search** parameter.
+Azure Search supports a subset of the OData expression syntax for **$filter** and **$orderby** expressions. Filter expressions are evaluated during query parsing, constraining search to specific fields or adding match criteria used during index scans. Orderby expressions are applied as a post-processing step over a result set. Both filters and order-by expressions are included in a query request, adhering to an OData syntax independent of the [simple](simple-query-syntax-in-azure-search.md) or [full](lucene-query-syntax-in-azure-search.md) query syntax used in a **search** parameter. This article provides the reference documentation for OData expressions used in filters and sort expressions.
 
 ## Filter syntax
 
