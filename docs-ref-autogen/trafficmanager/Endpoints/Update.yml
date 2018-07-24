@@ -3,14 +3,14 @@ uid: management.azure.com.trafficmanager.endpoints.update
 name: Update
 service: Traffic Manager
 groupName: Endpoints
-apiVersion: 2017-05-01
+apiVersion: 2018-04-01
 summary: Update a Traffic Manager endpoint.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}?api-version=2017-05-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -67,7 +67,7 @@ requestBody:
     - uid: string
   - name: properties.target
     in: body
-    description: The fully-qualified DNS name of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
+    description: The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
     types:
     - uid: string
   - name: properties.endpointStatus
@@ -82,12 +82,12 @@ requestBody:
     - uid: integer
   - name: properties.priority
     in: body
-    description: The priority of this endpoint when using the ‘Priority’ traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
+    description: The priority of this endpoint when using the 'Priority' traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
     types:
     - uid: integer
   - name: properties.endpointLocation
     in: body
-    description: Specifies the location of the external or nested endpoints when using the ‘Performance’ traffic routing method.
+    description: Specifies the location of the external or nested endpoints when using the 'Performance' traffic routing method.
     types:
     - uid: string
   - name: properties.endpointMonitorStatus
@@ -102,12 +102,52 @@ requestBody:
     - uid: integer
   - name: properties.geoMapping
     in: body
-    description: The list of countries/regions mapped to this endpoint when using the ‘Geographic’ traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
+    description: The list of countries/regions mapped to this endpoint when using the 'Geographic' traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
     types:
     - uid: string
       isArray: true
+  - name: properties.subnets
+    in: body
+    description: The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the 'Subnet' traffic routing method. An empty list will match all ranges not covered by other endpoints.
+    types:
+    - uid: Subnets
+      isArray: true
+  - name: properties.customHeaders
+    in: body
+    description: List of custom headers.
+    types:
+    - uid: CustomHeaders
+      isArray: true
 requestHeader: []
 definitions:
+- name: Subnets
+  description: The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the 'Subnet' traffic routing method. An empty list will match all ranges not covered by other endpoints.
+  kind: object
+  properties:
+  - name: first
+    description: First address in the subnet.
+    types:
+    - uid: string
+  - name: last
+    description: Last address in the subnet.
+    types:
+    - uid: string
+  - name: scope
+    description: Block size (number of leading bits in the subnet mask).
+    types:
+    - uid: integer
+- name: CustomHeaders
+  description: List of custom headers.
+  kind: object
+  properties:
+  - name: name
+    description: Header name.
+    types:
+    - uid: string
+  - name: value
+    description: Header value.
+    types:
+    - uid: string
 - name: Endpoint
   description: Class representing a Traffic Manager endpoint.
   kind: object
@@ -117,7 +157,7 @@ definitions:
     types:
     - uid: string
   - name: properties.target
-    description: The fully-qualified DNS name of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
+    description: The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
     types:
     - uid: string
   - name: properties.endpointStatus
@@ -129,11 +169,11 @@ definitions:
     types:
     - uid: integer
   - name: properties.priority
-    description: The priority of this endpoint when using the ‘Priority’ traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
+    description: The priority of this endpoint when using the 'Priority' traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
     types:
     - uid: integer
   - name: properties.endpointLocation
-    description: Specifies the location of the external or nested endpoints when using the ‘Performance’ traffic routing method.
+    description: Specifies the location of the external or nested endpoints when using the 'Performance' traffic routing method.
     types:
     - uid: string
   - name: properties.endpointMonitorStatus
@@ -145,9 +185,19 @@ definitions:
     types:
     - uid: integer
   - name: properties.geoMapping
-    description: The list of countries/regions mapped to this endpoint when using the ‘Geographic’ traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
+    description: The list of countries/regions mapped to this endpoint when using the 'Geographic' traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
     types:
     - uid: string
+      isArray: true
+  - name: properties.subnets
+    description: The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the 'Subnet' traffic routing method. An empty list will match all ranges not covered by other endpoints.
+    types:
+    - uid: Subnets
+      isArray: true
+  - name: properties.customHeaders
+    description: List of custom headers.
+    types:
+    - uid: CustomHeaders
       isArray: true
   - name: id
     isReadyOnly: true
@@ -228,10 +278,10 @@ definitions:
 examples:
 - name: Endpoint-PATCH-External-Target
   request:
-    uri: PATCH https://management.azure.com/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager1421/providers/Microsoft.Network/trafficmanagerprofiles/azsmnet6386/ExternalEndpoints/azsmnet7187?api-version=2017-05-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1421/providers/Microsoft.Network/trafficmanagerprofiles/azsmnet6386/ExternalEndpoints/azsmnet7187?api-version=2018-04-01
     body: >-
       {
-        "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager1421/providers/Microsoft.Network/trafficManagerProfiles/azsmnet6386/externalEndpoints/azsmnet7187",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1421/providers/Microsoft.Network/trafficManagerProfiles/azsmnet6386/externalEndpoints/azsmnet7187",
         "name": "azsmnet7187",
         "type": "Microsoft.Network/trafficManagerProfiles/externalEndpoints",
         "properties": {
@@ -242,7 +292,7 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager1421/providers/Microsoft.Network/trafficManagerProfiles/azsmnet6386/externalEndpoints/azsmnet7187",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1421/providers/Microsoft.Network/trafficManagerProfiles/azsmnet6386/externalEndpoints/azsmnet7187",
         "name": "azsmnet7187",
         "type": "Microsoft.Network/trafficManagerProfiles/externalEndpoints",
         "properties": {
