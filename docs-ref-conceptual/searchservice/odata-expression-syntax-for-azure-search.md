@@ -1,6 +1,6 @@
 ---
-title: "OData expression syntax for filters and orderby clauses in Azure Search | Microsoft Docs"
-description: Filter and orderby expression OData syntax for Azure Search queries.
+title: "OData expression syntax for filters and order-by clauses in Azure Search | Microsoft Docs"
+description: Filter and order-by expression OData syntax for Azure Search queries.
 ms.date: "07/24/2018"
 ms.prod: "azure"
 ms.service: "search"
@@ -20,9 +20,9 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# OData expression syntax for filters and orderby clauses in Azure Search
+# OData expression syntax for filters and order-by clauses in Azure Search
 
-Azure Search supports a subset of the OData expression syntax for **$filter** and **$orderby** expressions. Filter expressions are evaluated during query parsing, constraining search to specific fields or adding match criteria used during index scans. Orderby expressions are applied as a post-processing step over a result set. Both filters and order-by expressions are included in a query request, adhering to an OData syntax independent of the [simple](simple-query-syntax-in-azure-search.md) or [full](lucene-query-syntax-in-azure-search.md) query syntax used in a **search** parameter. This article provides the reference documentation for OData expressions used in filters and sort expressions.
+Azure Search supports a subset of the OData expression syntax for **$filter** and **$orderby** expressions. Filter expressions are evaluated during query parsing, constraining search to specific fields or adding match criteria used during index scans. Order-by expressions are applied as a post-processing step over a result set. Both filters and order-by expressions are included in a query request, adhering to an OData syntax independent of the [simple](simple-query-syntax-in-azure-search.md) or [full](lucene-query-syntax-in-azure-search.md) query syntax used in a **search** parameter. This article provides the reference documentation for OData expressions used in filters and sort expressions.
 
 ## Filter syntax
 
@@ -243,13 +243,13 @@ Note, documents that matched only the second clause of the disjunction will be r
 $filter=search.ismatchscoring('"ocean view"', 'description,hotelName') or rating eq 5
 ```
 
-Find documents where the terms "hotel" and "airport" are within 5 words from each other in the description of the hotel, and where smoking is not allowed. This query uses the [`full` Lucene query language](https://docs.microsoft.com/rest/api/searchservice/lucene-query-syntax-in-azure-search).
+Find documents where the terms "hotel" and "airport" are within 5 words from each other in the description of the hotel, and where smoking is not allowed. This query uses the [full Lucene query language](https://docs.microsoft.com/rest/api/searchservice/lucene-query-syntax-in-azure-search).
 
 ```
 $filter=search.ismatch('"hotel airport"~5', 'description', 'full', 'any') and not smokingAllowed 
 ```
 
-## Orderby syntax
+## Order-by syntax
 
 The **$orderby** parameter accepts a comma-separated list of up to 32 expressions of the form `sort-criteria [asc|desc]`. The sort criteria can either be the name of a `sortable` field or a call to either the `geo.distance` or the `search.score` functions. You can use either `asc` or `desc` to explicitly specify the sort order. The default order is ascending.
 
@@ -262,7 +262,7 @@ The syntax for `geo.distance` in **$orderby** is the same as it is in **$filter*
 The syntax for `search.score` in **$orderby** is `search.score()`. The function `search.score` does not take any parameters.  
  
 
-## Orderby examples
+## Order-by examples
 
 Sort hotels ascending by base rate:
 
