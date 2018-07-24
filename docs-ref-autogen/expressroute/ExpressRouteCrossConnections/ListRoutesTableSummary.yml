@@ -1,0 +1,125 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.expressroute.expressroutecrossconnections.listroutestablesummary
+name: List Routes Table Summary
+service: ExpressRoute
+groupName: Express Route Cross Connections
+apiVersion: 2018-04-01
+summary: Gets the route table summary associated with the express route cross connection in a resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTablesSummary/{devicePath}?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: crossConnectionName
+  in: path
+  isRequired: true
+  description: The name of the ExpressRouteCrossConnection.
+  types:
+  - uid: string
+- name: peeringName
+  in: path
+  isRequired: true
+  description: The name of the peering.
+  types:
+  - uid: string
+- name: devicePath
+  in: path
+  isRequired: true
+  description: The path of the device.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns the resulting ExpressRouteCrossConnectionsRouteTableSummary resource.
+  types:
+  - uid: ExpressRouteCrossConnectionsRoutesTableSummaryListResult
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+requestHeader: []
+definitions:
+- name: ExpressRouteCrossConnectionsRoutesTableSummaryListResult
+  description: Response for ListRoutesTable associated with the Express Route Cross Connections.
+  kind: object
+  properties:
+  - name: value
+    description: A list of the routes table.
+    types:
+    - uid: ExpressRouteCrossConnectionRoutesTableSummary
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: ExpressRouteCrossConnectionRoutesTableSummary
+  description: The routes table associated with the ExpressRouteCircuit.
+  kind: object
+  properties:
+  - name: neighbor
+    description: IP address of Neighbor router
+    types:
+    - uid: string
+  - name: asn
+    description: Autonomous system number.
+    types:
+    - uid: integer
+  - name: upDown
+    description: The length of time that the BGP session has been in the Established state, or the current status if not in the Established state.
+    types:
+    - uid: string
+  - name: stateOrPrefixesReceived
+    description: Current state of the BGP session, and the number of prefixes that have been received from a neighbor or peer group.
+    types:
+    - uid: string
+examples:
+- name: GetExpressRouteCrossConnectionsRouteTableSummary
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/CrossConnection-SiliconValley/providers/Microsoft.Network/expressRouteCrossConnections/<circuitServiceKey>/peerings/AzurePrivatePeering/routeTablesSummary/primary?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "neighbor": "10.6.1.112",
+            "asn": 65514,
+            "upDown": "1d14h",
+            "stateOrPrefixesReceived": "Active"
+          },
+          {
+            "neighbor": "10.6.1.113",
+            "asn": 65514,
+            "upDown": "1d14h",
+            "stateOrPrefixesReceived": "1"
+          }
+        ]
+      }
+  - statusCode: "202"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

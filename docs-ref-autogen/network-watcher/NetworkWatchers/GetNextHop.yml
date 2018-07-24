@@ -3,16 +3,14 @@ uid: management.azure.com.network-watcher.networkwatchers.getnexthop
 name: Get Next Hop
 service: Network Watcher
 groupName: Network Watchers
-apiVersion: 2018-02-01
+apiVersion: 2018-04-01
 summary: Gets the next hop from the specified VM.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/nextHop?api-version=2018-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/nextHop?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -133,7 +131,32 @@ definitions:
   - name: None
     types:
     - uid: string
-examples: []
+examples:
+- name: Get next hop
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/nextHop?api-version=2018-04-01
+    body: >-
+      {
+        "targetResourceId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
+        "sourceIPAddress": "10.0.0.5",
+        "destinationIPAddress": "10.0.0.10",
+        "targetNicResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic1"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nextHopType": "VnetLocal",
+        "nextHopIpAddress": "10.0.0.1",
+        "routeTableId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/routeTables/rt1"
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "nextHopType": "VnetLocal",
+        "nextHopIpAddress": "10.0.0.1",
+        "routeTableId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/routeTables/rt1"
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

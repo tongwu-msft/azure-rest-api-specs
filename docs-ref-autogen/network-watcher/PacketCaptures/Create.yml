@@ -3,16 +3,14 @@ uid: management.azure.com.network-watcher.packetcaptures.create
 name: Create
 service: Network Watcher
 groupName: Packet Captures
-apiVersion: 2018-02-01
+apiVersion: 2018-04-01
 summary: Create and start a packet capture on the specified VM.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}?api-version=2018-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -232,7 +230,57 @@ definitions:
   - name: Failed
     types:
     - uid: string
-examples: []
+examples:
+- name: Create packet capture
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/packetCaptures/pc1?api-version=2018-04-01
+    body: >-
+      {
+        "properties": {
+          "target": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
+          "bytesToCapturePerPacket": 10000,
+          "totalBytesPerSession": 100000,
+          "timeLimitInSeconds": 100,
+          "storageLocation": {
+            "storageId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Storage/storageAccounts/pcstore",
+            "storagePath": "https://mytestaccountname.blob.core.windows.net/capture/pc1.cap",
+            "filePath": "D:\\capture\\pc1.cap"
+          },
+          "filters": [
+            {
+              "protocol": "TCP",
+              "localIPAddress": "10.0.0.4",
+              "localPort": "80"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "pc1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/packetCaptures/pc1",
+        "properties": {
+          "provisioningState": "Updating",
+          "target": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
+          "bytesToCapturePerPacket": 10000,
+          "totalBytesPerSession": 100000,
+          "timeLimitInSeconds": 100,
+          "storageLocation": {
+            "storageId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Storage/storageAccounts/pcstore",
+            "storagePath": "https://mytestaccountname.blob.core.windows.net/capture/pc1.cap",
+            "filePath": "D:\\capture\\pc1.cap"
+          },
+          "filters": [
+            {
+              "protocol": "TCP",
+              "localIPAddress": "10.0.0.4",
+              "localPort": "80"
+            }
+          ]
+        }
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

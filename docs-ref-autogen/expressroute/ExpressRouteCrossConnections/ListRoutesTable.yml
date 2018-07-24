@@ -1,0 +1,130 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.expressroute.expressroutecrossconnections.listroutestable
+name: List Routes Table
+service: ExpressRoute
+groupName: Express Route Cross Connections
+apiVersion: 2018-04-01
+summary: Gets the currently advertised routes table associated with the express route cross connection in a resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTables/{devicePath}?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: crossConnectionName
+  in: path
+  isRequired: true
+  description: The name of the ExpressRouteCrossConnection.
+  types:
+  - uid: string
+- name: peeringName
+  in: path
+  isRequired: true
+  description: The name of the peering.
+  types:
+  - uid: string
+- name: devicePath
+  in: path
+  isRequired: true
+  description: The path of the device.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns the resulting ExpressRouteCrossConnectionsRouteTable resource.
+  types:
+  - uid: ExpressRouteCircuitsRoutesTableListResult
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+requestHeader: []
+definitions:
+- name: ExpressRouteCircuitsRoutesTableListResult
+  description: Response for ListRoutesTable associated with the Express Route Circuits API.
+  kind: object
+  properties:
+  - name: value
+    description: The list of routes table.
+    types:
+    - uid: ExpressRouteCircuitRoutesTable
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: ExpressRouteCircuitRoutesTable
+  description: The routes table associated with the ExpressRouteCircuit
+  kind: object
+  properties:
+  - name: network
+    description: IP address of a network entity
+    types:
+    - uid: string
+  - name: nextHop
+    description: NextHop address
+    types:
+    - uid: string
+  - name: locPrf
+    description: Local preference value as set with the set local-preference route-map configuration command
+    types:
+    - uid: string
+  - name: weight
+    description: Route Weight.
+    types:
+    - uid: integer
+  - name: path
+    description: Autonomous system paths to the destination network.
+    types:
+    - uid: string
+examples:
+- name: GetExpressRouteCrossConnectionsRouteTable
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/CrossConnection-SiliconValley/providers/Microsoft.Network/expressRouteCrossConnections/<circuitServiceKey>/peerings/AzurePrivatePeering/routeTables/primary?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "network": "10.6.0.0/16",
+            "nextHop": "10.6.1.12",
+            "locPrf": "",
+            "weight": 0,
+            "path": "65514"
+          },
+          {
+            "network": "10.7.0.0/16",
+            "nextHop": "10.7.1.13",
+            "locPrf": "",
+            "weight": 0,
+            "path": "65514"
+          }
+        ]
+      }
+  - statusCode: "202"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
