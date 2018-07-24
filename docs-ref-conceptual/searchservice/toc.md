@@ -19,7 +19,7 @@
 ## [Search Documents](search-documents.md)
 ### [Lucene query syntax](lucene-query-syntax-in-azure-search.md)
 ### [Simple query syntax](simple-query-syntax-in-azure-search.md)
-### [Filter Expression Syntax (OData)](odata-expression-syntax-for-azure-search.md)
+### [OData expression syntax](odata-expression-syntax-for-azure-search.md)
 ### [Support for OData](support-for-odata.md)
 ## [Suggestions](suggestions.md)
 ## [Autocomplete](autocomplete.md)

@@ -1,7 +1,7 @@
 ---
-title: "OData Expression Syntax for Azure Search | Microsoft Docs"
-description: Filter and orderby expression syntax for Azure Search queries.
-ms.date: "01/09/2018"
+title: "OData expression syntax for filters and orderby clauses in Azure Search | Microsoft Docs"
+description: Filter and orderby expression OData syntax for Azure Search queries.
+ms.date: "07/24/2018"
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "language-reference"
@@ -20,10 +20,32 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# OData Expression Syntax for Azure Search
-  Azure Search supports a subset of the OData expression syntax for **$filter** and **$orderby** expressions.  
+# OData expression syntax for filters and orderby clauses in Azure Search
 
-## Filter syntax
+Azure Search supports a subset of the OData expression syntax for **$filter** and **$orderby** expressions. Filter expressions are used during the query operation, restricting search to specific fields or adding match criteria used during index scans. Orderby expressions are applied as a post-processing step over a result set. Both filters and sort expressions are included in a query request, following an OData syntax independent of the [simple](simple-query-syntax-in-azure-search.md) or [full](lucene-query-syntax-in-azure-search.md) query syntax used in a **search** parameter.
+
+## $filter syntax
+
+A **$filter** expression can execute standalone as a fully expressed query, or refine a query that has additional parameters. The following examples illustrate a few key scenarios. In the first example, the filter is the substance of the query.
+
+
+```POST
+POST /indexes/hotels/docs/search?api-version=2017-11-11  
+    {  
+      "filter": "(baseRate ge 60 and baseRate lt 300) or hotelName eq 'Fancy Stay'"  
+    }  
+```
+
+Another common use case is filters combined faceting, where the filter reduces the query surface area based on a user-driven facet navigation selection:
+
+```POST
+POST /indexes/hotels/docs/search?api-version=2017-11-11  
+    {  
+      "search": "test",  
+      "facets": [ "tags", "baseRate,values:80|150|220" ],  
+      "filter": "rating eq 3 and category eq 'Motel'"  
+    }  
+```
 
 ### Operators  
 
@@ -91,7 +113,9 @@ translation.priority.mt:
 
  In Azure Search, geospatial queries that include 180-degree longitude will work as expected if the query shape is rectangular and your coordinates align to a grid layout along longitude and latitude (for example, `geo.intersects(location, geography'POLYGON((179 65,179 66,-179 66,-179 65,179 65))'`). Otherwise, for non-rectangular or unaligned shapes, consider the split polygon approach.  
 
-###  <a name="bkmk_unsupported"></a> Unsupported features of OData filters  
+<a name="bkmk_unsupported"></a>
+
+##  Unsupported features of OData filters  
 
 -   Arithmetic expressions  
 
@@ -99,10 +123,12 @@ translation.priority.mt:
 
 -   `any/all` with arbitrary lambda expressions  
 
-###  <a name="bkmk_limits"></a> Filter size limitations  
+<a name="bkmk_limits"></a>
+
+##   Filter size limitations  
  There are limits to the size and complexity of filter expressions that you can send to Azure Search. The limits are based roughly on the number of clauses in your filter expression. A good rule of thumb is that if you have hundreds of clauses, you are at risk of running into the limit. We recommend designing your application in such a way that it does not generate filters of unbounded size.  
 
-## Order-by syntax
+## $orderby syntax
 
 The **$orderby** parameter accepts a comma-separated list of up to 32 expressions of the form `sort-criteria [asc|desc]`. The sort criteria can either be the name of a `sortable` field or a call to either the `geo.distance` or the `search.score` functions. You can use either `asc` or `desc` to explicitly specify the sort order. The default order is ascending.
 
@@ -113,11 +139,9 @@ You can specify multiple sort criteria. The order of expressions determines the 
 The syntax for `geo.distance` in **$orderby** is the same as it is in **$filter**. When using `geo.distance` in **$orderby**, the field to which it applies must be of type `Edm.GeographyPoint` and it must also be `sortable`.  
 
 The syntax for `search.score` in **$orderby** is `search.score()`. The function `search.score` does not take any parameters.  
+ 
 
-##  <a name="bkmk_examples"></a> OData examples
- For more details on OData expressions and URI conventions, see [OData.org](http://odata.org).  
-
-### Filter examples  
+## $filter examples  
 
  Find all hotels with a base rate less than $100 that are rated at or above 4:  
 
@@ -246,7 +270,7 @@ Find documents where the terms "hotel" and "airport" are within 5 words from eac
 $filter=search.ismatch('"hotel airport"~5', 'description', 'full', 'any') and not smokingAllowed 
 ```
 
-### Order-by examples
+## $orderby examples
 
 Sort hotels ascending by base rate:
 

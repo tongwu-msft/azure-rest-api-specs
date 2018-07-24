@@ -4,7 +4,7 @@ description: "Reference for the simple query syntax used for full text search qu
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: "conceptual"
-ms.date: "10/04/2017"
+ms.date: "07/24/2018"
 
 author: "brjohnstmsft"
 ms.author: "brjohnst"
@@ -36,7 +36,8 @@ Whether this expansion actually occurs depends on the inclusion of a NOT operato
 
  Typically, you're more likely to see these behaviors in user interaction patterns for applications that search over content, where users are more likely to include an operator in a query, as opposed to e-commerce sites that have more built-in navigation structures. See below for more detail about `searchMode.`  
 
-## Operators  
+## Boolean operators  
+
  Additionally, the following characters may be used to fine-tune the query:  
 
 #### AND operator `+`
@@ -77,4 +78,7 @@ The precedence operator encloses the string in parentheses. For example, `motel+
 >  Although escaping keeps tokens together, text analysis may split them up, depending on the analysis mode. See [Language support &#40;Azure Search Service REST API&#41;](language-support.md) for details.  
 
 ## See also  
- [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md)  
+
++ [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md) 
++ [Lucene query syntax](lucene-query-syntax-in-azure-search.md)
++ [OData expression syntax](odata-expression-syntax-for-azure-search.md) 

@@ -4,7 +4,7 @@ description: "Reference for the full Lucene syntax as it is used with Azure Sear
 ms.prod: "azure"
 ms.service: "search"
 ms.topic: conceptual
-ms.date: "09/15/2017"
+ms.date: "07/24/2018"
 
 author: "brjohnstmsft"
 ms.author: "brjohnst"
@@ -183,6 +183,7 @@ POST /indexes/hotels/docs/search?api-version=2015-02-28
 ```  
 
 ## See also  
-[Search Documents](search-documents.md)
- [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
- [Simple query syntax in Azure Search](simple-query-syntax-in-azure-search.md)   
+
++ [Search Documents](search-documents.md)
++ [OData expression syntax for filters and sorting](odata-expression-syntax-for-azure-search.md)   
++ [Simple query syntax in Azure Search](simple-query-syntax-in-azure-search.md)   
