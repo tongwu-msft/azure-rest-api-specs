@@ -24,7 +24,7 @@ translation.priority.mt:
 
 Azure Search supports a subset of the OData expression syntax for **$filter** and **$orderby** expressions. Filter expressions are used during the query operation, restricting search to specific fields or adding match criteria used during index scans. Orderby expressions are applied as a post-processing step over a result set. Both filters and sort expressions are included in a query request, following an OData syntax independent of the [simple](simple-query-syntax-in-azure-search.md) or [full](lucene-query-syntax-in-azure-search.md) query syntax used in a **search** parameter.
 
-## $filter syntax
+## Filter syntax
 
 A **$filter** expression can execute standalone as a fully expressed query, or refine a query that has additional parameters. The following examples illustrate a few key scenarios. In the first example, the filter is the substance of the query.
 
@@ -47,7 +47,7 @@ POST /indexes/hotels/docs/search?api-version=2017-11-11
     }  
 ```
 
-### Operators  
+### Filter operators  
 
 -   Logical operators (and, or, not).  
 
@@ -113,35 +113,14 @@ POST /indexes/hotels/docs/search?api-version=2017-11-11
 
  In Azure Search, geospatial queries that include 180-degree longitude will work as expected if the query shape is rectangular and your coordinates align to a grid layout along longitude and latitude (for example, `geo.intersects(location, geography'POLYGON((179 65,179 66,-179 66,-179 65,179 65))'`). Otherwise, for non-rectangular or unaligned shapes, consider the split polygon approach.  
 
-<a name="bkmk_unsupported"></a>
-
-##  Unsupported features of OData filters  
-
--   Arithmetic expressions  
-
--   Functions (except the distance and intersects geospatial functions)  
-
--   `any/all` with arbitrary lambda expressions  
-
 <a name="bkmk_limits"></a>
 
-##   Filter size limitations  
+## Filter size limitations 
+
  There are limits to the size and complexity of filter expressions that you can send to Azure Search. The limits are based roughly on the number of clauses in your filter expression. A good rule of thumb is that if you have hundreds of clauses, you are at risk of running into the limit. We recommend designing your application in such a way that it does not generate filters of unbounded size.  
 
-## $orderby syntax
 
-The **$orderby** parameter accepts a comma-separated list of up to 32 expressions of the form `sort-criteria [asc|desc]`. The sort criteria can either be the name of a `sortable` field or a call to either the `geo.distance` or the `search.score` functions. You can use either `asc` or `desc` to explicitly specify the sort order. The default order is ascending.
-
-If multiple documents have the same sort criteria and `search.score` function is not used (for example, if you sort by a numeric `rating` field and three documents all have a rating of 4), ties will be broken by document score in descending order. When document scores are the same (for example, when there is no full-text search query specified in the request), then the relative ordering of the tied documents is indeterminate.
- 
-You can specify multiple sort criteria. The order of expressions determines the final sort order. For example, to sort descending by score, followed by rating, the syntax would be `$orderby=search.score() desc,rating desc`.
-
-The syntax for `geo.distance` in **$orderby** is the same as it is in **$filter**. When using `geo.distance` in **$orderby**, the field to which it applies must be of type `Edm.GeographyPoint` and it must also be `sortable`.  
-
-The syntax for `search.score` in **$orderby** is `search.score()`. The function `search.score` does not take any parameters.  
- 
-
-## $filter examples  
+## Filter examples  
 
  Find all hotels with a base rate less than $100 that are rated at or above 4:  
 
@@ -270,7 +249,20 @@ Find documents where the terms "hotel" and "airport" are within 5 words from eac
 $filter=search.ismatch('"hotel airport"~5', 'description', 'full', 'any') and not smokingAllowed 
 ```
 
-## $orderby examples
+## Orderby syntax
+
+The **$orderby** parameter accepts a comma-separated list of up to 32 expressions of the form `sort-criteria [asc|desc]`. The sort criteria can either be the name of a `sortable` field or a call to either the `geo.distance` or the `search.score` functions. You can use either `asc` or `desc` to explicitly specify the sort order. The default order is ascending.
+
+If multiple documents have the same sort criteria and `search.score` function is not used (for example, if you sort by a numeric `rating` field and three documents all have a rating of 4), ties will be broken by document score in descending order. When document scores are the same (for example, when there is no full-text search query specified in the request), then the relative ordering of the tied documents is indeterminate.
+ 
+You can specify multiple sort criteria. The order of expressions determines the final sort order. For example, to sort descending by score, followed by rating, the syntax would be `$orderby=search.score() desc,rating desc`.
+
+The syntax for `geo.distance` in **$orderby** is the same as it is in **$filter**. When using `geo.distance` in **$orderby**, the field to which it applies must be of type `Edm.GeographyPoint` and it must also be `sortable`.  
+
+The syntax for `search.score` in **$orderby** is `search.score()`. The function `search.score` does not take any parameters.  
+ 
+
+## Orderby examples
 
 Sort hotels ascending by base rate:
 
@@ -296,6 +288,20 @@ between two hotels with identical ratings, the closest one is listed first:
 ```
 $orderby=search.score() desc,rating desc,geo.distance(location, geography'POINT(-122.131577 47.678581)') asc
 ```
+<a name="bkmk_unsupported"></a>
+
+## Unsupported OData syntax
+
+-   Arithmetic expressions  
+
+-   Functions (except the distance and intersects geospatial functions)  
+
+-   `any/all` with arbitrary lambda expressions  
 
 ## See also  
- [Faceted navigation in Azure Search](https://azure.microsoft.com/documentation/articles/search-faceted-navigation/)  
+
++ [Faceted navigation in Azure Search](https://azure.microsoft.com/documentation/articles/search-faceted-navigation/) 
++ [Filters in Azure Search](https://docs.microsoft.com//azure/search/search-filters) 
++ [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md) 
++ [Lucene query syntax](lucene-query-syntax-in-azure-search.md)
++ [Simple query syntax in Azure Search](simple-query-syntax-in-azure-search.md)   
