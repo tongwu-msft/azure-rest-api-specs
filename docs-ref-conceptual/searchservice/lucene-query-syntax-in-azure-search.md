@@ -22,43 +22,40 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Lucene query syntax in Azure Search
-  You can write queries against Azure Search based on the rich [Lucene Query Parser](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html) syntax. Much of the syntax is [implemented intact in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture), with the exception of *range searches* which are constructed in Azure Search through `$filter` expressions. See [Lucene query syntax examples for building queries in Azure Search](https://azure.microsoft.com/documentation/articles/search-query-lucene-examples/) for examples of how the syntax is used.  
+You can write queries against Azure Search based on the rich [Lucene Query Parser](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html) syntax for specialized query forms: wildcard, fuzzy search, proximity search, regular expressions are a few examples. Much of the Lucene Query Parsersyntax is [implemented intact in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture), with the exception of *range searches* which are constructed in Azure Search through `$filter` expressions. 
+
+## How to invoke Lucene query parsing
+
+Set the `queryType` search parameter to specify which parser to use. Valid values include `simple|full`, with `simple` as the default, and `full` for Lucene. 
+
+<a name="bkmk_example"></a> 
+
+## Example showing full syntax
+
+The following example finds documents in the index using the Lucene query syntax, evident in the `queryType=full` parameter. This query returns hotels where the category field contains the term "budget" and all searchable fields containing the phrase "recently renovated". Documents containing the phrase "recently renovated" are ranked higher as a result of the term boost value (3).  
+
+The `searchMode=all` parameter is relevant in this example. Whenever operators are on the query, you should generally set `searchMode=all` to ensure that *all* of the criteria is matched.
+
+```  
+GET /indexes/hotels/docs?search=category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2015-02-28&querytype=full  
+```  
+
+ Alternatively, use POST:  
+
+```  
+POST /indexes/hotels/docs/search?api-version=2015-02-28  
+{  
+  "search": "category:budget AND \"recently renovated\"^3",  
+  "queryType": "full",  
+  "searchMode": "all"  
+}  
+```  
+
+For additional examples, see [Lucene query syntax examples for building queries in Azure Search](https://azure.microsoft.com/documentation/articles/search-query-lucene-examples/). For details about specifying the full contingent of query parameters, see [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md).
 
 > [!NOTE]  
 >  Azure Search also supports [Simple Query Syntax](simple-query-syntax-in-azure-search.md), a simple and robust query language that can be used for straightforward keyword search.  
 
-## Key scenarios
- The Lucene query syntax is more powerful than the alternative [Simple Query Syntax](simple-query-syntax-in-azure-search.md) supported by Azure Search. You should plan on using Lucene query syntax if you want to implement any of these query operations:  
-
--   [Field-scoped queries](#bkmk_fields)  
-
--   [Fuzzy search](#bkmk_fuzzy)  
-
--   [Proximity search](#bkmk_proximity)  
-
--   [Term boosting](#bkmk_termboost)  
-
--   [Regular expression search](#bkmk_regex)  
-
--   [Wildcard search](#bkmk_wildcard)  
-
--   [Syntax fundamentals](#bkmk_syntax)  
-
--   [Boolean operators](#bkmk_boolean)  
-
--   [Query size limitations](#bkmk_querysizelimits)  
-
--   [Search score for wildcard and regex queries](#bkmk_searchscoreforwildcardandregexqueries)  
-
--   [Example](#bkmk_example)  
-
- Both Lucene and simple query syntax are functionally similar for [Wildcard search](#bkmk_wildcard) and [Boolean operators](#bkmk_boolean). The sections on wildcard search and boolean operators are mostly the same for both syntax.  
-
-## Invoke Lucene query parser
-
- Use the `queryType` search parameter to specify which parser to use. Valid values include `simple|full`, with `simple` as the default, and `full` for Lucene.
-
-For details about specifying query parameters, see [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md). Refer to the [Example](#bkmk_example) at the end of this page for an illustration of how to structure the request.  
 
 ##  <a name="bkmk_fields"></a> Field-scoped queries  
  You can specify a `fieldname:searchterm` construction to define a fielded query operation, where the field is a single word, and the search term is also a single word or a phrase, optionally with boolean operators. Some examples include the following:  
@@ -160,28 +157,8 @@ Using `searchMode=all` increases the precision of queries by including fewer res
 ##  <a name="bkmk_querysizelimits"></a> Query size limitations  
  There is a limit to the size of queries that you can send to Azure Search. Specifically, you can have at most 1024 clauses (expressions separated by AND, OR, and so on). There is also a limit of approximately 32 KB on the size of any individual term in a query. If your application generates search queries programmatically, we recommend designing it in such a way that it does not generate queries of unbounded size.  
 
-##  <a name="bkmk_searchscoreforwildcardandregexqueries"></a> Search score for wildcard and regex queries
+##  <a name="bkmk_searchscoreforwildcardandregexqueries"></a> Scoring wildcard and regex queries
  Azure Search uses frequency-based scoring ([TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)) for text queries. However, for wildcard and regex queries where scope of terms can potentially be broad, the frequency factor is ignored to prevent the ranking from biasing towards matches from rarer terms. All matches are treated equally for wildcard and regex searches.
-
-##  <a name="bkmk_example"></a> Example  
- Find documents in the index using the Lucene query syntax.  
-
- This query returns hotels where the category field contains the term "budget" and all searchable fields containing the phrase "recently renovated". Documents containing the phrase "recently renovated" are ranked higher as a result of the term boost value (3).  
-
-```  
-GET /indexes/hotels/docs?search=category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2015-02-28&querytype=full  
-```  
-
- Alternatively, use POST:  
-
-```  
-POST /indexes/hotels/docs/search?api-version=2015-02-28  
-{  
-  "search": "category:budget AND \"recently renovated\"^3",  
-  "queryType": "full",  
-  "searchMode": "all"  
-}  
-```  
 
 ## See also  
 
