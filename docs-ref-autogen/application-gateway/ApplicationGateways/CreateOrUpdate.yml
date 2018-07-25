@@ -3,14 +3,14 @@ uid: management.azure.com.application-gateway.applicationgateways.createorupdate
 name: Create Or Update
 service: Application Gateway
 groupName: Application Gateways
-apiVersion: 2018-02-01
+apiVersion: 2018-04-01
 summary: Creates or updates the specified application gateway.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}?api-version=2018-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -53,6 +53,12 @@ requestBody:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: zones
+    in: body
+    description: A list of availability zones denoting where the resource needs to come from.
+    types:
+    - uid: string
+      isArray: true
   - name: properties.sku
     in: body
     description: SKU of the application gateway resource.
@@ -145,6 +151,16 @@ requestBody:
     description: Whether HTTP2 is enabled on the application gateway resource.
     types:
     - uid: boolean
+  - name: properties.enableFips
+    in: body
+    description: Whether FIPS is enabled on the application gateway resource.
+    types:
+    - uid: boolean
+  - name: properties.autoscaleConfiguration
+    in: body
+    description: Autoscale Configuration.
+    types:
+    - uid: ApplicationGatewayAutoscaleConfiguration
   - name: properties.resourceGuid
     in: body
     description: Resource GUID property of the application gateway resource.
@@ -223,7 +239,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Name of the IP configuration that is unique within an Application Gateway.
     types:
     - uid: string
   - name: etag
@@ -251,7 +267,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Name of the authentication certificate that is unique within an Application Gateway.
     types:
     - uid: string
   - name: etag
@@ -279,7 +295,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Name of the SSL certificate that is unique within an Application Gateway.
     types:
     - uid: string
   - name: etag
@@ -315,7 +331,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Name of the frontend IP configuration that is unique within an Application Gateway.
     types:
     - uid: string
   - name: etag
@@ -355,7 +371,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Name of the frontend port that is unique within an Application Gateway
     types:
     - uid: string
   - name: etag
@@ -383,7 +399,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Name of the probe that is unique within an Application Gateway.
     types:
     - uid: string
   - name: etag
@@ -395,7 +411,7 @@ definitions:
     types:
     - uid: string
   - name: properties.protocol
-    description: Protocol.
+    description: The protocol used for the probe. Possible values are 'Http' and 'Https'.
     types:
     - uid: ApplicationGatewayProtocol
   - name: properties.host
@@ -443,7 +459,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Resource that is unique within a resource group. This name can be used to access the resource.
+    description: Name of the backend address pool that is unique within an Application Gateway.
     types:
     - uid: string
   - name: etag
@@ -477,7 +493,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Name of the backend http settings that is unique within an Application Gateway.
     types:
     - uid: string
   - name: etag
@@ -489,11 +505,11 @@ definitions:
     types:
     - uid: string
   - name: properties.port
-    description: Port
+    description: The destination port on the backend.
     types:
     - uid: integer
   - name: properties.protocol
-    description: Protocol.
+    description: The protocol used to communicate with the backend. Possible values are 'Http' and 'Https'.
     types:
     - uid: ApplicationGatewayProtocol
   - name: properties.cookieBasedAffinity
@@ -550,7 +566,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Name of the HTTP listener that is unique within an Application Gateway.
     types:
     - uid: string
   - name: etag
@@ -570,7 +586,7 @@ definitions:
     types:
     - uid: SubResource
   - name: properties.protocol
-    description: Protocol.
+    description: Protocol of the HTTP listener. Possible values are 'Http' and 'Https'.
     types:
     - uid: ApplicationGatewayProtocol
   - name: properties.hostName
@@ -598,7 +614,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Name of the URL path map that is unique within an Application Gateway.
     types:
     - uid: string
   - name: etag
@@ -639,7 +655,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Name of the request routing rule that is unique within an Application Gateway.
     types:
     - uid: string
   - name: etag
@@ -659,7 +675,7 @@ definitions:
     types:
     - uid: SubResource
   - name: properties.backendHttpSettings
-    description: Frontend port resource of the application gateway.
+    description: Backend http settings resource of the application gateway.
     types:
     - uid: SubResource
   - name: properties.httpListener
@@ -687,7 +703,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Name of the redirect configuration that is unique within an Application Gateway.
     types:
     - uid: string
   - name: etag
@@ -770,6 +786,14 @@ definitions:
     description: Maxium request body size for WAF.
     types:
     - uid: integer
+- name: ApplicationGatewayAutoscaleConfiguration
+  description: Application Gateway autoscale configuration.
+  kind: object
+  properties:
+  - name: bounds
+    description: Autoscale bounds
+    types:
+    - uid: ApplicationGatewayAutoscaleBounds
 - name: ApplicationGateway
   description: Application gateway resource
   kind: object
@@ -778,6 +802,11 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: zones
+    description: A list of availability zones denoting where the resource needs to come from.
+    types:
+    - uid: string
+      isArray: true
   - name: properties.sku
     description: SKU of the application gateway resource.
     types:
@@ -859,6 +888,14 @@ definitions:
     description: Whether HTTP2 is enabled on the application gateway resource.
     types:
     - uid: boolean
+  - name: properties.enableFips
+    description: Whether FIPS is enabled on the application gateway resource.
+    types:
+    - uid: boolean
+  - name: properties.autoscaleConfiguration
+    description: Autoscale Configuration.
+    types:
+    - uid: ApplicationGatewayAutoscaleConfiguration
   - name: properties.resourceGuid
     description: Resource GUID property of the application gateway resource.
     types:
@@ -912,6 +949,12 @@ definitions:
   - name: WAF_Large
     types:
     - uid: string
+  - name: Standard_v2
+    types:
+    - uid: string
+  - name: WAF_v2
+    types:
+    - uid: string
 - name: ApplicationGatewayTier
   description: Tier of an application gateway.
   kind: enum
@@ -920,6 +963,12 @@ definitions:
     types:
     - uid: string
   - name: WAF
+    types:
+    - uid: string
+  - name: Standard_v2
+    types:
+    - uid: string
+  - name: WAF_v2
     types:
     - uid: string
 - name: ApplicationGatewaySslPolicyType
@@ -977,7 +1026,7 @@ definitions:
     types:
     - uid: string
 - name: ApplicationGatewayProtocol
-  description: Protocol.
+  description: The protocol used to communicate with the backend. Possible values are 'Http' and 'Https'.
   kind: enum
   properties:
   - name: Http
@@ -1102,7 +1151,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Name of the path rule that is unique within an Application Gateway.
     types:
     - uid: string
   - name: etag
@@ -1187,6 +1236,18 @@ definitions:
     types:
     - uid: integer
       isArray: true
+- name: ApplicationGatewayAutoscaleBounds
+  description: Application Gateway autoscale bounds on number of Application Gateway instance.
+  kind: object
+  properties:
+  - name: min
+    description: Lower bound on number of Application Gateway instances.
+    types:
+    - uid: integer
+  - name: max
+    description: Upper bound on number of Application Gateway instances.
+    types:
+    - uid: integer
 - name: ApplicationGatewayOperationalState
   description: Operational state of the application gateway resource.
   kind: enum
@@ -2006,7 +2067,7 @@ definitions:
 examples:
 - name: Create Application Gateway
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw?api-version=2018-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw?api-version=2018-04-01
     body: >-
       {
         "properties": {

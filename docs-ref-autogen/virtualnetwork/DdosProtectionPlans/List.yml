@@ -1,0 +1,159 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.ddosprotectionplans.list
+name: List
+service: Virtual Networks
+groupName: Ddos Protection Plans
+apiVersion: 2018-04-01
+summary: Gets all DDoS protection plans in a subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/ddosProtectionPlans?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns a list of DDoS protection plan resources.
+  types:
+  - uid: DdosProtectionPlanListResult
+requestHeader: []
+definitions:
+- name: DdosProtectionPlanListResult
+  description: A list of DDoS protection plans.
+  kind: object
+  properties:
+  - name: value
+    description: A list of DDoS protection plans.
+    types:
+    - uid: DdosProtectionPlan
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: DdosProtectionPlan
+  description: A DDoS protection plan in a resource group.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resource GUID property of the DDoS protection plan resource. It uniquely identifies the resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the DDoS protection plan resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: properties.virtualNetworks
+    isReadyOnly: true
+    description: The list of virtual networks associated with the DDoS protection plan resource. This list is read-only.
+    types:
+    - uid: SubResource
+      isArray: true
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+examples:
+- name: List all DDoS protection plans
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/ddosProtectionPlans?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosProtectionPlans/plan1",
+            "name": "plan1",
+            "type": "Microsoft.Network/ddosProtectionPlans",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "virtualNetworks": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet1"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosProtectionPlans/plan2",
+            "name": "plan2",
+            "type": "Microsoft.Network/ddosProtectionPlans",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "virtualNetworks": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet2"
+                },
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet3"
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

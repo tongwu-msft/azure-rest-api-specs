@@ -3,16 +3,14 @@ uid: management.azure.com.network-watcher.networkwatchers.verifyipflow
 name: Verify IP Flow
 service: Network Watcher
 groupName: Network Watchers
-apiVersion: 2018-02-01
+apiVersion: 2018-04-01
 summary: Verify IP flow from the specified VM to a location given the currently configured NSG rules.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify?api-version=2018-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -177,7 +175,33 @@ definitions:
   - name: UDP
     types:
     - uid: string
-examples: []
+examples:
+- name: Ip flow verify
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/ipFlowVerify?api-version=2018-04-01
+    body: >-
+      {
+        "targetResourceId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
+        "direction": "Outbound",
+        "protocol": "TCP",
+        "localPort": "80",
+        "remotePort": "80",
+        "localIPAddress": "10.2.0.4",
+        "remoteIPAddress": "121.10.1.1"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "access": "Allow",
+        "ruleName": "Rule1"
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "access": "Allow",
+        "ruleName": "Rule1"
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
