@@ -3,14 +3,14 @@ uid: management.azure.com.trafficmanager.profiles.listbyresourcegroup
 name: List By Resource Group
 service: Traffic Manager
 groupName: Profiles
-apiVersion: 2017-05-01
+apiVersion: 2018-04-01
 summary: Lists all Traffic Manager profiles within a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles?api-version=2017-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -83,6 +83,14 @@ definitions:
     types:
     - uid: Endpoint
       isArray: true
+  - name: properties.trafficViewEnrollmentStatus
+    description: Indicates whether Traffic View is 'Enabled' or 'Disabled' for the Traffic Manager profile. Null, indicates 'Disabled'. Enabling this feature will increase the cost of the Traffic Manage profile.
+    types:
+    - uid: TrafficViewEnrollmentStatus
+  - name: properties.maxReturn
+    description: Maximum number of endpoints to be returned for MultiValue routing type.
+    types:
+    - uid: integer
   - name: tags
     description: Resource tags.
     types:
@@ -157,6 +165,12 @@ definitions:
   - name: Geographic
     types:
     - uid: string
+  - name: MultiValue
+    types:
+    - uid: string
+  - name: Subnet
+    types:
+    - uid: string
 - name: DnsConfig
   description: Class containing DNS settings in a Traffic Manager profile.
   kind: object
@@ -206,6 +220,16 @@ definitions:
     description: The number of consecutive failed health check that Traffic Manager tolerates before declaring an endpoint in this profile Degraded after the next failed health check.
     types:
     - uid: integer
+  - name: customHeaders
+    description: List of custom headers.
+    types:
+    - uid: CustomHeaders
+      isArray: true
+  - name: expectedStatusCodeRanges
+    description: List of expected status code ranges.
+    types:
+    - uid: ExpectedStatusCodeRanges
+      isArray: true
 - name: Endpoint
   description: Class representing a Traffic Manager endpoint.
   kind: object
@@ -215,7 +239,7 @@ definitions:
     types:
     - uid: string
   - name: properties.target
-    description: The fully-qualified DNS name of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
+    description: The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
     types:
     - uid: string
   - name: properties.endpointStatus
@@ -227,11 +251,11 @@ definitions:
     types:
     - uid: integer
   - name: properties.priority
-    description: The priority of this endpoint when using the ‘Priority’ traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
+    description: The priority of this endpoint when using the 'Priority' traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
     types:
     - uid: integer
   - name: properties.endpointLocation
-    description: Specifies the location of the external or nested endpoints when using the ‘Performance’ traffic routing method.
+    description: Specifies the location of the external or nested endpoints when using the 'Performance' traffic routing method.
     types:
     - uid: string
   - name: properties.endpointMonitorStatus
@@ -243,9 +267,19 @@ definitions:
     types:
     - uid: integer
   - name: properties.geoMapping
-    description: The list of countries/regions mapped to this endpoint when using the ‘Geographic’ traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
+    description: The list of countries/regions mapped to this endpoint when using the 'Geographic' traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
     types:
     - uid: string
+      isArray: true
+  - name: properties.subnets
+    description: The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the 'Subnet' traffic routing method. An empty list will match all ranges not covered by other endpoints.
+    types:
+    - uid: Subnets
+      isArray: true
+  - name: properties.customHeaders
+    description: List of custom headers.
+    types:
+    - uid: CustomHeaders
       isArray: true
   - name: id
     isReadyOnly: true
@@ -260,6 +294,16 @@ definitions:
   - name: type
     isReadyOnly: true
     description: The type of the resource. Ex- Microsoft.Network/trafficmanagerProfiles.
+    types:
+    - uid: string
+- name: TrafficViewEnrollmentStatus
+  description: Indicates whether Traffic View is 'Enabled' or 'Disabled' for the Traffic Manager profile. Null, indicates 'Disabled'. Enabling this feature will increase the cost of the Traffic Manage profile.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: ProfileMonitorStatus
@@ -294,6 +338,30 @@ definitions:
   - name: TCP
     types:
     - uid: string
+- name: CustomHeaders
+  description: List of custom headers.
+  kind: object
+  properties:
+  - name: name
+    description: Header name.
+    types:
+    - uid: string
+  - name: value
+    description: Header value.
+    types:
+    - uid: string
+- name: ExpectedStatusCodeRanges
+  description: List of expected status code ranges.
+  kind: object
+  properties:
+  - name: min
+    description: Min status code.
+    types:
+    - uid: integer
+  - name: max
+    description: Max status code.
+    types:
+    - uid: integer
 - name: EndpointStatus
   description: The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.
   kind: enum
@@ -326,17 +394,33 @@ definitions:
   - name: Stopped
     types:
     - uid: string
+- name: Subnets
+  description: The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the 'Subnet' traffic routing method. An empty list will match all ranges not covered by other endpoints.
+  kind: object
+  properties:
+  - name: first
+    description: First address in the subnet.
+    types:
+    - uid: string
+  - name: last
+    description: Last address in the subnet.
+    types:
+    - uid: string
+  - name: scope
+    description: Block size (number of leading bits in the subnet mask).
+    types:
+    - uid: integer
 examples:
 - name: ListProfilesByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager3640/providers/Microsoft.Network/trafficmanagerprofiles?api-version=2017-05-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager3640/providers/Microsoft.Network/trafficmanagerprofiles?api-version=2018-04-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager3640/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager1005",
+            "id": "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager3640/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager1005",
             "name": "azuresdkfornetautoresttrafficmanager1005",
             "type": "Microsoft.Network/trafficManagerProfiles",
             "location": "global",
@@ -360,7 +444,7 @@ examples:
               },
               "endpoints": [
                 {
-                  "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager3640/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager1005/externalEndpoints/My external endpoint",
+                  "id": "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager3640/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager1005/externalEndpoints/My external endpoint",
                   "name": "My external endpoint",
                   "type": "Microsoft.Network/trafficManagerProfiles/externalEndpoints",
                   "properties": {
@@ -376,7 +460,7 @@ examples:
             }
           },
           {
-            "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager3640/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager959",
+            "id": "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager3640/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager959",
             "name": "azuresdkfornetautoresttrafficmanager959",
             "type": "Microsoft.Network/trafficManagerProfiles",
             "location": "global",
@@ -400,7 +484,7 @@ examples:
               },
               "endpoints": [
                 {
-                  "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager3640/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager959/externalEndpoints/My external endpoint",
+                  "id": "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager3640/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager959/externalEndpoints/My external endpoint",
                   "name": "My external endpoint",
                   "type": "Microsoft.Network/trafficManagerProfiles/externalEndpoints",
                   "properties": {
