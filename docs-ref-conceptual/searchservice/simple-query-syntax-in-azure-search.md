@@ -77,7 +77,7 @@ The precedence operator encloses the string in parentheses. For example, `motel+
  In order to use the above symbols as actual part of the search text, they should be escaped by prefixing them with a backslash. For example, `luxury\+hotel` will result in the term `luxury+hotel`. In order to make things simple for the more typical cases, there are two exceptions to this rule where escaping is not needed:  
 
 - The NOT operator `-` only needs to be escaped if it's the first character after whitespace, not if it's in the middle of a term. For example, `wi-fi` is a single term; whereas GUIDs (such as `3352CDD0-EF30-4A2E-A512-3B30AF40F3FD`) are treated as a single token.
-- The suffix operator `*`only needs to be escaped if it's the last character before whitespace, not if it's in the middle of a term. For example, `wi*fi` is treated as a single token.
+- The suffix operator `*` needs to be escaped only if it's the last character before whitespace, not if it's in the middle of a term. For example, `wi*fi` is treated as a single token.
 
 > [!NOTE]  
 >  Although escaping keeps tokens together, text analysis may split them up, depending on the analysis mode. See [Language support &#40;Azure Search Service REST API&#41;](language-support.md) for details.  
