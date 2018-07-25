@@ -22,7 +22,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Lucene query syntax in Azure Search
-You can write queries against Azure Search based on the rich [Lucene Query Parser](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html) syntax for specialized query forms: wildcard, fuzzy search, proximity search, regular expressions are a few examples. Much of the Lucene Query Parsersyntax is [implemented intact in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture), with the exception of *range searches* which are constructed in Azure Search through `$filter` expressions. 
+You can write queries against Azure Search based on the rich [Lucene Query Parser](https://lucene.apache.org/core/4_10_2/queryparser/org/apache/lucene/queryparser/classic/package-summary.html) syntax for specialized query forms: wildcard, fuzzy search, proximity search, regular expressions are a few examples. Much of the Lucene Query Parser syntax is [implemented intact in Azure Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture), with the exception of *range searches* which are constructed in Azure Search through `$filter` expressions. 
 
 ## How to invoke full parsing
 
@@ -94,7 +94,7 @@ The following example helps illustrate the differences. Suppose that there's a s
 ##  <a name="bkmk_wildcard"></a> Wildcard search  
  You can use generally recognized syntax for multiple (*) or single (?) character wildcard searches. Note the Lucene query parser supports the use of these symbols with a single term, and not a phrase.  
 
- For example to find documents containing the words with the prefix "note", such as "notebook" or "notepad", specify "note*".  
+ For example, to find documents containing the words with the prefix "note", such as "notebook" or "notepad", specify "note*".  
 
 > [!NOTE]  
 >  You cannot use a * or ? symbol as the first character of a search.  
