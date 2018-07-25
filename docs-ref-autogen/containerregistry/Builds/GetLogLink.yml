@@ -1,0 +1,80 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerregistry.builds.getloglink
+name: Get Log Link
+service: Container Registry
+groupName: Builds
+apiVersion: 2018-02-01-preview
+summary: Gets a link to download the build logs.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/builds/{buildId}/getLogLink?api-version=2018-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: registryName
+  in: path
+  isRequired: true
+  description: The name of the container registry.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: buildId
+  in: path
+  isRequired: true
+  description: The build ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: BuildGetLogResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed. If the registry/build doesn't exist, 404 (Not found) is returned.
+requestHeader: []
+definitions:
+- name: BuildGetLogResult
+  description: The result of get log link operation.
+  kind: object
+  properties:
+  - name: logLink
+    description: The link to logs for a azure container registry build.
+    types:
+    - uid: string
+examples:
+- name: Builds_GetLogLink
+  request:
+    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/builds/0accec26-d6de-4757-8e74-d080f38eaaab/getLogLink?api-version=2018-02-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "logLink": "https://registrystorageaccount.blob.core.windows.net/sascontainer/logs/0accec26-d6de-4757-8e74-d080f38eaaab/rawtext.log?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

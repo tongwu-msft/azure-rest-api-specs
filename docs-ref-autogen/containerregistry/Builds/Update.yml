@@ -1,0 +1,396 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerregistry.builds.update
+name: Update
+service: Container Registry
+groupName: Builds
+apiVersion: 2018-02-01-preview
+summary: Patch the build properties.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/builds/{buildId}?api-version=2018-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: registryName
+  in: path
+  isRequired: true
+  description: The name of the container registry.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: buildId
+  in: path
+  isRequired: true
+  description: The build ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: Build
+- name: 201 Created
+  description: The request was successfully accepted; the operation will complete asynchronously. The provisioning state of the resource should indicate the current state of the resource.
+  types:
+  - uid: Build
+- name: Other Status Codes
+  description: Error response describing why the operation failed. If the registry/build doesn't exist, 404 (Not found) is returned. If any of the input parameters is wrong, 400(Bad Request) is returned.
+requestBody:
+- name: default
+  parameters:
+  - name: isArchiveEnabled
+    in: body
+    description: The value that indicates whether archiving is enabled or not.
+    types:
+    - uid: boolean
+requestHeader: []
+definitions:
+- name: Build
+  description: Build resource properties
+  kind: object
+  properties:
+  - name: properties.buildId
+    description: The unique identifier for the build.
+    types:
+    - uid: string
+  - name: properties.status
+    description: The current status of the build.
+    types:
+    - uid: BuildStatus
+  - name: properties.lastUpdatedTime
+    description: The last updated time for the build.
+    types:
+    - uid: string
+  - name: properties.buildType
+    description: The type of build.
+    types:
+    - uid: BuildType
+  - name: properties.createTime
+    description: The time the build was created.
+    types:
+    - uid: string
+  - name: properties.startTime
+    description: The time the build started.
+    types:
+    - uid: string
+  - name: properties.finishTime
+    description: The time the build finished.
+    types:
+    - uid: string
+  - name: properties.outputImages
+    description: The list of all images that were generated from the build.
+    types:
+    - uid: ImageDescriptor
+      isArray: true
+  - name: properties.buildTask
+    description: The build task with which the build was started.
+    types:
+    - uid: string
+  - name: properties.imageUpdateTrigger
+    description: The image update trigger that caused the build.
+    types:
+    - uid: ImageUpdateTrigger
+  - name: properties.gitCommitTrigger
+    description: The git commit trigger that caused the build.
+    types:
+    - uid: GitCommitTrigger
+  - name: properties.isArchiveEnabled
+    description: The value that indicates whether archiving is enabled or not.
+    types:
+    - uid: boolean
+  - name: properties.platform
+    description: The platform properties against which the build will happen.
+    types:
+    - uid: PlatformProperties
+  - name: properties.provisioningState
+    description: The provisioning state of a build.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: The resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: BuildUpdateParameters
+  description: The set of build properties that can be updated.
+  kind: object
+  properties:
+  - name: isArchiveEnabled
+    description: The value that indicates whether archiving is enabled or not.
+    types:
+    - uid: boolean
+- name: BuildStatus
+  description: The current status of the build.
+  kind: enum
+  properties:
+  - name: Queued
+    types:
+    - uid: string
+  - name: Started
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+- name: BuildType
+  description: The type of build.
+  kind: enum
+  properties:
+  - name: AutoBuild
+    types:
+    - uid: string
+  - name: QuickBuild
+    types:
+    - uid: string
+- name: ImageDescriptor
+  description: Properties for a registry image.
+  kind: object
+  properties:
+  - name: registry
+    description: The registry login server.
+    types:
+    - uid: string
+  - name: repository
+    description: The repository name.
+    types:
+    - uid: string
+  - name: tag
+    description: The tag name.
+    types:
+    - uid: string
+  - name: digest
+    description: The sha256-based digest of the image manifest.
+    types:
+    - uid: string
+- name: ImageUpdateTrigger
+  description: The image update trigger that caused a build.
+  kind: object
+  properties:
+  - name: id
+    description: The unique ID of the trigger.
+    types:
+    - uid: string
+  - name: timestamp
+    description: The timestamp when the image update happened.
+    types:
+    - uid: string
+  - name: images
+    description: The list of image updates that caused the build.
+    types:
+    - uid: ImageDescriptor
+      isArray: true
+- name: GitCommitTrigger
+  description: The git commit trigger that caused a build.
+  kind: object
+  properties:
+  - name: id
+    description: The unique ID of the trigger.
+    types:
+    - uid: string
+  - name: commitId
+    description: The unique ID that identifies a commit.
+    types:
+    - uid: string
+  - name: repositoryUrl
+    description: The repository URL.
+    types:
+    - uid: string
+  - name: branchName
+    description: The branch name in the repository.
+    types:
+    - uid: string
+  - name: providerType
+    description: The source control provider type.
+    types:
+    - uid: string
+- name: PlatformProperties
+  description: The platform properties against which the build has to happen.
+  kind: object
+  properties:
+  - name: osType
+    description: The operating system type required for the build.
+    types:
+    - uid: OsType
+  - name: cpu
+    description: The CPU configuration in terms of number of cores required for the build.
+    types:
+    - uid: integer
+- name: ProvisioningState
+  description: The provisioning state of a build.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: OsType
+  description: The operating system type required for the build.
+  kind: enum
+  properties:
+  - name: Windows
+    types:
+    - uid: string
+  - name: Linux
+    types:
+    - uid: string
+examples:
+- name: Builds_Update
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/builds/0accec26-d6de-4757-8e74-d080f38eaaab?api-version=2018-02-01-preview
+    body: >-
+      {
+        "isArchiveEnabled": true
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Succeeded",
+          "buildId": "0accec26-d6de-4757-8e74-d080f38eaaab",
+          "status": "Succeeded",
+          "lastUpdatedTime": "2018-01-25T05:13:51.617Z",
+          "buildType": "AutoBuild",
+          "createTime": "2018-01-25T05:13:51.618Z",
+          "startTime": "2018-01-25T05:50:51.618Z",
+          "finishTime": "2018-01-25T06:13:51.618Z",
+          "outputImages": [
+            {
+              "registry": "myregistry.azurecr.io",
+              "repository": "myimage",
+              "tag": "latest",
+              "digest": "sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0"
+            }
+          ],
+          "buildTask": "myBuildTask",
+          "imageUpdateTrigger": {
+            "id": "c0c43143-da5d-41ef-b9e1-e7d749272e88",
+            "timestamp": "2018-01-25T05:13:51.618Z",
+            "images": [
+              {
+                "registry": "registry.hub.docker.com",
+                "repository": "mybaseimage",
+                "tag": "latest",
+                "digest": "sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0"
+              }
+            ]
+          },
+          "isArchiveEnabled": true,
+          "platform": {
+            "osType": "Linux",
+            "cpu": 2
+          }
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/builds/0accec26-d6de-4757-8e74-d080f38eaaab",
+        "name": "0accec26-d6de-4757-8e74-d080f38eaaab",
+        "type": "Microsoft.ContainerRegistry/registries/builds"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Updating",
+          "buildId": "0accec26-d6de-4757-8e74-d080f38eaaab",
+          "status": "Succeeded",
+          "lastUpdatedTime": "2018-01-25T05:13:51.617Z",
+          "buildType": "AutoBuild",
+          "createTime": "2018-01-25T05:13:51.618Z",
+          "startTime": "2018-01-25T05:50:51.618Z",
+          "finishTime": "2018-01-25T06:13:51.618Z",
+          "outputImages": [
+            {
+              "registry": "myregistry.azurecr.io",
+              "repository": "myimage",
+              "tag": "latest",
+              "digest": "sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0"
+            }
+          ],
+          "buildTask": "myBuildTask",
+          "imageUpdateTrigger": {
+            "id": "c0c43143-da5d-41ef-b9e1-e7d749272e88",
+            "timestamp": "2018-01-25T05:13:51.618Z",
+            "images": [
+              {
+                "registry": "registry.hub.docker.com",
+                "repository": "mybaseimage",
+                "tag": "latest",
+                "digest": "sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0"
+              }
+            ]
+          },
+          "isArchiveEnabled": true,
+          "platform": {
+            "osType": "Linux",
+            "cpu": 2
+          }
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/builds/0accec26-d6de-4757-8e74-d080f38eaaab",
+        "name": "0accec26-d6de-4757-8e74-d080f38eaaab",
+        "type": "Microsoft.ContainerRegistry/registries/builds"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
