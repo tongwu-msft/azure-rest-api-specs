@@ -3,14 +3,14 @@ uid: management.azure.com.trafficmanager.endpoints.get
 name: Get
 service: Traffic Manager
 groupName: Endpoints
-apiVersion: 2017-05-01
+apiVersion: 2018-04-01
 summary: Gets a Traffic Manager endpoint.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}?api-version=2017-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -68,7 +68,7 @@ definitions:
     types:
     - uid: string
   - name: properties.target
-    description: The fully-qualified DNS name of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
+    description: The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.
     types:
     - uid: string
   - name: properties.endpointStatus
@@ -80,11 +80,11 @@ definitions:
     types:
     - uid: integer
   - name: properties.priority
-    description: The priority of this endpoint when using the ‘Priority’ traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
+    description: The priority of this endpoint when using the 'Priority' traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter.  If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.
     types:
     - uid: integer
   - name: properties.endpointLocation
-    description: Specifies the location of the external or nested endpoints when using the ‘Performance’ traffic routing method.
+    description: Specifies the location of the external or nested endpoints when using the 'Performance' traffic routing method.
     types:
     - uid: string
   - name: properties.endpointMonitorStatus
@@ -96,9 +96,19 @@ definitions:
     types:
     - uid: integer
   - name: properties.geoMapping
-    description: The list of countries/regions mapped to this endpoint when using the ‘Geographic’ traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
+    description: The list of countries/regions mapped to this endpoint when using the 'Geographic' traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.
     types:
     - uid: string
+      isArray: true
+  - name: properties.subnets
+    description: The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the 'Subnet' traffic routing method. An empty list will match all ranges not covered by other endpoints.
+    types:
+    - uid: Subnets
+      isArray: true
+  - name: properties.customHeaders
+    description: List of custom headers.
+    types:
+    - uid: CustomHeaders
       isArray: true
   - name: id
     isReadyOnly: true
@@ -155,6 +165,34 @@ definitions:
   - name: Stopped
     types:
     - uid: string
+- name: Subnets
+  description: The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the 'Subnet' traffic routing method. An empty list will match all ranges not covered by other endpoints.
+  kind: object
+  properties:
+  - name: first
+    description: First address in the subnet.
+    types:
+    - uid: string
+  - name: last
+    description: Last address in the subnet.
+    types:
+    - uid: string
+  - name: scope
+    description: Block size (number of leading bits in the subnet mask).
+    types:
+    - uid: integer
+- name: CustomHeaders
+  description: List of custom headers.
+  kind: object
+  properties:
+  - name: name
+    description: Header name.
+    types:
+    - uid: string
+  - name: value
+    description: Header value.
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: The content of an error returned by the Azure Resource Manager
   kind: object
@@ -179,12 +217,12 @@ definitions:
 examples:
 - name: Endpoint-GET-External-WithGeoMapping
   request:
-    uri: GET https://management.azure.com/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager2191/providers/Microsoft.Network/trafficmanagerprofiles/azuresdkfornetautoresttrafficmanager8224/ExternalEndpoints/My%20external%20endpoint?api-version=2017-05-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager2191/providers/Microsoft.Network/trafficmanagerprofiles/azuresdkfornetautoresttrafficmanager8224/ExternalEndpoints/My%20external%20endpoint?api-version=2018-04-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager2191/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager8224/externalEndpoints/My external endpoint",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager2191/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager8224/externalEndpoints/My external endpoint",
         "name": "My external endpoint",
         "type": "Microsoft.Network/trafficManagerProfiles/externalEndpoints",
         "properties": {
@@ -201,12 +239,12 @@ examples:
       }
 - name: Endpoint-GET-External-WithLocation
   request:
-    uri: GET https://management.azure.com/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager1421/providers/Microsoft.Network/trafficmanagerprofiles/azsmnet6386/ExternalEndpoints/azsmnet7187?api-version=2017-05-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1421/providers/Microsoft.Network/trafficmanagerprofiles/azsmnet6386/ExternalEndpoints/azsmnet7187?api-version=2018-04-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/e68d4145-c9ae-4667-925d-c51c8d88ad73/resourceGroups/azuresdkfornetautoresttrafficmanager1421/providers/Microsoft.Network/trafficManagerProfiles/azsmnet6386/externalEndpoints/azsmnet7187",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1421/providers/Microsoft.Network/trafficManagerProfiles/azsmnet6386/externalEndpoints/azsmnet7187",
         "name": "azsmnet7187",
         "type": "Microsoft.Network/trafficManagerProfiles/externalEndpoints",
         "properties": {
@@ -216,6 +254,34 @@ examples:
           "weight": 1,
           "priority": 1,
           "endpointLocation": "North Europe"
+        }
+      }
+- name: Endpoint-GET-External-WithSubnetMapping
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager2191/providers/Microsoft.Network/trafficmanagerprofiles/azuresdkfornetautoresttrafficmanager8224/ExternalEndpoints/My%20external%20endpoint?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager2191/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager8224/externalEndpoints/My external endpoint",
+        "name": "My external endpoint",
+        "type": "Microsoft.Network/trafficManagerProfiles/externalEndpoints",
+        "properties": {
+          "endpointStatus": "Enabled",
+          "endpointMonitorStatus": "CheckingEndpoint",
+          "target": "foobar.contoso.com",
+          "weight": 1,
+          "priority": 1,
+          "subnets": [
+            {
+              "first": "1.2.3.0",
+              "scope": 24
+            },
+            {
+              "first": "25.26.27.28",
+              "last": "29.30.31.32"
+            }
+          ]
         }
       }
 security:

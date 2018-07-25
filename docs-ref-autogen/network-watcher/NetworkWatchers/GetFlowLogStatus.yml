@@ -3,16 +3,14 @@ uid: management.azure.com.network-watcher.networkwatchers.getflowlogstatus
 name: Get Flow Log Status
 service: Network Watcher
 groupName: Network Watchers
-apiVersion: 2018-02-01
-summary: Queries status of flow log on a specified resource.
+apiVersion: 2018-04-01
+summary: Queries status of flow log and traffic analytics (optional) on a specified resource.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryFlowLogStatus?api-version=2018-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryFlowLogStatus?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,7 +38,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Successful request for query flow log status.
+  description: Successful request for query flow log and traffic analytics (optional) status.
   types:
   - uid: FlowLogInformation
 - name: 202 Accepted
@@ -53,19 +51,23 @@ requestBody:
   - name: targetResourceId
     in: body
     isRequired: true
-    description: The target resource where getting the flow logging status.
+    description: The target resource where getting the flow log and traffic analytics (optional) status.
     types:
     - uid: string
 requestHeader: []
 definitions:
 - name: FlowLogInformation
-  description: Information on the configuration of flow log.
+  description: Information on the configuration of flow log and traffic analytics (optional) .
   kind: object
   properties:
   - name: targetResourceId
-    description: The ID of the resource to configure for flow logging.
+    description: The ID of the resource to configure for flow log and traffic analytics (optional) .
     types:
     - uid: string
+  - name: flowAnalyticsConfiguration
+    description: Parameters that define the configuration of traffic analytics.
+    types:
+    - uid: TrafficAnalyticsProperties
   - name: properties.storageId
     description: ID of the storage account which is used to store the flow log.
     types:
@@ -79,13 +81,21 @@ definitions:
     types:
     - uid: RetentionPolicyParameters
 - name: FlowLogStatusParameters
-  description: Parameters that define a resource to query flow log status.
+  description: Parameters that define a resource to query flow log and traffic analytics (optional) status.
   kind: object
   properties:
   - name: targetResourceId
-    description: The target resource where getting the flow logging status.
+    description: The target resource where getting the flow log and traffic analytics (optional) status.
     types:
     - uid: string
+- name: TrafficAnalyticsProperties
+  description: Parameters that define the configuration of traffic analytics.
+  kind: object
+  properties:
+  - name: networkWatcherFlowAnalyticsConfiguration
+    description: Parameters that define the configuration of traffic analytics.
+    types:
+    - uid: TrafficAnalyticsConfigurationProperties
 - name: RetentionPolicyParameters
   description: Parameters that define the retention policy for flow log.
   kind: object
@@ -98,7 +108,53 @@ definitions:
     description: Flag to enable/disable retention.
     types:
     - uid: boolean
-examples: []
+- name: TrafficAnalyticsConfigurationProperties
+  description: Parameters that define the configuration of traffic analytics.
+  kind: object
+  properties:
+  - name: enabled
+    description: Flag to enable/disable traffic analytics.
+    types:
+    - uid: boolean
+  - name: workspaceId
+    description: The resource guid of the attached workspace
+    types:
+    - uid: string
+  - name: workspaceRegion
+    description: The location of the attached workspace
+    types:
+    - uid: string
+  - name: workspaceResourceId
+    description: 'Resource Id of the attached workspace '
+    types:
+    - uid: string
+examples:
+- name: Get flow log status
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/queryFlowLogStatus?api-version=2018-04-01
+    body: >-
+      {
+        "targetResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "targetResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1",
+        "properties": {
+          "storageId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/st1",
+          "enabled": true
+        }
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "targetResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1",
+        "properties": {
+          "storageId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/st1",
+          "enabled": true
+        }
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

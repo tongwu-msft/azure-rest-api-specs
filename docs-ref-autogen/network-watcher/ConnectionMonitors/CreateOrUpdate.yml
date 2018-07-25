@@ -3,16 +3,14 @@ uid: management.azure.com.network-watcher.connectionmonitors.createorupdate
 name: Create Or Update
 service: Network Watcher
 groupName: Connection Monitors
-apiVersion: 2018-02-01
+apiVersion: 2018-04-01
 summary: Create or update a connection monitor.
 consumes:
 - application/json
-- text/json
 produces:
 - application/json
-- text/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}?api-version=2018-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}?api-version=2018-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -233,7 +231,70 @@ definitions:
   - name: Failed
     types:
     - uid: string
-examples: []
+examples:
+- name: Create connection monitor
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1?api-version=2018-04-01
+    body: >-
+      {
+        "properties": {
+          "source": {
+            "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1"
+          },
+          "destination": {
+            "address": "bing.com",
+            "port": 80
+          },
+          "monitoringIntervalInSeconds": 60
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "cm1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1",
+        "etag": "W/\"e7497f26-5f09-4559-900b-fe98f3dedb6f\"",
+        "properties": {
+          "provisioningState": "Updating",
+          "source": {
+            "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1",
+            "port": 0
+          },
+          "destination": {
+            "address": "bing.com",
+            "port": 80
+          },
+          "monitoringIntervalInSeconds": 60,
+          "autoStart": true,
+          "monitoringStatus": "NotStarted"
+        },
+        "location": "centraluseuap",
+        "type": "Microsoft.Network/networkWatchers/connectionMonitors"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "cm1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1",
+        "etag": "W/\"e7497f26-5f09-4559-900b-fe98f3dedb6f\"",
+        "properties": {
+          "provisioningState": "Updating",
+          "source": {
+            "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1",
+            "port": 0
+          },
+          "destination": {
+            "address": "bing.com",
+            "port": 80
+          },
+          "monitoringIntervalInSeconds": 60,
+          "autoStart": true,
+          "monitoringStatus": "NotStarted"
+        },
+        "location": "centraluseuap",
+        "type": "Microsoft.Network/networkWatchers/connectionMonitors"
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

@@ -1,0 +1,386 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.trafficmanager.heatmap.get
+name: Get
+service: Traffic Manager
+groupName: Heat Map
+apiVersion: 2018-04-01
+summary: Gets latest heatmap for Traffic Manager profile.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/heatMaps/default?api-version=2018-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/heatMaps/default?topLeft={topLeft}&botRight={botRight}&api-version=2018-04-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group containing the Traffic Manager endpoint.
+  types:
+  - uid: string
+- name: profileName
+  in: path
+  isRequired: true
+  description: The name of the Traffic Manager profile.
+  types:
+  - uid: string
+- name: heatMapType
+  in: path
+  isRequired: true
+  description: The type of HeatMap for the Traffic Manager profile.
+  types:
+  - uid: string
+- name: topLeft
+  in: query
+  description: The top left latitude,longitude pair of the rectangular viewport to query for.
+  types:
+  - uid: array
+- name: botRight
+  in: query
+  description: The bottom right latitude,longitude pair of the rectangular viewport to query for.
+  types:
+  - uid: array
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The Traffic Manager heatmap.
+  types:
+  - uid: HeatMapModel
+- name: Other Status Codes
+  description: Default response. It will be deserialized as per the Error definition.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: HeatMapModel
+  description: Class representing a Traffic Manager HeatMap.
+  kind: object
+  properties:
+  - name: properties.startTime
+    description: The beginning of the time window for this HeatMap, inclusive.
+    types:
+    - uid: string
+  - name: properties.endTime
+    description: The ending of the time window for this HeatMap, exclusive.
+    types:
+    - uid: string
+  - name: properties.endpoints
+    description: The endpoints used in this HeatMap calculation.
+    types:
+    - uid: HeatMapEndpoint
+      isArray: true
+  - name: properties.trafficFlows
+    description: The traffic flows produced in this HeatMap calculation.
+    types:
+    - uid: TrafficFlow
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Network/trafficmanagerProfiles.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error returned by the Azure Resource Manager
+  kind: object
+  properties:
+  - name: error
+    description: The content of the error.
+    types:
+    - uid: CloudErrorBody
+- name: HeatMapEndpoint
+  description: Class which is a sparse representation of a Traffic Manager endpoint.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The ARM Resource ID of this Traffic Manager endpoint.
+    types:
+    - uid: string
+  - name: endpointId
+    description: A number uniquely identifying this endpoint in query experiences.
+    types:
+    - uid: integer
+- name: TrafficFlow
+  description: Class representing a Traffic Manager HeatMap traffic flow properties.
+  kind: object
+  properties:
+  - name: sourceIp
+    description: The IP address that this query experience originated from.
+    types:
+    - uid: string
+  - name: latitude
+    description: The approximate latitude that these queries originated from.
+    types:
+    - uid: number
+  - name: longitude
+    description: The approximate longitude that these queries originated from.
+    types:
+    - uid: number
+  - name: queryExperiences
+    description: The query experiences produced in this HeatMap calculation.
+    types:
+    - uid: QueryExperience
+      isArray: true
+- name: CloudErrorBody
+  description: The content of an error returned by the Azure Resource Manager
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: target
+    description: Error target
+    types:
+    - uid: string
+  - name: details
+    description: Error details
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: QueryExperience
+  description: Class representing a Traffic Manager HeatMap query experience properties.
+  kind: object
+  properties:
+  - name: endpointId
+    description: The id of the endpoint from the 'endpoints' array which these queries were routed to.
+    types:
+    - uid: integer
+  - name: queryCount
+    description: The number of queries originating from this location.
+    types:
+    - uid: integer
+  - name: latency
+    description: The latency experienced by queries originating from this location.
+    types:
+    - uid: number
+examples:
+- name: HeatMap-GET
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1323/providers/Microsoft.Network/trafficmanagerprofiles/azuresdkfornetautoresttrafficmanager3880/heatMaps/default?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1323/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager3880/heatMaps/latencyVolumeByLocation",
+        "name": "default",
+        "type": "Microsoft.Network/trafficManagerProfiles/heatMaps/latencyVolumeByLocation",
+        "properties": {
+          "startTime": "2017-08-15T12:00:00Z",
+          "endTime": "2017-08-22T12:50:00Z",
+          "endpoints": [
+            {
+              "endpointId": 1,
+              "resourceId": "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1323/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager3880/externalEndpoints/azuresdkfornetautoresttrafficmanager3880"
+            },
+            {
+              "endpointId": 2,
+              "resourceId": "/subscriptions/562d4115-c01e-4m67-9bbd-c11c2d58ad73/resourceGroups/azuresdkfornetautoresttrafficmanager1300/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager3885/externalEndpoints/azuresdkfornetautoresttrafficmanager3881"
+            }
+          ],
+          "trafficFlows": [
+            {
+              "latitude": 99.99,
+              "longitude": 0,
+              "sourceIp": "1.1.1.1",
+              "queryExperiences": [
+                {
+                  "endpointId": 1,
+                  "latency": 99.222,
+                  "queryCount": 1000000
+                },
+                {
+                  "endpointId": 2,
+                  "latency": 1.222,
+                  "queryCount": 1
+                }
+              ]
+            },
+            {
+              "latitude": -99.99,
+              "longitude": 1,
+              "sourceIp": "2.255.1.1",
+              "queryExperiences": [
+                {
+                  "endpointId": 1,
+                  "latency": 96.222,
+                  "queryCount": 100
+                },
+                {
+                  "endpointId": 2,
+                  "latency": 4.222,
+                  "queryCount": 500
+                }
+              ]
+            }
+          ]
+        }
+      }
+- name: HeatMap-GET-With-TopLeft-BotRight
+  request:
+    uri: >-
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1323/providers/Microsoft.Network/trafficmanagerprofiles/azuresdkfornetautoresttrafficmanager3880/heatMaps/default?topLeft=[
+
+        10,
+
+        50.001
+
+      ]&botRight=[
+
+        -50.001,
+
+        80
+
+      ]&api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1323/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager3880/heatMaps/latencyVolumeByLocation",
+        "name": "default",
+        "type": "Microsoft.Network/trafficManagerProfiles/heatMaps/latencyVolumeByLocation",
+        "properties": {
+          "startTime": "2017-08-15T12:00:00Z",
+          "endTime": "2017-08-22T12:50:00Z",
+          "endpoints": [
+            {
+              "endpointId": 1,
+              "resourceId": "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1323/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager3880/externalEndpoints/azuresdkfornetautoresttrafficmanager3880"
+            },
+            {
+              "endpointId": 2,
+              "resourceId": "/subscriptions/562d4115-c01e-4m67-9bbd-c11c2d58ad73/resourceGroups/azuresdkfornetautoresttrafficmanager1300/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager3885/externalEndpoints/azuresdkfornetautoresttrafficmanager3881"
+            }
+          ],
+          "trafficFlows": [
+            {
+              "latitude": 9.99,
+              "longitude": 75.01,
+              "sourceIp": "1.1.1.1",
+              "queryExperiences": [
+                {
+                  "endpointId": 1,
+                  "latency": 99.222,
+                  "queryCount": 1000000
+                },
+                {
+                  "endpointId": 2,
+                  "latency": 1.222,
+                  "queryCount": 1
+                }
+              ]
+            },
+            {
+              "latitude": -49.99,
+              "longitude": 51,
+              "sourceIp": "2.255.1.1",
+              "queryExperiences": [
+                {
+                  "endpointId": 1,
+                  "latency": 96.222,
+                  "queryCount": 100
+                },
+                {
+                  "endpointId": 2,
+                  "latency": 4.222,
+                  "queryCount": 500
+                }
+              ]
+            }
+          ]
+        }
+      }
+- name: HeatMap-GET-With-Null-Values
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1323/providers/Microsoft.Network/trafficmanagerprofiles/azuresdkfornetautoresttrafficmanager3880/heatMaps/default?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1323/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager3880/heatMaps/default",
+        "name": "default",
+        "type": "Microsoft.Network/trafficManagerProfiles/heatMaps/default",
+        "properties": {
+          "startTime": "2017-08-15T12:00:00Z",
+          "endTime": "2017-08-22T12:50:00Z",
+          "endpoints": [
+            {
+              "endpointId": 0,
+              "resourceId": "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1323/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager3880/externalEndpoints/azuresdkfornetautoresttrafficmanager3880"
+            },
+            {
+              "endpointId": 1,
+              "resourceId": "/subscriptions/562d4115-c01e-4m67-9bbd-c11c2d58ad73/resourceGroups/azuresdkfornetautoresttrafficmanager1300/providers/Microsoft.Network/trafficManagerProfiles/azuresdkfornetautoresttrafficmanager3885/externalEndpoints/azuresdkfornetautoresttrafficmanager3881"
+            }
+          ],
+          "trafficFlows": [
+            {
+              "latitude": 99.99,
+              "longitude": 0,
+              "sourceIp": "1.1.1.1",
+              "queryExperiences": [
+                {
+                  "endpointId": 0,
+                  "latency": 99,
+                  "queryCount": 1000000
+                },
+                {
+                  "endpointId": 1,
+                  "latency": 1,
+                  "queryCount": 1
+                }
+              ]
+            },
+            {
+              "latitude": 1.11,
+              "longitude": -2.35,
+              "sourceIp": "2.255.1.1",
+              "queryExperiences": [
+                {
+                  "endpointId": 0,
+                  "queryCount": 100
+                },
+                {
+                  "endpointId": 1,
+                  "latency": 4.222,
+                  "queryCount": 500
+                }
+              ]
+            }
+          ]
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
