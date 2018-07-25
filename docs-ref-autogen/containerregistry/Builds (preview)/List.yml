@@ -1,16 +1,18 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.containerregistry.builds.update
-name: Update
+uid: management.azure.com.containerregistry.builds(preview).list
+name: List
 service: Container Registry
-groupName: Builds
+groupName: Builds (preview)
 apiVersion: 2018-02-01-preview
-summary: Patch the build properties.
+summary: Gets all the builds for a registry.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/builds/{buildId}?api-version=2018-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/builds?api-version=2018-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/builds?api-version=2018-02-01-preview&$filter={$filter}&$top={$top}&$skipToken={$skipToken}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,39 +33,50 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z0-9]*$
-- name: buildId
-  in: path
-  isRequired: true
-  description: The build ID.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
   description: The client API version.
   types:
   - uid: string
+- name: $filter
+  in: query
+  description: The builds filter to apply on the operation.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: $top is supported for get list of builds, which limits the maximum number of builds to return.
+  types:
+  - uid: integer
+  format: int32
+- name: $skipToken
+  in: query
+  description: $skipToken is supported on get list of builds, which provides the next page in the list of builds.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
   description: The request was successful; the request was well-formed and received properly.
   types:
-  - uid: Build
-- name: 201 Created
-  description: The request was successfully accepted; the operation will complete asynchronously. The provisioning state of the resource should indicate the current state of the resource.
-  types:
-  - uid: Build
+  - uid: BuildListResult
 - name: Other Status Codes
-  description: Error response describing why the operation failed. If the registry/build doesn't exist, 404 (Not found) is returned. If any of the input parameters is wrong, 400(Bad Request) is returned.
-requestBody:
-- name: default
-  parameters:
-  - name: isArchiveEnabled
-    in: body
-    description: The value that indicates whether archiving is enabled or not.
-    types:
-    - uid: boolean
+  description: Error response describing why the operation failed.
 requestHeader: []
 definitions:
+- name: BuildListResult
+  description: Collection of builds.
+  kind: object
+  properties:
+  - name: value
+    description: The collection value.
+    types:
+    - uid: Build
+      isArray: true
+  - name: nextLink
+    description: The URI that can be used to request the next set of paged results.
+    types:
+    - uid: string
 - name: Build
   description: Build resource properties
   kind: object
@@ -140,14 +153,6 @@ definitions:
     description: The type of the resource.
     types:
     - uid: string
-- name: BuildUpdateParameters
-  description: The set of build properties that can be updated.
-  kind: object
-  properties:
-  - name: isArchiveEnabled
-    description: The value that indicates whether archiving is enabled or not.
-    types:
-    - uid: boolean
 - name: BuildStatus
   description: The current status of the build.
   kind: enum
@@ -292,99 +297,56 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Builds_Update
+- name: Builds_List
   request:
-    uri: PATCH https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/builds/0accec26-d6de-4757-8e74-d080f38eaaab?api-version=2018-02-01-preview
-    body: >-
-      {
-        "isArchiveEnabled": true
-      }
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/builds?api-version=2018-02-01-preview&$filter=&$top=10
   responses:
   - statusCode: "200"
     body: >-
       {
-        "properties": {
-          "provisioningState": "Succeeded",
-          "buildId": "0accec26-d6de-4757-8e74-d080f38eaaab",
-          "status": "Succeeded",
-          "lastUpdatedTime": "2018-01-25T05:13:51.617Z",
-          "buildType": "AutoBuild",
-          "createTime": "2018-01-25T05:13:51.618Z",
-          "startTime": "2018-01-25T05:50:51.618Z",
-          "finishTime": "2018-01-25T06:13:51.618Z",
-          "outputImages": [
-            {
-              "registry": "myregistry.azurecr.io",
-              "repository": "myimage",
-              "tag": "latest",
-              "digest": "sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0"
-            }
-          ],
-          "buildTask": "myBuildTask",
-          "imageUpdateTrigger": {
-            "id": "c0c43143-da5d-41ef-b9e1-e7d749272e88",
-            "timestamp": "2018-01-25T05:13:51.618Z",
-            "images": [
-              {
-                "registry": "registry.hub.docker.com",
-                "repository": "mybaseimage",
-                "tag": "latest",
-                "digest": "sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0"
+        "value": [
+          {
+            "properties": {
+              "provisioningState": "Succeeded",
+              "buildId": "0accec26-d6de-4757-8e74-d080f38eaaab",
+              "status": "Succeeded",
+              "lastUpdatedTime": "2018-01-25T05:13:51.617Z",
+              "buildType": "AutoBuild",
+              "createTime": "2018-01-25T05:13:51.618Z",
+              "startTime": "2018-01-25T05:50:51.618Z",
+              "finishTime": "2018-01-25T06:13:51.618Z",
+              "outputImages": [
+                {
+                  "registry": "myregistry.azurecr.io",
+                  "repository": "myimage",
+                  "tag": "latest",
+                  "digest": "sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0"
+                }
+              ],
+              "buildTask": "myBuildTask",
+              "imageUpdateTrigger": {
+                "id": "c0c43143-da5d-41ef-b9e1-e7d749272e88",
+                "timestamp": "2018-01-25T05:13:51.618Z",
+                "images": [
+                  {
+                    "registry": "registry.hub.docker.com",
+                    "repository": "mybaseimage",
+                    "tag": "latest",
+                    "digest": "sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0"
+                  }
+                ]
+              },
+              "isArchiveEnabled": true,
+              "platform": {
+                "osType": "Linux",
+                "cpu": 2
               }
-            ]
-          },
-          "isArchiveEnabled": true,
-          "platform": {
-            "osType": "Linux",
-            "cpu": 2
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/builds/0accec26-d6de-4757-8e74-d080f38eaaab",
+            "name": "0accec26-d6de-4757-8e74-d080f38eaaab",
+            "type": "Microsoft.ContainerRegistry/registries/builds"
           }
-        },
-        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/builds/0accec26-d6de-4757-8e74-d080f38eaaab",
-        "name": "0accec26-d6de-4757-8e74-d080f38eaaab",
-        "type": "Microsoft.ContainerRegistry/registries/builds"
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "properties": {
-          "provisioningState": "Updating",
-          "buildId": "0accec26-d6de-4757-8e74-d080f38eaaab",
-          "status": "Succeeded",
-          "lastUpdatedTime": "2018-01-25T05:13:51.617Z",
-          "buildType": "AutoBuild",
-          "createTime": "2018-01-25T05:13:51.618Z",
-          "startTime": "2018-01-25T05:50:51.618Z",
-          "finishTime": "2018-01-25T06:13:51.618Z",
-          "outputImages": [
-            {
-              "registry": "myregistry.azurecr.io",
-              "repository": "myimage",
-              "tag": "latest",
-              "digest": "sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0"
-            }
-          ],
-          "buildTask": "myBuildTask",
-          "imageUpdateTrigger": {
-            "id": "c0c43143-da5d-41ef-b9e1-e7d749272e88",
-            "timestamp": "2018-01-25T05:13:51.618Z",
-            "images": [
-              {
-                "registry": "registry.hub.docker.com",
-                "repository": "mybaseimage",
-                "tag": "latest",
-                "digest": "sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0"
-              }
-            ]
-          },
-          "isArchiveEnabled": true,
-          "platform": {
-            "osType": "Linux",
-            "cpu": 2
-          }
-        },
-        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/builds/0accec26-d6de-4757-8e74-d080f38eaaab",
-        "name": "0accec26-d6de-4757-8e74-d080f38eaaab",
-        "type": "Microsoft.ContainerRegistry/registries/builds"
+        ]
       }
 security:
 - type: oauth2
