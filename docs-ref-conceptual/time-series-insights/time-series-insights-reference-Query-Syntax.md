@@ -161,12 +161,16 @@ JSON example:
 }
 ```
 
-Time Series Insights supports the following **boolean comparison expressions**:
+The following **boolean comparison expressions** are supported:
+
 | Property Name in JSON | Description |
 |-|-|
 | `"eq"` | equal |
 | `"in"` | in (equal any) |
 | `"phrase"` | contains phrase |
+| `"startsWith"` | starts with |
+| `"endsWith"` | ends with phrase |
+| `"regex"` | matches regular expression |
 | `"lt"` | less than |
 | `"lte"` | less than or equal |
 | `"gt"` | greater than |
@@ -187,14 +191,53 @@ JSON example:
     }
 }
 ```
+JSON example:
+```json
+{ 
+    "startsWith": { 
+        "left": { 
+            "property": "p1", 
+            "type": "String" 
+        }, 
+        "right": "abc" 
+    } 
+} 
+
+{
+    "startsWith": {
+        "left": {
+            "property": "p1",
+            "type": "String"
+        },
+        "right": "",
+        "stringComparison": "Ordinal"
+    }
+}
+
+{
+    "endsWith": {
+        "left": {
+            "property": "p1",
+            "type": "String"
+        },
+        "right": {
+            "property": "p2",
+            "type": "String"
+        },
+        "stringComparison": "Ordinal"
+    }
+}
+
+```
 
 The following table shows supported types of arguments for each of the comparison expressions:
+
 | Argument Type | Supported comparison operation |
 |-|-|
 | Bool | `eq`, `in` |
 | DateTime | `eq`, `in`, `lt`, `lte`, `gt`, `gte` |
 | Double | `eq`, `in`, `lt`, `lte`, `gt`, `gte` |
-| String | `eq`, `in`, `phrase` |
+| String | `eq`, `in`, `phrase`, , `startsWith`, `endsWith`, `regex` |
 | TimeSpan | `eq`, `in`, `lt`, `lte`, `gt`, `gte` |
 
 Null literal can only be used in the following expressions: `eq`, `in`.
@@ -209,6 +252,7 @@ Time Series Insights supports the following **boolean logical expressions**:
 | `"and"` | Takes a non-empty set of boolean arguments and returns `true` if all of them evaluate to `true`. |
 | `"or"` | Takes a non-empty set of boolean arguments and returns `true` if any of them evaluate to `true`. |
 | `"not"` | Takes a single boolean argument and returns its negated value. |
+
 
 JSON example:
 ```json
@@ -236,6 +280,28 @@ JSON example:
         }
     ]
 }
+```
+
+The “stringComparison” property is optional – by default its value is OrdinalIgnoreCase – which means we ignore the case while comparing by default.
+
+```json
+{ 
+    "regex": { 
+        "left": { 
+            "property": "p1", 
+                "type": "String" 
+        }, 
+        "right": "^abc*" 
+    } 
+} 
+
+{
+    "regex": {
+        "left": "abc",
+        "right": "^a*$"
+    }
+}
+
 ```
 
 Time Series Insights supports the following **arithmetic expressions**:
@@ -283,8 +349,13 @@ Examples of predicate string:
 
 | Predicate string | Description |
 |-|-|
-| Description HAS 'hello world' | `true` for events containing the phrase 'hello world' in property Description across all event sources |
+| Description HAS 'hello world' | `true` for events containing the phrase 'hello world' in property Description across all event sources 
 | 'hello world' | `true` for events containing the phrase 'hello world' |
+| startsWith(Status, 'go') | `true` for events with Status starting with 'go' |
+| endsWith(Status, 'oD') | `true` for events with Status ending with 'od' |
+| startsWith_cs(Status, 'Go') | `true` for events with Status starting with 'Go' |
+| endsWith_cs(Status, 'od') | `true` for events with Status starting with 'od' |
+| matchesRegex(s, '^G*') | `true` for events with Status matching the regular expression '^G*' |
 | PointValue.Double = 3.14 | `true` for events with double PointValue equal to 3.14 |
 | Status IN ('Good','Bad') | `true` for events with Status containing 'Good' or 'Bad' |
 | PointValue > 3.14 AND Status.String = 'Good' | `true` for events with PointValue greater than 3.14 and string Status 'Good' |
