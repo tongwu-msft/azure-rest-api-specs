@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.containerregistry.buildtasks.create
-name: Create
+uid: management.azure.com.containerregistry.buildtasks(preview).update
+name: Update
 service: Container Registry
-groupName: Build Tasks
+groupName: Build Tasks (preview)
 apiVersion: 2018-02-01-preview
-summary: Creates a build task for a container registry with the specified parameters.
+summary: Updates a build task with the specified parameters.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/buildTasks/{buildTaskName}?api-version=2018-02-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/buildTasks/{buildTaskName}?api-version=2018-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -58,9 +58,17 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: tags
+    in: body
+    description: The ARM resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: properties.alias
     in: body
-    isRequired: true
     description: The alternative updatable name for a build task.
     types:
     - uid: string
@@ -69,15 +77,8 @@ requestBody:
     description: The current status of build task.
     types:
     - uid: BuildTaskStatus
-  - name: properties.sourceRepository
-    in: body
-    isRequired: true
-    description: The properties that describes the source(code) for the build task.
-    types:
-    - uid: SourceRepositoryProperties
   - name: properties.platform
     in: body
-    isRequired: true
     description: The platform properties against which the build has to happen.
     types:
     - uid: PlatformProperties
@@ -86,43 +87,13 @@ requestBody:
     description: Build timeout in seconds.
     types:
     - uid: integer
-  - name: location
+  - name: properties.sourceRepository
     in: body
-    isRequired: true
-    description: The location of the resource. This cannot be changed after the resource is created.
+    description: The properties that describes the source(code) for the build task.
     types:
-    - uid: string
-  - name: tags
-    in: body
-    description: The tags of the resource.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
+    - uid: SourceRepositoryUpdateParameters
 requestHeader: []
 definitions:
-- name: SourceRepositoryProperties
-  description: The properties of the source code repository.
-  kind: object
-  properties:
-  - name: sourceControlType
-    description: The type of source control service.
-    types:
-    - uid: SourceControlType
-  - name: repositoryUrl
-    description: The full URL to the source code respository
-    types:
-    - uid: string
-  - name: isCommitTriggerEnabled
-    description: The value of this property indicates whether the source control commit trigger is enabled or not.
-    types:
-    - uid: boolean
-  - name: sourceControlAuthProperties
-    description: The authorization properties for accessing the source code repository.
-    types:
-    - uid: SourceControlAuthInfo
 - name: PlatformProperties
   description: The platform properties against which the build has to happen.
   kind: object
@@ -135,6 +106,18 @@ definitions:
     description: The CPU configuration in terms of number of cores required for the build.
     types:
     - uid: integer
+- name: SourceRepositoryUpdateParameters
+  description: The properties for updating the source code repository configuration.
+  kind: object
+  properties:
+  - name: sourceControlAuthProperties
+    description: The authorization properties for accessing the source code repository.
+    types:
+    - uid: SourceControlAuthInfo
+  - name: isCommitTriggerEnabled
+    description: The value of this property indicates whether the source control commit trigger is enabled or not.
+    types:
+    - uid: boolean
 - name: BuildTask
   description: The build task that has the resource properties and all build items. The build task will have all information to schedule a build against it.
   kind: object
@@ -196,14 +179,46 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: SourceControlType
-  description: The type of source control service.
-  kind: enum
+- name: BuildTaskUpdateParameters
+  description: The parameters for updating a build task.
+  kind: object
   properties:
-  - name: Github
+  - name: tags
+    description: The ARM resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.alias
+    description: The alternative updatable name for a build task.
     types:
     - uid: string
-  - name: VisualStudioTeamService
+  - name: properties.status
+    description: The current status of build task.
+    types:
+    - uid: BuildTaskStatus
+  - name: properties.platform
+    description: The platform properties against which the build has to happen.
+    types:
+    - uid: PlatformProperties
+  - name: properties.timeout
+    description: Build timeout in seconds.
+    types:
+    - uid: integer
+  - name: properties.sourceRepository
+    description: The properties that describes the source(code) for the build task.
+    types:
+    - uid: SourceRepositoryUpdateParameters
+- name: OsType
+  description: The operating system type required for the build.
+  kind: enum
+  properties:
+  - name: Windows
+    types:
+    - uid: string
+  - name: Linux
     types:
     - uid: string
 - name: SourceControlAuthInfo
@@ -230,16 +245,6 @@ definitions:
     description: Time in seconds that the token remains valid
     types:
     - uid: integer
-- name: OsType
-  description: The operating system type required for the build.
-  kind: enum
-  properties:
-  - name: Windows
-    types:
-    - uid: string
-  - name: Linux
-    types:
-    - uid: string
 - name: ProvisioningState
   description: The provisioning state of a build.
   kind: enum
@@ -272,6 +277,26 @@ definitions:
   - name: Enabled
     types:
     - uid: string
+- name: SourceRepositoryProperties
+  description: The properties of the source code repository.
+  kind: object
+  properties:
+  - name: sourceControlType
+    description: The type of source control service.
+    types:
+    - uid: SourceControlType
+  - name: repositoryUrl
+    description: The full URL to the source code respository
+    types:
+    - uid: string
+  - name: isCommitTriggerEnabled
+    description: The value of this property indicates whether the source control commit trigger is enabled or not.
+    types:
+    - uid: boolean
+  - name: sourceControlAuthProperties
+    description: The authorization properties for accessing the source code repository.
+    types:
+    - uid: SourceControlAuthInfo
 - name: TokenType
   description: The type of Auth token.
   kind: enum
@@ -282,33 +307,40 @@ definitions:
   - name: OAuth
     types:
     - uid: string
+- name: SourceControlType
+  description: The type of source control service.
+  kind: enum
+  properties:
+  - name: Github
+    types:
+    - uid: string
+  - name: VisualStudioTeamService
+    types:
+    - uid: string
 examples:
-- name: BuildTasks_Create
+- name: BuildTasks_Update
   request:
-    uri: PUT https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/buildTasks/myBuildTask?api-version=2018-02-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/buildTasks/myBuildTask?api-version=2018-02-01-preview
     body: >-
       {
         "properties": {
+          "alias": "myalias",
+          "status": "Disabled",
+          "base_image_trigger": "Runtime",
           "sourceRepository": {
-            "sourceControlType": "Github",
-            "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
             "sourceControlAuthProperties": {
-              "tokenType": "OAuth",
-              "token": "xxxxxx",
+              "token": "xxxxx",
               "scope": "repo"
             },
-            "isCommitTriggerEnabled": true
+            "isCommitTriggerEnabled": false
           },
           "platform": {
             "osType": "Linux",
             "cpu": 2
-          },
-          "alias": "myalias",
-          "status": "Enabled"
+          }
         },
-        "location": "eastus",
         "tags": {
-          "testkey": "value"
+          "key": "value"
         }
       }
   responses:
@@ -317,13 +349,13 @@ examples:
       {
         "properties": {
           "provisioningState": "Succeeded",
-          "creationDate": "2018-01-25T06:54:23.536Z",
+          "creationDate": "2018-01-25T06:54:23.458Z",
           "alias": "myalias",
-          "status": "Enabled",
+          "status": "Disabled",
           "sourceRepository": {
             "sourceControlType": "Github",
             "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
-            "isCommitTriggerEnabled": true
+            "isCommitTriggerEnabled": false
           },
           "platform": {
             "osType": "Linux",
@@ -342,14 +374,14 @@ examples:
     body: >-
       {
         "properties": {
-          "provisioningState": "Creating",
-          "creationDate": "2018-01-25T06:54:23.536Z",
+          "provisioningState": "Updating",
+          "creationDate": "2018-01-25T06:54:23.458Z",
           "alias": "myalias",
-          "status": "Enabled",
+          "status": "Disabled",
           "sourceRepository": {
             "sourceControlType": "Github",
             "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
-            "isCommitTriggerEnabled": true
+            "isCommitTriggerEnabled": false
           },
           "platform": {
             "osType": "Linux",

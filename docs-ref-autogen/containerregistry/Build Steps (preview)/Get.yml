@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.containerregistry.buildsteps.create
-name: Create
+uid: management.azure.com.containerregistry.buildsteps(preview).get
+name: Get
 service: Container Registry
-groupName: Build Steps
+groupName: Build Steps (preview)
 apiVersion: 2018-02-01-preview
-summary: Creates a build step for a build task.
+summary: Gets the build step for a build task.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/buildTasks/{buildTaskName}/steps/{stepName}?api-version=2018-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/buildTasks/{buildTaskName}/steps/{stepName}?api-version=2018-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -56,21 +56,8 @@ responses:
   description: The request was successful; the request was well-formed and received properly.
   types:
   - uid: BuildStep
-- name: 201 Created
-  description: The request was successfully accepted; the operation will complete asynchronously. The provisioning state of the resource should indicate the current state of the resource.
-  types:
-  - uid: BuildStep
 - name: Other Status Codes
-  description: Error response describing why the operation failed. If the registry doesn't exist, 404 (Not found) is returned.If any of the input parameters is wrong, 400(Bad Request) is returned.
-requestBody:
-- name: default
-  parameters:
-  - name: properties
-    in: body
-    description: The properties of a build step.
-    types:
-    - uid: DockerBuildStep
-    typesTitle: BuildStepProperties
+  description: Error response describing why the operation failed. If the registry/step doesn't exist, 404 (Not found) is returned.
 requestHeader: []
 definitions:
 - name: BuildStep
@@ -249,36 +236,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: BuildSteps_Create
+- name: BuildSteps_Get
   request:
-    uri: PUT https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/buildTasks/myBuildTask/steps/myStep?api-version=2018-02-01-preview
-    body: >-
-      {
-        "properties": {
-          "type": "Docker",
-          "imageNames": [
-            "azurerest:testtag"
-          ],
-          "dockerFilePath": "src/DockerFile",
-          "contextPath": "src",
-          "isPushEnabled": true,
-          "noCache": true,
-          "buildArguments": [
-            {
-              "type": "DockerBuildArgument",
-              "name": "mytestargument",
-              "value": "mytestvalue",
-              "isSecret": false
-            },
-            {
-              "type": "DockerBuildArgument",
-              "name": "mysecrettestargument",
-              "value": "mysecrettestvalue",
-              "isSecret": true
-            }
-          ]
-        }
-      }
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/buildTasks/myBuildTask/steps/myStep?api-version=2018-02-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -294,40 +254,6 @@ examples:
           "isPushEnabled": true,
           "noCache": false,
           "provisioningState": "Succeeded",
-          "baseImageTrigger": "Runtime",
-          "buildArguments": [
-            {
-              "type": "DockerBuildArgument",
-              "name": "mytestargument",
-              "value": "mytestvalue",
-              "isSecret": false
-            },
-            {
-              "type": "DockerBuildArgument",
-              "name": "mysecrettestargument",
-              "value": "mysecrettestvalue",
-              "isSecret": true
-            }
-          ]
-        },
-        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/buildTasks/myBuildTask/steps/myStep",
-        "name": "myStep",
-        "type": "Microsoft.ContainerRegistry/registries/buildTasks/steps"
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "properties": {
-          "type": "Docker",
-          "branch": "master",
-          "imageNames": [
-            "azurerest:testtag"
-          ],
-          "dockerFilePath": "src/DockerFile",
-          "contextPath": "src",
-          "isPushEnabled": true,
-          "noCache": false,
-          "provisioningState": "Updating",
           "baseImageTrigger": "Runtime",
           "buildArguments": [
             {

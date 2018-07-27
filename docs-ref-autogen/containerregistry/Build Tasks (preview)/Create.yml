@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.containerregistry.buildtasks.get
-name: Get
+uid: management.azure.com.containerregistry.buildtasks(preview).create
+name: Create
 service: Container Registry
-groupName: Build Tasks
+groupName: Build Tasks (preview)
 apiVersion: 2018-02-01-preview
-summary: Get the properties of a specified build task.
+summary: Creates a build task for a container registry with the specified parameters.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/buildTasks/{buildTaskName}?api-version=2018-02-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/buildTasks/{buildTaskName}?api-version=2018-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -49,10 +49,92 @@ responses:
   description: The request was successful; the request was well-formed and received properly.
   types:
   - uid: BuildTask
+- name: 201 Created
+  description: The request was successfully accepted; the operation will complete asynchronously. The provisioning state of the resource should indicate the current state of the resource.
+  types:
+  - uid: BuildTask
 - name: Other Status Codes
-  description: Error response describing why the operation failed. If the registry doesn't exist, 404 (Not found) is returned.
+  description: Error response describing why the operation failed. If the registry doesn't exist, 404 (Not found) is returned. If any of the input parameters is wrong, 400(Bad Request) is returned.
+requestBody:
+- name: default
+  parameters:
+  - name: properties.alias
+    in: body
+    isRequired: true
+    description: The alternative updatable name for a build task.
+    types:
+    - uid: string
+  - name: properties.status
+    in: body
+    description: The current status of build task.
+    types:
+    - uid: BuildTaskStatus
+  - name: properties.sourceRepository
+    in: body
+    isRequired: true
+    description: The properties that describes the source(code) for the build task.
+    types:
+    - uid: SourceRepositoryProperties
+  - name: properties.platform
+    in: body
+    isRequired: true
+    description: The platform properties against which the build has to happen.
+    types:
+    - uid: PlatformProperties
+  - name: properties.timeout
+    in: body
+    description: Build timeout in seconds.
+    types:
+    - uid: integer
+  - name: location
+    in: body
+    isRequired: true
+    description: The location of the resource. This cannot be changed after the resource is created.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: The tags of the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 requestHeader: []
 definitions:
+- name: SourceRepositoryProperties
+  description: The properties of the source code repository.
+  kind: object
+  properties:
+  - name: sourceControlType
+    description: The type of source control service.
+    types:
+    - uid: SourceControlType
+  - name: repositoryUrl
+    description: The full URL to the source code respository
+    types:
+    - uid: string
+  - name: isCommitTriggerEnabled
+    description: The value of this property indicates whether the source control commit trigger is enabled or not.
+    types:
+    - uid: boolean
+  - name: sourceControlAuthProperties
+    description: The authorization properties for accessing the source code repository.
+    types:
+    - uid: SourceControlAuthInfo
+- name: PlatformProperties
+  description: The platform properties against which the build has to happen.
+  kind: object
+  properties:
+  - name: osType
+    description: The operating system type required for the build.
+    types:
+    - uid: OsType
+  - name: cpu
+    description: The CPU configuration in terms of number of cores required for the build.
+    types:
+    - uid: integer
 - name: BuildTask
   description: The build task that has the resource properties and all build items. The build task will have all information to schedule a build against it.
   kind: object
@@ -114,70 +196,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: ProvisioningState
-  description: The provisioning state of a build.
-  kind: enum
-  properties:
-  - name: Creating
-    types:
-    - uid: string
-  - name: Updating
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Canceled
-    types:
-    - uid: string
-- name: BuildTaskStatus
-  description: The current status of build task.
-  kind: enum
-  properties:
-  - name: Disabled
-    types:
-    - uid: string
-  - name: Enabled
-    types:
-    - uid: string
-- name: SourceRepositoryProperties
-  description: The properties of the source code repository.
-  kind: object
-  properties:
-  - name: sourceControlType
-    description: The type of source control service.
-    types:
-    - uid: SourceControlType
-  - name: repositoryUrl
-    description: The full URL to the source code respository
-    types:
-    - uid: string
-  - name: isCommitTriggerEnabled
-    description: The value of this property indicates whether the source control commit trigger is enabled or not.
-    types:
-    - uid: boolean
-  - name: sourceControlAuthProperties
-    description: The authorization properties for accessing the source code repository.
-    types:
-    - uid: SourceControlAuthInfo
-- name: PlatformProperties
-  description: The platform properties against which the build has to happen.
-  kind: object
-  properties:
-  - name: osType
-    description: The operating system type required for the build.
-    types:
-    - uid: OsType
-  - name: cpu
-    description: The CPU configuration in terms of number of cores required for the build.
-    types:
-    - uid: integer
 - name: SourceControlType
   description: The type of source control service.
   kind: enum
@@ -222,6 +240,38 @@ definitions:
   - name: Linux
     types:
     - uid: string
+- name: ProvisioningState
+  description: The provisioning state of a build.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: BuildTaskStatus
+  description: The current status of build task.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
 - name: TokenType
   description: The type of Auth token.
   kind: enum
@@ -233,9 +283,34 @@ definitions:
     types:
     - uid: string
 examples:
-- name: BuildTasks_Get
+- name: BuildTasks_Create
   request:
-    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/buildTasks/myBuildTask?api-version=2018-02-01-preview
+    uri: PUT https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/buildTasks/myBuildTask?api-version=2018-02-01-preview
+    body: >-
+      {
+        "properties": {
+          "sourceRepository": {
+            "sourceControlType": "Github",
+            "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
+            "sourceControlAuthProperties": {
+              "tokenType": "OAuth",
+              "token": "xxxxxx",
+              "scope": "repo"
+            },
+            "isCommitTriggerEnabled": true
+          },
+          "platform": {
+            "osType": "Linux",
+            "cpu": 2
+          },
+          "alias": "myalias",
+          "status": "Enabled"
+        },
+        "location": "eastus",
+        "tags": {
+          "testkey": "value"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
@@ -260,7 +335,33 @@ examples:
         "type": "Microsoft.ContainerRegistry/registries/buildTasks",
         "location": "eastus",
         "tags": {
-          "testkey": "value"
+          "key": "value"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "provisioningState": "Creating",
+          "creationDate": "2018-01-25T06:54:23.536Z",
+          "alias": "myalias",
+          "status": "Enabled",
+          "sourceRepository": {
+            "sourceControlType": "Github",
+            "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
+            "isCommitTriggerEnabled": true
+          },
+          "platform": {
+            "osType": "Linux",
+            "cpu": 2
+          }
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/buildTasks/myBuildTask",
+        "name": "myBuildTask",
+        "type": "Microsoft.ContainerRegistry/registries/buildTasks",
+        "location": "eastus",
+        "tags": {
+          "key": "value"
         }
       }
 security:
