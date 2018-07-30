@@ -1,0 +1,133 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerregistry.buildsteps(preview).listbuildarguments
+name: List Build Arguments
+service: Container Registry
+groupName: Build Steps (preview)
+apiVersion: 2018-02-01-preview
+summary: List the build arguments for a step including the secret arguments.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/buildTasks/{buildTaskName}/steps/{stepName}/listBuildArguments?api-version=2018-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: registryName
+  in: path
+  isRequired: true
+  description: The name of the container registry.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: buildTaskName
+  in: path
+  isRequired: true
+  description: The name of the container registry build task.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: stepName
+  in: path
+  isRequired: true
+  description: The name of a build step for a container registry build task.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: BuildArgumentList
+- name: Other Status Codes
+  description: Error response describing why the operation failed. If the registry/step doesn't exist, 404 (Not found) is returned.
+requestHeader: []
+definitions:
+- name: BuildArgumentList
+  description: The list of build arguments for a build step.
+  kind: object
+  properties:
+  - name: value
+    description: The collection value.
+    types:
+    - uid: BuildArgument
+      isArray: true
+  - name: nextLink
+    description: The URI that can be used to request the next set of paged results.
+    types:
+    - uid: string
+- name: BuildArgument
+  description: Properties of a build argument.
+  kind: object
+  properties:
+  - name: type
+    description: The type of the argument.
+    types:
+    - uid: BuildArgumentType
+  - name: name
+    description: The name of the argument.
+    types:
+    - uid: string
+  - name: value
+    description: The value of the argument.
+    types:
+    - uid: string
+  - name: isSecret
+    description: Flag to indicate whether the argument represents a secret and want to be removed from build logs.
+    types:
+    - uid: boolean
+- name: BuildArgumentType
+  description: The type of the argument.
+  kind: enum
+  properties:
+  - name: DockerBuildArgument
+    types:
+    - uid: string
+examples:
+- name: BuildSteps_ListBuildArguments
+  request:
+    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/buildTasks/myBuildTask/steps/myStep/listBuildArguments?api-version=2018-02-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "type": "DockerBuildArgument",
+            "name": "mytestargument",
+            "value": "mytestvalue",
+            "isSecret": false
+          },
+          {
+            "type": "DockerBuildArgument",
+            "name": "mysecrettestargument",
+            "value": "mysecrettestvalue",
+            "isSecret": true
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
