@@ -1,0 +1,295 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerregistry.buildtasks(preview).list
+name: List
+service: Container Registry
+groupName: Build Tasks (preview)
+apiVersion: 2018-02-01-preview
+summary: Lists all the build tasks for a specified container registry.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/buildTasks?api-version=2018-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/buildTasks?api-version=2018-02-01-preview&$filter={$filter}&$skipToken={$skipToken}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: registryName
+  in: path
+  isRequired: true
+  description: The name of the container registry.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The build task filter to apply on the operation.
+  types:
+  - uid: string
+- name: $skipToken
+  in: query
+  description: $skipToken is supported on get list of build tasks, which provides the next page in the list of tasks.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: BuildTaskListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+requestHeader: []
+definitions:
+- name: BuildTaskListResult
+  description: The collection of build tasks.
+  kind: object
+  properties:
+  - name: value
+    description: The collection value.
+    types:
+    - uid: BuildTask
+      isArray: true
+  - name: nextLink
+    description: The URI that can be used to request the next set of paged results.
+    types:
+    - uid: string
+- name: BuildTask
+  description: The build task that has the resource properties and all build items. The build task will have all information to schedule a build against it.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the build task.
+    types:
+    - uid: ProvisioningState
+  - name: properties.creationDate
+    isReadyOnly: true
+    description: The creation date of build task.
+    types:
+    - uid: string
+  - name: properties.alias
+    description: The alternative updatable name for a build task.
+    types:
+    - uid: string
+  - name: properties.status
+    description: The current status of build task.
+    types:
+    - uid: BuildTaskStatus
+  - name: properties.sourceRepository
+    description: The properties that describes the source(code) for the build task.
+    types:
+    - uid: SourceRepositoryProperties
+  - name: properties.platform
+    description: The platform properties against which the build has to happen.
+    types:
+    - uid: PlatformProperties
+  - name: properties.timeout
+    description: Build timeout in seconds.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: The resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: location
+    description: The location of the resource. This cannot be changed after the resource is created.
+    types:
+    - uid: string
+  - name: tags
+    description: The tags of the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ProvisioningState
+  description: The provisioning state of a build.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: BuildTaskStatus
+  description: The current status of build task.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+- name: SourceRepositoryProperties
+  description: The properties of the source code repository.
+  kind: object
+  properties:
+  - name: sourceControlType
+    description: The type of source control service.
+    types:
+    - uid: SourceControlType
+  - name: repositoryUrl
+    description: The full URL to the source code respository
+    types:
+    - uid: string
+  - name: isCommitTriggerEnabled
+    description: The value of this property indicates whether the source control commit trigger is enabled or not.
+    types:
+    - uid: boolean
+  - name: sourceControlAuthProperties
+    description: The authorization properties for accessing the source code repository.
+    types:
+    - uid: SourceControlAuthInfo
+- name: PlatformProperties
+  description: The platform properties against which the build has to happen.
+  kind: object
+  properties:
+  - name: osType
+    description: The operating system type required for the build.
+    types:
+    - uid: OsType
+  - name: cpu
+    description: The CPU configuration in terms of number of cores required for the build.
+    types:
+    - uid: integer
+- name: SourceControlType
+  description: The type of source control service.
+  kind: enum
+  properties:
+  - name: Github
+    types:
+    - uid: string
+  - name: VisualStudioTeamService
+    types:
+    - uid: string
+- name: SourceControlAuthInfo
+  description: The authorization properties for accessing the source code repository.
+  kind: object
+  properties:
+  - name: tokenType
+    description: The type of Auth token.
+    types:
+    - uid: TokenType
+  - name: token
+    description: The access token used to access the source control provider.
+    types:
+    - uid: string
+  - name: refreshToken
+    description: The refresh token used to refresh the access token.
+    types:
+    - uid: string
+  - name: scope
+    description: The scope of the access token.
+    types:
+    - uid: string
+  - name: expiresIn
+    description: Time in seconds that the token remains valid
+    types:
+    - uid: integer
+- name: OsType
+  description: The operating system type required for the build.
+  kind: enum
+  properties:
+  - name: Windows
+    types:
+    - uid: string
+  - name: Linux
+    types:
+    - uid: string
+- name: TokenType
+  description: The type of Auth token.
+  kind: enum
+  properties:
+  - name: PAT
+    types:
+    - uid: string
+  - name: OAuth
+    types:
+    - uid: string
+examples:
+- name: BuildTasks_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/buildTasks?api-version=2018-02-01-preview&$filter=alias%20eq%20'myalias'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "provisioningState": "Succeeded",
+              "creationDate": "2018-01-25T06:54:23.536Z",
+              "alias": "myalias",
+              "status": "Enabled",
+              "sourceRepository": {
+                "sourceControlType": "Github",
+                "repositoryUrl": "https://github.com/Azure/azure-rest-api-specs",
+                "isCommitTriggerEnabled": true
+              },
+              "platform": {
+                "osType": "Linux",
+                "cpu": 2
+              }
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/buildTasks/myBuildTask",
+            "name": "myBuildTask",
+            "type": "Microsoft.ContainerRegistry/registries/buildTasks",
+            "location": "eastus",
+            "tags": {
+              "testkey": "value"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

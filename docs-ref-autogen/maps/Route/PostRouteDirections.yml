@@ -11,7 +11,7 @@ summary: >-
   Information returned includes the distance, estimated travel time, and a representation of the route geometry. Additional routing information such as optimized waypoint order or turn by turn instructions is also available, depending on the options selected.
 
 
-  Routing service provides a set of parameters for a detailed description of vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/en-us/rest/api/maps/consumption-model) for detailed explanation of the concepts and parameters involved.
+  Routing service provides a set of parameters for a detailed description of a vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/en-us/rest/api/maps/consumption-model) for detailed explanation of the concepts and parameters involved.
 consumes: []
 produces:
 - application/json
@@ -188,7 +188,7 @@ uriParameters:
   - uid: Avoid
 - name: traffic
   in: query
-  description: "Possible values: \n  * true - Do consider all available traffic information during routing\n  * false - Ignore current traffic data during routing. Note that although the current traffic data is ignored during routing, the\neffect of historic traffic on effective road speeds is still incorporated."
+  description: "Possible values: \n  * true - Do consider all available traffic information during routing\n  * false - Ignore current traffic data during routing. Note that although the current traffic data is ignored \n  during routing, the effect of historic traffic on effective road speeds is still incorporated."
   types:
   - uid: boolean
 - name: routeType
@@ -413,16 +413,6 @@ responses:
   description: An error occurred while processing the request. Please try again later.
   types:
   - uid: ErrorResponse
-requestBody:
-- name: default
-  parameters:
-  - name: features
-    in: body
-    isRequired: true
-    description: Contains a list of valid `GeoJSON Feature` objects.
-    types:
-    - uid: Features
-      isArray: true
 requestHeader: []
 definitions:
 - name: TextFormat
@@ -713,22 +703,15 @@ definitions:
     description: Electric engine.
     types:
     - uid: string
-- name: Features
-  description: Contains a list of valid `GeoJSON Feature` objects.
+- name: GeoJSONFeatureCollection
+  description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details.
   kind: object
   properties:
-  - name: type
-    description: Specifies the `type` for the object. Value should always be equal to "Feature".
+  - name: features
+    description: Contains a list of valid `GeoJSON Feature` objects.
     types:
-    - uid: string
-  - name: geometry
-    description: A valid `GeoJSON` geometry object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
-    types:
-    - uid: Geometry
-  - name: properties
-    description: Properties can contain any additional metadata about the `Feature`. Value can be any JSON object or a JSON null value
-    types:
-    - uid: object
+    - uid: Features
+      isArray: true
 - name: RouteDirectionsResponse
   description: This object is returned from a successful Route Directions call
   kind: object
@@ -772,28 +755,32 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
-- name: GeoJSONFeatureCollection
-  description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details.
+- name: RouteDirectionsRequestBody
+  description: Sequence of coordinates used as input for route reconstruction.
   kind: object
   properties:
-  - name: features
-    description: Contains a list of valid `GeoJSON Feature` objects.
+  - name: coordinateList
+    isReadyOnly: true
+    description: An array of GeoJSON features representing coordinates
     types:
-    - uid: Features
+    - uid: GeoJSONFeatureCollection
       isArray: true
-- name: Geometry
-  description: A valid `GeoJSON` geometry object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
+- name: Features
+  description: Contains a list of valid `GeoJSON Feature` objects.
   kind: object
   properties:
   - name: type
-    description: Specifies the `GeoJSON` geometry type. Must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
+    description: Specifies the `type` for the object. Value should always be equal to "Feature".
     types:
-    - uid: GeoJSONGeometryType
-  - name: coordinates
-    description: Coordinates for the geometry type. Depending on the geometry type, this might be a 1D, 2D or a 3D array.
+    - uid: string
+  - name: geometry
+    description: A valid `GeoJSON` geometry object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
     types:
-    - uid: array
-      isArray: true
+    - uid: Geometry
+  - name: properties
+    description: Properties can contain any additional metadata about the `Feature`. Value can be any JSON object or a JSON null value
+    types:
+    - uid: object
 - name: RouteDirectionsResult
   kind: object
   properties:
@@ -857,38 +844,19 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
-- name: GeoJSONGeometryType
-  description: Specifies the `GeoJSON` geometry type. Must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
-  kind: enum
+- name: Geometry
+  description: A valid `GeoJSON` geometry object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
+  kind: object
   properties:
-  - name: Point
-    description: '`GeoJSON Point` geometry.'
+  - name: type
+    description: Specifies the `GeoJSON` geometry type. Must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
     types:
-    - uid: string
-  - name: MultiPoint
-    description: '`GeoJSON MultiPoint` geometry.'
+    - uid: GeoJSONGeometryType
+  - name: coordinates
+    description: Coordinates for the geometry type. Depending on the geometry type, this might be a 1D, 2D or a 3D array.
     types:
-    - uid: string
-  - name: LineString
-    description: '`GeoJSON LineString` geometry.'
-    types:
-    - uid: string
-  - name: MultiLineString
-    description: '`GeoJSON MultiLineString` geometry.'
-    types:
-    - uid: string
-  - name: Polygon
-    description: '`GeoJSON Polygon` geometry.'
-    types:
-    - uid: string
-  - name: MultiPolygon
-    description: '`GeoJSON MultiPolygon` geometry.'
-    types:
-    - uid: string
-  - name: GeometryCollection
-    description: '`GeoJSON GeometryCollection` geometry.'
-    types:
-    - uid: string
+    - uid: array
+      isArray: true
 - name: RouteDirectionsSummary
   description: Summary object
   kind: object
@@ -1007,6 +975,38 @@ definitions:
   - name: value
     isReadyOnly: true
     description: Value of the parameter used.
+    types:
+    - uid: string
+- name: GeoJSONGeometryType
+  description: Specifies the `GeoJSON` geometry type. Must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
+  kind: enum
+  properties:
+  - name: Point
+    description: '`GeoJSON Point` geometry.'
+    types:
+    - uid: string
+  - name: MultiPoint
+    description: '`GeoJSON MultiPoint` geometry.'
+    types:
+    - uid: string
+  - name: LineString
+    description: '`GeoJSON LineString` geometry.'
+    types:
+    - uid: string
+  - name: MultiLineString
+    description: '`GeoJSON MultiLineString` geometry.'
+    types:
+    - uid: string
+  - name: Polygon
+    description: '`GeoJSON Polygon` geometry.'
+    types:
+    - uid: string
+  - name: MultiPolygon
+    description: '`GeoJSON MultiPolygon` geometry.'
+    types:
+    - uid: string
+  - name: GeometryCollection
+    description: '`GeoJSON GeometryCollection` geometry.'
     types:
     - uid: string
 - name: RouteResultLegSummary
@@ -1144,7 +1144,7 @@ definitions:
     - uid: string
   - name: countryCode
     isReadyOnly: true
-    description: 3-character ISO 3166-1 alpha-3 country code.
+    description: 3-character [ISO 3166-1](https://www.iso.org/iso-3166-country-codes.html) alpha-3 country code. E.g. USA.
     types:
     - uid: string
   - name: possibleCombineWithNext
@@ -1385,35 +1385,6 @@ examples:
 - name: PostRouteDirections
   request:
     uri: POST https://atlas.microsoft.com/route/directions/json?subscription-key=[subscription-key]&api-version=1.0&query=52.50931,13.42936:52.50274,13.43872
-    body: >-
-      [
-        {
-          "position": {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates": [
-                13.42936,
-                52.50931
-              ]
-            },
-            "properties": {}
-          }
-        },
-        {
-          "position": {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates": [
-                13.43872,
-                52.50274
-              ]
-            },
-            "properties": {}
-          }
-        }
-      ]
   responses:
   - statusCode: "200"
     body: >-

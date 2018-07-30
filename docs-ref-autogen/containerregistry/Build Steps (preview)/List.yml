@@ -1,0 +1,294 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerregistry.buildsteps(preview).list
+name: List
+service: Container Registry
+groupName: Build Steps (preview)
+apiVersion: 2018-02-01-preview
+summary: List all the build steps for a given build task.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/buildTasks/{buildTaskName}/steps?api-version=2018-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: registryName
+  in: path
+  isRequired: true
+  description: The name of the container registry.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: buildTaskName
+  in: path
+  isRequired: true
+  description: The name of the container registry build task.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: BuildStepList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+requestHeader: []
+definitions:
+- name: BuildStepList
+  description: The collection of build items.
+  kind: object
+  properties:
+  - name: value
+    description: The collection value.
+    types:
+    - uid: BuildStep
+      isArray: true
+  - name: nextLink
+    description: The URI that can be used to request the next set of paged results.
+    types:
+    - uid: string
+- name: BuildStep
+  description: Build step resource properties
+  kind: object
+  properties:
+  - name: properties
+    description: The properties of a build step.
+    types:
+    - uid: DockerBuildStep
+    typesTitle: BuildStepProperties
+  - name: id
+    isReadyOnly: true
+    description: The resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: DockerBuildStep
+  description: The Docker build step.
+  kind: object
+  properties:
+  - name: branch
+    description: The repository branch name.
+    types:
+    - uid: string
+  - name: imageNames
+    description: The fully qualified image names including the repository and tag.
+    types:
+    - uid: string
+      isArray: true
+  - name: isPushEnabled
+    description: The value of this property indicates whether the image built should be pushed to the registry or not.
+    types:
+    - uid: boolean
+  - name: noCache
+    description: The value of this property indicates whether the image cache is enabled or not.
+    types:
+    - uid: boolean
+  - name: dockerFilePath
+    description: The Docker file path relative to the source control root.
+    types:
+    - uid: string
+  - name: contextPath
+    description: The relative context path for a docker build in the source.
+    types:
+    - uid: string
+  - name: buildArguments
+    description: The custom arguments for building this build step.
+    types:
+    - uid: BuildArgument
+      isArray: true
+  - name: baseImageDependencies
+    isReadyOnly: true
+    description: List of base image dependencies for a step.
+    types:
+    - uid: BaseImageDependency
+      isArray: true
+  - name: baseImageTrigger
+    description: The type of the auto trigger for base image dependency updates.
+    types:
+    - uid: BaseImageTriggerType
+  - name: provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the build step.
+    types:
+    - uid: ProvisioningState
+  - name: type
+    isReadyOnly: true
+    description: The type of the step.
+    types:
+    - uid: Docker
+    typesTitle: string
+- name: BuildArgument
+  description: Properties of a build argument.
+  kind: object
+  properties:
+  - name: type
+    description: The type of the argument.
+    types:
+    - uid: BuildArgumentType
+  - name: name
+    description: The name of the argument.
+    types:
+    - uid: string
+  - name: value
+    description: The value of the argument.
+    types:
+    - uid: string
+  - name: isSecret
+    description: Flag to indicate whether the argument represents a secret and want to be removed from build logs.
+    types:
+    - uid: boolean
+- name: BaseImageDependency
+  description: Properties that describe a base image dependency.
+  kind: object
+  properties:
+  - name: type
+    description: The type of the base image dependency.
+    types:
+    - uid: BaseImageDependencyType
+  - name: registry
+    description: The registry login server.
+    types:
+    - uid: string
+  - name: repository
+    description: The repository name.
+    types:
+    - uid: string
+  - name: tag
+    description: The tag name.
+    types:
+    - uid: string
+  - name: digest
+    description: The sha256-based digest of the image manifest.
+    types:
+    - uid: string
+- name: BaseImageTriggerType
+  description: The type of the auto trigger for base image dependency updates.
+  kind: enum
+  properties:
+  - name: All
+    types:
+    - uid: string
+  - name: Runtime
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The provisioning state of a build.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: BuildArgumentType
+  description: The type of the argument.
+  kind: enum
+  properties:
+  - name: DockerBuildArgument
+    types:
+    - uid: string
+- name: BaseImageDependencyType
+  description: The type of the base image dependency.
+  kind: enum
+  properties:
+  - name: BuildTime
+    types:
+    - uid: string
+  - name: RunTime
+    types:
+    - uid: string
+examples:
+- name: BuildSteps_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/buildTasks/myBuildTask/steps?api-version=2018-02-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "type": "Docker",
+              "branch": "master",
+              "imageNames": [
+                "azurerest:testtag"
+              ],
+              "dockerFilePath": "src/DockerFile",
+              "contextPath": "src",
+              "isPushEnabled": true,
+              "noCache": false,
+              "provisioningState": "Succeeded",
+              "baseImageTrigger": "Runtime",
+              "buildArguments": [
+                {
+                  "type": "DockerBuildArgument",
+                  "name": "mytestargument",
+                  "value": "mytestvalue",
+                  "isSecret": false
+                },
+                {
+                  "type": "DockerBuildArgument",
+                  "name": "mysecrettestargument",
+                  "value": "mysecrettestvalue",
+                  "isSecret": true
+                }
+              ]
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/buildTasks/myBuildTask/steps/myStep",
+            "name": "myStep",
+            "type": "Microsoft.ContainerRegistry/registries/buildTasks/steps"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
