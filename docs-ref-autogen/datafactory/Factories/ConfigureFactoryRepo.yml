@@ -3,14 +3,14 @@ uid: management.azure.com.datafactory.factories.configurefactoryrepo
 name: Configure Factory Repo
 service: Data Factory
 groupName: Factories
-apiVersion: 2017-09-01-preview
+apiVersion: 2018-06-01
 summary: Updates a factory's repo information.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/locations/{locationId}/configureFactoryRepo?api-version=2017-09-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/locations/{locationId}/configureFactoryRepo?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,7 +38,7 @@ responses:
 - name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
-  - uid: ErrorResponse
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -47,50 +47,15 @@ requestBody:
     description: The factory resource id.
     types:
     - uid: string
-  - name: resourceGroupName
+  - name: repoConfiguration
     in: body
-    description: The resource group name.
-    types:
-    - uid: string
-  - name: vstsConfiguration
-    in: body
-    description: VSTS repo information of the factory.
+    description: Git repo information of the factory.
     types:
     - uid: FactoryVSTSConfiguration
+    - uid: FactoryGitHubConfiguration
+    typesTitle: FactoryRepoConfiguration
 requestHeader: []
 definitions:
-- name: FactoryVSTSConfiguration
-  description: Factory's VSTS repo information.
-  kind: object
-  properties:
-  - name: accountName
-    description: VSTS account name.
-    types:
-    - uid: string
-  - name: projectName
-    description: VSTS project name.
-    types:
-    - uid: string
-  - name: repositoryName
-    description: VSTS repository name.
-    types:
-    - uid: string
-  - name: collaborationBranch
-    description: VSTS collaboration branch.
-    types:
-    - uid: string
-  - name: rootFolder
-    description: VSTS root folder.
-    types:
-    - uid: string
-  - name: lastCommitId
-    description: VSTS last commit id.
-    types:
-    - uid: string
-  - name: tenantId
-    description: VSTS tenant id.
-    types:
-    - uid: string
 - name: Factory
   description: Factory resource type.
   kind: object
@@ -114,10 +79,12 @@ definitions:
     description: Version of the factory.
     types:
     - uid: string
-  - name: properties.vstsConfiguration
-    description: VSTS repo information of the factory.
+  - name: properties.repoConfiguration
+    description: Git repo information of the factory.
     types:
     - uid: FactoryVSTSConfiguration
+    - uid: FactoryGitHubConfiguration
+    typesTitle: FactoryRepoConfiguration
   - name: id
     isReadyOnly: true
     description: The resource identifier.
@@ -145,43 +112,117 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
+  - name: eTag
+    isReadyOnly: true
+    description: Etag identifies change in the resource.
+    types:
+    - uid: string
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Error code.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Error message.
     types:
     - uid: string
-  - name: target
+  - name: error.target
     description: Property name/path in request associated with error.
     types:
     - uid: string
-  - name: details
+  - name: error.details
     description: Array with additional error details.
     types:
-    - uid: ErrorResponse
+    - uid: CloudError
       isArray: true
 - name: FactoryRepoUpdate
-  description: Factory's VSTS repo information.
+  description: Factory's git repo information.
   kind: object
   properties:
   - name: factoryResourceId
     description: The factory resource id.
     types:
     - uid: string
-  - name: resourceGroupName
-    description: The resource group name.
-    types:
-    - uid: string
-  - name: vstsConfiguration
-    description: VSTS repo information of the factory.
+  - name: repoConfiguration
+    description: Git repo information of the factory.
     types:
     - uid: FactoryVSTSConfiguration
+    - uid: FactoryGitHubConfiguration
+    typesTitle: FactoryRepoConfiguration
+- name: FactoryVSTSConfiguration
+  description: Factory's VSTS repo information.
+  kind: object
+  properties:
+  - name: projectName
+    description: VSTS project name.
+    types:
+    - uid: string
+  - name: tenantId
+    description: VSTS tenant id.
+    types:
+    - uid: string
+  - name: type
+    description: Type of repo configuration.
+    types:
+    - uid: FactoryVSTSConfiguration
+    typesTitle: string
+  - name: accountName
+    description: Account name.
+    types:
+    - uid: string
+  - name: repositoryName
+    description: Rrepository name.
+    types:
+    - uid: string
+  - name: collaborationBranch
+    description: Collaboration branch.
+    types:
+    - uid: string
+  - name: rootFolder
+    description: Root folder.
+    types:
+    - uid: string
+  - name: lastCommitId
+    description: Last commit id.
+    types:
+    - uid: string
+- name: FactoryGitHubConfiguration
+  description: Factory's GitHub repo information.
+  kind: object
+  properties:
+  - name: hostName
+    isReadyOnly: true
+    description: GitHub repo host name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of repo configuration.
+    types:
+    - uid: FactoryGithubConfiguration
+    typesTitle: string
+  - name: accountName
+    description: Account name.
+    types:
+    - uid: string
+  - name: repositoryName
+    description: Rrepository name.
+    types:
+    - uid: string
+  - name: collaborationBranch
+    description: Collaboration branch.
+    types:
+    - uid: string
+  - name: rootFolder
+    description: Root folder.
+    types:
+    - uid: string
+  - name: lastCommitId
+    description: Last commit id.
+    types:
+    - uid: string
 - name: FactoryIdentity
   description: Identity properties of the factory resource.
   kind: object
@@ -210,55 +251,59 @@ definitions:
 examples:
 - name: Factories_ConfigureFactoryRepo
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/providers/Microsoft.DataFactory/locations/eastus/configureFactoryRepo?api-version=2017-09-01-preview
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/providers/Microsoft.DataFactory/locations/East US/configureFactoryRepo?api-version=2018-06-01
     body: >-
       {
-        "resourceGroupName": "exampleResourceGroup",
-        "factoryId": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleresourcegroup/providers/Microsoft.DataFactory/factories/examplefactoryname",
-        "vstsConfiguration": {
-          "accountName": "msdata",
-          "projectName": "datafactory",
-          "repositoryName": "exampleRepo",
+        "factoryResourceId": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName",
+        "repoConfiguration": {
+          "type": "FactoryVSTSConfiguration",
+          "projectName": "project",
+          "tenantId": "",
+          "accountName": "ADF",
+          "repositoryName": "repo",
           "collaborationBranch": "master",
           "rootFolder": "/",
-          "lastCommitId": "",
-          "tenantId": "12f988bf-86d1-41af-91ab-2d7cd011db49"
+          "lastCommitId": ""
         }
       }
   responses:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Wed, 13 Sep 2017 17:33:54 GMT
-    - name: x-ms-request-id
-      value: dc1954ed-a1d3-4437-bd73-480ffdf1ea5a
+      value: Tue, 19 Jun 2018 05:41:50 GMT
     - name: X-Content-Type-Options
       value: nosniff
     - name: x-ms-ratelimit-remaining-subscription-writes
-      value: "1198"
+      value: "1191"
+    - name: x-ms-request-id
+      value: c63640bd-3e5f-4ee0-bae1-cea74f761a7d
     - name: x-ms-correlation-request-id
-      value: 8d66d31c-23f3-4ac1-bc8c-1b6464342ad1
+      value: c63640bd-3e5f-4ee0-bae1-cea74f761a7d
     body: >-
       {
         "name": "exampleFactoryName",
-        "tags": {},
+        "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName",
+        "type": "Microsoft.DataFactory/factories",
         "properties": {
           "provisioningState": "Succeeded",
-          "createTime": "2017-09-13T17:33:54.0294655Z",
-          "version": "2017-09-01-preview",
-          "vstsConfiguration": {
-            "accountName": "msdata",
-            "projectName": "datafactory",
-            "repositoryName": "exampleRepo",
+          "createTime": "2018-06-19T05:41:50.0041314Z",
+          "version": "2018-06-01",
+          "repoConfiguration": {
+            "type": "FactoryVSTSConfiguration",
+            "projectName": "project",
+            "tenantId": "",
+            "accountName": "ADF",
+            "repositoryName": "repo",
             "collaborationBranch": "master",
             "rootFolder": "/",
-            "lastCommitId": "",
-            "tenantId": "12f988bf-86d1-41af-91ab-2d7cd011db49"
+            "lastCommitId": ""
           }
         },
-        "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleresourcegroup/providers/Microsoft.DataFactory/factories/examplefactoryname",
-        "type": "Microsoft.DataFactory/factories",
-        "location": "East US"
+        "eTag": "\"00004004-0000-0000-0000-5b28979e0000\"",
+        "location": "East US",
+        "tags": {
+          "exampleTag": "exampleValue"
+        }
       }
 security:
 - type: oauth2

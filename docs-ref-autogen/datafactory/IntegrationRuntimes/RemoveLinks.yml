@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.datafactory.integrationruntimes.removenode
-name: Remove Node
+uid: management.azure.com.datafactory.integrationruntimes.removelinks
+name: Remove Links
 service: Data Factory
 groupName: Integration Runtimes
-apiVersion: 2017-09-01-preview
-summary: Remove a node from integration runtime.
+apiVersion: 2018-06-01
+summary: Remove all linked integration runtimes under specific data factory in a self-hosted integration runtime.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/removeNode?api-version=2017-09-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/removeLinks?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,76 +48,71 @@ uriParameters:
 responses:
 - name: 200 OK
   description: OK.
-- name: 204 No Content
-  description: No Content.
 - name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
-  - uid: ErrorResponse
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
-  - name: nodeName
+  - name: factoryName
     in: body
-    description: The name of the node to be removed.
+    isRequired: true
+    description: The data factory name for linked integration runtime.
     types:
     - uid: string
 requestHeader: []
 definitions:
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Error code.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Error message.
     types:
     - uid: string
-  - name: target
+  - name: error.target
     description: Property name/path in request associated with error.
     types:
     - uid: string
-  - name: details
+  - name: error.details
     description: Array with additional error details.
     types:
-    - uid: ErrorResponse
+    - uid: CloudError
       isArray: true
-- name: IntegrationRuntimeRemoveNodeRequest
-  description: Request to remove a node.
+- name: LinkedIntegrationRuntimeRequest
+  description: Data factory name for linked integration runtime request.
   kind: object
   properties:
-  - name: nodeName
-    description: The name of the node to be removed.
+  - name: factoryName
+    description: The data factory name for linked integration runtime.
     types:
     - uid: string
 examples:
-- name: IntegrationRuntimes_RemoveNode
+- name: IntegrationRuntimes_Upgrade
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/removeNode?api-version=2017-09-01-preview
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/removeLinks?api-version=2018-06-01
     body: >-
       {
-        "nodeName": "Node_1"
+        "factoryName": "exampleFactoryName-linked"
       }
   responses:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Tue, 28 Nov 2017 06:05:42 GMT
-    - name: x-ms-request-id
-      value: f1b13f98-0659-4eaa-a676-29912ae0a4f3
+      value: Tue, 03 Jul 2018 06:33:25 GMT
     - name: X-Content-Type-Options
       value: nosniff
-  - statusCode: "204"
-    headers:
-    - name: Date
-      value: Tue, 28 Nov 2017 06:05:44 GMT
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1195"
     - name: x-ms-request-id
-      value: 3d15a37e-f3f2-4e21-a90a-316f695a3f90
-    - name: X-Content-Type-Options
-      value: nosniff
+      value: 360fbe4c-a1a7-436b-b0f5-e27a474a6b16
+    - name: x-ms-correlation-request-id
+      value: 360fbe4c-a1a7-436b-b0f5-e27a474a6b16
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.

@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.datafactory.pipelineruns.querybyfactory
+uid: management.azure.com.datafactory.triggerruns.querybyfactory
 name: Query By Factory
 service: Data Factory
-groupName: Pipeline Runs
+groupName: Trigger Runs
 apiVersion: 2018-06-01
-summary: Query pipeline runs in the factory based on input filter conditions.
+summary: Query trigger runs.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryPipelineRuns?api-version=2018-06-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryTriggerRuns?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,7 +42,7 @@ responses:
 - name: 200 OK
   description: OK.
   types:
-  - uid: PipelineRunsQueryResponse
+  - uid: TriggerRunsQueryResponse
 - name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
@@ -110,14 +110,14 @@ definitions:
     description: Sorting order of the parameter.
     types:
     - uid: RunQueryOrder
-- name: PipelineRunsQueryResponse
-  description: A list pipeline runs.
+- name: TriggerRunsQueryResponse
+  description: A list of trigger runs.
   kind: object
   properties:
   - name: value
-    description: List of pipeline runs.
+    description: List of trigger runs.
     types:
-    - uid: PipelineRun
+    - uid: TriggerRun
       isArray: true
   - name: continuationToken
     description: The continuation token for getting the next page of results, if any remaining results exist, null otherwise.
@@ -261,97 +261,85 @@ definitions:
   - name: DESC
     types:
     - uid: string
-- name: PipelineRun
-  description: Information about a pipeline run.
+- name: TriggerRun
+  description: Trigger runs.
   kind: object
   properties:
-  - name: runId
+  - name: triggerRunId
     isReadyOnly: true
-    description: Identifier of a run.
+    description: Trigger run id.
     types:
     - uid: string
-  - name: pipelineName
+  - name: triggerName
     isReadyOnly: true
-    description: The pipeline name.
+    description: Trigger name.
     types:
     - uid: string
-  - name: parameters
+  - name: triggerType
     isReadyOnly: true
-    description: The full or partial list of parameter name, value pair used in the pipeline run.
+    description: Trigger type.
+    types:
+    - uid: string
+  - name: triggerRunTimestamp
+    isReadyOnly: true
+    description: Trigger run start time.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Trigger run status.
+    types:
+    - uid: TriggerRunStatus
+  - name: message
+    isReadyOnly: true
+    description: Trigger error message.
+    types:
+    - uid: string
+  - name: properties
+    isReadyOnly: true
+    description: List of property name and value related to trigger run. Name, value pair depends on type of trigger.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-  - name: invokedBy
+  - name: triggeredPipelines
     isReadyOnly: true
-    description: Entity that started the pipeline run.
+    description: List of pipeline name and run Id triggered by the trigger run.
     types:
-    - uid: PipelineRunInvokedBy
-  - name: lastUpdated
-    isReadyOnly: true
-    description: The last updated timestamp for the pipeline run event in ISO8601 format.
-    types:
-    - uid: string
-  - name: runStart
-    isReadyOnly: true
-    description: The start time of a pipeline run in ISO8601 format.
-    types:
-    - uid: string
-  - name: runEnd
-    isReadyOnly: true
-    description: The end time of a pipeline run in ISO8601 format.
-    types:
-    - uid: string
-  - name: durationInMs
-    isReadyOnly: true
-    description: The duration of a pipeline run.
-    types:
-    - uid: integer
-  - name: status
-    isReadyOnly: true
-    description: The status of a pipeline run.
-    types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: The message from a pipeline run.
-    types:
-    - uid: string
-- name: PipelineRunInvokedBy
-  description: Provides entity name and id that started the pipeline run.
-  kind: object
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: TriggerRunStatus
+  description: Trigger run status.
+  kind: enum
   properties:
-  - name: name
-    isReadyOnly: true
-    description: Name of the entity that started the pipeline run.
+  - name: Succeeded
     types:
     - uid: string
-  - name: id
-    isReadyOnly: true
-    description: The ID of the entity that started the run.
+  - name: Failed
     types:
     - uid: string
-  - name: invokedByType
-    isReadyOnly: true
-    description: The type of the entity that started the run.
+  - name: Inprogress
     types:
     - uid: string
 examples:
-- name: PipelineRuns_QueryByFactory
+- name: TriggerRuns_QueryByFactory
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/queryPipelineRuns?api-version=2018-06-01
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/queryTriggerRuns?api-version=2018-06-01
     body: >-
       {
         "lastUpdatedAfter": "2018-06-16T00:36:44.3345758Z",
         "lastUpdatedBefore": "2018-06-16T00:49:48.3686473Z",
         "filters": [
           {
-            "operand": "PipelineName",
+            "operand": "TriggerName",
             "operator": "Equals",
             "values": [
-              "examplePipeline"
+              "exampleTrigger"
             ]
           }
         ]
@@ -360,53 +348,32 @@ examples:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Sat, 16 Jun 2018 00:40:01 GMT
+      value: Sat, 16 Jun 2018 00:46:22 GMT
     - name: X-Content-Type-Options
       value: nosniff
-    - name: x-ms-ratelimit-remaining-subscription-reads
-      value: "14989"
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1199"
     - name: x-ms-request-id
-      value: 2f955e10-c6df-45a7-97d4-81acdb8540cd
+      value: fb328f3e-d21e-44f7-80d7-dad60c955b4d
     - name: x-ms-correlation-request-id
-      value: 2f955e10-c6df-45a7-97d4-81acdb8540cd
+      value: fb328f3e-d21e-44f7-80d7-dad60c955b4d
     body: >-
       {
         "value": [
           {
-            "runId": "2f7fdb90-5df1-4b8e-ac2f-064cfa58202b",
-            "pipelineName": "examplePipeline",
-            "parameters": {
-              "OutputBlobNameList": "[\"exampleoutput.csv\"]"
-            },
-            "invokedBy": {
-              "id": "80a01654a9d34ad18b3fcac5d5d76b67",
-              "name": "Manual"
-            },
-            "runStart": "2018-06-16T00:37:44.6257014Z",
-            "runEnd": "2018-06-16T00:38:12.7314495Z",
-            "durationInMs": 28105,
+            "triggerName": "exampleTrigger",
+            "triggerRunId": "08586724970898148904457116912CU27",
+            "triggerType": "ScheduleTrigger",
+            "triggerRunTimestamp": "2018-06-16T00:43:15.660141Z",
             "status": "Succeeded",
             "message": "",
-            "lastUpdated": "2018-06-16T00:38:12.7314495Z",
-            "annotations": []
-          },
-          {
-            "runId": "16ac5348-ff82-4f95-a80d-638c1d47b721",
-            "pipelineName": "examplePipeline",
-            "parameters": {
-              "OutputBlobNameList": "[\"exampleoutput.csv\"]"
+            "properties": {
+              "TriggerTime": "6/16/2018 12:43:15 AM",
+              "ScheduleTime": "6/16/2018 12:43:14 AM"
             },
-            "invokedBy": {
-              "id": "7c5fd7ef7e8a464b98b931cf15fcac66",
-              "name": "Manual"
-            },
-            "runStart": "2018-06-16T00:39:49.2745128Z",
-            "runEnd": null,
-            "durationInMs": null,
-            "status": "Cancelled",
-            "message": "",
-            "lastUpdated": "2018-06-16T00:39:51.216097Z",
-            "annotations": []
+            "triggeredPipelines": {
+              "examplePipeline": "9f3ce8b3-37d7-43eb-96ac-a656c0476283"
+            }
           }
         ]
       }
