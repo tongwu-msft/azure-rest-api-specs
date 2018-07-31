@@ -2245,6 +2245,8 @@
 ### [Get](container-instances/ContainerGroups/Get.yml)
 ### [List](container-instances/ContainerGroups/List.yml)
 ### [List By Resource Group](container-instances/ContainerGroups/ListByResourceGroup.yml)
+### [Restart](container-instances/ContainerGroups/Restart.yml)
+### [Stop](container-instances/ContainerGroups/Stop.yml)
 ### [Update](container-instances/ContainerGroups/Update.yml)
 ## [Operations](container-instances/Operations.yml)
 ### [List](container-instances/Operations/List.yml)
