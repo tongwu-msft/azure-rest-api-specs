@@ -3,14 +3,14 @@ uid: management.azure.com.datafactory.datasets.listbyfactory
 name: List By Factory
 service: Data Factory
 groupName: Datasets
-apiVersion: 2017-09-01-preview
+apiVersion: 2018-06-01
 summary: Lists datasets.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets?api-version=2017-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,7 +46,7 @@ responses:
 - name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
-  - uid: ErrorResponse
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: DatasetListResponse
@@ -62,26 +62,26 @@ definitions:
     description: The link to the next page of results, if any remaining results exist.
     types:
     - uid: string
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Error code.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Error message.
     types:
     - uid: string
-  - name: target
+  - name: error.target
     description: Property name/path in request associated with error.
     types:
     - uid: string
-  - name: details
+  - name: error.details
     description: Array with additional error details.
     types:
-    - uid: ErrorResponse
+    - uid: CloudError
       isArray: true
 - name: DatasetResource
   description: Dataset resource type.
@@ -2255,26 +2255,27 @@ definitions:
 examples:
 - name: Datasets_ListByFactory
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/datasets?api-version=2017-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/datasets?api-version=2018-06-01
   responses:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Wed, 13 Sep 2017 17:55:55 GMT
-    - name: x-ms-request-id
-      value: 624b9e0f-5b8e-4a08-8ff3-ead24e96658f
+      value: Sat, 16 Jun 2018 00:37:40 GMT
     - name: X-Content-Type-Options
       value: nosniff
     - name: x-ms-ratelimit-remaining-subscription-reads
-      value: "14911"
+      value: "14992"
+    - name: x-ms-request-id
+      value: 341c9ece-5062-448b-be98-3ccbf476ed5d
     - name: x-ms-correlation-request-id
-      value: babd0c35-621b-4c3e-bc19-7e84ff1153e7
+      value: 341c9ece-5062-448b-be98-3ccbf476ed5d
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/datasets/exampleDataset",
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/datasets/exampleDataset",
             "name": "exampleDataset",
+            "type": "Microsoft.DataFactory/factories/datasets",
             "properties": {
               "type": "AzureBlob",
               "typeProperties": {
@@ -2304,7 +2305,7 @@ examples:
                 }
               }
             },
-            "etag": "280320a7-0000-0000-0000-59b9712a0000"
+            "etag": "0a0068d4-0000-0000-0000-5b245bd30000"
           }
         ]
       }

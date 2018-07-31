@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.datafactory.pipelineruns.querybyfactory
-name: Query By Factory
+uid: management.azure.com.datafactory.activityruns.querybypipelinerun
+name: Query By Pipeline Run
 service: Data Factory
-groupName: Pipeline Runs
+groupName: Activity Runs
 apiVersion: 2018-06-01
-summary: Query pipeline runs in the factory based on input filter conditions.
+summary: Query activity runs based on input filter conditions.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryPipelineRuns?api-version=2018-06-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}/queryActivityruns?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -32,6 +32,12 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: runId
+  in: path
+  isRequired: true
+  description: The pipeline run identifier.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -42,7 +48,7 @@ responses:
 - name: 200 OK
   description: OK.
   types:
-  - uid: PipelineRunsQueryResponse
+  - uid: ActivityRunsQueryResponse
 - name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
@@ -110,14 +116,14 @@ definitions:
     description: Sorting order of the parameter.
     types:
     - uid: RunQueryOrder
-- name: PipelineRunsQueryResponse
-  description: A list pipeline runs.
+- name: ActivityRunsQueryResponse
+  description: A list activity runs.
   kind: object
   properties:
   - name: value
-    description: List of pipeline runs.
+    description: List of activity runs.
     types:
-    - uid: PipelineRun
+    - uid: ActivityRun
       isArray: true
   - name: continuationToken
     description: The continuation token for getting the next page of results, if any remaining results exist, null otherwise.
@@ -261,152 +267,181 @@ definitions:
   - name: DESC
     types:
     - uid: string
-- name: PipelineRun
-  description: Information about a pipeline run.
+- name: ActivityRun
+  description: Information about an activity run in a pipeline.
   kind: object
   properties:
-  - name: runId
-    isReadyOnly: true
-    description: Identifier of a run.
-    types:
-    - uid: string
   - name: pipelineName
     isReadyOnly: true
-    description: The pipeline name.
+    description: The name of the pipeline.
     types:
     - uid: string
-  - name: parameters
+  - name: pipelineRunId
     isReadyOnly: true
-    description: The full or partial list of parameter name, value pair used in the pipeline run.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: invokedBy
-    isReadyOnly: true
-    description: Entity that started the pipeline run.
-    types:
-    - uid: PipelineRunInvokedBy
-  - name: lastUpdated
-    isReadyOnly: true
-    description: The last updated timestamp for the pipeline run event in ISO8601 format.
+    description: The id of the pipeline run.
     types:
     - uid: string
-  - name: runStart
+  - name: activityName
     isReadyOnly: true
-    description: The start time of a pipeline run in ISO8601 format.
+    description: The name of the activity.
     types:
     - uid: string
-  - name: runEnd
+  - name: activityType
     isReadyOnly: true
-    description: The end time of a pipeline run in ISO8601 format.
+    description: The type of the activity.
+    types:
+    - uid: string
+  - name: activityRunId
+    isReadyOnly: true
+    description: The id of the activity run.
+    types:
+    - uid: string
+  - name: linkedServiceName
+    isReadyOnly: true
+    description: The name of the compute linked service.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: The status of the activity run.
+    types:
+    - uid: string
+  - name: activityRunStart
+    isReadyOnly: true
+    description: The start time of the activity run in 'ISO 8601' format.
+    types:
+    - uid: string
+  - name: activityRunEnd
+    isReadyOnly: true
+    description: The end time of the activity run in 'ISO 8601' format.
     types:
     - uid: string
   - name: durationInMs
     isReadyOnly: true
-    description: The duration of a pipeline run.
+    description: The duration of the activity run.
     types:
     - uid: integer
-  - name: status
+  - name: input
     isReadyOnly: true
-    description: The status of a pipeline run.
+    description: The input for the activity.
     types:
-    - uid: string
-  - name: message
+    - uid: object
+  - name: output
     isReadyOnly: true
-    description: The message from a pipeline run.
+    description: The output for the activity.
     types:
-    - uid: string
-- name: PipelineRunInvokedBy
-  description: Provides entity name and id that started the pipeline run.
-  kind: object
-  properties:
-  - name: name
+    - uid: object
+  - name: error
     isReadyOnly: true
-    description: Name of the entity that started the pipeline run.
+    description: The error if any from the activity run.
     types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: The ID of the entity that started the run.
-    types:
-    - uid: string
-  - name: invokedByType
-    isReadyOnly: true
-    description: The type of the entity that started the run.
-    types:
-    - uid: string
+    - uid: object
 examples:
-- name: PipelineRuns_QueryByFactory
+- name: ActivityRuns_QueryByPipelineRun
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/queryPipelineRuns?api-version=2018-06-01
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelineruns/2f7fdb90-5df1-4b8e-ac2f-064cfa58202b/queryActivityruns?api-version=2018-06-01
     body: >-
       {
         "lastUpdatedAfter": "2018-06-16T00:36:44.3345758Z",
-        "lastUpdatedBefore": "2018-06-16T00:49:48.3686473Z",
-        "filters": [
-          {
-            "operand": "PipelineName",
-            "operator": "Equals",
-            "values": [
-              "examplePipeline"
-            ]
-          }
-        ]
+        "lastUpdatedBefore": "2018-06-16T00:49:48.3686473Z"
       }
   responses:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Sat, 16 Jun 2018 00:40:01 GMT
+      value: Sat, 16 Jun 2018 00:40:13 GMT
     - name: X-Content-Type-Options
       value: nosniff
-    - name: x-ms-ratelimit-remaining-subscription-reads
-      value: "14989"
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1187"
     - name: x-ms-request-id
-      value: 2f955e10-c6df-45a7-97d4-81acdb8540cd
+      value: 5465cf41-2e71-4ce6-8db4-9de1b92ffda9
     - name: x-ms-correlation-request-id
-      value: 2f955e10-c6df-45a7-97d4-81acdb8540cd
+      value: 5465cf41-2e71-4ce6-8db4-9de1b92ffda9
     body: >-
       {
         "value": [
           {
-            "runId": "2f7fdb90-5df1-4b8e-ac2f-064cfa58202b",
+            "activityRunEnd": "2018-06-16T00:38:11.5445431Z",
+            "activityName": "ExampleForeachActivity",
+            "activityRunStart": "2018-06-16T00:37:49.4804925Z",
+            "activityType": "ForEach",
+            "durationInMs": 22064,
+            "retryAttempt": null,
+            "error": {
+              "errorCode": "",
+              "message": "",
+              "failureType": "",
+              "target": "ExampleForeachActivity"
+            },
+            "activityRunId": "f30c5514-fb85-43ed-9fa4-768d42e58680",
+            "input": {},
+            "linkedServiceName": "",
+            "output": {},
+            "userProperties": {},
             "pipelineName": "examplePipeline",
-            "parameters": {
-              "OutputBlobNameList": "[\"exampleoutput.csv\"]"
-            },
-            "invokedBy": {
-              "id": "80a01654a9d34ad18b3fcac5d5d76b67",
-              "name": "Manual"
-            },
-            "runStart": "2018-06-16T00:37:44.6257014Z",
-            "runEnd": "2018-06-16T00:38:12.7314495Z",
-            "durationInMs": 28105,
-            "status": "Succeeded",
-            "message": "",
-            "lastUpdated": "2018-06-16T00:38:12.7314495Z",
-            "annotations": []
+            "pipelineRunId": "2f7fdb90-5df1-4b8e-ac2f-064cfa58202b",
+            "status": "Succeeded"
           },
           {
-            "runId": "16ac5348-ff82-4f95-a80d-638c1d47b721",
+            "activityRunEnd": "2018-06-16T00:38:07.4188923Z",
+            "activityName": "ExampleCopyActivity",
+            "activityRunStart": "2018-06-16T00:37:50.2460952Z",
+            "activityType": "Copy",
+            "durationInMs": 17172,
+            "retryAttempt": null,
+            "error": {
+              "errorCode": "",
+              "message": "",
+              "failureType": "",
+              "target": "ExampleCopyActivity"
+            },
+            "activityRunId": "a96678c8-7167-4f00-b629-afccfbad4e51",
+            "input": {
+              "source": {
+                "type": "BlobSource"
+              },
+              "sink": {
+                "type": "BlobSink"
+              },
+              "dataIntegrationUnits": 32
+            },
+            "linkedServiceName": "",
+            "output": {
+              "dataRead": 142000,
+              "dataWritten": 142000,
+              "filesRead": 1,
+              "filesWritten": 1,
+              "copyDuration": 6,
+              "throughput": 23.112,
+              "errors": [],
+              "effectiveIntegrationRuntime": "DefaultIntegrationRuntime (East US)",
+              "usedCloudDataMovementUnits": 4,
+              "usedParallelCopies": 1,
+              "executionDetails": [
+                {
+                  "source": {
+                    "type": "AzureBlob"
+                  },
+                  "sink": {
+                    "type": "AzureBlob"
+                  },
+                  "status": "Succeeded",
+                  "start": "2018-06-16T00:37:50.68834Z",
+                  "duration": 6,
+                  "usedCloudDataMovementUnits": 4,
+                  "usedParallelCopies": 1,
+                  "detailedDurations": {
+                    "queuingDuration": 4,
+                    "transferDuration": 2
+                  }
+                }
+              ]
+            },
+            "userProperties": {},
             "pipelineName": "examplePipeline",
-            "parameters": {
-              "OutputBlobNameList": "[\"exampleoutput.csv\"]"
-            },
-            "invokedBy": {
-              "id": "7c5fd7ef7e8a464b98b931cf15fcac66",
-              "name": "Manual"
-            },
-            "runStart": "2018-06-16T00:39:49.2745128Z",
-            "runEnd": null,
-            "durationInMs": null,
-            "status": "Cancelled",
-            "message": "",
-            "lastUpdated": "2018-06-16T00:39:51.216097Z",
-            "annotations": []
+            "pipelineRunId": "2f7fdb90-5df1-4b8e-ac2f-064cfa58202b",
+            "status": "Succeeded"
           }
         ]
       }

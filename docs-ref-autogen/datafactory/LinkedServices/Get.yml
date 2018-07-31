@@ -3,14 +3,14 @@ uid: management.azure.com.datafactory.linkedservices.get
 name: Get
 service: Data Factory
 groupName: Linked Services
-apiVersion: 2017-09-01-preview
+apiVersion: 2018-06-01
 summary: Gets a linked service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/linkedservices/{linkedServiceName}?api-version=2017-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/linkedservices/{linkedServiceName}?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,10 +51,17 @@ responses:
   types:
   - uid: LinkedServiceResource
 - name: Other Status Codes
+  description: Not modified.
+- name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
-  - uid: ErrorResponse
-requestHeader: []
+  - uid: CloudError
+requestHeader:
+- name: If-None-Match
+  in: header
+  description: ETag of the linked service entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned.
+  types:
+  - uid: string
 definitions:
 - name: LinkedServiceResource
   description: Linked service resource type.
@@ -154,26 +161,26 @@ definitions:
     description: Etag identifies change in the resource.
     types:
     - uid: string
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Error code.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Error message.
     types:
     - uid: string
-  - name: target
+  - name: error.target
     description: Property name/path in request associated with error.
     types:
     - uid: string
-  - name: details
+  - name: error.details
     description: Array with additional error details.
     types:
-    - uid: ErrorResponse
+    - uid: CloudError
       isArray: true
 - name: ResponsysLinkedService
   description: Responsys linked service.
@@ -267,6 +274,14 @@ definitions:
     - uid: object
   - name: typeProperties.newClusterSparkConf
     description: a set of optional, user-specified Spark configuration key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.newClusterCustomTags
+    description: Additional tags for cluster resources.
     types:
     - uid: object
       isDictionary: true
@@ -4679,35 +4694,37 @@ definitions:
 examples:
 - name: LinkedServices_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/linkedservices/exampleLinkedService?api-version=2017-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/linkedservices/exampleLinkedService?api-version=2018-06-01
   responses:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Wed, 13 Sep 2017 17:55:53 GMT
-    - name: x-ms-request-id
-      value: d0d69de8-5acc-4ef4-bf5b-340328408cb2
+      value: Sat, 16 Jun 2018 00:37:36 GMT
     - name: X-Content-Type-Options
       value: nosniff
     - name: x-ms-ratelimit-remaining-subscription-reads
-      value: "14914"
+      value: "14995"
+    - name: x-ms-request-id
+      value: b57420cc-9476-4947-b54f-50b041b614ec
     - name: x-ms-correlation-request-id
-      value: a9524daa-23b7-48ef-985c-9f5a0136acea
+      value: b57420cc-9476-4947-b54f-50b041b614ec
     body: >-
       {
-        "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/linkedservices/exampleLinkedService",
+        "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/linkedservices/exampleLinkedService",
         "name": "exampleLinkedService",
+        "type": "Microsoft.DataFactory/factories/linkedservices",
         "properties": {
           "type": "AzureStorage",
           "typeProperties": {
             "connectionString": {
-              "value": "**********",
-              "type": "SecureString"
-            }
+              "type": "SecureString",
+              "value": "**********"
+            },
+            "encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRGLURPR0ZPT0QtWUFOWkhBTkctV1VfMGI2M2EyMmYtMGEzNC00NDg2LWIzMDktNzM0NTlkODUyY2Q1Ig0KfQ=="
           },
           "description": "Example description"
         },
-        "etag": "28031da7-0000-0000-0000-59b971290000"
+        "etag": "0a0064d4-0000-0000-0000-5b245bd00000"
       }
 security:
 - type: oauth2

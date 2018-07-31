@@ -3,14 +3,14 @@ uid: management.azure.com.datafactory.factories.update
 name: Update
 service: Data Factory
 groupName: Factories
-apiVersion: 2017-09-01-preview
+apiVersion: 2018-06-01
 summary: Updates a factory.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}?api-version=2017-09-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,7 +46,7 @@ responses:
 - name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
-  - uid: ErrorResponse
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -107,10 +107,12 @@ definitions:
     description: Version of the factory.
     types:
     - uid: string
-  - name: properties.vstsConfiguration
-    description: VSTS repo information of the factory.
+  - name: properties.repoConfiguration
+    description: Git repo information of the factory.
     types:
     - uid: FactoryVSTSConfiguration
+    - uid: FactoryGitHubConfiguration
+    typesTitle: FactoryRepoConfiguration
   - name: id
     isReadyOnly: true
     description: The resource identifier.
@@ -138,26 +140,31 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
+  - name: eTag
+    isReadyOnly: true
+    description: Etag identifies change in the resource.
+    types:
+    - uid: string
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Error code.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Error message.
     types:
     - uid: string
-  - name: target
+  - name: error.target
     description: Property name/path in request associated with error.
     types:
     - uid: string
-  - name: details
+  - name: error.details
     description: Array with additional error details.
     types:
-    - uid: ErrorResponse
+    - uid: CloudError
       isArray: true
 - name: FactoryUpdateParameters
   description: Parameters for updating a factory resource.
@@ -186,38 +193,77 @@ definitions:
   description: Factory's VSTS repo information.
   kind: object
   properties:
-  - name: accountName
-    description: VSTS account name.
-    types:
-    - uid: string
   - name: projectName
     description: VSTS project name.
-    types:
-    - uid: string
-  - name: repositoryName
-    description: VSTS repository name.
-    types:
-    - uid: string
-  - name: collaborationBranch
-    description: VSTS collaboration branch.
-    types:
-    - uid: string
-  - name: rootFolder
-    description: VSTS root folder.
-    types:
-    - uid: string
-  - name: lastCommitId
-    description: VSTS last commit id.
     types:
     - uid: string
   - name: tenantId
     description: VSTS tenant id.
     types:
     - uid: string
+  - name: type
+    description: Type of repo configuration.
+    types:
+    - uid: FactoryVSTSConfiguration
+    typesTitle: string
+  - name: accountName
+    description: Account name.
+    types:
+    - uid: string
+  - name: repositoryName
+    description: Rrepository name.
+    types:
+    - uid: string
+  - name: collaborationBranch
+    description: Collaboration branch.
+    types:
+    - uid: string
+  - name: rootFolder
+    description: Root folder.
+    types:
+    - uid: string
+  - name: lastCommitId
+    description: Last commit id.
+    types:
+    - uid: string
+- name: FactoryGitHubConfiguration
+  description: Factory's GitHub repo information.
+  kind: object
+  properties:
+  - name: hostName
+    isReadyOnly: true
+    description: GitHub repo host name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of repo configuration.
+    types:
+    - uid: FactoryGithubConfiguration
+    typesTitle: string
+  - name: accountName
+    description: Account name.
+    types:
+    - uid: string
+  - name: repositoryName
+    description: Rrepository name.
+    types:
+    - uid: string
+  - name: collaborationBranch
+    description: Collaboration branch.
+    types:
+    - uid: string
+  - name: rootFolder
+    description: Root folder.
+    types:
+    - uid: string
+  - name: lastCommitId
+    description: Last commit id.
+    types:
+    - uid: string
 examples:
 - name: Factories_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName?api-version=2017-09-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName?api-version=2018-06-01
     body: >-
       {
         "tags": {
@@ -228,29 +274,30 @@ examples:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Wed, 13 Sep 2017 17:33:55 GMT
-    - name: x-ms-request-id
-      value: 3223701f-ce33-4a58-bb14-d3d53569d4f0
+      value: Tue, 19 Jun 2018 05:41:50 GMT
     - name: X-Content-Type-Options
       value: nosniff
     - name: x-ms-ratelimit-remaining-subscription-writes
-      value: "1197"
+      value: "1192"
+    - name: x-ms-request-id
+      value: 699c67a6-fef5-40c9-bc73-d571d09783c3
     - name: x-ms-correlation-request-id
-      value: ec4ce622-a1dd-4c49-a324-17e8d4d1fe83
+      value: 699c67a6-fef5-40c9-bc73-d571d09783c3
     body: >-
       {
         "name": "exampleFactoryName",
-        "tags": {
-          "exampleTag": "exampleValue"
-        },
+        "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName",
+        "type": "Microsoft.DataFactory/factories",
         "properties": {
           "provisioningState": "Succeeded",
-          "createTime": "2017-09-13T17:33:54.0294655Z",
-          "version": "2017-09-01-preview"
+          "createTime": "2018-06-19T05:41:50.0041314Z",
+          "version": "2018-06-01"
         },
-        "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleresourcegroup/providers/Microsoft.DataFactory/factories/exampleFactoryName",
-        "type": "Microsoft.DataFactory/factories",
-        "location": "East US"
+        "eTag": "\"00003f04-0000-0000-0000-5b28979e0000\"",
+        "location": "East US",
+        "tags": {
+          "exampleTag": "exampleValue"
+        }
       }
 security:
 - type: oauth2
