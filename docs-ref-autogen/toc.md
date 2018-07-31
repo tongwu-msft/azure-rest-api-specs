@@ -21,6 +21,8 @@
 ### [Get Upgrade Profile](aks/ManagedClusters/GetUpgradeProfile.yml)
 ### [List](aks/ManagedClusters/List.yml)
 ### [List By Resource Group](aks/ManagedClusters/ListByResourceGroup.yml)
+### [List Cluster Admin Credentials](aks/ManagedClusters/ListClusterAdminCredentials.yml)
+### [List Cluster User Credentials](aks/ManagedClusters/ListClusterUserCredentials.yml)
 ### [Update Tags](aks/ManagedClusters/UpdateTags.yml)
 ## [Operations](aks/Operations.yml)
 ### [List](aks/Operations/List.yml)
