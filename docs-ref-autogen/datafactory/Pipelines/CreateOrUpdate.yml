@@ -3,14 +3,14 @@ uid: management.azure.com.datafactory.pipelines.createorupdate
 name: Create Or Update
 service: Data Factory
 groupName: Pipelines
-apiVersion: 2017-09-01-preview
+apiVersion: 2018-06-01
 summary: Creates or updates a pipeline.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}?api-version=2017-09-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -53,7 +53,7 @@ responses:
 - name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
-  - uid: ErrorResponse
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -163,26 +163,26 @@ definitions:
     description: Etag identifies change in the resource.
     types:
     - uid: string
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Error code.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Error message.
     types:
     - uid: string
-  - name: target
+  - name: error.target
     description: Property name/path in request associated with error.
     types:
     - uid: string
-  - name: details
+  - name: error.details
     description: Array with additional error details.
     types:
-    - uid: ErrorResponse
+    - uid: CloudError
       isArray: true
 - name: ParameterType
   description: Parameter type.
@@ -209,22 +209,24 @@ definitions:
   - name: SecureString
     types:
     - uid: string
-- name: DatabricksNotebookActivity
-  description: DatabricksNotebook activity.
+- name: DatabricksSparkPythonActivity
+  description: DatabricksSparkPython activity.
   kind: object
   properties:
-  - name: typeProperties.notebookPath
-    description: 'The absolute path of the notebook to be run in the Databricks Workspace. This path must begin with a slash. Type: string (or Expression with resultType string).'
+  - name: typeProperties.pythonFile
+    description: 'The URI of the Python file to be executed. DBFS paths are supported. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-  - name: typeProperties.baseParameters
-    description: Base parameters to be used for each run of this job.If the notebook takes a parameter that is not specified, the default value from the notebook will be used.
+  - name: typeProperties.parameters
+    description: Command line parameters that will be passed to the Python file.
     types:
     - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
+      isArray: true
+  - name: typeProperties.libraries
+    description: A list of libraries to be installed on the cluster that will execute the job.
+    types:
+    - uid: object
+      isArray: true
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -250,6 +252,112 @@ definitions:
     description: Activity depends on condition.
     types:
     - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: DatabricksSparkJarActivity
+  description: DatabricksSparkJar activity.
+  kind: object
+  properties:
+  - name: typeProperties.mainClassName
+    description: 'The full name of the class containing the main method to be executed. This class must be contained in a JAR provided as a library. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.parameters
+    description: Parameters that will be passed to the main method.
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.libraries
+    description: A list of libraries to be installed on the cluster that will execute the job.
+    types:
+    - uid: object
+      isArray: true
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: DatabricksNotebookActivity
+  description: DatabricksNotebook activity.
+  kind: object
+  properties:
+  - name: typeProperties.notebookPath
+    description: 'The absolute path of the notebook to be run in the Databricks Workspace. This path must begin with a slash. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.baseParameters
+    description: Base parameters to be used for each run of this job.If the notebook takes a parameter that is not specified, the default value from the notebook will be used.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.libraries
+    description: A list of libraries to be installed on the cluster that will execute the job.
+    types:
+    - uid: object
+      isArray: true
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
       isArray: true
 - name: DataLakeAnalyticsUSQLActivity
   description: Data Lake Analytics U-SQL activity.
@@ -313,6 +421,11 @@ definitions:
     types:
     - uid: ActivityDependency
       isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
 - name: AzureMLUpdateResourceActivity
   description: Azure ML Update Resource management activity.
   kind: object
@@ -354,6 +467,11 @@ definitions:
     description: Activity depends on condition.
     types:
     - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
       isArray: true
 - name: AzureMLBatchExecutionActivity
   description: Azure ML Batch Execution activity.
@@ -409,6 +527,11 @@ definitions:
     types:
     - uid: ActivityDependency
       isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
 - name: GetMetadataActivity
   description: Activity to get metadata of dataset
   kind: object
@@ -447,6 +570,11 @@ definitions:
     description: Activity depends on condition.
     types:
     - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
       isArray: true
 - name: WebActivity
   description: Web activity.
@@ -508,6 +636,11 @@ definitions:
     types:
     - uid: ActivityDependency
       isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
 - name: LookupActivity
   description: Lookup activity.
   kind: object
@@ -550,6 +683,11 @@ definitions:
     types:
     - uid: ActivityDependency
       isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
 - name: SqlServerStoredProcedureActivity
   description: SQL stored procedure activity type.
   kind: object
@@ -591,6 +729,11 @@ definitions:
     description: Activity depends on condition.
     types:
     - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
       isArray: true
 - name: CustomActivity
   description: Custom activity type.
@@ -645,6 +788,11 @@ definitions:
     description: Activity depends on condition.
     types:
     - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
       isArray: true
 - name: ExecuteSSISPackageActivity
   description: Execute SSIS package activity.
@@ -736,6 +884,11 @@ definitions:
     types:
     - uid: ActivityDependency
       isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
 - name: HDInsightSparkActivity
   description: HDInsight Spark activity.
   kind: object
@@ -802,6 +955,11 @@ definitions:
     description: Activity depends on condition.
     types:
     - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
       isArray: true
 - name: HDInsightStreamingActivity
   description: HDInsight streaming activity type.
@@ -889,6 +1047,11 @@ definitions:
     types:
     - uid: ActivityDependency
       isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
 - name: HDInsightMapReduceActivity
   description: HDInsight MapReduce activity type.
   kind: object
@@ -958,6 +1121,11 @@ definitions:
     types:
     - uid: ActivityDependency
       isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
 - name: HDInsightPigActivity
   description: HDInsight Pig activity type.
   kind: object
@@ -1017,6 +1185,11 @@ definitions:
     description: Activity depends on condition.
     types:
     - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
       isArray: true
 - name: HDInsightHiveActivity
   description: HDInsight Hive activity type.
@@ -1078,6 +1251,11 @@ definitions:
     types:
     - uid: ActivityDependency
       isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
 - name: CopyActivity
   description: Copy activity.
   kind: object
@@ -1116,8 +1294,8 @@ definitions:
     description: 'Maximum number of concurrent sessions opened on the source or sink to avoid overloading the data store. Type: integer (or Expression with resultType integer), minimum: 0.'
     types:
     - uid: object
-  - name: typeProperties.cloudDataMovementUnits
-    description: 'Maximum number of cloud data movement units that can be used to perform this data movement. Type: integer (or Expression with resultType integer), minimum: 0.'
+  - name: typeProperties.dataIntegrationUnits
+    description: 'Maximum number of data integration units that can be used to perform this data movement. Type: integer (or Expression with resultType integer), minimum: 0.'
     types:
     - uid: object
   - name: typeProperties.enableSkipIncompatibleRow
@@ -1154,6 +1332,11 @@ definitions:
     types:
     - uid: ActivityDependency
       isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
 - name: FilterActivity
   description: Filter and return results from input array based on the conditions.
   kind: object
@@ -1183,6 +1366,11 @@ definitions:
     description: Activity depends on condition.
     types:
     - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
       isArray: true
 - name: UntilActivity
   description: This activity executes inner activities until the specified boolean expression results to true or timeout is reached, whichever is earlier.
@@ -1222,6 +1410,11 @@ definitions:
     types:
     - uid: ActivityDependency
       isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
 - name: WaitActivity
   description: This activity suspends pipeline execution for the specified interval.
   kind: object
@@ -1247,6 +1440,11 @@ definitions:
     description: Activity depends on condition.
     types:
     - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
       isArray: true
 - name: ForEachActivity
   description: This activity is used for iterating over a collection and execute given activities.
@@ -1290,6 +1488,11 @@ definitions:
     types:
     - uid: ActivityDependency
       isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
 - name: IfConditionActivity
   description: This activity evaluates a boolean expression and executes either the activities under the ifTrueActivities property or the ifFalseActivities property depending on the result of the expression.
   kind: object
@@ -1332,6 +1535,11 @@ definitions:
     types:
     - uid: ActivityDependency
       isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
 - name: ExecutePipelineActivity
   description: Execute pipeline activity.
   kind: object
@@ -1369,6 +1577,11 @@ definitions:
     description: Activity depends on condition.
     types:
     - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
       isArray: true
 - name: LinkedServiceReference
   description: Linked service reference type.
@@ -1424,6 +1637,18 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: UserProperty
+  description: User property.
+  kind: object
+  properties:
+  - name: name
+    description: User proprety name.
+    types:
+    - uid: string
+  - name: value
+    description: 'User proprety value. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
 - name: AzureMLWebServiceFile
   description: Azure ML WebService Input/Output file
   kind: object
@@ -1691,7 +1916,7 @@ definitions:
 examples:
 - name: Pipelines_Create
   request:
-    uri: PUT https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline?api-version=2017-09-01-preview
+    uri: PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline?api-version=2018-06-01
     body: >-
       {
         "properties": {
@@ -1713,7 +1938,8 @@ examples:
                       },
                       "sink": {
                         "type": "BlobSink"
-                      }
+                      },
+                      "dataIntegrationUnits": 32
                     },
                     "inputs": [
                       {
@@ -1756,19 +1982,20 @@ examples:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Wed, 13 Sep 2017 17:55:55 GMT
-    - name: x-ms-request-id
-      value: 6cc3413e-9afa-487e-aeff-45bc6285470b
+      value: Sat, 16 Jun 2018 00:37:41 GMT
     - name: X-Content-Type-Options
       value: nosniff
     - name: x-ms-ratelimit-remaining-subscription-writes
-      value: "1182"
+      value: "1192"
+    - name: x-ms-request-id
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
     - name: x-ms-correlation-request-id
-      value: 69c3f715-8fd9-4448-a8ee-becbde571aec
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
     body: >-
       {
-        "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline",
+        "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline",
         "name": "examplePipeline",
+        "type": "Microsoft.DataFactory/factories/pipelines",
         "properties": {
           "activities": [
             {
@@ -1788,7 +2015,8 @@ examples:
                       },
                       "sink": {
                         "type": "BlobSink"
-                      }
+                      },
+                      "dataIntegrationUnits": 32
                     },
                     "inputs": [
                       {
@@ -1826,11 +2054,11 @@ examples:
             }
           }
         },
-        "etag": "280321a7-0000-0000-0000-59b9712b0000"
+        "etag": "0a0069d4-0000-0000-0000-5b245bd50000"
       }
 - name: Pipelines_Update
   request:
-    uri: PUT https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline?api-version=2017-09-01-preview
+    uri: PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline?api-version=2018-06-01
     body: >-
       {
         "properties": {
@@ -1853,7 +2081,8 @@ examples:
                       },
                       "sink": {
                         "type": "BlobSink"
-                      }
+                      },
+                      "dataIntegrationUnits": 32
                     },
                     "inputs": [
                       {
@@ -1896,19 +2125,20 @@ examples:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Wed, 13 Sep 2017 17:55:55 GMT
-    - name: x-ms-request-id
-      value: 593b4383-377c-4e4d-8141-c6e76d313b8f
+      value: Sat, 16 Jun 2018 00:37:43 GMT
     - name: X-Content-Type-Options
       value: nosniff
     - name: x-ms-ratelimit-remaining-subscription-writes
-      value: "1181"
+      value: "1191"
+    - name: x-ms-request-id
+      value: 91a763b0-d944-493f-83fc-e989c8b6e122
     - name: x-ms-correlation-request-id
-      value: 0bdb8812-2d23-4619-9582-2f16c2434e68
+      value: 91a763b0-d944-493f-83fc-e989c8b6e122
     body: >-
       {
-        "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline",
+        "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline",
         "name": "examplePipeline",
+        "type": "Microsoft.DataFactory/factories/pipelines",
         "properties": {
           "description": "Example description",
           "activities": [
@@ -1929,7 +2159,8 @@ examples:
                       },
                       "sink": {
                         "type": "BlobSink"
-                      }
+                      },
+                      "dataIntegrationUnits": 32
                     },
                     "inputs": [
                       {
@@ -1967,7 +2198,7 @@ examples:
             }
           }
         },
-        "etag": "280324a7-0000-0000-0000-59b9712b0000"
+        "etag": "0a006cd4-0000-0000-0000-5b245bd60000"
       }
 security:
 - type: oauth2

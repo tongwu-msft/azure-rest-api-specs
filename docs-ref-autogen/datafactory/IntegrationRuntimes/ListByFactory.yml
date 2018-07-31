@@ -3,14 +3,14 @@ uid: management.azure.com.datafactory.integrationruntimes.listbyfactory
 name: List By Factory
 service: Data Factory
 groupName: Integration Runtimes
-apiVersion: 2017-09-01-preview
+apiVersion: 2018-06-01
 summary: Lists integration runtimes.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes?api-version=2017-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,7 +46,7 @@ responses:
 - name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
-  - uid: ErrorResponse
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: IntegrationRuntimeListResponse
@@ -62,26 +62,26 @@ definitions:
     description: The link to the next page of results, if any remaining results exist.
     types:
     - uid: string
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Error code.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Error message.
     types:
     - uid: string
-  - name: target
+  - name: error.target
     description: Property name/path in request associated with error.
     types:
     - uid: string
-  - name: details
+  - name: error.details
     description: Array with additional error details.
     types:
-    - uid: ErrorResponse
+    - uid: CloudError
       isArray: true
 - name: IntegrationRuntimeResource
   description: Integration runtime resource type.
@@ -118,11 +118,11 @@ definitions:
   kind: object
   properties:
   - name: typeProperties.linkedInfo
-    description: The base definition of a secret type.
+    description: The base definition of a linked integration runtime.
     types:
-    - uid: LinkedIntegrationRuntimeRbac
-    - uid: LinkedIntegrationRuntimeKey
-    typesTitle: LinkedIntegrationRuntimeProperties
+    - uid: LinkedIntegrationRuntimeRbacAuthorization
+    - uid: LinkedIntegrationRuntimeKeyAuthorization
+    typesTitle: LinkedIntegrationRuntimeType
   - name: type
     description: Type of integration runtime.
     types:
@@ -199,6 +199,9 @@ definitions:
   - name: Offline
     types:
     - uid: string
+  - name: AccessDenied
+    types:
+    - uid: string
 - name: IntegrationRuntimeComputeProperties
   description: The compute resource properties for managed integration runtime.
   kind: object
@@ -243,29 +246,29 @@ definitions:
     description: The edition for the SSIS Integration Runtime
     types:
     - uid: IntegrationRuntimeEdition
-- name: LinkedIntegrationRuntimeRbac
-  description: The base definition of a secret type.
+- name: LinkedIntegrationRuntimeRbacAuthorization
+  description: The role based access control (RBAC) authorization type integration runtime.
   kind: object
   properties:
   - name: resourceId
-    description: The resource ID of the integration runtime to be shared.
+    description: The resource identifier of the integration runtime to be shared.
     types:
     - uid: string
   - name: authorizationType
-    description: Type of the secret.
+    description: The authorization type for integration runtime sharing.
     types:
     - uid: RBAC
     typesTitle: string
-- name: LinkedIntegrationRuntimeKey
-  description: The base definition of a secret type.
+- name: LinkedIntegrationRuntimeKeyAuthorization
+  description: The key authorization type integration runtime.
   kind: object
   properties:
   - name: key
-    description: Type of the secret.
+    description: The key used for authorization.
     types:
     - uid: SecureString
   - name: authorizationType
-    description: Type of the secret.
+    description: The authorization type for integration runtime sharing.
     types:
     - uid: Key
     typesTitle: string
@@ -365,47 +368,32 @@ definitions:
 examples:
 - name: IntegrationRuntimes_ListByFactory
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes?api-version=2017-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes?api-version=2018-06-01
   responses:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Tue, 28 Nov 2017 07:05:28 GMT
-    - name: x-ms-request-id
-      value: a31dcf14-5eca-42c3-a0ac-5448c2f8b095
+      value: Wed, 13 Jun 2018 21:33:05 GMT
     - name: X-Content-Type-Options
       value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-reads
+      value: "14909"
+    - name: x-ms-request-id
+      value: f632df92-1140-4e19-9e19-0b1c8cbe393b
+    - name: x-ms-correlation-request-id
+      value: f632df92-1140-4e19-9e19-0b1c8cbe393b
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationruntimes/exampleIntegrationRuntime",
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationruntimes/exampleIntegrationRuntime",
             "name": "exampleIntegrationRuntime",
+            "type": "Microsoft.DataFactory/factories/integrationruntimes",
             "properties": {
-              "type": "Managed",
-              "typeProperties": {
-                "computeProperties": {
-                  "location": "West US",
-                  "nodeSize": "Standard_D1_v2",
-                  "numberOfNodes": 1,
-                  "maxParallelExecutionsPerNode": 1
-                },
-                "ssisProperties": {
-                  "catalogInfo": {
-                    "catalogServerEndpoint": "yandongtestsvr.database.windows.net",
-                    "catalogAdminUserName": "yanzhang",
-                    "catalogAdminPassword": {
-                      "type": "SecureString",
-                      "value": "**********"
-                    },
-                    "catalogPricingTier": "S1"
-                  }
-                }
-              },
-              "description": "A managed reserved integration runtime",
-              "state": "Initial"
+              "type": "SelfHosted",
+              "description": "A selfhosted integration runtime"
             },
-            "etag": "0100333d-0000-0000-0000-5a1d0ab80000"
+            "etag": "0400f1a1-0000-0000-0000-5b2188640000"
           }
         ]
       }

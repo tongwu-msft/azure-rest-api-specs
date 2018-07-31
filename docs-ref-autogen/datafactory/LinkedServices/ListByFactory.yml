@@ -3,14 +3,14 @@ uid: management.azure.com.datafactory.linkedservices.listbyfactory
 name: List By Factory
 service: Data Factory
 groupName: Linked Services
-apiVersion: 2017-09-01-preview
+apiVersion: 2018-06-01
 summary: Lists linked services.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/linkedservices?api-version=2017-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/linkedservices?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,7 +46,7 @@ responses:
 - name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
-  - uid: ErrorResponse
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: LinkedServiceListResponse
@@ -62,26 +62,26 @@ definitions:
     description: The link to the next page of results, if any remaining results exist.
     types:
     - uid: string
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Error code.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Error message.
     types:
     - uid: string
-  - name: target
+  - name: error.target
     description: Property name/path in request associated with error.
     types:
     - uid: string
-  - name: details
+  - name: error.details
     description: Array with additional error details.
     types:
-    - uid: ErrorResponse
+    - uid: CloudError
       isArray: true
 - name: LinkedServiceResource
   description: Linked service resource type.
@@ -273,6 +273,14 @@ definitions:
     - uid: object
   - name: typeProperties.newClusterSparkConf
     description: a set of optional, user-specified Spark configuration key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.newClusterCustomTags
+    description: Additional tags for cluster resources.
     types:
     - uid: object
       isDictionary: true
@@ -4685,37 +4693,39 @@ definitions:
 examples:
 - name: LinkedServices_ListByFactory
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/linkedservices?api-version=2017-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/linkedservices?api-version=2018-06-01
   responses:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Wed, 13 Sep 2017 17:55:54 GMT
-    - name: x-ms-request-id
-      value: b78883ab-f299-495e-ad30-804003deb775
+      value: Sat, 16 Jun 2018 00:37:36 GMT
     - name: X-Content-Type-Options
       value: nosniff
     - name: x-ms-ratelimit-remaining-subscription-reads
-      value: "14913"
+      value: "14994"
+    - name: x-ms-request-id
+      value: 558d0fd8-dc1f-44b6-9ca9-59fcca8af9a5
     - name: x-ms-correlation-request-id
-      value: 4864247b-bf7c-4bc6-8d34-4a2bcebdb473
+      value: 558d0fd8-dc1f-44b6-9ca9-59fcca8af9a5
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/linkedservices/exampleLinkedService",
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/linkedservices/exampleLinkedService",
             "name": "exampleLinkedService",
+            "type": "Microsoft.DataFactory/factories/linkedservices",
             "properties": {
               "type": "AzureStorage",
               "typeProperties": {
                 "connectionString": {
-                  "value": "**********",
-                  "type": "SecureString"
-                }
+                  "type": "SecureString",
+                  "value": "**********"
+                },
+                "encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRGLURPR0ZPT0QtWUFOWkhBTkctV1VfMGI2M2EyMmYtMGEzNC00NDg2LWIzMDktNzM0NTlkODUyY2Q1Ig0KfQ=="
               },
               "description": "Example description"
             },
-            "etag": "28031da7-0000-0000-0000-59b971290000"
+            "etag": "0a0064d4-0000-0000-0000-5b245bd00000"
           }
         ]
       }

@@ -3,14 +3,14 @@ uid: management.azure.com.datafactory.triggers.get
 name: Get
 service: Data Factory
 groupName: Triggers
-apiVersion: 2017-09-01-preview
+apiVersion: 2018-06-01
 summary: Gets a trigger.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}?api-version=2017-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,10 +51,17 @@ responses:
   types:
   - uid: TriggerResource
 - name: Other Status Codes
+  description: Not modified.
+- name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
-  - uid: ErrorResponse
-requestHeader: []
+  - uid: CloudError
+requestHeader:
+- name: If-None-Match
+  in: header
+  description: ETag of the trigger entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned.
+  types:
+  - uid: string
 definitions:
 - name: TriggerResource
   description: Trigger resource type.
@@ -85,26 +92,26 @@ definitions:
     description: Etag identifies change in the resource.
     types:
     - uid: string
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Error code.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Error message.
     types:
     - uid: string
-  - name: target
+  - name: error.target
     description: Property name/path in request associated with error.
     types:
     - uid: string
-  - name: details
+  - name: error.details
     description: Array with additional error details.
     types:
-    - uid: ErrorResponse
+    - uid: CloudError
       isArray: true
 - name: MultiplePipelineTrigger
   description: Base class for all triggers that support one to many model for trigger to pipeline.
@@ -178,36 +185,36 @@ definitions:
 examples:
 - name: Triggers_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger?api-version=2017-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger?api-version=2018-06-01
   responses:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Wed, 13 Sep 2017 17:58:22 GMT
-    - name: x-ms-request-id
-      value: bef4032e-cc3c-4ae7-b153-d1fdead84665
+      value: Sat, 16 Jun 2018 00:40:17 GMT
     - name: X-Content-Type-Options
       value: nosniff
     - name: x-ms-ratelimit-remaining-subscription-reads
-      value: "14909"
+      value: "14987"
+    - name: x-ms-request-id
+      value: 060364d7-7980-4def-8bc1-800552a9b53d
     - name: x-ms-correlation-request-id
-      value: ca0d1b97-970b-494d-b7bb-b87692327db0
+      value: 060364d7-7980-4def-8bc1-800552a9b53d
     body: >-
       {
-        "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger",
+        "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger",
         "name": "exampleTrigger",
+        "type": "Microsoft.DataFactory/factories/triggers",
         "properties": {
           "type": "ScheduleTrigger",
           "typeProperties": {
             "recurrence": {
               "frequency": "Minute",
               "interval": 4,
-              "startTime": "2017-09-13T17:57:21.7240518Z",
-              "endTime": "2017-09-13T18:13:21.7240518Z",
+              "startTime": "2018-06-16T00:39:14.905167Z",
+              "endTime": "2018-06-16T00:55:14.905167Z",
               "timeZone": "UTC"
             }
           },
-          "description": "Example description",
           "pipelines": [
             {
               "pipelineReference": {
@@ -221,9 +228,10 @@ examples:
               }
             }
           ],
+          "description": "Example description",
           "runtimeState": "Stopped"
         },
-        "etag": "28032ba7-0000-0000-0000-59b971bd0000"
+        "etag": "0a008dd4-0000-0000-0000-5b245c6f0000"
       }
 security:
 - type: oauth2

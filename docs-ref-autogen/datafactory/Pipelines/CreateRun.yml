@@ -3,14 +3,16 @@ uid: management.azure.com.datafactory.pipelines.createrun
 name: Create Run
 service: Data Factory
 groupName: Pipelines
-apiVersion: 2017-09-01-preview
+apiVersion: 2018-06-01
 summary: Creates a run of a pipeline.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}/createRun?api-version=2017-09-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}/createRun?api-version=2018-06-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}/createRun?api-version=2018-06-01&referencePipelineRunId={referencePipelineRunId}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,15 +47,20 @@ uriParameters:
   description: The API version.
   types:
   - uid: string
+- name: referencePipelineRunId
+  in: query
+  description: The pipeline run identifier. If run ID is specified the parameters of the the specified run will be used to create a new run.
+  types:
+  - uid: string
 responses:
-- name: 202 Accepted
-  description: Accepted.
+- name: 200 OK
+  description: OK.
   types:
   - uid: CreateRunResponse
 - name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
-  - uid: ErrorResponse
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -72,31 +79,31 @@ definitions:
     description: Identifier of a run.
     types:
     - uid: string
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Error code.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Error message.
     types:
     - uid: string
-  - name: target
+  - name: error.target
     description: Property name/path in request associated with error.
     types:
     - uid: string
-  - name: details
+  - name: error.details
     description: Array with additional error details.
     types:
-    - uid: ErrorResponse
+    - uid: CloudError
       isArray: true
 examples:
 - name: Pipelines_CreateRun
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline/createRun?api-version=2017-09-01-preview
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/pipelines/examplePipeline/createRun?api-version=2018-06-01&referencePipelineRunId=
     body: >-
       {
         "OutputBlobNameList": [
@@ -104,21 +111,21 @@ examples:
         ]
       }
   responses:
-  - statusCode: "202"
+  - statusCode: "200"
     headers:
     - name: Date
-      value: Wed, 13 Sep 2017 17:55:58 GMT
-    - name: x-ms-request-id
-      value: a420e4fd-ebe9-4758-8db7-852b4d06245e
+      value: Sat, 16 Jun 2018 00:37:48 GMT
     - name: X-Content-Type-Options
       value: nosniff
     - name: x-ms-ratelimit-remaining-subscription-writes
-      value: "1180"
+      value: "1190"
+    - name: x-ms-request-id
+      value: 5c2b442b-d360-43ec-9268-f923f88f31fd
     - name: x-ms-correlation-request-id
-      value: 15d0c07a-603f-42c7-98ba-872b0eff2326
+      value: 5c2b442b-d360-43ec-9268-f923f88f31fd
     body: >-
       {
-        "runId": "a420e4fd-ebe9-4758-8db7-852b4d06245e"
+        "runId": "2f7fdb90-5df1-4b8e-ac2f-064cfa58202b"
       }
 security:
 - type: oauth2

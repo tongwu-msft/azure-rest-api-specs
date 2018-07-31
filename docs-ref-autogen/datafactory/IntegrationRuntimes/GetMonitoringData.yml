@@ -3,14 +3,14 @@ uid: management.azure.com.datafactory.integrationruntimes.getmonitoringdata
 name: Get Monitoring Data
 service: Data Factory
 groupName: Integration Runtimes
-apiVersion: 2017-09-01-preview
+apiVersion: 2018-06-01
 summary: Get the integration runtime monitoring data, which includes the monitor data for all the nodes under this integration runtime.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/monitoringData?api-version=2017-09-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/monitoringData?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -53,7 +53,7 @@ responses:
 - name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
-  - uid: ErrorResponse
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: IntegrationRuntimeMonitoringData
@@ -69,26 +69,26 @@ definitions:
     types:
     - uid: IntegrationRuntimeNodeMonitoringData
       isArray: true
-- name: ErrorResponse
-  description: The object that defines the structure of an Azure Data Factory response.
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
   kind: object
   properties:
-  - name: code
+  - name: error.code
     description: Error code.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     description: Error message.
     types:
     - uid: string
-  - name: target
+  - name: error.target
     description: Property name/path in request associated with error.
     types:
     - uid: string
-  - name: details
+  - name: error.details
     description: Array with additional error details.
     types:
-    - uid: ErrorResponse
+    - uid: CloudError
       isArray: true
 - name: IntegrationRuntimeNodeMonitoringData
   description: Monitoring data for integration runtime node.
@@ -108,7 +108,7 @@ definitions:
     isReadyOnly: true
     description: CPU percentage on the integration runtime node.
     types:
-    - uid: number
+    - uid: integer
   - name: concurrentJobsLimit
     isReadyOnly: true
     description: Maximum concurrent jobs on the integration runtime node.
@@ -137,32 +137,32 @@ definitions:
 examples:
 - name: IntegrationRuntimes_GetMonitoringData
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/monitoringData?api-version=2017-09-01-preview
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/monitoringData?api-version=2018-06-01
   responses:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Mon, 28 Aug 2017 04:19:53 GMT
-    - name: x-ms-request-id
-      value: 0116dbdb-c45c-43da-b92d-a6608aece008
+      value: Thu, 14 Jun 2018 15:27:44 GMT
     - name: X-Content-Type-Options
       value: nosniff
-    - name: x-ms-ratelimit-remaining-subscription-writes
-      value: "1198"
+    - name: x-ms-ratelimit-remaining-subscription-reads
+      value: "14999"
+    - name: x-ms-request-id
+      value: 39277952-edbe-4336-ae94-f6f42b50b5f7
     - name: x-ms-correlation-request-id
-      value: 33dfa003-3467-4b84-ae9b-272902990453
+      value: 39277952-edbe-4336-ae94-f6f42b50b5f7
     body: >-
       {
         "name": "exampleIntegrationRuntime",
         "nodes": [
           {
-            "nodeName": "YANZHANG-DT",
-            "availableMemory": 17337,
-            "cpuUtilization": 9,
-            "limitConcurrentJobs": 28,
-            "runningConcurrentJobs": 0,
-            "sendBytes": 1.8606163263320923,
-            "receiveBytes": 8.09395694732666
+            "nodeName": "Node_1",
+            "availableMemoryInMB": 16740,
+            "cpuUtilization": 15,
+            "concurrentJobsLimit": 28,
+            "concurrentJobsRunning": 0,
+            "sentBytes": 2.6474916934967041,
+            "receivedBytes": 6.7314233779907227
           }
         ]
       }
