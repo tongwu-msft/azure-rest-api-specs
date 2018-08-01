@@ -1,7 +1,7 @@
 ---
 title: "Azure API Management REST API Authentication"
 ms.custom: na
-ms.date: 2016-05-09
+ms.date: 2018-07-30
 ms.prod: azure
 ms.reviewer: na
 ms.service: api-management
@@ -10,7 +10,7 @@ ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: 5b13010a-d202-4af5-aabf-7ebc26800b3d
 caps.latest.revision: 11
-author: steved0x
+author: mikebudzynski
 manager: douge
 translation.priority.mt: 
   - de-de
@@ -25,52 +25,53 @@ translation.priority.mt:
   - zh-tw
 ---
 # Azure API Management REST API Authentication
-This topic describes how to create the access token required to make calls into the API Management REST API.  
+
+This guide describes how to create the access token required to make calls into the Azure API Management REST API. 
   
-> [!NOTE]
->  For more information about authorization and other prerequisites for accessing the API Management REST API, see the [Prerequisites](../ApiManagementREST/API-Management-REST.md#Prerequisites) section of the [API Management REST](../ApiManagementREST/API-Management-REST.md).  
->   
->  For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
+For more information about authorization and other prerequisites for accessing the API Management REST API, see the [Prerequisites](../ApiManagementREST/API-Management-REST.md#Prerequisites) section of the [API Management REST](../ApiManagementREST/API-Management-REST.md).  
+
+For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
+
+> [!IMPORTANT]
+> SAS token access can be applied only for direct access API calls, for example: `https://apim-instance.management.azure-api.net/apis?api-version=2018-06-01-preview`. You cannot use it for API calls to Azure Resource Manager.
   
--   [To manually create an access token](../ApiManagementREST/Azure-API-Management-REST-API-Authentication.md#ManuallyCreateToken)  
+##  <a name="ManuallyCreateToken"></a> Manually create a SAS token  
   
--   [To programmatically create an access token](../ApiManagementREST/Azure-API-Management-REST-API-Authentication.md#ProgrammaticallyCreateToken)  
-  
-##  <a name="ManuallyCreateToken"></a> To manually create an access token  
-  
-1.  Sign into the [Azure Classic Portal](https://manage.windowsazure.com/), navigate to your API Management service instance, and click **Manage** to open the publisher portal.  
-  
-     ![API Management Console](../ApiManagementREST/media/APIManagementConsole.jpg "APIManagementConsole")  
-  
-2.  Click **Security** in the **API Management** section of the left navigation menu, select the **API Management REST API** tab, and ensure that the **Enable API Management REST API** checkbox is checked.  
+1.  Navigate to your Azure API Management instance in the Azure portal.  
+2.  Click **Management API** from the **API Management** section of the menu on the left. 
+
+    ![API Management menu](../ApiManagementREST/media/apim-management-api-enable-menu.png)
+
+3. Make sure the **Enable API Management REST API** checkbox is selected.  
   
     > [!IMPORTANT]
     >  If the **Enable API Management REST API** checkbox is not checked, calls made to the REST API for that service instance will fail.  
   
-     ![API Management System Settings](../ApiManagementREST/media/APIManagementSystemSettings.jpg "APIManagementSystemSettings")  
+     ![API Management enabled](../ApiManagementREST/media/apim-management-api-enable-checkbox.png)
   
-3.  Specify the expiration date and time for the access token in the **Expiry** text box. This value must be in the format `MM/DD/YYYY H:MM PM|AM`.  
+4.  Specify the expiration date and time for the access token in the **Expiry** text box. This value must be in the format `MM/DD/YYYY H:MM PM|AM`.  
   
-     ![API Management Access Token](../ApiManagementREST/media/APIManagementAccessToken.jpg "APIManagementAccessToken")  
+     ![API Management Access Token](../ApiManagementREST/media/APIManagementAccessToken.png)  
   
-4.  Select either the primary key or secondary key in the **Secret Key** drop-down list. The keys provide equivalent access; two keys are provided to enable flexible key management strategies.  
+5.  Select either the primary key or secondary key in the **Secret key** drop-down list. The keys provide equivalent access; two keys are provided to enable flexible key management strategies.  
   
-5.  Click **Generate Token** to create the access token.  
+6.  Click **Generate** to create the access token.  
   
-6.  Copy the full access token and provide it in the `Authorization` header of every request to the API Management REST API, as shown in the following example.  
+7.  Copy the full access token and provide it in the `Authorization` header of every request to the API Management REST API, as shown in the following example.  
   
     ```  
-    Authorization: SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T22:03:00.0000000Z&sn=ItH6scUyCazNKHULKA0Yv6T+Skk4bdVmLqcPPPdWoxl2n1+rVbhKlplFrqjkoUFRr0og4wjeDz4yfThC82OjfQ==  
+    Authorization: SharedAccessSignature integration&201808020500&aAsTE43MAbKMkZ6q83Z732IbzesfsaPEU404oUjQ4ZLE9iIXLz+Jj9rEctxKYw43SioCfdLaDq7dT8RQuBKc0w==
     ```  
   
-##  <a name="ProgrammaticallyCreateToken"></a> To programmatically create an access token  
+##  <a name="ProgrammaticallyCreateToken"></a> Programmatically create a SAS token  
   
-1.  Construct a string-to-sign in the following format, where `identifier` is the value from the **Identifier** text box in the **Credentials** section of the **Service Management API** tab of **System Settings**, and `expiry` is the value of the **Expiry** text box in the **Access Token** section.  
+1.  Construct a string-to-sign in the following format: 
   
      `{identifier} + "\n" + {expiry}`  
-  
-    > [!NOTE]
-    >  To access the settings described in this step, sign into the API Management publisher portal as described in the previous [To manually create an access token](#ManuallyCreateToken) section.  
+
+    where:  
+    `identifier` - the value of **Identifier** field from the Management API tab of your Azure API Management instance (see [previous section](#ManuallyCreateToken) for details).  
+    `expiry` - desired expiry date of the SAS token.
   
 2.  Generate a signature by applying an HMAC-SHA512 hash function to the string-to-sign using either the primary or secondary key.  
   
@@ -87,7 +88,7 @@ This topic describes how to create the access token required to make calls into 
 5.  Use these values to create an `Authorization` header in every request to the API Management REST API, as shown in the following example.  
   
     ```  
-    Authorizaton: SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T22:03:00.0000000Z&sn=ItH6scUyCazNKHULKA0Yv6T+Skk4bdVmLqcPPPdWoxl2n1+rVbhKlplFrqjkoUFRr0og4wjeDz4yfThC82OjfQ==  
+    Authorization: SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T22:03:00.0000000Z&sn=ItH6scUyCazNKHULKA0Yv6T+Skk4bdVmLqcPPPdWoxl2n1+rVbhKlplFrqjkoUFRr0og4wjeDz4yfThC82OjfQ==
     ```  
   
  The following example demonstrates the preceding steps for generating the access token.  
@@ -117,6 +118,12 @@ public class Program 
 }  
   
 ```  
+
+> [!NOTE]
+> Both SAS token formats are correct and accepted:  
+> `SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T22:03:00.0000000Z&sn=ItH6scUyCazNKHULKA0Yv6T+Skk4bdVmLqcPPPdWoxl2n1+rVbhKlplFrqjkoUFRr0og4wjeDz4yfThC82OjfQ==`  
+> and  
+> `SharedAccessSignature integration&201808020500&aAsTE43MAbKMkZ6q83Z732IbzesfsaPEU404oUjQ4ZLE9iIXLz+Jj9rEctxKYw43SioCfdLaDq7dT8RQuBKc0w==`  
   
  For complete sample code, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo).  
   
