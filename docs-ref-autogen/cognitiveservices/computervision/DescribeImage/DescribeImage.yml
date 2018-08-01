@@ -1,30 +1,30 @@
 ### YamlMime:RESTOperation
-uid: vision.v1.0.cognitiveservices.describeimage.describeimage
+uid: westcentralus.api.cognitive.microsoft.com.vision.v2.0.cognitiveservices.describeimage.describeimage
 name: Describe Image
 service: Cognitive Services
 groupName: Describe Image
-apiVersion: "1.0"
+apiVersion: "2.0"
 summary: This operation generates a description of an image in human readable language with complete sentences.  The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image.  Descriptions are ordered by their confidence score. All descriptions are in English. Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/describe
-- content: POST {AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/describe?maxCandidates={maxCandidates}&language={language}
+- content: POST {Endpoint}/vision/v2.0/describe
+- content: POST {Endpoint}/vision/v2.0/describe?maxCandidates={maxCandidates}&language={language}
   isOptional: true
 uriParameters:
-- name: AzureRegion
+- name: Endpoint
   in: path
   isRequired: true
-  description: Supported Azure regions for Cognitive Services endpoints
+  description: Supported Cognitive Services endpoints
   types:
   - uid: string
 - name: maxCandidates
   in: query
   description: Maximum number of candidate descriptions to be returned.  The default is 1.
   types:
-  - uid: string
+  - uid: integer
 - name: language
   in: query
   description: The desired language for output generation. If this parameter is not specified, the default value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese.
@@ -54,6 +54,14 @@ definitions:
   description: A collection of content tags, along with a list of captions sorted by confidence level, and image metadata.
   kind: object
   properties:
+  - name: requestId
+    description: Id of the REST API request.
+    types:
+    - uid: string
+  - name: metadata
+    description: Image metadata
+    types:
+    - uid: ImageMetadata
   - name: description.tags
     description: A collection of image tags.
     types:
@@ -64,14 +72,6 @@ definitions:
     types:
     - uid: ImageCaption
       isArray: true
-  - name: description.requestId
-    description: Id of the REST API request.
-    types:
-    - uid: string
-  - name: description.metadata
-    description: Image metadata
-    types:
-    - uid: ImageMetadata
 - name: ComputerVisionError
   kind: object
   properties:
@@ -94,18 +94,6 @@ definitions:
     description: Publicly reachable URL of an image
     types:
     - uid: string
-- name: ImageCaption
-  description: An image caption, i.e. a brief description of what the image depicts.
-  kind: object
-  properties:
-  - name: text
-    description: The text of the caption
-    types:
-    - uid: string
-  - name: confidence
-    description: The level of confidence the service has in the caption
-    types:
-    - uid: number
 - name: ImageMetadata
   description: Image metadata
   kind: object
@@ -122,6 +110,18 @@ definitions:
     description: Image format
     types:
     - uid: string
+- name: ImageCaption
+  description: An image caption, i.e. a brief description of what the image depicts.
+  kind: object
+  properties:
+  - name: text
+    description: The text of the caption
+    types:
+    - uid: string
+  - name: confidence
+    description: The level of confidence the service has in the caption
+    types:
+    - uid: number
 - name: ComputerVisionErrorCodes
   description: The error code.
   kind: enum
@@ -168,7 +168,8 @@ definitions:
 examples:
 - name: Successful Describe request
   request:
-    uri: POST {AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/describe?maxCandidates=1
+    uri: POST https://westus.api.cognitive.microsoft.com/vision/v2.0/describe?maxCandidates=1
+    body: "\"{url}\""
   responses:
   - statusCode: "200"
     body: >-

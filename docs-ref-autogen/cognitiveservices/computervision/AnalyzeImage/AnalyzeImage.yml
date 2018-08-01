@@ -1,23 +1,23 @@
 ### YamlMime:RESTOperation
-uid: vision.v1.0.cognitiveservices.analyzeimage.analyzeimage
+uid: westcentralus.api.cognitive.microsoft.com.vision.v2.0.cognitiveservices.analyzeimage.analyzeimage
 name: Analyze Image
 service: Cognitive Services
 groupName: Analyze Image
-apiVersion: "1.0"
+apiVersion: "2.0"
 summary: This operation extracts a rich set of visual features based on the image content. Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.  Within your request, there is an optional parameter to allow you to choose which features to return.  By default, image categories are returned in the response.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/analyze
-- content: POST {AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures={visualFeatures}&details={details}&language={language}
+- content: POST {Endpoint}/vision/v2.0/analyze
+- content: POST {Endpoint}/vision/v2.0/analyze?visualFeatures={visualFeatures}&details={details}&language={language}
   isOptional: true
 uriParameters:
-- name: AzureRegion
+- name: Endpoint
   in: path
   isRequired: true
-  description: Supported Azure regions for Cognitive Services endpoints
+  description: Supported Cognitive Services endpoints
   types:
   - uid: string
 - name: visualFeatures
@@ -188,11 +188,11 @@ definitions:
   - name: clipArtType
     description: Confidence level that the image is a clip art.
     types:
-    - uid: number
+    - uid: integer
   - name: lineDrawingType
     description: Confidence level that the image is a line drawing.
     types:
-    - uid: number
+    - uid: integer
 - name: ImageTag
   description: An image caption, i.e. a brief description of what the image depicts.
   kind: object
@@ -205,6 +205,10 @@ definitions:
     description: The level of confidence the service has in the caption
     types:
     - uid: number
+  - name: hint
+    description: Optional categorization for the tag
+    types:
+    - uid: string
 - name: ImageDescriptionDetails
   description: A collection of content tags, along with a list of captions sorted by confidence level, and image metadata.
   kind: object
@@ -219,14 +223,6 @@ definitions:
     types:
     - uid: ImageCaption
       isArray: true
-  - name: requestId
-    description: Id of the REST API request.
-    types:
-    - uid: string
-  - name: metadata
-    description: Image metadata
-    types:
-    - uid: ImageMetadata
 - name: FaceDescription
   description: An object describing a face identified in the image.
   kind: object
@@ -311,6 +307,11 @@ definitions:
     types:
     - uid: CelebritiesModel
       isArray: true
+  - name: landmarks
+    description: An array of landmarks if any identified.
+    types:
+    - uid: LandmarksModel
+      isArray: true
 - name: ImageCaption
   description: An image caption, i.e. a brief description of what the image depicts.
   kind: object
@@ -369,10 +370,23 @@ definitions:
     description: An object describing face rectangle.
     types:
     - uid: FaceRectangle
+- name: LandmarksModel
+  description: A landmark recognized in the image
+  kind: object
+  properties:
+  - name: name
+    description: Name of the landmark.
+    types:
+    - uid: string
+  - name: confidence
+    description: Confidence level for the landmark recognition.
+    types:
+    - uid: number
 examples:
 - name: Successful Analyze with Url request
   request:
-    uri: POST {AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=Categories,Adult,Tags,Description,Faces,Color,ImageType&details=Celebrities&language=en
+    uri: POST https://westus.api.cognitive.microsoft.com/vision/v2.0/analyze?visualFeatures=Categories,Adult,Tags,Description,Faces,Color,ImageType&details=Celebrities,Landmarks&language=en
+    body: "\"{url}\""
   responses:
   - statusCode: "200"
     body: >-
@@ -397,11 +411,17 @@ examples:
                   },
                   "confidence": 0.999028444
                 }
-              ],
+              ]
+            }
+          },
+          {
+            "name": "building_",
+            "score": 0.984375,
+            "detail": {
               "landmarks": [
                 {
                   "name": "Forbidden City",
-                  "confidence": 0.9978346
+                  "confidence": 0.98290169239044189
                 }
               ]
             }
@@ -429,6 +449,11 @@ examples:
           {
             "name": "window",
             "confidence": 0.89513939619064331
+          },
+          {
+            "name": "pangolin",
+            "confidence": 0.72500597837916614,
+            "hint": "mammal"
           }
         ],
         "description": {
