@@ -43,7 +43,7 @@ The `Create Trigger` operation creates a new trigger in a collection.
 |--------------|--------------|----------|-----------------|  
 |**id**|Required|String|It is the unique name used to identify the trigger. The **id** must not exceed 255 characters.|  
 |**body**|Required|String|It is the body of the trigger.|  
-|**triggerOperation**|Required|String|It is the type of operation that invokes the trigger. The acceptable values are: **All**, **Insert**, **Replace**, and **Delete.**|  
+|**triggerOperation**|Required|String|It is the type of operation that invokes the trigger. The acceptable values are: **All**, **Create**, **Replace**, and **Delete.**|  
 |**triggerType**|Required|String|This value specifies when the trigger is fired. The acceptable values are: **Pre** and **Post**. **Pre** triggers fire before an operation while **Post** triggers after an operation.|  
   
 ```  
