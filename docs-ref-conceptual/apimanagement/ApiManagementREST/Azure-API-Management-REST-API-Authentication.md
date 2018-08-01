@@ -38,7 +38,7 @@ For more information about working with the REST API, see the [API Management .N
 ##  <a name="ManuallyCreateToken"></a> Manually create a SAS token  
   
 1.  Navigate to your Azure API Management instance in the Azure portal.  
-2.  Click **Management API** from the **API Management** section of the menu on the left. in the **API Management** section of the left navigation menu, select 
+2.  Click **Management API** from the **API Management** section of the menu on the left. 
 
     ![API Management menu](../ApiManagementREST/media/apim-management-api-enable-menu.png)
 
