@@ -1,0 +1,114 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.largepersongroup.gettrainingstatus
+name: Get Training Status
+service: Cognitive Services
+groupName: Large Person Group
+apiVersion: "1.0"
+summary: Retrieve the training status of a large person group (completed or ongoing).
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/face/v1.0/largepersongroups/{largePersonGroupId}/training
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: largePersonGroupId
+  in: path
+  isRequired: true
+  description: Id referencing a particular large person group.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9-_]+$
+responses:
+- name: 200 OK
+  description: A successful call returns the large person group's training status.
+  types:
+  - uid: TrainingStatus
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader: []
+definitions:
+- name: TrainingStatus
+  description: Training status object.
+  kind: object
+  properties:
+  - name: status
+    description: 'Training status: notstarted, running, succeeded, failed. If the training process is waiting to perform, the status is notstarted. If the training is ongoing, the status is running. Status succeed means this person group or large person group is ready for Face - Identify, or this large face list is ready for Face - Find Similar. Status failed is often caused by no person or no persisted face exist in the person group or large person group, or no persisted face exist in the large face list.'
+    types:
+    - uid: TrainingStatusType
+  - name: createdDateTime
+    description: A combined UTC date and time string that describes the created time of the person group, large person group or large face list.
+    types:
+    - uid: string
+  - name: lastActionDateTime
+    description: A combined UTC date and time string that describes the last modify time of the person group, large person group or large face list, could be null value when the group is not successfully trained.
+    types:
+    - uid: string
+  - name: lastSuccessfulTrainingDateTime
+    description: A combined UTC date and time string that describes the last successful training time of the person group, large person group or large face list.
+    types:
+    - uid: string
+  - name: message
+    description: Show failure message when training failed (omitted when training succeed).
+    types:
+    - uid: string
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: TrainingStatusType
+  description: 'Training status: notstarted, running, succeeded, failed. If the training process is waiting to perform, the status is notstarted. If the training is ongoing, the status is running. Status succeed means this person group or large person group is ready for Face - Identify, or this large face list is ready for Face - Find Similar. Status failed is often caused by no person or no persisted face exist in the person group or large person group, or no persisted face exist in the large face list.'
+  kind: enum
+  properties:
+  - name: nonstarted
+    types:
+    - uid: string
+  - name: running
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Get large person group's training status example
+  request:
+    uri: GET {Endpoint}/face/v1.0/largepersongroups/abc/training
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "succeeded",
+        "createdDateTime": "2017-12-21T12:57:27Z",
+        "lastActionDateTime": "2017-12-21T12:57:30Z",
+        "lastSuccessfulTrainingDateTime": "2017-12-21T12:57:30Z",
+        "message": null
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

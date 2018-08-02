@@ -1,0 +1,123 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.largepersongroupperson.create
+name: Create
+service: Cognitive Services
+groupName: Large Person Group Person
+apiVersion: "1.0"
+summary: Create a new person in a specified large person group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/face/v1.0/largepersongroups/{largePersonGroupId}/persons
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: largePersonGroupId
+  in: path
+  isRequired: true
+  description: Id referencing a particular large person group.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9-_]+$
+responses:
+- name: 200 OK
+  description: A successful call returns a new personId created.
+  types:
+  - uid: Person
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    description: User defined name, maximum length is 128.
+    types:
+    - uid: string
+  - name: userData
+    in: body
+    description: User specified data. Length should not exceed 16KB.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: Person
+  description: Person object.
+  kind: object
+  properties:
+  - name: personId
+    description: PersonId of the target face list.
+    types:
+    - uid: string
+  - name: persistedFaceIds
+    description: PersistedFaceIds of registered faces in the person. These persistedFaceIds are returned from Person - Add a Person Face, and will not expire.
+    types:
+    - uid: string
+      isArray: true
+  - name: name
+    description: User defined name, maximum length is 128.
+    types:
+    - uid: string
+  - name: userData
+    description: User specified data. Length should not exceed 16KB.
+    types:
+    - uid: string
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: NameAndUserDataContract
+  description: A combination of user defined name and user specified data for the person, largePersonGroup/personGroup, and largeFaceList/faceList.
+  kind: object
+  properties:
+  - name: name
+    description: User defined name, maximum length is 128.
+    types:
+    - uid: string
+  - name: userData
+    description: User specified data. Length should not exceed 16KB.
+    types:
+    - uid: string
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Create new person for large person group example
+  request:
+    uri: POST {Endpoint}/face/v1.0/largepersongroups/abc/persons
+    body: >-
+      {
+        "name": "mike",
+        "userData": "{additional data associated with mike}"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "personId": "4caa25ee-3bc6-4e88-adf8-12455ce7aab0"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

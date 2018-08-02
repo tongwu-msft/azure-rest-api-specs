@@ -4,7 +4,7 @@ name: Identify
 service: Cognitive Services
 groupName: Face
 apiVersion: "1.0"
-summary: Identify unknown faces from a person group.
+summary: 1-to-many identification to find the closest matches of the specific query person face from a person group or large person group.
 consumes:
 - application/json
 produces:
@@ -31,12 +31,6 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: personGroupId
-    in: body
-    isRequired: true
-    description: PersonGroupId of the target person group, created by PersonGroups.Create
-    types:
-    - uid: string
   - name: faceIds
     in: body
     isRequired: true
@@ -44,6 +38,16 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: personGroupId
+    in: body
+    description: PersonGroupId of the target person group, created by PersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
+    types:
+    - uid: string
+  - name: largePersonGroupId
+    in: body
+    description: LargePersonGroupId of the target large person group, created by LargePersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
+    types:
+    - uid: string
   - name: maxNumOfCandidatesReturned
     in: body
     description: The range of maxNumOfCandidatesReturned is between 1 and 5 (default is 1).
@@ -81,15 +85,19 @@ definitions:
   description: Request body for identify face operation.
   kind: object
   properties:
-  - name: personGroupId
-    description: PersonGroupId of the target person group, created by PersonGroups.Create
-    types:
-    - uid: string
   - name: faceIds
     description: Array of query faces faceIds, created by the Face - Detect. Each of the faces are identified independently. The valid number of faceIds is between [1, 10].
     types:
     - uid: string
       isArray: true
+  - name: personGroupId
+    description: PersonGroupId of the target person group, created by PersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
+    types:
+    - uid: string
+  - name: largePersonGroupId
+    description: LargePersonGroupId of the target large person group, created by LargePersonGroup - Create. Parameter personGroupId and largePersonGroupId should not be provided at the same time.
+    types:
+    - uid: string
   - name: maxNumOfCandidatesReturned
     description: The range of maxNumOfCandidatesReturned is between 1 and 5 (default is 1).
     types:
@@ -128,7 +136,7 @@ examples:
     uri: POST {Endpoint}/face/v1.0/identify
     body: >-
       {
-        "personGroupId": "sample_group",
+        "largePersonGroupId": "sample_group",
         "faceIds": [
           "c5c24a82-6845-4031-9d5d-978df9175426",
           "65d083d4-9447-47d1-af30-b626144bf0fb"
