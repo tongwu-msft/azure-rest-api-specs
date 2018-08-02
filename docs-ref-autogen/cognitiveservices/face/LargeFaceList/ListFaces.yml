@@ -1,0 +1,102 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.largefacelist.listfaces
+name: List Faces
+service: Cognitive Services
+groupName: Large Face List
+apiVersion: "1.0"
+summary: List all faces in a large face list, and retrieve face information (including userData and persistedFaceIds of registered faces of the face).
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/face/v1.0/largefacelists/{largeFaceListId}/persistedfaces
+- content: GET {Endpoint}/face/v1.0/largefacelists/{largeFaceListId}/persistedfaces?start={start}&top={top}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: largeFaceListId
+  in: path
+  isRequired: true
+  description: Id referencing a particular large face list.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9-_]+$
+- name: start
+  in: query
+  description: Starting face id to return (used to list a range of faces).
+  types:
+  - uid: string
+- name: top
+  in: query
+  description: Number of faces to return starting with the face id indicated by the 'start' parameter.
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: A successful call returns an array of face information that belong to the large face list.
+  types:
+  - uid: PersistedFace
+    isArray: true
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader: []
+definitions:
+- name: PersistedFace
+  description: PersonFace object.
+  kind: object
+  properties:
+  - name: persistedFaceId
+    description: The persistedFaceId of the target face, which is persisted and will not expire. Different from faceId created by Face - Detect and will expire in 24 hours after the detection call.
+    types:
+    - uid: string
+  - name: userData
+    description: User-provided data attached to the face. The size limit is 1KB.
+    types:
+    - uid: string
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: List faces in large face list
+  request:
+    uri: GET {Endpoint}/face/v1.0/largefacelists/abc/persistedfaces?start=25985303-c537-4467-b41d-bdb45cd95ca1&top=2
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "persistedFaceId": "8a887ac2-53fd-4f55-9024-1ec77eecd08e",
+          "userData": "User-provided data attached to the large face list face."
+        },
+        {
+          "persistedFaceId": "f92f6f1b-3258-4444-8fa2-c2df505cc7ac",
+          "userData": "User-provided data attached to the large face list face."
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

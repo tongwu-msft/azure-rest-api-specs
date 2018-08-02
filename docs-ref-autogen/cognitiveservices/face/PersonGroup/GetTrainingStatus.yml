@@ -39,15 +39,19 @@ definitions:
   kind: object
   properties:
   - name: status
-    description: 'Training status: notstarted, running, succeeded, failed. If the training process is waiting to perform, the status is notstarted. If the training is ongoing, the status is running. Status succeed means this person group is ready for Face - Identify. Status failed is often caused by no person or no persisted face exist in the person group'
+    description: 'Training status: notstarted, running, succeeded, failed. If the training process is waiting to perform, the status is notstarted. If the training is ongoing, the status is running. Status succeed means this person group or large person group is ready for Face - Identify, or this large face list is ready for Face - Find Similar. Status failed is often caused by no person or no persisted face exist in the person group or large person group, or no persisted face exist in the large face list.'
     types:
     - uid: TrainingStatusType
   - name: createdDateTime
-    description: A combined UTC date and time string that describes person group created time.
+    description: A combined UTC date and time string that describes the created time of the person group, large person group or large face list.
     types:
     - uid: string
   - name: lastActionDateTime
-    description: Person group last modify time in the UTC, could be null value when the person group is not successfully trained.
+    description: A combined UTC date and time string that describes the last modify time of the person group, large person group or large face list, could be null value when the group is not successfully trained.
+    types:
+    - uid: string
+  - name: lastSuccessfulTrainingDateTime
+    description: A combined UTC date and time string that describes the last successful training time of the person group, large person group or large face list.
     types:
     - uid: string
   - name: message
@@ -63,7 +67,7 @@ definitions:
     types:
     - uid: Error
 - name: TrainingStatusType
-  description: 'Training status: notstarted, running, succeeded, failed. If the training process is waiting to perform, the status is notstarted. If the training is ongoing, the status is running. Status succeed means this person group is ready for Face - Identify. Status failed is often caused by no person or no persisted face exist in the person group'
+  description: 'Training status: notstarted, running, succeeded, failed. If the training process is waiting to perform, the status is notstarted. If the training is ongoing, the status is running. Status succeed means this person group or large person group is ready for Face - Identify, or this large face list is ready for Face - Find Similar. Status failed is often caused by no person or no persisted face exist in the person group or large person group, or no persisted face exist in the large face list.'
   kind: enum
   properties:
   - name: nonstarted
@@ -91,7 +95,7 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get training status example
+- name: Get person group's training status example
   request:
     uri: GET {Endpoint}/face/v1.0/persongroups/abc/training
   responses:
@@ -99,7 +103,9 @@ examples:
     body: >-
       {
         "status": "succeeded",
-        "createdDateTime": "2017-08-01T00:00:00Z"
+        "createdDateTime": "2017-12-21T12:57:27Z",
+        "lastActionDateTime": "2017-12-21T12:57:30Z",
+        "message": null
       }
 security:
 - name: Ocp-Apim-Subscription-Key

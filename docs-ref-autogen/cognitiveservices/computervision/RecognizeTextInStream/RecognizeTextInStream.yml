@@ -1,30 +1,29 @@
 ### YamlMime:RESTOperation
-uid: vision.v1.0.cognitiveservices.recognizetextinstream.recognizetextinstream
+uid: westcentralus.api.cognitive.microsoft.com.vision.v2.0.cognitiveservices.recognizetextinstream.recognizetextinstream
 name: Recognize Text In Stream
 service: Cognitive Services
 groupName: Recognize Text In Stream
-apiVersion: "1.0"
-summary: Recognize Text operation. When you use the Recognize Text interface, the response contains a field called 'Operation-Location'. The 'Operation-Location' field contains the URL that you must use for your Get Handwritten Text Operation Result operation.
+apiVersion: "2.0"
+summary: Recognize Text operation. When you use the Recognize Text interface, the response contains a field called 'Operation-Location'. The 'Operation-Location' field contains the URL that you must use for your Get Recognize Text Operation Result operation.
 consumes:
 - application/octet-stream
 produces:
 - application/json
 paths:
-- content: POST {AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/recognizeText
-- content: POST {AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/recognizeText?overload=stream&detectHandwriting={detectHandwriting}
-  isOptional: true
+- content: POST {Endpoint}/vision/v2.0/recognizeText?overload=stream&mode={mode}
 uriParameters:
-- name: AzureRegion
+- name: Endpoint
   in: path
   isRequired: true
-  description: Supported Azure regions for Cognitive Services endpoints
+  description: Supported Cognitive Services endpoints
   types:
   - uid: string
-- name: detectHandwriting
+- name: mode
   in: query
-  description: If 'true' is specified, handwriting recognition is performed. If this parameter is set to 'false' or is not specified, printed text recognition is performed.
+  isRequired: true
+  description: Type of text to recognize.
   types:
-  - uid: boolean
+  - uid: TextRecognitionMode
 responses:
 - name: 202 Accepted
   headers:
@@ -44,6 +43,16 @@ requestBody:
     - uid: object
 requestHeader: []
 definitions:
+- name: TextRecognitionMode
+  description: Type of text to recognize.
+  kind: enum
+  properties:
+  - name: Handwritten
+    types:
+    - uid: string
+  - name: Printed
+    types:
+    - uid: string
 - name: ComputerVisionError
   kind: object
   properties:
@@ -105,7 +114,8 @@ definitions:
 examples:
 - name: Successful Domain Model analysis request
   request:
-    uri: POST {AzureRegion}.api.cognitive.microsoft.com/vision/v1.0/recognizeText?overload=stream
+    uri: POST https://westus.api.cognitive.microsoft.com/vision/v2.0/recognizeText?overload=stream&mode=Handwritten
+    body: "\"{binary}\""
   responses:
   - statusCode: "202"
 security:

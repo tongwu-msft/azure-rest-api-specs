@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create User
-The `Create User` operation creates a new stored procedure in a database.
+The `Create User` operation creates a new user in a database.
   
 ## Request  
   

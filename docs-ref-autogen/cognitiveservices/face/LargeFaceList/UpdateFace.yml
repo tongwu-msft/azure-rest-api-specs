@@ -1,0 +1,92 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.largefacelist.updateface
+name: Update Face
+service: Cognitive Services
+groupName: Large Face List
+apiVersion: "1.0"
+summary: Update a persisted face's userData field.
+consumes:
+- application/json
+paths:
+- content: PATCH {Endpoint}/face/v1.0/largefacelists/{largeFaceListId}/persistedfaces/{persistedFaceId}
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: largeFaceListId
+  in: path
+  isRequired: true
+  description: Id referencing a particular large face list.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9-_]+$
+- name: persistedFaceId
+  in: path
+  isRequired: true
+  description: Id referencing a particular persistedFaceId of an existing face.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 200 OK
+  description: A successful call returns an empty response body.
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestBody:
+- name: default
+  parameters:
+  - name: userData
+    in: body
+    description: User-provided data attached to the face. The size limit is 1KB.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: UpdateFaceRequest
+  description: Request to update face data.
+  kind: object
+  properties:
+  - name: userData
+    description: User-provided data attached to the face. The size limit is 1KB.
+    types:
+    - uid: string
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Update face example
+  request:
+    uri: PATCH {Endpoint}/face/v1.0/largefacelists/abc/persistedfaces/62004fa7-1ac0-478e-9d5a-b38f9e7fbc68
+    body: >-
+      {
+        "userData": "User-provided data attached to the face."
+      }
+  responses:
+  - statusCode: "200"
+    body: "\"\""
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

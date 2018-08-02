@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: cognitiveservices.persongroupperson.addpersonfacefromstream
-name: Add Person Face From Stream
+uid: cognitiveservices.largefacelist.addfacefromurl
+name: Add Face From Url
 service: Cognitive Services
-groupName: Person Group Person
+groupName: Large Face List
 apiVersion: "1.0"
-summary: Add a representative face to a person for identification. The input face is specified as an image with a targetFace rectangle.
+summary: Add a face to a large face list. The input face is specified as an image with a targetFace rectangle. It returns a persistedFaceId representing the added face, and persistedFaceId will not expire.
 consumes:
-- application/octet-stream
+- application/json
 produces:
 - application/json
 paths:
-- content: POST {Endpoint}/face/v1.0/persongroups/{personGroupId}/persons/{personId}/persistedFaces
-- content: POST {Endpoint}/face/v1.0/persongroups/{personGroupId}/persons/{personId}/persistedFaces?overload=stream&userData={userData}&targetFace={targetFace}
+- content: POST {Endpoint}/face/v1.0/largefacelists/{largeFaceListId}/persistedfaces
+- content: POST {Endpoint}/face/v1.0/largefacelists/{largeFaceListId}/persistedfaces?userData={userData}&targetFace={targetFace}
   isOptional: true
 uriParameters:
 - name: Endpoint
@@ -20,20 +20,13 @@ uriParameters:
   description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
-- name: personGroupId
+- name: largeFaceListId
   in: path
   isRequired: true
-  description: Id referencing a particular person group.
+  description: Id referencing a particular large face list.
   types:
   - uid: string
   pattern: ^[a-z0-9-_]+$
-- name: personId
-  in: path
-  isRequired: true
-  description: Id referencing a particular person.
-  types:
-  - uid: string
-  format: uuid
 - name: userData
   in: query
   description: User-specified data about the face for any purpose. The maximum length is 1KB.
@@ -46,7 +39,7 @@ uriParameters:
   - uid: array
 responses:
 - name: 200 OK
-  description: A successful call returns the new persistedFaceId.
+  description: A successful call returns a new persistedFaceId.
   types:
   - uid: PersistedFace
 - name: Other Status Codes
@@ -56,10 +49,12 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: Image
+  - name: url
     in: body
+    isRequired: true
+    description: Publicly reachable URL of an image
     types:
-    - uid: object
+    - uid: string
 requestHeader: []
 definitions:
 - name: PersistedFace
@@ -82,6 +77,13 @@ definitions:
     description: Error body.
     types:
     - uid: Error
+- name: ImageUrl
+  kind: object
+  properties:
+  - name: url
+    description: Publicly reachable URL of an image
+    types:
+    - uid: string
 - name: Error
   description: Error body.
   kind: object
@@ -95,10 +97,10 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Add face to person with stream example
+- name: Create large face list face example
   request:
     uri: >-
-      POST {Endpoint}/face/v1.0/persongroups/abc/persons/4caa25ee-3bc6-4e88-adf8-12455ce7aab0/persistedFaces?overload=stream&targetFace=[
+      POST {Endpoint}/face/v1.0/largefacelists/sample_face_list/persistedfaces?targetFace=[
 
         10,
 
@@ -109,12 +111,12 @@ examples:
         100
 
       ]
-    body: "\"{Image stream in base 64 encoded format}\""
+    body: "\"{Image url}\""
   responses:
   - statusCode: "200"
     body: >-
       {
-        "persistedFaceId": "6e04c175-219e-42a2-9d26-0e7b790e1ef4"
+        "persistedFaceId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBA"
       }
 security:
 - name: Ocp-Apim-Subscription-Key
