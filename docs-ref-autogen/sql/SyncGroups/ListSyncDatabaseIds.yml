@@ -1,0 +1,101 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.syncgroups.listsyncdatabaseids
+name: List Sync Database Ids
+service: SQL Database
+groupName: Sync Groups
+apiVersion: 2015-05-01-preview
+summary: Gets a collection of sync database ids.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/syncDatabaseIds?api-version=2015-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: locationName
+  in: path
+  isRequired: true
+  description: The name of the region where the resource is located.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved collection of sync database ids.
+  types:
+  - uid: SyncDatabaseIdListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidSyncGroupCreateOrUpdateRequest - The create or update sync group request body is empty.
+
+     * 400 InvalidSyncMemberCreateOrUpdateRequest - The create or update sync member request body is empty.
+
+     * 400 InvalidSyncAgentCreateOrUpdateRequest - The create or update sync agent request body is empty.
+
+     * 400 InvalidDatabaseResourceId - Invalid database resource identifier.
+
+     * 400 MismatchingSubscriptionWithUrl - The provided subscription did not match the subscription in the Url.
+
+     * 400 InvalidSyncAgentResourceId - Invalid sync agent resource identifier.
+
+     * 400 MismatchingResourceGroupNameWithUrl - The provided resource group name did not match the name in the Url.
+
+     * 400 MismatchingServerNameWithUrl - The provided server name did not match the name in the Url.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+requestHeader: []
+definitions:
+- name: SyncDatabaseIdListResult
+  description: A list of sync database ID properties.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: SyncDatabaseIdProperties
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: SyncDatabaseIdProperties
+  description: Properties of the sync database id.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: ARM resource id of sync database.
+    types:
+    - uid: string
+examples:
+- name: Get a sync database ID
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/locations/westus/syncDatabaseIds?api-version=2015-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-3521/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328"
+          }
+        ]
+      }
+security: []
