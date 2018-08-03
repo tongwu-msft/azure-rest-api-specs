@@ -1,0 +1,177 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.syncagents.listlinkeddatabases
+name: List Linked Databases
+service: SQL Database
+groupName: Sync Agents
+apiVersion: 2015-05-01-preview
+summary: Lists databases linked to a sync agent.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}/linkedDatabases?api-version=2015-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server on which the sync agent is hosted.
+  types:
+  - uid: string
+- name: syncAgentName
+  in: path
+  isRequired: true
+  description: The name of the sync agent.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved sync agent linked SQL server databases.
+  types:
+  - uid: SyncAgentLinkedDatabaseListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidSyncGroupCreateOrUpdateRequest - The create or update sync group request body is empty.
+
+     * 400 InvalidSyncMemberCreateOrUpdateRequest - The create or update sync member request body is empty.
+
+     * 400 InvalidSyncAgentCreateOrUpdateRequest - The create or update sync agent request body is empty.
+
+     * 400 InvalidDatabaseResourceId - Invalid database resource identifier.
+
+     * 400 MismatchingSubscriptionWithUrl - The provided subscription did not match the subscription in the Url.
+
+     * 400 InvalidSyncAgentResourceId - Invalid sync agent resource identifier.
+
+     * 400 MismatchingResourceGroupNameWithUrl - The provided resource group name did not match the name in the Url.
+
+     * 400 MismatchingServerNameWithUrl - The provided server name did not match the name in the Url.
+
+     * 400 InvalidSyncAgent - Sync agent is invalid.
+
+     * 400 CannotDeleteInUseSyncAgent - Cannot delete sync agent because it is used by sync member.
+
+     * 400 InvalidSyncMetadataDatabase - Sync metadata database is invalid.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+requestHeader: []
+definitions:
+- name: SyncAgentLinkedDatabaseListResult
+  description: A list of sync agent linked databases.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: SyncAgentLinkedDatabase
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: SyncAgentLinkedDatabase
+  description: An Azure SQL Database sync agent linked database.
+  kind: object
+  properties:
+  - name: properties.databaseType
+    isReadyOnly: true
+    description: Type of the sync agent linked database.
+    types:
+    - uid: SyncMemberDbType
+  - name: properties.databaseId
+    isReadyOnly: true
+    description: Id of the sync agent linked database.
+    types:
+    - uid: string
+  - name: properties.description
+    isReadyOnly: true
+    description: Description of the sync agent linked database.
+    types:
+    - uid: string
+  - name: properties.serverName
+    isReadyOnly: true
+    description: Server name of the sync agent linked database.
+    types:
+    - uid: string
+  - name: properties.databaseName
+    isReadyOnly: true
+    description: Database name of the sync agent linked database.
+    types:
+    - uid: string
+  - name: properties.userName
+    isReadyOnly: true
+    description: User name of the sync agent linked database.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: SyncMemberDbType
+  description: Type of the sync agent linked database.
+  kind: enum
+  properties:
+  - name: AzureSqlDatabase
+    types:
+    - uid: string
+  - name: SqlServerDatabase
+    types:
+    - uid: string
+examples:
+- name: Get sync agent linked databases
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncagentcrud-65440/providers/Microsoft.Sql/servers/syncagentcrud-8475/syncAgents/syncagentcrud-3187/linkedDatabases?api-version=2015-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "databaseType": "SqlServerDatabase",
+              "databaseId": "55555555-6666-7777-8888-999999999999",
+              "description": "",
+              "serverName": "DummySqlServer",
+              "databaseName": "DummySqlServerDb",
+              "userName": "DummyUser"
+            },
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-Onebox/providers/Microsoft.Sql/servers/syncagentcrud-8475/syncAgents/syncagentcrud-3187/linkedDatabases/55555555-6666-7777-8888-999999999999"
+          }
+        ]
+      }
+security: []
