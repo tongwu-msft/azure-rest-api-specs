@@ -374,7 +374,7 @@ You can add up to two reference data per Time Series Insights environment.  Belo
 
 | Limit name | Limit value | SKUs affected | Notes |
 |-|-|-|-|-|
-| Key property count  | 3 | S1, S2 | Per reference data set.  ARM/Azure Portal only|
+| Key property count  | 3 | S1, S2 | Per reference data set.  Azure Resource Manager/Azure Portal only|
 | Key property size| 1KB | S1, S2 | Per reference data set |
 | Reference Data Item count  | 2,000/20,000 (S1/S2) | S1, S2 | Per unit.  Example:  4 unit S1 SKU = 8,000 items (4 x 2,000) |
 | Max concurrent transactions | 2/10 (S1/S2) | S1, S2 | - |
