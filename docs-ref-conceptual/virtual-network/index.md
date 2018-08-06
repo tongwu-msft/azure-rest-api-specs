@@ -17,6 +17,7 @@ An Azure virtual network (VNet) is a representation of your own network in the c
 
 |Operation Group|Description|
 |---|---|
+|[DDoS Protection Plans](xref:management.azure.com.virtualnetwork.ddosprotectionplans) |Provides operations for managing DDos Protection Plans.|
 |[Network Interface Cards](xref:management.azure.com.virtualnetwork.networkinterfaces) |Provides operations for managing Network Interface Cards.|
 |[Network Security Groups](xref:management.azure.com.virtualnetwork.networksecuritygroups)   | Provides operations for managing Network Security Groups.|
 |[Network Security Rules](xref:management.azure.com.virtualnetwork.securityrules)   |Provides operations for managing Network Security Rules.|
