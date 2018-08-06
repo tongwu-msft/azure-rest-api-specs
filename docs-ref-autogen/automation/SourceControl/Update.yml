@@ -57,58 +57,73 @@ requestBody:
   parameters:
   - name: properties.branch
     in: body
-    description: Gets or sets the repo branch of the source control.
+    description: The repo branch of the source control.
     types:
     - uid: string
   - name: properties.folderPath
     in: body
-    description: Gets or sets the folder path of the source control. Path must be relative.
+    description: The folder path of the source control. Path must be relative.
     types:
     - uid: string
   - name: properties.autoSync
     in: body
-    description: Gets or sets auto async of the source control. Default is false.
+    description: The auto sync of the source control. Default is false.
     types:
     - uid: boolean
   - name: properties.publishRunbook
     in: body
-    description: Gets or sets the auto publish of the source control. Default is true.
+    description: The auto publish of the source control. Default is true.
     types:
     - uid: boolean
   - name: properties.securityToken
     in: body
-    description: Gets or sets the authorization token for the repo of the source control.
+    description: The authorization token for the repo of the source control.
     types:
-    - uid: string
+    - uid: SourceControlSecurityTokenProperties
   - name: properties.description
     in: body
-    description: Gets or sets the user description of the source control.
+    description: The user description of the source control.
     types:
     - uid: string
 requestHeader: []
 definitions:
+- name: SourceControlSecurityTokenProperties
+  kind: object
+  properties:
+  - name: accessToken
+    description: The access token.
+    types:
+    - uid: string
+  - name: refreshToken
+    description: The refresh token.
+    types:
+    - uid: string
+  - name: tokenType
+    description: The token type. Must be either PersonalAccessToken or Oauth.
+    types:
+    - uid: tokenType
 - name: SourceControl
   description: Definition of the source control.
   kind: object
   properties:
   - name: properties.repoUrl
-    description: Gets or sets the repo url of the source control.
+    description: The repo url of the source control.
     types:
     - uid: string
   - name: properties.branch
-    description: Gets or sets the repo branch of the source control. Include branch as empty string for VsoTfvc.
+    description: The repo branch of the source control. Include branch as empty string for VsoTfvc.
     types:
     - uid: string
   - name: properties.folderPath
-    description: Gets or sets the folder path of the source control.
+    description: The folder path of the source control.
     types:
     - uid: string
   - name: properties.autoSync
-    description: Gets or sets auto async of the source control. Default is false.
+    description: The auto sync of the source control. Default is false.
     types:
     - uid: boolean
   - name: properties.publishRunbook
-    description: Gets or sets the auto publish of the source control. Default is true.
+    description: The auto publish of the source control. Default is true.
     types:
     - uid: boolean
   - name: properties.sourceType
@@ -116,15 +131,15 @@ definitions:
     types:
     - uid: sourceType
   - name: properties.description
-    description: Gets or sets the description.
+    description: The description.
     types:
     - uid: string
   - name: properties.creationTime
-    description: Gets or sets the creation time.
+    description: The creation time.
     types:
     - uid: string
   - name: properties.lastModifiedTime
-    description: Gets or sets the last modified time.
+    description: The last modified time.
     types:
     - uid: string
   - name: id
@@ -159,27 +174,37 @@ definitions:
   kind: object
   properties:
   - name: properties.branch
-    description: Gets or sets the repo branch of the source control.
+    description: The repo branch of the source control.
     types:
     - uid: string
   - name: properties.folderPath
-    description: Gets or sets the folder path of the source control. Path must be relative.
+    description: The folder path of the source control. Path must be relative.
     types:
     - uid: string
   - name: properties.autoSync
-    description: Gets or sets auto async of the source control. Default is false.
+    description: The auto sync of the source control. Default is false.
     types:
     - uid: boolean
   - name: properties.publishRunbook
-    description: Gets or sets the auto publish of the source control. Default is true.
+    description: The auto publish of the source control. Default is true.
     types:
     - uid: boolean
   - name: properties.securityToken
-    description: Gets or sets the authorization token for the repo of the source control.
+    description: The authorization token for the repo of the source control.
+    types:
+    - uid: SourceControlSecurityTokenProperties
+  - name: properties.description
+    description: The user description of the source control.
     types:
     - uid: string
-  - name: properties.description
-    description: Gets or sets the user description of the source control.
+- name: tokenType
+  description: The token type. Must be either PersonalAccessToken or Oauth.
+  kind: enum
+  properties:
+  - name: PersonalAccessToken
+    types:
+    - uid: string
+  - name: Oauth
     types:
     - uid: string
 - name: sourceType
@@ -206,7 +231,10 @@ examples:
           "folderPath": "/folderOne/folderTwo",
           "autoSync": true,
           "publishRunbook": true,
-          "securityToken": "3a326f7a0dcd343ea58fee21f2fd5fb4c1234567",
+          "securityToken": {
+            "accessToken": "3a326f7a0dcd343ea58fee21f2fd5fb4c1234567",
+            "tokenType": "PersonalAccessToken"
+          },
           "description": "my description"
         }
       }
