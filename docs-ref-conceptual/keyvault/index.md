@@ -61,8 +61,12 @@ For conceptual and detailed information, see - [About keys, secrets, and certifi
 
 ### See also
 
-- [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
-- [Authentication, requests and responses](authentication--requests-and-responses.md)
-- [Key Vault Developer's Guide](/azure/key-vault/key-vault-developers-guide)
-- [Key Vault versions](key-vault-versions.md)
+- For general information on constructing requests for Azure REST APIs, see the [Azure REST API reference](/rest/api/azure/)
+- For information specific to constructing Key Vault REST API requests, see
+   - [Common HTTP request parameters and headers](common-parameters-and-headers.md)
+   - [Authentication, requests and responses](authentication--requests-and-responses.md)
+- See the following topics for more additional Key Vault concepts and details
+   - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
+   - [Key Vault Developer's Guide](/azure/key-vault/key-vault-developers-guide)
+   - [Key Vault versions](key-vault-versions.md)
 
