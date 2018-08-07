@@ -2157,7 +2157,7 @@
 #### [Cancel](compute/VirtualMachineScaleSetRollingUpgrades/Cancel.yml)
 #### [Get Latest](compute/VirtualMachineScaleSetRollingUpgrades/GetLatest.yml)
 #### [Start OS Upgrade](compute/VirtualMachineScaleSetRollingUpgrades/StartOSUpgrade.yml)
-### [Virtual Machine Scale Set VM s](compute/VirtualMachineScaleSetVMs.yml)
+### [Virtual Machine Scale Set VMs](compute/VirtualMachineScaleSetVMs.yml)
 #### [Deallocate](compute/VirtualMachineScaleSetVMs/Deallocate.yml)
 #### [Delete](compute/VirtualMachineScaleSetVMs/Delete.yml)
 #### [Get](compute/VirtualMachineScaleSetVMs/Get.yml)
