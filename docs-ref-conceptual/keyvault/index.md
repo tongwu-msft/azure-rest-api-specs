@@ -5,32 +5,25 @@ ms.service: key-vault
 author: BryanLa
 ms.author: bryanla
 ms.manager: mbaldwin
-ms.date: 06/21/2017
+ms.date: 08/08/2018
 ---
 
 # Azure Key Vault REST API reference
 
-Managing your key vaults as well as the keys, secrets, and certificates within your key vaults can be accomplished through a REST interface.
+Managing your Key Vault as well as the contents of your Key Vault can be accomplished through a REST interface. Below are lists of common tasks for managing both.
 
-Manage your key vaults using the following set of operations.
+## Key Vaults
 
-- [Manage key vaults](/rest/api/keyvault/vaults)
-                           
-Managing within a Key Vault includes operations for creating, managing and executing cryptographic operations with keys, secrets and certificates within the Azure environment.
+Manage your Key Vault using the following set of operations. These are also known as management-plane operations.
 
-- [Key operations](key-operations.md)
-- [Secret operations](secret-operations.md)
-- [Certificate operations](certificate-operations.md)
+- [Manage a Key Vault](/rest/api/keyvault/vaults)
+- [Create or update a Key Vault](xref:management.azure.com.keyvault.vaults.createorupdate)
+- [Deletes a Key Vault](xref:management.azure.com.keyvault.vaults.delete)
+- [Gets info about a Key Vault](xref:management.azure.com.keyvault.vaults.get)
 
-For conceptual and detailed information, see - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
+## Keys, secrets, certificates, and storage accounts
 
-## Common tasks
-
-### Key vaults
-
-- [Create or update a key vault](xref:management.azure.com.keyvault.vaults.createorupdate)
-- [Deletes a key vault](xref:management.azure.com.keyvault.vaults.delete)
-- [Gets info about a key vault](xref:management.azure.com.keyvault.vaults.get)
+Managing within a Key Vault includes operations for creating, managing and executing cryptographic operations using keys, secrets, certificates, and storage keys, within the Azure environment. These are also known as data-plane operations.
 
 ### Keys
 
@@ -53,13 +46,15 @@ For conceptual and detailed information, see - [About keys, secrets, and certifi
 - [Update a certificate policy](xref:keyvault.updatecertificatepolicy)
 - [Recover deleted certificate](xref:keyvault.recoverdeletedcertificate)
 
+For conceptual and detailed information, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
+
 ### Storage accounts
 
 - [Set a storage account](xref:keyvault.setstorageaccount)
 - [Get a storage account](xref:keyvault.getstorageaccount)
 - [Delete a storage account](xref:keyvault.deletestorageaccount)
 
-### See also
+## See also
 
 - For general information on constructing Azure REST API requests, see the [Azure REST API reference](/rest/api/azure/)
 - For information specific to constructing Key Vault REST API requests, see
