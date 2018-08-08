@@ -14,7 +14,7 @@ Managing your key vaults as well as the keys, secrets, and certificates within y
 
 Manage your key vaults using the following set of operations.
 
-- [Manage key vaults](vaults)
+- [Manage key vaults](/rest/api/keyvault/vaults)
                            
 Managing within a Key Vault includes operations for creating, managing and executing cryptographic operations with keys, secrets and certificates within the Azure environment.
 
