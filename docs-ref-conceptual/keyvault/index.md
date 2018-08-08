@@ -2,8 +2,8 @@
 ms.assetid: 16d4764e-3c9d-42b4-b749-bed20ca6b741
 ms.title: Azure Key Vault REST API reference | Microsoft Docs
 ms.service: key-vault
-author: BrucePerlerMS
-ms.author: bruceper
+author: BryanLa
+ms.author: bryanla
 ms.manager: mbaldwin
 ms.date: 06/21/2017
 ---
@@ -14,8 +14,8 @@ Managing your key vaults as well as the keys, secrets, and certificates within y
 
 Manage your key vaults using the following set of operations.
 
-- [Manage key vaults](xref:management.azure.com.keyvault.vaults)
-
+- [Manage key vaults](vaults)
+                           
 Managing within a Key Vault includes operations for creating, managing and executing cryptographic operations with keys, secrets and certificates within the Azure environment.
 
 - [Key operations](key-operations.md)
@@ -61,11 +61,11 @@ For conceptual and detailed information, see - [About keys, secrets, and certifi
 
 ### See also
 
-- For general information on constructing requests for Azure REST APIs, see the [Azure REST API reference](/rest/api/azure/)
+- For general information on constructing Azure REST API requests, see the [Azure REST API reference](/rest/api/azure/)
 - For information specific to constructing Key Vault REST API requests, see
    - [Common HTTP request parameters and headers](common-parameters-and-headers.md)
    - [Authentication, requests and responses](authentication--requests-and-responses.md)
-- See the following topics for more additional Key Vault concepts and details
+- See the following topics for additional Key Vault concepts and details
    - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
    - [Key Vault Developer's Guide](/azure/key-vault/key-vault-developers-guide)
    - [Key Vault versions](key-vault-versions.md)
