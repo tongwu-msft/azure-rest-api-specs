@@ -17,13 +17,13 @@ Managing your Key Vault as well as the contents of your Key Vault can be accompl
 Manage your Key Vault using the following set of operations. These are also known as management-plane operations.
 
 - [Manage a Key Vault](/rest/api/keyvault/vaults)
-- [Create or update a Key Vault](xref:management.azure.com.keyvault.vaults.createorupdate)
-- [Deletes a Key Vault](xref:management.azure.com.keyvault.vaults.delete)
-- [Gets info about a Key Vault](xref:management.azure.com.keyvault.vaults.get)
+- [Create or update a Key Vault](/rest/api/keyvault/vaults/createorupdate)
+- [Deletes a Key Vault](/rest/api/keyvault/vaults/delete)
+- [Gets info about a Key Vault](/rest/api/keyvault/vaults/vaults.get)
 
 ## Keys, secrets, certificates, and storage accounts
 
-Managing within a Key Vault includes operations for creating, managing and executing cryptographic operations using keys, secrets, certificates, and storage keys, within the Azure environment. These are also known as data-plane operations.
+Managing within a Key Vault includes operations for managing and using its contents such as keys, secrets, certificates, and storage keys. These are also known as data-plane operations.
 
 ### Keys
 
@@ -40,13 +40,13 @@ Managing within a Key Vault includes operations for creating, managing and execu
 
 ### Certificates
 
+For concepts and more detailed information, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
+
 - [Create a certificate](xref:keyvault.createcertificate)
 - [Import a certificate](xref:keyvault.importcertificate)
 - [Update a certificate](xref:keyvault.updatecertificate)
 - [Update a certificate policy](xref:keyvault.updatecertificatepolicy)
 - [Recover deleted certificate](xref:keyvault.recoverdeletedcertificate)
-
-For conceptual and detailed information, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
 
 ### Storage accounts
 
