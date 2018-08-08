@@ -14,7 +14,7 @@ Managing your Key Vault as well as the contents of your Key Vault can be accompl
 
 ## Key Vaults
 
-Manage your Key Vault using the following set of operations. These are also known as management-plane operations.
+Manage your Key Vault using the following set of operations. These are also known as [management plane](\azure\key-vault\key-vault-secure-your-key-vault#management-plane-and-data-plane) operations.
 
 - [Manage a Key Vault](/rest/api/keyvault/vaults)
 - [Create or update a Key Vault](/rest/api/keyvault/vaults/createorupdate)
@@ -23,7 +23,7 @@ Manage your Key Vault using the following set of operations. These are also know
 
 ## Keys, secrets, certificates, and storage accounts
 
-Managing within a Key Vault includes operations for managing and using its contents such as keys, secrets, certificates, and storage keys. These are also known as data-plane operations.
+Managing within a Key Vault includes operations for managing and using its contents such as keys, secrets, certificates, and storage keys. These are also known as [data plane](\azure\key-vault\key-vault-secure-your-key-vault#management-plane-and-data-plane) operations.
 
 ### Keys
 
