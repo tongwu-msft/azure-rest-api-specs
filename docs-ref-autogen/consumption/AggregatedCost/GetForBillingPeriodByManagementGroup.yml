@@ -1,0 +1,165 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.consumption.aggregatedcost.getforbillingperiodbymanagementgroup
+name: Get For Billing Period By Management Group
+service: Consumption
+groupName: Aggregated Cost
+apiVersion: 2018-06-30
+summary: Provides the aggregate cost of a management group and all child management groups by specified billing period
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/Microsoft.Consumption/aggregatedcost?api-version=2018-06-30
+uriParameters:
+- name: managementGroupId
+  in: path
+  isRequired: true
+  description: Azure Management Group ID.
+  types:
+  - uid: string
+- name: billingPeriodName
+  in: path
+  isRequired: true
+  description: Billing Period Name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-06-30.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ManagementGroupAggregatedCostResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ManagementGroupAggregatedCostResult
+  description: A management group aggregated cost resource.
+  kind: object
+  properties:
+  - name: properties.billingPeriodId
+    isReadyOnly: true
+    description: The id of the billing period resource that the aggregated cost belongs to.
+    types:
+    - uid: string
+  - name: properties.azureCharges
+    isReadyOnly: true
+    description: Azure Charges.
+    types:
+    - uid: number
+  - name: properties.marketplaceCharges
+    isReadyOnly: true
+    description: Marketplace Charges.
+    types:
+    - uid: number
+  - name: properties.chargesBilledSeparately
+    isReadyOnly: true
+    description: Charges Billed Separately.
+    types:
+    - uid: number
+  - name: properties.currency
+    isReadyOnly: true
+    description: The ISO currency in which the meter is charged, for example, USD.
+    types:
+    - uid: string
+  - name: properties.children
+    description: Children of a management group
+    types:
+    - uid: ManagementGroupAggregatedCostResult
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: AggregatedCostListForBillingPeriodByManagementGroup
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/managementGroupForTest/providers/Microsoft.Billing/billingPeriods/201807/Microsoft.Consumption/aggregatedcost?api-version=2018-06-30
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Management/managementGroups/managementGroupForTest/providers/Microsoft.Billing/billingPeriods/201807/providers/Microsoft.Consumption/aggregatedcostId1",
+        "name": "aggregatedcostId1",
+        "type": "Microsoft.Consumption/aggregatedcost",
+        "properties": {
+          "billingPeriodId": "/providers/Microsoft.Management/managementGroups/managementGroupForTest/providers/Microsoft.Billing/billingPeriods/201807",
+          "azureCharges": 250.9876,
+          "marketplaceCharges": 150.786,
+          "chargesBilledSeparately": 120.345,
+          "currency": "USD",
+          "children": [
+            {
+              "id": "/providers/Microsoft.Management/managementGroups/managementGroupChildForTest/providers/Microsoft.Billing/billingPeriods/201807/providers/Microsoft.Consumption/aggregatedcostId2",
+              "name": "aggregatedcostId2",
+              "type": "Microsoft.Consumption/aggregatedcost",
+              "properties": {
+                "billingPeriodId": "/providers/Microsoft.Management/managementGroups/managementGroupChildForTest/providers/Microsoft.Billing/billingPeriods/201807",
+                "azureCharges": 150,
+                "marketplaceCharges": 50.786,
+                "chargesBilledSeparately": 30.345,
+                "currency": "USD",
+                "children": []
+              }
+            }
+          ]
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
