@@ -1,23 +1,23 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.consumption.usagedetails.listbydepartment
-name: List By Department
+uid: management.azure.com.consumption.usagedetails.listbymanagementgroup
+name: List By Management Group
 service: Consumption
 groupName: Usage Details
 apiVersion: 2018-06-30
-summary: Lists the usage details by departmentId for a scope by current billing period. Usage details are available via this API only for May 1, 2014 or later.
+summary: Lists the usage detail records for all subscriptions belonging to a management group scope by current billing period. Usage details are available via this API only for May 1, 2014 or later.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Billing/departments/{departmentId}/providers/Microsoft.Consumption/usageDetails?api-version=2018-06-30
-- content: GET https://management.azure.com/providers/Microsoft.Billing/departments/{departmentId}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&$apply={$apply}&api-version=2018-06-30
+- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Consumption/usageDetails?api-version=2018-06-30
+- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&$apply={$apply}&api-version=2018-06-30
   isOptional: true
 uriParameters:
-- name: departmentId
+- name: managementGroupId
   in: path
   isRequired: true
-  description: Department ID
+  description: Azure Management Group ID.
   types:
   - uid: string
 - name: $expand
@@ -314,14 +314,14 @@ definitions:
 examples:
 - name: UsageDetailsList
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/departments/1234/providers/Microsoft.Consumption/usageDetails?api-version=2018-06-30
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/managementGroupForTest/providers/Microsoft.Consumption/usageDetails?api-version=2018-06-30
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180801/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
             "name": "usageDetailsId1",
             "type": "Microsoft.Consumption/usageDetails",
             "tags": {
@@ -329,10 +329,9 @@ examples:
               "dev": "tools"
             },
             "properties": {
-              "billingPeriodId": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/billingPeriods/201702",
-              "invoiceId": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/invoices/201703-123456789",
-              "usageStart": "2017-02-13T00:00:00Z",
-              "usageEnd": "2017-02-13T23:59:59Z",
+              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201808",
+              "usageStart": "2018-08-13T00:00:00Z",
+              "usageEnd": "2018-08-13T23:59:59Z",
               "instanceName": "shared1",
               "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
               "instanceLocation": "eastasia",
@@ -344,6 +343,34 @@ examples:
               "meterId": "00000000-0000-0000-0000-000000000000",
               "partNumber": "Part Number 1",
               "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West"
+            }
+          },
+          {
+            "id": "/subscriptions/11111111-1111-1111-1111-111111111111/providers/Microsoft.Billing/billingPeriods/20180801/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "billingPeriodId": "/subscriptions/11111111-1111-1111-1111-111111111111/providers/Microsoft.Billing/billingPeriods/201808",
+              "usageStart": "2018-08-13T00:00:00Z",
+              "usageEnd": "2018-08-13T23:59:59Z",
+              "instanceName": "shared1",
+              "instanceId": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceLocation": "eastasia",
+              "currency": "USD",
+              "usageQuantity": 0.0012,
+              "billableQuantity": 0.00128,
+              "pretaxCost": 0.26,
+              "isEstimated": false,
+              "meterId": "11111111-1111-1111-1111-111111111111",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "11111111-1111-1111-1111-111111111111",
               "offerId": "Offer Id 1",
               "chargesBilledSeparately": true,
               "location": "EU West"
