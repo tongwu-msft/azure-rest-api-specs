@@ -1,8 +1,1 @@
 # [Key Vault management](vault-operations.md)
-# [Key operations](key-operations.md)
-# [Secret operations](secret-operations.md)
-# [Certificate operations](certificate-operations.md)
-## [Certificates and Policies](certificates-and-policies.md)
-## [Certificate issuers](certificate-issuers.md)
-## [Certificate contacts](certificate-contacts.md)
-# [Storage account key operations](storage-account-key-operations.md)

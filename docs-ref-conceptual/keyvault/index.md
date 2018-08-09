@@ -2,35 +2,28 @@
 ms.assetid: 16d4764e-3c9d-42b4-b749-bed20ca6b741
 ms.title: Azure Key Vault REST API reference | Microsoft Docs
 ms.service: key-vault
-author: BrucePerlerMS
-ms.author: bruceper
+author: BryanLa
+ms.author: bryanla
 ms.manager: mbaldwin
-ms.date: 06/21/2017
+ms.date: 08/08/2018
 ---
 
 # Azure Key Vault REST API reference
 
-Managing your key vaults as well as the keys, secrets, and certificates within your key vaults can be accomplished through a REST interface.
+Managing your Key Vault as well as the contents of your Key Vault can be accomplished through a REST interface. Below are lists of common tasks for managing both.
 
-Manage your key vaults using the following set of operations.
+## Key Vaults
 
-- [Manage key vaults](xref:management.azure.com.keyvault.vaults)
+Manage your Key Vault using the following set of operations, which are also known as [management plane](\azure\key-vault\key-vault-secure-your-key-vault#management-plane-and-data-plane) operations. The management plane interface is used to manage a Key Vault itself, such as creating, deleting, or updating Key Vault attributes, and setting access policies for the data plane. 
 
-Managing within a Key Vault includes operations for creating, managing and executing cryptographic operations with keys, secrets and certificates within the Azure environment.
+- [Manage a Key Vault](/rest/api/keyvault/vaults)
+- [Create or update a Key Vault](/rest/api/keyvault/vaults/createorupdate)
+- [Deletes a Key Vault](/rest/api/keyvault/vaults/delete)
+- [Gets info about a Key Vault](/rest/api/keyvault/vaults/vaults.get)
 
-- [Key operations](key-operations.md)
-- [Secret operations](secret-operations.md)
-- [Certificate operations](certificate-operations.md)
+## Keys, secrets, certificates, and storage accounts
 
-For conceptual and detailed information, see - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
-
-## Common tasks
-
-### Key vaults
-
-- [Create or update a key vault](xref:management.azure.com.keyvault.vaults.createorupdate)
-- [Deletes a key vault](xref:management.azure.com.keyvault.vaults.delete)
-- [Gets info about a key vault](xref:management.azure.com.keyvault.vaults.get)
+Managing data within a Key Vault, such as keys, secrets, certificates, and storage keys, is accomplished by [data plane](\azure\key-vault\key-vault-secure-your-key-vault#management-plane-and-data-plane) operations. The data plane interface is used to add, delete, modify, and use the keys, secrets, and certificates stored in a Key Vault.
 
 ### Keys
 
@@ -47,6 +40,8 @@ For conceptual and detailed information, see - [About keys, secrets, and certifi
 
 ### Certificates
 
+For concepts and more detailed information, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
+
 - [Create a certificate](xref:keyvault.createcertificate)
 - [Import a certificate](xref:keyvault.importcertificate)
 - [Update a certificate](xref:keyvault.updatecertificate)
@@ -59,10 +54,14 @@ For conceptual and detailed information, see - [About keys, secrets, and certifi
 - [Get a storage account](xref:keyvault.getstorageaccount)
 - [Delete a storage account](xref:keyvault.deletestorageaccount)
 
-### See also
+## See also
 
-- [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
-- [Authentication, requests and responses](authentication--requests-and-responses.md)
-- [Key Vault Developer's Guide](/azure/key-vault/key-vault-developers-guide)
-- [Key Vault versions](key-vault-versions.md)
+- For general information on constructing Azure REST API requests, see the [Azure REST API reference](/rest/api/azure/)
+- For information specific to constructing Key Vault REST API requests, see
+   - [Common HTTP request parameters and headers](common-parameters-and-headers.md)
+   - [Authentication, requests and responses](authentication--requests-and-responses.md)
+- See the following topics for additional Key Vault concepts and details
+   - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
+   - [Key Vault Developer's Guide](/azure/key-vault/key-vault-developers-guide)
+   - [Key Vault versions](key-vault-versions.md)
 
