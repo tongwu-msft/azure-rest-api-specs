@@ -1,4 +1,15 @@
-# Data Asset
+---
+title: Data Asset - Azure Data Catalog REST API
+description: Manage a Data Asset using the Azure Data Catalog REST API.
+ms.date: 11/09/2017
+author: steelanddata
+ms.author: maroche
+ms.reviewer: jasonwhowell
+ms.service: data-catalog
+ms.topic: reference
+---
+
+# Data Asset (Azure Data Catalog REST API)
 
 ## Annotate
 Annotates an asset.

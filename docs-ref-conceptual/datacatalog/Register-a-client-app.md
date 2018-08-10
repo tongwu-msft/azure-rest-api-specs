@@ -1,17 +1,12 @@
 ---
-title: "Register a client app"
-ms.custom: na
-ms.date: 2017-11-09
-ms.prod: azure
-ms.reviewer: na
+title: Register a client app - Azure Data Catalog REST API
+ms.date: 11/09/2017
+author: steelanddata
+ms.author: maroche
+ms.reviewer: jasonwhowell
 ms.service: data-catalog
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: 15afef03-df61-4af2-8847-0143672cc412
-caps.latest.revision: 18
-author: spelluru
-manager: jhubbard
 translation.priority.mt: 
   - de-de
   - es-es
@@ -24,7 +19,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Register a client app
+# Register a client app (Azure Data Catalog REST API)
 ---  
 This article shows you how to register a Data Catalog client app in Azure Active Directory (Azure AD). To allow your application access to the Data Catalog REST API, you need to register your application with **Azure Active Directory**. This action allows you to establish an identity for your application and specify permissions to Data Catalog REST resources.  
   
