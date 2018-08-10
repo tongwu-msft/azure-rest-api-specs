@@ -5,7 +5,7 @@ author: jasonwhowell
 ms.author: jasonh
 manager: kfile
 ms.topic: reference
-ms.service: postgresql-database
+ms.service: postgresql
 ms.devlang: rest-api
 service_description: Azure Database for PostgreSQL
 ms.date: 03/20/2018
