@@ -10,16 +10,16 @@ ms.date: 08/08/2018
 
 # Azure Key Vault REST API reference
 
-Managing your Key Vault as well as the contents of your Key Vault can be accomplished through a REST interface. Below are lists of common tasks for managing both.
+Managing your Key Vault and the contents of your Key Vault can be accomplished through a REST interface. Below are lists of common tasks for managing both.
 
 ## Key Vaults
 
-Manage your Key Vault using the following set of operations, which are also known as [management plane](\azure\key-vault\key-vault-secure-your-key-vault#management-plane-and-data-plane) operations. The management plane interface is used to manage a Key Vault itself, such as creating, deleting, or updating Key Vault attributes, and setting access policies for the data plane. 
+Manage your Key Vault using the following set of operations, which are also known as [management plane](\azure\key-vault\key-vault-secure-your-key-vault#management-plane-and-data-plane) operations. The management plane interface is used to manage a Key Vault itself. For instance, creating, deleting, or updating Key Vault attributes, and setting access policies for the data plane. 
 
 - [Manage a Key Vault](/rest/api/keyvault/vaults)
 - [Create or update a Key Vault](/rest/api/keyvault/vaults/createorupdate)
-- [Deletes a Key Vault](/rest/api/keyvault/vaults/delete)
-- [Gets info about a Key Vault](/rest/api/keyvault/vaults/vaults.get)
+- [Delete a Key Vault](/rest/api/keyvault/vaults/delete)
+- [Get info about a Key Vault](/rest/api/keyvault/vaults/vaults.get)
 
 ## Keys, secrets, certificates, and storage accounts
 
@@ -29,14 +29,14 @@ Managing data within a Key Vault, such as keys, secrets, certificates, and stora
 
 - [Create a key](xref:keyvault.createkey)
 - [Get information about a key](xref:keyvault.getkey)
-- [Encrypt with a key](xref:keyvault.encrypt)
-- [Recover deleted key](xref:keyvault.recoverdeletedkey)
+- [Encrypt using a key](xref:keyvault.encrypt)
+- [Recover a deleted key](xref:keyvault.recoverdeletedkey)
 
 ### Secrets
 
 - [Create a secret](xref:keyvault.setsecret)
 - [Get a secret](xref:keyvault.getsecret)
-- [Recover deleted secret](xref:keyvault.recoverdeletedsecret)
+- [Recover a deleted secret](xref:keyvault.recoverdeletedsecret)
 
 ### Certificates
 
@@ -46,7 +46,7 @@ For concepts and more detailed information, see [About keys, secrets, and certif
 - [Import a certificate](xref:keyvault.importcertificate)
 - [Update a certificate](xref:keyvault.updatecertificate)
 - [Update a certificate policy](xref:keyvault.updatecertificatepolicy)
-- [Recover deleted certificate](xref:keyvault.recoverdeletedcertificate)
+- [Recover a deleted certificate](xref:keyvault.recoverdeletedcertificate)
 
 ### Storage accounts
 
