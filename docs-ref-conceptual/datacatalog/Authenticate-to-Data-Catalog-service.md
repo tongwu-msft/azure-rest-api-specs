@@ -1,17 +1,12 @@
 ---
-title: "Authenticate to Data Catalog service"
-ms.custom: na
-ms.date: 2017-11-09
-ms.prod: azure
-ms.reviewer: na
+title: Authenticate to Data Catalog service - Azure Data Catalog REST API
+ms.date: 11/09/2017
+author: steelanddata
+ms.author: maroche
+ms.reviewer: jasonwhowell
 ms.service: data-catalog
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: 0dae6844-5732-4374-8c43-c62e3071df44
-caps.latest.revision: 16
-author: spelluru
-manager: jhubbard
 translation.priority.mt: 
   - de-de
   - es-es
@@ -24,7 +19,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Authenticate to Data Catalog service
+# Authenticate to Data Catalog service (Azure Data Catalog REST API)
 The Data Catalog REST API is a REST-based API that provides programmatic access to Data Catalog resources to register, annotate, and search data assets programmatically.  
 ### In this article  
 - [Introduction to authentication in Data Catalog](#intro)  

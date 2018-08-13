@@ -1,17 +1,13 @@
 ---
-title: "Data Catalog limitations"
-ms.custom: na
-ms.date: 2018-01-17
-ms.prod: azure
-ms.reviewer: na
+title: Azure Data Catalog limitations
+description: Understand the limits when using the Azure Data Catalog REST API.
+ms.date: 11/09/2017
+author: steelanddata
+ms.author: maroche
+ms.reviewer: jasonwhowell
 ms.service: data-catalog
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: 84c628b8-c98e-4d2e-a447-04fbff75256b
-caps.latest.revision: 9
-author: spelluru
-manager: jhubbard
 translation.priority.mt: 
   - de-de
   - es-es

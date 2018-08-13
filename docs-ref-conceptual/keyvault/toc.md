@@ -1,1 +1,0 @@
-# [Key Vault management](vault-operations.md)
