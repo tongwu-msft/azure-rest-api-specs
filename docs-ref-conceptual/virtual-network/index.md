@@ -1,6 +1,6 @@
 ---
 ms.title: Virtual Network REST APIs
-ms.date: 08/13/2017
+ms.date: 08/13/2018
 ms.service: virtual-network
 ms.topic: reference
 ms.devlang: rest
