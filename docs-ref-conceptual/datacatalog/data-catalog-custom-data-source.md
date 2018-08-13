@@ -1,4 +1,14 @@
-# Custom Data Source
+---
+title: Custom Data Source - Azure Data Catalog REST API
+description: Manage a Custom Data Source using the Azure Data Catalog REST API.
+ms.date: 11/09/2017
+author: steelanddata
+ms.author: maroche
+ms.reviewer: jasonwhowell
+ms.service: data-catalog
+ms.topic: reference
+---
+# Custom Data Source (Azure Data Catalog REST API)
 
 ## Enumerate
 Enumerates custom data source protocols which are registered with the catalog.  

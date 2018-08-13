@@ -1,17 +1,12 @@
 ---
-title: "Data Catalog Search syntax reference"
-ms.custom: na
-ms.date: 2017-11-09
-ms.prod: azure
-ms.reviewer: na
+title: Azure Data Catalog Search syntax reference
+ms.date: 11/09/2017
+author: steelanddata
+ms.author: maroche
+ms.reviewer: jasonwhowell
 ms.service: data-catalog
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: 606d6e0f-78ce-4b0a-a60d-96f6fa3e7f4a
-caps.latest.revision: 12
-author: spelluru
-manager: jhubbard
 translation.priority.mt: 
   - de-de
   - es-es

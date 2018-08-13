@@ -1,17 +1,12 @@
 ---
-title: "Common headers and parameters"
-ms.custom: na
-ms.date: 2017-11-09
-ms.prod: azure
-ms.reviewer: na
+title: Common headers and parameters - Azure Data Catalog REST API
+ms.date: 11/09/2017
+author: steelanddata
+ms.author: maroche
+ms.reviewer: jasonwhowell
 ms.service: data-catalog
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: c197d40e-a462-4879-b24a-32731edf5790
-caps.latest.revision: 14
-author: spelluru
-manager: jhubbard
 translation.priority.mt: 
   - de-de
   - es-es
@@ -24,7 +19,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Common headers and parameters
+# Common headers and parameters (Azure Data Catalog REST API)
 ## Common request headers  
   
 |**Header**|**Description**  
