@@ -48,7 +48,7 @@ The `Create Document` operation creates a new document in a collection.
   
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
-|**id**|Required|String|It is a user created property, it is not auto generated. It is the unique ID that identifies the document, that is, no two documents should share the same **id**. The **id** must not exceed 255 characters.|  
+|**id**|Required|String|  It is the unique ID that identifies the document, that is, no two documents should share the same **id**. The **id** must not exceed 255 characters. The id field is automatically added when a document is created without specifying the id value. However, you can always update the id value by assigning a custom value to it in the request body. |  
 |\<custom>|Required|JSON|Any user-defined JSON.|  
   
 ```  
