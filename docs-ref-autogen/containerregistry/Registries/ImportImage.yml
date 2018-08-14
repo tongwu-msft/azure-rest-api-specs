@@ -74,7 +74,11 @@ definitions:
   kind: object
   properties:
   - name: resourceId
-    description: The resource identifier of the target Azure Container Registry.
+    description: The resource identifier of the source Azure Container Registry.
+    types:
+    - uid: string
+  - name: registryUri
+    description: The address of the source registry.
     types:
     - uid: string
   - name: sourceImage
@@ -148,6 +152,26 @@ examples:
         "source": {
           "resourceId": "/subscriptions/10000000-0000-0000-0000-000000000000/resourceGroups/sourceResourceGroup/providers/Microsoft.ContainerRegistry/registries/sourceRegistry",
           "sourceImage": "sourceRepository@sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "targetTags": [
+          "targetRepository:targetTag"
+        ],
+        "untaggedTargetRepositories": [
+          "targetRepository1"
+        ],
+        "mode": "Force"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+- name: ImportImageFromPublicRegistry
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/importImage?api-version=2017-10-01
+    body: >-
+      {
+        "source": {
+          "registryUri": "registry.hub.docker.com",
+          "sourceImage": "library/hello-world"
         },
         "targetTags": [
           "targetRepository:targetTag"
