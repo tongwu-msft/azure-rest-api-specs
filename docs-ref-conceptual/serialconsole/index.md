@@ -19,8 +19,10 @@ The Azure Serial Console REST API is available for you to use with the Azure Ser
 
 | Operation group | Description |
 |---|---|
-| Serial Console | Enable, disable, and get the disabled status of Serial Console for a subscription |
-
+| Enable Console | Enable Serial Console for a subscription |
+| Disable Console | Disable Serial Console for a subscription |
+| List Console - Disabled | Get whether or not Serial Console is disabled for a subscription |
+| List Operations | Gets a list of Serial Console API operations |
 
 ## See also
 - For a Windows-specific overview of Serial Console, see [Virtual machine serial console](/azure/virtual-machines/windows/serial-console)

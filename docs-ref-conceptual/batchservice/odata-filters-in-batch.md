@@ -1,7 +1,7 @@
 ---
 title: "OData filters in Azure Batch | Microsoft Docs"
 ms.custom: ""
-ms.date: "09/19/2017"
+ms.date: "08/15/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"
@@ -46,6 +46,13 @@ OData filters are used to limit the amount of data returned from a query issued 
 |startTaskInfo/exitCode|eq, ne, ge, gt, le, lt|Int|
 |startTaskInfo/startTime|eq, ne, ge, gt, le, lt|DateTime|
 |startTaskInfo/endTime|eq, ne, ge, gt, le, lt|DateTime|
+
+## List pool node counts
+[Reference](/rest/api/batchservice/account/listpoolnodecounts)
+
+|Property|Operations allowed|Type|
+|--------------|------------------------|----------|
+|poolId|eq|String|
 
 ## List task files
 [Reference](/rest/api/batchservice/file/listfromtask)
