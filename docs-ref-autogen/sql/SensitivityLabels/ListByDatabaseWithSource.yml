@@ -1,6 +1,6 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.sql.sensitivitylabels.listbydatabase
-name: List By Database
+uid: management.azure.com.sql.sensitivitylabels.listbydatabasewithsource
+name: List By Database With Source
 service: SQL Database
 groupName: Sensitivity Labels
 apiVersion: 2017-03-01-preview
@@ -10,8 +10,8 @@ consumes:
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/sensitivityLabels?api-version=2017-03-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/sensitivityLabels?$filter={$filter}&api-version=2017-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/sensitivityLabels/{sensitivityLabelSource}?api-version=2017-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/sensitivityLabels/{sensitivityLabelSource}?$filter={$filter}&api-version=2017-03-01-preview
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -38,6 +38,12 @@ uriParameters:
   description: The name of the database.
   types:
   - uid: string
+- name: sensitivityLabelSource
+  in: path
+  isRequired: true
+  description: Optional source of the sensitivity label. Valid values are current or recommeneded. In not specified both returned.
+  types:
+  - uid: SensitivityLabelSource
 - name: $filter
   in: query
   description: An OData filter expression that filters elements in the collection.
@@ -65,6 +71,16 @@ responses:
      * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
 requestHeader: []
 definitions:
+- name: SensitivityLabelSource
+  description: Optional source of the sensitivity label. Valid values are current or recommeneded. In not specified both returned.
+  kind: enum
+  properties:
+  - name: current
+    types:
+    - uid: string
+  - name: recommended
+    types:
+    - uid: string
 - name: SensitivityLabelListResult
   description: A list of sensitivity labels.
   kind: object
@@ -108,17 +124,17 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Gets the current and recommended sensitivity labels of a given database
+- name: Gets the recommended sensitivity labels of a given database
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/sensitivityLabels?api-version=2017-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/sensitivityLabels/recommended?api-version=2017-03-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/schemas/dbo/tables/myTable/columns/myColumn/sensitivityLabels/current",
-            "name": "current",
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/schemas/dbo/tables/myTable/columns/myColumn/sensitivityLabels/recommended",
+            "name": "recommended",
             "type": "Microsoft.Sql/servers/databases/schemas/tables/columns/sensitivityLabels",
             "properties": {
               "labelName": "Sensitive",
@@ -128,6 +144,34 @@ examples:
           {
             "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/schemas/dbo/tables/myTable/columns/myColumn2/sensitivityLabels/recommended",
             "name": "recommended",
+            "type": "Microsoft.Sql/servers/databases/schemas/tables/columns/sensitivityLabels",
+            "properties": {
+              "labelName": "PII",
+              "informationType": "Email"
+            }
+          }
+        ]
+      }
+- name: Gets the current sensitivity labels of a given database
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/sensitivityLabels/current?api-version=2017-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/schemas/dbo/tables/myTable/columns/myColumn3/sensitivityLabels/current",
+            "name": "current",
+            "type": "Microsoft.Sql/servers/databases/schemas/tables/columns/sensitivityLabels",
+            "properties": {
+              "labelName": "Sensitive",
+              "informationType": "Financial"
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/schemas/dbo/tables/myTable/columns/myColumn4/sensitivityLabels/current",
+            "name": "current",
             "type": "Microsoft.Sql/servers/databases/schemas/tables/columns/sensitivityLabels",
             "properties": {
               "labelName": "PII",

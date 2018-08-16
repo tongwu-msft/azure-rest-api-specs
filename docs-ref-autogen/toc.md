@@ -6792,6 +6792,7 @@
 #### [Delete](sql/SensitivityLabels/Delete.yml)
 #### [Get](sql/SensitivityLabels/Get.yml)
 #### [List By Database](sql/SensitivityLabels/ListByDatabase.yml)
+#### [List By Database With Source](sql/SensitivityLabels/ListByDatabaseWithSource.yml)
 ### [Server Advisors](sql/ServerAdvisors.yml)
 #### [Get](sql/ServerAdvisors/Get.yml)
 #### [List By Server](sql/ServerAdvisors/ListByServer.yml)
