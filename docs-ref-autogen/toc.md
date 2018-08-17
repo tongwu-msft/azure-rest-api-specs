@@ -3818,6 +3818,8 @@
 ### [Delete](migrate/Groups/Delete.yml)
 ### [Get](migrate/Groups/Get.yml)
 ### [List By Project](migrate/Groups/ListByProject.yml)
+## [Location](migrate/Location.yml)
+### [Check Name Availability](migrate/Location/CheckNameAvailability.yml)
 ## [Machines](migrate/Machines.yml)
 ### [Get](migrate/Machines/Get.yml)
 ### [List By Project](migrate/Machines/ListByProject.yml)

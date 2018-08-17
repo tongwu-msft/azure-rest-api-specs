@@ -20,16 +20,16 @@ ms.author: aedwin
 ---
 # Reporting APIs for Enterprise customers - Marketplace Store Charge
 
-The Marketplace Store Charge API returns the usage-based marketplace charges breakdown by day for the specified Billing Period or start and end dates (one time fees are not included).
+The Marketplace Store Charge API returns the usage-based marketplace charges breakdown by day for the specified Billing Period or start and end dates. And with the latest version (v3), customers can see the Recurring Charges as a part of the API response.
 
 ##Request 
 Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). If a billing period is not specified, then data for the current billing period is returned. Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd, the maximum supported time range is 36 months.  
 
 |Method | Request URI|
 |-|-|
-|GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/marketplacecharges|
-|GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/billingPeriods/{billingPeriod}/marketplacecharges|
-|GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/marketplacechargesbycustomdate?startTime=2017-01-01&endTime=2017-01-10|
+|GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/marketplacecharges|
+|GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/billingPeriods/{billingPeriod}/marketplacecharges|
+|GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/marketplacechargesbycustomdate?startTime=2017-01-01&endTime=2017-01-10|
 
 > [!Note]
 > To use the preview version of API, replace v2 with v1 in the above URL.
@@ -63,7 +63,8 @@ Common header properties that need to be added are specified [here](https://docs
 				"planName": "Plan name",
 				"consumedQuantity": 1.15,
 				"resourceRate": 0.1,
-				"extendedCost": 1.11
+				"extendedCost": 1.11,
+                "isRecurringCharge": "False"
 			},
 			...
 		]
@@ -97,6 +98,8 @@ Common header properties that need to be added are specified [here](https://docs
 |consumedQuantity|decimal|Consumed Quantity during this time period|
 |resourceRate|decimal|Unit price for the meter|
 |extendedCost|decimal|Estimated charge based on Consumed Quantity and Extended cost|
+|isRecurringCharge|string|Recurring charges indicator|
+
 <br/>
 ## See also
 

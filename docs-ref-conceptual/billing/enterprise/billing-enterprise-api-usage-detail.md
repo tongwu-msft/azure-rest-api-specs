@@ -32,16 +32,16 @@ We return data in csv format as a response of the rest API call. The API perform
 
 |Method | Download Request URI|
 |-|-|
-|GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/usagedetails/download?billingPeriod={billingPeriod}
-|GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/usagedetails/download?startTime=2017-01-01&endTime=2017-01-10|
+|GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/usagedetails/download?billingPeriod={billingPeriod}
+|GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/usagedetails/download?startTime=2017-01-01&endTime=2017-01-10|
 
 ### Asynchronous call (polling based)
 This is a two-step process that requires you to submit your request first for a specific time range and then poll to get a shared access key based URL for an Azure Blob location which has csv data. The maximum supported time rang here is 36 months. We recommend this API for larger datasets
 
 |Method | Submit Request URI|
 |-|-|
-|POST|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/usagedetails/submit?billingPeriod={billingPeriod}
-|POST|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/usagedetails/submit?startTime=2017-04-01&endTime=2017-04-10|
+|POST|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/usagedetails/submit?billingPeriod={billingPeriod}
+|POST|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/usagedetails/submit?startTime=2017-04-01&endTime=2017-04-10|
 
 #### Response of Asynchronous (polling) submit call
 
@@ -77,9 +77,9 @@ The API listed below provide data in JSON format. If a billing period is not spe
 
 |Method | Request URI|
 |-|-|
-|GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/usagedetails 
-|GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/billingPeriods/{billingPeriod}/usagedetails|
-|GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/usagedetailsbycustomdate?startTime=2017-01-01&endTime=2017-01-10|
+|GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/usagedetails 
+|GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/billingPeriods/{billingPeriod}/usagedetails|
+|GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/usagedetailsbycustomdate?startTime=2017-01-01&endTime=2017-01-10|
 
 > [!Note]
 > To use the preview version of API, replace v2 with v1 in the above URL.
@@ -92,40 +92,47 @@ The API listed below provide data in JSON format. If a billing period is not spe
 	{
 		"id": "string",
 		"data": [
-			{						
-			"accountId": 0,
-			"productId": 0,
-			"resourceLocationId": 0,
-			"consumedServiceId": 0,
-			"departmentId": 0,
-			"accountOwnerEmail": "string",
-			"accountName": "string",
-			"serviceAdministratorId": "string",
-			"subscriptionId": 0,
-			"subscriptionGuid": "string",
-			"subscriptionName": "string",
-			"date": "2017-04-27T23:01:43.799Z",
-			"product": "string",
-			"meterId": "string",
-			"meterCategory": "string",
-			"meterSubCategory": "string",
-			"meterRegion": "string",
-			"meterName": "string",
-			"consumedQuantity": 0,
-			"resourceRate": 0,
-			"Cost": 0,
-			"resourceLocation": "string",
-			"consumedService": "string",
-			"instanceId": "string",
-			"serviceInfo1": "string",
-			"serviceInfo2": "string",
-			"additionalInfo": "string",
-			"tags": "string",
-			"storeServiceIdentifier": "string",
-			"departmentName": "string",
-			"costCenter": "string",
-			"unitOfMeasure": "string",
-			"resourceGroup": "string"
+			{
+                "serviceName":"Storage",
+                "serviceTier":"Premium Page Blobs",
+                "location":"US West",
+                "chargesBilledSeparately":false,
+                "partNumber":"ABC-12345",
+                "resourceGuid":"00000000-0000-0000-0000-000000000000",
+                "offerId":"MS-AZR-0003P",
+                "cost":1,
+                "accountId":123456,
+                "productId":1234,
+                "resourceLocationId":12,
+                "consumedServiceId":1,
+                "departmentId":3456,
+                "accountOwnerEmail":"account@live.com",
+                "accountName":"Account Name",
+                "serviceAdministratorId":"123",
+                "subscriptionId":0000000,
+                "subscriptionGuid":"00000000-0000-0000-0000-000000000000",
+                "subscriptionName":"Subscription Name",
+                "date":"2018-08-01T00:00:00",
+                "product":"Locally Redundant Storage Premium Storage - Page Blob/P10 - US West",
+                "meterId":"00000000-0000-0000-0000-000000000000",
+                "meterCategory":"Storage",
+                "meterSubCategory":"Locally Redundant",
+                "meterRegion":"California",
+                "meterName":"Premium Storage - Page Blob/P10 (Units)",
+                "consumedQuantity"1,
+                "resourceRate":1,
+                "resourceLocation":"uswest",
+                "consumedService":"Microsoft.Compute",
+                "instanceId":"Id",
+                "serviceInfo1":"string",
+                "serviceInfo2":"string",
+                "additionalInfo":"string",
+                "tags":"string",
+                "storeServiceIdentifier":"string",
+                "departmentName":"Department Name",
+                "costCenter":"1234",
+                "unitOfMeasure":"Units",
+                "resourceGroup":"ResourceGroup"
 			}
 		],
 		"nextLink": "string"
@@ -151,10 +158,10 @@ The API listed below provide data in JSON format. If a billing period is not spe
 |subscriptionGuid| string| Global Unique Identifier for the subscription. |
 |subscriptionName| string| Name of the subscription. |
 |date| string| The date on which consumption occurred. |
-|product| string| Additional details on the meter. Example: A1(VM)Windows - AP East|
+|product| string| Additional details on the meter.|
 |meterId| string| The identifier for the meter which emitted usage. |
 |meterCategory| string| The Azure platform service that was used. |
-|meterSubCategory| string| Defines the Azure service type that can affect the rate. Example: A1 VM (Non-Windows|
+|meterSubCategory| string| Defines the Azure service type that can affect the rate.|
 |meterRegion| string| Identifies the location of the datacenter for certain services that are priced based on datacenter location. |
 |meterName| string| Name of the meter. |
 |consumedQuantity| double| The amount of the meter that has been consumed. |
@@ -172,6 +179,13 @@ The API listed below provide data in JSON format. If a billing period is not spe
 |costCenter| string| The cost center that the usage is associated with. |
 |unitOfMeasure| string| Identifies the unit that the service is charged in. Example: GB, hours, 10,000 s. |
 |resourceGroup| string| The resource group in which the deployed meter is running in. For more information, see [Azure Resource Manager overview](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-overview). |
+|chargesBilledSeparately| string| Charges billed outside of Monetary Commitment. |
+|location| string| Location where the service was deployed. |
+|offerId| string| OfferId against the service. |
+|partNumber| string| SKU Number for the service. |
+|resourceGuid| string| The identifier for the meter which emitted usage. |
+|serviceTier| string| Service Tier. |
+|serviceName| string| Service Name. |
 
 
 ## See also
