@@ -1,12 +1,7 @@
 ---
 title: "Create an Attachment - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: bf341d94-196b-441c-b3df-5e1e400105ab
 caps.latest.revision: 8

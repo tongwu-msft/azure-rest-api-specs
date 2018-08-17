@@ -1,12 +1,7 @@
 ---
 title: "Delete a Database - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: f45e012d-eacd-44e5-9cdf-53c75fd3fc53
 caps.latest.revision: 7

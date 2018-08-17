@@ -1,12 +1,7 @@
 ---
 title: "HTTP Status Codes for Azure Cosmos DB"
-ms.custom: ""
 ms.date: "11/18/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 7104e4ef-fa51-4194-93f0-bb5f53fe9d61
 caps.latest.revision: 21

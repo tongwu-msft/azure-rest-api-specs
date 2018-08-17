@@ -1,12 +1,7 @@
 ---
 title: "Create a Permission - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: a64359ed-8eb3-4e7d-90e0-63a4d4710acd
 caps.latest.revision: 10

@@ -1,12 +1,7 @@
 ---
 title: "Delete a Stored Procedure - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 92e2c940-b2f1-4d63-a2a8-1a2409c98811
 caps.latest.revision: 7

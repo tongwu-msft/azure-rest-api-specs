@@ -1,12 +1,7 @@
 ---
 title: "Delete a Trigger - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 353a32fd-5d75-450b-af34-dca4bf42ca11
 caps.latest.revision: 7

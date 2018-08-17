@@ -1,12 +1,7 @@
 ---
 title: "RESTful interactions with Azure Cosmos DB resources"
-ms.custom: ""
 ms.date: "01/08/2018"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: ecf0afe1-ff09-43f7-be77-53e1a3b83ca8
 caps.latest.revision: 19
