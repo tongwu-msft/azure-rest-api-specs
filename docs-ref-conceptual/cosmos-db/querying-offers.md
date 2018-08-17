@@ -1,12 +1,7 @@
 ---
 title: "Querying Offers - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "03/29/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 72f8cca5-1ddb-49e4-8b6e-0dccbf812b7c
 caps.latest.revision: 8

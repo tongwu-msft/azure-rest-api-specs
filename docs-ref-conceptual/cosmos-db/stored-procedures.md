@@ -1,12 +1,7 @@
 ---
 title: "Stored Procedures - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/12/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 19dcbe34-9bbd-424e-8a80-4da3ddbc2245
 caps.latest.revision: 6

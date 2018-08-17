@@ -1,12 +1,7 @@
 ---
 title: "Get a Permission - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 7cc0012f-50eb-480d-b427-a73d7721b398
 caps.latest.revision: 9

@@ -1,12 +1,7 @@
 ---
 title: "List Offers - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "03/29/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 2d8f1a15-00a5-4509-a57c-9c2ccd1e062a
 caps.latest.revision: 9

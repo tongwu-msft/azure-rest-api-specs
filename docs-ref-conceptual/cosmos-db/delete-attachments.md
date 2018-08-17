@@ -1,12 +1,7 @@
 ---
 title: "Delete Attachments - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: ea589c6a-1639-4828-9b7c-b22e355c7f31
 caps.latest.revision: 8

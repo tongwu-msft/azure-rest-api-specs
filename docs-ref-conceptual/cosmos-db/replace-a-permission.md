@@ -1,12 +1,7 @@
 ---
 title: "Replace a Permission - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 0d979c7a-00ca-4753-bb84-e081afae2eb5
 caps.latest.revision: 8

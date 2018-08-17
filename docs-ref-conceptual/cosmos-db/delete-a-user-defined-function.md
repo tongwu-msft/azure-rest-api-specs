@@ -1,12 +1,7 @@
 ---
 title: "Delete a User-Defined Function - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 318e2c9c-854e-465c-984e-13aa96c7c9f0
 caps.latest.revision: 7

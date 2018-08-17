@@ -1,12 +1,7 @@
 ---
 title: "Replace a User Defined Function - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 6edea79d-2010-49f6-8331-78f997c3b80c
 caps.latest.revision: 7

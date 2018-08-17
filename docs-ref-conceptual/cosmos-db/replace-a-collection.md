@@ -1,12 +1,7 @@
 ---
 title: "Replace a Collection - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "03/29/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 22f0a0f2-df1e-40d4-b5ff-12aeecaa1419
 caps.latest.revision: 6

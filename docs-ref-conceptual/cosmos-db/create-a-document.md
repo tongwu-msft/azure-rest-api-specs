@@ -1,12 +1,7 @@
 ---
 title: "Create a Document - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "07/07/2017"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: c341c439-b854-4a5d-8982-448ff5e22f22
 caps.latest.revision: 9

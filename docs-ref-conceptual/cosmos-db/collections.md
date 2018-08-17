@@ -1,12 +1,7 @@
 ---
 title: "Collections -  Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "08/16/2017"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: c5fc31e0-7914-4a64-a5ad-4472e9953c7d
 caps.latest.revision: 13

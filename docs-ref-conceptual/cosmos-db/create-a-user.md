@@ -1,12 +1,7 @@
 ---
 title: "Create a User  - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 40d7a257-3969-400f-bd74-25bed982a91b
 caps.latest.revision: 7
