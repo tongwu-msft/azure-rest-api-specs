@@ -1,4 +1,12 @@
-﻿# Interactive session
+﻿---
+ms.title: "Sessions - REST API (Azure HDInsight)"
+ms.service: hdinsight
+ms.topic: reference
+author: jasonwhowell
+ms.author: jasonh
+ms.date: 2016-11-16
+---
+# Interactive session
 
 ###  <a name="bk_common"></a> Common parameters and headers  
  The following information is common to all tasks that you might do related to clusters:  
