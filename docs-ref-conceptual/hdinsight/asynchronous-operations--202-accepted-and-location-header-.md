@@ -27,7 +27,7 @@ Operations that complete asynchronously return HTTP 202 (Accepted) with a Locati
 |------------|-----------------|  
 |GET|URL from the Location header|  
   
- If the operation is not complete, the response will be a HTTP 202 (Accepted) with the same location header.  
+ If the operation is not complete, the response will be an HTTP 202 (Accepted) with the same location header.  
   
  If the operation completed successfully, the response will be the 200 (for anything that is not a DELETE) or 204 (for DELETE)  
   
