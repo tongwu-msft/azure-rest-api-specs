@@ -1,3 +1,12 @@
+---
+title: "Cluster REST API (Azure HDInsight)"
+ms.date: 2016-11-16
+ms.service: hdinsight
+ms.topic: reference
+author: jasonwhowell
+ms.author: jasonh
+---
+
 # Cluster
 
 ## Create

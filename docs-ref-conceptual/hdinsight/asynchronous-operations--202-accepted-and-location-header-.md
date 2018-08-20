@@ -1,18 +1,11 @@
 ---
-title: "Asynchronous Operations (202 Accepted and Location header)"
-ms.custom: ""
-ms.date: "2016-11-16"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "hdinsight"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "reference"
+title: "Asynchronous REST operations (Azure HDInsight)"
+ms.date: 2016-11-16
+ms.service: hdinsight
+ms.topic: reference
 ms.assetid: bdde467e-e09d-4ba4-813f-b5c274e50223
-caps.latest.revision: 5
-author: "nitinme"
-ms.author: "nitinme"
-manager: "Jhubbard"
+author: jasonwhowell
+ms.author: jasonh
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -25,7 +18,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Asynchronous Operations (202 Accepted and Location header)
+# Asynchronous Operations (Azure HDInsight)
 Operations that complete asynchronously return HTTP 202 (Accepted) with a Location header and an optional Retry-After header. The time mentioned in the Retry-After header is in seconds with a minimum of 10 seconds and maximum of 10 minutes.  
   
  URI for the location header will be as follows:  

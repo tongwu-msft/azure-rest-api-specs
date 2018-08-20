@@ -1,12 +1,10 @@
 ---
-ms.assetid: 37b1c530-8ef4-49d5-8dd2-48220e980d3e
 ms.title: Azure HDInsight REST API Reference
-ms.prod: azure
 ms.service: hdinsight
-author: nitinme
-ms.author: nitinme
-ms.manager: jhubbard
-service_description: To be added
+author: jasonwhowell
+ms.author: jasonh
+ms.manager: kfile
+ms.assetid: 37b1c530-8ef4-49d5-8dd2-48220e980d3e
 ---
 
 # Azure HDInsight REST API
