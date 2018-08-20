@@ -9,9 +9,9 @@ ms.date: 2016-11-16
 # Interactive session
 
 ###  <a name="bk_common"></a> Common parameters and headers  
- The following information is common to all tasks that you might do related to clusters:  
+ The following information is common to all tasks related to clusters that you might do:
   
--   Replace {cluster-endpoint} with the url of your cluster’s management endpoint. (e.g. myendpoint.azurehdinsight.net)  
+-   Replace {cluster-endpoint} with the url of your cluster’s management endpoint. (for example, myendpoint.azurehdinsight.net)  
   
 -   Replace {session-id} with the session id returned on session startup.  
   
@@ -52,11 +52,11 @@ Start a new interactive session.
 |jars|No|Array of String|Files to be placed on the java classpath|  
 |pyFiles|No|Array of String|Files to be placed on the PYTHONPATH|  
 |files|No|Array of String|Files to be placed in executor working directory|  
-|driverMemory|No|String|Memory for driver (e.g. 1000M, 2G)|  
+|driverMemory|No|String|Memory for driver (1000M, 2G)|  
 |driverCores|No|Integer|Number of cores used by driver|  
-|executorMemory|No|String|Memory for executor (e.g. 1000M, 2G)|  
+|executorMemory|No|String|Memory for executor (1000M, 2G)|  
 |executorCores|No|Integer|Number of cores used by executor|  
-|numExecutors|No|Integer|number of executor|  
+|numExecutors|No|Integer|Number of executors|  
 |archives|No|Array of String|Archives to be uncompressed (YARN mode only)|  
   
 ### Response  
@@ -168,7 +168,7 @@ Start a new interactive session.
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
 |Status|Yes|String|The statement status|  
-|Execution_count|Yes|Integer|The number of execution|  
+|Execution_count|Yes|Integer|The number of executions|  
 |data|Yes|Complex type (Text)|The text output of the statement.|  
   
  **Text**  
@@ -216,7 +216,7 @@ Start a new interactive session.
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
 |from|Yes|String|Offset|  
-|total|Yes|String|Amount of sessions to return|  
+|total|Yes|String|Number of sessions to return|  
 |sessions|Yes|Array of Complex  Type (Session)|A list of active sessions|  
   
 #### Session  

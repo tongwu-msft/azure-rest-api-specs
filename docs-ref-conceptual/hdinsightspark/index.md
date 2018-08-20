@@ -10,7 +10,7 @@ ms.date: 2016-11-16
 
 # Azure HDInsight Spark - Remote Job Submission REST API
 
-Use these APIs to submit remote job to HDInsight Spark clusters. All task operations conform to the HTTP/1.1 protocol. Please make sure you are authenticating with the Spark cluster management endpoint using HTTP basic authentication with your Spark administrator credentials. 
+Use these APIs to submit remote job to HDInsight Spark clusters. All task operations conform to the HTTP/1.1 protocol. Make sure you are authenticating with the Spark cluster management endpoint using HTTP basic authentication with your Spark administrator credentials. 
 
 ## REST Operation Groups
 

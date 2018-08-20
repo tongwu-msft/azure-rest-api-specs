@@ -10,11 +10,11 @@ ms.date: 2016-11-16
 # Batch Job
 
 ###  <a name="bk_common"></a> Common parameters and headers  
- The following information is common to all tasks that you might do related to clusters:  
+ The following information is common to all tasks related to clusters that you might do:  
   
--   Replace {cluster-endpoint} with the url of your cluster’s management endpoint. (e.g. myendpoint.azurehdinsight.net)  
+-   Replace {cluster-endpoint} with the url of your cluster’s management endpoint. (for example, myendpoint.azurehdinsight.net)  
   
--   Replace {batch-id} with the batch id returned on job submission.  
+-   Replace {batch-id} with the batch ID returned on job submission.  
   
 -   Set the Content-Type header to **application/json**.  
   
@@ -52,16 +52,16 @@ Submit a new batch job from a jar.
 |------------------|--------------|----------|-----------------|  
 |proxyUser|No|String|The user to impersonate that will execute the job|  
 |file|Yes|String|Path to the batch job’s jar.|  
-|args|No|Array of String|Command line arguments passed to the batch job.|  
+|args|No|Array of String|Command-line arguments passed to the batch job.|  
 |className|Yes|String|The class name of the main class.|  
 |jars|No|Array of String|Files to be placed on the java classpath|  
 |pyFiles|No|Array of String|Files to be placed on the PYTHONPATH|  
 |files|No|Array of String|Files to be placed in executor working directory|  
-|driverMemory|No|String|Memory for driver (e.g. 1000M, 2G)|  
+|driverMemory|No|String|Memory for driver (1000M, 2G)|  
 |driverCores|No|Integer|Number of cores used by driver|  
-|executorMemory|No|String|Memory for executor (e.g. 1000M, 2G)|  
+|executorMemory|No|String|Memory for executor (1000M, 2G)|  
 |executorCores|No|Integer|Number of cores used by executor|  
-|numExecutors|No|Integer|number of executor|  
+|numExecutors|No|Integer|number of executors|  
 |archives|No|Array of String|Archives to be uncompressed (YARN mode only)|  
   
 ### Response  
@@ -117,7 +117,7 @@ Submit a new batch job from a jar.
 |------------------|--------------|----------|-----------------|  
 |id|Yes|Integer|The batch session id|  
 |from|Yes|Integer|Offset|  
-|size|Yes|Integer|Total amount of lines|  
+|size|Yes|Integer|Total number of lines|  
 |log|Yes|Array of string|Array of log lines for this batch job.|
 
 
@@ -180,7 +180,7 @@ Submit a new batch job from a jar.
   
 ### Interactive sessions  
   
--   Start, submit statement, retrieve statement result and terminate an interactive session
+-   Start, submit statement, retrieve statement results, and terminate an interactive session
 
 ## Return all active batch jobs
 ### Request  
@@ -218,7 +218,7 @@ Submit a new batch job from a jar.
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
 |from|Yes|String|Offset|  
-|total|Yes|String|Amount of batches to return|  
+|total|Yes|String|Number of batches to return|  
 |session|Yes|Array of Complex  Type (Batch)|A list of active batch jobs|  
   
 #### Batch  
