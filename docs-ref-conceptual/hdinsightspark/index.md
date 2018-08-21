@@ -5,7 +5,7 @@ ms.topic: reference
 author: jasonwhowell
 ms.author: jasonh
 ms.assetid: 179c0eec-e204-42ec-868d-e3a2f04173cf
-ms.date: 2016-11-16
+ms.date: 11/16/2016
 ---
 
 # Azure HDInsight Spark - Remote Job Submission REST API
