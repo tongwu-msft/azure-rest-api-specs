@@ -1,6 +1,6 @@
 ---
 title: "Application REST API (Azure HDInsight)"
-ms.date: 2016-11-16
+ms.date: 11/16/2016
 ms.service: hdinsight
 ms.topic: reference
 author: jasonwhowell
