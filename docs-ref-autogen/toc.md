@@ -4118,6 +4118,7 @@
 ### [List By Server](postgresql/VirtualNetworkRules/ListByServer.yml)
 # [Power BI Embedded](../docs-ref-conceptual/power-bi-embedded/index.md)
 ## [Capacities](power-bi-embedded/Capacities.yml)
+### [Check Name Availability](power-bi-embedded/Capacities/CheckNameAvailability.yml)
 ### [Create](power-bi-embedded/Capacities/Create.yml)
 ### [Delete](power-bi-embedded/Capacities/Delete.yml)
 ### [Get Details](power-bi-embedded/Capacities/GetDetails.yml)
