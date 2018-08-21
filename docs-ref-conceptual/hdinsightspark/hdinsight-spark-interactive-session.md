@@ -1,10 +1,10 @@
-﻿---
+---
 ms.title: "Sessions - REST API (Azure HDInsight)"
 ms.service: hdinsight
 ms.topic: reference
 author: jasonwhowell
 ms.author: jasonh
-ms.date: 2016-11-16
+ms.date: 11/16/2016
 ---
 # Interactive session
 
