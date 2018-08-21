@@ -1,12 +1,7 @@
 ---
 title: "Get an Offer - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "03/29/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 1cebdf68-24c9-4c2b-acc3-bc8caf80595f
 caps.latest.revision: 8

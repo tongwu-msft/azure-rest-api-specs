@@ -1,12 +1,7 @@
 ---
 title: "Get a Collection - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "03/29/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: c2f93095-bd4c-4b11-a396-8f6a2574a3b3
 caps.latest.revision: 9

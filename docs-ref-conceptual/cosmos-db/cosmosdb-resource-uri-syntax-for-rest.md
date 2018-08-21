@@ -1,12 +1,7 @@
 ---
 title: "Azure Cosmos DB Resource URI Syntax for REST"
-ms.custom: ""
 ms.date: "03/29/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: a29019f2-ca97-4ee8-9a7d-c3a4408f8fdf
 caps.latest.revision: 12

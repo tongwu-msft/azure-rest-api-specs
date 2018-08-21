@@ -1,12 +1,7 @@
 ---
 title: "Create a Trigger - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: d91d7398-6323-4add-a721-2e7659510f34
 caps.latest.revision: 7

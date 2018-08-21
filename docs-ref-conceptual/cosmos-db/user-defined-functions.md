@@ -1,12 +1,7 @@
 ---
 title: "User Defined Functions - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/12/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: dc8276d9-62e1-4ec5-a861-05f192c86ace
 caps.latest.revision: 6

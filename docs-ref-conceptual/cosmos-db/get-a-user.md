@@ -1,12 +1,7 @@
 ---
 title: "Get a User - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 4bc0071b-8832-4aee-8e62-3b56d7667933
 caps.latest.revision: 9

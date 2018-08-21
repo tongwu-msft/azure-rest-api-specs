@@ -1,12 +1,7 @@
 ---
 title: "Replace a User - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/25/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: cf000996-6e1e-4921-a26c-bd9b765d1e7d
 caps.latest.revision: 8

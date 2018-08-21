@@ -1,12 +1,7 @@
 ---
 title: "Replace an Offer - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "03/29/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: ce8d5627-c71a-4d01-9548-fbc37f04b628
 caps.latest.revision: 9

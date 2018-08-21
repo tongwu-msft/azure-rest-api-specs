@@ -1,12 +1,7 @@
 ---
 title: "Users - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "02/12/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 98f97aa4-91e8-4dce-9cf7-6663cc736676
 caps.latest.revision: 7

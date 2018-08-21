@@ -1,12 +1,7 @@
 ---
 title: "Access Control on Azure Cosmos DB Resources"
-ms.custom: ""
 ms.date: "08/15/2017"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: c3c3324c-9a3f-4cad-8a74-bd73d8b4e40b
 caps.latest.revision: 40

@@ -1,12 +1,7 @@
 ---
 title: "Get a Document - Azure Cosmos DB REST API"
-ms.custom: ""
 ms.date: "03/29/2016"
-ms.prod: "azure"
-ms.reviewer: ""
 ms.service: "cosmos-db"
-ms.suite: ""
-ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 808c19fa-6a6d-4ce7-953f-7c9316a23b47
 caps.latest.revision: 9
