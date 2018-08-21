@@ -1,6 +1,6 @@
 ---
 title: "Asynchronous REST operations (Azure HDInsight)"
-ms.date: 2016-11-16
+ms.date: 11/16/2016
 ms.service: hdinsight
 ms.topic: reference
 ms.assetid: bdde467e-e09d-4ba4-813f-b5c274e50223
