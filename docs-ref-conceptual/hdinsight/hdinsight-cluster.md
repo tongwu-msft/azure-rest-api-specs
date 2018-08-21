@@ -1,13 +1,13 @@
 ---
 title: "Cluster REST API (Azure HDInsight)"
-ms.date: 11/16/2016
 ms.service: hdinsight
 ms.topic: reference
 author: jasonwhowell
 ms.author: jasonh
+ms.date: 11/16/2016
 ---
 
-# Cluster
+# Cluster REST API in Azure HDInsight
 
 ## Create
 Creates a cluster in the specified subscription.  
@@ -1085,7 +1085,7 @@ Gets details about a single configuration type.
 ```
 
 
-# List by resource group
+## List by resource group
 Lists all the clusters in the user’s subscription in the specified resource group.  
   
 ### Request  
