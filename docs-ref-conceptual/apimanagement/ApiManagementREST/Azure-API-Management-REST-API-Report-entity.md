@@ -61,7 +61,8 @@ This topic describes how to retrieve reports using the API Management REST API.
 ##  <a name="Prerequisites"></a> Prerequisites  
   
 > [!IMPORTANT]
->  Before making any calls into the API Management REST API, please review the [Prerequisites](../ApiManagementREST/API-Management-REST.md#Prerequisites) section of the [API Management REST](../ApiManagementREST/API-Management-REST.md) guide. This specifies the necessary authentication, version parameters, supported media types, and other information required in order to successfully call the API Management REST API.  
+>
+> Before making any calls into the API Management REST API, please review the [API Management REST](../ApiManagementREST/API-Management-REST.md) guide. This specifies the necessary authentication, version parameters, supported media types, and other information required in order to successfully call the API Management REST API. 
   
  Each of the following report types support different `$filter` parameter expression operand combinations which are listed in the **Query Parameters** section for each report type. If a `$filter` parameter expression operand combination is invalid, a `400 Bad Request` response code is returned.  
   
