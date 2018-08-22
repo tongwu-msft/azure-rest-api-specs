@@ -1,4 +1,13 @@
-# Cluster
+---
+title: "Cluster REST API (Azure HDInsight)"
+ms.service: hdinsight
+ms.topic: reference
+author: jasonwhowell
+ms.author: jasonh
+ms.date: 11/16/2016
+---
+
+# Cluster REST API in Azure HDInsight
 
 ## Create
 Creates a cluster in the specified subscription.  
@@ -10,7 +19,7 @@ Creates a cluster in the specified subscription.
 |------------|-----------------|  
 |PUT|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}?api-version={api-version}`|  
   
- The following example shows the request body for creating a Linux based hadoop cluster. For examples of creating clusters in other ways, see the Examples section below.  
+ The following example shows the request body for creating a Linux-based hadoop cluster. For examples of creating clusters in other ways, see the Examples section below.  
   
 ```json
 {  
@@ -132,7 +141,7 @@ Creates a cluster in the specified subscription.
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
 |kind|Yes|String|Specifies the cluster type.<br /><br /> Valid values are hadoop, hbase, storm & spark|  
-|configurations|Yes|Dictionary|This is a dictionary of configuration type and its associated value dictionary.<br /><br /> gateway configuration type is used to configure the http user used for connecting to web api;s and the ambari portal<br /><br /> core-site configuration type is used to configure the default storage account for the cluster|  
+|configurations|Yes|Dictionary|This element is a dictionary of configuration type and its associated value dictionary.<br /><br /> gateway configuration type is used to configure the http user used for connecting to web APIs and the Ambari portal<br /><br /> core-site configuration type is used to configure the default storage account for the cluster|  
   
 ####  <a name="bk_computeprof"></a> computeProfile  
   
@@ -160,9 +169,9 @@ Creates a cluster in the specified subscription.
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|[linuxOperatingSystemProfile](#bk_linuxop)|No|Complex  Type|Specifies the linux OS related settings|  
-|[windowsOperatingSystemProfile](#bk_windowsop)|No|Complex Type|Specifies windows OS related settings|  
-|[virtualNetworkProfile](#bk_virtualnet)|No|Complex  Type|Specifies virtual network related settings if the cluster is being deployed in a virtual network in the user’s subscription|  
+|[linuxOperatingSystemProfile](#bk_linuxop)|No|Complex  Type|Specifies the linux OS-related settings|  
+|[windowsOperatingSystemProfile](#bk_windowsop)|No|Complex Type|Specifies windows OS-related settings|  
+|[virtualNetworkProfile](#bk_virtualnet)|No|Complex  Type|Specifies virtual network-related settings if the cluster is being deployed in a virtual network in the user’s subscription|  
 |[scriptActions](#bk_scriptactions)|No|Array of Complex Type|List of script actions to execute on the cluster|  
   
 ####  <a name="bk_linuxop"></a> linuxOperatingSystemProfile  
@@ -177,7 +186,7 @@ Creates a cluster in the specified subscription.
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|publicKeys|Yes|Array|Contains a list of certificateData objects. The value is a ssh-rsa public key|  
+|publicKeys|Yes|Array|Contains a list of certificateData objects. The value is an ssh-rsa public key|  
   
 ####  <a name="bk_windowsop"></a> windowsOperatingSystemProfile  
   
@@ -279,7 +288,7 @@ Creates a cluster in the specified subscription.
 |clusterState|String|Indicates the more detailed HDInsight cluster state while provisioning is in progress.|  
 |createdDate|Date|Datetime when the cluster create request was received|  
 |quotaInfo|Complex  Type|Specifies the coresUsed by the cluster|  
-|errors|Array of error messgaes|Contains the error message if provisioningState = ‘failed"|  
+|errors|Array of error messages|Contains the error message if provisioningState = ‘failed"|  
 |[connectivityEndpoints](#bk_conend)|Complex Type|Specifies the public endpoints for the cluster|  
   
 ####  <a name="bk_conend"></a> connectivityEndpoints  
@@ -434,18 +443,18 @@ Create a premium domain-joined cluster with Apache Ranger. User needs to provide
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
 |clusterVersion|Yes|String|Specifies the cluster version|  
-|osType|Yes|String|Specifies the Operating system for the cluster.<br /><br /> Valid value is **Linux** becuase only Linux cluster types can join an Azure AD domain.| 
+|osType|Yes|String|Specifies the Operating system for the cluster.<br /><br /> Valid value is **Linux** because only Linux cluster types can join an Azure AD domain.| 
 |tier|No|String|Default value is **standard**. Valid values are **standard** and **premium**. If no value is specified, the value is assumed to be **standard**. Specifies the Tier for the cluster. Domain joined clusters are only supported in premium tier |
 |[clusterDefinition](#bk_clusterdef_premium)|Yes|Complex  Type|Specifies information about the cluster type and configurations|  
 |[computeProfile](#bk_computeprof_premium)|Yes|Complex Type|Specifies information about the cluster topology and associated role properties| 
-| [securityProfile](#bk_securityprof_premium) | No | Complex Type | If a secure, domain-joined cluster is being created, this specifies the Active Directory related settings| 
+| [securityProfile](#bk_securityprof_premium) | No | Complex Type | If a secure, domain-joined cluster is being created, this element specifies the Active Directory related settings| 
   
 ####  <a name="bk_clusterdef_premium"></a> clusterDefinition  
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
 |kind|Yes|String|Specifies the cluster type.<br /><br /> Valid values are hadoop, hbase, storm & spark|  
-|configurations|Yes|Dictionary|This is a dictionary of configuration type and its associated value dictionary.<br /><br /> gateway configuration type is used to configure the http user used for connecting to web api;s and the ambari portal<br /><br /> core-site configuration type is used to configure the default storage account for the cluster|  
+|configurations|Yes|Dictionary|This element is a dictionary of configuration type and its associated value dictionary.<br /><br /> gateway configuration type is used to configure the http user used for connecting to web APIs and the Ambari portal<br /><br /> core-site configuration type is used to configure the default storage account for the cluster|  
   
 ####  <a name="bk_computeprof_premium"></a> computeProfile  
   
@@ -485,8 +494,8 @@ Create a premium domain-joined cluster with Apache Ranger. User needs to provide
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|[linuxOperatingSystemProfile](#bk_linuxop_premium)|No|Complex  Type|Specifies the linux OS related settings|  
-|[virtualNetworkProfile](#bk_virtualnet_premium)|No|Complex  Type|Specifies virtual network related settings if the cluster is being deployed in a virtual network in the user’s subscription|  
+|[linuxOperatingSystemProfile](#bk_linuxop_premium)|No|Complex  Type|Specifies the linux OS-related settings|  
+|[virtualNetworkProfile](#bk_virtualnet_premium)|No|Complex  Type|Specifies virtual network-related settings if the cluster is being deployed in a virtual network in the user’s subscription|  
 |[scriptActions](#bk_scriptactions_premium)|No|Array of Complex Type|List of script actions to execute on the cluster|  
   
 ####  <a name="bk_linuxop_premium"></a> linuxOperatingSystemProfile  
@@ -501,7 +510,7 @@ Create a premium domain-joined cluster with Apache Ranger. User needs to provide
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|publicKeys|Yes|Array|Contains a list of certificateData objects. The value is a ssh-rsa public key|  
+|publicKeys|Yes|Array|Contains a list of certificateData objects. The value is an ssh-rsa public key|  
   
 ####  <a name="bk_virtualnet_premium"></a> virtualNetworkProfile  
   
@@ -589,7 +598,7 @@ Create a premium domain-joined cluster with Apache Ranger. User needs to provide
 |clusterState|String|Indicates the more detailed HDInsight cluster state while provisioning is in progress.|  
 |createdDate|Date|Datetime when the cluster create request was received|  
 |quotaInfo|Complex  Type|Specifies the coresUsed by the cluster|  
-|errors|Array of error messgaes|Contains the error message if provisioningState = ‘failed"|  
+|errors|Array of error messages|Contains the error message if provisioningState = ‘failed"|  
 |[connectivityEndpoints](#bk_conend_premium)|Complex Type|Specifies the public endpoints for the cluster|  
   
 ####  <a name="bk_conend_premium"></a> connectivityEndpoints  
@@ -604,7 +613,7 @@ Create a premium domain-joined cluster with Apache Ranger. User needs to provide
 
 ## Create a cluster with Azure Data Lake Store as the default filesystem
 
-Creates a cluster in the specified subscription with Azure Data Lake Store as the default filesystem. You must provide a **ClusterIdentity** object in the request body and configure the **default-filesystem** property with appropriate Data Lake Store URL.
+Creates a cluster in the specified subscription with Azure Data Lake Store as the default filesystem. Provide a **ClusterIdentity** object in the request body and configure the **default-filesystem** property with appropriate Data Lake Store URL.
 
 Azure Data Lake can be configured as the default filesystem for cluster versions starting from 3.5 inclusive.  
   
@@ -743,7 +752,7 @@ The following example shows the request body for creating a Linux-based Hadoop c
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
 |kind|Yes|String|Specifies the cluster type.<br /><br /> Valid values are hadoop, hbase, storm & spark|  
-|configurations|Yes|Dictionary|This is a dictionary of configuration type and its associated value dictionary.<br /><br /> gateway configuration type is used to configure the http user used for connecting to web api;s and the ambari portal<br /><br /> core-site configuration type is used to configure the default storage account for the cluster|  
+|configurations|Yes|Dictionary|This element is a dictionary of configuration type and its associated value dictionary.<br /><br /> gateway configuration type is used to configure the http user used for connecting to web APIs and the Ambari portal<br /><br /> core-site configuration type is used to configure the default storage account for the cluster|  
   
 ####  <a name="bk_computeprof_adls"></a> computeProfile  
   
@@ -771,8 +780,8 @@ The following example shows the request body for creating a Linux-based Hadoop c
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|[linuxOperatingSystemProfile](#bk_linuxop_adls)|No|Complex  Type|Specifies the linux OS related settings|  
-|[virtualNetworkProfile](#bk_virtualnet_adls)|No|Complex  Type|Specifies virtual network related settings if the cluster is being deployed in a virtual network in the user’s subscription|  
+|[linuxOperatingSystemProfile](#bk_linuxop_adls)|No|Complex  Type|Specifies the linux OS-related settings|  
+|[virtualNetworkProfile](#bk_virtualnet_adls)|No|Complex  Type|Specifies virtual network-related settings if the cluster is being deployed in a virtual network in the user’s subscription|  
 |[scriptActions](#bk_scriptactions_adls)|No|Array of Complex Type|List of script actions to execute on the cluster|  
   
 ####  <a name="bk_linuxop_adls"></a> linuxOperatingSystemProfile  
@@ -787,7 +796,7 @@ The following example shows the request body for creating a Linux-based Hadoop c
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|publicKeys|Yes|Array|Contains a list of certificateData objects. The value is a ssh-rsa public key|  
+|publicKeys|Yes|Array|Contains a list of certificateData objects. The value is an ssh-rsa public key|  
   
   
 ####  <a name="bk_virtualnet_adls"></a> virtualNetworkProfile  
@@ -871,7 +880,7 @@ The following example shows the request body for creating a Linux-based Hadoop c
 |clusterState|String|Indicates the more detailed HDInsight cluster state while provisioning is in progress.|  
 |createdDate|Date|Datetime when the cluster create request was received|  
 |quotaInfo|Complex  Type|Specifies the coresUsed by the cluster|  
-|errors|Array of error messgaes|Contains the error message if provisioningState = ‘failed"|  
+|errors|Array of error messages|Contains the error message if provisioningState = ‘failed"|  
 |[connectivityEndpoints](#bk_conend_adls)|Complex Type|Specifies the public endpoints for the cluster|  
   
 ####  <a name="bk_conend_adls"></a> connectivityEndpoints  
@@ -1002,7 +1011,7 @@ Gets the details/properties of the specified cluster.
 |clusterState|String|Indicates the more detailed HDInsight cluster state while provisioning is in progress.|  
 |createdDate|Date|Datetime when the cluster create request was received|  
 |quotaInfo|Complex  Type|Specifies the coresUsed by the cluster|  
-|errors|Array of error messgaes|Contains the error message if provisioningState = ‘failed"|  
+|errors|Array of error messages|Contains the error message if provisioningState = ‘failed"|  
 |[connectivityEndpoints](#connectivityEndpoints)|Complex Type|Specifies the public endpoints for the cluster|  
   
 ####  <a name="connectivityEndpoints"></a> connectivityEndpoints  
@@ -1048,7 +1057,7 @@ Gets cluster configuration details.
   
 |Element name|Type|Description|  
 |------------------|----------|-----------------|  
-|configurations|Dictionary|This is a dictionary of configuration type and its associated value dictionary.  <br />gateway configuration type is used to configure the http user used for connecting to web api;s and the ambari portal  <br />core-site configuration type is used to configure the default storage account for the cluster|
+|configurations|Dictionary|This element is a dictionary of configuration type and its associated value dictionary.  <br />gateway configuration type is used to configure the http user used for connecting to web APIs and the Ambari portal  <br />core-site configuration type is used to configure the default storage account for the cluster|
 
 
 ## Get configuration
@@ -1076,7 +1085,7 @@ Gets details about a single configuration type.
 ```
 
 
-# List by resource group
+## List by resource group
 Lists all the clusters in the user’s subscription in the specified resource group.  
   
 ### Request  
@@ -1173,7 +1182,7 @@ This operation allows users to enable/disable the HTTPS connectivity to the clus
 
 
 ## Change RDP settings (Windows cluster only)
-This operation allows a user to enable/disable RDP. It applies to Windows based clusters.  
+This operation allows a user to enable/disable RDP. It applies to Windows-based clusters.  
   
 ### Request  
  See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
@@ -1216,7 +1225,7 @@ This operation allows a user to enable/disable RDP. It applies to Windows based 
   
 |Element name|Required|Type|Description|  
 |------------------|--------------|----------|-----------------|  
-|[windowsOperatingSystemProfile](#windowsOperatingSystemProfile)|No|Complex Type|Specifies windows OS related settings|  
+|[windowsOperatingSystemProfile](#windowsOperatingSystemProfile)|No|Complex Type|Specifies windows OS-related settings|  
   
 ####  <a name="windowsOperatingSystemProfile"></a> windowsOperatingSystemProfile  
   
@@ -1277,7 +1286,7 @@ Execute Script action on a running cluster.
 |------------------|--------------|----------|-----------------|  
 |name|Yes|String|Specifies the name of the script action|  
 |uri|Yes|String|Specifies the URI of the script action|  
-|parameters|Yes|String|Specifies the parameters required by the script ation|  
+|parameters|Yes|String|Specifies the parameters required by the script action|  
 |roles|Yes|Array of String|Specifies the target roles that the script action executes on|  
 |persistOnSuccess|Yes|Boolean|Specifies whether the script actions will be persisted after successful executions|  
   
@@ -1394,7 +1403,7 @@ This operation returns latest scripts action execution of the specified cluster 
 |startTime|DateTime|Specifies the start time of the script action execution|  
 |endTime|DateTime|Specifies the end time of the script action execution|  
 |status|String|Specifies the status of the script action execution|  
-|operation|String|Specifies the reason why the script action was executed. E.g: ScaleUp means that the script action was executed during cluster scale up.|  
+|operation|String|Specifies the reason why the script action was executed. For example, ScaleUp means that the script action was executed during cluster scale up.|  
 |executionSummary|Array of complex type|Specifies the summary of execution in terms of how many hosts succeeded and how many hosts failed to execute the script.|  
 |debugInformation|String|Specifies detailed debug information for the script. debugInformation is returned only when a scriptExecutionId is provided in the request.|  
   

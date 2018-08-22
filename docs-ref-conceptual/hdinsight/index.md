@@ -1,22 +1,21 @@
 ---
-ms.assetid: 37b1c530-8ef4-49d5-8dd2-48220e980d3e
 ms.title: Azure HDInsight REST API Reference
-ms.prod: azure
+ms.date: 11/16/2016
 ms.service: hdinsight
-author: nitinme
-ms.author: nitinme
-ms.manager: jhubbard
-service_description: To be added
+author: jasonwhowell
+ms.author: jasonh
+ms.manager: kfile
+ms.assetid: 37b1c530-8ef4-49d5-8dd2-48220e980d3e
 ---
 
 # Azure HDInsight REST API
 
-Use these APIs to create and manage HDInsight resources through Azure Resource Manager. All task operations conform to the HTTP/1.1 protocol specification and each operation returns an x-ms-request-id header that can be used to obtain information about the request. You must make sure that requests made to these resources are secure. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
+Use these APIs to create and manage HDInsight resources through Azure Resource Manager. All task operations conform to the HTTP/1.1 protocol specification and each operation returns an x-ms-request-id header that can be used to obtain information about the request. Ensure that requests made to these resources are secure. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
  These APIs allow you to create and manage an HDInsight cluster.
 
 ##  <a name="bk_common"></a> Common parameters and headers  
- The following information is common to all tasks that you might do related to clusters:  
+ The following information is common to all tasks related to clusters that you might do:  
   
 -   Replace {api-version} with 2015-03-01-preview  
   
@@ -39,7 +38,7 @@ Use these APIs to create and manage HDInsight resources through Azure Resource M
   
 ##  Common parameters and headers  
 
-The following information is common to all tasks that you might do related to clusters:  
+The following information is common to all tasks related to clusters that you might do:  
   
 -   Replace {api-version} with 2015-03-01-preview  
   
