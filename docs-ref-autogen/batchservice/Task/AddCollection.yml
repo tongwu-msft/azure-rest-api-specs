@@ -3,15 +3,15 @@ uid: batch.core.windows.net.batchservice.task.addcollection
 name: Add Collection
 service: Batch Service
 groupName: Task
-apiVersion: 2018-03-01.6.1
+apiVersion: 2018-08-01.7.0
 summary: "Adds a collection of tasks to the specified job.  \nNote that each task must have a unique ID. The Batch service may not return the results for each task in the same order the tasks were submitted in this request. If the server times out or the connection is closed during the request, the request may have been partially or fully processed, or not at all. In such cases, the user should re-issue the request. Note that it is up to the user to correctly handle failures when re-issuing a request. For example, you should use the same task IDs during a retry so that if the prior operation succeeded, the retry will not create extra tasks unexpectedly. If the response contains any tasks which failed to add, a client can retry the request. In a retry, it is most efficient to resubmit only tasks that failed to add, and to omit tasks that were successfully added on the first attempt. The maximum lifetime of a task from addition to completion is 7 days. If a task has not completed within 7 days of being added it will be terminated by the Batch service and left in whatever state it was in at that time."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: POST https://batch.core.windows.net/jobs/{jobId}/addtaskcollection?api-version=2018-03-01.6.1
-- content: POST https://batch.core.windows.net/jobs/{jobId}/addtaskcollection?timeout={timeout}&api-version=2018-03-01.6.1
+- content: POST https://batch.core.windows.net/jobs/{jobId}/addtaskcollection?api-version=2018-08-01.7.0
+- content: POST https://batch.core.windows.net/jobs/{jobId}/addtaskcollection?timeout={timeout}&api-version=2018-08-01.7.0
   isOptional: true
 uriParameters:
 - name: jobId
@@ -52,7 +52,7 @@ requestBody:
   - name: value
     in: body
     isRequired: true
-    description: "The collection of tasks to add.  \nThe total serialized size of this collection must be less than 1MB. If it is greater than 1MB (for example if each task has 100's of resource files or environment variables), the request will fail with code 'RequestBodyTooLarge' and should be retried again with fewer tasks."
+    description: "The collection of tasks to add. The maximum count of tasks is 100.  \nThe total serialized size of this collection must be less than 1MB. If it is greater than 1MB (for example if each task has 100's of resource files or environment variables), the request will fail with code 'RequestBodyTooLarge' and should be retried again with fewer tasks."
     types:
     - uid: TaskAddParameter
       isArray: true
@@ -174,7 +174,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: "The collection of tasks to add.  \nThe total serialized size of this collection must be less than 1MB. If it is greater than 1MB (for example if each task has 100's of resource files or environment variables), the request will fail with code 'RequestBodyTooLarge' and should be retried again with fewer tasks."
+    description: "The collection of tasks to add. The maximum count of tasks is 100.  \nThe total serialized size of this collection must be less than 1MB. If it is greater than 1MB (for example if each task has 100's of resource files or environment variables), the request will fail with code 'RequestBodyTooLarge' and should be retried again with fewer tasks."
     types:
     - uid: TaskAddParameter
       isArray: true
@@ -599,7 +599,7 @@ definitions:
 examples:
 - name: Add a basic collection of tasks
   request:
-    uri: POST https://batch.core.windows.net/jobs/jobId/addtaskcollection?api-version=2018-03-01.6.1
+    uri: POST https://batch.core.windows.net/jobs/jobId/addtaskcollection?api-version=2018-08-01.7.0
     body: >-
       {
         "value": [
@@ -639,7 +639,7 @@ examples:
       }
 - name: Add a complex collection of tasks
   request:
-    uri: POST https://batch.core.windows.net/jobs/jobId/addtaskcollection?api-version=2018-03-01.6.1
+    uri: POST https://batch.core.windows.net/jobs/jobId/addtaskcollection?api-version=2018-08-01.7.0
     body: >-
       {
         "value": [
