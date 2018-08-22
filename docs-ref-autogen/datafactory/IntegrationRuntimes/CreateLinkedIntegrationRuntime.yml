@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.datafactory.integrationruntimes.getstatus
-name: Get Status
+uid: management.azure.com.datafactory.integrationruntimes.createlinkedintegrationruntime
+name: Create Linked Integration Runtime
 service: Data Factory
 groupName: Integration Runtimes
 apiVersion: 2018-06-01
-summary: Gets detailed status information for an integration runtime.
+summary: Create a linked integration runtime entry in a shared integration runtime.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getStatus?api-version=2018-06-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/linkedIntegrationRuntime?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -54,6 +54,29 @@ responses:
   description: An error response received from the Azure Data Factory service.
   types:
   - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    description: The name of the linked integration runtime.
+    types:
+    - uid: string
+  - name: subscriptionId
+    in: body
+    description: The ID of the subscription that the linked integration runtime belongs to.
+    types:
+    - uid: string
+  - name: dataFactoryName
+    in: body
+    description: The name of the data factory that the linked integration runtime belongs to.
+    types:
+    - uid: string
+  - name: dataFactoryLocation
+    in: body
+    description: The location of the data factory that the linked integration runtime belongs to.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: IntegrationRuntimeStatusResponse
@@ -92,6 +115,26 @@ definitions:
     types:
     - uid: CloudError
       isArray: true
+- name: CreateLinkedIntegrationRuntimeRequest
+  description: The linked integration runtime information.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the linked integration runtime.
+    types:
+    - uid: string
+  - name: subscriptionId
+    description: The ID of the subscription that the linked integration runtime belongs to.
+    types:
+    - uid: string
+  - name: dataFactoryName
+    description: The name of the data factory that the linked integration runtime belongs to.
+    types:
+    - uid: string
+  - name: dataFactoryLocation
+    description: The location of the data factory that the linked integration runtime belongs to.
+    types:
+    - uid: string
 - name: SelfHostedIntegrationRuntimeStatus
   description: Self-hosted integration runtime status.
   kind: object
@@ -565,32 +608,40 @@ definitions:
     types:
     - uid: string
 examples:
-- name: IntegrationRuntimes_GetStatus
+- name: IntegrationRuntimes_CreateLinkedIntegrationRuntime
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/getStatus?api-version=2018-06-01
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/linkedIntegrationRuntime?api-version=2018-06-01
+    body: >-
+      {
+        "name": "bfa92911-9fb6-4fbe-8f23-beae87bc1c83",
+        "subscriptionId": "061774c7-4b5a-4159-a55b-365581830283",
+        "dataFactoryName": "e9955d6d-56ea-4be3-841c-52a12c1a9981",
+        "dataFactoryLocation": "West US"
+      }
   responses:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Thu, 14 Jun 2018 14:53:22 GMT
+      value: Fri, 17 Aug 2018 06:31:03 GMT
     - name: X-Content-Type-Options
       value: nosniff
-    - name: x-ms-ratelimit-remaining-subscription-reads
-      value: "14997"
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1199"
     - name: x-ms-request-id
-      value: 19efe790-074f-4241-ae94-0422935d0f46
+      value: f9a67067-62f3-43ce-b891-2ccb3de4a15f
     - name: x-ms-correlation-request-id
-      value: 19efe790-074f-4241-ae94-0422935d0f46
+      value: f9a67067-62f3-43ce-b891-2ccb3de4a15f
     body: >-
       {
         "name": "exampleIntegrationRuntime",
         "properties": {
+          "dataFactoryName": "exampleFactoryName",
           "state": "Online",
           "type": "SelfHosted",
           "typeProperties": {
-            "autoUpdate": "Off",
-            "taskQueueId": "1a6296ab-423c-4346-9bcc-85a78c2c0582",
-            "version": "3.8.6730.2",
+            "autoUpdate": "On",
+            "taskQueueId": "823da112-f2d9-426b-a0d8-5f361b94f72a",
+            "version": "3.8.6743.6",
             "nodes": [
               {
                 "nodeName": "Node_1",
@@ -605,22 +656,32 @@ examples:
                   "nodeEnabled": "True"
                 },
                 "versionStatus": "UpToDate",
-                "version": "3.8.6730.2",
-                "registerTime": "2018-06-14T14:51:44.9237069Z",
-                "lastConnectTime": "2018-06-14T14:52:59.8933313Z",
-                "lastStartTime": "2018-06-14T14:52:59.8933313Z",
+                "version": "3.8.6743.6",
+                "registerTime": "2018-08-17T03:44:55.8012825Z",
+                "lastConnectTime": "2018-08-17T06:30:46.6262976Z",
+                "lastStartTime": "2018-08-17T03:45:30.8499851Z",
                 "lastUpdateResult": "None",
                 "isActiveDispatcher": true,
-                "maxConcurrentJobs": 56
+                "maxConcurrentJobs": 20
               }
             ],
-            "updateDelayOffset": "PT3H",
+            "scheduledUpdateDate": "2018-08-20T00:00:00Z",
+            "updateDelayOffset": "PT19H",
             "localTimeZoneOffset": "PT8H",
             "serviceUrls": [
               "wu.frontend.int.clouddatahub-int.net",
               "*.servicebus.windows.net"
             ],
-            "versionStatus": "UpToDate",
+            "links": [
+              {
+                "name": "bfa92911-9fb6-4fbe-8f23-beae87bc1c83",
+                "subscriptionId": "061774c7-4b5a-4159-a55b-365581830283",
+                "dataFactoryName": "e9955d6d-56ea-4be3-841c-52a12c1a9981",
+                "dataFactoryLocation": "West US",
+                "createTime": "2018-08-17T06:31:04.0617928Z"
+              }
+            ],
+            "versionStatus": "UpdateAvailable",
             "capabilities": {
               "serviceBusConnected": "True",
               "httpsPortEnabled": "True",
@@ -628,8 +689,10 @@ examples:
               "connectedToResourceManager": "True",
               "nodeEnabled": "True"
             },
-            "latestVersion": "3.7.6711.1",
-            "createTime": "2018-06-14T09:17:45.1839685Z"
+            "pushedVersion": "3.9.6774.1",
+            "latestVersion": "3.9.6774.1",
+            "autoUpdateETA": "2018-08-20T19:00:00Z",
+            "createTime": "2018-08-17T03:43:25.7055573Z"
           }
         }
       }
