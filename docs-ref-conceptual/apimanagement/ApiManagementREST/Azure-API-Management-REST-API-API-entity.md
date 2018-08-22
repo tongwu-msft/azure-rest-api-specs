@@ -24,7 +24,14 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Azure API Management REST API API entity
+
+# Azure API Management REST API API entity (deprecated)
+
+> [!WARNING]
+> This page is deprecated.
+>
+> Please refer to the [documentation on accessing the Azure API Management REST API through Azure Resource Manager](https://docs.microsoft.com/en-us/rest/api/apimanagement/) instead.
+
 This topic describes how to manage APIs and their operations using the API Management REST API.  
   
  For more information about working with APIs and operations in the publisher portal, see [How to create APIs, operations, and products in Azure API Management](http://go.microsoft.com/fwlink/?LinkId=510414).  

@@ -24,7 +24,14 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Azure API Management REST API contract reference
+
+# Azure API Management REST API contract reference (deprecated)
+
+> [!WARNING]
+> This page is deprecated.
+>
+> Please refer to the [documentation on accessing the Azure API Management REST API through Azure Resource Manager](https://docs.microsoft.com/en-us/rest/api/apimanagement/) instead.
+
 This topic describes the entity and type representations for common items in Azure API Management.  
   
 -   [API](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md#API)  

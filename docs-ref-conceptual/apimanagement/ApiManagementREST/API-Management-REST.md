@@ -25,6 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # API Management REST
+
 Azure API Management provides a REST API for performing operations on selected entities, such as users, groups, products, and subscriptions. This reference provides a guide for working with the API Management REST API, as well as specific reference information for each available operation, grouped by entity.  
 
 >[!IMPORTANT]
@@ -44,24 +45,7 @@ Azure API Management provides a REST API for performing operations on selected e
   
     -   [Base URL](../ApiManagementREST/API-Management-REST.md#BaseURL)  
   
-    -   [Version Query Parameter](../ApiManagementREST/API-Management-REST.md#VersionQueryParameter)  
-  
--   [API Management REST API version history](../ApiManagementREST/API-Management-REST.md#VersionHistory)  
-  
--   [API Management REST API entities](../ApiManagementREST/API-Management-REST.md#Entities)  
-  
-##  <a name="Prerequisites"></a> Prerequisites  
- To successfully make calls to the API Management REST API, the following prerequisites must be met.  
-  
--   [Enable access to the REST API](../ApiManagementREST/API-Management-REST.md#EnableRESTAPI)  
-  
--   [Default media type](../ApiManagementREST/API-Management-REST.md#DefaultMediaType)  
-  
--   [Authentication](../ApiManagementREST/API-Management-REST.md#Authentication)  
-  
--   [Base URL](../ApiManagementREST/API-Management-REST.md#BaseURL)  
-  
--   [Version Query Parameter](../ApiManagementREST/API-Management-REST.md#VersionQueryParameter)  
+    -   [Version Query Parameter](../ApiManagementREST/API-Management-REST.md#VersionQueryParameter)
   
 ###  <a name="EnableRESTAPI"></a> Enable access to the REST API  
  Access to the API Management REST API must be granted before calls can be successfully made.
@@ -108,44 +92,6 @@ Authorization: SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T
   
  If this query parameter is not passed in the query string of a request, the server will return a status code of `400 Bad Request`. For a list of supported versions, see the following [API Management REST API version history](../ApiManagementREST/API-Management-REST.md#VersionHistory) section.  
   
-##  <a name="VersionHistory"></a> API Management REST API version history  
- The following table shows the API Management REST API versions, and the major modifications that were made to each version. Each version is identified by a date, which is used as the value for the [Version Query Parameter](../ApiManagementREST/API-Management-REST.md#VersionQueryParameter) when making an HTTP request.  
-  
-|Version|Description|  
-|-------------|-----------------|  
-|`2017-03-01`|Added support for Service Fabric backend in the backend entity.|  
-|`2014-02-14-preview`|Initial public release of the API Management REST API.| 
-  
-## In this section  
-  
-###  <a name="Entities"></a> API Management REST API entities  
-  
--   [API](../ApiManagementREST/Azure-API-Management-REST-API-API-entity.md)  
-  
--   [Authorization server](../ApiManagementREST/Azure-API-Management-REST-API-Authorization-Server-entity.md)  
-  
--   [Backend](../ApiManagementREST/Azure-API-Management-REST-API-Backend-entity.md)  
-  
--   [Certificate](../ApiManagementREST/Azure-API-Management-REST-API-Certificate-entity.md)  
-  
--   [Group](../ApiManagementREST/Azure-API-Management-REST-API-Group-entity.md)  
-  
--   [Logger](../ApiManagementREST/Azure-API-Management-REST-API-Logger-entity.md)  
-  
--   [Product](../ApiManagementREST/Azure-API-Management-REST-API-Product-Entity.md)  
-  
--   [Property](../ApiManagementREST/Azure-API-Management-REST-API-Property-Entity.md)  
-  
--   [Report](../ApiManagementREST/Azure-API-Management-REST-API-Report-entity.md)  
-  
--   [Subscription](../ApiManagementREST/Azure-API-Management-REST-API-Subscription-entity.md)  
-  
--   [Tenant](../ApiManagementREST/Azure-API-Management-REST-API-Tenant-entity.md)  
-  
--   [User](../ApiManagementREST/Azure-API-Management-REST-API-User-entity.md)  
-  
-### Additional topics in this section  
-  
--   [REST API contract reference](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md)  
-  
--   [Authentication](../ApiManagementREST/Azure-API-Management-REST-API-Authentication.md)
+## Learn more
+
+[Authentication](../ApiManagementREST/Azure-API-Management-REST-API-Authentication.md)

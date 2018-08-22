@@ -24,7 +24,14 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Azure API Management REST API Product Entity
+
+# Azure API Management REST API Product Entity (deprecated)
+
+> [!WARNING]
+> This page is deprecated.
+>
+> Please refer to the [documentation on accessing the Azure API Management REST API through Azure Resource Manager](https://docs.microsoft.com/en-us/rest/api/apimanagement/) instead.
+
 The Product entity represents a product in API Management. Products include one or more APIs and their associated terms of use. Once a product is published, developers can subscribe to the product and begin to use the product’s APIs.  
   
  This topic describes how to manage products using the API Management REST API. For more information about working with products in the publisher portal, see [How create and publish a product in Azure API Management](http://go.microsoft.com/fwlink/?LinkId=404274) and [How create and configure advanced product settings in Azure API Management](http://go.microsoft.com/fwlink/?LinkId=404275).  

@@ -22,7 +22,14 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Azure API Management REST API Logger entity
+
+# Azure API Management REST API Logger entity (deprecated)
+
+> [!WARNING]
+> This page is deprecated.
+>
+> Please refer to the [documentation on accessing the Azure API Management REST API through Azure Resource Manager](https://docs.microsoft.com/en-us/rest/api/apimanagement/) instead.
+
 The Logger entity in API Management represents an event sink that you can use to log API Management events. Currently the Logger entity supports logging API Management events to [Azure Event Hubs](https://azure.microsoft.com/services/event-hubs/).  
   
  This topic describes how to manage loggers by using the API Management REST API.  
