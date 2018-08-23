@@ -92,6 +92,6 @@ Authorization: SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T
   
  If this query parameter is not passed in the query string of a request, the server will return a status code of `400 Bad Request`. For a list of supported versions, see the following [API Management REST API version history](../ApiManagementREST/API-Management-REST.md#VersionHistory) section.  
   
-## Learn more
+## Next steps
 
-[Authentication](../ApiManagementREST/Azure-API-Management-REST-API-Authentication.md)
++ Learn more about the [authentication](../ApiManagementREST/Azure-API-Management-REST-API-Authentication.md)
