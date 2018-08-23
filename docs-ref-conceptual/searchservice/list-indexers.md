@@ -2,8 +2,8 @@
 title: "List Indexers (Azure Search Service REST API)| Microsoft Docs"
 description: Return a list of Azure Search indexers used for crawling external data for searchable content.
 ms.date: "04/20/2018"
-ms.prod: "azure"
-ms.service: "search"
+services: search
+ms.service: search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

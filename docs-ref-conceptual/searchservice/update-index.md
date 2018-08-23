@@ -2,9 +2,8 @@
 title: "Update Index (Azure Search Service REST API) | Microsoft Docs"
 ms.custom: ""
 ms.date: "04/20/2018"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "search"
+services: search
+ms.service: search
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "language-reference"

@@ -2,8 +2,8 @@
 title: "Service Statistics in Azure Search"
 description: Get statistics about the usage of service-level resources in your Azure Search service
 ms.date: "04/20/2018"
-ms.prod: "azure"
-ms.service: "search"
+services: search
+ms.service: search
 ms.topic: conceptual
 author: "ashmaka"
 ms.author: "ashmaka"

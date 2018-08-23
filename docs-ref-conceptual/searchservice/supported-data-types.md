@@ -2,8 +2,8 @@
 title: "Supported data types (Azure Search) | Microsoft Docs"
 description: Allowed data types for fields in an Azure Search index.
 ms.date: "2017-01-13"
-ms.prod: "azure"
-ms.service: "search"
+services: search
+ms.service: search
 ms.topic: conceptual
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
