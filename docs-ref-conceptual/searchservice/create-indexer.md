@@ -6,7 +6,6 @@ manager: pablocas
 author: luiscabrer
 ms.author: luisca
 ms.date: 05/01/2018
-ms.prod: "azure"
 ms.service: search
 ms.devlang: rest-api
 ms.workload: search

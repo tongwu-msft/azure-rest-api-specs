@@ -2,9 +2,8 @@
 title: "Autocomplete (Azure Search Service REST API)"
 ms.custom: ""
 ms.date: "2018-06-22"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "search"
+services: search
+ms.service: search
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
