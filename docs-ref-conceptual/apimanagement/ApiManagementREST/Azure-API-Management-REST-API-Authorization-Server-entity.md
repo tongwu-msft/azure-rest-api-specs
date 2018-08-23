@@ -29,7 +29,7 @@ translation.priority.mt:
 > [!WARNING]
 > This page is deprecated.
 >
-> Please refer to the [documentation on accessing the Azure API Management REST API through Azure Resource Manager](https://docs.microsoft.com/en-us/rest/api/apimanagement/) instead.
+> Please refer to the [documentation on accessing the Azure API Management REST API through Azure Resource Manager](https://docs.microsoft.com/rest/api/apimanagement/) instead.
 
 This topic describes how to manage OAuth2 authorization servers using the API Management REST API.  
   
