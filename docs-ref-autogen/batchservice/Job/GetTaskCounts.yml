@@ -3,15 +3,15 @@ uid: batch.core.windows.net.batchservice.job.gettaskcounts
 name: Get Task Counts
 service: Batch Service
 groupName: Job
-apiVersion: 2018-03-01.6.1
-summary: "Gets the task counts for the specified job.  \nTask counts provide a count of the tasks by active, running or completed task state, and a count of tasks which succeeded or failed. Tasks in the preparing state are counted as running. If the validationStatus is unvalidated, then the Batch service has not been able to check state counts against the task states as reported in the List Tasks API. The validationStatus may be unvalidated if the job contains more than 200,000 tasks."
+apiVersion: 2018-08-01.7.0
+summary: "Gets the task counts for the specified job.  \nTask counts provide a count of the tasks by active, running or completed task state, and a count of tasks which succeeded or failed. Tasks in the preparing state are counted as running."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET https://batch.core.windows.net/jobs/{jobId}/taskcounts?api-version=2018-03-01.6.1
-- content: GET https://batch.core.windows.net/jobs/{jobId}/taskcounts?timeout={timeout}&api-version=2018-03-01.6.1
+- content: GET https://batch.core.windows.net/jobs/{jobId}/taskcounts?api-version=2018-08-01.7.0
+- content: GET https://batch.core.windows.net/jobs/{jobId}/taskcounts?timeout={timeout}&api-version=2018-08-01.7.0
   isOptional: true
 uriParameters:
 - name: jobId
@@ -89,10 +89,6 @@ definitions:
     description: The number of tasks which failed. A task fails if its result (found in the executionInfo property) is 'failure'.
     types:
     - uid: integer
-  - name: validationStatus
-    description: Whether the task counts have been validated.
-    types:
-    - uid: TaskCountValidationStatus
 - name: BatchError
   description: An error response received from the Azure Batch service.
   kind: object
@@ -110,18 +106,6 @@ definitions:
     types:
     - uid: BatchErrorDetail
       isArray: true
-- name: TaskCountValidationStatus
-  description: Whether the task counts have been validated.
-  kind: enum
-  properties:
-  - name: validated
-    description: The Batch service has validated the state counts against the task states as reported in the List Tasks API.
-    types:
-    - uid: string
-  - name: unvalidated
-    description: The Batch service has not been able to check state counts against the task states as reported in the List Tasks API. The validationStatus may be unvalidated if the job contains more than 200,000 tasks.
-    types:
-    - uid: string
 - name: ErrorMessage
   description: An error message received in an Azure Batch error response.
   kind: object
@@ -149,7 +133,7 @@ definitions:
 examples:
 - name: Job get task counts
   request:
-    uri: GET https://batch.core.windows.net/jobs/jobId/taskcounts?api-version=2018-03-01.6.1
+    uri: GET https://batch.core.windows.net/jobs/jobId/taskcounts?api-version=2018-08-01.7.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
@@ -161,7 +145,6 @@ examples:
         "running": 7,
         "completed": 4,
         "succeeded": 2,
-        "failed": 2,
-        "validationStatus": "unvalidated"
+        "failed": 2
       }
 security: []

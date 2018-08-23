@@ -3,15 +3,15 @@ uid: batch.core.windows.net.batchservice.jobschedule.patch
 name: Patch
 service: Batch Service
 groupName: Job Schedule
-apiVersion: 2018-03-01.6.1
+apiVersion: 2018-08-01.7.0
 summary: "Updates the properties of the specified job schedule.  \nThis replaces only the job schedule properties specified in the request. For example, if the schedule property is not specified with this request, then the Batch service will keep the existing schedule. Changes to a job schedule only impact jobs created by the schedule after the update has taken place; currently running jobs are unaffected."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: PATCH https://batch.core.windows.net/jobschedules/{jobScheduleId}?api-version=2018-03-01.6.1
-- content: PATCH https://batch.core.windows.net/jobschedules/{jobScheduleId}?timeout={timeout}&api-version=2018-03-01.6.1
+- content: PATCH https://batch.core.windows.net/jobschedules/{jobScheduleId}?api-version=2018-08-01.7.0
+- content: PATCH https://batch.core.windows.net/jobschedules/{jobScheduleId}?timeout={timeout}&api-version=2018-08-01.7.0
   isOptional: true
 uriParameters:
 - name: jobScheduleId
@@ -640,7 +640,7 @@ definitions:
     types:
     - uid: string
   - name: vmSize
-    description: "The size of the virtual machines in the pool. All virtual machines in a pool are the same size.  \nFor information about available sizes of virtual machines for Cloud Services pools (pools created with cloudServiceConfiguration), see Sizes for Cloud Services (https://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch supports all Cloud Services VM sizes except ExtraSmall, A1V2 and A2V2. For information about available VM sizes for pools using images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series)."
+    description: "The size of the virtual machines in the pool. All virtual machines in a pool are the same size.  \nFor information about available sizes of virtual machines in pools, see Choose a VM size for compute nodes in an Azure Batch pool (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes)."
     types:
     - uid: string
   - name: cloudServiceConfiguration
@@ -706,7 +706,7 @@ definitions:
     - uid: ApplicationPackageReference
       isArray: true
   - name: applicationLicenses
-    description: "The list of application licenses the Batch service will make available on each compute node in the pool.  \nThe list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, pool creation will fail."
+    description: "The list of application licenses the Batch service will make available on each compute node in the pool.  \nThe list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, pool creation will fail. The permitted licenses available on the pool are 'maya', 'vray', '3dsmax', 'arnold'. An additional charge applies for each application license added to the pool."
     types:
     - uid: string
       isArray: true
@@ -777,7 +777,7 @@ definitions:
   kind: object
   properties:
   - name: osFamily
-    description: "The Azure Guest OS family to be installed on the virtual machines in the pool.  \nPossible values are: 2 - OS Family 2, equivalent to Windows Server 2008 R2 SP1. 3 - OS Family 3, equivalent to Windows Server 2012. 4 - OS Family 4, equivalent to Windows Server 2012 R2. 5 - OS Family 5, equivalent to Windows Server 2016. For more information, see Azure Guest OS Releases (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases)."
+    description: "The Azure Guest OS family to be installed on the virtual machines in the pool.  \nPossible values are:\n2 - OS Family 2, equivalent to Windows Server 2008 R2 SP1.\n3 - OS Family 3, equivalent to Windows Server 2012.\n4 - OS Family 4, equivalent to Windows Server 2012 R2.\n5 - OS Family 5, equivalent to Windows Server 2016. For more information, see Azure Guest OS Releases (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases)."
     types:
     - uid: string
   - name: targetOSVersion
@@ -914,7 +914,7 @@ definitions:
     types:
     - uid: string
   - name: elevationLevel
-    description: "The elevation level of the user account.  \nnonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin."
+    description: "The elevation level of the user account.  \nThe default value is nonAdmin."
     types:
     - uid: ElevationLevel
   - name: linuxUserConfiguration
@@ -950,7 +950,7 @@ definitions:
   kind: object
   properties:
   - name: caching
-    description: "The type of caching to enable for the OS disk.  \nThe default value for caching is none. For information about the caching options see: https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/."
+    description: "The type of caching to enable for the OS disk.  \nThe default value for caching is readwrite. For information about the caching options see: https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/."
     types:
     - uid: CachingType
 - name: WindowsConfiguration
@@ -970,7 +970,7 @@ definitions:
     types:
     - uid: integer
   - name: caching
-    description: "The type of caching to be enabled for the data disks.  \nThe default value for caching is none. For information about the caching options see: https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/."
+    description: "The type of caching to be enabled for the data disks.  \nThe default value for caching is readwrite. For information about the caching options see: https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/."
     types:
     - uid: CachingType
   - name: diskSizeGB
@@ -1080,8 +1080,8 @@ definitions:
   description: The container technology to be used.
   kind: enum
   properties:
-  - name: docker
-    description: Docker will be used to launch the containers.
+  - name: dockerCompatible
+    description: A Docker compatible container technology will be used to launch the containers.
     types:
     - uid: string
 - name: InboundNATPool
@@ -1156,7 +1156,7 @@ definitions:
 examples:
 - name: JobSchedule patch
   request:
-    uri: PATCH https://batch.core.windows.net/jobschedules/jobScheduleId?api-version=2018-03-01.6.1
+    uri: PATCH https://batch.core.windows.net/jobschedules/jobScheduleId?api-version=2018-08-01.7.0
     body: >-
       {
         "schedule": {
