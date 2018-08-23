@@ -2,8 +2,9 @@
 title: "Reset Indexer (Azure Search Service REST API)  | Microsoft Docs"
 description: Rebuild an index created by an Azure Search indexer.
 ms.date: "04/20/2018"
-ms.prod: "azure"
-ms.service: "search"
+services: search
+ms.service: search
+
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

@@ -2,8 +2,8 @@
 title: "Common HTTP request and response headers used in Azure Search | Microsoft Docs"
 description: HTTP codes returned by Azure Search when making REST API calls.
 ms.date: "2016-08-10"
-ms.prod: "azure"
-ms.service: "search"
+services: search
+ms.service: search
 ms.topic: conceptual
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

@@ -24,7 +24,14 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Azure API Management REST API Certificate entity
+
+# Azure API Management REST API Certificate entity (deprecated)
+
+> [!WARNING]
+> This page is deprecated.
+>
+> Please refer to the [documentation on accessing the Azure API Management REST API through Azure Resource Manager](https://docs.microsoft.com/rest/api/apimanagement/) instead.
+
 This topic describes how to manage certificates and their operations using the API Management REST API.  
   
  For more information about working with certificates in the publisher portal, see [How to secure back-end services using mutual certificate authentication in Azure API Management](http://go.microsoft.com/fwlink/?LinkId=511599).  
@@ -48,7 +55,8 @@ This topic describes how to manage certificates and their operations using the A
 ##  <a name="Prerequisites"></a> Prerequisites  
   
 > [!IMPORTANT]
->  Before making any calls into the API Management REST API, please review the [Prerequisites](../ApiManagementREST/API-Management-REST.md#Prerequisites) section of the [API Management REST](../ApiManagementREST/API-Management-REST.md) guide. This specifies the necessary authentication, version parameters, supported media types, and other information required in order to successfully call the API Management REST API.  
+>
+> Before making any calls into the API Management REST API, please review the [API Management REST](../ApiManagementREST/API-Management-REST.md) guide. This specifies the necessary authentication, version parameters, supported media types, and other information required in order to successfully call the API Management REST API. 
   
 ##  <a name="List"></a> Get a list of all certificates  
  This operation returns a collection of all certificates in the specified service instance.  

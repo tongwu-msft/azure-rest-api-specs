@@ -1,8 +1,8 @@
 ---
 title: "Lucene query syntax in Azure Search | Microsoft Docs"
 description: "Reference for the full Lucene syntax as it is used with Azure Search."
-ms.prod: "azure"
-ms.service: "search"
+services: search
+ms.service: search
 ms.topic: conceptual
 ms.date: "07/24/2018"
 

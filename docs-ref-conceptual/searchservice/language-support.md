@@ -2,8 +2,8 @@
 title: "Language analyzers (Azure Search Service REST API) | Microsoft Docs"
 description: Multi-lingual lexical text analysis for non-English queries and indexes in Azure Search.
 ms.date: "2017-09-02"
-ms.prod: "azure"
-ms.service: "search"
+services: search
+ms.service: search
 ms.topic: "language-reference"
 author: "Yahnoosh"
 ms.author: "jlembicz"

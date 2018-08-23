@@ -2,8 +2,8 @@
 title: "Update Synonym Map (Azure Search Service REST API) | Microsoft Docs"
 description: "A synonym map to expand or rewrite a search query can be updated using REST API in Azure Search."
 ms.date: "04/20/2018"
-ms.prod: "azure"
-ms.service: "search"
+services: search
+ms.service: search
 ms.topic: "language-reference"
 author: "mhko"
 ms.author: "nateko"

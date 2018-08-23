@@ -2,8 +2,8 @@
 title: "Synonym Map Operations (Azure Search Service REST API) | Microsoft Docs"
 description: "Synonym maps contain custom rules to expand or rewrite a search query in Azure Search."
 ms.date: "04/20/2018"
-ms.prod: "azure"
-ms.service: "search"
+services: search
+ms.service: search
 ms.topic: "language-reference"
 author: "mhko"
 ms.author: "nateko"
