@@ -2,8 +2,8 @@
 title: "Add scoring profiles to a search index (Azure Search Service REST API) | Microsoft Docs"
 description: Boost search rank scores for Azure Search search results by adding scoring profiles.
 ms.date: "04/20/2018"
-ms.prod: "azure"
-ms.service: "search"
+services: search
+ms.service: search
 ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

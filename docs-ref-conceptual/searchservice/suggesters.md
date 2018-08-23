@@ -2,8 +2,8 @@
 title: "Suggesters (Azure Search Service REST API) | Microsoft Docs"
 description: Enables fields for type-ahead query actions, where suggested queries are composed of text from fields in an Azure Search index.
 ms.date: "2017-07-17"
-ms.prod: "azure"
-ms.service: "search"
+services: search
+ms.service: search
 ms.topic: "language-reference"
 
 author: "Brjohnstmsft"

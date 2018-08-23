@@ -2,8 +2,8 @@
 title: "HTTP status codes (Azure Search) | Microsoft Docs"
 description: A list of the HTTP status codes returned by the Azure Search REST APIs.
 ms.date: "2017-08-04"
-ms.prod: "azure"
-ms.service: "search"
+services: search
+ms.service: search
 ms.topic: conceptual
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

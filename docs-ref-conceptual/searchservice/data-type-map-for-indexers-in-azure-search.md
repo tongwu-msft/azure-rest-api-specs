@@ -2,8 +2,8 @@
 title: "Data type map for indexers in Azure Search | Microsoft Docs"
 description: Source and destination field data type map combinations, used when crawling external data sources for data ingestion in an Azure Search index.
 ms.date: "2016-11-09"
-ms.prod: "azure"
-ms.service: "search"
+services: search
+ms.service: search
 ms.topic: conceptual
 author: "Brjohnstmsft"
 ms.author: "brjohnst"

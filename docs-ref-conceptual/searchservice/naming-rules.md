@@ -2,8 +2,8 @@
 title: "Naming rules (Azure Search) | Microsoft Docs"
 description: Name coventions for Azure Search services, indexes, indexers, and other resources.
 ms.date: "2018-06-13"
-ms.prod: "azure"
-ms.service: "search"
+services: search
+ms.service: search
 ms.topic: conceptual
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
