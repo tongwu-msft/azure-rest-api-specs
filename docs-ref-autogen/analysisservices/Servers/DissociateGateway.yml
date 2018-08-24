@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.analysisservices.servers.listoperationresults
-name: List Operation Results
+uid: management.azure.com.analysisservices.servers.dissociategateway
+name: Dissociate Gateway
 service: Analysis Services
 groupName: Servers
 apiVersion: 2017-08-01
-summary: List the result of the specified operation.
+summary: Dissociates a Unified Gateway associated with the server.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.AnalysisServices/locations/{location}/operationresults/{operationId}?api-version=2017-08-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}/dissociateGateway?api-version=2017-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -18,18 +18,20 @@ uriParameters:
   description: A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-- name: location
+- name: resourceGroupName
   in: path
   isRequired: true
-  description: The region name which the operation will lookup into.
+  description: The name of the Azure Resource group of which a given Analysis Services server is part. This name must be at least 1 character in length, and no more than 90.
   types:
   - uid: string
-- name: operationId
+  pattern: ^[-\w\._\(\)]+$
+- name: serverName
   in: path
   isRequired: true
-  description: The target operation Id.
+  description: The name of the Analysis Services server. It must be at least 3 characters in length, and no more than 63.
   types:
   - uid: string
+  pattern: ^[a-z][a-z0-9]*$
 - name: api-version
   in: query
   isRequired: true
@@ -38,18 +40,15 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK. The operation completed.
-- name: 202 Accepted
-  description: Accepted. The operation is ongoing.
+  description: OK.
 requestHeader: []
 definitions: []
 examples:
 - name: Get details of a server
   request:
-    uri: GET https://management.azure.com/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/providers/Microsoft.AnalysisServices/locations/West US/operationresults/00000000000000000000000000000000?api-version=2017-08-01
+    uri: POST https://management.azure.com/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.AnalysisServices/servers/azsdktest/dissociateGateway?api-version=2017-08-01
   responses:
   - statusCode: "200"
-  - statusCode: "202"
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

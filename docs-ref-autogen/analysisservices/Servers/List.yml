@@ -3,14 +3,14 @@ uid: management.azure.com.analysisservices.servers.list
 name: List
 service: Analysis Services
 groupName: Servers
-apiVersion: 2016-05-16
+apiVersion: 2017-08-01
 summary: Lists all the Analysis Services servers for the given subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.AnalysisServices/servers?api-version=2016-05-16
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.AnalysisServices/servers?api-version=2017-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -95,9 +95,21 @@ definitions:
     types:
     - uid: ServerAdministrators
   - name: properties.backupBlobContainerUri
-    description: The container URI of backup blob.
+    description: The SAS container URI to the backup container.
     types:
     - uid: string
+  - name: properties.gatewayDetails
+    description: The gateway details configured for the AS server.
+    types:
+    - uid: GatewayDetails
+  - name: properties.ipV4FirewallSettings
+    description: The firewall settings for the AS server.
+    types:
+    - uid: IPv4FirewallSettings
+  - name: properties.querypoolConnectionMode
+    description: "How the read-write server's participation in the query pool is controlled.<br/>It can have the following values: <ul><li>readOnly - indicates that the read-write server is intended not to participate in query operations</li><li>all - indicates that the read-write server can participate in query operations</li></ul>Specifying readOnly when capacity is 1 results in error."
+    types:
+    - uid: ConnectionMode
 - name: State
   description: The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.
   kind: enum
@@ -190,8 +202,12 @@ definitions:
     description: The name of the Azure pricing tier to which the SKU applies.
     types:
     - uid: SkuTier
+  - name: capacity
+    description: The number of instances in the read only query pool.
+    types:
+    - uid: integer
 - name: ServerAdministrators
-  description: An array of administrator user identities
+  description: An array of administrator user identities.
   kind: object
   properties:
   - name: members
@@ -199,6 +215,47 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: GatewayDetails
+  description: The gateway details.
+  kind: object
+  properties:
+  - name: gatewayResourceId
+    description: Gateway resource to be associated with the server.
+    types:
+    - uid: string
+  - name: gatewayObjectId
+    isReadyOnly: true
+    description: Gateway object id from in the DMTS cluster for the gateway resource.
+    types:
+    - uid: string
+  - name: dmtsClusterUri
+    isReadyOnly: true
+    description: Uri of the DMTS cluster.
+    types:
+    - uid: string
+- name: IPv4FirewallSettings
+  description: An array of firewall rules.
+  kind: object
+  properties:
+  - name: firewallRules
+    description: An array of firewall rules.
+    types:
+    - uid: IPv4FirewallRule
+      isArray: true
+  - name: enablePowerBIService
+    description: The indicator of enableing PBI service.
+    types:
+    - uid: string
+- name: ConnectionMode
+  description: "How the read-write server's participation in the query pool is controlled.<br/>It can have the following values: <ul><li>readOnly - indicates that the read-write server is intended not to participate in query operations</li><li>all - indicates that the read-write server can participate in query operations</li></ul>Specifying readOnly when capacity is 1 results in error."
+  kind: enum
+  properties:
+  - name: All
+    types:
+    - uid: string
+  - name: ReadOnly
+    types:
+    - uid: string
 - name: SkuTier
   description: The name of the Azure pricing tier to which the SKU applies.
   kind: enum
@@ -212,7 +269,79 @@ definitions:
   - name: Standard
     types:
     - uid: string
-examples: []
+- name: IPv4FirewallRule
+  description: The detail of firewall rule.
+  kind: object
+  properties:
+  - name: firewallRuleName
+    description: The rule name.
+    types:
+    - uid: string
+  - name: rangeStart
+    description: The start range of IPv4.
+    types:
+    - uid: string
+  - name: rangeEnd
+    description: The end range of IPv4.
+    types:
+    - uid: string
+examples:
+- name: List existing servers under the subscription.
+  request:
+    uri: GET https://management.azure.com/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/providers/Microsoft.AnalysisServices/servers?api-version=2017-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.AnalysisServices/servers/azsdktest",
+            "location": "West US",
+            "name": "azsdktest",
+            "properties": {
+              "asAdministrators": {
+                "members": [
+                  "azsdktest@microsoft.com"
+                ]
+              },
+              "provisioningState": "Provisioning",
+              "serverFullName": "asazure://nightly1.asazure-int.windows.net/azsdktest",
+              "state": "Provisioning"
+            },
+            "sku": {
+              "capacity": 1,
+              "name": "S1",
+              "tier": "Standard"
+            },
+            "tags": {
+              "testKey": "testValue"
+            }
+          },
+          {
+            "id": "/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG2/providers/Microsoft.AnalysisServices/servers/azsdktest",
+            "location": "West US",
+            "name": "azsdktest2",
+            "properties": {
+              "asAdministrators": {
+                "members": [
+                  "azsdktest@microsoft.com"
+                ]
+              },
+              "provisioningState": "Provisioning",
+              "serverFullName": "asazure://nightly1.asazure-int.windows.net/azsdktest",
+              "state": "Provisioning"
+            },
+            "sku": {
+              "capacity": 1,
+              "name": "S0",
+              "tier": "Standard"
+            },
+            "tags": {
+              "testKey": "testValue"
+            }
+          }
+        ]
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
