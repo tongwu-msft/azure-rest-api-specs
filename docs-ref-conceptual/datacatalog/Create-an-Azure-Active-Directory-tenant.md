@@ -1,12 +1,11 @@
 ---
 title: Create an Azure Active Directory tenant for Azure Data Catalog
 ms.date: 11/09/2017
-author: steelanddata
-ms.author: maroche
+author: markingmyname
+ms.author: maghan
 ms.reviewer: jasonwhowell
 ms.service: data-catalog
 ms.topic: reference
-ms.assetid: ffa40b50-ef54-4ad2-8b4f-6b0ca11bb4cf
 translation.priority.mt: 
   - de-de
   - es-es
@@ -19,6 +18,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Create an Azure Active Directory tenant (Azure Data Catalog REST API)
 ---  
 Using the Data Catalog REST API, you can create a Data Catalog app in any platform that supports calling REST operations. However, before you get started creating a Data Catalog app, you need an **Azure Active Directory** tenant, and an organizational user.  
