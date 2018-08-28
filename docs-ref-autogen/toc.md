@@ -2469,7 +2469,6 @@
 ### [Common headers and parameters](../docs-ref-conceptual/datacatalog/Common-headers-and-parameters.md)
 ### [Authenticate a client app](../docs-ref-conceptual/datacatalog/Authenticate-a-client-app.md)
 ### [Authenticate to Data Catalog service](../docs-ref-conceptual/datacatalog/Authenticate-to-Data-Catalog-service.md)
-### [Create an Azure Active Directory tenant](../docs-ref-conceptual/datacatalog/Create-an-Azure-Active-Directory-tenant.md)
 ### [Data Catalog limitations](../docs-ref-conceptual/datacatalog/Data-Catalog-limitations.md)
 ### [Data Catalog Search syntax reference](../docs-ref-conceptual/datacatalog/Data-Catalog-Search-syntax-reference.md)
 ### [Get started creating a Data Catalog app](../docs-ref-conceptual/datacatalog/Get-started-creating-a-Data-Catalog-app.md)
