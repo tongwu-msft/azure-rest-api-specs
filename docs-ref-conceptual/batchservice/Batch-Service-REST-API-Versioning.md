@@ -21,19 +21,20 @@ manager: "jeconnoc"
  To specify which version of an operation to use, set the *api-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format ‘YYYY-MM-DD’ and Major is an integer and Minor is an integer.
 
 
+## Latest version: 2018-08-01.7.0
 
-## Latest version: 2018-03-01.6.1
-
-New features in version 2018-03-01.6.1 include:
-
-- Pool node counts by state: This version adds the ability to query pool node counts by state, via the new [ListPoolNodeCounts](/rest/api/batchservice/account/listpoolnodecounts) operation. This operation gives you the ability to query all pools in a Batch account for node states including creating, idle, offline, preempted, rebooting, reimaging, starting, and others. 
-- Node agent logs: This version adds the ability to upload Azure Batch node agent logs from a particular node, via the [UploadBatchServiceLogs](/rest/api/batchservice/computenode/uploadbatchservicelogs) operation. This is intended for use in debugging by Microsoft Support if problems occur on a node.
-
+- View the version of the Azure Batch Node Agent, via the new [NodeAgentInfo](/rest/api/batchservice/computenode/get#nodeagentinformation) property on [ComputeNode](/rest/api/batchservice/computenode/get).
+- Added the ability to specify a `Filter` on the `Result` of a task. See [here](/rest/api/batchservice/odata-filters-in-batch) for more details.
+  - This enables the often requested scenario of performing a server-side query to find all tasks which failed.
+- **[Breaking]** Removed the `ValidationStatus` property from [TaskCounts](/rest/api/batchservice/job/gettaskcounts).
+- **[Breaking]** The default caching type for [DataDisk](/rest/api/batchservice/pool/add#datadisk) and [OSDisk](/rest/api/batchservice/pool/add#osdisk) is now `ReadWrite` instead of `None`.
+- **[Breaking]** Renamed the only value of [ContainerType](/rest/api/batchservice/pool/add#containertype) from `docker` to `dockerCompatible`.
 
 ## Previous Versions
  
  Previous versions include:
 
+- [2018-03-01.6.1](#version-2018030161)
 - [2017-09-01.6.0](#version-2017090160)
 - [2017-06-01.5.1](#version-2017060151)
 - [2017-05-01.5.0](#version-2017050150)
@@ -45,6 +46,13 @@ New features in version 2018-03-01.6.1 include:
 - 2015-06-01.2.0
 - 2015-03-01.1.1
 - 2014-10-01.1.0
+
+### Version 2018-03-01.6.1
+
+New features in version 2018-03-01.6.1 include:
+
+- Pool node counts by state: This version adds the ability to query pool node counts by state, via the new [ListPoolNodeCounts](/rest/api/batchservice/account/listpoolnodecounts) operation. This operation gives you the ability to query all pools in a Batch account for node states including creating, idle, offline, preempted, rebooting, reimaging, starting, and others. 
+- Node agent logs: This version adds the ability to upload Azure Batch node agent logs from a particular node, via the [UploadBatchServiceLogs](/rest/api/batchservice/computenode/uploadbatchservicelogs) operation. This is intended for use in debugging by Microsoft Support if problems occur on a node.
 
 
 ### Version 2017-09-01.6.0

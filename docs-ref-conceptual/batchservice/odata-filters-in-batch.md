@@ -1,7 +1,7 @@
 ---
 title: "OData filters in Azure Batch | Microsoft Docs"
 ms.custom: ""
-ms.date: "08/15/2018"
+ms.date: "08/27/2018"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"
@@ -43,6 +43,7 @@ OData filters are used to limit the amount of data returned from a query issued 
 |lastBootTime|eq, ne, ge, gt, le, lt|DateTime|
 |allocationTime|eq, ne, ge, gt, le, lt|DateTime|
 |startTaskInfo/state|eq|String|
+|startTaskInfo/result|eq, ne|String|
 |startTaskInfo/exitCode|eq, ne, ge, gt, le, lt|Int|
 |startTaskInfo/startTime|eq, ne, ge, gt, le, lt|DateTime|
 |startTaskInfo/endTime|eq, ne, ge, gt, le, lt|DateTime|
@@ -137,10 +138,12 @@ OData filters are used to limit the amount of data returned from a query issued 
 |jobPreparationTaskExecutionInfo/startTime|eq, ne, ge, gt, le, lt|DateTime|
 |jobPreparationTaskExecutionInfo/endTime|eq, ne, ge, gt, le, lt|DateTime|
 |jobPreparationTaskExecutionInfo/exitCode|eq, ne, ge, gt, le, lt|Int|
+|jobPreparationTaskExecutionInfo/result|eq, ne|String|
 |jobReleaseTaskExecutionInfo/state|eq|String|
-|jobReleaseTaskExecutionInfo /startTime|eq, ne, ge, gt, le, lt|DateTime|
-|jobReleaseTaskExecutionInfo /endTime|eq, ne, ge, gt, le, lt|DateTime|
-|jobReleaseTaskExecutionInfo /exitCode|eq, ne, ge, gt, le, lt|Int|
+|jobReleaseTaskExecutionInfo/startTime|eq, ne, ge, gt, le, lt|DateTime|
+|jobReleaseTaskExecutionInfo/endTime|eq, ne, ge, gt, le, lt|DateTime|
+|jobReleaseTaskExecutionInfo/exitCode|eq, ne, ge, gt, le, lt|Int|
+|jobReleaseTaskExecutionInfo/result|eq, ne|String|
 
 ## List tasks
 [Reference](/rest/api/batchservice/task/list)
@@ -155,6 +158,7 @@ OData filters are used to limit the amount of data returned from a query issued 
 |executionInfo/startTime|eq, ne, ge, gt, le, lt|DateTime|
 |executionInfo/endTime|eq, ne, ge, gt, le, lt|DateTime|
 |executionInfo/exitCode|eq, ne, ge, gt, le, lt|Int|
+|executionInfo/result|eq, ne|String|
 
 ## List account usage metrics
 [Reference](/rest/api/batchservice/pool/listusagemetrics)
