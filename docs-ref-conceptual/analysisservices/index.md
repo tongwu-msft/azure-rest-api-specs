@@ -2,10 +2,11 @@
 ms.assetid: 6f3911f9-189d-4713-9a29-881b4b3d70fa
 ms.title: Azure Analysis Services REST API reference | Microsoft Docs
 ms.service: analysis-services
-author: mmacy
-ms.author: marsma
-ms.manager: timlt
-service_description: To be added
+ms.date: 08/27/2018
+author: minewiskan
+ms.author: owend
+ms.manager: kfile
+service_description: Analysis Services provides enterprise grade data modeling in the Azure.
 ---
 
 # Azure Analysis Services REST API
