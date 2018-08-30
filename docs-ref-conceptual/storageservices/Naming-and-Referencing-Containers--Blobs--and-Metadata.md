@@ -54,7 +54,9 @@ This topic describes naming and referring to containers, blobs, metadata, and sn
   
 -   A blob name can contain any combination of characters.  
   
--   A blob name must be at least one character long and cannot be more than 1,024 characters long.  
+-   A blob name must be at least one character long and cannot be more than 1,024 characters long, for blobs in Azure Storage. 
+    
+    The Azure Storage emulator supports blob names up to 256 characters long. For more information, see [Use the Azure storage emulator for development and testing](https://docs.microsoft.com/azure/storage/common/storage-use-emulator).
   
 -   Blob names are case-sensitive.  
   
