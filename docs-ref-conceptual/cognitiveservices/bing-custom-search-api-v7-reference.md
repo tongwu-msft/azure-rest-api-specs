@@ -2,7 +2,7 @@
 title: Bing Custom Search API v7 Reference | Microsoft Docs
 description: Describes the programming elements of the Bing Custom Search API.
 services: cognitive-services
-author: brapel
+author: swhite-msft
 manager: ehansen
 
 ms.assetid: 468F9C2B-548C-4D1D-943F-929D123F383C
@@ -10,7 +10,7 @@ ms.service: cognitive-services
 ms.technology: bing-custom-search
 ms.topic: article
 ms.date: 08/28/2017
-ms.author: v-brapel
+ms.author: scottwhi
 ---
 
 # Custom Search API v7 reference
@@ -65,9 +65,9 @@ The following is the list of query parameters that you may specify. See the Requ
   
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
-|<a name="cc" />cc|A 2-character country code of the country where the results come from. For a list of possible values, see [Market Codes](#market-codes).<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds in the specified languages and combines it with the country code to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request. Or, Bing may use an aggregated or default market for the results.<br /><br /> Use this query parameter and the `Accept-Language` header only if you specify multiple languages. Otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
+|<a name="cc" />cc|A two-character country code of the country where the results come from. For a list of possible values, see [Market Codes](#market-codes).<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds in the specified languages and combines it with the country code to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request. Or, Bing may use an aggregated or default market for the results.<br /><br /> Use this query parameter and the `Accept-Language` header only if you specify multiple languages. Otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
 |<a name="count" />count|The number of search results to return in the response. The default is 10 and the maximum value that you may specify is 50. The actual number delivered may be less than requested.<br /><br /> Use this parameter along with the `offset` parameter to page results. For more information, see [Paging Webpages](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-web-search/paging-webpages).<br /><br /> For example, if your user interface presents 10 search results per page, you would set `count` to 10 and `offset` to 0 to get the first page of results. For each subsequent page, you would increment `offset` by 10 (for example, 0, 10, 20). It is possible for multiple pages to include some overlap in results.|UnsignedShort|No|  
-|<a name="customconfig" />customConfig|Unique identifier that identifies your custom search instance.<br /><br />|Unit32|Yes
+|<a name="customconfig" />customConfig|Unique identifier that identifies your custom search instance.<br /><br />|String|Yes
 |<a name="mkt" />mkt|The market where the results come from. Typically, `mkt` is the country where the user is making the request from. However, it could be a different country if the user is not located in a country where Bing delivers results. The market must be in the form \<language code\>-\<country code\>. For example, en-US. The string is case insensitive. For a list of possible market values, see [Market Codes](#market-codes).<br /><br /> **NOTE:** If known, you are encouraged to always specify the market. Specifying the market helps Bing route the request and return an appropriate and optimal response. If you specify a market that is not listed in [Market Codes](#market-codes), Bing uses a best fit market code based on an internal mapping that is subject to change.<br /><br /> This parameter and the [cc](#cc) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
 |<a name="offset" />offset|The zero-based offset that indicates the number of search results to skip before returning results. The default is 0. The offset should be less than ([totalEstimatedMatches](#totalestimatedmatches) - `count`).<br /><br /> Use this parameter along with the `count` parameter to page results. For example, if your user interface presents 10 search results per page, you would set `count` to 10 and `offset` to 0 to get the first page of results. For each subsequent page, you would increment `offset` by 10 (for example, 0, 10, 20). It is possible for multiple pages to include some overlap in results.|Unsigned Short|No|  
 |<a name="query" />q|The user's search query string. The query string must not be empty.<br /><br /> **NOTE:** The query string must not contain [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). Including them may adversely affect the custom search experience. |String|Yes|  
@@ -125,7 +125,7 @@ Defines a webpage's metadata.
 
 <a name="opengraphimage"></a>
 ### OpenGraphImage
-Defines the location and dimensions of an image relevent to a webpage.
+Defines the location and dimensions of an image relevant to a webpage.
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |contentUrl|The image location.|String|
