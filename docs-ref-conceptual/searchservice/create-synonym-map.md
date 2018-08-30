@@ -1,7 +1,7 @@
 ---
 title: "Create Synonym Map (Azure Search Service REST API) | Microsoft Docs"
 description: "A synonym map to expand or rewrite a search query can be created using REST API in Azure Search."
-ms.date: "04/20/2018"
+ms.date: "08/30/2018"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -22,7 +22,7 @@ translation.priority.mt:
 ---
 # Create Synonym Map (Azure Search Service REST API)
 
-  In Azure Search, a synonym map contains a list of rules for expanding or rewriting a search query to equivalent terms. You can create a new synonym map within an Azure Search service using an HTTP POST request.
+  In Azure Search, a synonym map contains a list of rules for expanding or rewriting a search query to equivalent terms. You can create a new synonym map within an Azure Search service using an HTTP POST request. Refer to this [.NET code sample](https://github.com/Azure-Samples/search-dotnet-getting-started/tree/master/DotNetHowToSynonyms) and [tutorial](https://docs.microsoft.com/azure/search/search-synonyms-tutorial-sdk) to learn more about synonyms.
 
 ```  
 POST https://[service name].search.windows.net/synonymmaps?api-version=[api-version]      
