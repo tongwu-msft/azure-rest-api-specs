@@ -2,7 +2,7 @@
 title: Bing Custom Autosuggest API v7 Reference | Microsoft Docs
 description: Describes the programming elements of the Bing Custom Autosuggest API.
 services: cognitive-services
-author: brapel
+author: swhite-msft
 manager: ehansen
 
 ms.assetid: 08E5011C-BF3C-46F7-906F-6930E0026EFC
@@ -10,7 +10,7 @@ ms.service: cognitive-services
 ms.technology: bing-custom-autosuggest
 ms.topic: article
 ms.date: 04/15/2017
-ms.author: v-brapel
+ms.author: scottwhi
 ---
 
 # Custom Autosuggest API v7 reference
@@ -62,7 +62,7 @@ The following are the query parameters that the request may include. The Require
   
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
-|<a name="customconfig" />customConfig|Unique identifier that identifies your custom search instance.<br /><br />|Unit32|Yes
+|<a name="customconfig" />customConfig|Unique identifier that identifies your custom search instance.<br /><br />|String|Yes
 |<a name="query" />q|The user's search query string.<br /><br /> The query string must not be empty. If empty or not specified, the list of suggestions in the response is empty.<br /><br /> The API does not support the [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). If the query string includes Bing operators, the operators are treated as part of the query string, not as an operator.|String|No|  
   
 ## Response objects  
