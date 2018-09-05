@@ -1,7 +1,7 @@
 ---
 title: "Delete Index (Azure Search Service REST API) | Microsoft Docs"
 description: Permanently delete an index definition and all content from an Azure Search service.
-ms.date: "04/20/2018"
+ms.date: "09/05/2018"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -21,7 +21,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Delete Index (Azure Search Service REST API)
-  The **Delete Index** operation removes an index and associated documents from your Azure Search service. You can get the index name from the service dashboard in the Azure Preview portal, or from the API. See [List Indexes &#40;Azure Search Service REST API&#41;](list-indexes.md) for details.  
+  The **Delete Index** operation permanently removes an index and its contents from your Azure Search service. This operation is final, with no recovery option. Make sure you have a master copy of your index definition code, data ingestion code, and a backup of the external data source in case a rebuild is required.
+  
+  To delete an index, provide the command along with the index name. You can get the index name from the service dashboard in the Azure Preview portal, or from the API. See [List Indexes &#40;Azure Search Service REST API&#41;](list-indexes.md) for details.  
 
 ```  
 DELETE https://[service name].search.windows.net/indexes/[index name]?api-version=[api-version]  
