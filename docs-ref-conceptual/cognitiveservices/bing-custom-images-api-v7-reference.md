@@ -14,9 +14,7 @@ ms.author: scottwhi
 
 # Custom Image Search API v7 reference
 
-The Custom Image Search API lets you send a search query to Bing and get back a list of relevant images from your Custom Search instance. This section provides technical details about the query parameters and headers that you use to request images and the JSON response objects that contain them. 
-
-For information about configuring a Custom Search instance, see [Configure your custom search experience](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/define-your-custom-view
+The Custom Image Search API lets you send a search query to Bing and get back a list of relevant images from the slice of Web that your Custom Search instance defines. For information about configuring a Custom Search instance, see [Configure your custom search experience](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/define-your-custom-view).
 
 For information about the headers that requests should include, see [Request Headers](#headers).  
   
@@ -24,16 +22,14 @@ For information about the query parameters that requests should include, see [Qu
   
 For information about the JSON response objects that responses may include, see [Response Objects](#response-objects).  
 
-For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/useanddisplayrequirements).
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/use-and-display-requirements).
 
   
 ## Endpoints  
 
 To request images from your Custom Search instance, send a GET request to the following URL:
   
-|Endpoint|Description|  
-|--------------|-----------------|  
-|https://api.cognitive.microsoft.com/bingcustomsearch/v7.0/images/search|Returns images that are relevant to the users search query.|  
+`https://api.cognitive.microsoft.com/bingcustomsearch/v7.0/images/search`
 
 The request must use the HTTPS protocol.  
 
@@ -68,19 +64,18 @@ The following are the query parameters that a request may include. See the Requi
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
 |<a name="cc" />cc|A two-character country code of the country where the results come from. For a list of possible values, see [Market Codes](#market-codes).<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds in the specified languages and combines it with the country code to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request. Or, Bing may use an aggregated or default market for the results.<br /><br /> Use this query parameter and the `Accept-Language` header only if you specify multiple languages. Otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
-|<a name="count" />count|The number of images to return in the response. The actual number delivered may be less than requested. The default is 35. The maximum value is 150.<br /><br /> You use this parameter along with the `offset` parameter to page results. For example, if your user interface displays 20 images per page, set `count` to 20 and `offset` to 0 to get the first page of results. For each subsequent page, increment `offset` by 20 (for example, 0, 20, 40).<br /><br /> Use this parameter only with the Image Search API. Do not specify this parameter when calling the Insights, Trending Images, or Web Search APIs.|UnsignedShort|No|  
+|<a name="count" />count|The number of images to return in the response. The actual number delivered may be less than requested. The default is 35. The maximum value is 150.<br /><br /> You use this parameter along with the `offset` parameter to page results. For example, if your user interface displays 20 images per page, set `count` to 20 and `offset` to 0 to get the first page of results. For each subsequent page, increment `offset` by 20 (for example, 0, 20, 40).|UnsignedShort|No|  
 |<a name="customconfig" />customConfig|Unique identifier that identifies your custom search instance.<br /><br />|String|Yes
 |<a name="mkt" />mkt|The market where the results come from. Typically, `mkt` is the country where the user is making the request from. However, it could be a different country if the user is not located in a country where Bing delivers results. The market must be in the form \<language code\>-\<country code\>. For example, en-US. The string is case insensitive. For a list of possible market values, see [Market Codes](#market-codes).<br /><br /> **NOTE:** If known, you are encouraged to always specify the market. Specifying the market helps Bing route the request and return an appropriate and optimal response. If you specify a market that is not listed in [Market Codes](#market-codes), Bing uses a best fit market code based on an internal mapping that is subject to change.<br /><br /> This parameter and the [cc](#cc) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
-|<a name="offset" />offset|The zero-based offset that indicates the number of images to skip before returning images. The default is 0. The offset should be less than ([totalEstimatedMatches](#totalestimatedmatches) - `count`).<br /><br /> To page results, use this parameter along with the `count` parameter. For example, if your user interface displays 20 images per page, set `count` to 20 and `offset` to 0 to get the first page of results. For each subsequent page, increment `offset` by 20 (for example, 0, 20, 40).<br /><br /> It is possible for multiple pages to include some overlap in results. To prevent duplicates, see [nextOffset](#nextoffset).<br /><br /> Use this parameter only with the Image API. Do not specify this parameter when calling the Trending Images API or the Web Search API.|Unsigned Short|No|  
+|<a name="offset" />offset|The zero-based offset that indicates the number of images to skip before returning images. The default is 0. The offset should be less than ([totalEstimatedMatches](#totalestimatedmatches) - `count`).<br /><br /> To page results, use this parameter along with the `count` parameter. For example, if your user interface displays 20 images per page, set `count` to 20 and `offset` to 0 to get the first page of results. For each subsequent page, increment `offset` by 20 (for example, 0, 20, 40).<br /><br /> It is possible for multiple pages to include some overlap in results. To prevent duplicates, see [nextOffset](#nextoffset).|Unsigned Short|No|  
 |<a name="query" />q|The user's search query term. The term cannot be empty.<br /><br />**NOTE:** The query string must not contain [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). Including them may adversely affect the custom search experience.|String|Yes|  
 |<a name="safesearch" />safeSearch|Filter images for adult content. The following are the possible filter values.<br /><ul><li>Off&mdash;May return images with adult content. If the request is through the Image Search API, the response includes thumbnail images that are clear (non-fuzzy). However, if the request is through the Web Search API, the response includes thumbnail images that are pixelated (fuzzy).<br /><br /></li><li>Moderate&mdash;If the request is through the Image Search API, the response doesn't include images with adult content. If the request is through the Web Search API, the response may include images with adult content (the thumbnail images are pixelated (fuzzy)).<br /><br /></li><li>Strict&mdash;Do not return images with adult content.</li></ul><br /> The default is Moderate.<br /><br /> **NOTE:** If the request comes from a market that Bing's adult policy requires that `safeSearch` is set to Strict, Bing ignores the `safeSearch` value and uses Strict.<br/><br/>**NOTE:** If you use the `site:` query operator, there is the chance that the response may contain adult content regardless of what the `safeSearch` query parameter is set to. Use `site:` only if you are aware of the content on the site and your scenario supports the possibility of adult content.|String|No|  
 |<a name="setlang" />setLang|The language to use for user interface strings. Specify the language using the ISO 639-1 2-letter language code. For example, the language code for English is EN. The default is EN (English).<br /><br /> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br /> This parameter and the [Accept-Language](#acceptlanguage) header are mutually exclusive&mdash;do not specify both.<br /><br /> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
 
 
-## Filter query parameters  
+## Filter query parameters 
+ 
 The following are the optional filter query parameters that you can use to filter the images that Bing returns. You must URL encode the query parameters.  
-  
-Use these parameters only with the Image Search API. Do not specify these parameters when calling the Trending Images API or Web Search API.  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
@@ -99,45 +94,23 @@ Use these parameters only with the Image Search API. Do not specify these parame
 |<a name="size" />size|Filter images by the following sizes:<br /><ul><li>Small&mdash;Return images that are less than 200x200 pixels<br /><br/></li><li>Medium&mdash;Return images that are greater than or equal to 200x200 pixels but less than 500x500 pixels<br /><br/></li><li>Large&mdash;Return images that are 500x500 pixels or larger<br /><br/></li><li>Wallpaper&mdash;Return wallpaper images.<br /><br/></li><li>All&mdash;Do not filter by size. Specifying this value is the same as not specifying the `size` parameter.</li></ul><br /> You may use this parameter along with the `height` or `width` parameters. For example, you may use `height` and `size` to request small images that are 150 pixels tall.|String|  
 |<a name="width" />width|Filter images that have the specified width, in pixels.<br /><br /> You may use this filter with the `size` filter to return small images that have a width of 150 pixels.|UnsignedShort|  
   
-## Response objects  
-The following are the JSON objects that the response may include. If the request succeeds, the top-level object in the response is the [Images](#images) object if the endpoint is /images/search, [ImageInsightsResponse](#imageinsightsresponse) if endpoint is /images/details, and [TrendingImages](#trendingimages) if the endpoint is /images/trending. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object. 
+## Response objects 
+
+The following are the JSON objects that the response may include. If the request succeeds, the top-level object in the response is the [Images](#images) object. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object. 
   
 |Object|Description|  
 |------------|-----------------|  
-|[AggregateOffer](#aggregateoffer)|Defines a list of offers from merchants that are related to the image.|  
-|[AggregateRating](#aggregaterating)|Defines the metrics that indicate how well an item was rated by others.|  
-|[Category](#category)|Defines the category of trending images.|  
 |[Error](#error)|Defines an error that occurred.|  
 |[ErrorResponse](#errorresponse)|The top-level object that the response includes when the request fails.|  
 |[Image](#image)|Defines an image that is relevant to the query.|  
-|[ImageCaption](#imagecaption)|Defines an image's caption.|  
-|[ImageGallery](#imagegallery)|Defines a link to a webpage that contains a collection of related images.|  
-|[ImageInsights](#imageinsightsresponse)|The top-level object that the response includes when an image insights request succeeds.|  
 |[Images](#images)|The top-level object that the response includes when an image request succeeds.|  
-|[ImagesModule](#imagesmodule)|Defines a list of images.|  
-|[ImageTagsModule](#imagetagsmodule)|Defines the characteristics of the content found in the image.|  
-|[InsightsMetadata](#insightsmetadata)|Defines a count of the number of websites where you can shop or perform other actions related to the image.|  
 |[MediaSize](#mediasize)|Defines the size of the media content.|  
-|[NormalizedRectangle](#normalizedrectangle)|Defines a region of an image.|  
 |[Instrumentation](#instrumentation)|Defines the Bing instrumentation URLs.|  
-|[Offer](#offer)|Defines a merchant's offer.|  
-|[Organization](#organization)|Defines information about a merchant.|  
-|[Person](#person)|Defines a person.|  
 |[Pivot](#pivot)|Defines the pivot segment.|  
 |[Query](#query_obj)|Defines a search query string.|  
-|[Recipe](#recipe)|Defines a cooking recipe.|  
-|[RecipesModule](#recipesmodule)|Defines a list of cooking recipes.|  
-|[RecognizedEntity](#recognizedentity)|Defines a recognized entity.|  
-|[RecognizedEntityGroup](#recognizedentitygroup)|Defines a group of previously recognized entities.|  
-|[RecognizedEntitiesModule](#recognizedentitiesmodule)|Defines a list of previously recognized entities.|  
-|[RecognizedEntityRegion](#recognizedentityregion)|Defines a region where an entity was found and a list of entities that might match it.|  
-|[RelatedCollectionsModule](#relatedcollectionsmodule)|Defines a list of links to webpages that contain related images.|  
-|[RelatedSearchesModule](#relatedsearchesmodule)|Defines a list of related searches made by others.|  
-|[Tag](#tag)|Defines a characteristic found in the image.|  
 |[Thumbnail](#thumbnail)|Defines a thumbnail image.|  
-|[Tile](#thumbnail)|Defines an image tile.|  
-|[TrendingImages](#trendingimages)|The top-level object that the response includes when a trending images request succeeds.|  
-  
+
+
 <a name="error"></a>   
 ### Error  
 Defines the error that occurred.  
@@ -150,7 +123,8 @@ Defines the error that occurred.
 |<a name="error-parameter" />parameter|The query parameter in the request that caused the error.|String|  
 |<a name="error-subcode" />subCode|The error code that identifies the error. For example, if `code` is InvalidRequest, `subCode` may be ParameterInvalid or ParameterInvalidValue. |String|  
 |<a name="error-value" />value|The query parameter's value that was not valid.|String|  
-  
+
+
 <a name="errorresponse"></a>   
 ### ErrorResponse  
 The top-level object that the response includes when the request fails.  
@@ -159,7 +133,97 @@ The top-level object that the response includes when the request fails.
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
 |<a name="errors" />errors|A list of errors that describe the reasons why the request failed.|[Error](#error)[]|  
+
   
+<a name="image"></a>   
+### Image  
+Defines an image that is relevant to the query.  
+  
+> [!NOTE]
+> Because the URL format and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resizing and Cropping Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/resize-and-crop-thumbnails).  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|<a name="image-accentcolor" />accentColor|A three-byte hexadecimal number that represents the color that dominates the image. Use the color as the temporary background in your client until the image is loaded.|String|  
+|<a name="image-contentsize" />contentSize|The image's file size. The format of the string is {size} {units}. For example, 12345 B indicates that the size of the image is 12,345 bytes.|String|  
+|<a name="image-contenturl" />contentUrl|The URL to the image on the source website.|String|  
+|<a name="image-datepublished" />datePublished|The date and time, in UTC, that Bing discovered the image. The date is in the format, YYYY-MM-DDTHH:MM:SS.|String|  
+|<a name="image-encodingformat" />encodingFormat|The image's mime type (for example, jpeg).|String|  
+|<a name="image-height" />height|The height of the source image, in pixels.|Unsigned Short|  
+|<a name="image-hostpagedisplayurl" />hostPageDisplayUrl|The display URL of the webpage that hosts the image.<br /><br /> Use this URL in your user interface to identify the host webpage that contains the image. The URL is not a well-formed and should not be used to access the host webpage. To access the host webpage, use the `hostPageUrl` URL.|String|  
+|<a name="image-hostpageurl" />hostPageUrl|The URL of the webpage that includes the image.<br /><br /> This URL and `contentUrl` may be the same URL.|String|  
+|<a name="image-id" />id|An ID that uniquely identifies this image in the list of images.<br /><br /> Only Web Search API responses include this field. For information about how to use this field, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/rank-results) in the Web Search API guide.|String|  
+|<a name="image-imageid" />imageId|An ID that uniquely identifies this image. If you want the image to be the first image in the response, set the [id](#id) query parameter to this ID in your request.|String|  
+|<a name="image-name" />name|A title of the image.|String|  
+|<a name="image-thumbnail" />thumbnail|The width and height of the thumbnail image (see `thumbnailUrl`).|[MediaSize](#mediasize)|  
+|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/resize-and-crop-thumbnails).|String|  
+|webSearchUrl|The URL to the Bing search results for this image.|String|  
+|<a name="image-width" />width|The width of the source image, in pixels.|Unsigned Short|  
+
+
+<a name="images"></a>   
+### Images  
+The top-level object that the response includes when an image request succeeds.  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|_type|A type hint, which is set to Images.|String|  
+|id|An ID that uniquely identifies the image answer.<br /><br /> The object includes this field only in a Web Search API response. For information about how to use this field, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/rank-results) in the Web Search API guide.|String|  
+|<a name="isfamilyfriendly" />isFamilyFriendly|A Boolean value that determines whether one or more of the images contain adult content. If none of the images contain adult content, `isFamilyFriendly` is set to **true**. Otherwise, if one or more of the images contain adult content, `isFamilyFriendly` is set to **false**.<br /><br /> If **false**, the thumbnail images are pixelated (fuzzy).<br /><br /> **NOTE:** This field is included only in Web Search API responses, not in Image Search API responses.|Boolean|  
+|<a name="nextoffset" />nextOffset|The offset value that you set the [offset](#offset) query parameter to.<br /><br /> If you set `offset` to 0 and `count` to 30 in your first request, and then set `offset` to 30 in your second request, some of the results in the second response may be duplicates of the first response.<br /><br /> To prevent duplicates, set `offset` to the value of `nextOffset`.|Integer|  
+|<a name="pivotsuggestions" />pivotSuggestions|A list of segments in the original query. For example, if the query was *Red Flowers*, Bing might segment the query into *Red* and *Flowers*.<br /><br /> The Flowers pivot may contain query suggestions such as Red Peonies and Red Daisies, and the Red pivot may contain query suggestions such as Green Flowers and Yellow Flowers.|[Pivot](#pivot)|  
+|<a name="queryexpansions" />queryExpansions|A list of expanded queries that narrows the original query. For example, if the query was *Microsoft Surface*, the expanded queries might be: Microsoft Surface **Pro 3**, Microsoft Surface **RT**, Microsoft Surface **Phone**, and Microsoft Surface **Hub**.|[Query](#query_obj)|  
+|readLink|The URL that returns this answer. To use the URL, append query parameters as appropriate and include the [Ocp-Apim-Subscription-Key](#subscriptionkey) header.<br /><br /> The Web Search API response includes this field. Typically, you'd use the URL if you want to query the Image Search API directly.|String|  
+|<a name="similarterms" />similarTerms|A list of terms that are similar in meaning to the user's query term.|[Query](#query_obj)|  
+|<a name="totalestimatedmatches" />totalEstimatedMatches|The estimated number of images that are relevant to the query. Use this number along with the [count](#count) and [offset](#offset) query parameters to page the results.<br /><br /> Only the Image Search API includes this field.|Long|  
+|<a name="images-value" />value|A list of images that are relevant to the query.<br /><br /> If there are no results, the array is empty.|[Image](#image)[]|  
+|webSearchUrl|The URL to the Bing search results for the requested images.|String|  
+
+  
+<a name="mediasize"></a>   
+### MediaSize  
+Defines the size of the media content.  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|height|The height of the media content, in pixels.|Integer|  
+|width|The width of the media content, in pixels.|Integer|  
+
+
+<a name="pivot"></a>   
+### Pivot  
+Defines the pivot segment.  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|<a name="pivot-pivot" />pivot|The segment from the original query to pivot on.|String|  
+|<a name="pivot-suggestions" />suggestions|A list of suggested queries for the pivot.|[Query](#query_obj)|  
+
+  
+<a name="query_obj"></a>   
+### Query  
+Defines a search query string.  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|displayText|The display version of the query term.<br /><br /> For expanded queries (see [queryExpansions](#queryexpansions)) and pivot suggestions (see [pivotSuggestions](#pivotsuggestions)), this field identifies the term that expanded the original query. For example, if the query was *Microsoft Surface* and the expanded query is *Microsoft Surface RT*, `displayText` would contain *RT*.|String|  
+|searchLink|The URL that you use to get the results of the related search. Before using the URL, you must append query parameters as appropriate and include the [Ocp-Apim-Subscription-Key](#subscriptionkey) header.<br /><br /> Use this URL if you're displaying the results in your own user interface. Otherwise, use the `webSearchUrl` URL.|String|  
+|text|The query term.|String|  
+|thumbnail|The URL to a thumbnail of a related image.<br /><br /> The object includes this field only for pivot suggestions and related searches.|[Thumbnail](#thumbnail)|  
+|webSearchUrl|The URL that takes the user to the Bing search results page for the query.<br /><br /> Use this URL if you're not displaying the results in your own user interface. Otherwise, use the `searchUrl` URL.<br /><br /> Included only for related searches.|String|  
+  
+  
+<a name="thumbnail"></a>   
+### Thumbnail  
+Defines a thumbnail of an image.  
+  
+|Element|Description|Type|  
+|-------------|-----------------|----------|  
+|url|The URL to a thumbnail of an image.|String|  
+
+
+
+
 ## Error codes 
 
 [!INCLUDE [bing-error-codes](./includes/bing-error-codes-v7.md)]
