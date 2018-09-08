@@ -2497,6 +2497,7 @@
 #### [Create Or Update](datafactory/Factories/CreateOrUpdate.yml)
 #### [Delete](datafactory/Factories/Delete.yml)
 #### [Get](datafactory/Factories/Get.yml)
+#### [Get Git Hub Access Token](datafactory/Factories/GetGitHubAccessToken.yml)
 #### [List](datafactory/Factories/List.yml)
 #### [List By Resource Group](datafactory/Factories/ListByResourceGroup.yml)
 #### [Update](datafactory/Factories/Update.yml)
