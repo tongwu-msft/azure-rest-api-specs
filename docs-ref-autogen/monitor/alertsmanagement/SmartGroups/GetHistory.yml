@@ -1,0 +1,198 @@
+### YamlMime:RESTOperation
+uid: monitor.smartgroups.gethistory
+name: Get History
+service: Monitor
+groupName: Smart Groups
+apiVersion: 2018-05-05-preview
+summary: Get the history of the changes of smart group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https:///subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/smartGroups/{smartGroupId}/history?api-version=2018-05-05-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: smartGroupId
+  in: path
+  isRequired: true
+  description: Smart Group Id
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: client API version
+  types:
+  - uid: api-version
+responses:
+- name: 200 OK
+  description: OK. Returns the list of changes of smart group.
+  types:
+  - uid: smartGroupModification
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: errorResponse
+requestHeader: []
+definitions:
+- name: api-version
+  description: client API version
+  kind: enum
+  properties:
+  - name: 2017-11-15-privatepreview
+    types:
+    - uid: string
+  - name: 2018-05-05-preview
+    types:
+    - uid: string
+- name: smartGroupModification
+  description: Alert Modification details
+  kind: object
+  properties:
+  - name: properties
+    description: Properties of the smartGroup modification item.
+    types:
+    - uid: smartGroupModificationProperties
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Azure resource type
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Azure resource name
+    types:
+    - uid: string
+- name: errorResponse
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Details of error response.
+    types:
+    - uid: errorResponseBody
+- name: smartGroupModificationProperties
+  description: Properties of the smartGroup modification item.
+  kind: object
+  properties:
+  - name: smartGroupId
+    isReadyOnly: true
+    description: Unique Id of the smartGroup for which the history is being retrieved
+    types:
+    - uid: string
+  - name: modifications
+    description: Modification details
+    types:
+    - uid: smartGroupModificationItem
+      isArray: true
+  - name: nextLink
+    description: URL to fetch the next set of results.
+    types:
+    - uid: string
+- name: errorResponseBody
+  description: Details of error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code, intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: Description of the error, intended for display in user interface.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the particular error, for example name of the property.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: errorResponseBody
+      isArray: true
+- name: smartGroupModificationItem
+  description: smartGroup modification item.
+  kind: object
+  properties:
+  - name: modificationEvent
+    description: Reason for the modification
+    types:
+    - uid: SmartGroupModificationEvent
+  - name: oldValue
+    description: Old value
+    types:
+    - uid: string
+  - name: newValue
+    description: New value
+    types:
+    - uid: string
+  - name: modifiedAt
+    description: Modified date and time
+    types:
+    - uid: string
+  - name: modifiedBy
+    description: Modified user details (Principal client name)
+    types:
+    - uid: string
+  - name: comments
+    description: Modification comments
+    types:
+    - uid: string
+  - name: description
+    description: Description of the modification
+    types:
+    - uid: string
+- name: SmartGroupModificationEvent
+  description: Reason for the modification
+  kind: enum
+  properties:
+  - name: SmartGroupCreated
+    types:
+    - uid: string
+  - name: StateChange
+    types:
+    - uid: string
+  - name: AlertAdded
+    types:
+    - uid: string
+  - name: AlertRemoved
+    types:
+    - uid: string
+examples:
+- name: Resolve
+  request:
+    uri: GET https:///subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/smartGroups/a808445e-bb38-4751-85c2-1b109ccc1059/history?api-version=2018-05-05-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "smartGroupId": "a808445e-bb38-4751-85c2-1b109ccc1059",
+          "modifications": [
+            {
+              "modificationEvent": "SmartGroupCreated",
+              "oldValue": "",
+              "newValue": "",
+              "modifiedAt": "2018-06-06T12:35:09Z",
+              "modifiedBy": "System",
+              "comments": "",
+              "description": "New Smart Group is created"
+            }
+          ]
+        },
+        "id": "/subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/smartGroups/a808445e-bb38-4751-85c2-1b109ccc1059/history/default",
+        "type": "Microsoft.AlertsManagement/alerts",
+        "name": "cpu alert"
+      }
+security: []
