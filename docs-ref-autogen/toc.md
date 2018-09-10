@@ -4518,6 +4518,8 @@
 ### [List](resources/Features/List.yml)
 ### [List All](resources/Features/ListAll.yml)
 ### [Register](resources/Features/Register.yml)
+## [List Operations](resources/ListOperations.yml)
+### [List Operations](resources/ListOperations/ListOperations.yml)
 ## [Management Locks](resources/ManagementLocks.yml)
 ### [Create Or Update At Resource Group Level](resources/ManagementLocks/CreateOrUpdateAtResourceGroupLevel.yml)
 ### [Create Or Update At Resource Level](resources/ManagementLocks/CreateOrUpdateAtResourceLevel.yml)
