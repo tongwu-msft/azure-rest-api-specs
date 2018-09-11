@@ -2,8 +2,8 @@
 ms.assetid: fcffb0b0-f875-47c5-b80f-f79f23f6f4ee
 title: Certifcate operations | Microsoft Docs
 ms.service: key-vault
-author: BrucePerlerMS
-ms.author: bruceper
+author: bryanla
+ms.author: bryanla
 manager: mbaldwin
 ms.date: 04/28/2017
 ---

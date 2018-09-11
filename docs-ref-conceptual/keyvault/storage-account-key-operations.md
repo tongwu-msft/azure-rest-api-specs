@@ -1,8 +1,8 @@
 ---
 title: Azure Key Vault storage account operations | Microsoft Docs
 ms.service: key-vault
-author: BrucePerlerMS
-ms.author: bruceper
+author: bryanla
+ms.author: bryanla
 manager: mbaldwin
 ms.date: 06/20/2017
 ---

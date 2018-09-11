@@ -2,8 +2,8 @@
 ms.assetid: 63a42254-f2ea-4beb-9aff-d23341006538
 title: Azure Key Vault certificates and policies | Microsoft Docs
 ms.service: key-vault
-author: BrucePerlerMS
-ms.author: bruceper
+author: bryanla
+ms.author: bryanla
 manager: mbaldwin
 ms.date: 06/14/2017
 ---
