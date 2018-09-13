@@ -3,15 +3,15 @@ uid: management.azure.com.consumption.marketplaces.listbybillingperiod
 name: List By Billing Period
 service: Consumption
 groupName: Marketplaces
-apiVersion: 2018-06-30
+apiVersion: 2018-08-31
 summary: Lists the marketplaces for a scope by billing period and subscripotionId. Marketplaces are available via this API only for May 1, 2014 or later.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces?api-version=2018-06-30
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces?$filter={$filter}&$top={$top}&$skiptoken={$skiptoken}&api-version=2018-06-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces?api-version=2018-08-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces?$filter={$filter}&$top={$top}&$skiptoken={$skiptoken}&api-version=2018-08-31
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -44,7 +44,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2018-06-30.
+  description: Version of the API to be used with the client request. The current version is 2018-08-31.
   types:
   - uid: string
 responses:
@@ -205,6 +205,11 @@ definitions:
     description: The name of plan.
     types:
     - uid: string
+  - name: properties.isRecurringCharge
+    isReadyOnly: true
+    description: Flag indicating whether this is a recurring charge or not.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -246,7 +251,7 @@ definitions:
 examples:
 - name: MarketplacesListForBillingPeriod
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201801/providers/Microsoft.Consumption/marketplaces?api-version=2018-06-30
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201801/providers/Microsoft.Consumption/marketplaces?api-version=2018-08-31
   responses:
   - statusCode: "200"
     body: >-
@@ -261,6 +266,10 @@ examples:
               "dev": "tools"
             },
             "properties": {
+              "accountName": "Account1",
+              "additionalProperties": "additionalProperties",
+              "costCenter": "Center1",
+              "departmentName": "Department1",
               "billingPeriodId": "/subscriptions/subid/providers/Microsoft.Billing/billingPeriods/201702",
               "usageStart": "2017-02-13T00:00:00Z",
               "usageEnd": "2017-02-13T23:59:59Z",
@@ -278,7 +287,9 @@ examples:
               "planName": "plan2",
               "resourceRate": 0.24,
               "subscriptionGuid": "00000000-0000-0000-0000-000000000000",
-              "subscriptionName": "azure subscription"
+              "subscriptionName": "azure subscription",
+              "unitOfMeasure": "10 Hours",
+              "isRecurringCharge": false
             }
           }
         ]
