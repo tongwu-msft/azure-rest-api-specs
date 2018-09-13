@@ -2,7 +2,7 @@
 ms.assetid:
 ms.title: Azure Cost Management REST APIs
 ms.service: cost management
-author: prprak
+author: ms-premp
 ms.author: prprak
 ms.manager: aedwin
 service_description: To be added..
