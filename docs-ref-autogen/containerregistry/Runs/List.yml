@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.containerregistry.builds(preview).list
+uid: management.azure.com.containerregistry.runs.list
 name: List
 service: Container Registry
-groupName: Builds (preview)
-apiVersion: 2018-02-01-preview
-summary: Gets all the builds for a registry.
+groupName: Runs
+apiVersion: 2018-09-01
+summary: Gets all the runs for a registry.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/builds?api-version=2018-02-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/builds?api-version=2018-02-01-preview&$filter={$filter}&$top={$top}&$skipToken={$skipToken}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs?api-version=2018-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs?api-version=2018-09-01&$filter={$filter}&$top={$top}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -41,101 +41,100 @@ uriParameters:
   - uid: string
 - name: $filter
   in: query
-  description: The builds filter to apply on the operation.
+  description: The runs filter to apply on the operation. Arithmetic operators are not supported. The allowed string function is 'contains'. All logical operators except 'Not', 'Has', 'All' are allowed.
   types:
   - uid: string
 - name: $top
   in: query
-  description: $top is supported for get list of builds, which limits the maximum number of builds to return.
+  description: $top is supported for get list of runs, which limits the maximum number of runs to return.
   types:
   - uid: integer
   format: int32
-- name: $skipToken
-  in: query
-  description: $skipToken is supported on get list of builds, which provides the next page in the list of builds.
-  types:
-  - uid: string
 responses:
 - name: 200 OK
   description: The request was successful; the request was well-formed and received properly.
   types:
-  - uid: BuildListResult
+  - uid: RunListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
 requestHeader: []
 definitions:
-- name: BuildListResult
-  description: Collection of builds.
+- name: RunListResult
+  description: Collection of runs.
   kind: object
   properties:
   - name: value
     description: The collection value.
     types:
-    - uid: Build
+    - uid: Run
       isArray: true
   - name: nextLink
     description: The URI that can be used to request the next set of paged results.
     types:
     - uid: string
-- name: Build
-  description: Build resource properties
+- name: Run
+  description: Run resource properties
   kind: object
   properties:
-  - name: properties.buildId
-    description: The unique identifier for the build.
+  - name: properties.runId
+    description: The unique identifier for the run.
     types:
     - uid: string
   - name: properties.status
-    description: The current status of the build.
+    description: The current status of the run.
     types:
-    - uid: BuildStatus
+    - uid: RunStatus
   - name: properties.lastUpdatedTime
-    description: The last updated time for the build.
+    description: The last updated time for the run.
     types:
     - uid: string
-  - name: properties.buildType
-    description: The type of build.
+  - name: properties.runType
+    description: The type of run.
     types:
-    - uid: BuildType
+    - uid: RunType
   - name: properties.createTime
-    description: The time the build was created.
+    description: The time the run was scheduled.
     types:
     - uid: string
   - name: properties.startTime
-    description: The time the build started.
+    description: The time the run started.
     types:
     - uid: string
   - name: properties.finishTime
-    description: The time the build finished.
+    description: The time the run finished.
     types:
     - uid: string
   - name: properties.outputImages
-    description: The list of all images that were generated from the build.
+    description: The list of all images that were generated from the run. This is applicable if the run is of type Build.
     types:
     - uid: ImageDescriptor
       isArray: true
-  - name: properties.buildTask
-    description: The build task with which the build was started.
+  - name: properties.task
+    description: The task against which run was scheduled.
     types:
     - uid: string
   - name: properties.imageUpdateTrigger
-    description: The image update trigger that caused the build.
+    description: The image update trigger that caused the run. This is applicable if the task is of build type.
     types:
     - uid: ImageUpdateTrigger
-  - name: properties.gitCommitTrigger
-    description: The git commit trigger that caused the build.
+  - name: properties.sourceTrigger
+    description: The source trigger that caused the run.
     types:
-    - uid: GitCommitTrigger
+    - uid: SourceTriggerDescriptor
   - name: properties.isArchiveEnabled
     description: The value that indicates whether archiving is enabled or not.
     types:
     - uid: boolean
   - name: properties.platform
-    description: The platform properties against which the build will happen.
+    description: The platform properties against which the run will happen.
     types:
     - uid: PlatformProperties
+  - name: properties.agentConfiguration
+    description: The machine configuration of the run agent.
+    types:
+    - uid: AgentProperties
   - name: properties.provisioningState
-    description: The provisioning state of a build.
+    description: The provisioning state of a run.
     types:
     - uid: ProvisioningState
   - name: id
@@ -153,8 +152,8 @@ definitions:
     description: The type of the resource.
     types:
     - uid: string
-- name: BuildStatus
-  description: The current status of the build.
+- name: RunStatus
+  description: The current status of the run.
   kind: enum
   properties:
   - name: Queued
@@ -181,14 +180,14 @@ definitions:
   - name: Timeout
     types:
     - uid: string
-- name: BuildType
-  description: The type of build.
+- name: RunType
+  description: The type of run.
   kind: enum
   properties:
-  - name: AutoBuild
+  - name: QuickBuild
     types:
     - uid: string
-  - name: QuickBuild
+  - name: AutoBuild
     types:
     - uid: string
 - name: ImageDescriptor
@@ -228,16 +227,24 @@ definitions:
     types:
     - uid: ImageDescriptor
       isArray: true
-- name: GitCommitTrigger
-  description: The git commit trigger that caused a build.
+- name: SourceTriggerDescriptor
+  description: The source trigger that caused a run.
   kind: object
   properties:
   - name: id
     description: The unique ID of the trigger.
     types:
     - uid: string
+  - name: eventType
+    description: The event type of the trigger.
+    types:
+    - uid: string
   - name: commitId
     description: The unique ID that identifies a commit.
+    types:
+    - uid: string
+  - name: pullRequestId
+    description: The unique ID that identifies pull request.
     types:
     - uid: string
   - name: repositoryUrl
@@ -253,19 +260,31 @@ definitions:
     types:
     - uid: string
 - name: PlatformProperties
-  description: The platform properties against which the build has to happen.
+  description: The platform properties against which the run has to happen.
   kind: object
   properties:
-  - name: osType
-    description: The operating system type required for the build.
+  - name: os
+    description: The operating system type required for the run.
     types:
-    - uid: OsType
+    - uid: OS
+  - name: architecture
+    description: The OS architecture.
+    types:
+    - uid: Architecture
+  - name: variant
+    description: Variant of the CPU.
+    types:
+    - uid: Variant
+- name: AgentProperties
+  description: The properties that determine the run agent configuration.
+  kind: object
+  properties:
   - name: cpu
-    description: The CPU configuration in terms of number of cores required for the build.
+    description: The CPU configuration in terms of number of cores required for the run.
     types:
     - uid: integer
 - name: ProvisioningState
-  description: The provisioning state of a build.
+  description: The provisioning state of a run.
   kind: enum
   properties:
   - name: Creating
@@ -286,8 +305,8 @@ definitions:
   - name: Canceled
     types:
     - uid: string
-- name: OsType
-  description: The operating system type required for the build.
+- name: OS
+  description: The operating system type required for the run.
   kind: enum
   properties:
   - name: Windows
@@ -296,10 +315,36 @@ definitions:
   - name: Linux
     types:
     - uid: string
+- name: Architecture
+  description: The OS architecture.
+  kind: enum
+  properties:
+  - name: amd64
+    types:
+    - uid: string
+  - name: x86
+    types:
+    - uid: string
+  - name: arm
+    types:
+    - uid: string
+- name: Variant
+  description: Variant of the CPU.
+  kind: enum
+  properties:
+  - name: v6
+    types:
+    - uid: string
+  - name: v7
+    types:
+    - uid: string
+  - name: v8
+    types:
+    - uid: string
 examples:
-- name: Builds_List
+- name: Runs_List
   request:
-    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/builds?api-version=2018-02-01-preview&$filter=&$top=10
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/runs?api-version=2018-09-01&$filter=&$top=10
   responses:
   - statusCode: "200"
     body: >-
@@ -308,10 +353,10 @@ examples:
           {
             "properties": {
               "provisioningState": "Succeeded",
-              "buildId": "0accec26-d6de-4757-8e74-d080f38eaaab",
+              "runId": "0accec26-d6de-4757-8e74-d080f38eaaab",
               "status": "Succeeded",
               "lastUpdatedTime": "2018-01-25T05:13:51.617Z",
-              "buildType": "AutoBuild",
+              "runType": "AutoBuild",
               "createTime": "2018-01-25T05:13:51.618Z",
               "startTime": "2018-01-25T05:50:51.618Z",
               "finishTime": "2018-01-25T06:13:51.618Z",
@@ -323,7 +368,7 @@ examples:
                   "digest": "sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0"
                 }
               ],
-              "buildTask": "myBuildTask",
+              "task": "myTask",
               "imageUpdateTrigger": {
                 "id": "c0c43143-da5d-41ef-b9e1-e7d749272e88",
                 "timestamp": "2018-01-25T05:13:51.618Z",
@@ -338,13 +383,16 @@ examples:
               },
               "isArchiveEnabled": true,
               "platform": {
-                "osType": "Linux",
+                "os": "Linux",
+                "architecture": "amd64"
+              },
+              "agentConfiguration": {
                 "cpu": 2
               }
             },
-            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/builds/0accec26-d6de-4757-8e74-d080f38eaaab",
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/runs/0accec26-d6de-4757-8e74-d080f38eaaab",
             "name": "0accec26-d6de-4757-8e74-d080f38eaaab",
-            "type": "Microsoft.ContainerRegistry/registries/builds"
+            "type": "Microsoft.ContainerRegistry/registries/runs"
           }
         ]
       }
