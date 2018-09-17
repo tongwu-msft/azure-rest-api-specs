@@ -3898,6 +3898,8 @@
 #### [Get](monitor/MetricBaseline/Get.yml)
 ### [Metric Definitions](monitor/MetricDefinitions.yml)
 #### [List](monitor/MetricDefinitions/List.yml)
+### [Metric Namespaces](monitor/MetricNamespaces.yml)
+#### [List](monitor/MetricNamespaces/List.yml)
 ### [Metrics](monitor/Metrics.yml)
 #### [List](monitor/Metrics/List.yml)
 ### [Operations](monitor/Operations.yml)
@@ -3911,6 +3913,8 @@
 #### [Update](monitor/ScheduledQueryRules/Update.yml)
 ### [Tenant Activity Logs](monitor/TenantActivityLogs.yml)
 #### [List](monitor/TenantActivityLogs/List.yml)
+### [azure Monitor Custom Metrics Ingestion Api](monitor/azureMonitorCustomMetricsIngestionApi.yml)
+#### [azure Monitor Custom Metrics Ingestion Api](monitor/azureMonitorCustomMetricsIngestionApi/azureMonitorCustomMetricsIngestionApi.yml)
 ### Alerts Management
 #### [Alerts](monitor/alertsmanagement/Alerts.yml)
 ##### [Change State](monitor/alertsmanagement/Alerts/ChangeState.yml)
