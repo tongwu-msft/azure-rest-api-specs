@@ -3,37 +3,37 @@ uid: monitor.alerts.changestate
 name: Change State
 service: Monitor
 groupName: Alerts
-apiVersion: 2018-05-05-preview
+apiVersion: 2018-05-05
 summary: Change the state of the alert.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https:///subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/alerts/{alertId}/changestate?api-version=2018-05-05-preview&newState={newState}
+- content: POST https:///subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/alerts/{alertId}/changestate?api-version=2018-05-05&newState={newState}
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
 - name: alertId
   in: path
   isRequired: true
-  description: Unique ID of an alert object.
+  description: Unique ID of an alert instance.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: client API version
+  description: API version.
   types:
   - uid: api-version
 - name: newState
   in: query
   isRequired: true
-  description: filter by state
+  description: New state of the alert.
   types:
   - uid: AlertState
 responses:
@@ -48,17 +48,14 @@ responses:
 requestHeader: []
 definitions:
 - name: api-version
-  description: client API version
+  description: API version.
   kind: enum
   properties:
-  - name: 2017-11-15-privatepreview
-    types:
-    - uid: string
-  - name: 2018-05-05-preview
+  - name: 05/05/2018 00:00:00
     types:
     - uid: string
 - name: AlertState
-  description: Alert object state
+  description: Alert object state, which is modified by the user.
   kind: enum
   properties:
   - name: New
@@ -74,82 +71,10 @@ definitions:
   description: An alert created in alert management service.
   kind: object
   properties:
-  - name: properties.severity
-    isReadyOnly: true
-    description: Severity of alert Sev1 being highest and Sev3 being lowest.
+  - name: properties
+    description: Alert property bag
     types:
-    - uid: Severity
-  - name: properties.signalType
-    isReadyOnly: true
-    description: Log based alert or metric based alert
-    types:
-    - uid: SignalType
-  - name: properties.alertState
-    isReadyOnly: true
-    description: Alert object state
-    types:
-    - uid: AlertState
-  - name: properties.monitorCondition
-    isReadyOnly: true
-    description: Condition of the rule at the monitor service
-    types:
-    - uid: MonitorCondition
-  - name: properties.targetResource
-    description: Target ARM resource, on which alert got created.
-    types:
-    - uid: string
-  - name: properties.targetResourceName
-    description: Target ARM resource name, on which alert got created.
-    types:
-    - uid: string
-  - name: properties.targetResourceGroup
-    description: Resource group of target ARM resource.
-    types:
-    - uid: string
-  - name: properties.targetResourceType
-    description: Resource type of target ARM resource
-    types:
-    - uid: string
-  - name: properties.monitorService
-    isReadyOnly: true
-    description: Monitor service which is the source of the alert object.
-    types:
-    - uid: MonitorService
-  - name: properties.sourceCreatedId
-    isReadyOnly: true
-    description: Unique Id created by monitor service
-    types:
-    - uid: string
-  - name: properties.smartGroupId
-    isReadyOnly: true
-    description: Unique Id of the smart group
-    types:
-    - uid: string
-  - name: properties.smartGroupingReason
-    isReadyOnly: true
-    description: Reason for addition to a smart group
-    types:
-    - uid: string
-  - name: properties.startDateTime
-    isReadyOnly: true
-    description: Creation time(ISO-8601 format).
-    types:
-    - uid: string
-  - name: properties.lastModifiedDateTime
-    isReadyOnly: true
-    description: Last modification time(ISO-8601 format).
-    types:
-    - uid: string
-  - name: properties.lastModifiedUserName
-    isReadyOnly: true
-    description: User who last modified the alert.
-    types:
-    - uid: string
-  - name: properties.payload
-    isReadyOnly: true
-    description: More details which are contextual to the monitor service.
-    types:
-    - uid: object
+    - uid: alertProperties
   - name: id
     isReadyOnly: true
     description: Azure resource Id
@@ -173,8 +98,132 @@ definitions:
     description: Details of error response.
     types:
     - uid: errorResponseBody
+- name: alertProperties
+  description: Alert property bag
+  kind: object
+  properties:
+  - name: essentials
+    description: This object contains normalized fields across different monitor service and also contains state related fields.
+    types:
+    - uid: essentials
+  - name: context
+    isReadyOnly: true
+    description: More details which are contextual to the monitor service.
+    types:
+    - uid: object
+  - name: egressConfig
+    isReadyOnly: true
+    description: Config which would be used for displaying the data in portal.
+    types:
+    - uid: object
+- name: errorResponseBody
+  description: Details of error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code, intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: Description of the error, intended for display in user interface.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the particular error, for example name of the property.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: errorResponseBody
+      isArray: true
+- name: essentials
+  description: This object contains normalized fields across different monitor service and also contains state related fields.
+  kind: object
+  properties:
+  - name: severity
+    isReadyOnly: true
+    description: Severity of alert Sev0 being highest and Sev3 being lowest.
+    types:
+    - uid: Severity
+  - name: signalType
+    isReadyOnly: true
+    description: Log based alert or metric based alert
+    types:
+    - uid: SignalType
+  - name: alertState
+    isReadyOnly: true
+    description: Alert object state, which is modified by the user.
+    types:
+    - uid: AlertState
+  - name: monitorCondition
+    isReadyOnly: true
+    description: Represents rule condition(Fired/Resolved) maintained by monitor service depending on the state of the state.
+    types:
+    - uid: MonitorCondition
+  - name: targetResource
+    description: Target ARM resource, on which alert got created.
+    types:
+    - uid: string
+  - name: targetResourceName
+    description: Name of the target ARM resource name, on which alert got created.
+    types:
+    - uid: string
+  - name: targetResourceGroup
+    description: Resource group of target ARM resource, on which alert got created.
+    types:
+    - uid: string
+  - name: targetResourceType
+    description: Resource type of target ARM resource, on which alert got created.
+    types:
+    - uid: string
+  - name: monitorService
+    isReadyOnly: true
+    description: Monitor service on which the rule(monitor) is set.
+    types:
+    - uid: MonitorService
+  - name: alertRule
+    isReadyOnly: true
+    description: Rule(monitor) which fired alert instance. Depending on the monitor service,  this would be ARM id or name of the rule.
+    types:
+    - uid: string
+  - name: sourceCreatedId
+    isReadyOnly: true
+    description: Unique Id created by monitor service for each alert instance. This could be used to track the issue at the monitor service, in case of Nagios, Zabbix, SCOM etc.
+    types:
+    - uid: string
+  - name: smartGroupId
+    isReadyOnly: true
+    description: Unique Id of the smart group
+    types:
+    - uid: string
+  - name: smartGroupingReason
+    isReadyOnly: true
+    description: Verbose reason describing the reason why this alert instance is added to a smart group
+    types:
+    - uid: string
+  - name: startDateTime
+    isReadyOnly: true
+    description: Creation time(ISO-8601 format) of alert instance.
+    types:
+    - uid: string
+  - name: lastModifiedDateTime
+    isReadyOnly: true
+    description: Last modification time(ISO-8601 format) of alert instance.
+    types:
+    - uid: string
+  - name: monitorConditionResolvedDateTime
+    isReadyOnly: true
+    description: Resolved time(ISO-8601 format) of alert instance. This will be updated when monitor service resolves the alert instance because of the rule condition is not met.
+    types:
+    - uid: string
+  - name: lastModifiedUserName
+    isReadyOnly: true
+    description: User who last modified the alert, in case of monitor service updates user would be 'system', otherwise name of the user.
+    types:
+    - uid: string
 - name: Severity
-  description: Severity of alert Sev1 being highest and Sev3 being lowest.
+  description: Severity of alert Sev0 being highest and Sev3 being lowest.
   kind: enum
   properties:
   - name: Sev0
@@ -206,7 +255,7 @@ definitions:
     types:
     - uid: string
 - name: MonitorCondition
-  description: Condition of the rule at the monitor service
+  description: Represents rule condition(Fired/Resolved) maintained by monitor service depending on the state of the state.
   kind: enum
   properties:
   - name: Fired
@@ -216,19 +265,10 @@ definitions:
     types:
     - uid: string
 - name: MonitorService
-  description: Monitor service which is the source of the alert object.
+  description: Monitor service on which the rule(monitor) is set.
   kind: enum
   properties:
-  - name: Platform
-    types:
-    - uid: string
   - name: Application Insights
-    types:
-    - uid: string
-  - name: Log Analytics
-    types:
-    - uid: string
-  - name: Infrastructure Insights
     types:
     - uid: string
   - name: ActivityLog Administrative
@@ -246,67 +286,60 @@ definitions:
   - name: ActivityLog Autoscale
     types:
     - uid: string
+  - name: Log Analytics
+    types:
+    - uid: string
+  - name: Nagios
+    types:
+    - uid: string
+  - name: Platform
+    types:
+    - uid: string
+  - name: SCOM
+    types:
+    - uid: string
   - name: ServiceHealth
     types:
     - uid: string
   - name: SmartDetector
     types:
     - uid: string
+  - name: VM Insights
+    types:
+    - uid: string
   - name: Zabbix
     types:
     - uid: string
-  - name: SCOM
-    types:
-    - uid: string
-  - name: Nagios
-    types:
-    - uid: string
-- name: errorResponseBody
-  description: Details of error response.
-  kind: object
-  properties:
-  - name: code
-    description: Error code, intended to be consumed programmatically.
-    types:
-    - uid: string
-  - name: message
-    description: Description of the error, intended for display in user interface.
-    types:
-    - uid: string
-  - name: target
-    description: Target of the particular error, for example name of the property.
-    types:
-    - uid: string
-  - name: details
-    description: A list of additional details about the error.
-    types:
-    - uid: errorResponseBody
-      isArray: true
 examples:
 - name: Resolve
   request:
-    uri: POST https:///subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/alerts/66114d64-d9d9-478b-95c9-b789d6502100/changestate?api-version=2018-05-05-preview&newState=Acknowledged
+    uri: POST https:///subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/alerts/66114d64-d9d9-478b-95c9-b789d6502100/changestate?api-version=2018-05-05&newState=Acknowledged
   responses:
   - statusCode: "200"
     body: >-
       {
         "properties": {
-          "severity": "Sev3",
-          "signalType": "Log",
-          "alertState": "New",
-          "monitorCondition": "Fired",
-          "monitorService": "Application Insights",
-          "targetResourceName": "alertscorrelationworkerrole_int",
-          "targetResourceGroup": "alertscorrelationrg",
-          "targetResource": "/subscriptions/dd91de05-d791-4ceb-b6dc-988682dc7d72/resourcegroups/alertscorrelationrg/providers/microsoft.insights/components/alertscorrelationworkerrole_int",
-          "targetResourceType": "components",
-          "sourceCreatedId": "57c049b5-9654-4bb4-a443-3bac3f725d34",
-          "smartGroupId": "a808445e-bb38-4751-85c2-1b109ccc1059",
-          "smartGroupingReason": "Alerts that frequently occur together have been grouped.",
-          "startDateTime": "2018-06-12T22:05:09Z",
-          "lastModifiedDateTime": "2018-06-12T22:05:09Z",
-          "lastModifiedUserName": "vikramm@microsoft.com",
-          "payload": {}
+          "essentials": {
+            "severity": "Sev3",
+            "signalType": "Log",
+            "alertState": "Acknowledged",
+            "monitorCondition": "Fired",
+            "monitorService": "Application Insights",
+            "targetResource": "/subscriptions/3b540246-808d-4331-99aa-917b808a9166/resourcegroups/servicedeskresourcegroup/providers/microsoft.insights/components/servicedeskappinsight",
+            "targetResourceName": "servicedeskappinsight",
+            "targetResourceGroup": "servicedeskresourcegroup",
+            "targetResourceType": "components",
+            "sourceCreatedId": "6cd6b2ce-8c54-468f-aff0-9d12aebb7e49",
+            "smartGroupId": "23d6b2ce-8c54-468f-aff0-sd32aebb7e56",
+            "smartGroupingReason": "Occurred frequently with other alerts",
+            "alertRule": "https://servisdfsdfappinsight.portal.mms.microsoft.com/#Workspace/overview/settings/details/Edit Alert Rule/details/index?savedSearchId=&scheduleId=",
+            "startDateTime": "2018-09-13T15:51:02Z",
+            "lastModifiedDateTime": "2018-09-13T15:51:02Z",
+            "lastModifiedUserName": "System",
+            "monitorConditionResolvedDateTime": "2018-09-13T15:51:02Z"
+          },
+          "egressConfig": {},
+          "context": {}
         },
         "id": "/subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/alerts/66114d64-d9d9-478b-95c9-b789d6502100",
         "type": "Microsoft.AlertsManagement/alerts",
