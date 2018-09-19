@@ -47,27 +47,55 @@ responses:
 
      * 400 SubscriptionNotFound - The requested subscription was not found.
 
-     * 400 RegionDoesNotAllowProvisioning - The selected location is not accepting new Windows Azure SQL Database servers. This may change at a later time.
+     * 400 VnetInWrongRegion - Virtual network is in wrong region.
 
      * 400 VnetAddressRangeError - Virtual network address range is invalid.
 
      * 400 VnetConfigIsNotAllowed - Virtual network configuration is not allowed.
 
-     * 400 InvalidParameterValue - An invalid value was given to a parameter.
+     * 400 ManagedInstanceClassicVnetNotSupported - Managed Instance cannot be joined to a classic virtual network.
 
-     * 400 InvalidLoginName - The provided login name is invalid.
+     * 400 VnetConfigHasNsg - User tried to inject Managed Server subnet with Network Security Groups.
 
-     * 400 PasswordTooShort - The provided password is too short
+     * 400 VnetConfigHasNoUdr - User tried to inject Managed Server subnet without default User Defined Route Table.
 
-     * 400 PasswordTooLong - The provided password is too long.
+     * 400 VnetConfigHasInvalidUdr - User tried to inject Managed Server subnet with invalid User Defined Route Table.
+
+     * 400 VnetConfigHasInvalidDns - User tried to inject Managed Server subnet with invalid custom DNS.
+
+     * 400 VnetConfigHasServiceEndpoints - User tried to inject Managed Server subnet with service endpoints.
+
+     * 400 VnetSubnetIsInUse - User tried to inject Managed Server subnet that is not empty.
+
+     * 400 VnetSubnetIsLocked - User tried to inject Managed Server subnet that is in locked scope.
 
      * 400 NameAlreadyExists - The provided name already exists.
 
-     * 400 PasswordNotComplex - The provided password is not complex enough.
+     * 400 VnetSubnetIsGateway - User tried to inject Managed Server subnet that is Gateway subnet.
+
+     * 400 ProvisioningDisabled - Displays error message from resources operation authorizer as is, without changes
+
+     * 400 VnetSubnetIsUnknown - User tried to inject Managed Server subnet that does not exist.
+
+     * 400 VnetSubnetConflictWithIntendedPolicy - User tried to inject Managed Server subnet that has a conflict with IntendedPolicy.
+
+     * 400 VnetResourceNotFound - Resource not found: '{0}'.
+
+     * 400 ManagedInstanceLocalStorageUpdateSloDisabled - Update SLO for managed instances with local storage is not supported yet.
+
+     * 400 InvalidLoginName - The provided login name is invalid.
+
+     * 400 InvalidUsername - Supplied user name contains invalid characters.
+
+     * 400 PasswordTooShort - The provided password is too short
 
      * 400 RegionDoesNotSupportVersion - A user attempted to create a server of a specified version in a location where that server version isn't supported.
 
-     * 400 TokenTooLong - The provided token is too long.
+     * 400 PasswordTooLong - The provided password is too long.
+
+     * 400 PasswordNotComplex - The provided password is not complex enough.
+
+     * 400 InvalidParameterValue - An invalid value was given to a parameter.
 
      * 400 InvalidLocation - An invalid location was specified.
 
@@ -75,29 +103,39 @@ responses:
 
      * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.
 
-     * 400 InvalidSubnetResourceId - The provided subnet resource ID for the managed instance create or update is invalid.
+     * 400 TokenTooLong - The provided token is too long.
 
-     * 400 VnetInWrongRegion - Virtual network is in wrong region.
+     * 400 InvalidCollation - Collation is not recognized by the server.
 
      * 400 ServerNotFound - The requested server was not found.
 
-     * 400 InvalidUsername - Supplied user name contains invalid characters.
+     * 400 RegionDoesNotAllowProvisioning - The selected location is not accepting new Windows Azure SQL Database servers. This may change at a later time.
 
-     * 404 ManagedInstanceNotInSubscriptionResourceGroup - Specified managed instance does not exist in the specified resource group and subscription.
+     * 400 InvalidSubnetResourceId - The provided subnet resource ID for the managed instance create or update is invalid.
+
+     * 400 InvalidManagedServerDnsZonePartner - Invalid DNS zone partner resource id specified in properties.
 
      * 404 SubscriptionDoesNotHaveManagedInstance - The requested managed instance was not found
+
+     * 404 ManagedInstanceNotInSubscriptionResourceGroup - Specified managed instance does not exist in the specified resource group and subscription.
 
      * 404 OperationIdNotFound - The operation with Id does not exist.
 
      * 404 ResourceNotFound - The requested resource was not found.
 
+     * 405 InvalidVcoreValue - vCore value {0} is not valid. Please specify a valid vCore value.
+
+     * 405 InvalidHardwareGenerationValue - HardwareGeneration {0} is not valid. Please specify a valid HardwareGeneration value.
+
+     * 405 InvalidStorageSizeValue - "Invalid storage size: {0} GB. Storage size must be specified between {1} and {2} gigabytes, in increments of {3} GB.
+
      * 409 OperationCancelled - The operation has been cancelled by user.
 
      * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.
 
-     * 409 SubscriptionDisabled - Subscription is disabled.
-
      * 409 ServerDisabled - Server is disabled.
+
+     * 409 SubscriptionDisabled - Subscription is disabled.
 
      * 409 ServerQuotaExceeded - Server cannot be added to a subscription because it will exceed quota.
 
@@ -153,6 +191,11 @@ requestBody:
     description: The maximum storage size in GB.
     types:
     - uid: integer
+  - name: properties.dnsZonePartner
+    in: body
+    description: The resource id of another managed instance whose DNS zone this managed instance will share after creation.
+    types:
+    - uid: string
   - name: location
     in: body
     isRequired: true
@@ -258,6 +301,20 @@ definitions:
     description: The maximum storage size in GB.
     types:
     - uid: integer
+  - name: properties.collation
+    isReadyOnly: true
+    description: Collation of the managed instance.
+    types:
+    - uid: string
+  - name: properties.dnsZone
+    isReadyOnly: true
+    description: The Dns Zone that the managed instance is in.
+    types:
+    - uid: string
+  - name: properties.dnsZonePartner
+    description: The resource id of another managed instance whose DNS zone this managed instance will share after creation.
+    types:
+    - uid: string
   - name: location
     description: Resource location.
     types:
@@ -318,9 +375,11 @@ examples:
           "capacity": 1
         },
         "properties": {
-          "fullyQualifiedDomainName": "testinstance.database.windows.net",
+          "fullyQualifiedDomainName": "testinstance.1b4e2caff2530.database.windows.net",
           "administratorLogin": "dummylogin",
-          "state": "Ready"
+          "state": "Ready",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "dnsZone": "1b4e2caff2530"
         }
       }
   - statusCode: "201"
@@ -336,9 +395,11 @@ examples:
           "capacity": 1
         },
         "properties": {
-          "fullyQualifiedDomainName": "testinstance.database.windows.net",
+          "fullyQualifiedDomainName": "testinstance.1b4e2caff2530.database.windows.net",
           "administratorLogin": "dummylogin",
-          "state": "Ready"
+          "state": "Ready",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "dnsZone": "1b4e2caff2530"
         }
       }
   - statusCode: "202"
@@ -357,13 +418,14 @@ examples:
           "capacity": 1
         },
         "properties": {
-          "fullyQualifiedDomainName": "testinstance.database.windows.net",
+          "fullyQualifiedDomainName": "testinstance.1b4e2caff2530.database.windows.net",
           "administratorLogin": "dummylogin",
           "administratorLoginPassword": "Un53cuRE!",
           "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
           "vCores": 8,
           "storageSizeInGB": 1024,
-          "licenseType": "Full"
+          "licenseType": "Full",
+          "dnsZonePartner": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance"
         }
       }
   responses:
@@ -383,10 +445,12 @@ examples:
           "capacity": 1
         },
         "properties": {
-          "fullyQualifiedDomainName": "testinstance.database.windows.net",
+          "fullyQualifiedDomainName": "testinstance.1b4e2caff2530.database.windows.net",
           "administratorLogin": "dummylogin",
           "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
-          "state": "Ready"
+          "state": "Ready",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "dnsZone": "1b4e2caff2530"
         }
       }
   - statusCode: "201"
@@ -405,10 +469,12 @@ examples:
           "capacity": 1
         },
         "properties": {
-          "fullyQualifiedDomainName": "testinstance.database.windows.net",
+          "fullyQualifiedDomainName": "testinstance.1b4e2caff2530.database.windows.net",
           "administratorLogin": "dummylogin",
           "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
-          "state": "Ready"
+          "state": "Ready",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "dnsZone": "1b4e2caff2530"
         }
       }
   - statusCode: "202"
