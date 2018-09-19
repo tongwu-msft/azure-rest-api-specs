@@ -47,19 +47,19 @@ responses:
 
      * 400 SubscriptionNotFound - The requested subscription was not found.
 
-     * 404 ManagedInstanceNotInSubscriptionResourceGroup - Specified managed instance does not exist in the specified resource group and subscription.
-
      * 404 SubscriptionDoesNotHaveManagedInstance - The requested managed instance was not found
+
+     * 404 ManagedInstanceNotInSubscriptionResourceGroup - Specified managed instance does not exist in the specified resource group and subscription.
 
      * 404 ResourceNotFound - The requested resource was not found.
 
      * 409 ConflictingManagedInstanceOperation - An operation is currently in progress for the managed instance.
 
+     * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
+
      * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
 
      * 429 ConflictingSubscriptionOperation - An operation is currently in progress for the subscription.
-
-     * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
 
      * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
 
@@ -112,6 +112,20 @@ definitions:
     description: The maximum storage size in GB.
     types:
     - uid: integer
+  - name: properties.collation
+    isReadyOnly: true
+    description: Collation of the managed instance.
+    types:
+    - uid: string
+  - name: properties.dnsZone
+    isReadyOnly: true
+    description: The Dns Zone that the managed instance is in.
+    types:
+    - uid: string
+  - name: properties.dnsZonePartner
+    description: The resource id of another managed instance whose DNS zone this managed instance will share after creation.
+    types:
+    - uid: string
   - name: location
     description: Resource location.
     types:
@@ -203,12 +217,14 @@ examples:
           "family": "Gen4"
         },
         "properties": {
-          "fullyQualifiedDomainName": "testcl.database.windows.net",
+          "fullyQualifiedDomainName": "testcl.1b4e2caff2530.database.windows.net",
           "administratorLogin": "cloudSA",
           "state": "Ready",
           "vCores": 8,
           "storageSizeInGB": 1024,
-          "licenseType": "Full"
+          "licenseType": "Full",
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "dnsZone": "1b4e2caff2530"
         },
         "location": "onebox",
         "id": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl",
