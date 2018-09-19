@@ -3901,8 +3901,6 @@
 #### [Get](monitor/MetricBaseline/Get.yml)
 ### [Metric Definitions](monitor/MetricDefinitions.yml)
 #### [List](monitor/MetricDefinitions/List.yml)
-### [Metric Namespaces](monitor/MetricNamespaces.yml)
-#### [List](monitor/MetricNamespaces/List.yml)
 ### [Metrics](monitor/Metrics.yml)
 #### [List](monitor/Metrics/List.yml)
 ### [Metrics (Data plane)](monitor/Metrics (Data plane).yml)
@@ -3932,6 +3930,9 @@
 ##### [Get All](monitor/alertsmanagement/SmartGroups/GetAll.yml)
 ##### [Get By Id](monitor/alertsmanagement/SmartGroups/GetById.yml)
 ##### [Get History](monitor/alertsmanagement/SmartGroups/GetHistory.yml)
+### Metrics Namespace
+#### [Metric Namespaces](monitor/metricsnamespace/MetricNamespaces.yml)
+##### [List](monitor/metricsnamespace/MetricNamespaces/List.yml)
 # [MySQL](../docs-ref-conceptual/mysql/index.md)
 ## [Check Name Availability](mysql/CheckNameAvailability.yml)
 ### [Execute](mysql/CheckNameAvailability/Execute.yml)
