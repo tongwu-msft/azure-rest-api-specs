@@ -4,7 +4,7 @@ name: Create Or Update
 service: Compute
 groupName: Gallery Image Versions
 apiVersion: 2018-06-01
-summary: Create or update a gallery image version.
+summary: Create or update a gallery Image Version.
 consumes:
 - application/json
 produces:
@@ -27,19 +27,19 @@ uriParameters:
 - name: galleryName
   in: path
   isRequired: true
-  description: The name of the gallery.
+  description: The name of the Shared Image Gallery in which the Image Definition resides.
   types:
   - uid: string
 - name: galleryImageName
   in: path
   isRequired: true
-  description: The name of the gallery image.
+  description: The name of the gallery Image Definition in which the Image Version is to be created.
   types:
   - uid: string
 - name: galleryImageVersionName
   in: path
   isRequired: true
-  description: 'The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>'
+  description: 'The name of the gallery Image Version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>'
   types:
   - uid: string
 - name: api-version
@@ -71,7 +71,7 @@ requestBody:
   - name: properties.publishingProfile
     in: body
     isRequired: true
-    description: The publishing profile of a gallery image version.
+    description: The publishing profile of a gallery Image Version.
     types:
     - uid: GalleryImageVersionPublishingProfile
   - name: location
@@ -92,37 +92,37 @@ requestBody:
 requestHeader: []
 definitions:
 - name: GalleryImageVersionPublishingProfile
-  description: The publishing profile of a gallery image version.
+  description: The publishing profile of a gallery Image Version.
   kind: object
   properties:
   - name: replicaCount
-    description: This is the number of source blob copies in a region.
+    description: The number of replicas of the Image Version to be created per region. This property would take effect for a region when regionalReplicaCount is not specified. This property is updateable.
     types:
     - uid: integer
   - name: excludeFromLatest
-    description: The flag means that if it is set to true, people deploying VMs with 'latest' as version will not use this version.
+    description: If set to true, Virtual Machines deployed from the latest version of the Image Definition won't use this Image Version.
     types:
     - uid: boolean
   - name: publishedDate
     isReadyOnly: true
-    description: The time when the gallery image version is published.
+    description: The timestamp for when the gallery Image Version is published.
     types:
     - uid: string
   - name: endOfLifeDate
-    description: The end of life date of the gallery image version.
+    description: The end of life date of the gallery Image Version. This property can be used for decommissioning purposes. This property is updateable.
     types:
     - uid: string
   - name: targetRegions
-    description: The target regions where the artifact is going to be published.
+    description: The target regions where the Image Version is going to be replicated to. This property is updateable.
     types:
     - uid: TargetRegion
       isArray: true
   - name: source
-    description: The source of the gallery artifact.
+    description: The source image from which the Image Version is going to be created.
     types:
     - uid: GalleryArtifactSource
 - name: GalleryImageVersionStorageProfile
-  description: This is the storage profile of a gallery image version.
+  description: This is the storage profile of a gallery Image Version.
   kind: object
   properties:
   - name: osDiskImage
@@ -137,12 +137,12 @@ definitions:
     - uid: GalleryDataDiskImage
       isArray: true
 - name: ReplicationStatus
-  description: This is the replication status of the gallery image version.
+  description: This is the replication status of the gallery Image Version.
   kind: object
   properties:
   - name: aggregatedState
     isReadyOnly: true
-    description: This is the aggregated replication status based on the regional replication status.
+    description: This is the aggregated replication status based on all the regional replication status flags.
     types:
     - uid: AggregatedReplicationState
   - name: summary
@@ -152,16 +152,16 @@ definitions:
     - uid: RegionalReplicationStatus
       isArray: true
 - name: GalleryImageVersion
-  description: Specifies information about the gallery image version that you want to create or update.
+  description: Specifies information about the gallery Image Version that you want to create or update.
   kind: object
   properties:
   - name: properties.publishingProfile
-    description: The publishing profile of a gallery image version.
+    description: The publishing profile of a gallery Image Version.
     types:
     - uid: GalleryImageVersionPublishingProfile
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The current state of the gallery image version.  \nThe provisioning state, which only appears in the response."
+    description: "The current state of the gallery Image Version.  \nThe provisioning state, which only appears in the response."
     types:
     - uid: Creating
     - uid: Updating
@@ -172,12 +172,12 @@ definitions:
     typesTitle: enum
   - name: properties.storageProfile
     isReadyOnly: true
-    description: This is the storage profile of a gallery image version.
+    description: This is the storage profile of a gallery Image Version.
     types:
     - uid: GalleryImageVersionStorageProfile
   - name: properties.replicationStatus
     isReadyOnly: true
-    description: This is the replication status of the gallery image version.
+    description: This is the replication status of the gallery Image Version.
     types:
     - uid: ReplicationStatus
   - name: id
@@ -224,11 +224,11 @@ definitions:
     types:
     - uid: string
   - name: regionalReplicaCount
-    description: This is the number of source blob copies in this specific region.
+    description: The number of replicas of the Image Version to be created per region. This property is updateable.
     types:
     - uid: integer
 - name: GalleryArtifactSource
-  description: The source of the gallery artifact.
+  description: The source image from which the Image Version is going to be created.
   kind: object
   properties:
   - name: managedImage
@@ -241,7 +241,7 @@ definitions:
   properties:
   - name: sizeInGB
     isReadyOnly: true
-    description: It indicates the size of the VHD to create.
+    description: This property indicates the size of the VHD to be created.
     types:
     - uid: integer
   - name: hostCaching
@@ -255,12 +255,12 @@ definitions:
   properties:
   - name: lun
     isReadyOnly: true
-    description: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
+    description: This property specifies the logical unit number of the data disk. This value is used to identify data disks within the Virtual Machine and therefore must be unique for each data disk attached to the Virtual Machine.
     types:
     - uid: integer
   - name: sizeInGB
     isReadyOnly: true
-    description: It indicates the size of the VHD to create.
+    description: This property indicates the size of the VHD to be created.
     types:
     - uid: integer
   - name: hostCaching
@@ -269,7 +269,7 @@ definitions:
     types:
     - uid: HostCaching
 - name: AggregatedReplicationState
-  description: This is the aggregated replication status based on the regional replication status.
+  description: This is the aggregated replication status based on all the regional replication status flags.
   kind: enum
   properties:
   - name: Unknown
@@ -290,7 +290,7 @@ definitions:
   properties:
   - name: region
     isReadyOnly: true
-    description: The region where the gallery image version is published to.
+    description: The region to which the gallery Image Version is being replicated to.
     types:
     - uid: string
   - name: state
@@ -399,7 +399,7 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Create or update a simple gallery image version.
+- name: Create or update a simple gallery Image Version.
   request:
     uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2018-06-01
     body: >-
