@@ -109,10 +109,17 @@ definitions:
     types:
     - uid: string
   - name: degreeOfParallelism
-    description: the degree of parallelism used for this job. This must be greater than 0, if set to less than 0 it will default to 1.
+    isReadyOnly: true
+    description: the degree of parallelism used for this job.
     types:
     - uid: integer
+  - name: degreeOfParallelismPercent
+    isReadyOnly: true
+    description: the degree of parallelism in percentage used for this job.
+    types:
+    - uid: number
   - name: priority
+    isReadyOnly: true
     description: the priority value for the current job. Lower numbers have a higher priority. By default, a job has a priority of 1000. This must be greater than 0.
     types:
     - uid: integer
@@ -147,6 +154,7 @@ definitions:
     types:
     - uid: string
   - name: logFilePatterns
+    isReadyOnly: true
     description: "the list of log file name patterns to find in the logFolder. '*' is the only matching character allowed. Example format: jobExecution*.log or *mylog*.txt"
     types:
     - uid: string
@@ -155,6 +163,11 @@ definitions:
     description: the recurring job relationship information properties.
     types:
     - uid: JobRelationshipProperties
+  - name: hierarchyQueueNode
+    isReadyOnly: true
+    description: the name of hierarchy queue node this job is assigned to, null if job has not been assigned yet or the account doesn't have hierarchy queue.
+    types:
+    - uid: string
 - name: JobType
   description: the job type of the current job (Hive or USql).
   kind: enum
@@ -246,7 +259,7 @@ definitions:
 examples:
 - name: Lists the jobs, if any, associated with the specified Data Lake Analytics account
   request:
-    uri: GET https://{accountName}.{adlaJobDnsSuffix}/Jobs?$filter=test_filter&$top=1&$skip=1&$select=test_select&$orderby=test_orderby&$count=False&api-version=2016-11-01
+    uri: GET https://account123.contosopipelineservice.com/Jobs?$filter=test_filter&$top=1&$skip=1&$select=test_select&$orderby=test_orderby&$count=False&api-version=2016-11-01
   responses:
   - statusCode: "200"
     body: >-
