@@ -1,0 +1,282 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cost-management.connector.listbyresourcegroupname
+name: List By Resource Group Name
+service: Cost Management
+groupName: Connector
+apiVersion: 2018-08-01-preview
+summary: List all connector definitions for a resource group under a subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.CostManagement/connectors?api-version=2018-08-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Azure Resource Group Name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-08-01-preview.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ConnectorDefinitionListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ConnectorDefinitionListResult
+  description: Result of listing connector definitions. It contains a list of available connector definitions in the scope provided.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of connector definitions.
+    types:
+    - uid: ConnectorDefinition
+      isArray: true
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: ConnectorDefinition
+  description: The Connector model definition
+  kind: object
+  properties:
+  - name: kind
+    description: Connector kind (eg aws)
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Connector id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Connector name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Connector type
+    types:
+    - uid: string
+  - name: location
+    description: Connector location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.displayName
+    description: Connector DisplayName (defaults to Name)
+    types:
+    - uid: string
+  - name: properties.providerAccountId
+    isReadyOnly: true
+    description: Connector providerAccountId (determined from credentials)
+    types:
+    - uid: string
+  - name: properties.credentialsKey
+    description: Credentials authentication key (eg AWS ARN)
+    types:
+    - uid: string
+  - name: properties.credentialsSecret
+    description: Credentials secret (eg AWS ExternalId)
+    types:
+    - uid: string
+  - name: properties.reportId
+    description: Identifying source report. (For AWS this is a CUR report name, defined with Daily and with Resources)
+    types:
+    - uid: string
+  - name: properties.createdOn
+    isReadyOnly: true
+    description: Connector definition creation datetime
+    types:
+    - uid: string
+  - name: properties.modifiedOn
+    isReadyOnly: true
+    description: Connector last modified datetime
+    types:
+    - uid: string
+  - name: properties.status
+    description: Connector status
+    types:
+    - uid: ConnectorStatus
+  - name: properties.collection
+    isReadyOnly: true
+    description: Collection information
+    types:
+    - uid: ConnectorCollectionInfo
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: A machine readable error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: target
+    description: Indicates which property in the request is responsible for the error.
+    types:
+    - uid: string
+  - name: details
+    description: error details.
+    types:
+    - uid: ErrorBase
+      isArray: true
+- name: ConnectorStatus
+  description: Connector status
+  kind: enum
+  properties:
+  - name: active
+    types:
+    - uid: string
+  - name: error
+    types:
+    - uid: string
+  - name: suspended
+    types:
+    - uid: string
+- name: ConnectorCollectionInfo
+  description: Collection and ingestion information
+  kind: object
+  properties:
+  - name: lastRun
+    isReadyOnly: true
+    description: Last time the data acquisition process completed (even if no new data was found)
+    types:
+    - uid: string
+  - name: sourceLastUpdated
+    isReadyOnly: true
+    description: Source timestamp of external data currently available in Azure (eg AWS last processed CUR file timestamp)
+    types:
+    - uid: string
+  - name: lastUpdated
+    isReadyOnly: true
+    description: Last time the external data was updated into Azure
+    types:
+    - uid: string
+  - name: error
+    description: Error information of last collection
+    types:
+    - uid: ConnectorCollectionErrorInfo
+- name: ErrorBase
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: A machine readable error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Indicates which property in the request is responsible for the error.
+    types:
+    - uid: string
+- name: ConnectorCollectionErrorInfo
+  description: Details of any error encountered on last collection attempt
+  kind: object
+  properties:
+  - name: errorMessage
+    isReadyOnly: true
+    description: Detailed error message
+    types:
+    - uid: string
+  - name: errorCode
+    isReadyOnly: true
+    description: Short error message
+    types:
+    - uid: string
+  - name: errorStartTime
+    isReadyOnly: true
+    description: Time the error started occuring (Last time error occurred in lastRun)
+    types:
+    - uid: string
+examples:
+- name: Connector_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/01234567-89ab-cdef-0123-456789abcdef/resourcegroups/rg1/providers/Microsoft.CostManagement/connectors?api-version=2018-08-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "kind": "aws",
+            "id": "/subscriptions/01234567-89ab-cdef-0123-456789abcdef/resourceGroups/rg1/providers/Microsoft.CostManagement/connectors/AWSBillingAccount",
+            "name": "AWSBillingAccount",
+            "type": "Microsoft.CostManagement/connectors",
+            "location": "westus",
+            "properties": {
+              "displayName": "AWS-Consolidated-1",
+              "credentialsKey": "arn:aws:iam::123456789012:role/AzureCostManagementRole",
+              "reportId": "HourlyWithResources",
+              "createdOn": "2018-05-15T13:25:48Z",
+              "modifiedOn": "2018-05-23T09:21:11Z",
+              "status": "active"
+            }
+          },
+          {
+            "kind": "aws",
+            "id": "/subscriptions/01234567-89ab-cdef-0123-456789abcdef/resourceGroups/rg1/providers/Microsoft.CostManagement/connectors/AWSBillingAccount2",
+            "name": "AWSBillingAccount2",
+            "type": "Microsoft.CostManagement/connectors",
+            "location": "westus",
+            "properties": {
+              "displayName": "AWSBillingAccount2",
+              "credentialsKey": "arn:aws:iam::000000000000:role/AzureCostManagementRole",
+              "reportId": "CURHourlyWithResources",
+              "createdOn": "2018-06-16T11:23:44Z",
+              "modifiedOn": "2018-06-21T17:33:28Z",
+              "status": "suspended"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
