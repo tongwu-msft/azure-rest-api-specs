@@ -3,13 +3,13 @@ uid: management.azure.com.eventgrid.eventsubscriptions.listregionalbysubscriptio
 name: List Regional By Subscription
 service: Event Grid
 groupName: Event Subscriptions
-apiVersion: 2018-01-01
+apiVersion: 2018-05-01-preview
 summary: "List all regional event subscriptions under an Azure subscription  \nList all event subscriptions from the given location under a specific Azure subscription"
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/locations/{location}/eventSubscriptions?api-version=2018-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/locations/{location}/eventSubscriptions?api-version=2018-05-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -71,6 +71,8 @@ definitions:
     types:
     - uid: WebHookEventSubscriptionDestination
     - uid: EventHubEventSubscriptionDestination
+    - uid: StorageQueueEventSubscriptionDestination
+    - uid: HybridConnectionEventSubscriptionDestination
     typesTitle: EventSubscriptionDestination
   - name: properties.filter
     description: Information about the filter for the event subscription.
@@ -81,6 +83,19 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.eventDeliverySchema
+    description: The event delivery schema for the event subscription.
+    types:
+    - uid: EventDeliverySchema
+  - name: properties.retryPolicy
+    description: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events.
+    types:
+    - uid: RetryPolicy
+  - name: properties.deadLetterDestination
+    description: The DeadLetter destination of the event subscription.
+    types:
+    - uid: StorageBlobDeadLetterDestination
+    typesTitle: DeadLetterDestination
   - name: id
     isReadyOnly: true
     description: Fully qualified identifier of the resource
@@ -118,6 +133,9 @@ definitions:
   - name: Failed
     types:
     - uid: string
+  - name: AwaitingManualAction
+    types:
+    - uid: string
 - name: EventSubscriptionFilter
   description: Filter for the Event Subscription
   kind: object
@@ -142,6 +160,31 @@ definitions:
     description: "Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter \nshould be compared in a case sensitive manner."
     types:
     - uid: boolean
+- name: EventDeliverySchema
+  description: The event delivery schema for the event subscription.
+  kind: enum
+  properties:
+  - name: EventGridSchema
+    types:
+    - uid: string
+  - name: InputEventSchema
+    types:
+    - uid: string
+  - name: CloudEventV01Schema
+    types:
+    - uid: string
+- name: RetryPolicy
+  description: Information about the retry policy for an event subscription
+  kind: object
+  properties:
+  - name: maxDeliveryAttempts
+    description: Maximum number of delivery retry attempts for events.
+    types:
+    - uid: integer
+  - name: eventTimeToLiveInMinutes
+    description: Time To Live (in minutes) for events.
+    types:
+    - uid: integer
 - name: WebHookEventSubscriptionDestination
   description: Information about the webhook destination for an event subscription
   kind: object
@@ -173,10 +216,57 @@ definitions:
     types:
     - uid: EventHub
     typesTitle: string
+- name: StorageQueueEventSubscriptionDestination
+  description: Information about the storage queue destination for an event subscription.
+  kind: object
+  properties:
+  - name: properties.resourceId
+    description: The Azure Resource ID of the storage account that contains the queue that is the destination of an event subscription.
+    types:
+    - uid: string
+  - name: properties.queueName
+    description: The name of the Storage queue under a storage account that is the destination of an event subscription.
+    types:
+    - uid: string
+  - name: endpointType
+    description: Type of the endpoint for the event subscription destination
+    types:
+    - uid: StorageQueue
+    typesTitle: string
+- name: HybridConnectionEventSubscriptionDestination
+  description: Information about the HybridConnection destination for an event subscription.
+  kind: object
+  properties:
+  - name: properties.resourceId
+    description: The Azure Resource ID of an hybrid connection that is the destination of an event subscription.
+    types:
+    - uid: string
+  - name: endpointType
+    description: Type of the endpoint for the event subscription destination
+    types:
+    - uid: HybridConnection
+    typesTitle: string
+- name: StorageBlobDeadLetterDestination
+  description: Information about the storage blob based dead letter destination.
+  kind: object
+  properties:
+  - name: properties.resourceId
+    description: The Azure Resource ID of the storage account that is the destination of the deadletter events
+    types:
+    - uid: string
+  - name: properties.blobContainerName
+    description: The name of the Storage blob container that is the destination of the deadletter events
+    types:
+    - uid: string
+  - name: endpointType
+    description: Type of the endpoint for the dead letter destination
+    types:
+    - uid: StorageBlob
+    typesTitle: string
 examples:
 - name: EventSubscriptions_ListRegionalBySubscription
   request:
-    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.EventGrid/locations/westus2/eventSubscriptions?api-version=2018-01-01
+    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.EventGrid/locations/westus2/eventSubscriptions?api-version=2018-05-01-preview
   responses:
   - statusCode: "200"
     body: >-
