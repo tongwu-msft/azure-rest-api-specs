@@ -53,9 +53,14 @@ requestBody:
     - uid: string
   - name: degreeOfParallelism
     in: body
-    description: the degree of parallelism to use for this job. This must be greater than 0, if set to less than 0 it will default to 1.
+    description: the degree of parallelism used for this job. At most one of degreeOfParallelism and degreeOfParallelismPercent should be specified. If none, a default value of 1 will be used.
     types:
     - uid: integer
+  - name: degreeOfParallelismPercent
+    in: body
+    description: the degree of parallelism in percentage used for this job. At most one of degreeOfParallelism and degreeOfParallelismPercent should be specified. If none, a default value of 1 will be used for degreeOfParallelism.
+    types:
+    - uid: number
   - name: priority
     in: body
     description: the priority value to use for the current job. Lower numbers have a higher priority. By default, a job has a priority of 1000. This must be greater than 0.
@@ -156,10 +161,17 @@ definitions:
     types:
     - uid: string
   - name: degreeOfParallelism
-    description: the degree of parallelism used for this job. This must be greater than 0, if set to less than 0 it will default to 1.
+    isReadyOnly: true
+    description: the degree of parallelism used for this job.
     types:
     - uid: integer
+  - name: degreeOfParallelismPercent
+    isReadyOnly: true
+    description: the degree of parallelism in percentage used for this job.
+    types:
+    - uid: number
   - name: priority
+    isReadyOnly: true
     description: the priority value for the current job. Lower numbers have a higher priority. By default, a job has a priority of 1000. This must be greater than 0.
     types:
     - uid: integer
@@ -194,6 +206,7 @@ definitions:
     types:
     - uid: string
   - name: logFilePatterns
+    isReadyOnly: true
     description: "the list of log file name patterns to find in the logFolder. '*' is the only matching character allowed. Example format: jobExecution*.log or *mylog*.txt"
     types:
     - uid: string
@@ -202,6 +215,11 @@ definitions:
     description: the recurring job relationship information properties.
     types:
     - uid: JobRelationshipProperties
+  - name: hierarchyQueueNode
+    isReadyOnly: true
+    description: the name of hierarchy queue node this job is assigned to, null if job has not been assigned yet or the account doesn't have hierarchy queue.
+    types:
+    - uid: string
 - name: CreateJobParameters
   description: The parameters used to submit a new Data Lake Analytics job.
   kind: object
@@ -211,9 +229,13 @@ definitions:
     types:
     - uid: string
   - name: degreeOfParallelism
-    description: the degree of parallelism to use for this job. This must be greater than 0, if set to less than 0 it will default to 1.
+    description: the degree of parallelism used for this job. At most one of degreeOfParallelism and degreeOfParallelismPercent should be specified. If none, a default value of 1 will be used.
     types:
     - uid: integer
+  - name: degreeOfParallelismPercent
+    description: the degree of parallelism in percentage used for this job. At most one of degreeOfParallelism and degreeOfParallelismPercent should be specified. If none, a default value of 1 will be used for degreeOfParallelism.
+    types:
+    - uid: number
   - name: priority
     description: the priority value to use for the current job. Lower numbers have a higher priority. By default, a job has a priority of 1000. This must be greater than 0.
     types:
@@ -584,6 +606,7 @@ definitions:
     types:
     - uid: CompileMode
   - name: runtimeVersion
+    isReadyOnly: true
     description: the runtime version of the Data Lake Analytics engine to use for the specific type of job being run.
     types:
     - uid: string
@@ -621,6 +644,7 @@ definitions:
     types:
     - uid: integer
   - name: runtimeVersion
+    isReadyOnly: true
     description: the runtime version of the Data Lake Analytics engine to use for the specific type of job being run.
     types:
     - uid: string
@@ -852,7 +876,7 @@ definitions:
 examples:
 - name: Submits a job to the specified Data Lake Analytics account
   request:
-    uri: PUT https://{accountName}.{adlaJobDnsSuffix}/Jobs/076713da-9018-41ae-a3bd-9eab14e54d09?api-version=2016-11-01
+    uri: PUT https://account123.contosopipelineservice.com/Jobs/076713da-9018-41ae-a3bd-9eab14e54d09?api-version=2016-11-01
     body: >-
       {
         "type": "USql",
