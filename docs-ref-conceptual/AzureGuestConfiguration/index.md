@@ -1,5 +1,5 @@
 ---
-ms.assetid: 372812a7-d718-44f2-8099-1df7e3c75c36
+ms.assetid: 630f3049-18b0-462e-847b-08e959a2d364
 ms.title: Azure Guest Configuration REST API reference | Microsoft Docs
 ms.service: guestConfiguration
 ms.author: Michael.Greene
