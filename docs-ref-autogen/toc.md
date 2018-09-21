@@ -4549,6 +4549,8 @@
 ### [List By Subscription](resources/Applications/ListBySubscription.yml)
 ### [Update](resources/Applications/Update.yml)
 ### [Update By Id](resources/Applications/UpdateById.yml)
+## [Authorization Operations](resources/AuthorizationOperations.yml)
+### [List](resources/AuthorizationOperations/List.yml)
 ## [Deployment Operations](resources/DeploymentOperations.yml)
 ### [Get](resources/DeploymentOperations/Get.yml)
 ### [List](resources/DeploymentOperations/List.yml)
