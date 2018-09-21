@@ -18,10 +18,10 @@ Azure Container Registry is a managed Docker registry service for storing and ma
 |-----------------|-------------|
 | [Operations](xref:management.azure.com.containerregistry.operations) | Get information about Azure Container Registry REST API operations. |
 | [Registries](xref:management.azure.com.containerregistry.registries) | Create, read, update, and delete container registries. |
-| [Registries (Tasks)](xref:management.azure.com.containerregistry.registries.tasks) | Operations for scheduling task runs with [ACR Tasks][acr-tasks]. |
+| [Registries (Tasks)][tasks-operations] | Operations for scheduling task runs with [ACR Tasks][acr-tasks]. |
 | [Replications](xref:management.azure.com.containerregistry.replications) | Create, read, update, and delete container registry [geo-replications][geo-replication]. |
-| [Runs](xref:management.azure.com.containerregistry.runs) | Get information about, update, and cancel task runs in ACR Tasks. |
-| [Tasks](xref:management.azure.com.containerregistry.runs) | Create, read, update, and delete tasks in ACR Tasks. |
+| [Runs](xref:management.azure.com.containerregistry.runs) | Get information about, update, and cancel task runs in [ACR Tasks][acr-tasks]. |
+| [Tasks](xref:management.azure.com.containerregistry.runs) | Create, read, update, and delete tasks in [ACR Tasks][acr-tasks]. |
 | [Webhooks](xref:management.azure.com.containerregistry.webhooks) | Create, read, update, and delete container registry [webhooks][webhooks]. |
 
 ## See also
@@ -33,4 +33,5 @@ Azure Container Registry is a managed Docker registry service for storing and ma
 <!-- LINKS - Internal -->
 [acr-tasks]: /azure/container-registry/container-registry/container-registry-tasks-overview
 [geo-replication]: /azure/container-registry/container-registry-geo-replication
+[tasks-operations]: /rest/api/containerregistry/registries%20(tasks)
 [webhooks]: /azure/container-registry/container-registry-webhook
