@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.storageaccounts.create
 name: Create
 service: Storage Resource Provider
 groupName: Storage Accounts
-apiVersion: 2018-03-01-preview
+apiVersion: 2018-07-01
 summary: Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2018-03-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2018-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -99,6 +99,11 @@ requestBody:
     description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
     types:
     - uid: AccessTier
+  - name: properties.azureFilesAadIntegration
+    in: body
+    description: Enables Azure Files AAD Integration for SMB if sets to true.
+    types:
+    - uid: boolean
   - name: properties.supportsHttpsTrafficOnly
     in: body
     description: Allows https traffic only to storage service if sets to true.
@@ -297,6 +302,10 @@ definitions:
     description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
     types:
     - uid: AccessTier
+  - name: properties.azureFilesAadIntegration
+    description: Enables Azure Files AAD Integration for SMB if sets to true.
+    types:
+    - uid: boolean
   - name: properties.supportsHttpsTrafficOnly
     description: Allows https traffic only to storage service if sets to true.
     types:
@@ -381,6 +390,10 @@ definitions:
     description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
     types:
     - uid: AccessTier
+  - name: properties.azureFilesAadIntegration
+    description: Enables Azure Files AAD Integration for SMB if sets to true.
+    types:
+    - uid: boolean
   - name: properties.supportsHttpsTrafficOnly
     description: Allows https traffic only to storage service if sets to true.
     types:
@@ -408,6 +421,9 @@ definitions:
   - name: Premium_LRS
     types:
     - uid: string
+  - name: Premium_ZRS
+    types:
+    - uid: string
 - name: SkuTier
   description: Gets the sku tier. This is based on the SKU name.
   kind: enum
@@ -429,6 +445,12 @@ definitions:
     types:
     - uid: string
   - name: BlobStorage
+    types:
+    - uid: string
+  - name: FileStorage
+    types:
+    - uid: string
+  - name: BlockBlobStorage
     types:
     - uid: string
 - name: SKUCapability
@@ -692,7 +714,7 @@ definitions:
 examples:
 - name: StorageAccountCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2018-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2018-07-01
     body: >-
       {
         "sku": {
@@ -701,7 +723,8 @@ examples:
         "kind": "Storage",
         "location": "eastus2euap",
         "properties": {
-          "isHnsEnabled": true
+          "isHnsEnabled": true,
+          "azureFilesAadIntegration": true
         },
         "tags": {
           "key1": "value1",
@@ -718,26 +741,8 @@ examples:
         "name": "sto4445",
         "properties": {
           "isHnsEnabled": true,
-          "networkAcls": {
-            "bypass": "AzureServices",
-            "virtualNetworkRules": [],
-            "ipRules": [],
-            "defaultAction": "Allow"
-          },
-          "encryption": {
-            "services": {
-              "file": {
-                "enabled": true,
-                "lastEnabledTime": "2018-04-13T07:04:49.8562647Z"
-              },
-              "blob": {
-                "enabled": true,
-                "lastEnabledTime": "2018-04-13T07:04:49.8562647Z"
-              }
-            },
-            "keySource": "Microsoft.Storage"
-          },
-          "creationTime": "2018-04-13T07:04:49.6145793Z",
+          "azureFilesAadIntegration": true,
+          "creationTime": "2017-05-24T13:25:33.4863236Z",
           "primaryEndpoints": {
             "web": "https://sto4445.web.core.windows.net/",
             "dfs": "https://sto4445.dfs.core.windows.net/",

@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.storageaccounts.update
 name: Update
 service: Storage Resource Provider
 groupName: Storage Accounts
-apiVersion: 2018-03-01-preview
+apiVersion: 2018-07-01
 summary: The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2018-03-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2018-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,7 +47,7 @@ requestBody:
   parameters:
   - name: sku
     in: body
-    description: Gets or sets the SKU name. Note that the SKU name cannot be updated to Standard_ZRS or Premium_LRS, nor can accounts of those sku names be updated to any other value.
+    description: Gets or sets the SKU name. Note that the SKU name cannot be updated to Standard_ZRS, Premium_LRS or Premium_ZRS, nor can accounts of those sku names be updated to any other value.
     types:
     - uid: Sku
   - name: tags
@@ -84,6 +84,11 @@ requestBody:
     description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
     types:
     - uid: AccessTier
+  - name: properties.azureFilesAadIntegration
+    in: body
+    description: Enables Azure Files AAD Integration for SMB if sets to true.
+    types:
+    - uid: boolean
   - name: properties.supportsHttpsTrafficOnly
     in: body
     description: Allows https traffic only to storage service if sets to true.
@@ -282,6 +287,10 @@ definitions:
     description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
     types:
     - uid: AccessTier
+  - name: properties.azureFilesAadIntegration
+    description: Enables Azure Files AAD Integration for SMB if sets to true.
+    types:
+    - uid: boolean
   - name: properties.supportsHttpsTrafficOnly
     description: Allows https traffic only to storage service if sets to true.
     types:
@@ -327,7 +336,7 @@ definitions:
   kind: object
   properties:
   - name: sku
-    description: Gets or sets the SKU name. Note that the SKU name cannot be updated to Standard_ZRS or Premium_LRS, nor can accounts of those sku names be updated to any other value.
+    description: Gets or sets the SKU name. Note that the SKU name cannot be updated to Standard_ZRS, Premium_LRS or Premium_ZRS, nor can accounts of those sku names be updated to any other value.
     types:
     - uid: Sku
   - name: tags
@@ -358,6 +367,10 @@ definitions:
     description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
     types:
     - uid: AccessTier
+  - name: properties.azureFilesAadIntegration
+    description: Enables Azure Files AAD Integration for SMB if sets to true.
+    types:
+    - uid: boolean
   - name: properties.supportsHttpsTrafficOnly
     description: Allows https traffic only to storage service if sets to true.
     types:
@@ -385,6 +398,9 @@ definitions:
   - name: Premium_LRS
     types:
     - uid: string
+  - name: Premium_ZRS
+    types:
+    - uid: string
 - name: SkuTier
   description: Gets the sku tier. This is based on the SKU name.
   kind: enum
@@ -406,6 +422,12 @@ definitions:
     types:
     - uid: string
   - name: BlobStorage
+    types:
+    - uid: string
+  - name: FileStorage
+    types:
+    - uid: string
+  - name: BlockBlobStorage
     types:
     - uid: string
 - name: SKUCapability
@@ -669,69 +691,57 @@ definitions:
 examples:
 - name: StorageAccountUpdate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7902/providers/Microsoft.Storage/storageAccounts/sto5800?api-version=2018-03-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2018-07-01
     body: >-
       {
         "properties": {
-          "supportsHttpsTrafficOnly": true
-        },
-        "kind": "StorageV2"
+          "networkAcls": {
+            "defaultAction": "Allow"
+          }
+        }
       }
   responses:
   - statusCode: "200"
     body: >-
       {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596",
+        "kind": "Storage",
+        "location": "eastus2(stage)",
+        "name": "sto8596",
+        "properties": {
+          "isHnsEnabled": true,
+          "azureFilesAadIntegration": true,
+          "creationTime": "2017-06-01T02:42:41.7633306Z",
+          "networkAcls": {
+            "bypass": "AzureServices",
+            "defaultAction": "Allow",
+            "ipRules": [],
+            "virtualNetworkRules": []
+          },
+          "primaryEndpoints": {
+            "web": "https://sto8596.web.core.windows.net/",
+            "dfs": "https://sto8596.dfs.core.windows.net/",
+            "blob": "https://sto8596.blob.core.windows.net/",
+            "file": "https://sto8596.file.core.windows.net/",
+            "queue": "https://sto8596.queue.core.windows.net/",
+            "table": "https://sto8596.table.core.windows.net/"
+          },
+          "primaryLocation": "eastus2(stage)",
+          "provisioningState": "Succeeded",
+          "secondaryLocation": "northcentralus(stage)",
+          "statusOfPrimary": "available",
+          "statusOfSecondary": "available",
+          "supportsHttpsTrafficOnly": false
+        },
         "sku": {
           "name": "Standard_GRS",
           "tier": "Standard"
         },
-        "kind": "StorageV2",
-        "id": "/subscriptions/{subscription-id}/resourceGroups/res7902/providers/Microsoft.Storage/storageAccounts/sto5800",
-        "name": "sto5800",
-        "type": "Microsoft.Storage/storageAccounts",
-        "location": "eastus2(stage)",
         "tags": {
           "key1": "value1",
           "key2": "value2"
         },
-        "properties": {
-          "isHnsEnabled": true,
-          "networkAcls": {
-            "bypass": "AzureServices",
-            "virtualNetworkRules": [],
-            "ipRules": [],
-            "defaultAction": "Allow"
-          },
-          "supportsHttpsTrafficOnly": true,
-          "encryption": {
-            "services": {
-              "file": {
-                "enabled": true,
-                "lastEnabledTime": "2018-04-13T06:40:38.0168941Z"
-              },
-              "blob": {
-                "enabled": true,
-                "lastEnabledTime": "2018-04-13T06:40:38.0168941Z"
-              }
-            },
-            "keySource": "Microsoft.Storage"
-          },
-          "accessTier": "Hot",
-          "provisioningState": "Succeeded",
-          "creationTime": "2018-04-13T06:40:37.9842922Z",
-          "primaryEndpoints": {
-            "web": "https://sto5800.web.core.windows.net/",
-            "dfs": "https://sto5800.dfs.core.windows.net/",
-            "blob": "https://sto5800.blob.core.windows.net/",
-            "queue": "https://sto5800.queue.core.windows.net/",
-            "table": "https://sto5800.table.core.windows.net/",
-            "file": "https://sto5800.file.core.windows.net/"
-          },
-          "primaryLocation": "eastus2(stage)",
-          "statusOfPrimary": "available",
-          "secondaryLocation": "northcentralus(stage)",
-          "statusOfSecondary": "available"
-        }
+        "type": "Microsoft.Storage/storageAccounts"
       }
 security:
 - type: oauth2
