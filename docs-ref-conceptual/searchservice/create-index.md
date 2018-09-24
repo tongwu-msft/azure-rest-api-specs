@@ -1,7 +1,7 @@
 ---
 title: "Create Index (Azure Search Service REST API) | Microsoft Docs"
 description: Define an index schema for fields and other constructs in an Azure Search index.
-ms.date: "04/20/2018"
+ms.date: "09/24/2018"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -97,9 +97,10 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
       "facetable": true (default where applicable) | false (Edm.GeographyPoint fields cannot be facetable),  
       "key": true | false (default, only Edm.String fields can be keys),  
       "retrievable": true (default) | false,  
-      "analyzer": "name of the analyzer used for search and indexing", (only if 'searchAnalyzer' and 'indexAnalyzer' are not set)
-      "searchAnalyzer": "name of the search analyzer", (only if 'indexAnalyzer' is set and 'analyzer' is not set)
-      "indexAnalyzer": "name of the indexing analyzer" (only if 'searchAnalyzer' is set and 'analyzer' is not set)
+      "analyzer": "name_of_analyzer_for_search_and_indexing", (only if 'searchAnalyzer' and 'indexAnalyzer' are not set)
+      "searchAnalyzer": "name_of_search_analyzer", (only if 'indexAnalyzer' is set and 'analyzer' is not set)
+      "indexAnalyzer": "name_of_indexing_analyzer", (only if 'searchAnalyzer' is set and 'analyzer' is not set)
+      "synonymMaps": [ "name_of_synonym_map" ] (optional, only one synonym map per field is currently supported)
     }  
   ],  
   "suggesters": [  
@@ -165,14 +166,15 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 |**name**|Sets the name of the field.|  
 |**type**|Sets the data type for the field. See [Supported data types &#40;Azure Search&#41;](supported-data-types.md) for a list of supported types.|  
 |**key**|Marks the field as containing unique identifiers for documents within the index. Exactly one field must be chosen as the key field and it must be of type `Edm.String`. Key fields can be used to look up documents directly. See [Lookup Document &#40;Azure Search Service REST API&#41;](lookup-document.md) for details.|  
-|**retrievable**|Sets whether the field can be returned in a search result. This is useful when you want to use a field (e.g., margin) as a filter, sorting, or scoring mechanism but do not want the field to be visible to the end user. This attribute must be `true` for `key` fields.|  
+|**retrievable**|Sets whether the field can be returned in a search result. This is useful when you want to use a field (e.g., margin) as a filter, sorting, or scoring mechanism but do not want the field to be visible to the end user. This attribute must be `true` for `key` fields. This attribute can be changed on existing fields.|  
 |**searchable**|Marks the field as full-text search-able. This means it will undergo analysis such as word-breaking during indexing. If you set a searchable field to a value like "sunny day", internally it will be split into the individual tokens "sunny" and "day". This enables full-text searches for these terms. Fields of type `Edm.String` or `Collection(Edm.String)` are **searchable** by default. Fields of other types are not **searchable**. **Note:**  **searchable** fields consume extra space in your index since Azure Search will store an additional tokenized version of the field value for full-text searches. If you want to save space in your index and you don't need a field to be included in searches, set **searchable** to `false`.|  
 |**filterable**|Allows the field to be referenced in **$filter** queries. **filterable** differs from searchable in how strings are handled. Fields of type `Edm.String` or `Collection(Edm.String)` that are **filterable** do not undergo word-breaking, so comparisons are for exact matches only. For example, if you set such a field f to "sunny day", `$filter=f eq 'sunny'` will find no matches, but `$filter=f eq 'sunny day'` will. All fields are **filterable** by default.|  
 |**sortable**|By default the system sorts results by score, but in many experiences users will want to sort by fields in the documents. Fields of type `Collection(Edm.String)` cannot be **sortable**. All other fields are **sortable** by default.|  
 |**facetable**|Typically used in a presentation of search results that includes hit count by category (e.g. search for digital cameras and see hits by brand, by megapixels, by price, etc.). This option cannot be used with fields of type `Edm.GeographyPoint`. All other fields are **facetable** by default. **Note:**  Fields of type `Edm.String` that are **filterable**, **sortable**, or **facetable** can be at most 32 kilobytes in length. This is because such fields are treated as a single search term, and the maximum length of a term in Azure Search is 32K kilobytes. If you need to store more text than this in a single string field, you will need to explicitly set **filterable**, **sortable**, and **facetable** to `false` in your index definition. **Note:**  If a field has none of the above attributes set to `true` (searchable, filterable, sortable, facetable) the field is effectively excluded from the inverted index. This option is useful for fields that are not used in queries, but are needed in search results. Excluding such fields from the index improves performance.|  
 |**analyzer**|Sets the name of the language analyzer to use for the field. For the allowed set of values see [Language support &#40;Azure Search Service REST API&#41;](language-support.md). This option can be used only with **searchable** fields and it can't be set together with either `searchAnalyzer` or `indexAnalyzer`. Once the analyzer is chosen, it cannot be changed for the field.|  
-|**searchAnalyzer**|Sets the name of the analyzer used at search time for the field. For the allowed set of values see [Analyzers](custom-analyzers-in-Azure-Search.md). This option can be used only with `searchable` fields. It must be set together with `indexAnalyzer` and it cannot be set together with the `analyzer` option. This analyzer can be updated on an existing field.|
-|**indexAnalyzer**|Sets the name of the analyzer used at indexing time for the field. For the allowed set of values see [Analyzers](custom-analyzers-in-Azure-Search.md). This option can be used only with `searchable` fields. It must be set together with `searchAnalyzer` and it cannot be set together with the `analyzer` option. Once the analyzer is chosen, it cannot be changed for the field.|
+|**searchAnalyzer**|Sets the name of the analyzer used at search time for the field. For the allowed set of values see [Analyzers](custom-analyzers-in-Azure-Search.md). This option can be used only with `searchable` fields. It must be set together with `indexAnalyzer` and it cannot be set together with the `analyzer` option. The search analyzer can be updated on an existing field since it is only used at query-time.|
+|**indexAnalyzer**|Sets the name of the analyzer used at indexing time for the field. For the allowed set of values see [Analyzers](custom-analyzers-in-Azure-Search.md). This option can be used only with `searchable` fields. It must be set together with `searchAnalyzer` and it cannot be set together with the `analyzer` option. Once the index analyzer is chosen, it cannot be changed for the field.|
+|**synonymMaps**|Associates synonym maps with the field. Currently only one synonym map per field is supported. Assigning a synonym map to a field ensures that query terms targeting that field are expanded at query-time using the rules in the synonym map. This attribute can be changed on existing fields.|
 
 ###  <a name="bkmk_suggester"></a> Suggesters  
  A `suggester` is a section of the schema that defines which fields in an index are used to support auto-complete or type-ahead queries in searches. Typically partial search strings are sent to the [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md) while the user is typing a search query, and the API returns a set of suggested phrases. A **suggester** that you define in the index determines which fields are used to build the type-ahead search terms. See [Suggesters](suggesters.md) for configuration details.  

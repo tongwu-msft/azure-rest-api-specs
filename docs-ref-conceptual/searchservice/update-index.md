@@ -1,7 +1,7 @@
 ---
 title: "Update Index (Azure Search Service REST API) | Microsoft Docs"
 ms.custom: ""
-ms.date: "04/20/2018"
+ms.date: "09/24/2018"
 services: search
 ms.service: search
 ms.suite: ""
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Update Index (Azure Search Service REST API)
-  You can update an existing index within Azure Search to change its schema, including adding new fields, modifying CORS options, and adding or changing scoring profiles (see [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md) for more information). You can specify the name of the index to update on the request URI.  
+  You can update an existing index within Azure Search to change its schema, including adding new fields, changing certain field attributes, modifying CORS options, and adding or changing scoring profiles (see [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md) for more information). You can specify the name of the index to update on the request URI.  
 
 ```  
 PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]  
@@ -37,9 +37,16 @@ api-key: [admin key]
 ```  
 
 > [!IMPORTANT]  
->  Currently, there is limited support for index schema updates. Any schema updates that would require re-indexing such as changing field types are not currently supported.
+>  Currently, there is limited support for index schema updates. Any schema updates that would require re-indexing such as changing field types or most other attributes are not currently supported.
+>  
+> The field attributes that can be changed without the need to re-create the index include:
+> 
+>  - `retrievable`
+>  - `searchAnalyzer`
+>  - `synonymMaps`
+>  
 
-Although existing fields cannot be changed or deleted, new fields can be added to an existing index at any time. The same applies to `suggesters`. New fields may be added to a suggester at the time the fields are added, but fields cannot be removed from `suggesters` and existing fields cannot be added to `suggesters`.
+Although existing fields cannot be deleted and most attributes cannot be changed, new fields can be added to an existing index at any time. The same applies to `suggesters`. New fields may be added to a suggester at the time the fields are added, but fields cannot be removed from `suggesters` and existing fields cannot be added to `suggesters`.
 
 When a new field is added, all existing documents in the index will automatically have a null value for that field. No additional storage space will be consumed until new documents are added to the index.
 
@@ -84,9 +91,10 @@ Note that this operation will put your index offline for at least a few seconds,
       "facetable": true (default where applicable) | false (Edm.GeographyPoint fields cannot be facetable),  
       "key": true | false (default, only Edm.String fields can be keys),  
       "retrievable": true (default) | false,  
-      "analyzer": "name of the analyzer used for search and indexing", (only if 'searchAnalyzer' and 'indexAnalyzer' are not set)
-      "searchAnalyzer": "name of the search analyzer", (only if 'indexAnalyzer' is set and 'analyzer' is not set)
-      "indexAnalyzer": "name of the indexing analyzer" (only if 'searchAnalyzer' is set and 'analyzer' is not set)
+      "analyzer": "name_of_analyzer_for_search_and_indexing", (only if 'searchAnalyzer' and 'indexAnalyzer' are not set)
+      "searchAnalyzer": "name_of_search_analyzer", (only if 'indexAnalyzer' is set and 'analyzer' is not set)
+      "indexAnalyzer": "name_of_indexing_analyzer", (only if 'searchAnalyzer' is set and 'analyzer' is not set)
+      "synonymMaps": [ "name_of_synonym_map" ] (optional, only one synonym map per field is currently supported)
     }  
   ],  
   "suggesters": [  
