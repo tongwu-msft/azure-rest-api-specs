@@ -2,7 +2,6 @@
 title: "IoT Hub REST"
 ms.custom: ""
 ms.date: "2015-09-30"
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "iot-hub"
 ms.suite: ""
