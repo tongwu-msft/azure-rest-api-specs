@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.azureguestconfiguration.guestconfigurationassignments.list
-name: List
-service: Azure Guest Configuration
+uid: management.azure.com.guestconfiguration.guestconfigurationassignments.get
+name: Get
+service: Guest Configuration
 groupName: Guest Configuration Assignments
 apiVersion: 2018-06-30-preview
-summary: List all guest configuration assignments for a virtual machine.
+summary: Get information about a guest configuration assignment
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments?api-version=2018-06-30-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}?api-version=2018-06-30-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,6 +31,12 @@ uriParameters:
   description: The name of the virtual machine.
   types:
   - uid: string
+- name: guestConfigurationAssignmentName
+  in: path
+  isRequired: true
+  description: The guest configuration assingment name.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -39,32 +45,15 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
+  description: OK. The guest configuration assignment was returned successfully.
   types:
-  - uid: GuestConfigurationAssignmentList
+  - uid: GuestConfigurationAssignment
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: GuestConfigurationAssignmentList
-  description: The response of the list guest configuration assignment operation.
-  kind: object
-  properties:
-  - name: value
-    description: Result of the list guest configuration assignment operation.
-    types:
-    - uid: GuestConfigurationAssignment
-      isArray: true
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - name: message
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
 - name: GuestConfigurationAssignment
   description: Guest configuration assignment is an association between a VM and guest configuration.
   kind: object
@@ -91,6 +80,14 @@ definitions:
   - name: type
     isReadyOnly: true
     description: The type of the resource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: message
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
 - name: GuestConfigurationAssignmentProperties
@@ -283,58 +280,34 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List all guest configuration assignments for a virtual machine
+- name: Get a guest configuration assignment
   request:
-    uri: GET https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myVMName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments?api-version=2018-06-30-preview
+    uri: GET https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myVMName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/SecureProtocol?api-version=2018-06-30-preview
   responses:
   - statusCode: "200"
     body: >-
-      [
-        {
-          "location": "centraluseuap",
-          "id": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol2",
-          "name": "AuditSecureProtocol2",
-          "properties": {
-            "complianceStatus": "Compliant",
-            "assignmentHash": "content hash",
-            "latestReportId": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol2/reports/7367cbb8-ae99-47d0-a33b-a283564d2cb1",
-            "lastComplianceStatusChecked": "2018-08-29T22:14:13Z",
-            "context": null,
-            "guestConfiguration": {
-              "kind": null,
-              "name": "AuditSecureProtocol2",
-              "version": "1.0.0.3",
-              "contentUri": "https://mystorageaccount.blob.core.windows.net/builtinconfig/AuditSecureProtocol2/AuditSecureProtocol2_1.0.0.3.zip",
-              "contentHash": "content hash",
-              "configurationParameter": [],
-              "configurationSetting": null
-            },
-            "provisioningState": null
-          }
-        },
-        {
-          "location": "centraluseuap",
-          "id": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/myAssignment",
-          "name": "myAssignment",
-          "properties": {
-            "complianceStatus": "Compliant",
-            "assignmentHash": "content hash",
-            "latestReportId": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/myAssignment/reports/7367cbb8-ae99-47d0-a33b-a283564d2cb1",
-            "lastComplianceStatusChecked": "2018-08-29T22:14:13Z",
-            "context": null,
-            "guestConfiguration": {
-              "kind": null,
-              "name": "myAssignment",
-              "version": "1.0.0.3",
-              "contentUri": "https://mystorageaccount.blob.core.windows.net/builtinconfig/myAssignment/myAssignment.0.0.3.zip",
-              "contentHash": "content hash",
-              "configurationParameter": [],
-              "configurationSetting": null
-            },
-            "provisioningState": null
-          }
+      {
+        "location": "centraluseuap",
+        "id": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol",
+        "name": "AuditSecureProtocol",
+        "properties": {
+          "complianceStatus": "Compliant",
+          "assignmentHash": "E0D8941DD713F284284561648C00C18FA76C8602943C7CD38AFD73B56AE4C35F.E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+          "latestReportId": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports/7367cbb8-ae99-47d0-a33b-a283564d2cb1",
+          "lastComplianceStatusChecked": "2018-08-29T22:14:13Z",
+          "context": null,
+          "guestConfiguration": {
+            "kind": null,
+            "name": "AuditSecureProtocol",
+            "version": "1.0.0.3",
+            "contentUri": "https://mystorageaccount.blob.core.windows.net/builtinconfig/AuditSecureProtocol/AuditSecureProtocol_1.0.0.3.zip",
+            "contentHash": "content hash",
+            "configurationParameter": [],
+            "configurationSetting": null
+          },
+          "provisioningState": null
         }
-      ]
+      }
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow

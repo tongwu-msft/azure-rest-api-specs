@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.azureguestconfiguration.guestconfigurationassignments.get
-name: Get
-service: Azure Guest Configuration
+uid: management.azure.com.guestconfiguration.guestconfigurationassignments.createorupdate
+name: Create Or Update
+service: Guest Configuration
 groupName: Guest Configuration Assignments
 apiVersion: 2018-06-30-preview
-summary: Get information about a guest configuration assignment
+summary: Creates an association between a VM and guest configuration
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}?api-version=2018-06-30-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}?api-version=2018-06-30-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,7 +34,7 @@ uriParameters:
 - name: guestConfigurationAssignmentName
   in: path
   isRequired: true
-  description: The guest configuration assingment name.
+  description: Name of the guest configuration assignment.
   types:
   - uid: string
 - name: api-version
@@ -44,52 +44,24 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: OK. The guest configuration assignment was returned successfully.
+- name: 201 Created
+  description: Created. The guest configuration assignment for the VM was created successfully.
   types:
   - uid: GuestConfigurationAssignment
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-requestHeader: []
-definitions:
-- name: GuestConfigurationAssignment
-  description: Guest configuration assignment is an association between a VM and guest configuration.
-  kind: object
-  properties:
+requestBody:
+- name: default
+  parameters:
   - name: properties
+    in: body
     description: Properties of the Guest configuration assignment.
     types:
     - uid: GuestConfigurationAssignmentProperties
-  - name: id
-    isReadyOnly: true
-    description: ARM resource id of the guest configuration assignment.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Name of the guest configuration assignment.
-    types:
-    - uid: string
-  - name: location
-    isReadyOnly: true
-    description: Region where the VM is located.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The type of the resource.
-    types:
-    - uid: string
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - name: message
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
+requestHeader: []
+definitions:
 - name: GuestConfigurationAssignmentProperties
   description: Guest configuration assignment properties.
   kind: object
@@ -127,6 +99,42 @@ definitions:
     description: The provisioning state, which only appears in the response.
     types:
     - uid: provisioningState
+- name: GuestConfigurationAssignment
+  description: Guest configuration assignment is an association between a VM and guest configuration.
+  kind: object
+  properties:
+  - name: properties
+    description: Properties of the Guest configuration assignment.
+    types:
+    - uid: GuestConfigurationAssignmentProperties
+  - name: id
+    isReadyOnly: true
+    description: ARM resource id of the guest configuration assignment.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the guest configuration assignment.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Region where the VM is located.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
 - name: GuestConfigurationNavigation
   description: Guest configuration is an artifact that encapsulates DSC configuration and its dependencies. The artifact is a zip file containing DSC configuration (as MOF) and dependent resources and other dependencies like modules.
   kind: object
@@ -280,32 +288,44 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get a guest configuration assignment
+- name: Create or update guest configuration assignment
   request:
-    uri: GET https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myVMName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/SecureProtocol?api-version=2018-06-30-preview
-  responses:
-  - statusCode: "200"
+    uri: PUT https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myVMName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/SecureProtocol?api-version=2018-06-30-preview
     body: >-
       {
-        "location": "centraluseuap",
-        "id": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol",
-        "name": "AuditSecureProtocol",
+        "location": "westcentralus",
+        "name": "multiconfigassignment2",
         "properties": {
-          "complianceStatus": "Compliant",
-          "assignmentHash": "E0D8941DD713F284284561648C00C18FA76C8602943C7CD38AFD73B56AE4C35F.E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
-          "latestReportId": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports/7367cbb8-ae99-47d0-a33b-a283564d2cb1",
-          "lastComplianceStatusChecked": "2018-08-29T22:14:13Z",
-          "context": null,
+          "context": "Azure policy",
+          "guestConfiguration": {
+            "name": "AuditSecureProtocol",
+            "version": "1.0.0.3"
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "location": "westcentralus",
+        "id": null,
+        "name": "multiconfigassignment2",
+        "properties": {
+          "complianceStatus": "Pending",
+          "assignmentHash": null,
+          "latestReportId": null,
+          "lastComplianceStatusChecked": null,
+          "context": "Azure policy A",
           "guestConfiguration": {
             "kind": null,
             "name": "AuditSecureProtocol",
             "version": "1.0.0.3",
-            "contentUri": "https://mystorageaccount.blob.core.windows.net/builtinconfig/AuditSecureProtocol/AuditSecureProtocol_1.0.0.3.zip",
-            "contentHash": "content hash",
-            "configurationParameter": [],
+            "contentUri": null,
+            "contentHash": null,
+            "configurationParameter": null,
             "configurationSetting": null
           },
-          "provisioningState": null
+          "provisioningState": "Succeeded"
         }
       }
 security:
