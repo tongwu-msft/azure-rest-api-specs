@@ -21,9 +21,9 @@ Azure Deployment Manager is in public preview. To use Azure Deployment Manager, 
 | [Artifact Sources](xref:management.azure.com.deploymentmanager.artifactsources) | Provides operations for working with the artifact sources that store assets for deployment. |
 | [Operations](xref:management.azure.com.deploymentmanager.operations)  | Lists available operations for the Microsoft.DeploymentManager provider. |
 | [Rollouts](xref:management.azure.com.deploymentmanager.rollouts)  | Provides operations for working with staged deployments. |
-| [Service Topologies](xref:management.azure.com.deploymentmanager.servicetopologies)  | Provides operations for defining the service to deploy. |
-| [Service Units](xref:management.azure.com.deploymentmanager.serviceunits) | Provides operations for defining templates to deploy. |
-| [Services](xref:management.azure.com.deploymentmanager.services) | Provides operations for defining the service to deploy. |
+| [Service Topologies](xref:management.azure.com.deploymentmanager.servicetopologies)  | Provides operations for defining the services to deploy and the artifact source to use. |
+| [Service Units](xref:management.azure.com.deploymentmanager.serviceunits) | Provides operations for defining the path to the templates to deploy, and the resource group. |
+| [Services](xref:management.azure.com.deploymentmanager.services) | Provides operations for defining the location and subscription ID for the service to deploy. |
 | [Steps](xref:management.azure.com.deploymentmanager.steps) | Provides operations for specifying the order of deployment operations. |
 
 ## See also
