@@ -27,5 +27,5 @@ The Storage Resource Provider requires all requests to be versioned. To make a r
 | Operation Group | Description |
 |-----------------|-------------|
 | [Storage Accounts](xref:management.azure.com.storagerp.storageaccounts) |Operations to manage your storage accounts, such as create, update, delete, etc.|
-| [Usage](xref:management.azure.com.storagerp.usage) |Operation to retrieve the current usage count and limit for the subscription's resources.|
+| [Usages](xref:management.azure.com.storagerp.usages) |Operation to retrieve the current usage count and limit for the subscription's resources.|
 
