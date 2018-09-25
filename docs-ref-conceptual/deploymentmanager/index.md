@@ -10,7 +10,7 @@ ms.date: 09/25/2018
 
 Deployment Manager enables you to use safe deployment practices when deploying your service across many regions.
 
-Azure Deployment Manager is in public preview. To use Azure Deployment Manager, complete the [sign-up form](https://aka.ms/admsignup).
+Azure Deployment Manager is in public preview. To learn how to sign up for the preview and use Azure Deployment Manager, see [Enable safe deployment practices with Azure Deployment Manager](/azure/azure-resource-manager/deployment-manager-overview/). For a tutorial, see [Use Azure Deployment Manager with Resource Manager templates](/azure/azure-resource-manager/deployment-manager-tutorial/).
 
 ## REST operation groups
 
