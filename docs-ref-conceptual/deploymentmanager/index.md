@@ -28,4 +28,4 @@ Azure Deployment Manager is in public preview. To use Azure Deployment Manager, 
 
 ## See also
 
-- [Azure Deployment Manager documentation](/azure/azure-resource-manager/)
+- [Azure Deployment Manager documentation](/azure/azure-resource-manager/deployment-manager-overview/)
