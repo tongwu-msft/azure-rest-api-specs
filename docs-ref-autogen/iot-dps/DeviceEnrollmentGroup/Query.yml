@@ -3,34 +3,22 @@ uid: localhost.iot-dps.deviceenrollmentgroup.query
 name: Query
 service: IoT Hub Device Provisioning Service
 groupName: Device Enrollment Group
-apiVersion: 2018-04-01
+apiVersion: 2018-09-01-preview
 summary: Query the device enrollment groups.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://localhost/enrollmentGroups/query?api-version=2018-04-01
+- content: POST https://localhost/enrollmentGroups/query?api-version=2018-09-01-preview
 uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: 'The API version to use for the request. Supported versions include: 2018-04-01'
+  description: 'The API version to use for the request. Supported versions include: 2018-09-01-preview'
   types:
   - uid: string
 responses:
-- name: 400 Bad Request
-  description: The body of the request is not valid; for example, it cannot be parsed, or the object cannot be validated.
-- name: 401 Unauthorized
-  description: The authorization token cannot be validated; for example, it is expired or does not apply to the request’s URI. This error code is also returned to devices as part of the TPM attestation flow.
-- name: 404 Not Found
-  description: The Device Provisioning Service instance, or a resource (e.g. an enrollment) does not exist.
-- name: Other Status Codes
-  description: Operations are being throttled by the service. For specific service limits, see IoT Hub Device Provisioning Service limits.
-- name: 500 Internal Server Error
-  description: An internal error occurred.
-- name: Other Status Codes
-  description: The request payload is in an unsupported format. The request's Content-Type header should be set to 'application/json'.
 - name: 200 OK
   headers:
   - name: x-ms-continuation
@@ -56,7 +44,18 @@ requestBody:
     description: The query.
     types:
     - uid: string
-requestHeader: []
+requestHeader:
+- name: x-ms-max-item-count
+  in: header
+  description: pageSize
+  types:
+  - uid: integer
+  format: int32
+- name: x-ms-continuation
+  in: header
+  description: continuation token
+  types:
+  - uid: string
 definitions:
 - name: EnrollmentGroup
   description: Enrollment group record.
@@ -88,14 +87,37 @@ definitions:
     - uid: enabled
     - uid: disabled
     typesTitle: enum
+  - name: reprovisionPolicy
+    description: The behavior when a device is re-provisioned to an IoT hub.
+    types:
+    - uid: ReprovisionPolicy
   - name: createdDateTimeUtc
+    isReadyOnly: true
     description: The DateTime this resource was created.
     types:
     - uid: string
   - name: lastUpdatedDateTimeUtc
+    isReadyOnly: true
     description: The DateTime this resource was last updated.
     types:
     - uid: string
+  - name: allocationPolicy
+    description: "The allocation policy of this resource. This policy overrides the tenant level allocation policy for this individual enrollment or enrollment group. Possible values include 'hashed': Linked IoT hubs are equally likely to have devices provisioned to them, 'geoLatency':  Devices are provisioned to an IoT hub with the lowest latency to the device.If multiple linked IoT hubs would provide the same lowest latency, the provisioning service hashes devices across those hubs, 'static' : Specification of the desired IoT hub in the enrollment list takes priority over the service-level allocation policy, 'custom': Devices are provisioned to an IoT hub based on your own custom logic. The provisioning service passes information about the device to the logic, and the logic returns the desired IoT hub as well as the desired initial configuration. We recommend using Azure Functions to host your logic."
+    types:
+    - uid: hashed
+    - uid: geoLatency
+    - uid: static
+    - uid: custom
+    typesTitle: enum
+  - name: iotHubs
+    description: The list of names of IoT hubs the device(s) in this resource can be allocated to. Must be a subset of tenant level list of IoT hubs.
+    types:
+    - uid: string
+      isArray: true
+  - name: customAllocationDefinition
+    description: Custom allocation definition.
+    types:
+    - uid: CustomAllocationDefinition
 - name: ProvisioningServiceErrorDetails
   kind: object
   properties:
@@ -132,24 +154,29 @@ definitions:
     types:
     - uid: string
 - name: AttestationMechanism
-  description: Device attestation method.
+  description: Attestation mechanism for individualEnrollment as well as enrollmentGroup
   kind: object
   properties:
   - name: type
-    description: ''
+    description: Attestation Type.
     types:
     - uid: none
     - uid: tpm
     - uid: x509
+    - uid: symmetricKey
     typesTitle: enum
   - name: tpm
-    description: Attestation via TPM.
+    description: TPM attestation method.
     types:
     - uid: TpmAttestation
   - name: x509
-    description: Attestation via X509.
+    description: X509 attestation method.
     types:
     - uid: X509Attestation
+  - name: symmetricKey
+    description: Symmetric Key attestation method.
+    types:
+    - uid: SymmetricKeyAttestation
 - name: InitialTwin
   description: Initial device twin. Contains a subset of the properties of Twin.
   kind: object
@@ -162,6 +189,30 @@ definitions:
     description: Twin desired properties.
     types:
     - uid: InitialTwinProperties
+- name: ReprovisionPolicy
+  description: The behavior of the service when a device is re-provisioned to an IoT hub.
+  kind: object
+  properties:
+  - name: updateHubAssignment
+    description: When set to true (default), the Device Provisioning Service will evaluate the device's IoT Hub assignment and update it if necessary for any provisioning requests beyond the first from a given device. If set to false, the device will stay assigned to its current IoT hub.
+    types:
+    - uid: boolean
+  - name: migrateDeviceData
+    description: When set to true (default), the Device Provisioning Service will migrate the device's data (twin, device capabilities, and device ID) from one IoT hub to another during an IoT hub assignment update. If set to false, the Device Provisioning Service will reset the device's data to the initial desired configuration stored in the corresponding enrollment list.
+    types:
+    - uid: boolean
+- name: CustomAllocationDefinition
+  description: Custom allocation definition.
+  kind: object
+  properties:
+  - name: webhookUrl
+    description: The webhook URL used for allocation requests.
+    types:
+    - uid: string
+  - name: apiVersion
+    description: 'The API version of the provisioning service types (such as IndividualEnrollment) sent in the custom allocation request. Supported versions include: "2018-09-01-preview"'
+    types:
+    - uid: string
 - name: TpmAttestation
   description: Attestation via TPM.
   kind: object
@@ -190,6 +241,18 @@ definitions:
     description: Primary and secondary CA references.
     types:
     - uid: X509CAReferences
+- name: SymmetricKeyAttestation
+  description: Attestation via SymmetricKey.
+  kind: object
+  properties:
+  - name: primaryKey
+    description: Primary symmetric key.
+    types:
+    - uid: string
+  - name: secondaryKey
+    description: Secondary symmetric key.
+    types:
+    - uid: string
 - name: TwinCollection
   kind: object
   properties:

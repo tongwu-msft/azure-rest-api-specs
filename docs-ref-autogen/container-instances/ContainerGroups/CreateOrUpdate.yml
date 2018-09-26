@@ -3,14 +3,14 @@ uid: management.azure.com.container-instances.containergroups.createorupdate
 name: Create Or Update
 service: Container Instances
 groupName: Container Groups
-apiVersion: 2018-06-01
+apiVersion: 2018-09-01
 summary: "Create or update container groups.  \nCreate or update container groups with specified configurations."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}?api-version=2018-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}?api-version=2018-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -102,6 +102,11 @@ requestBody:
     description: The diagnostic information for a container group.
     types:
     - uid: ContainerGroupDiagnostics
+  - name: properties.networkProfile
+    in: body
+    description: The network profile information for a container group.
+    types:
+    - uid: ContainerGroupNetworkProfile
 requestHeader: []
 definitions:
 - name: Container
@@ -256,6 +261,14 @@ definitions:
     description: Container group log analytics information.
     types:
     - uid: LogAnalytics
+- name: ContainerGroupNetworkProfile
+  description: Container group network profile information.
+  kind: object
+  properties:
+  - name: id
+    description: The identifier for a network profile.
+    types:
+    - uid: string
 - name: ContainerGroup
   description: A container group.
   kind: object
@@ -328,6 +341,10 @@ definitions:
     description: The diagnostic information for a container group.
     types:
     - uid: ContainerGroupDiagnostics
+  - name: properties.networkProfile
+    description: The network profile information for a container group.
+    types:
+    - uid: ContainerGroupNetworkProfile
 - name: ContainerPort
   description: The port exposed on the container instance.
   kind: object
@@ -435,6 +452,9 @@ definitions:
   - name: Public
     types:
     - uid: string
+  - name: Private
+    types:
+    - uid: string
 - name: AzureFileVolume
   description: The properties of the Azure File volume. Azure File shares are mounted as volumes.
   kind: object
@@ -539,6 +559,18 @@ definitions:
     description: The workspace key for log analytics
     types:
     - uid: string
+  - name: logType
+    description: The log type to be used.
+    types:
+    - uid: LogAnalyticsLogType
+  - name: metadata
+    description: Metadata for log analytics.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ContainerGroupRestartPolicy
   description: "Restart policy for all containers within the container group. \n- `Always` Always restart\n- `OnFailure` Restart on failure\n- `Never` Never restart\n"
   kind: enum
@@ -633,10 +665,20 @@ definitions:
   - name: UDP
     types:
     - uid: string
+- name: LogAnalyticsLogType
+  description: The log type to be used.
+  kind: enum
+  properties:
+  - name: ContainerInsights
+    types:
+    - uid: string
+  - name: ContainerInstanceLogs
+    types:
+    - uid: string
 examples:
 - name: ContainerGroupsCreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1?api-version=2018-06-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1?api-version=2018-09-01
     body: >-
       {
         "id": "/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1",
@@ -684,8 +726,15 @@ examples:
           "diagnostics": {
             "logAnalytics": {
               "workspaceId": "workspaceid",
-              "workspaceKey": "workspaceKey"
+              "workspaceKey": "workspaceKey",
+              "logType": "ContainerInsights",
+              "metadata": {
+                "test-key": "test-metadata-value"
+              }
             }
+          },
+          "networkProfile": {
+            "id": "test-network-profile-id"
           },
           "imageRegistryCredentials": [],
           "ipAddress": {
