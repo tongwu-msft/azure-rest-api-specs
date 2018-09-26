@@ -1,11 +1,11 @@
 ---
-ms.assetid: 987a76ca-b62e-4525-ac07-bbde73abce05
-ms.title: Azure CDN REST API Reference | Microsoft Docs
+ms.assetid: 
+ms.title: Azure Front Door Service REST API Reference | Microsoft Docs
 ms.service: cdn
-author: mmacy
-ms.author: marsma
-ms.manager: erikre
-service_description: To be added
+author: dlepow
+ms.author: danlep
+ms.manager: jeconnoc
+service_description: Provides a scalable and secure entry point for fast delivery of your global web applications.
 ---
 
 # Azure Front Door Service REST API
