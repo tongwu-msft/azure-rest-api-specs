@@ -236,7 +236,20 @@ definitions:
   properties:
   - name: type
     isReadyOnly: true
-    description: Type property
+    description: >-
+      One of:
+
+      * POI
+
+      * Street
+
+      * Geography
+
+      * Point Address
+
+      * Address Range
+
+      * Cross Street
     types:
     - uid: string
   - name: id
@@ -256,7 +269,24 @@ definitions:
     - uid: string
   - name: entityType
     isReadyOnly: true
-    description: Entity Type property
+    description: >-
+      Optional section. Only present if type == Geography. Supported entity types:
+
+      * County
+
+      * CountrySubdivision
+
+      * CountrySecondarySubdivision
+
+      * CountryTertiarySubdivision
+
+      * Municipality
+
+      * MunicipalitySubdivision
+
+      * Neighbourhood
+
+      * PostalCodeArea
     types:
     - uid: string
   - name: poi
@@ -284,6 +314,10 @@ definitions:
     description: Describes the address range on both sides of the street for a search result. Coordinates for the start and end locations of the address range are included.
     types:
     - uid: SearchResultAddressRanges
+  - name: dataSources
+    description: Optional section. Reference ids for use with the [Get Search Polygon](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchpolygonpreview) API.
+    types:
+    - uid: DataSources
 - name: Error
   description: This object is returned when an error occurs in the Maps API
   kind: object
@@ -490,6 +524,14 @@ definitions:
     description: A location represented as a latitude and longitude.
     types:
     - uid: CoordinateAbbreviated
+- name: DataSources
+  description: Optional section. Reference ids for use with the [Get Search Polygon](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchpolygonpreview) API.
+  kind: object
+  properties:
+  - name: geometry
+    description: Information about the geometric shape of the result. Only present if type == Geography.
+    types:
+    - uid: DataSourcesGeometry
 - name: SearchResultPoiClassification
   description: The classification for the POI being returned
   kind: object
@@ -505,6 +547,15 @@ definitions:
     types:
     - uid: SearchResultPoiClassificationName
       isArray: true
+- name: DataSourcesGeometry
+  description: Information about the geometric shape of the result. Only present if type == Geography.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Pass this as geometryId to the [Get Search Polygon](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchpolygonpreview) API to fetch geometry information for this result.
+    types:
+    - uid: string
 - name: SearchResultPoiClassificationName
   description: Name for the classification
   kind: object
@@ -530,17 +581,17 @@ examples:
         "summary": {
           "query": "seattle",
           "queryType": "NON_NEAR",
-          "queryTime": 72,
+          "queryTime": 9,
           "numResults": 5,
           "offset": 0,
-          "totalResults": 5150,
+          "totalResults": 5414,
           "fuzzyLevel": 1
         },
         "results": [
           {
             "type": "Geography",
-            "id": "US/GEO/p0/174752",
-            "score": 6.134,
+            "id": "US/GEO/p0/77536",
+            "score": 6.135,
             "info": "search:ta:840533000005461-US",
             "entityType": "Municipality",
             "address": {
@@ -566,11 +617,16 @@ examples:
                 "lat": 47.30606,
                 "lon": -122.12291
               }
+            },
+            "dataSources": {
+              "geometry": {
+                "id": "00005557-4100-3c00-0000-0000596ae44e"
+              }
             }
           },
           {
             "type": "Geography",
-            "id": "MX/GEO/p0/55857",
+            "id": "MX/GEO/p0/60718",
             "score": 4.5,
             "info": "search:ta:00004d30-3300-2800-0000-0000502b582a-MX",
             "entityType": "MunicipalitySubdivision",
@@ -596,11 +652,16 @@ examples:
                 "lat": 20.71684,
                 "lon": -103.36897
               }
+            },
+            "dataSources": {
+              "geometry": {
+                "id": "00004d30-3300-3c00-0000-00002672312a"
+              }
             }
           },
           {
             "type": "POI",
-            "id": "US/POI/p1/8288014",
+            "id": "US/POI/p0/8359211",
             "score": 4.457,
             "info": "search:ta:840539000615260-US",
             "poi": {
@@ -664,50 +725,58 @@ examples:
           },
           {
             "type": "Geography",
-            "id": "US/GEO/p0/123969",
+            "id": "US/GEO/p0/77544",
             "score": 4.267,
-            "entityType": "CountryTertiarySubdivision",
+            "info": "search:ta:840533000005440-US",
+            "entityType": "MunicipalitySubdivision",
             "address": {
+              "municipalitySubdivision": "South Seattle",
+              "municipality": "Seattle, Tukwila",
               "countrySecondarySubdivision": "King",
-              "countryTertiarySubdivision": "Seattle East",
+              "countryTertiarySubdivision": "Seattle",
               "countrySubdivision": "WA",
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "Seattle East, WA",
+              "freeformAddress": "Seattle, WA",
               "countrySubdivisionName": "Washington"
             },
             "position": {
-              "lat": 47.6137,
-              "lon": -122.19093
+              "lat": 47.56352,
+              "lon": -122.31351
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.77704,
-                "lon": -122.27603
+                "lat": 47.56534,
+                "lon": -122.31487
               },
               "btmRightPoint": {
-                "lat": 47.42285,
-                "lon": -121.91824
+                "lat": 47.56168,
+                "lon": -122.31341
+              }
+            },
+            "dataSources": {
+              "geometry": {
+                "id": "00005557-4100-4600-0000-00004788ab58"
               }
             }
           },
           {
             "type": "Geography",
-            "id": "US/GEO/p0/175836",
+            "id": "US/GEO/p0/78678",
             "score": 4.267,
             "info": "search:ta:840533000011722-US",
             "entityType": "MunicipalitySubdivision",
             "address": {
               "municipalitySubdivision": "Seattle Heights",
-              "municipality": "Brier, Lynnwood",
+              "municipality": "Lynnwood, Brier",
               "countrySecondarySubdivision": "Snohomish",
               "countryTertiarySubdivision": "Edmonds",
               "countrySubdivision": "WA",
               "countryCode": "US",
               "country": "United States Of America",
               "countryCodeISO3": "USA",
-              "freeformAddress": "Brier, WA",
+              "freeformAddress": "Lynnwood, WA",
               "countrySubdivisionName": "Washington"
             },
             "position": {
@@ -722,6 +791,11 @@ examples:
               "btmRightPoint": {
                 "lat": 47.80497,
                 "lon": -122.32191
+              }
+            },
+            "dataSources": {
+              "geometry": {
+                "id": "00005557-4100-4600-0000-00004788ab2c"
               }
             }
           }

@@ -128,8 +128,17 @@ uriParameters:
   types:
   - uid: VehicleLoadType
 responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: RouteMatrixResponse
 - name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
   description: 'Request Accepted: The request has been accepted for processing. Please use the URL in the Location Header to retry or access the results.'
+  types:
+  - uid: object
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -402,6 +411,26 @@ definitions:
     types:
     - uid: array
       isArray: true
+- name: RouteMatrixResponse
+  description: This object is returned from a successful Route Matrix call. For ex, if 2 origins and 3 destinations are provided, there are going to 2 arrays with 3 elements in each. Each element's content depends on the options provided in the query.
+  kind: object
+  properties:
+  - name: formatVersion
+    isReadyOnly: true
+    description: Format Version property
+    types:
+    - uid: string
+  - name: matrix
+    isReadyOnly: true
+    description: Results as a 2 dimensional array of route summaries.
+    types:
+    - uid: array
+      isArray: true
+  - name: summary
+    isReadyOnly: true
+    description: Summary object
+    types:
+    - uid: RouteMatrixSummary
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
   kind: object
@@ -422,6 +451,20 @@ definitions:
     description: A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details.
     types:
     - uid: GeoJSONMultiPoint
+- name: RouteMatrixSummary
+  description: Summary object
+  kind: object
+  properties:
+  - name: successfulRoutes
+    isReadyOnly: true
+    description: Number of successful routes in the response.
+    types:
+    - uid: integer
+  - name: totalRoutes
+    isReadyOnly: true
+    description: Total number of routes requested. Number of cells in the input matrix.
+    types:
+    - uid: integer
 - name: Error
   description: This object is returned when an error occurs in the Maps API
   kind: object
@@ -470,6 +513,69 @@ examples:
         }
       }
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "formatVersion": "0.0.1",
+        "matrix": [
+          [
+            {
+              "statusCode": 200,
+              "response": {
+                "routeSummary": {
+                  "lengthInMeters": 495,
+                  "travelTimeInSeconds": 134,
+                  "trafficDelayInSeconds": 0,
+                  "departureTime": "2018-07-27T22:55:29+00:00",
+                  "arrivalTime": "2018-07-27T22:57:43+00:00"
+                }
+              }
+            },
+            {
+              "statusCode": 200,
+              "response": {
+                "routeSummary": {
+                  "lengthInMeters": 647651,
+                  "travelTimeInSeconds": 26835,
+                  "trafficDelayInSeconds": 489,
+                  "departureTime": "2018-07-27T22:55:29+00:00",
+                  "arrivalTime": "2018-07-28T06:22:44+00:00"
+                }
+              }
+            }
+          ],
+          [
+            {
+              "statusCode": 200,
+              "response": {
+                "routeSummary": {
+                  "lengthInMeters": 338,
+                  "travelTimeInSeconds": 104,
+                  "trafficDelayInSeconds": 0,
+                  "departureTime": "2018-07-27T22:55:29+00:00",
+                  "arrivalTime": "2018-07-27T22:57:13+00:00"
+                }
+              }
+            },
+            {
+              "statusCode": 200,
+              "response": {
+                "routeSummary": {
+                  "lengthInMeters": 647494,
+                  "travelTimeInSeconds": 26763,
+                  "trafficDelayInSeconds": 469,
+                  "departureTime": "2018-07-27T22:55:29+00:00",
+                  "arrivalTime": "2018-07-28T06:21:32+00:00"
+                }
+              }
+            }
+          ]
+        ],
+        "summary": {
+          "successfulRoutes": 4,
+          "totalRoutes": 4
+        }
+      }
   - statusCode: "202"
     headers:
     - name: Location
