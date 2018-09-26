@@ -23,7 +23,7 @@ ms.author: anshan
 
 This document describes the reference data API used to manage items within a reference data set. It assumes that the reference data set has already been created.
 
-Reference data is data such as manufacturer or location data that changes less often, and contextualizes telemetry data. Because it is relatively static, each data packet contains identical information. Reference data is usually not originated on devices, and even if it was, it does not make sense to send it over the wire because of it relatively static nature. Reference data is managed outside of the device itself.  
+Reference data is data such as manufacturer or location data that changes less often, and contextualizes telemetry data. Because it is relatively static, each data packet contains identical information. Reference data generally does not originate from devices, and even if it did, it would not make sense to send it over the wire because of it relatively static nature. Reference data is managed outside of the device itself.  
 
 
 
@@ -60,7 +60,7 @@ Each item is processed individually and an error with one piece of data does not
 
 Inserts / replaces the entire reference data item $.put[i] (the *i* th item in the array with key 'put'). The unit of commit is $.put[i]. The operation is idempotent.
 
-Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
+Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message are shown in the following sections:
 
 ### *Put* operation request message example
 
