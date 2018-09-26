@@ -4,7 +4,7 @@ description: This tutorial covers how to work with the reference data API for an
 keywords:
 services: time-series-insights
 documentationcenter:
-author: venkatgct
+author: anshan
 manager: almineev
 editor: cgronlun
 
@@ -15,7 +15,7 @@ ms.topic: data-acesss-api
 ms.tgt_pltfrm: na
 ms.workload: big-data
 ms.date: 11/10/2017
-ms.author: venkatja
+ms.author: anshan
 ---
 
 # Azure Time Series Insights reference data API
@@ -23,7 +23,7 @@ ms.author: venkatja
 
 This document describes the reference data API used to manage items within a reference data set. It assumes that the reference data set has already been created.
 
-Reference data is data such as manufacturer or location data that changes less often, and contextualizes telemetry data. Because it is relatively static, each data packet contains identical information. Reference data is usually not originated on devices, and even if it was, it does not make sense to send it over the wire because of it relatively static nature. Reference data is managed outside of the device itself.  
+Reference data is data such as manufacturer or location data that changes less often, and contextualizes telemetry data. Because it is relatively static, each data packet contains identical information. Reference data generally does not originate from devices, and even if it did, it would not make sense to send it over the wire because of it relatively static nature. Reference data is managed outside of the device itself.  
 
 
 
@@ -60,7 +60,7 @@ Each item is processed individually and an error with one piece of data does not
 
 Inserts / replaces the entire reference data item $.put[i] (the *i* th item in the array with key 'put'). The unit of commit is $.put[i]. The operation is idempotent.
 
-Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message is shown in the following sections:
+Assume a reference data set that defines a single key with name *deviceId* and type *string*. A sample request and response message are shown in the following sections:
 
 ### *Put* operation request message example
 
@@ -374,7 +374,7 @@ You can add up to two reference data per Time Series Insights environment.  Belo
 
 | Limit name | Limit value | SKUs affected | Notes |
 |-|-|-|-|-|
-| Key property count  | 2 | S1, S2 | Per reference data set |
+| Key property count  | 3 | S1, S2 | Per reference data set.  Azure Resource Manager/Azure Portal only|
 | Key property size| 1KB | S1, S2 | Per reference data set |
 | Reference Data Item count  | 2,000/20,000 (S1/S2) | S1, S2 | Per unit.  Example:  4 unit S1 SKU = 8,000 items (4 x 2,000) |
 | Max concurrent transactions | 2/10 (S1/S2) | S1, S2 | - |
