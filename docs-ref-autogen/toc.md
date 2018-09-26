@@ -860,6 +860,8 @@
 ## Samples
 ### [Manage roles](../docs-ref-conceptual/authorization/role-assignment-rest-sample.md)
 ## Reference
+### [Classic Administrators](authorization/ClassicAdministrators.yml)
+#### [List](authorization/ClassicAdministrators/List.yml)
 ### [Permissions](authorization/Permissions.yml)
 #### [List For Resource](authorization/Permissions/ListForResource.yml)
 #### [List For Resource Group](authorization/Permissions/ListForResourceGroup.yml)
