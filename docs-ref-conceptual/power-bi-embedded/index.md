@@ -1,7 +1,7 @@
 ---
 ms.title: Power BI Embedded
 ms.service: power-bi-embedded
-author: maghan
+author: markingmyname
 ms.author: markingmyname
 ms.manager: kfile
 service_description:
