@@ -96,13 +96,14 @@ definitions:
     types:
     - uid: Source
   - name: properties.schedule
-    description: Schedule (Frequnecy, Time Window) for rule.
+    description: Schedule (Frequnecy, Time Window) for rule. Required for action type - AlertingAction
     types:
     - uid: Schedule
   - name: properties.action
     description: Action needs to be taken on rule execution.
     types:
     - uid: AlertingAction
+    - uid: LogToMetricAction
     typesTitle: Action
   - name: id
     isReadyOnly: true
@@ -162,7 +163,7 @@ definitions:
   kind: object
   properties:
   - name: query
-    description: Log search query.
+    description: Log search query. Required for action type - AlertingAction
     types:
     - uid: string
   - name: authorizedResources
@@ -218,9 +219,22 @@ definitions:
     types:
     - uid: TriggerCondition
   - name: odata.type
-    description: 'Specifies the action. Only supported value - AlertingAction '
+    description: Specifies the action. Supported values - AlertingAction, LogToMetricAction
     types:
     - uid: Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction
+    typesTitle: string
+- name: LogToMetricAction
+  description: Specifiy action need to be taken when rule type is converting log to metric
+  kind: object
+  properties:
+  - name: criteria
+    description: Severity of the alert
+    types:
+    - uid: Criteria
+  - name: odata.type
+    description: Specifies the action. Supported values - AlertingAction, LogToMetricAction
+    types:
+    - uid: Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction
     typesTitle: string
 - name: AlertSeverity
   description: Severity Level of Alert
@@ -274,6 +288,19 @@ definitions:
     description: Trigger condition for metric query rule
     types:
     - uid: LogMetricTrigger
+- name: Criteria
+  description: Specifies the criteria for converting log to metric.
+  kind: object
+  properties:
+  - name: metricName
+    description: Name of the metric
+    types:
+    - uid: string
+  - name: dimensions
+    description: List of Dimensions for creating metric
+    types:
+    - uid: Dimension
+      isArray: true
 - name: ConditionalOperator
   description: Result Condition Evaluation criteria. Supported Values - 'GreaterThan' or 'LessThan' or 'Equal'.
   kind: enum
@@ -307,6 +334,23 @@ definitions:
     description: Evaluation of metric on a particular column
     types:
     - uid: string
+- name: Dimension
+  description: Specifies the criteria for converting log to metric.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the dimension
+    types:
+    - uid: string
+  - name: operator
+    description: Operator for dimension values
+    types:
+    - uid: operator
+  - name: values
+    description: List of dimension values
+    types:
+    - uid: string
+      isArray: true
 - name: metricTriggerType
   description: Metric Trigger Type - 'Consecutive' or 'Total'
   kind: enum
@@ -315,6 +359,13 @@ definitions:
     types:
     - uid: string
   - name: Total
+    types:
+    - uid: string
+- name: operator
+  description: Operator for dimension values
+  kind: enum
+  properties:
+  - name: Include
     types:
     - uid: string
 examples:
