@@ -286,7 +286,7 @@ Defines a search results group, such as mainline.
   
 <a name="rankingitem"></a>   
 ### RankingItem  
-Defines a search result item to display. For more information about how to use the IDs, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/ranking-results).  
+Defines a search result item to display. For more information about how to use the IDs, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/rank-results).  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
