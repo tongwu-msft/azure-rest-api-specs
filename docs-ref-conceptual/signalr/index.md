@@ -10,9 +10,16 @@ ms.devlang: rest-api
 service_description: To be added
 ---
 
-# Azure Advisor REST API
+# Azure SignalR Service REST API
 
-Azure Advisor is a personalized cloud consultant that helps you follow best practices to optimize your Azure deployments. For a more detailed overview, see the [Azure Advisor product page](https://azure.microsoft.com/services/advisor).
+Azure SignalR Service is a personalized cloud consultant that helps you follow best practices to optimize your Azure deployments. For a more detailed overview, see the [Azure SignalR product page](https://docs.microsoft.com/en-us/azure/azure-signalr).
+
+## REST Operation Groups 
+
+| Operation group | Description                                                        |
+|-----------------|--------------------------------------------------------------------|
+| [Operations](xref:management.azure.com.signalr.operations)  | Lists all available REST APIs for SignalR service. |
+| [SignalR](./signalr) | Provides operations for creating and managing Azure SignalR Service instances such as create, update, delete, reboot, import/export, and key regeneration. |
 
 ## See also
 
