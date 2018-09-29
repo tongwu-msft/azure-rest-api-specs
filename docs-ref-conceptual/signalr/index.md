@@ -12,7 +12,7 @@ service_description: To be added
 
 # Azure SignalR Service REST API
 
-Azure SignalR Service is a personalized cloud consultant that helps you follow best practices to optimize your Azure deployments. For a more detailed overview, see the [Azure SignalR product page](https://docs.microsoft.com/en-us/azure/azure-signalr).
+Azure SignalR Service is a personalized cloud consultant that helps you follow best practices to optimize your Azure deployments. For a more detailed overview, see the [Azure SignalR product page](https://azure.microsoft.com/en-us/services/signalr-service/).
 
 ## REST Operation Groups 
 
@@ -23,4 +23,4 @@ Azure SignalR Service is a personalized cloud consultant that helps you follow b
 
 ## See also
 
-- [Azure SignalR Service documentation](https://docs.microsoft.com/azure/signalr/)
+- [Azure SignalR Service documentation](https://docs.microsoft.com/en-us/azure/azure-signalr/)
