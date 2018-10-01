@@ -4107,6 +4107,8 @@
 ### [List By Server](mysql/LogFiles/ListByServer.yml)
 ## [Operations](mysql/Operations.yml)
 ### [List](mysql/Operations/List.yml)
+## [Replicas](mysql/Replicas.yml)
+### [List By Server](mysql/Replicas/ListByServer.yml)
 ## [Server Security Alert Policies](mysql/ServerSecurityAlertPolicies.yml)
 ### [Create Or Update](mysql/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
 ### [Get](mysql/ServerSecurityAlertPolicies/Get.yml)
