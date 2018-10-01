@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.mysql.servers.get
-name: Get
+uid: management.azure.com.mysql.replicas.listbyserver
+name: List By Server
 service: MySQL
-groupName: Servers
+groupName: Replicas
 apiVersion: 2017-12-01
-summary: Gets information about a server.
+summary: List all the replicas for a given server.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/servers/{serverName}?api-version=2017-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/servers/{serverName}/replicas?api-version=2017-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,9 +40,18 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: Server
+  - uid: ServerListResult
 requestHeader: []
 definitions:
+- name: ServerListResult
+  description: A list of servers.
+  kind: object
+  properties:
+  - name: value
+    description: The list of servers
+    types:
+    - uid: Server
+      isArray: true
 - name: Server
   description: Represents a server.
   kind: object
@@ -215,42 +224,108 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ServerGet
+- name: ReplicasListByServer
   request:
-    uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/servers/mysqltestsvc4?api-version=2017-12-01
+    uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testmaster/replicas?api-version=2017-12-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "sku": {
-          "name": "GP_Gen4_2",
-          "tier": "GeneralPurpose",
-          "family": "Gen4",
-          "capacity": 2
-        },
-        "properties": {
-          "administratorLogin": "cloudsa",
-          "storageProfile": {
-            "storageMB": 128000,
-            "backupRetentionDays": 7,
-            "geoRedundantBackup": "Enabled"
+        "value": [
+          {
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver",
+            "name": "testserver",
+            "type": "Microsoft.DBforMySQL/servers",
+            "location": "northeurope",
+            "tags": {
+              "elasticServer": "1"
+            },
+            "sku": {
+              "name": "GP_Gen4_2",
+              "tier": "GeneralPurpose",
+              "family": "Gen4",
+              "capacity": 2
+            },
+            "properties": {
+              "storageProfile": {
+                "storageMB": 256000,
+                "backupRetentionDays": 35,
+                "geoRedundantBackup": "Enabled"
+              },
+              "administratorLogin": "cloudsa",
+              "sslEnforcement": "Enabled",
+              "userVisibleState": "Ready",
+              "fullyQualifiedDomainName": "testserver.mysql.database.azure.com",
+              "version": "5.6",
+              "earliestRestoreDate": "2018-06-11T23:56:54.3+00:00",
+              "replicationRole": "Replica",
+              "masterServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testmaster",
+              "replicaCapacity": 0
+            }
           },
-          "version": "5.7",
-          "sslEnforcement": "Enabled",
-          "userVisibleState": "Ready",
-          "fullyQualifiedDomainName": "mysqltestsvc4.mysql.database.azure.com",
-          "earliestRestoreDate": "2018-03-14T18:02:41.577+00:00",
-          "replicationRole": "None",
-          "masterServerId": "",
-          "replicaCapacity": 5
-        },
-        "location": "westus",
-        "tags": {
-          "ElasticServer": "1"
-        },
-        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/servers/mysqltestsvc4",
-        "name": "mysqltestsvc4",
-        "type": "Microsoft.DBforMySQL/servers"
+          {
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver1",
+            "name": "testserver1",
+            "type": "Microsoft.DBforMySQL/servers",
+            "location": "northeurope",
+            "tags": {
+              "elasticServer": "1"
+            },
+            "sku": {
+              "name": "GP_Gen4_2",
+              "tier": "GeneralPurpose",
+              "family": "Gen4",
+              "capacity": 2
+            },
+            "properties": {
+              "storageProfile": {
+                "storageMB": 256000,
+                "backupRetentionDays": 35,
+                "geoRedundantBackup": "Enabled"
+              },
+              "administratorLogin": "cloudsa",
+              "sslEnforcement": "Enabled",
+              "userVisibleState": "Ready",
+              "fullyQualifiedDomainName": "testserver1.mysql.database.azure.com",
+              "version": "5.6",
+              "earliestRestoreDate": "2018-06-11T23:56:54.3+00:00",
+              "replicationRole": "Replica",
+              "masterServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testmaster",
+              "replicaCapacity": 0
+            }
+          },
+          {
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testserver2",
+            "name": "testserver2",
+            "type": "Microsoft.DBforMySQL/servers",
+            "location": "northeurope",
+            "tags": {
+              "elasticServer": "1"
+            },
+            "sku": {
+              "name": "GP_Gen4_2",
+              "tier": "GeneralPurpose",
+              "family": "Gen4",
+              "capacity": 2
+            },
+            "properties": {
+              "storageProfile": {
+                "storageMB": 256000,
+                "backupRetentionDays": 35,
+                "geoRedundantBackup": "Enabled"
+              },
+              "administratorLogin": "cloudsa",
+              "sslEnforcement": "Enabled",
+              "userVisibleState": "Ready",
+              "fullyQualifiedDomainName": "testserver2.mysql.database.azure.com",
+              "version": "5.6",
+              "earliestRestoreDate": "2018-06-11T23:56:54.3+00:00",
+              "replicationRole": "Replica",
+              "masterServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/servers/testmaster",
+              "replicaCapacity": 0
+            }
+          }
+        ]
       }
 security:
 - type: oauth2
