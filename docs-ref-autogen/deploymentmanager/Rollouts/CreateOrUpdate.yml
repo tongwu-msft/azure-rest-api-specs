@@ -66,19 +66,19 @@ requestBody:
     - uid: string
   - name: properties.artifactSourceId
     in: body
-    description: The reference to the ARM resource Id where the payload is located.
+    description: The reference to the artifact source resource Id where the payload is located.
     types:
     - uid: string
   - name: properties.targetServiceTopologyId
     in: body
     isRequired: true
-    description: The reference to the resource Id of the service topology from which services are chosen to be deployed.
+    description: The resource Id of the service topology from which service units are being referenced in step groups to be deployed.
     types:
     - uid: string
   - name: properties.stepGroups
     in: body
     isRequired: true
-    description: The list of steps that define the orchestration.
+    description: The list of step groups that define the orchestration.
     types:
     - uid: Step
       isArray: true
@@ -117,30 +117,30 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: The name of the step.
+    description: The name of the step group.
     types:
     - uid: string
-  - name: dependsOnStepGroup
-    description: The list of step names on which this step depends.
+  - name: dependsOnStepGroups
+    description: The list of step group names on which this step group depends on.
     types:
     - uid: string
       isArray: true
   - name: preDeploymentSteps
-    description: The list of step names to be run before deploying the target.
+    description: The list of steps to be run before deploying the target.
     types:
     - uid: PrePostStep
       isArray: true
   - name: deploymentTargetId
-    description: The reference to the ARM service unit resource to be deployed.
+    description: The resource Id of service unit to be deployed. The service unit should be from the service topology referenced in targetServiceTopologyId
     types:
     - uid: string
   - name: postDeploymentSteps
-    description: The list of step names to be run after deploying the target.
+    description: The list of steps to be run after deploying the target.
     types:
     - uid: PrePostStep
       isArray: true
 - name: RolloutRequest
-  description: Defines the resource format for creating a rollout.
+  description: Defines the PUT rollout request body.
   kind: object
   properties:
   - name: identity
@@ -152,15 +152,15 @@ definitions:
     types:
     - uid: string
   - name: properties.artifactSourceId
-    description: The reference to the ARM resource Id where the payload is located.
+    description: The reference to the artifact source resource Id where the payload is located.
     types:
     - uid: string
   - name: properties.targetServiceTopologyId
-    description: The reference to the resource Id of the service topology from which services are chosen to be deployed.
+    description: The resource Id of the service topology from which service units are being referenced in step groups to be deployed.
     types:
     - uid: string
   - name: properties.stepGroups
-    description: The list of steps that define the orchestration.
+    description: The list of step groups that define the orchestration.
     types:
     - uid: Step
       isArray: true
@@ -204,7 +204,7 @@ definitions:
   kind: object
   properties:
   - name: stepId
-    description: The reference to the ARM resource Id of a step.
+    description: The resource Id of the step to be run.
     types:
     - uid: string
 - name: CloudErrorBody
@@ -283,7 +283,7 @@ examples:
                   "stepId": "Microsoft.DeploymentManager/steps/postDeployStep5"
                 }
               ],
-              "dependsOnStepGroup": [
+              "dependsOnStepGroups": [
                 "FirstRegion"
               ]
             }
@@ -342,7 +342,7 @@ examples:
                   "stepId": "Microsoft.DeploymentManager/steps/postDeployStep5"
                 }
               ],
-              "dependsOnStepGroup": [
+              "dependsOnStepGroups": [
                 "FirstRegion"
               ]
             }
