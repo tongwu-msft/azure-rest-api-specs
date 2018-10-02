@@ -28,14 +28,14 @@ translation.priority.mt:
 ---
 # Update Index (Azure Search Service REST API)
 
-Modifying an existing Azure Search index typically requires an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex), with the exception of the folowing schema changes:
+Modifying an existing Azure Search index typically requires an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex), with the exception of the following schema changes:
 
 + Add new fields
 + [Add or change scoring profiles](add-scoring-profiles-to-a-search-index.md) 
 + Change CORS options
-+ Change existing fields with any of these 3 modifications: show or hide fields (retrievable: true | false), change the analyzer used at query time (searchAnalyzer), add or edit the synonymMap used at query time (synonymMaps) 
++ Change existing fields with any of these modifications: show or hide fields (retrievable: true | false), change the analyzer used at query time (searchAnalyzer), add or edit the synonymMap used at query time (synonymMaps) 
 
-To make any of these schema changes to an existing index, specify the name of the on the request URI, and then include the original definition plus the additions or modifications.
+To make any of these schema changes to an existing index, specify the name of the index on the request URI, and then include the original definition plus the additions or modifications.
 
 ```  
 PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]  
@@ -65,7 +65,7 @@ Note that this operation takes your index offline for at least a few seconds, ca
 ## Request  
  HTTPS is required for all service requests. The **Update Index** request is constructed using HTTP PUT. With PUT, the index name is part of the URL. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.  
 
- The index name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
+ The index name must be lower case, start with a letter or number, have no slashes or dots, and be fewerthan 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
 
  The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
