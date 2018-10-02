@@ -30,13 +30,13 @@ translation.priority.mt:
 
 Modifying an existing Azure Search index typically requires an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex), with the exception of the following schema changes:
 
-1. Add new fields
-2. [Add or change scoring profiles](add-scoring-profiles-to-a-search-index.md) 
-3. Change CORS options
-4. Change existing fields with any of these modifications: 
-  + Show or hide fields (`retrievable`: true | false)
-  + Change the analyzer used at query time (`searchAnalyzer`)
-  + Add or edit the synonymMap used at query time (`synonymMaps`) 
++  Add new fields
++  [Add or change scoring profiles](add-scoring-profiles-to-a-search-index.md) 
++  Change CORS options
++  Change existing fields with any of the following three modifications: 
+  1. Show or hide fields (`retrievable`: true | false)
+  2. Change the analyzer used at query time (`searchAnalyzer`)
+  3. Add or edit the synonymMap used at query time (`synonymMaps`) 
 
 To make any of these schema changes to an existing index, specify the name of the index on the request URI, and then include a fully-specified index definition with the new or changed elements.
 
