@@ -30,12 +30,15 @@ translation.priority.mt:
 
 Modifying an existing Azure Search index typically requires an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex), with the exception of the following schema changes:
 
-+ Add new fields
-+ [Add or change scoring profiles](add-scoring-profiles-to-a-search-index.md) 
-+ Change CORS options
-+ Change existing fields with any of these modifications: show or hide fields (retrievable: true | false), change the analyzer used at query time (searchAnalyzer), add or edit the synonymMap used at query time (synonymMaps) 
+1. Add new fields
+2. [Add or change scoring profiles](add-scoring-profiles-to-a-search-index.md) 
+3. Change CORS options
+4. Change existing fields with any of these modifications: 
+  + Show or hide fields (`retrievable`: true | false)
+  + Change the analyzer used at query time (`searchAnalyzer`)
+  + Add or edit the synonymMap used at query time (`synonymMaps`) 
 
-To make any of these schema changes to an existing index, specify the name of the index on the request URI, and then include the original definition plus the additions or modifications.
+To make any of these schema changes to an existing index, specify the name of the index on the request URI, and then include a fully-specified index definition with the new or changed elements.
 
 ```  
 PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]  
@@ -45,14 +48,10 @@ api-key: [admin key]
 ```  
 
 > [!Note]  
->  Restated, the field attributes that can be changed without the need to re-create the index include:
-> 
->  - `retrievable`
->  - `searchAnalyzer`
->  - `synonymMaps`
+>  Field attributes that can be changed without the need to re-create the index include: `retrievable`, `searchAnalyzer`, `synonymMaps`.
 >  
 
-Although existing fields cannot be deleted and most attributes cannot be changed, new fields can be added to an existing index at any time. When a new field is added, all existing documents in the index are assigned a null value for that field. No additional storage space is consumed until [new documents are added](addupdate-or-delete-documents.md) to the index, providing actual values for the new field.
+Although existing fields cannot be deleted and most attributes cannot be changed, new fields can be added to an existing index at any time. When a new field is added, all existing documents in the index are assigned a null value for that field. No additional storage space is consumed until a valued is provided for the new field for existing documents ([using merge](addupdate-or-delete-documents.md)). 
 
 If you use a [suggester](suggesters.md) and are adding new fields, we recommend adding new fields to both the index and suggester at the same time. Waiting until later forfeits the opportunity to update the suggester without a rebuild. Because suggester capability is built into a field definition, adding or removing *existing* fields is a rebuild-inducing change.
 
@@ -65,7 +64,7 @@ Note that this operation takes your index offline for at least a few seconds, ca
 ## Request  
  HTTPS is required for all service requests. The **Update Index** request is constructed using HTTP PUT. With PUT, the index name is part of the URL. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.  
 
- The index name must be lower case, start with a letter or number, have no slashes or dots, and be fewerthan 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
+ The index name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
 
  The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
