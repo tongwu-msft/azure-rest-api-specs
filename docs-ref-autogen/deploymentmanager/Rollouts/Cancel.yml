@@ -4,7 +4,7 @@ name: Cancel
 service: Deployment Manager
 groupName: Rollouts
 apiVersion: 2018-09-01-preview
-summary: "Stops a running rollout.  \nA rollout can be canceled only if it is in running state."
+summary: "Stops a running rollout.  \nOnly running rollouts can be canceled."
 consumes:
 - application/json
 produces:
@@ -49,7 +49,7 @@ responses:
 requestHeader: []
 definitions:
 - name: Rollout
-  description: Defines the rollout resource.
+  description: Defines the rollout.
   kind: object
   properties:
   - name: identity
@@ -88,15 +88,15 @@ definitions:
     types:
     - uid: string
   - name: properties.artifactSourceId
-    description: The reference to the ARM resource Id where the payload is located.
+    description: The reference to the artifact source resource Id where the payload is located.
     types:
     - uid: string
   - name: properties.targetServiceTopologyId
-    description: The reference to the resource Id of the service topology from which services are chosen to be deployed.
+    description: The resource Id of the service topology from which service units are being referenced in step groups to be deployed.
     types:
     - uid: string
   - name: properties.stepGroups
-    description: The list of steps that define the orchestration.
+    description: The list of step groups that define the orchestration.
     types:
     - uid: Step
       isArray: true
@@ -117,7 +117,7 @@ definitions:
     - uid: RolloutOperationInfo
   - name: properties.services
     isReadyOnly: true
-    description: Set of detailed step result information on target resource groups.
+    description: The detailed information on the services being deployed.
     types:
     - uid: Service
       isArray: true
@@ -147,25 +147,25 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: The name of the step.
+    description: The name of the step group.
     types:
     - uid: string
-  - name: dependsOnStepGroup
-    description: The list of step names on which this step depends.
+  - name: dependsOnStepGroups
+    description: The list of step group names on which this step group depends on.
     types:
     - uid: string
       isArray: true
   - name: preDeploymentSteps
-    description: The list of step names to be run before deploying the target.
+    description: The list of steps to be run before deploying the target.
     types:
     - uid: PrePostStep
       isArray: true
   - name: deploymentTargetId
-    description: The reference to the ARM service unit resource to be deployed.
+    description: The resource Id of service unit to be deployed. The service unit should be from the service topology referenced in targetServiceTopologyId
     types:
     - uid: string
   - name: postDeploymentSteps
-    description: The list of step names to be run after deploying the target.
+    description: The list of steps to be run after deploying the target.
     types:
     - uid: PrePostStep
       isArray: true
@@ -175,12 +175,12 @@ definitions:
   properties:
   - name: retryAttempt
     isReadyOnly: true
-    description: The ordinal count of retry attempt. 0 if no retries of the rollout have been performed.
+    description: The ordinal count of the number of retry attempts on a rollout. 0 if no retries of the rollout have been performed. If the rollout is updated with a PUT, this count is reset to 0.
     types:
     - uid: integer
   - name: skipSucceededOnRetry
     isReadyOnly: true
-    description: True if skipping all successful steps in the given retry attempt was chosen. False otherwise.
+    description: True, if all steps that succeeded on the previous run/attempt were chosen to be skipped in this retry attempt. False, otherwise.
     types:
     - uid: boolean
   - name: startTime
@@ -212,11 +212,11 @@ definitions:
     - uid: ServiceUnit
       isArray: true
   - name: targetLocation
-    description: The Azure location to which the resources in the service belong to.
+    description: The Azure location to which the resources in the service belong to or should be deployed to.
     types:
     - uid: string
   - name: targetSubscriptionId
-    description: The subscription to which the resources in the service belong to.
+    description: The subscription to which the resources in the service belong to or should be deployed to.
     types:
     - uid: string
 - name: CloudErrorBody
@@ -247,7 +247,7 @@ definitions:
   kind: object
   properties:
   - name: stepId
-    description: The reference to the ARM resource Id of a step.
+    description: The resource Id of the step to be run.
     types:
     - uid: string
 - name: ServiceUnit
@@ -264,7 +264,7 @@ definitions:
     - uid: RolloutStep
       isArray: true
   - name: targetResourceGroup
-    description: The Azure Resource Group to which the resources in the service unit belong to.
+    description: The Azure Resource Group to which the resources in the service unit belong to or should be deployed to.
     types:
     - uid: string
   - name: deploymentMode
@@ -280,7 +280,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: Name of the step as specified in the rollout specification input artifact.
+    description: Name of the step.
     types:
     - uid: string
   - name: status
@@ -299,7 +299,7 @@ definitions:
     - uid: StepOperationInfo
   - name: resourceOperations
     isReadyOnly: true
-    description: Set of resource operations that were performed on the Azure resource that the action acted upon.
+    description: Set of resource operations that were performed, if any, on an Azure resource.
     types:
     - uid: ResourceOperation
       isArray: true
@@ -340,12 +340,12 @@ definitions:
     types:
     - uid: string
 - name: StepOperationInfo
-  description: Detailed information of specific step execution.
+  description: Detailed information of a specific step run.
   kind: object
   properties:
   - name: deploymentName
     isReadyOnly: true
-    description: The name of the Azure Resource Manager deployment initiated as part of the step.
+    description: The name of the ARM deployment initiated as part of the step.
     types:
     - uid: string
   - name: correlationId
@@ -480,7 +480,7 @@ examples:
                   "stepId": "Microsoft.DeploymentManager/steps/postDeployStep5"
                 }
               ],
-              "dependsOnStepGroup": [
+              "dependsOnStepGroups": [
                 "FirstRegion"
               ]
             }
