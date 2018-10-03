@@ -51,11 +51,11 @@ api-key: [admin key]
 >  Field attributes that can be changed without the need to re-create the index include: `retrievable`, `searchAnalyzer`, `synonymMaps`.
 >  
 
-Although existing fields cannot be deleted and most attributes cannot be changed, new fields can be added to an existing index at any time. When a new field is added, all existing documents in the index are assigned a null value for that field. No additional storage space is consumed until a valued is provided for the new field for existing documents ([using merge](addupdate-or-delete-documents.md)). 
+Although existing fields cannot be deleted and most attributes cannot be changed, new fields can be added to an existing index at any time. The same applies to a [`suggester`](suggesters.md). New fields may be added to a `suggester` at the same time fields are added, but existing fields cannot be removed from, nor added to, `suggesters` without an index rebuild.
 
-If you use a [suggester](suggesters.md) and are adding new fields, we recommend adding new fields to both the index and suggester at the same time. Waiting until later forfeits the opportunity to update the suggester without a rebuild. Because suggester capability is built into a field definition, adding or removing *existing* fields is a rebuild-inducing change.
+When a new field is added, all existing documents in the index will automatically have a null value for that field. No additional storage space is consumed until a valued is provided for the new field for existing documents ([using merge](addupdate-or-delete-documents.md)).
 
-Likewise, once an analyzer, a tokenizer, a token filter or a char filter is defined, it cannot be modified. New ones can be added to an existing index only if the `allowIndexDowntime` flag is set to true in the index update request:
+Once an analyzer, a tokenizer, a token filter or a char filter is defined, it cannot be modified. New ones can be added to an existing index only if the `allowIndexDowntime` flag is set to true in the index update request:
 
 `PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]&allowIndexDowntime=true`
 
