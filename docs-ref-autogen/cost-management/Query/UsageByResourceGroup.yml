@@ -103,6 +103,11 @@ definitions:
     types:
     - uid: ReportConfigGrouping
       isArray: true
+  - name: sorting
+    description: Array of order by expression to use in the report.
+    types:
+    - uid: ReportConfigSorting
+      isArray: true
   - name: filter
     description: Has filter expression to use in the report.
     types:
@@ -177,12 +182,26 @@ definitions:
   description: The group by expression to be used in the report.
   kind: object
   properties:
-  - name: columnType
+  - name: type
     description: Has type of the column to group.
     types:
     - uid: ReportConfigColumnType
   - name: name
     description: The name of the column to group.
+    types:
+    - uid: string
+- name: ReportConfigSorting
+  description: The order by expression to be used in the report.
+  kind: object
+  properties:
+  - name: direction
+    description: Direction of sort.
+    types:
+    - uid: Ascending
+    - uid: Descending
+    typesTitle: enum
+  - name: name
+    description: The name of the column to sort.
     types:
     - uid: string
 - name: ReportConfigFilter
@@ -354,13 +373,6 @@ examples:
         "timeframe": "MonthToDate",
         "dataset": {
           "granularity": "Daily",
-          "configuration": {
-            "columns": [
-              "PreTaxCost",
-              "ResourceGroup",
-              "UsageDate"
-            ]
-          },
           "filter": {
             "and": [
               {
@@ -439,6 +451,82 @@ examples:
                 [
                   20.103333070596609,
                   "ScreenSharingTest-peer",
+                  20180418,
+                  "USD"
+                ]
+              ]
+            }
+          }
+        ]
+      }
+- name: ResourceGroupQueryGrouping
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ScreenSharingTest-peer/providers/Microsoft.CostManagement/Query?api-version=2018-08-31
+    body: >-
+      {
+        "type": "Usage",
+        "timeframe": "TheLastMonth",
+        "dataset": {
+          "granularity": "Daily",
+          "aggregation": {
+            "totalCost": {
+              "name": "PreTaxCost",
+              "function": "Sum"
+            }
+          },
+          "grouping": [
+            {
+              "type": "Dimension",
+              "name": "ResourceType"
+            }
+          ],
+          "sorting": [
+            {
+              "name": "ResourceType",
+              "direction": "Descending"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ScreenSharingTest-peer/providers/Microsoft.CostManagement/Query/9af9459d-441d-4055-9ed0-83d4c4a363fb",
+            "name": "9af9459d-441d-4055-9ed0-83d4c4a363fb",
+            "type": "microsoft.costmanagement/Query",
+            "properties": {
+              "nextLink": null,
+              "columns": [
+                {
+                  "name": "PreTaxCost",
+                  "type": "Number"
+                },
+                {
+                  "name": "ResourceType",
+                  "type": "String"
+                },
+                {
+                  "name": "UsageDate",
+                  "type": "Number"
+                },
+                {
+                  "name": "Currency",
+                  "type": "String"
+                }
+              ],
+              "rows": [
+                [
+                  2.10333307059661,
+                  "Microsoft.SqlServer",
+                  20180417,
+                  "USD"
+                ],
+                [
+                  20.103333070596609,
+                  "Microsoft.Compute",
                   20180418,
                   "USD"
                 ]
