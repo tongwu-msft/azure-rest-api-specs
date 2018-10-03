@@ -1,7 +1,7 @@
 ---
 title: "Update Index (Azure Search Service REST API) | Microsoft Docs"
 ms.custom: ""
-ms.date: "09/24/2018"
+ms.date: "10/02/2018"
 services: search
 ms.service: search
 ms.suite: ""
@@ -27,7 +27,18 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Update Index (Azure Search Service REST API)
-  You can update an existing index within Azure Search to change its schema, including adding new fields, changing certain field attributes, modifying CORS options, and adding or changing scoring profiles (see [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md) for more information). You can specify the name of the index to update on the request URI.  
+
+Modifying an existing Azure Search index typically requires an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex), with the exception of the following schema changes:
+
++  Add new fields
++  [Add or change scoring profiles](add-scoring-profiles-to-a-search-index.md) 
++  Change CORS options
++  Change existing fields with any of the following three modifications: 
+  1. Show or hide fields (`retrievable`: true | false)
+  2. Change the analyzer used at query time (`searchAnalyzer`)
+  3. Add or edit the synonymMap used at query time (`synonymMaps`) 
+
+To make any of these schema changes to an existing index, specify the name of the index on the request URI, and then include a fully-specified index definition with the new or changed elements.
 
 ```  
 PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]  
@@ -36,30 +47,24 @@ api-key: [admin key]
 
 ```  
 
-> [!IMPORTANT]  
->  Currently, there is limited support for index schema updates. Any schema updates that would require re-indexing such as changing field types or most other attributes are not currently supported.
->  
-> The field attributes that can be changed without the need to re-create the index include:
-> 
->  - `retrievable`
->  - `searchAnalyzer`
->  - `synonymMaps`
+> [!Note]  
+>  Field attributes that can be changed without the need to re-create the index include: `retrievable`, `searchAnalyzer`, `synonymMaps`.
 >  
 
-Although existing fields cannot be deleted and most attributes cannot be changed, new fields can be added to an existing index at any time. The same applies to `suggesters`. New fields may be added to a suggester at the time the fields are added, but fields cannot be removed from `suggesters` and existing fields cannot be added to `suggesters`.
+Although existing fields cannot be deleted and most attributes cannot be changed, new fields can be added to an existing index at any time. The same applies to a [`suggester`](suggesters.md). New fields may be added to a `suggester` at the same time fields are added, but existing fields cannot be removed from nor added to `suggesters` without an index rebuild.
 
-When a new field is added, all existing documents in the index will automatically have a null value for that field. No additional storage space will be consumed until new documents are added to the index.
+When a new field is added, all existing documents in the index automatically have a null value for that field. No additional storage space is consumed until one of two things occur: a value is provided for the new field ([using merge](addupdate-or-delete-documents.md)), or new documents are added.
 
 Once an analyzer, a tokenizer, a token filter or a char filter is defined, it cannot be modified. New ones can be added to an existing index only if the `allowIndexDowntime` flag is set to true in the index update request:
 
 `PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]&allowIndexDowntime=true`
 
-Note that this operation will put your index offline for at least a few seconds, causing your indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for very large indexes.
+Note that this operation takes your index offline for at least a few seconds, causing your indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for very large indexes.
 
 ## Request  
  HTTPS is required for all service requests. The **Update Index** request is constructed using HTTP PUT. With PUT, the index name is part of the URL. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.  
 
- The index name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
+ The index name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. After starting the index name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  
 
  The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
