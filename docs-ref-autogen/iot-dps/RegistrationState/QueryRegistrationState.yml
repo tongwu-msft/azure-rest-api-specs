@@ -1,15 +1,15 @@
 ### YamlMime:RESTOperation
-uid: localhost.iot-dps.registrationstate.queryregistrationstate
+uid: your-dps.azure-devices-provisioning.net.iot-dps.registrationstate.queryregistrationstate
 name: Query Registration State
 service: IoT Hub Device Provisioning Service
 groupName: Registration State
-apiVersion: 2018-04-01
+apiVersion: 2018-09-01-preview
 summary: Gets the registration state of devices in this enrollmentGroup.
 consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://localhost/registrations/{id}/query?api-version=2018-04-01
+- content: POST https://your-dps.azure-devices-provisioning.net/registrations/{id}/query?api-version=2018-09-01-preview
 uriParameters:
 - name: id
   in: path
@@ -20,20 +20,10 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: 'The API version to use for the request. Supported versions include: 2018-04-01'
+  description: 'The API version to use for the request. Supported versions include: 2018-09-01-preview'
   types:
   - uid: string
 responses:
-- name: 400 Bad Request
-  description: The body of the request is not valid; for example, it cannot be parsed, or the object cannot be validated.
-- name: 401 Unauthorized
-  description: The authorization token cannot be validated; for example, it is expired or does not apply to the request’s URI. This error code is also returned to devices as part of the TPM attestation flow.
-- name: 404 Not Found
-  description: The Device Provisioning Service instance, or a resource (e.g. an enrollment) does not exist.
-- name: Other Status Codes
-  description: Operations are being throttled by the service. For specific service limits, see IoT Hub Device Provisioning Service limits.
-- name: 500 Internal Server Error
-  description: An internal error occurred.
 - name: 200 OK
   description: Success
   types:
@@ -50,22 +40,27 @@ definitions:
   kind: object
   properties:
   - name: registrationId
-    description: Registration ID.
+    isReadyOnly: true
+    description: The registration ID is alphanumeric, lowercase, and may contain hyphens.
     types:
     - uid: string
   - name: createdDateTimeUtc
+    isReadyOnly: true
     description: Registration create date time (in UTC).
     types:
     - uid: string
   - name: assignedHub
+    isReadyOnly: true
     description: Assigned Azure IoT Hub.
     types:
     - uid: string
   - name: deviceId
+    isReadyOnly: true
     description: Device ID.
     types:
     - uid: string
   - name: status
+    isReadyOnly: true
     description: Enrollment status.
     types:
     - uid: unassigned
@@ -74,19 +69,31 @@ definitions:
     - uid: failed
     - uid: disabled
     typesTitle: enum
+  - name: substatus
+    isReadyOnly: true
+    description: "Substatus for 'Assigned' devices. Possible values include - 'initialAssignment': Device has been assigned to an IoT hub for the first time, 'deviceDataMigrated': Device has been assigned to a different IoT hub and its device data was migrated from the previously assigned IoT hub. Device data was removed from the previously assigned IoT hub, 'deviceDataReset':  Device has been assigned to a different IoT hub and its device data was populated from the initial state stored in the enrollment. Device data was removed from the previously assigned IoT hub."
+    types:
+    - uid: initialAssignment
+    - uid: deviceDataMigrated
+    - uid: deviceDataReset
+    typesTitle: enum
   - name: errorCode
+    isReadyOnly: true
     description: Error code.
     types:
     - uid: integer
   - name: errorMessage
+    isReadyOnly: true
     description: Error message.
     types:
     - uid: string
   - name: lastUpdatedDateTimeUtc
+    isReadyOnly: true
     description: Last updated date time (in UTC).
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: The entity tag associated with the resource.
     types:
     - uid: string

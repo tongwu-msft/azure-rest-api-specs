@@ -70,8 +70,7 @@ requestBody:
     - uid: Source
   - name: properties.schedule
     in: body
-    isRequired: true
-    description: Schedule (Frequnecy, Time Window) for rule.
+    description: Schedule (Frequnecy, Time Window) for rule. Required for action type - AlertingAction
     types:
     - uid: Schedule
   - name: properties.action
@@ -80,6 +79,7 @@ requestBody:
     description: Action needs to be taken on rule execution.
     types:
     - uid: AlertingAction
+    - uid: LogToMetricAction
     typesTitle: Action
   - name: location
     in: body
@@ -103,7 +103,7 @@ definitions:
   kind: object
   properties:
   - name: query
-    description: Log search query.
+    description: Log search query. Required for action type - AlertingAction
     types:
     - uid: string
   - name: authorizedResources
@@ -170,13 +170,14 @@ definitions:
     types:
     - uid: Source
   - name: properties.schedule
-    description: Schedule (Frequnecy, Time Window) for rule.
+    description: Schedule (Frequnecy, Time Window) for rule. Required for action type - AlertingAction
     types:
     - uid: Schedule
   - name: properties.action
     description: Action needs to be taken on rule execution.
     types:
     - uid: AlertingAction
+    - uid: LogToMetricAction
     typesTitle: Action
   - name: id
     isReadyOnly: true
@@ -233,9 +234,22 @@ definitions:
     types:
     - uid: TriggerCondition
   - name: odata.type
-    description: 'Specifies the action. Only supported value - AlertingAction '
+    description: Specifies the action. Supported values - AlertingAction, LogToMetricAction
     types:
     - uid: Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction
+    typesTitle: string
+- name: LogToMetricAction
+  description: Specifiy action need to be taken when rule type is converting log to metric
+  kind: object
+  properties:
+  - name: criteria
+    description: Severity of the alert
+    types:
+    - uid: Criteria
+  - name: odata.type
+    description: Specifies the action. Supported values - AlertingAction, LogToMetricAction
+    types:
+    - uid: Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction
     typesTitle: string
 - name: enabled
   description: The flag which indicates whether the Log Search rule is enabled. Value should be true or false
@@ -315,6 +329,19 @@ definitions:
     description: Trigger condition for metric query rule
     types:
     - uid: LogMetricTrigger
+- name: Criteria
+  description: Specifies the criteria for converting log to metric.
+  kind: object
+  properties:
+  - name: metricName
+    description: Name of the metric
+    types:
+    - uid: string
+  - name: dimensions
+    description: List of Dimensions for creating metric
+    types:
+    - uid: Dimension
+      isArray: true
 - name: ConditionalOperator
   description: Result Condition Evaluation criteria. Supported Values - 'GreaterThan' or 'LessThan' or 'Equal'.
   kind: enum
@@ -348,6 +375,23 @@ definitions:
     description: Evaluation of metric on a particular column
     types:
     - uid: string
+- name: Dimension
+  description: Specifies the criteria for converting log to metric.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the dimension
+    types:
+    - uid: string
+  - name: operator
+    description: Operator for dimension values
+    types:
+    - uid: operator
+  - name: values
+    description: List of dimension values
+    types:
+    - uid: string
+      isArray: true
 - name: metricTriggerType
   description: Metric Trigger Type - 'Consecutive' or 'Total'
   kind: enum
@@ -358,8 +402,15 @@ definitions:
   - name: Total
     types:
     - uid: string
+- name: operator
+  description: Operator for dimension values
+  kind: enum
+  properties:
+  - name: Include
+    types:
+    - uid: string
 examples:
-- name: Create or Update rule
+- name: Create or Update rule - AletringAction
   request:
     uri: PUT https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/Rac46PostSwapRG/providers/microsoft.insights/scheduledQueryRules/logalertfoo?api-version=2018-04-16
     body: >-
@@ -485,6 +536,96 @@ examples:
               "emailSubject": "Email Header",
               "customWebhookPayload": "{}"
             }
+          }
+        }
+      }
+- name: Create or Update rule - LogToMetricAction
+  request:
+    uri: PUT https://management.azure.com/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourcegroups/alertsweu/providers/microsoft.insights/scheduledQueryRules/logtometricfoo?api-version=2018-04-16
+    body: >-
+      {
+        "location": "West Europe",
+        "tags": {
+          "hidden-link:/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/Microsoft.OperationalInsights/workspaces/alertsweu": "Resource"
+        },
+        "properties": {
+          "description": "log to metric description",
+          "enabled": "true",
+          "source": {
+            "dataSourceId": "/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/Microsoft.OperationalInsights/workspaces/alertsweu"
+          },
+          "action": {
+            "criteria": [
+              {
+                "metricName": "Average_% Idle Time",
+                "dimensions": []
+              }
+            ],
+            "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/microsoft.insights/scheduledqueryrules/logtometricfoo",
+        "name": "logtometricfoo",
+        "type": "microsoft.insights/scheduledqueryrules",
+        "location": "westeurope",
+        "tags": {
+          "hidden-link:/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/Microsoft.OperationalInsights/workspaces/alertsweu": "Resource"
+        },
+        "properties": {
+          "description": "log to metric description",
+          "displayName": "logtometricfoo",
+          "enabled": "true",
+          "lastUpdatedTime": "2018-09-04T06:31:56.3737792Z",
+          "provisioningState": "Succeeded",
+          "source": {
+            "query": null,
+            "dataSourceId": "/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/Microsoft.OperationalInsights/workspaces/alertsweu"
+          },
+          "schedule": null,
+          "action": {
+            "criteria": [
+              {
+                "metricName": "Average_% Idle Time",
+                "dimensions": []
+              }
+            ],
+            "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/microsoft.insights/scheduledqueryrules/logtometricfoo",
+        "name": "logtometricfoo",
+        "type": "microsoft.insights/scheduledqueryrules",
+        "location": "westeurope",
+        "tags": {
+          "hidden-link:/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/Microsoft.OperationalInsights/workspaces/alertsweu": "Resource"
+        },
+        "properties": {
+          "description": "log to metric description",
+          "enabled": "true",
+          "lastUpdatedTime": "2018-09-04T06:27:58.3892575Z",
+          "provisioningState": "Succeeded",
+          "source": {
+            "query": null,
+            "dataSourceId": "/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/Microsoft.OperationalInsights/workspaces/alertsweu"
+          },
+          "schedule": null,
+          "action": {
+            "criteria": [
+              {
+                "metricName": "Average_% Idle Time",
+                "dimensions": []
+              }
+            ],
+            "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction"
           }
         }
       }

@@ -1,13 +1,14 @@
 ---
 title: Glossary term - Azure Data Catalog REST API
 description: Create and manage a glossary term using the Azure Data Catalog REST API.
-ms.date: 11/09/2017
-author: steelanddata
-ms.author: maroche
+author: markingmyname
+ms.author: maghan
 ms.reviewer: jasonwhowell
 ms.service: data-catalog
 ms.topic: reference
+ms.date: 11/09/2017
 ---
+
 # Glossary (Azure Data Catalog REST API)
 
 ## Create

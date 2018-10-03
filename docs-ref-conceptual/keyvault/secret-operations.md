@@ -2,8 +2,8 @@
 ms.assetid: cef1870f-eaea-418e-a730-22ba444825ba
 title: Azure Key Vault secret operations | Microsoft Docs
 ms.service: key-vault
-author: BrucePerlerMS
-ms.author: bruceper
+author: bryanla
+ms.author: bryanla
 manager: mbaldwin
 ms.date: 06/14/2017
 ---

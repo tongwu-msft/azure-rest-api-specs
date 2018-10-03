@@ -2,8 +2,8 @@
 ms.assetid: 45dc6cfc-8ce9-4728-b2a2-66c9cbda3a3d
 title: Azure Key Vault key operations | Microsoft Docs
 ms.service: key-vault
-author: BrucePerlerMS
-ms.author: bruceper
+author: bryanla
+ms.author: bryanla
 manager: mbaldwin
 ms.date: 06/14/2017
 ---

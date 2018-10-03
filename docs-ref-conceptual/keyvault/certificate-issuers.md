@@ -2,8 +2,8 @@
 ms.assetid: b0ffde8d-f352-4bcd-96e7-c8796d5c74b3
 title: Certifcate issuers | Microsoft Docs
 ms.service: key-vault
-author: BrucePerlerMS
-ms.author: bruceper
+author: bryanla
+ms.author: bryanla
 manager: mbaldwin
 ms.date: 04/28/2017
 ---
