@@ -97,6 +97,11 @@ definitions:
     types:
     - uid: ReportConfigGrouping
       isArray: true
+  - name: sorting
+    description: Array of order by expression to use in the report.
+    types:
+    - uid: ReportConfigSorting
+      isArray: true
   - name: filter
     description: Has filter expression to use in the report.
     types:
@@ -171,12 +176,26 @@ definitions:
   description: The group by expression to be used in the report.
   kind: object
   properties:
-  - name: columnType
+  - name: type
     description: Has type of the column to group.
     types:
     - uid: ReportConfigColumnType
   - name: name
     description: The name of the column to group.
+    types:
+    - uid: string
+- name: ReportConfigSorting
+  description: The order by expression to be used in the report.
+  kind: object
+  properties:
+  - name: direction
+    description: Direction of sort.
+    types:
+    - uid: Ascending
+    - uid: Descending
+    typesTitle: enum
+  - name: name
+    description: The name of the column to sort.
     types:
     - uid: string
 - name: ReportConfigFilter
@@ -339,7 +358,7 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ManagmentGroupQuery
+- name: ManagementGroupQuery
   request:
     uri: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/MyMgId/providers/Microsoft.CostManagement/Query?api-version=2018-08-31
     body: >-
@@ -348,13 +367,6 @@ examples:
         "timeframe": "MonthToDate",
         "dataset": {
           "granularity": "Daily",
-          "configuration": {
-            "columns": [
-              "PreTaxCost",
-              "ResourceGroup",
-              "UsageDate"
-            ]
-          },
           "filter": {
             "and": [
               {
@@ -445,6 +457,88 @@ examples:
                 [
                   0.16677720329728665,
                   "gs-stms-dev",
+                  20180331,
+                  "USD"
+                ]
+              ]
+            }
+          }
+        ]
+      }
+- name: ManagementGroupQueryGrouping
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/MyMgId/providers/Microsoft.CostManagement/Query?api-version=2018-08-31
+    body: >-
+      {
+        "type": "Usage",
+        "timeframe": "TheLastMonth",
+        "dataset": {
+          "granularity": "None",
+          "aggregation": {
+            "totalCost": {
+              "name": "PreTaxCost",
+              "function": "Sum"
+            }
+          },
+          "grouping": [
+            {
+              "type": "Dimension",
+              "name": "ResourceGroup"
+            }
+          ],
+          "sorting": [
+            {
+              "name": "ResourceGroup",
+              "direction": "Descending"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "providers/Microsoft.Management/managementGroups/MyMgId/providers/Microsoft.CostManagement/Query/ad67fd91-c131-4bda-9ba9-7187ecb1cebd",
+            "name": "ad67fd91-c131-4bda-9ba9-7187ecb1cebd",
+            "type": "microsoft.costmanagement/Query",
+            "properties": {
+              "nextLink": "https://management.azure.com/providers/Microsoft.Management/managementGroups/MyMgId/providers/Microsoft.CostManagement/Query?api-version=2018-05-31&$skiptoken=AQAAAA%3D%3D",
+              "columns": [
+                {
+                  "name": "PreTaxCost",
+                  "type": "Number"
+                },
+                {
+                  "name": "ResourceGroup",
+                  "type": "String"
+                },
+                {
+                  "name": "UsageDate",
+                  "type": "Number"
+                },
+                {
+                  "name": "Currency",
+                  "type": "String"
+                }
+              ],
+              "rows": [
+                [
+                  20.359416562625452,
+                  "VSTSHOL-1595322048000",
+                  20180331,
+                  "USD"
+                ],
+                [
+                  173.41979241290323,
+                  "RVIIOT-TRIAL",
+                  20180331,
+                  "USD"
+                ],
+                [
+                  19.545363672276512,
+                  "JapanUnifia-Trial",
                   20180331,
                   "USD"
                 ]
