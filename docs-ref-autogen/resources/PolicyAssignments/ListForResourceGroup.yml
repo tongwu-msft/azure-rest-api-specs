@@ -3,15 +3,15 @@ uid: management.azure.com.resources.policyassignments.listforresourcegroup
 name: List For Resource Group
 service: Resource Management
 groupName: Policy Assignments
-apiVersion: 2018-03-01
+apiVersion: 2018-05-01
 summary: "Retrieves all policy assignments that apply to a resource group.  \nThis operation retrieves the list of all policy assignments associated with the given resource group in the given subscription that match the optional given $filter. Valid values for $filter are: 'atScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, the unfiltered list includes all policy assignments associated with the resource group, including those that apply directly or apply from containing scopes, as well as any applied to resources contained within the resource group. If $filter=atScope() is provided, the returned list includes all policy assignments that apply to the resource group, which is everything in the unfiltered list except those applied to resources contained within the resource group. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy assignments that apply to the resource group and assign the policy definition whose id is {value}."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments?api-version=2018-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&api-version=2018-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments?api-version=2018-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&api-version=2018-05-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -101,6 +101,14 @@ definitions:
     description: The policy sku. This property is optional, obsolete, and will be ignored.
     types:
     - uid: PolicySku
+  - name: location
+    description: The location of the policy assignment. Only required when utilizing managed identity.
+    types:
+    - uid: string
+  - name: identity
+    description: The managed identity associated with the policy assignment.
+    types:
+    - uid: Identity
   - name: properties.displayName
     description: The display name of the policy assignment.
     types:
@@ -142,10 +150,38 @@ definitions:
     description: The policy sku tier. Possible values are Free and Standard.
     types:
     - uid: string
+- name: Identity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the resource identity.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: ResourceIdentityType
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
 examples:
 - name: List policy assignments that apply to a resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup/providers/Microsoft.Authorization/policyAssignments?$filter=atScope()&api-version=2018-03-01
+    uri: GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup/providers/Microsoft.Authorization/policyAssignments?$filter=atScope()&api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -155,6 +191,12 @@ examples:
             "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup/providers/Microsoft.Authorization/policyAssignments/TestCostManagement",
             "type": "Microsoft.Authorization/policyAssignments",
             "name": "TestCostManagement",
+            "location": "eastus",
+            "identity": {
+              "type": "SystemAssigned",
+              "principalId": "e6d23f8d-af97-4fbc-bda6-00604e4e3d0a",
+              "tenantId": "4bee2b8a-1bee-47c2-90e9-404241551135"
+            },
             "properties": {
               "displayName": "Storage Cost Management",
               "description": "Minimize the risk of accidental cost overruns",
