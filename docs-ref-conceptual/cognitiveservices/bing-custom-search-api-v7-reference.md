@@ -15,7 +15,7 @@ ms.author: scottwhi
 
 # Custom Search API v7 reference
 
-The Custom Search API lets you send a search query to Bing and get back web pages found in your custom view of the web. This section provides technical details about the response objects and the query parameters and headers that affect the search results. For examples that show how to define your custom view of the web and make requests, see [Define a custom search instance](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/define-your-custom-view). 
+The Custom Search API lets you send a search query to Bing and get back web pages from the slice of Web that your Custom Search instance defines. For information about configuring a Custom Search instance, see [Configure your custom search experience](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/define-your-custom-view). 
   
 For information about headers that requests should include, see [Request Headers](#headers).  
   
@@ -86,9 +86,12 @@ The following are the JSON response objects that the response may include. If th
 |------------|-----------------|  
 |[Error](#error)|Defines an error that occurred.|  
 |[ErrorResponse](#errorresponse)|The top-level object that the response includes when the request fails.|
+|[MetaTag](#metatag)|Defines a webpage's metadata.|  
+|[OpenGraphImage](#opengraphimage)|Defines the location and dimensions of an image relevant to a webpage.|  
 |[Query](#query_obj)|Defines a query string.|  
 |[QueryContext](#querycontext)|Defines the query context that Bing used for the request, if the specified query string contains a spelling error.|  
 |[SearchResponse](#searchresponse)|The top-level object that the response includes when the request succeeds.|
+|[WebAnswer](#webanswer)|Defines a list of relevant webpage links.|  
 |[Webpage](#webpage)|Defines a webpage that is relevant to the query.|  
   
   
@@ -126,11 +129,12 @@ Defines a webpage's metadata.
 <a name="opengraphimage"></a>
 ### OpenGraphImage
 Defines the location and dimensions of an image relevant to a webpage.
+
 |Name|Value|Type|  
 |----------|-----------|----------|  
-|contentUrl|The image location.|String|
-|width|The width of the image. <br />Provided by the source, may be zero (0).| UInt32
-|height|The height of the image. <br />Provided by the source, may be zero (0).|UInt32
+|contentUrl|The image's location.|String|
+|width|The width of the image. May be zero (0).| UInt32
+|height|The height of the image. May be zero (0).|UInt32
 
 <a name="query_obj"></a>   
 ### Query  
@@ -154,7 +158,6 @@ Defines the query string that Bing used for the request if the specified query s
 |<a name="querycontext-originalquery" />originalQuery|The query string as specified in the request.|String|  
 
 
-
 <a name="searchresponse"></a>   
 ### SearchResponse  
 The response's top-level object for search requests.  
@@ -167,6 +170,7 @@ If the service suspects a denial of service attack, the request succeeds (HTTP s
 |<a name="searchresponse-querycontext" />queryContext|The query string that Bing used for the request.<br /><br /> The response includes the context only if the query string contains a spelling mistake or has adult intent.|[QueryContext](#querycontext)|  
 |<a name="search-response-webpages" />webPages|A list of webpages that are relevant to the search query.|[WebAnswer](#webanswer)|  
 
+
 <a name="webanswer"></a>   
 ### WebAnswer  
 Defines a list of relevant webpage links.  
@@ -176,7 +180,8 @@ Defines a list of relevant webpage links.
 |<a name="totalestimatedmatches" />totalEstimatedMatches|The estimated number of webpages that are relevant to the query. Use this number along with the [count](#count) and [offset](#offset) query parameters to page through the results. For information, see [Paging Results](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/page-webpages).|Long|  
 |<a name="webanswer-value" />value|A list of webpages that are relevant to the query.|[WebPage](#webpage)[]|  
 |<a name="webanswer-websearchurl" />webSearchUrl|The URL to the Bing website that contains the search results for the user's query. The results include content that is not limited to your custom view of the web, and may include other types of content such as images and videos. |String|  
-  
+
+
 <a name="webpage"></a>   
 ### Webpage  
 Defines a webpage that is relevant to the query.  

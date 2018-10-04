@@ -7,6 +7,8 @@
 ## [Bing Custom Image Search API v7](bing-custom-images-api-v7-reference.md)
 # Bing Custom Search API
 ## [Bing Custom Search API v7](bing-custom-search-api-v7-reference.md)
+# Bing Custom Video Search API
+## [Bing Custom Video Search API v7](bing-custom-videos-api-v7-reference.md)
 # Bing Entity Search API
 ## [Bing Entity Search API v7](bing-entities-api-v7-reference.md)
 # Bing Image Search API

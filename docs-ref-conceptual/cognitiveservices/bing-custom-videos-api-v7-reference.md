@@ -1,6 +1,6 @@
 ---
-title: Bing Custom Images Search API v7 Reference | Microsoft Docs
-description: Describes the programming elements of the Bing Custom Images Search API.
+title: Bing Custom Videos Search API v7 Reference | Microsoft Docs
+description: Describes the programming elements of the Bing Custom Videos Search API.
 services: cognitive-services
 author: swhite-msft
 manager: ehansen
@@ -8,36 +8,38 @@ manager: ehansen
 ms.service: cognitive-services
 ms.technology: bing-custom-image-search
 ms.topic: article
-ms.date: 04/15/2017
+ms.date: 09/06/2018
 ms.author: scottwhi
 ---
 
-# Custom Image Search API v7 reference
+# Custom Videos Search API v7 reference
 
-The Custom Image Search API lets you send a search query to Bing and get back a list of relevant images from the slice of Web that your Custom Search instance defines. For information about configuring a Custom Search instance, see [Configure your custom search experience](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/define-your-custom-view).
+The Custom Videos Search API lets you send a search query to Bing and get back a list of relevant videos from the slice of Web that your Custom Search instance defines. For information about configuring a Custom Search instance, see [Configure your custom search experience](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/define-your-custom-view).
 
 For information about the headers that requests should include, see [Request Headers](#headers).  
   
 For information about the query parameters that requests should include, see [Query Parameters](#query-parameters).  
   
-For information about the JSON response objects that responses may include, see [Response Objects](#response-objects).  
+For information about the JSON objects that the response may include, see [Response Objects](#response-objects).  
 
 For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/use-and-display-requirements).
 
+ 
   
 ## Endpoints  
 
 To request images from your Custom Search instance, send a GET request to the following URL:
-  
-`https://api.cognitive.microsoft.com/bingcustomsearch/v7.0/images/search`
 
-The request must use the HTTPS protocol.  
+`https://api.cognitive.microsoft.com/bingcustomsearch/v7.0/videos/search`
+
+The request must use the HTTPS protocol.
 
 > [!NOTE]
 > The maximum URL length is 2,048 characters. To ensure that your URL length does not exceed the limit, the maximum length of your query parameters should be less than 1,500 characters. If the URL exceeds 2,048 characters, the server returns 404 Not found.  
-  
+
   
 ## Headers  
+
 The following are the headers that a request and response may include.  
   
 |Header|Description|  
@@ -56,74 +58,67 @@ The following are the headers that a request and response may include.
 > [!NOTE] 
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
   
-   
-## Query parameters 
+  
+## Query parameters
 
-The following are the query parameters that a request may include. See the Required column for required parameters. You must URL encode the query parameter values. For information about query parameters that you use to filter the images that Bing returns, see [Filter Query Parameters](#filter).  
+The following lists the query parameters that a request may include. See the Required column for required parameters. You must URL encode the query parameter values. For information about query parameters used to filter the videos that Bing returns, see [Filter Query Parameters](#filter).  
   
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
-|<a name="cc" />cc|A two-character country code of the country where the results come from. For a list of possible values, see [Market Codes](#market-codes).<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds in the specified languages and combines it with the country code to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request. Or, Bing may use an aggregated or default market for the results.<br /><br /> Use this query parameter and the `Accept-Language` header only if you specify multiple languages. Otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
-|<a name="count" />count|The number of images to return in the response. The actual number delivered may be less than requested. The default is 35. The maximum value is 150.<br /><br /> You use this parameter along with the `offset` parameter to page results. For example, if your user interface displays 20 images per page, set `count` to 20 and `offset` to 0 to get the first page of results. For each subsequent page, increment `offset` by 20 (for example, 0, 20, 40).|UnsignedShort|No|  
+|<a name="cc" />cc|A 2-character country code of the country where the results come from. For a list of possible values, see [Market Codes](#market-codes).<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds in the specified languages and combines it with the country code to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request. Or, Bing may use an aggregated or default market for the results.<br /><br /> Use this query parameter and the `Accept-Language` header only if you specify multiple languages. Otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
+|<a name="count" />count|The number of videos to return in the response. The actual number delivered may be less than requested. The default is 35. The maximum is 105.<br /><br /> You may use this parameter along with the `offset` parameter to page results. For example, if your user interface presents 20 videos per page, set `count` to 20 and `offset` to 0 to get the first page of results. For each subsequent page, increment `offset` by 20 (for example, 0, 20, 40).|UnsignedShort|No|  
 |<a name="customconfig" />customConfig|Unique identifier that identifies your custom search instance.<br /><br />|String|Yes
+|<a name="id" />id|An ID that uniquely identifies a video. The [Video](#video) object's `videoId` field contains the ID that you set this parameter to.<br /><br /> For the /videos/search endpoint, you use this parameter to ensure that the specified video is the first video in the list of videos that Bing returns.<br /><br /> For the /videos/details endpoint, you use this parameter to identify the video to get insights of.|String|No|  
 |<a name="mkt" />mkt|The market where the results come from. Typically, `mkt` is the country where the user is making the request from. However, it could be a different country if the user is not located in a country where Bing delivers results. The market must be in the form \<language code\>-\<country code\>. For example, en-US. The string is case insensitive. For a list of possible market values, see [Market Codes](#market-codes).<br /><br /> **NOTE:** If known, you are encouraged to always specify the market. Specifying the market helps Bing route the request and return an appropriate and optimal response. If you specify a market that is not listed in [Market Codes](#market-codes), Bing uses a best fit market code based on an internal mapping that is subject to change.<br /><br /> This parameter and the [cc](#cc) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
-|<a name="offset" />offset|The zero-based offset that indicates the number of images to skip before returning images. The default is 0. The offset should be less than ([totalEstimatedMatches](#totalestimatedmatches) - `count`).<br /><br /> To page results, use this parameter along with the `count` parameter. For example, if your user interface displays 20 images per page, set `count` to 20 and `offset` to 0 to get the first page of results. For each subsequent page, increment `offset` by 20 (for example, 0, 20, 40).<br /><br /> It is possible for multiple pages to include some overlap in results. To prevent duplicates, see [nextOffset](#nextoffset).|Unsigned Short|No|  
-|<a name="query" />q|The user's search query term. The term cannot be empty.<br /><br />**NOTE:** The query string must not contain [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). Including them may adversely affect the custom search experience.|String|Yes|  
-|<a name="safesearch" />safeSearch|Filter images for adult content. The following are the possible filter values.<br /><ul><li>Off&mdash;Return images with adult content.</li><li>Moderate&mdash;Don't include images with adult content.</li><li>Strict&mdash;Don't include images with adult content.</li></ul><br /> The default is Moderate.<br /><br /> **NOTE:** If the request comes from a market that Bing's adult policy requires that `safeSearch` is set to Strict, Bing ignores the `safeSearch` value and uses Strict.<br/><br/>**NOTE:** If you use the `site:` query operator, there is the chance that the response may contain adult content regardless of what the `safeSearch` query parameter is set to. Use `site:` only if you are aware of the content on the site and your scenario supports the possibility of adult content.|String|No|  
+|<a name="offset" />offset|The zero-based offset that indicates the number of videos to skip before returning videos. The default is 0. The offset should be less than ([totalEstimatedMatches](#videos-totalmatches) - `count`).<br /><br /> Use this parameter along with the `count` parameter to page results. For example, if your user interface displays 20 videos per page, set `count` to 20 and `offset` to 0 to get the first page of results. For each subsequent page, increment `offset` by 20 (for example, 0, 20, 40).<br /><br /> It is possible for multiple pages to include some overlap in results. To prevent duplicates, see [nextOffset](#videos-nextoffset).|Unsigned Short|No|  
+|<a name="query" />q|The user's search query string. The query string cannot be empty.<br /><br />**NOTE:** The query string must not contain [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). Including them may adversely affect the custom search experience.|String|Yes|  
+|<a name="safesearch" />safeSearch|Filter videos for adult content. The following are the possible filter values.<br /><ul><li>Off&mdash;Return videos with adult content.</li><li>Moderate&mdash;Don't include videos with adult content.</li><li>Strict&mdash;Don't include videos with adult content.</li></ul><br /> The default is Moderate.<br /><br /> **NOTE:** If the request comes from a market that Bing's adult policy requires `safeSearch` be set to Strict, Bing ignores the `safeSearch` value and uses Strict.<br/><br/>**NOTE:** If you use the `site:` query operator, there is the chance that the response may contain adult content regardless of what the `safeSearch` query parameter is set to. Use `site:` only if you are aware of the content on the site and your scenario supports the possibility of adult content.|String|No|  
 |<a name="setlang" />setLang|The language to use for user interface strings. Specify the language using the ISO 639-1 2-letter language code. For example, the language code for English is EN. The default is EN (English).<br /><br /> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br /> This parameter and the [Accept-Language](#acceptlanguage) header are mutually exclusive&mdash;do not specify both.<br /><br /> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
 
-
+  
 ## Filter query parameters 
- 
-The following are the optional filter query parameters that you can use to filter the images that Bing returns. You must URL encode the query parameters.  
+
+The following are the optional filter query parameters that you can use to filter the videos that Bing returns. You must URL encode the query parameters.  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
-|<a name="aspect" />aspect|Filter images by the following aspect ratios: <br /><ul><li>Square&mdash;Return images with standard aspect ratio</li><li>Wide&mdash;Return images with wide screen aspect ratio</li><li>Tall&mdash;Return images with tall aspect ratio<br /></li><li>All&mdash;Do not filter by aspect. Specifying this value is the same as not specifying the `aspect` parameter.</li></ul>|String|  
-|<a name="color" />color|Filter images by the following color options:<br /><ul><li>ColorOnly&mdash;Return color images</li><li>Monochrome&mdash;Return black and white images</li></ul><br />Return images with one of the following dominant colors:<br/><ul><li>Black</li><li>Blue</li><li>Brown</li><li>Gray</li><li>Green</li><li>Orange</li><li>Pink</li><li>Purple</li><li>Red</li><li>Teal</li><li>White</li><li>Yellow</li></ul>|String|  
-|<a name="height" />height|Filter images that have the specified height, in pixels.<br /><br /> You may use this filter with the `size` filter to return small images that have a height of 150 pixels.|UnsignedShort|  
-|<a name="imagecontent" />imageContent|Filter images by the following content types:<br /><ul><li>Face&mdash;Return images that show only a person's face</li><li>Portrait&mdash;Return images that show only a person's head and shoulders|String|  
-|<a name="imagetype" />imageType|Filter images by the following image types:<br /><ul><li>AnimatedGif&mdash;Return only animated GIFs<br /><br/></li><li>Clipart&mdash;Return only clip art images<br /><br/></li><li>Line&mdash;Return only line drawings<br /><br/></li><li>Photo&mdash;Return only photographs (excluding line drawings, animated Gifs, and clip art)<br /><br/></li><li>Shopping&mdash;Return only images that contain items where Bing knows of a merchant that is selling the items. This option is valid in the en-US market only.<br /><br/></li><li>Transparent&mdash;Return only images with a transparent background.</li></ul>|String|  
-|<a name="license" />license|Filter images by the following license types:<br /><ul><li>Any&mdash;Return images that are under any license type. The response doesn't include images that do not specify a license or the license is unknown.<br /><br/></li><li>Public&mdash;Return images where the creator has waived their exclusive rights, to the fullest extent allowed by law.<br /><br/></li><li>Share&mdash;Return images that may be shared with others. Changing or editing the image might not be allowed. Also, modifying, sharing, and using the image for commercial purposes might not be allowed. Typically, this option returns the most images.<br /><br/></li><li>ShareCommercially&mdash;Return images that may be shared with others for personal or commercial purposes. Changing or editing the image might not be allowed.<br /><br/></li><li>Modify&mdash;Return images that may be modified, shared, and used. Changing or editing the image might not be allowed. Modifying, sharing, and using the image for commercial purposes might not be allowed.<br /><br/></li><li>ModifyCommercially&mdash;Return images that may be modified, shared, and used for personal or commercial purposes. Typically, this option returns the fewest images.<br /><br/></li><li>All&mdash;Do not filter by license type. Specifying this value is the same as not specifying the `license` parameter.</li></ul><br /> For more information about these license types, see [Filter Images By License Type](http://go.microsoft.com/fwlink/?LinkId=309768).|String|  
-|<a name="maxfilesize" />maxFileSize|Filter images that are less than or equal to the specified file size.<br /><br /> The maximum file size that you may specify is 520,192 bytes. If you specify a larger value, the API uses 520,192. It is possible that the response may include images that are slightly larger than the specified maximum.<br /><br /> You may specify this filter and `minFileSize` to filter images within a range of file sizes.|Integer|  
-|<a name="maxheight" />maxHeight|Filter images that have a height that is less than or equal to the specified height. Specify the height in pixels.<br /><br /> You may specify this filter and `minHeight` to filter images within a range of heights.<br /><br /> This filter and the `height` filter are mutually exclusive.|Integer|  
-|<a name="maxwidth" />maxWidth|Filter images that have a width that is less than or equal to the specified width. Specify the width in pixels.<br /><br /> You may specify this filter and `maxWidth` to filter images within a range of widths.<br /><br /> This filter and the `width` filter are mutually exclusive.|Integer|  
-|<a name="minfilesize" />minFileSize|Filter images that are greater than or equal to the specified file size.<br /><br /> The maximum file size that you may specify is 520,192 bytes. If you specify a larger value, the API uses 520,192. It is possible that the response may include images that are slightly smaller than the specified minimum.<br /><br /> You may specify this filter and `maxFileSize` to filter images within a range of file sizes.|Integer|  
-|<a name="minheight" />minHeight|Filter images that have a height that is greater than or equal to the specified height. Specify the height in pixels.<br /><br /> You may specify this filter and `maxHeight` to filter images within a range of heights.<br /><br /> This filter and the `height` filter are mutually exclusive.|Integer|  
-|<a name="minwidth" />minWidth|Filter images that have a width that is greater than or equal to the specified width. Specify the width in pixels.<br /><br /> You may specify this filter and `maxWidth` to filter images within a range of widths.<br /><br /> This filter and the `width` filter are mutually exclusive.|Integer|  
-|<a name="size" />size|Filter images by the following sizes:<br /><ul><li>Small&mdash;Return images that are less than 200x200 pixels<br /><br/></li><li>Medium&mdash;Return images that are greater than or equal to 200x200 pixels but less than 500x500 pixels<br /><br/></li><li>Large&mdash;Return images that are 500x500 pixels or larger<br /><br/></li><li>Wallpaper&mdash;Return wallpaper images.<br /><br/></li><li>All&mdash;Do not filter by size. Specifying this value is the same as not specifying the `size` parameter.</li></ul><br /> You may use this parameter along with the `height` or `width` parameters. For example, you may use `height` and `size` to request small images that are 150 pixels tall.|String|  
-|<a name="width" />width|Filter images that have the specified width, in pixels.<br /><br /> You may use this filter with the `size` filter to return small images that have a width of 150 pixels.|UnsignedShort|  
+|<a name="freshness" />freshness|Filter videos by the date and time that Bing discovered the video. The following are the possible filter values.<br /><ul><li>Day&mdash;Return videos discovered within the last 24 hours<br /><br /></li><li>Week&mdash;Return videos discovered within the last 7 days<br /><br /></li><li>Month&mdash;Return videos discovered within the last 30 days</li><li>Year&mdash;Return images discovered within the last year</li><li>2017-06-15..2018-06-15&mdash;Return images discovered within the specified range of dates</li></ul>|String|No|  
+|<a name="pricing" />pricing|Filter videos by the following pricing options:<br /><ul><li>Free&mdash;Return videos that are free to view</li><li>Paid&mdash;Return videos that require a subscription or payment to view</li><li>All&mdash;Do not filter by pricing. Specifying this value is the same as not specifying the `pricing` parameter.</li></ul>|String|  
+|<a name="resolution" />resolution|Filter videos by the following resolutions:<br /><ul><li>480p&mdash;Return videos with a 480p or higher resolution</li><li>720p&mdash;Return videos with a 720p or higher resolution</li><li>1080p&mdash;Return videos with a 1080p or higher resolution</li><li>All&mdash;Do not filter by resolution. Specifying this value is the same as not specifying the `resolution` parameter.</li></ul>|String|  
+|<a name="videolength" />videoLength|Filter videos by the following lengths:<br /><ul><li>Short&mdash;Return videos that are less than 5 minutes</li><li>Medium&mdash;Return videos that are between 5 and 20 minutes, inclusive</li><li>Long&mdash;Return videos that are longer than 20 minutes</li><li>All&mdash;Do not filter by length. Specifying this value is the same as not specifying the `videoLength` parameter.</li></ul>|String|  
   
-## Response objects 
+  
+## Response objects  
 
-The following are the JSON objects that the response may include. If the request succeeds, the top-level object in the response is the [Images](#images) object. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object. 
+The following are the JSON response objects that the response may include. If the request succeeds, the top-level object in the response is the [Videos](#videos) object. If the request fails, the top-level object is the [ErrorResponse](#errorresponse) object.  
   
 |Object|Description|  
 |------------|-----------------|  
 |[Error](#error)|Defines an error that occurred.|  
 |[ErrorResponse](#errorresponse)|The top-level object that the response includes when the request fails.|  
-|[Image](#image)|Defines an image that is relevant to the query.|  
-|[Images](#images)|The top-level object that the response includes when an image request succeeds.|  
 |[MediaSize](#mediasize)|Defines the size of the media content.|  
-|[Instrumentation](#instrumentation)|Defines the Bing instrumentation URLs.|  
 |[Pivot](#pivot)|Defines the pivot segment.|  
+|[Publisher](#publisher)|Defines a publisher or creator.|  
 |[Query](#query_obj)|Defines a search query string.|  
+|[Thing](#thing)|Defines the name of the main entity shown in the video.|  
 |[Thumbnail](#thumbnail)|Defines a thumbnail image.|  
-
-
+|[Video](#video)|Defines a video that is relevant to the query.|  
+|[Videos](#videos)|The top-level object that the response includes when the video request succeeds.|  
+  
+  
 <a name="error"></a>   
 ### Error  
 Defines the error that occurred.  
   
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
-|<a name="error-code" />code|The error code that identifies the category of error. For a list of possible codes, see [Error Codes](#errorcodes).|String|  
+|<a name="error-code" />code|The error code that identifies the category of error. For a list of possible codes, see [Error Codes](#error-codes).|String|  
 |<a name="error-message" />message|A description of the error.|String|  
 |<a name="error-moredetails" />moreDetails|A description that provides additional information about the error.|String|  
 |<a name="error-parameter" />parameter|The query parameter in the request that caused the error.|String|  
 |<a name="error-subcode" />subCode|The error code that identifies the error. For example, if `code` is InvalidRequest, `subCode` may be ParameterInvalid or ParameterInvalidValue. |String|  
 |<a name="error-value" />value|The query parameter's value that was not valid.|String|  
-
+  
 
 <a name="errorresponse"></a>   
 ### ErrorResponse  
@@ -133,48 +128,7 @@ The top-level object that the response includes when the request fails.
 |----------|-----------|----------|  
 |_type|Type hint.|String|  
 |<a name="errors" />errors|A list of errors that describe the reasons why the request failed.|[Error](#error)[]|  
-
   
-<a name="image"></a>   
-### Image  
-Defines an image that is relevant to the query.  
-  
-> [!NOTE]
-> Because the URL format and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resizing and Cropping Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/resize-and-crop-thumbnails).  
-  
-|Name|Value|Type|  
-|----------|-----------|----------|  
-|<a name="image-accentcolor" />accentColor|A three-byte hexadecimal number that represents the color that dominates the image. Use the color as the temporary background in your client until the image is loaded.|String|  
-|<a name="image-contentsize" />contentSize|The image's file size. The format of the string is {size} {units}. For example, 12345 B indicates that the size of the image is 12,345 bytes.|String|  
-|<a name="image-contenturl" />contentUrl|The URL to the image on the source website.|String|  
-|<a name="image-datepublished" />datePublished|The date and time, in UTC, that Bing discovered the image. The date is in the format, YYYY-MM-DDTHH:MM:SS.|String|  
-|<a name="image-encodingformat" />encodingFormat|The image's mime type (for example, jpeg).|String|  
-|<a name="image-height" />height|The height of the source image, in pixels.|Unsigned Short|  
-|<a name="image-hostpagedisplayurl" />hostPageDisplayUrl|The display URL of the webpage that hosts the image.<br /><br /> Use this URL in your user interface to identify the host webpage that contains the image. The URL is not a well-formed and should not be used to access the host webpage. To access the host webpage, use the `hostPageUrl` URL.|String|  
-|<a name="image-hostpageurl" />hostPageUrl|The URL of the webpage that includes the image.<br /><br /> This URL and `contentUrl` may be the same URL.|String|  
-|<a name="image-imageid" />imageId|An ID that uniquely identifies this image. If you want the image to be the first image in the response, set the [id](#id) query parameter to this ID in your request.|String|  
-|<a name="image-name" />name|A title of the image.|String|  
-|<a name="image-thumbnail" />thumbnail|The width and height of the thumbnail image (see `thumbnailUrl`).|[MediaSize](#mediasize)|  
-|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/resize-and-crop-thumbnails).|String|  
-|webSearchUrl|The URL to the Bing search results for this image.|String|  
-|<a name="image-width" />width|The width of the source image, in pixels.|Unsigned Short|  
-
-
-<a name="images"></a>   
-### Images  
-The top-level object that the response includes when an image request succeeds.  
-  
-|Name|Value|Type|  
-|----------|-----------|----------|  
-|_type|A type hint, which is set to Images.|String|  
-|<a name="nextoffset" />nextOffset|The offset value that you set the [offset](#offset) query parameter to.<br /><br /> If you set `offset` to 0 and `count` to 30 in your first request, and then set `offset` to 30 in your second request, some of the results in the second response may be duplicates of the first response.<br /><br /> To prevent duplicates, set `offset` to the value of `nextOffset`.|Integer|  
-|<a name="pivotsuggestions" />pivotSuggestions|A list of segments in the original query. For example, if the query was *Red Flowers*, Bing might segment the query into *Red* and *Flowers*.<br /><br /> The Flowers pivot may contain query suggestions such as Red Peonies and Red Daisies, and the Red pivot may contain query suggestions such as Green Flowers and Yellow Flowers.|[Pivot](#pivot)|  
-|<a name="queryexpansions" />queryExpansions|A list of expanded queries that narrows the original query. For example, if the query was *Microsoft Surface*, the expanded queries might be: Microsoft Surface **Pro 3**, Microsoft Surface **RT**, Microsoft Surface **Phone**, and Microsoft Surface **Hub**.|[Query](#query_obj)|  
-|<a name="similarterms" />similarTerms|A list of terms that are similar in meaning to the user's query term.|[Query](#query_obj)|  
-|<a name="totalestimatedmatches" />totalEstimatedMatches|The estimated number of images that are relevant to the query. Use this number along with the [count](#count) and [offset](#offset) query parameters to page the results.<br /><br /> Only the Image Search API includes this field.|Long|  
-|<a name="images-value" />value|A list of images that are relevant to the query.<br /><br /> If there are no results, the array is empty.|[Image](#image)[]|  
-|webSearchUrl|The URL to the Bing search results for the requested images.|String|  
-
   
 <a name="mediasize"></a>   
 ### MediaSize  
@@ -193,32 +147,100 @@ Defines the pivot segment.
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |<a name="pivot-pivot" />pivot|The segment from the original query to pivot on.|String|  
-|<a name="pivot-suggestions" />suggestions|A list of suggested queries for the pivot.|[Query](#query_obj)|  
-
+|<a name="pivot-suggestions" />suggestions|A list of suggested query strings for the pivot.|[Query](#query_obj)|  
   
-<a name="query_obj"></a>   
-### Query  
-Defines a search query string.  
+
+<a name="publisher"></a>   
+### Publisher  
+Defines a publisher or creator.  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
-|displayText|The display version of the query term.<br /><br /> For expanded queries (see [queryExpansions](#queryexpansions)) and pivot suggestions (see [pivotSuggestions](#pivotsuggestions)), this field identifies the term that expanded the original query. For example, if the query was *Microsoft Surface* and the expanded query is *Microsoft Surface RT*, `displayText` would contain *RT*.|String|  
-|searchLink|The URL that you use to get the results of the related search. Before using the URL, you must append query parameters as appropriate and include the [Ocp-Apim-Subscription-Key](#subscriptionkey) header.<br /><br /> Use this URL if you're displaying the results in your own user interface. Otherwise, use the `webSearchUrl` URL.|String|  
-|text|The query term.|String|  
-|thumbnail|The URL to a thumbnail of a related image.<br /><br /> The object includes this field only for pivot suggestions and related searches.|[Thumbnail](#thumbnail)|  
-|webSearchUrl|The URL that takes the user to the Bing search results page for the query.<br /><br /> Use this URL if you're not displaying the results in your own user interface. Otherwise, use the `searchUrl` URL.<br /><br /> Included only for related searches.|String|  
+|name|The publisher's or creator's name.|String|  
+
+
+<a name="query_obj"></a>   
+### Query  
+Defines a search query term.  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|<a name="query-displaytext" />displayText|The display version of the query term.|String|  
+|<a name="query-searchurl" />searchUrl|The URL that you use to get the results of the related search. Before using the URL, you must append query parameters as appropriate and include the [Ocp-Apim-Subscription-Key](#subscriptionkey) header.<br /><br /> Use this URL if you're displaying the results in your own user interface. Otherwise, use the `webSearchUrl` URL.|String|  
+|<a name="query-text" />text|The query term.|String|  
+|<a name="query-thumbnail" />thumbnail|The URL to a thumbnail of a related image.<br /><br /> The object includes this field only for pivot suggestions and related searches.|[Thumbnail](#thumbnail)|  
+|<a name="query-websearchurl" />webSearchUrl|The URL that takes the user to the Bing search results page for the query.|String|  
   
   
+<a name="thing"></a>   
+### Thing  
+Defines the main entity shown in the video.  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|name|The name of the main entity shown in the video.|String|  
+
+
 <a name="thumbnail"></a>   
 ### Thumbnail  
-Defines a thumbnail of an image.  
+Defines the URL to a thumbnail of an image.  
   
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
 |url|The URL to a thumbnail of an image.|String|  
 
 
+<a name="video"></a>   
+### Video  
+Defines a video that is relevant to the query.  
+  
+> [!NOTE]
+> Because the URL format and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters.  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|<a name="video-allowhttpsembed" />allowHttpsEmbed|A Boolean value that determines whether you may embed the video (see the `embedHtml` field) on pages that use the HTTPS protocol.|Boolean|  
+|<a name="video-allowmobileembed" />allowMobileEmbed|A Boolean value that determines whether you may embed the video (see the `embedHtml` field) on a mobile device. If `true`, you may use the HTML on a mobile device.|Boolean|  
+|<a name="video-creator" />creator|The name of the video's creator.<br /><br /> Only Video Search API responses include this field.|[Publisher](#publisher)|  
+|<a name="video-contenturl" />contentUrl|The URL to the video on the host website.|String|  
+|<a name="video-datepublished" />datePublished|The date and time that Bing discovered the video. The date is in the format, YYYY-MM-DDTHH:MM:SS.|String|  
+|<a name="video-description" />description|A short description of the video.|String|  
+|<a name="video-duration" />duration|The video's duration or length. For example, PT2M50S. For information about the format, see [http://en.wikipedia.org/wiki/ISO_8601#Durations](http://en.wikipedia.org/wiki/ISO_8601#Durations).|String|  
+|<a name="video-embedhtml" />embedHtml|An iframe that lets you embed and run the video in your webpage.|String|  
+|<a name="video-encodingformat" />encodingFormat|The video's mime type (for example, mp4).|String|  
+|height|The height of the video, in pixels.|Integer|  
+|<a name="video-hostpagedisplayurl" />hostPageDisplayUrl|The display URL of the webpage that hosts the video.<br /><br /> Use this URL in your user interface to identify the host webpage that contains the video. The URL is not a well-formed and should not be used to access the host webpage. To access the host webpage, use the `hostPageUrl` URL.|String|  
+|<a name="video-hostpageurl" />hostPageUrl|The URL to the webpage that hosts the video.<br /><br /> This URL and `contentUrl` URL may be the same URL.|String|  
+|<a name="video-isaccessibleforfree" />isAccessibleForFree|A Boolean value that indicates whether the video requires payment or a paid subscription to view. If **true**, the video is free to watch. Otherwise, if **false**, a payment or subscription is required.<br /><br /> **NOTE:** If Bing is unable to determine whether payment is required, the object may not include this field.<br /><br /> To ensure that Bing returns only free videos, set the [pricing](#pricing) query parameter to Free.|Boolean|  
+|<a name="video-issuperfresh" />isSuperfresh|A Boolean value that indicates whether the video was recently discovered by Bing. If **true**, the video was recently discovered.<br /><br /> To get videos discovered within the last 24 hours or the last week, use the [freshness](#freshness) query parameter.|Boolean|  
+|<a name="video-mainentity" />mainEntity|The name of the main entity shown in the video.<br /><br /> The object includes this field only when `scenario` is SingleDominantVideo (see [Videos](#videos)).|[Thing](#thing)|  
+|<a name="video-motionthumbnailurl" />motionThumbnailUrl|The URL to an animated thumbnail that shows a preview of the video. Typically, you would use this URL to play a preview of the video when the user mouses over the thumbnail of the video on your results page.|String|  
+|<a name="video-name" />name|The name of the video.|String|  
+|<a name="video-publisher" />publisher|A list of the publishers that published the video.|[Publisher](#publisher)|  
+|<a name="video-thumbnail" />thumbnail|The width and height of the thumbnail image (see `thumbnailUrl`).|[MediaSize](#mediasize)|  
+|<a name="video-thumbnailurl" />thumbnailUrl|The URL to a thumbnail image of the video. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/resize-and-crop-thumbnails).|String|  
+|<a name="video-videoid" />videoId|An ID that uniquely identifies this video in the list of videos. You can use the ID in a subsequent request to ensure that this video is the first video returned in the list of videos. To ensure the video is the first video in the list, set the request's [id](#id) query parameter to this ID.|String|  
+|<a name="video-viewcount" />viewCount|The number of times that the video has been watched at the source site.|Integer|  
+|<a name="video-websearchurl" />webSearchUrl|The URL that takes the user to the Bing video search results and plays the video.|String|  
+|width|The width of the video, in pixels.|Integer|  
 
+
+<a name="videos"></a>   
+### Videos  
+The top-level object that the response includes when the video request succeeds.  
+  
+If the service suspects a denial of service attack, the request succeeds (HTTP status code is 200 OK), but the body of the response is empty.  
+  
+|Name|Value|Type|  
+|----------|-----------|----------|  
+|_type|Type hint.|String|  
+|<a name="videos-nextoffset" />nextOffset|The offset value that you set the [offset](#offset) query parameter to.<br /><br /> If you set `offset` to 0 and `count` to 30 on your first request, and then set `offset` to 30 on your second request, some of the results in the second response may be duplicates of the first response.<br /><br /> To prevent duplicates, set `offset` to the value of `nextOffset`.|Integer|  
+|<a name="videos-pivotsuggestions" />pivotSuggestions|A list of pivots that segment the original query. For example, if the query was *Cleaning Gutters*, Bing might segment the query into *Cleaning* and *Gutters*.<br /><br /> The Cleaning pivot may contain query suggestions such as Gutter Installation and Gutter Repair, and the Gutters pivot may contain query suggestions such as Roof Cleaning and Window Cleaning.|[Pivot](#pivot)[]|  
+|<a name="videos-queryexpansion" />queryExpansions|A list of expanded queries that narrows the original query. For example, if the query was *Cleaning+Gutters*, the expanded queries might be: Gutter Cleaning **Tools**, Cleaning Gutters **From the Ground**, Gutter Cleaning **Machine**, and **Easy** Gutter Cleaning.|[Query](#query_obj)[]|  
+|<a name="videos-totalestimatedmatches" />totalEstimatedMatches|The estimated number of videos that match the query. Use this number along with the [count](#count) and [offset](#offset) query parameters to page the results.<br /><br /> Only Video Search API responses include this field.|Long|  
+|<a name="videos-value" />value|A list of videos that are relevant to the query.|[Video](#video)[]|  
+|<a name="videos-websearchurl" />webSearchUrl|The URL to the Bing search results for the requested videos.|String|  
+  
 
 ## Error codes 
 
@@ -227,6 +249,7 @@ Defines a thumbnail of an image.
 ## Market codes 
 
 The following table lists the market code values that you may use to specify the `mkt` query parameter. Bing returns content for only these markets. The list is subject to change.  
+
   
 For a list of country codes that you may specify in the `cc` query parameter, see [Country codes](#countrycodes).  
   
@@ -254,7 +277,7 @@ For a list of country codes that you may specify in the `cc` query parameter, se
 |Malaysia|English|en-MY|  
 |Mexico|Spanish|es-MX|  
 |Netherlands|Dutch|nl-NL|  
-|New Zealand|English|en-NZ|  
+|New Zealand|English|en-NZ|
 |People's republic of China|Chinese|zh-CN|  
 |Poland|Polish|pl-PL|  
 |Portugal|Portuguese|pt-PT|  
