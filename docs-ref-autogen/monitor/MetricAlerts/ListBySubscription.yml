@@ -85,10 +85,19 @@ definitions:
     description: the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.
     types:
     - uid: string
+  - name: properties.targetResourceType
+    description: the resource type of the target resource(s) on which the alert is created/updated. Mandatory for MultipleResourceMultipleMetricCriteria.
+    types:
+    - uid: string
+  - name: properties.targetResourceRegion
+    description: the region of the target resource(s) on which the alert is created/updated. Mandatory for MultipleResourceMultipleMetricCriteria.
+    types:
+    - uid: string
   - name: properties.criteria
     description: defines the specific alert criteria information.
     types:
     - uid: MetricAlertSingleResourceMultipleMetricCriteria
+    - uid: MetricAlertMultipleResourceMultipleMetricCriteria
     typesTitle: MetricAlertCriteria
   - name: properties.autoMitigate
     description: the flag that indicates whether the alert should be auto resolved or not.
@@ -161,6 +170,21 @@ definitions:
     types:
     - uid: Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria
     typesTitle: string
+- name: MetricAlertMultipleResourceMultipleMetricCriteria
+  description: Speficies the metric alert criteria for multiple resource that has multiple metric criteria.
+  kind: object
+  properties:
+  - name: allOf
+    description: "the list of multiple metric criteria for this 'all of' operation. "
+    types:
+    - uid: MetricCriteria
+      isArray: true
+    typesTitle: MultiMetricCriteria[]
+  - name: odata.type
+    description: specifies the type of the alert criteria.
+    types:
+    - uid: Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria
+    typesTitle: string
 - name: MetricCriteria
   description: Criterion to filter metrics.
   kind: object
@@ -194,6 +218,11 @@ definitions:
     types:
     - uid: MetricDimension
       isArray: true
+  - name: criterionType
+    description: " Specifies the type of threshold criteria"
+    types:
+    - uid: StaticThresholdCriterion
+    typesTitle: string
 - name: Operator
   description: the criteria operator.
   kind: enum
@@ -241,7 +270,7 @@ definitions:
     types:
     - uid: string
   - name: operator
-    description: the dimension operator.
+    description: the dimension operator. Only 'Include' and 'Exclude' are supported
     types:
     - uid: string
   - name: values
