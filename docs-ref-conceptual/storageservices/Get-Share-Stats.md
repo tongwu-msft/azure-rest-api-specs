@@ -79,13 +79,15 @@ The `Get Share Stats` request retrieves statistics related to the share.
 <?xml version="1.0" encoding="utf-8"?>  
 <ShareStats>  
    <ShareUsage>15</ShareUsage>  
+   <ShareUsageBytes>16106127360</ShareUsage>
 </ShareStats>  
 ```  
   
 |Element Name|Description|  
 |------------------|-----------------|  
-|`ShareUsage`|The approximate size of the data stored on the share, rounded up to the nearest gigabyte. Note that this value may not include all recently created or recently resized files.|  
-  
+|`ShareUsage`|The approximate size of the data stored on the share, rounded up to the nearest gigabyte for version below 2018-11-09. Note that this value may not include all recently created or recently resized files.|  
+|`ShareUsageBytes`|The approximate size of the data stored on the share in bytes for version 2018-11-09 and above. Note that this value may not include all recently created or recently resized files.|
+
 ## Authorization  
  Only the account owner may call this operation.  
   
