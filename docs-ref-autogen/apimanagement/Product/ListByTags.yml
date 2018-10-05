@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.apimanagement.api.listbytags
+uid: management.azure.com.apimanagement.product.listbytags
 name: List By Tags
 service: API Management
-groupName: Api
+groupName: Product
 apiVersion: 2018-06-01-preview
-summary: Lists a collection of apis associated with tags.
+summary: Lists a collection of products associated with tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apisByTags?api-version=2018-06-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apisByTags?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-06-01-preview&includeNotTaggedApis={includeNotTaggedApis}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/productsByTags?api-version=2018-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/productsByTags?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-06-01-preview&includeNotTaggedProducts={includeNotTaggedProducts}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -44,17 +44,11 @@ uriParameters:
 
     | name        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
 
-    | aid         | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | apiRevision | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
-    | path        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
-
     | description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
 
-    | serviceUrl  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+    | terms       | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
 
-    | isCurrent   | eq                     | substringof, contains, startswith, endswith |
+    | state       | eq                     | substringof, contains, startswith, endswith |
   types:
   - uid: string
 - name: $top
@@ -75,9 +69,9 @@ uriParameters:
   description: Version of the API to be used with the client request.
   types:
   - uid: string
-- name: includeNotTaggedApis
+- name: includeNotTaggedProducts
   in: query
-  description: Include not tagged apis in response
+  description: Include not tagged products in response
   types:
   - uid: boolean
 responses:
@@ -343,9 +337,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ApiManagementListApisByTags
+- name: ApiManagementListProductsByTags
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apisByTags?api-version=2018-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/productsByTags?api-version=2018-06-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -356,13 +350,15 @@ examples:
               "id": "/tags/apitag123",
               "name": "awesomeTag"
             },
-            "api": {
-              "id": "/apis/echo-api",
-              "name": "Echo API",
-              "apiRevision": "1",
-              "serviceUrl": "http://echoapi.cloudapp.net/api",
-              "path": "echo",
-              "isCurrent": true
+            "product": {
+              "id": "/products/starter",
+              "name": "Starter",
+              "description": "Subscribers will be able to run 5 calls/minute up to a maximum of 100 calls/week.",
+              "terms": "",
+              "subscriptionRequired": true,
+              "approvalRequired": false,
+              "subscriptionsLimit": 1,
+              "state": "published"
             }
           }
         ],

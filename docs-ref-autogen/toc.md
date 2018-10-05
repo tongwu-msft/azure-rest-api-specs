@@ -251,6 +251,7 @@
 #### [Get](apimanagement/Product/Get.yml)
 #### [Get Entity Tag](apimanagement/Product/GetEntityTag.yml)
 #### [List By Service](apimanagement/Product/ListByService.yml)
+#### [List By Tags](apimanagement/Product/ListByTags.yml)
 #### [Update](apimanagement/Product/Update.yml)
 ### [Product Api](apimanagement/ProductApi.yml)
 #### [Check Entity Exists](apimanagement/ProductApi/CheckEntityExists.yml)
