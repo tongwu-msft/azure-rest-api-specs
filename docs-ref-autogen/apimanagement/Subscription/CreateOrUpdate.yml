@@ -67,16 +67,15 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.userId
+  - name: properties.ownerId
     in: body
-    isRequired: true
     description: User (user id path) for whom subscription is being created in form /users/{uid}
     types:
     - uid: string
-  - name: properties.productId
+  - name: properties.scope
     in: body
     isRequired: true
-    description: Product (product id path) for which subscription is being created in form /products/{productid}
+    description: Scope like /products/{productId} or /apis or /apis/{apiId}.
     types:
     - uid: string
   - name: properties.displayName
@@ -100,6 +99,11 @@ requestBody:
     description: Initial subscription state. If no value is specified, subscription is created with Submitted state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.
     types:
     - uid: SubscriptionState
+  - name: properties.allowTracing
+    in: body
+    description: Determines whether tracing can be enabled
+    types:
+    - uid: boolean
 requestHeader:
 - name: If-Match
   in: header
@@ -111,12 +115,12 @@ definitions:
   description: Subscription details.
   kind: object
   properties:
-  - name: properties.userId
+  - name: properties.ownerId
     description: The user resource identifier of the subscription owner. The value is a valid relative URL in the format of /users/{uid} where {uid} is a user identifier.
     types:
     - uid: string
-  - name: properties.productId
-    description: The product resource identifier of the subscribed product. The value is a valid relative URL in the format of /products/{productId} where {productId} is a product identifier.
+  - name: properties.scope
+    description: Scope like /products/{productId} or /apis or /apis/{apiId}.
     types:
     - uid: string
   - name: properties.displayName
@@ -160,6 +164,10 @@ definitions:
     description: Optional subscription comment added by an administrator.
     types:
     - uid: string
+  - name: properties.allowTracing
+    description: Determines whether tracing is enabled
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -196,12 +204,12 @@ definitions:
   description: Subscription create details.
   kind: object
   properties:
-  - name: properties.userId
+  - name: properties.ownerId
     description: User (user id path) for whom subscription is being created in form /users/{uid}
     types:
     - uid: string
-  - name: properties.productId
-    description: Product (product id path) for which subscription is being created in form /products/{productid}
+  - name: properties.scope
+    description: Scope like /products/{productId} or /apis or /apis/{apiId}.
     types:
     - uid: string
   - name: properties.displayName
@@ -220,6 +228,10 @@ definitions:
     description: Initial subscription state. If no value is specified, subscription is created with Submitted state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.
     types:
     - uid: SubscriptionState
+  - name: properties.allowTracing
+    description: Determines whether tracing can be enabled
+    types:
+    - uid: boolean
 - name: SubscriptionState
   description: Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.
   kind: enum
@@ -265,8 +277,8 @@ examples:
     body: >-
       {
         "properties": {
-          "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57127d485157a511ace86ae7",
-          "productId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b59475ff190048060002",
+          "ownerId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57127d485157a511ace86ae7",
+          "scope": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b59475ff190048060002",
           "displayName": "testsub"
         }
       }
@@ -278,8 +290,8 @@ examples:
         "type": "Microsoft.ApiManagement/service/subscriptions",
         "name": "testsub",
         "properties": {
-          "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57127d485157a511ace86ae7",
-          "productId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b59475ff190048060002",
+          "ownerId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57127d485157a511ace86ae7",
+          "scope": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b59475ff190048060002",
           "displayName": "testsub",
           "state": "submitted",
           "createdDate": "2017-06-02T23:34:03.1055076Z",
