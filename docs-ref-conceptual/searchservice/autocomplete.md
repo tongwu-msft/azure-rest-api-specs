@@ -1,7 +1,7 @@
 ---
 title: "Autocomplete (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2018-08-30"
+ms.date: "2018-10-05"
 services: search
 ms.service: search
 ms.suite: ""
@@ -66,10 +66,7 @@ api-key: [admin or query key]
 
  **When to use POST instead of GET**  
 
- When you use HTTP GET to call **Autocomplete**, the length of the request URL cannot exceed 8 KB. Some applications produce large queries, specifically when OData filter expressions are used. For these applications HTTP POST is a better choice. The request size limit for POST is approximately 16 MB.
-
-> [!NOTE]  
->  Even though the POST request size limit is large, filter expressions cannot be arbitrarily complex. For more information about filter complexity limitations, see [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md).  
+ When you use HTTP GET to call **Autocomplete**, the length of the request URL cannot exceed 8 KB. Some applications can produce large queries. For these applications HTTP POST is a better choice. The request size limit for POST is approximately 16 MB.
 
 ## Request  
  HTTPS is required for service requests. The **Autocomplete** request can be constructed using the GET or POST methods.  
@@ -78,7 +75,6 @@ api-key: [admin or query key]
 
  As a best practice when creating GET requests, remember to [URL-encode](https://docs.microsoft.com/uwp/api/windows.foundation.uri.escapecomponent) specific query parameters when calling the REST API directly. For **Autocomplete** operations, this includes:  
 
--   **$filter**
 -   **highlightPreTag**
 -   **highlightPostTag**
 -   **search**
@@ -100,7 +96,6 @@ api-key: [admin or query key]
 |`fuzzy=[boolean] (optional, default = false)`|When set to true, this API finds suggestions even if there is a substituted or missing character in the search text. This provides a better experience in some scenarios but it comes at a performance cost as fuzzy suggestion searches are slower and consume more resources.|  
 |`searchFields=[string] (optional)`|The list of comma-separated field names to search for the specified search text. Target fields must be part of a Suggester for the index. For more information see [Suggesters](suggesters.md).|  
 |`$top=# (optional, default = 5)`|The number of autocomplete suggestions to retrieve. The value must be a number between 1 and 100. **Note:**  When calling **Autocomplete** using POST, this parameter is named `top` instead of `$top`.|  
-|`$filter=[string] (optional)`|An expression that filters the documents considered for autocomplete. **Note:**  When calling **Autocomplete** using POST, this parameter is named `filter` instead of `$filter`.| 
 |`minimumCoverage (optional, defaults to 80)`|A number between 0 and 100 indicating the percentage of the index that must be covered by an autocomplete query in order for the query to be reported as a success. By default, at least 80% of the index must be available or the Autocomplete operation returns HTTP status code 503. If you set `minimumCoverage` and Autocomplete succeeds, it returns HTTP 200 and include a `@search.coverage` value in the response indicating the percentage of the index that was included in the query. **Note:**  Setting this parameter to a value lower than 100 can be useful for ensuring search availability even for services with only one replica. However, not all matching autocomplete suggestions are guaranteed to be present in the search results. If search recall is more important to your application than availability, then it's best not to lower `minimumCoverage` below its default value of 80.|  
 |`api-version=[string]`|The `api-version` parameter is required. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Autocomplete** with GET or POST.|  
 
@@ -121,7 +116,6 @@ api-key: [admin or query key]
 ```  
 {  
   "autocompleteMode": "oneTerm" (default) | "twoTerms" | "oneTermWithContext",
-  "filter": "odata_filter_expression",  
   "fuzzy": true | false (default),  
   "highlightPreTag": "pre_tag",  
   "highlightPostTag": "post_tag",  
