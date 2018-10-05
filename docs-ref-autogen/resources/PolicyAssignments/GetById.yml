@@ -3,14 +3,14 @@ uid: management.azure.com.resources.policyassignments.getbyid
 name: Get By Id
 service: Resource Management
 groupName: Policy Assignments
-apiVersion: 2018-03-01
+apiVersion: 2018-05-01
 summary: "Retrieves the policy assignment with the given ID.  \nThe operation retrieves the policy assignment with the given ID. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{policyAssignmentId}?api-version=2018-03-01
+- content: GET https://management.azure.com/{policyAssignmentId}?api-version=2018-05-01
 uriParameters:
 - name: policyAssignmentId
   in: path
@@ -58,6 +58,14 @@ definitions:
     description: The policy sku. This property is optional, obsolete, and will be ignored.
     types:
     - uid: PolicySku
+  - name: location
+    description: The location of the policy assignment. Only required when utilizing managed identity.
+    types:
+    - uid: string
+  - name: identity
+    description: The managed identity associated with the policy assignment.
+    types:
+    - uid: Identity
   - name: properties.displayName
     description: The display name of the policy assignment.
     types:
@@ -115,10 +123,38 @@ definitions:
     description: The policy sku tier. Possible values are Free and Standard.
     types:
     - uid: string
+- name: Identity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the resource identity.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: ResourceIdentityType
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
 examples:
 - name: Retrieve a policy assignment by ID
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2018-03-01
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2018-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -140,6 +176,40 @@ examples:
             }
           }
         },
+        "id": "/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage",
+        "type": "Microsoft.Authorization/policyAssignments",
+        "name": "LowCostStorage"
+      }
+- name: Retrieve a policy assignment with a managed identity by ID
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage?api-version=2018-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "displayName": "Enforce storage account SKU",
+          "description": "Allow only storage accounts of SKU Standard_GRS or Standard_LRS to be created",
+          "metadata": {
+            "assignedBy": "Cheapskate Boss"
+          },
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
+          "notScopes": [],
+          "parameters": {
+            "listOfAllowedSKUs": {
+              "value": [
+                "Standard_GRS",
+                "Standard_LRS"
+              ]
+            }
+          }
+        },
+        "identity": {
+          "type": "SystemAssigned",
+          "principalId": "e6d23f8d-af97-4fbc-bda6-00604e4e3d0a",
+          "tenantId": "4bee2b8a-1bee-47c2-90e9-404241551135"
+        },
+        "location": "westus",
         "id": "/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage",
         "type": "Microsoft.Authorization/policyAssignments",
         "name": "LowCostStorage"
