@@ -2306,6 +2306,8 @@
 ### [Update](container-instances/ContainerGroups/Update.yml)
 ## [Operations](container-instances/Operations.yml)
 ### [List](container-instances/Operations/List.yml)
+## [Service Association Link](container-instances/ServiceAssociationLink.yml)
+### [Delete](container-instances/ServiceAssociationLink/Delete.yml)
 # [Container Registry](../docs-ref-conceptual/containerregistry/index.md)
 ## [Operations](containerregistry/Operations.yml)
 ### [List](containerregistry/Operations/List.yml)
