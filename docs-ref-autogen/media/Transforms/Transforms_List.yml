@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: media.transforms.transforms_list
+uid: management.azure.com.media.transforms.transforms_list
 name: List
 service: Media Services
 groupName: Transforms
-apiVersion: 2018-03-30-preview
+apiVersion: 2018-07-01
 summary: "List Transforms  \nLists the Transforms in the account."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https:///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms?api-version=2018-03-30-preview
-- content: GET https:///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms?api-version=2018-03-30-preview&$filter={$filter}&$top={$top}&$skip={$skip}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms?api-version=2018-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms?api-version=2018-07-01&$filter={$filter}&$top={$top}&$skip={$skip}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -149,7 +149,7 @@ definitions:
   kind: object
   properties:
   - name: onError
-    description: A Transform can define more than one outputs. This property defines what the service should do when one output fails - either continue to produce other outputs, or, stop the other outputs. The default is stop.
+    description: A Transform can define more than one outputs. This property defines what the service should do when one output fails - either continue to produce other outputs, or, stop the other outputs. The overall Job state will not reflect failures of outputs that are specified with 'ContinueJob'. The default is 'StopProcessingJob'.
     types:
     - uid: OnErrorType
   - name: relativePriority
@@ -164,7 +164,7 @@ definitions:
     - uid: StandardEncoderPreset
     typesTitle: Preset
 - name: OnErrorType
-  description: A Transform can define more than one outputs. This property defines what the service should do when one output fails - either continue to produce other outputs, or, stop the other outputs. The default is stop.
+  description: A Transform can define more than one outputs. This property defines what the service should do when one output fails - either continue to produce other outputs, or, stop the other outputs. The overall Job state will not reflect failures of outputs that are specified with 'ContinueJob'. The default is 'StopProcessingJob'.
   kind: enum
   properties:
   - name: StopProcessingJob
@@ -241,12 +241,12 @@ definitions:
   description: A video analyzer preset that extracts insights (rich metadata) from both audio and video, and outputs a JSON format file.
   kind: object
   properties:
-  - name: audioInsightsOnly
-    description: Whether to only extract audio insights when processing a video file.
+  - name: insightsToExtract
+    description: The type of insights to be extracted. If not set then based on the content the type will selected.  If the content is audi only then only audio insights are extraced and if it is video only.
     types:
-    - uid: boolean
+    - uid: InsightsType
   - name: audioLanguage
-    description: "The language for the audio payload in the input using the BCP-47 format of 'language tag-region' (e.g: 'en-US'). The list of supported languages are, 'en-US', 'en-GB', 'es-ES', 'es-MX', 'fr-FR', 'it-IT', 'ja-JP', 'pt-BR', 'zh-CN'."
+    description: "The language for the audio payload in the input using the BCP-47 format of 'language tag-region' (e.g: 'en-US'). The list of supported languages are, 'en-US', 'en-GB', 'es-ES', 'es-MX', 'fr-FR', 'it-IT', 'ja-JP', 'pt-BR', 'zh-CN', 'de-DE', 'ar-EG', 'ru-RU', 'hi-IN'. If not specified, automatic language detection would be employed. This feature currently supports English, Chinese, French, German, Italian, Japanese, Spanish, Russian, and Portuguese. The automatic detection works best with audio recordings with clearly discernable speech. If automatic detection fails to find the language, transcription would fallback to English."
     types:
     - uid: string
   - name: '@odata.type'
@@ -258,6 +258,18 @@ definitions:
   description: The built-in preset to be used for encoding videos.
   kind: enum
   properties:
+  - name: H264SingleBitrateSD
+    description: Produces an MP4 file where the video is encoded with H.264 codec at 2200 kbps and a picture height of 480 pixels, and the stereo audio is encoded with AAC-LC codec at 64 kbps.
+    types:
+    - uid: string
+  - name: H264SingleBitrate720p
+    description: Produces an MP4 file where the video is encoded with H.264 codec at 4500 kbps and a picture height of 720 pixels, and the stereo audio is encoded with AAC-LC codec at 64 kbps.
+    types:
+    - uid: string
+  - name: H264SingleBitrate1080p
+    description: Produces an MP4 file where the video is encoded with H.264 codec at 6750 kbps and a picture height of 1080 pixels, and the stereo audio is encoded with AAC-LC codec at 64 kbps.
+    types:
+    - uid: string
   - name: AdaptiveStreaming
     description: Produces a set of GOP aligned MP4 files with H.264 video and stereo AAC audio. Auto-generates a bitrate ladder based on the input resolution and bitrate. The auto-generated preset will never exceed the input resolution and bitrate. For example, if the input is 720p at 3 Mbps, output will remain 720p at best, and will start at rates lower than 3 Mbps. The output will will have video and audio in separate MP4 files, which is optimal for adaptive streaming.
     types:
@@ -302,6 +314,22 @@ definitions:
     - uid: VideoOverlay
       isArray: true
     typesTitle: Overlay[]
+- name: InsightsType
+  description: The type of insights to be extracted. If not set then based on the content the type will selected.  If the content is audi only then only audio insights are extraced and if it is video only.
+  kind: enum
+  properties:
+  - name: AudioInsightsOnly
+    description: Generate audio only insights. Ignore video even if present. Fails if no audio is present.
+    types:
+    - uid: string
+  - name: VideoInsightsOnly
+    description: Generate video only insights. Ignore audio if present. Fails if no video is present.
+    types:
+    - uid: string
+  - name: AllInsights
+    description: Generate both audio and video insights. Fails if either audio or video Insights fail.
+    types:
+    - uid: string
 - name: Deinterlace
   description: Describes the de-interlacing settings.
   kind: object
@@ -906,20 +934,20 @@ definitions:
 examples:
 - name: Lists the Transforms
   request:
-    uri: GET https:///subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms?api-version=2018-03-30-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms?api-version=2018-07-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "name": "SampleEncode",
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/SampleEncode",
+            "name": "sampleEncode",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/sampleEncode",
             "type": "Microsoft.Media/mediaservices/transforms",
             "properties": {
-              "created": "2018-03-20T17:33:29.4642953+00:00",
-              "description": "A sample transform using the standard encoder with a built in preset.",
-              "lastModified": "2018-03-20T17:33:29.4642953+00:00",
+              "created": "2018-08-23T19:09:34.2372568+00:00",
+              "description": "A sample Transform using the Standard Encoder with a built in preset.",
+              "lastModified": "2018-08-23T19:09:34.2372568+00:00",
               "outputs": [
                 {
                   "onError": "StopProcessingJob",
@@ -933,29 +961,28 @@ examples:
             }
           },
           {
-            "name": "SampleEncodeAndVideoIndex",
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/SampleEncodeAndVideoIndex",
+            "name": "sampleEncodeAndVideoIndex",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/sampleEncodeAndVideoIndex",
             "type": "Microsoft.Media/mediaservices/transforms",
             "properties": {
-              "created": "2018-03-20T17:33:29.4682947+00:00",
-              "description": "A sample transform using the standard encoder with a built in preset and the video indexer.",
-              "lastModified": "2018-03-20T17:33:29.4682947+00:00",
+              "created": "2018-08-23T19:09:34.2422668+00:00",
+              "description": "A sample Transform using the Standard Encoder with a built-in preset, as well as the Video Analyzer.",
+              "lastModified": "2018-08-23T19:09:34.2422668+00:00",
               "outputs": [
                 {
                   "onError": "StopProcessingJob",
                   "relativePriority": "Normal",
                   "preset": {
-                    "@odata.type": "#Microsoft.Media.BuiltInStandardEncoderPreset",
-                    "presetName": "AdaptiveStreaming"
+                    "@odata.type": "#Microsoft.Media.VideoAnalyzerPreset",
+                    "insightsToExtract": "AllInsights"
                   }
                 },
                 {
                   "onError": "StopProcessingJob",
                   "relativePriority": "Normal",
                   "preset": {
-                    "@odata.type": "#Microsoft.Media.VideoAnalyzerPreset",
-                    "audioLanguage": "en-US",
-                    "audioInsightsOnly": false
+                    "@odata.type": "#Microsoft.Media.BuiltInStandardEncoderPreset",
+                    "presetName": "AdaptiveStreaming"
                   }
                 }
               ]
