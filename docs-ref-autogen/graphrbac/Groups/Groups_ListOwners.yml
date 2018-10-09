@@ -1,10 +1,10 @@
 ### YamlMime:RESTOperation
-uid: graph.windows.net.graphrbac.groups.groups_get
-name: Get
+uid: graph.windows.net.graphrbac.groups.groups_listowners
+name: List Owners
 service: Graph RBAC
 groupName: Groups
 apiVersion: "1.6"
-summary: Gets group information from the directory.
+summary: "Directory objects that are owners of the group.  \nThe owners are a set of non-admin users who are allowed to modify this object."
 consumes:
 - application/json
 - text/json
@@ -12,7 +12,7 @@ produces:
 - application/json
 - text/json
 paths:
-- content: GET https://graph.windows.net/{tenantID}/groups/{objectId}?api-version=1.6
+- content: GET https://graph.windows.net/{tenantID}/groups/{objectId}/owners?api-version=1.6
 uriParameters:
 - name: tenantID
   in: path
@@ -23,7 +23,7 @@ uriParameters:
 - name: objectId
   in: path
   isRequired: true
-  description: The object ID of the user for which to get group information.
+  description: The object ID of the group for which to get owners.
   types:
   - uid: string
 - name: api-version
@@ -36,13 +36,39 @@ responses:
 - name: 200 OK
   description: OK. The operation was successful.
   types:
-  - uid: ADGroup
+  - uid: DirectoryObjectListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: GraphError
 requestHeader: []
 definitions:
+- name: DirectoryObjectListResult
+  description: DirectoryObject list operation result.
+  kind: object
+  properties:
+  - name: value
+    description: A collection of DirectoryObject.
+    types:
+    - uid: ADGroup
+      isArray: true
+    typesTitle: DirectoryObject[]
+  - name: odata.nextLink
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: GraphError
+  description: Active Directory error information.
+  kind: object
+  properties:
+  - name: odata.error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: odata.error.message.value
+    description: Error message value.
+    types:
+    - uid: string
 - name: ADGroup
   description: Active Directory group information.
   kind: object
@@ -81,18 +107,6 @@ definitions:
   - name: deletionTimestamp
     isReadyOnly: true
     description: The time at which the directory object was deleted.
-    types:
-    - uid: string
-- name: GraphError
-  description: Active Directory error information.
-  kind: object
-  properties:
-  - name: odata.error.code
-    description: Error code.
-    types:
-    - uid: string
-  - name: odata.error.message.value
-    description: Error message value.
     types:
     - uid: string
 examples: []
