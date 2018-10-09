@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.media.jobs.jobs_list
-name: List
+uid: management.azure.com.media.jobs.jobs_update
+name: Update
 service: Media Services
 groupName: Jobs
 apiVersion: 2018-07-01
-summary: "List Jobs  \nLists all of the Jobs for the Transform."
+summary: "Update Job  \nUpdates a Job."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs?api-version=2018-07-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs?api-version=2018-07-01&$filter={$filter}&$top={$top}&$skip={$skip}
-  isOptional: true
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs/{jobName}?api-version=2018-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,59 +36,67 @@ uriParameters:
   description: The Transform name.
   types:
   - uid: string
+- name: jobName
+  in: path
+  isRequired: true
+  description: The Job name.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
   description: The Version of the API to be used with the client request.
   types:
   - uid: string
-- name: $filter
-  in: query
-  description: Restricts the set of items returned.
-  types:
-  - uid: string
-- name: $top
-  in: query
-  description: Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n.
-  types:
-  - uid: integer
-- name: $skip
-  in: query
-  description: Specifies a non-negative integer n that excludes the first n items of the queried collection from the result. The service returns items starting at position n+1.
-  types:
-  - uid: integer
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: JobCollection
+  - uid: Job
 - name: Other Status Codes
   description: Detailed error information.
   types:
   - uid: ApiError
-requestHeader: []
-definitions:
-- name: JobCollection
-  description: A collection of Job items.
-  kind: object
-  properties:
-  - name: value
-    description: A collection of Job items.
-    types:
-    - uid: Job
-      isArray: true
-  - name: '@odata.nextLink'
-    description: A link to the next page of the collection (when the collection contains too many results to return in one response).
+requestBody:
+- name: default
+  parameters:
+  - name: properties.description
+    in: body
+    description: Optional customer supplied description of the Job.
     types:
     - uid: string
-- name: ApiError
-  description: The API error.
-  kind: object
-  properties:
-  - name: error
-    description: The error properties.
+  - name: properties.input
+    in: body
+    isRequired: true
+    description: The inputs for the Job.
     types:
-    - uid: ODataError
+    - uid: JobInputClip
+    - uid: JobInputs
+    typesTitle: JobInput
+  - name: properties.outputs
+    in: body
+    isRequired: true
+    description: The outputs for the Job.
+    types:
+    - uid: JobOutputAsset
+      isArray: true
+    typesTitle: JobOutput[]
+  - name: properties.priority
+    in: body
+    description: Priority with which the job should be processed. Higher priority jobs are processed before lower priority jobs. If not set, the default is normal.
+    types:
+    - uid: Priority
+  - name: properties.correlationData
+    in: body
+    description: Customer provided correlation data that will be returned in Job and JobOutput state events.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
 - name: Job
   description: A Job resource type. The progress and state can be obtained by polling a Job or subscribing to events using EventGrid.
   kind: object
@@ -153,75 +159,14 @@ definitions:
     description: The type of the resource.
     types:
     - uid: string
-- name: ODataError
-  description: Information about an error.
+- name: ApiError
+  description: The API error.
   kind: object
   properties:
-  - name: code
-    description: A language-independent error name.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the error (for example, the name of the property in error).
-    types:
-    - uid: string
-  - name: details
-    description: The error details.
+  - name: error
+    description: The error properties.
     types:
     - uid: ODataError
-      isArray: true
-- name: JobState
-  description: Describes the state of the JobOutput.
-  kind: enum
-  properties:
-  - name: Canceled
-    description: The job was canceled. This is a final state for the job.
-    types:
-    - uid: string
-  - name: Canceling
-    description: The job is in the process of being canceled. This is a transient state for the job.
-    types:
-    - uid: string
-  - name: Error
-    description: The job has encountered an error. This is a final state for the job.
-    types:
-    - uid: string
-  - name: Finished
-    description: The job is finished. This is a final state for the job.
-    types:
-    - uid: string
-  - name: Processing
-    description: The job is processing. This is a transient state for the job.
-    types:
-    - uid: string
-  - name: Queued
-    description: The job is in a queued state, waiting for resources to become available. This is a transient state.
-    types:
-    - uid: string
-  - name: Scheduled
-    description: The job is being scheduled to run on an available resource. This is a transient state, between queued and processing states.
-    types:
-    - uid: string
-- name: Priority
-  description: Sets the relative priority of the TransformOutputs within a Transform. This sets the priority that the service uses for processing TransformOutputs. The default priority is Normal.
-  kind: enum
-  properties:
-  - name: Low
-    description: Used for TransformOutputs that can be generated after Normal and High priority TransformOutputs.
-    types:
-    - uid: string
-  - name: Normal
-    description: Used for TransformOutputs that can be generated at Normal priority.
-    types:
-    - uid: string
-  - name: High
-    description: Used for TransformOutputs that should take precedence over others.
-    types:
-    - uid: string
 - name: JobInputs
   description: Describes a list of of inputs to a Job.
   kind: object
@@ -271,6 +216,75 @@ definitions:
     description: A label that is assigned to a JobOutput in order to help uniquely identify it. This is useful when your Transform has more than one TransformOutput, whereby your Job has more than one JobOutput. In such cases, when you submit the Job, you will add two or more JobOutputs, in the same order as TransformOutputs in the Transform. Subsequently, when you retrieve the Job, either through events or on a GET request, you can use the label to easily identify the JobOutput. If a label is not provided, a default value of '{presetName}_{outputIndex}' will be used, where the preset name is the name of the preset in the corresponding TransformOutput and the output index is the relative index of the this JobOutput within the Job. Note that this index is the same as the relative index of the corresponding TransformOutput within its Transform.
     types:
     - uid: string
+- name: JobState
+  description: Describes the state of the JobOutput.
+  kind: enum
+  properties:
+  - name: Canceled
+    description: The job was canceled. This is a final state for the job.
+    types:
+    - uid: string
+  - name: Canceling
+    description: The job is in the process of being canceled. This is a transient state for the job.
+    types:
+    - uid: string
+  - name: Error
+    description: The job has encountered an error. This is a final state for the job.
+    types:
+    - uid: string
+  - name: Finished
+    description: The job is finished. This is a final state for the job.
+    types:
+    - uid: string
+  - name: Processing
+    description: The job is processing. This is a transient state for the job.
+    types:
+    - uid: string
+  - name: Queued
+    description: The job is in a queued state, waiting for resources to become available. This is a transient state.
+    types:
+    - uid: string
+  - name: Scheduled
+    description: The job is being scheduled to run on an available resource. This is a transient state, between queued and processing states.
+    types:
+    - uid: string
+- name: Priority
+  description: Sets the relative priority of the TransformOutputs within a Transform. This sets the priority that the service uses for processing TransformOutputs. The default priority is Normal.
+  kind: enum
+  properties:
+  - name: Low
+    description: Used for TransformOutputs that can be generated after Normal and High priority TransformOutputs.
+    types:
+    - uid: string
+  - name: Normal
+    description: Used for TransformOutputs that can be generated at Normal priority.
+    types:
+    - uid: string
+  - name: High
+    description: Used for TransformOutputs that should take precedence over others.
+    types:
+    - uid: string
+- name: ODataError
+  description: Information about an error.
+  kind: object
+  properties:
+  - name: code
+    description: A language-independent error name.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: The error details.
+    types:
+    - uid: ODataError
+      isArray: true
 - name: JobInputAsset
   description: Represents an Asset for input into a Job.
   kind: object
@@ -436,107 +450,49 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Lists all of the Jobs for the Transform.
+- name: Update a Job
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2018-07-01
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs/job1?api-version=2018-07-01
+    body: >-
+      {
+        "properties": {
+          "description": "Example job to illustrate update.",
+          "priority": "High"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "name": "job1",
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job1",
-            "type": "Microsoft.Media/mediaservices/transforms/jobs",
-            "properties": {
-              "created": "2018-08-08T16:29:58.0908004Z",
+        "name": "job1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job1",
+        "type": "Microsoft.Media/mediaservices/transforms/jobs",
+        "properties": {
+          "created": "2018-08-08T16:29:58.3218119Z",
+          "state": "Queued",
+          "description": "Example job to illustrate update.",
+          "input": {
+            "@odata.type": "#Microsoft.Media.JobInputs",
+            "inputs": [
+              {
+                "@odata.type": "#Microsoft.Media.JobInputAsset",
+                "files": [],
+                "assetName": "job1 input"
+              }
+            ]
+          },
+          "lastModified": "2018-08-08T16:29:58.3368364Z",
+          "outputs": [
+            {
+              "@odata.type": "#Microsoft.Media.JobOutputAsset",
               "state": "Queued",
-              "input": {
-                "@odata.type": "#Microsoft.Media.JobInputs",
-                "inputs": [
-                  {
-                    "@odata.type": "#Microsoft.Media.JobInputAsset",
-                    "files": [],
-                    "assetName": "job1 input"
-                  }
-                ]
-              },
-              "lastModified": "2018-08-08T16:29:58.0908004Z",
-              "outputs": [
-                {
-                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
-                  "state": "Queued",
-                  "progress": 0,
-                  "label": "example-custom-label",
-                  "assetName": "job1 output"
-                }
-              ],
-              "priority": "Low",
-              "correlationData": {}
+              "progress": 0,
+              "label": "example-custom-label",
+              "assetName": "job1 output"
             }
-          },
-          {
-            "name": "job2",
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
-            "type": "Microsoft.Media/mediaservices/transforms/jobs",
-            "properties": {
-              "created": "2018-08-08T16:29:58.0927994Z",
-              "state": "Processing",
-              "input": {
-                "@odata.type": "#Microsoft.Media.JobInputs",
-                "inputs": [
-                  {
-                    "@odata.type": "#Microsoft.Media.JobInputAsset",
-                    "files": [],
-                    "assetName": "job2 input"
-                  }
-                ]
-              },
-              "lastModified": "2018-08-08T16:29:58.0927994Z",
-              "outputs": [
-                {
-                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
-                  "state": "Processing",
-                  "progress": 50,
-                  "label": "example-custom-label",
-                  "assetName": "job2 output"
-                }
-              ],
-              "priority": "Low",
-              "correlationData": {}
-            }
-          },
-          {
-            "name": "job3",
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
-            "type": "Microsoft.Media/mediaservices/transforms/jobs",
-            "properties": {
-              "created": "2018-08-08T16:29:58.0927994Z",
-              "state": "Finished",
-              "input": {
-                "@odata.type": "#Microsoft.Media.JobInputs",
-                "inputs": [
-                  {
-                    "@odata.type": "#Microsoft.Media.JobInputAsset",
-                    "files": [],
-                    "assetName": "job3 input"
-                  }
-                ]
-              },
-              "lastModified": "2018-08-08T16:29:58.0927994Z",
-              "outputs": [
-                {
-                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
-                  "state": "Finished",
-                  "progress": 100,
-                  "label": "example-custom-label",
-                  "assetName": "job3 output"
-                }
-              ],
-              "priority": "Low",
-              "correlationData": {}
-            }
-          }
-        ]
+          ],
+          "priority": "High",
+          "correlationData": {}
+        }
       }
 security: []
