@@ -7,7 +7,7 @@ ms.author: bulente
 
 # Policy Insights
 
-Policy Insights REST API allows querying policy evaluation events and compliance states.
+Policy Insights REST API exposes data related to [Azure Policy](https://docs.microsoft.com/azure/azure-policy). This includes querying policy evaluation events and compliance states and managing policy remediations.
 
 ##  Operation Groups
 
