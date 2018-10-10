@@ -3886,6 +3886,12 @@
 ### [TaskTemplate](../docs-ref-conceptual/media/operations/tasktemplate.md)
 ### [REST API Functions](../docs-ref-conceptual/media/operations/rest-api-functions.md)
 ## Reference
+### [Account Filters](media/AccountFilters.yml)
+#### [Create Or Update](media/AccountFilters/AccountFilters_CreateOrUpdate.yml)
+#### [Delete](media/AccountFilters/AccountFilters_Delete.yml)
+#### [Get](media/AccountFilters/AccountFilters_Get.yml)
+#### [List](media/AccountFilters/AccountFilters_List.yml)
+#### [Update](media/AccountFilters/AccountFilters_Update.yml)
 ### [Asset Filters](media/AssetFilters.yml)
 #### [Create Or Update](media/AssetFilters/AssetFilters_CreateOrUpdate.yml)
 #### [Delete](media/AssetFilters/AssetFilters_Delete.yml)
