@@ -5,7 +5,7 @@ keywords: Azure REST, Azure REST API Reference
 author: bryanla
 manager: douge
 ms.author: bryanla
-ms.date: 10/02/2017
+ms.date: 10/10/2018
 ms.topic: reference
 ms.prod: azure
 ms.technology: azure
@@ -253,8 +253,6 @@ For more information about application registration and the Azure AD programming
 For information about testing HTTP requests/responses, see:
 * [Fiddler](http://www.telerik.com/fiddler). Fiddler is a free web debugging proxy that can intercept your REST requests, making it easy to diagnose the HTTP request/ response messages.
 * [JWT Decoder](http://jwt.calebb.net/) and [JWT.io](https://jwt.io/), which make it quick and easy to dump the claims in your bearer token so you can validate their contents.
-
-To provide feedback and help us refine and shape our content, use the LiveFyre comments section that follows this article.
 
 <!--Reference style links: DOCS -->
 
