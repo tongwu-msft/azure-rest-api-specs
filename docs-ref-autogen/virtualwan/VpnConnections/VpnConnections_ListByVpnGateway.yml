@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.vpnconnections.vpnconnections_listbyvpngate
 name: List By Vpn Gateway
 service: Virtual WAN
 groupName: Vpn Connections
-apiVersion: 2018-04-01
+apiVersion: 2018-08-01
 summary: Retrieves all vpn connections for a particular virtual wan vpn gateway.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections?api-version=2018-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections?api-version=2018-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -89,7 +89,6 @@ definitions:
   kind: object
   properties:
   - name: name
-    isReadyOnly: true
     description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
     types:
     - uid: string
@@ -111,6 +110,10 @@ definitions:
     description: The connection status.
     types:
     - uid: vpnConnectionStatus
+  - name: properties.vpnConnectionProtocolType
+    description: Connection protocol used for this connection
+    types:
+    - uid: VirtualNetworkGatewayConnectionProtocol
   - name: properties.ingressBytesTransferred
     isReadyOnly: true
     description: Ingress bytes transferred.
@@ -122,7 +125,6 @@ definitions:
     types:
     - uid: integer
   - name: properties.connectionBandwidth
-    isReadyOnly: true
     description: Expected bandwidth in MBPS.
     types:
     - uid: integer
@@ -139,6 +141,14 @@ definitions:
     types:
     - uid: IpsecPolicy
       isArray: true
+  - name: properties.enableRateLimiting
+    description: EnableBgp flag
+    types:
+    - uid: boolean
+  - name: properties.enableInternetSecurity
+    description: Enable internet security
+    types:
+    - uid: boolean
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the resource.
@@ -148,23 +158,6 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: ErrorDetails
   kind: object
   properties:
@@ -202,6 +195,16 @@ definitions:
     types:
     - uid: string
   - name: NotConnected
+    types:
+    - uid: string
+- name: VirtualNetworkGatewayConnectionProtocol
+  description: Connection protocol used for this connection
+  kind: enum
+  properties:
+  - name: IKEv2
+    types:
+    - uid: string
+  - name: IKEv1
     types:
     - uid: string
 - name: IpsecPolicy
@@ -418,7 +421,7 @@ definitions:
 examples:
 - name: VpnConnectionList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections?api-version=2018-04-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections?api-version=2018-08-01
   responses:
   - statusCode: "200"
     body: >-
@@ -433,6 +436,7 @@ examples:
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1"
             },
             "connectionStatus": "Connected",
+            "vpnConnectionProtocolType": "IKEv1",
             "ingressBytesTransferred": 0,
             "egressBytesTransferred": 0,
             "routingWeight": 0,

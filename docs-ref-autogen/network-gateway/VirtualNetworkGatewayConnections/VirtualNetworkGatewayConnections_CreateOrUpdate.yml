@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgatewayconnections.virtu
 name: Create Or Update
 service: Network Gateway
 groupName: Virtual Network Gateway Connections
-apiVersion: 2018-04-01
+apiVersion: 2018-08-01
 summary: Creates or updates a virtual network gateway connection in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2018-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2018-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -80,6 +80,11 @@ requestBody:
     description: "Gateway connection type. Possible values are: 'Ipsec','Vnet2Vnet','ExpressRoute', and 'VPNClient."
     types:
     - uid: VirtualNetworkGatewayConnectionType
+  - name: properties.connectionProtocol
+    in: body
+    description: Connection protocol used for this connection
+    types:
+    - uid: VirtualNetworkGatewayConnectionProtocol
   - name: properties.routingWeight
     in: body
     description: The routing weight.
@@ -116,6 +121,11 @@ requestBody:
     description: The resource GUID property of the VirtualNetworkGatewayConnection resource.
     types:
     - uid: string
+  - name: properties.expressRouteGatewayBypass
+    in: body
+    description: Bypass ExpressRoute Gateway for data forwarding
+    types:
+    - uid: boolean
   - name: id
     in: body
     description: Resource ID.
@@ -373,6 +383,10 @@ definitions:
     description: "Gateway connection type. Possible values are: 'Ipsec','Vnet2Vnet','ExpressRoute', and 'VPNClient."
     types:
     - uid: VirtualNetworkGatewayConnectionType
+  - name: properties.connectionProtocol
+    description: Connection protocol used for this connection
+    types:
+    - uid: VirtualNetworkGatewayConnectionProtocol
   - name: properties.routingWeight
     description: The routing weight.
     types:
@@ -428,6 +442,10 @@ definitions:
     description: "The provisioning state of the VirtualNetworkGatewayConnection resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
+  - name: properties.expressRouteGatewayBypass
+    description: Bypass ExpressRoute Gateway for data forwarding
+    types:
+    - uid: boolean
   - name: id
     description: Resource ID.
     types:
@@ -775,6 +793,16 @@ definitions:
   - name: VPNClient
     types:
     - uid: string
+- name: VirtualNetworkGatewayConnectionProtocol
+  description: Connection protocol used for this connection
+  kind: enum
+  properties:
+  - name: IKEv2
+    types:
+    - uid: string
+  - name: IKEv1
+    types:
+    - uid: string
 - name: IPAllocationMethod
   description: "The private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
   kind: enum
@@ -924,7 +952,7 @@ definitions:
 examples:
 - name: CreateVirtualNetworkGatewayConnection_S2S
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/connS2S?api-version=2018-04-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/connS2S?api-version=2018-08-01
     body: >-
       {
         "properties": {
@@ -983,6 +1011,7 @@ examples:
             "tags": {}
           },
           "connectionType": "IPsec",
+          "connectionProtocol": "IKEv2",
           "routingWeight": 0,
           "sharedKey": "Abc123",
           "enableBgp": false,
@@ -1012,6 +1041,7 @@ examples:
             "properties": {}
           },
           "connectionType": "IPsec",
+          "connectionProtocol": "IKEv2",
           "routingWeight": 0,
           "sharedKey": "Abc123",
           "enableBgp": false,
@@ -1041,6 +1071,7 @@ examples:
             "properties": {}
           },
           "connectionType": "IPsec",
+          "connectionProtocol": "IKEv2",
           "routingWeight": 0,
           "sharedKey": "Abc123",
           "enableBgp": false,
