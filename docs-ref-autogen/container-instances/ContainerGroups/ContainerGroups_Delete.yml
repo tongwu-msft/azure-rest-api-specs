@@ -3,14 +3,14 @@ uid: management.azure.com.container-instances.containergroups.containergroups_de
 name: Delete
 service: Container Instances
 groupName: Container Groups
-apiVersion: 2018-09-01
+apiVersion: 2018-10-01
 summary: "Delete the specified container group.  \nDelete the specified container group in the specified subscription and resource group. The operation does not delete other resources provided by the user, such as volumes."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}?api-version=2018-09-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}?api-version=2018-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -76,6 +76,10 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: identity
+    description: The identity of the container group, if configured.
+    types:
+    - uid: ContainerGroupIdentity
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the container group. This only appears in the response.
@@ -121,6 +125,28 @@ definitions:
     description: The network profile information for a container group.
     types:
     - uid: ContainerGroupNetworkProfile
+- name: ContainerGroupIdentity
+  description: Identity for the container group.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the container group identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id associated with the container group. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the container group.
+    types:
+    - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the container group. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
 - name: Container
   description: A container instance.
   kind: object
@@ -209,7 +235,7 @@ definitions:
     - uid: Port
       isArray: true
   - name: type
-    description: Specifies if the IP is exposed to the public internet.
+    description: Specifies if the IP is exposed to the public internet or private VNET.
     types:
     - uid: ContainerGroupIpAddressType
   - name: ip
@@ -304,6 +330,30 @@ definitions:
     description: The identifier for a network profile.
     types:
     - uid: string
+- name: ResourceIdentityType
+  description: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the container group.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with the container group. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: ContainerPort
   description: The port exposed on the container instance.
   kind: object
@@ -405,7 +455,7 @@ definitions:
     types:
     - uid: integer
 - name: ContainerGroupIpAddressType
-  description: Specifies if the IP is exposed to the public internet.
+  description: Specifies if the IP is exposed to the public internet or private VNET.
   kind: enum
   properties:
   - name: Public
@@ -614,7 +664,7 @@ definitions:
 examples:
 - name: ContainerGroupsDelete
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1?api-version=2018-09-01
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1?api-version=2018-10-01
   responses:
   - statusCode: "200"
   - statusCode: "204"
