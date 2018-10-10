@@ -1,8 +1,8 @@
 ---
 title: Azure Container Instances REST API reference
-author: mmacy
-ms.author: marsma
-ms.date: 09/27/2018
+author: dlepow
+ms.author: danlep
+ms.date: 10/09/2018
 ms.topic: reference
 ms.service: container-instances
 ms.devlang: rest-api
@@ -22,6 +22,7 @@ The Container Instances REST API provides operations for working with the follow
 |[Container Group Usage](xref:management.azure.com.container-instances.containergroupusage)| Get usage information for the container groups in a subscription. |
 |[Container Groups](xref:management.azure.com.container-instances.containergroups)| Create, read, update, and delete [container groups](/azure/container-instances/container-instances-container-groups), the top-level resource in Azure Container Instances. |
 |[Operations](xref:management.azure.com.container-instances.operations)| Get information about the available REST API operations in Azure Container Instances. |
+|[Service Association Link](xref:management.azure.com.container-instances.serviceassociationlink)| Manage the service association link for a linked subnet. |
 
 ## See also
 
