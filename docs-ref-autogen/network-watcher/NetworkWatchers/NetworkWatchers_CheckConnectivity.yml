@@ -3,14 +3,14 @@ uid: management.azure.com.network-watcher.networkwatchers.networkwatchers_checkc
 name: Check Connectivity
 service: Network Watcher
 groupName: Network Watchers
-apiVersion: 2018-04-01
+apiVersion: 2018-08-01
 summary: Verifies the possibility of establishing a direct TCP connection from a virtual machine to a given endpoint including another VM or an arbitrary remote server.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck?api-version=2018-04-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck?api-version=2018-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,6 +45,10 @@ responses:
   description: Accepted and the operation will complete asynchronously.
   types:
   - uid: ConnectivityInformation
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -148,6 +152,14 @@ definitions:
     description: Number of failed probes.
     types:
     - uid: integer
+- name: ErrorResponse
+  description: The error object.
+  kind: object
+  properties:
+  - name: error
+    description: Error
+    types:
+    - uid: ErrorDetails
 - name: ConnectivityParameters
   description: Parameters that determine how the connectivity check will be performed.
   kind: object
@@ -236,6 +248,21 @@ definitions:
     types:
     - uid: string
   - name: Degraded
+    types:
+    - uid: string
+- name: ErrorDetails
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
     types:
     - uid: string
 - name: Protocol
@@ -355,7 +382,7 @@ definitions:
 examples:
 - name: Check connectivity
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectivityCheck?api-version=2018-04-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectivityCheck?api-version=2018-08-01
     body: >-
       {
         "source": {

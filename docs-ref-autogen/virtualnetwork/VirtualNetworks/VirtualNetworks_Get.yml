@@ -3,15 +3,15 @@ uid: management.azure.com.virtualnetwork.virtualnetworks.virtualnetworks_get
 name: Get
 service: Virtual Networks
 groupName: Virtual Networks
-apiVersion: 2018-04-01
+apiVersion: 2018-08-01
 summary: Gets the specified virtual network by resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2018-04-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2018-04-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2018-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2018-08-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -156,6 +156,11 @@ definitions:
     description: The address prefix for the subnet.
     types:
     - uid: string
+  - name: properties.addressPrefixes
+    description: List of  address prefixes for the subnet.
+    types:
+    - uid: string
+      isArray: true
   - name: properties.networkSecurityGroup
     description: The reference of the NetworkSecurityGroup resource.
     types:
@@ -169,17 +174,49 @@ definitions:
     types:
     - uid: ServiceEndpointPropertiesFormat
       isArray: true
+  - name: properties.serviceEndpointPolicies
+    description: An array of service endpoint policies.
+    types:
+    - uid: ServiceEndpointPolicy
+      isArray: true
+  - name: properties.interfaceEndpoints
+    isReadyOnly: true
+    description: 'An array of references to interface endpoints '
+    types:
+    - uid: InterfaceEndpoint
+      isArray: true
   - name: properties.ipConfigurations
     isReadyOnly: true
     description: Gets an array of references to the network interface IP configurations using subnet.
     types:
     - uid: IPConfiguration
       isArray: true
+  - name: properties.ipConfigurationProfiles
+    isReadyOnly: true
+    description: Array of IP configuration profiles which reference this subnet.
+    types:
+    - uid: IPConfigurationProfile
+      isArray: true
   - name: properties.resourceNavigationLinks
     description: Gets an array of references to the external resources using subnet.
     types:
     - uid: ResourceNavigationLink
       isArray: true
+  - name: properties.serviceAssociationLinks
+    description: Gets an array of references to services injecting into this subnet.
+    types:
+    - uid: ServiceAssociationLink
+      isArray: true
+  - name: properties.delegations
+    description: Gets an array of references to the delegations on the subnet.
+    types:
+    - uid: Delegation
+      isArray: true
+  - name: properties.purpose
+    isReadyOnly: true
+    description: A read-only string identifying the intention of use for this subnet based on delegations and other user-defined properties.
+    types:
+    - uid: string
   - name: properties.provisioningState
     description: The provisioning state of the resource.
     types:
@@ -378,6 +415,123 @@ definitions:
     description: The provisioning state of the resource.
     types:
     - uid: string
+- name: ServiceEndpointPolicy
+  description: Service End point policy resource.
+  kind: object
+  properties:
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.serviceEndpointPolicyDefinitions
+    description: A collection of service endpoint policy definitions of the service endpoint policy.
+    types:
+    - uid: ServiceEndpointPolicyDefinition
+      isArray: true
+  - name: properties.subnets
+    isReadyOnly: true
+    description: A collection of references to subnets.
+    types:
+    - uid: Subnet
+      isArray: true
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resource GUID property of the service endpoint policy resource.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the service endpoint policy. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: InterfaceEndpoint
+  description: Interface endpoint resource.
+  kind: object
+  properties:
+  - name: etag
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.fqdn
+    description: A first-party service's FQDN that is mapped to the private IP allocated via this interface endpoint.
+    types:
+    - uid: string
+  - name: properties.endpointService
+    description: A reference to the service being brought into the virtual network.
+    types:
+    - uid: EndpointService
+  - name: properties.subnet
+    description: The ID of the subnet from which the private IP will be allocated.
+    types:
+    - uid: Subnet
+  - name: properties.networkInterfaces
+    isReadyOnly: true
+    description: Gets an array of references to the network interfaces created for this interface endpoint.
+    types:
+    - uid: NetworkInterface
+      isArray: true
+  - name: properties.owner
+    isReadyOnly: true
+    description: A read-only property that identifies who created this interface endpoint.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the interface endpoint. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: IPConfiguration
   description: IP configuration
   kind: object
@@ -414,6 +568,36 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: IPConfigurationProfile
+  description: IP configuration profile child resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Sub Resource type.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.subnet
+    description: The reference of the subnet resource to create a contatainer network interface ip configruation.
+    types:
+    - uid: Subnet
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: ResourceNavigationLink
   description: ResourceNavigationLink resource.
   kind: object
@@ -438,6 +622,66 @@ definitions:
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the ResourceNavigationLink resource.
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ServiceAssociationLink
+  description: ServiceAssociationLink resource.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.linkedResourceType
+    description: Resource type of the linked resource.
+    types:
+    - uid: string
+  - name: properties.link
+    description: Link to the external resource.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the ServiceAssociationLink resource.
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: Delegation
+  description: Details the service to which the subnet is delegated.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a subnet. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.serviceName
+    description: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers)
+    types:
+    - uid: string
+  - name: properties.actions
+    description: Describes the actions permitted to the service upon delegation
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
     types:
     - uid: string
   - name: id
@@ -559,10 +803,20 @@ definitions:
     description: The reference of the NetworkSecurityGroup resource.
     types:
     - uid: NetworkSecurityGroup
+  - name: properties.interfaceEndpoint
+    isReadyOnly: true
+    description: A reference to the interface endpoint to which the network interface is linked.
+    types:
+    - uid: InterfaceEndpoint
   - name: properties.ipConfigurations
     description: A list of IPConfigurations of the network interface.
     types:
     - uid: NetworkInterfaceIPConfiguration
+      isArray: true
+  - name: properties.tapConfigurations
+    description: A list of TapConfigurations of the network interface.
+    types:
+    - uid: NetworkInterfaceTapConfiguration
       isArray: true
   - name: properties.dnsSettings
     description: The DNS settings in network interface.
@@ -584,6 +838,12 @@ definitions:
     description: Indicates whether IP forwarding is enabled on this network interface.
     types:
     - uid: boolean
+  - name: properties.hostedWorkloads
+    isReadyOnly: true
+    description: A list of references to linked BareMetal resources
+    types:
+    - uid: string
+      isArray: true
   - name: properties.resourceGuid
     description: The resource GUID property of the network interface resource.
     types:
@@ -650,8 +910,50 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: ServiceEndpointPolicyDefinition
+  description: Service Endpoint policy definitions.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.description
+    description: A description for this rule. Restricted to 140 chars.
+    types:
+    - uid: string
+  - name: properties.service
+    description: service endpoint name.
+    types:
+    - uid: string
+  - name: properties.serviceResources
+    description: A list of service resources.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the service end point policy definition. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: EndpointService
+  description: Identifies the service being brought into the virtual network.
+  kind: object
+  properties:
+  - name: id
+    description: A unique identifier of the service being referenced by the interface endpoint.
+    types:
+    - uid: string
 - name: IPAllocationMethod
-  description: "Defines how a private IP address is assigned. Possible values are: 'Static' and 'Dynamic'."
+  description: The private IP allocation method. Possible values are 'Static' and 'Dynamic'.
   kind: enum
   properties:
   - name: Static
@@ -703,6 +1005,10 @@ definitions:
     description: The IP address associated with the public IP address resource.
     types:
     - uid: string
+  - name: properties.publicIPPrefix
+    description: The Public IP Prefix this Public IP Address should be allocated from.
+    types:
+    - uid: SubResource
   - name: properties.idleTimeoutInMinutes
     description: The idle timeout of the public IP address.
     types:
@@ -831,6 +1137,11 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.virtualNetworkTaps
+    description: The reference to Virtual Network Taps.
+    types:
+    - uid: VirtualNetworkTap
+      isArray: true
   - name: properties.applicationGatewayBackendAddressPools
     description: The reference of ApplicationGatewayBackendAddressPool resource.
     types:
@@ -877,6 +1188,36 @@ definitions:
       isArray: true
   - name: properties.provisioningState
     description: "The provisioning state of the network interface IP configuration. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: NetworkInterfaceTapConfiguration
+  description: Tap configuration in a Network Interface
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Sub Resource type.
+    types:
+    - uid: string
+  - name: properties.virtualNetworkTap
+    description: The reference of the Virtual Network Tap resource.
+    types:
+    - uid: VirtualNetworkTap
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the network interface tap configuration. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
   - name: id
@@ -937,7 +1278,7 @@ definitions:
     types:
     - uid: PublicIPAddressSkuName
 - name: IPVersion
-  description: "Available from Api-Version 2016-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
+  description: "The public IP address version. Possible values are: 'IPv4' and 'IPv6'."
   kind: enum
   properties:
   - name: IPv4
@@ -963,7 +1304,7 @@ definitions:
     types:
     - uid: string
 - name: IpTag
-  description: Contains the IpTag associated with the public IP address
+  description: Contains the IpTag associated with the object
   kind: object
   properties:
   - name: ipTagType
@@ -974,6 +1315,68 @@ definitions:
     description: Gets or sets value of the IpTag associated with the public IP. Example SQL, Storage etc
     types:
     - uid: string
+- name: VirtualNetworkTap
+  description: Virtual Network Tap resource
+  kind: object
+  properties:
+  - name: etag
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.networkInterfaceTapConfigurations
+    isReadyOnly: true
+    description: Specifies the list of resource IDs for the network interface IP configuration that needs to be tapped.
+    types:
+    - uid: NetworkInterfaceTapConfiguration
+      isArray: true
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resourceGuid property of the virtual network tap.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the virtual network tap. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: properties.destinationNetworkInterfaceIPConfiguration
+    description: The reference to the private IP Address of the collector nic that will receive the tap
+    types:
+    - uid: NetworkInterfaceIPConfiguration
+  - name: properties.destinationLoadBalancerFrontEndIPConfiguration
+    description: The reference to the private IP address on the internal Load Balancer that will receive the tap
+    types:
+    - uid: FrontendIPConfiguration
+  - name: properties.destinationPort
+    description: The VXLAN destination port that will receive the tapped traffic.
+    types:
+    - uid: integer
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ApplicationGatewayBackendAddressPool
   description: Backend Address Pool of an application gateway.
   kind: object
@@ -1032,7 +1435,7 @@ definitions:
     types:
     - uid: SubResource
       isArray: true
-  - name: properties.outboundNatRule
+  - name: properties.outboundRule
     isReadyOnly: true
     description: Gets outbound rules that use this backend address pool.
     types:
@@ -1086,6 +1489,10 @@ definitions:
     description: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.
     types:
     - uid: boolean
+  - name: properties.enableTcpReset
+    description: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP.
+    types:
+    - uid: boolean
   - name: properties.provisioningState
     description: "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
@@ -1102,6 +1509,75 @@ definitions:
     types:
     - uid: string
   - name: Standard
+    types:
+    - uid: string
+- name: FrontendIPConfiguration
+  description: Frontend IP address of the load balancer.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: zones
+    description: A list of availability zones denoting the IP allocated for the resource needs to come from.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.inboundNatRules
+    isReadyOnly: true
+    description: Read only. Inbound rules URIs that use this frontend IP.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.inboundNatPools
+    isReadyOnly: true
+    description: Read only. Inbound pools URIs that use this frontend IP.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.outboundRules
+    isReadyOnly: true
+    description: Read only. Outbound rules URIs that use this frontend IP.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.loadBalancingRules
+    isReadyOnly: true
+    description: Gets load balancing rules URIs that use this frontend IP.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.privateIPAddress
+    description: The private IP address of the IP configuration.
+    types:
+    - uid: string
+  - name: properties.privateIPAllocationMethod
+    description: "The Private IP allocation method. Possible values are: 'Static' and 'Dynamic'."
+    types:
+    - uid: IPAllocationMethod
+  - name: properties.subnet
+    description: The reference of the subnet resource.
+    types:
+    - uid: Subnet
+  - name: properties.publicIPAddress
+    description: The reference of the Public IP resource.
+    types:
+    - uid: PublicIPAddress
+  - name: properties.publicIPPrefix
+    description: The reference of the Public IP Prefix resource.
+    types:
+    - uid: SubResource
+  - name: properties.provisioningState
+    description: "Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
     types:
     - uid: string
 - name: ApplicationGatewayBackendAddress
@@ -1132,7 +1608,7 @@ definitions:
 examples:
 - name: Get virtual network
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2018-04-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2018-08-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1158,6 +1634,117 @@ examples:
                 "ipConfigurations": [
                   {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe"
+                  }
+                ]
+              }
+            }
+          ],
+          "virtualNetworkPeerings": []
+        }
+      }
+- name: Get virtual network with a delegated subnet
+  request:
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2018-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "test-vnet",
+        "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet",
+        "type": "Microsoft.Network/virtualNetworks",
+        "location": "westus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "subnet1",
+              "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "addressPrefix": "10.0.1.0/24",
+                "ipConfigurations": [
+                  {
+                    "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe"
+                  }
+                ],
+                "delegations": [
+                  {
+                    "name": "myDelegation",
+                    "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1/delegations/myDelegation",
+                    "properties": {
+                      "provisioningState": "Succeeded",
+                      "serviceName": "Microsoft.Provider/resourceType",
+                      "actions": []
+                    }
+                  }
+                ],
+                "purpose": ""
+              }
+            }
+          ],
+          "virtualNetworkPeerings": []
+        }
+      }
+- name: Get virtual network with service association links
+  request:
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2018-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "test-vnet",
+        "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet",
+        "type": "Microsoft.Network/virtualNetworks",
+        "location": "westus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "subnet1",
+              "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1",
+              "etag": "W/\"4d3e91b4-f67f-48be-880b-e4a8abdd019e\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "addressPrefix": "10.0.214.0/24",
+                "ipConfigurationProfiles": [
+                  {
+                    "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkProfiles/networkProfile1/containerNetworkInterfaceConfigurations/eth0/ipConfigurations/ipconfigprofile1"
+                  }
+                ],
+                "serviceAssociationLinks": [
+                  {
+                    "name": "serviceAssociationLink1",
+                    "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1/serviceAssociationLinks/serviceAssociationLink1",
+                    "etag": "W/\"4d3e91b4-f67f-48be-880b-e4a8abdd019e\"",
+                    "properties": {
+                      "provisioningState": "Succeeded",
+                      "linkedResourceType": "Microsoft.Provider/resourceType"
+                    }
+                  }
+                ],
+                "serviceEndpoints": [],
+                "delegations": [
+                  {
+                    "name": "aciDelegation",
+                    "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1/delegations/aciDelegation",
+                    "etag": "W/\"4d3e91b4-f67f-48be-880b-e4a8abdd019e\"",
+                    "properties": {
+                      "provisioningState": "Succeeded",
+                      "serviceName": "Microsoft.Provider/resourceType",
+                      "actions": [
+                        "Microsoft.Network/virtualNetworks/subnets/action"
+                      ]
+                    }
                   }
                 ]
               }
