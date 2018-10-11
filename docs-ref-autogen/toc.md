@@ -3170,7 +3170,7 @@
 ### [Remove Member](graphrbac/Groups/Groups_RemoveMember.yml)
 ## [OAuth2](graphrbac/OAuth2.yml)
 ### [Get](graphrbac/OAuth2/OAuth2_Get.yml)
-### [Post](graphrbac/OAuth2/OAuth2_Post.yml)
+### [Grant](graphrbac/OAuth2/OAuth2_Grant.yml)
 ## [Objects](graphrbac/Objects.yml)
 ### [Get Objects By Object Ids](graphrbac/Objects/Objects_GetObjectsByObjectIds.yml)
 ### [Get Objects By Object Ids Next](graphrbac/Objects/Objects_GetObjectsByObjectIdsNext.yml)
