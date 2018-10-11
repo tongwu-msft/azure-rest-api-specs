@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.virtualhubs.virtualhubs_createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: Virtual Hubs
-apiVersion: 2018-04-01
+apiVersion: 2018-08-01
 summary: Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}?api-version=2018-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}?api-version=2018-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -57,7 +57,22 @@ requestBody:
     description: The VirtualWAN to which the VirtualHub belongs
     types:
     - uid: SubResource
-  - name: properties.hubVirtualNetworkConnections
+  - name: properties.vpnGateway
+    in: body
+    description: The VpnGateway associated with this VirtualHub
+    types:
+    - uid: SubResource
+  - name: properties.p2SVpnGateway
+    in: body
+    description: The P2SVpnGateway associated with this VirtualHub
+    types:
+    - uid: SubResource
+  - name: properties.expressRouteGateway
+    in: body
+    description: The expressRouteGateway associated with this VirtualHub
+    types:
+    - uid: SubResource
+  - name: properties.virtualNetworkConnections
     in: body
     description: list of all vnet connections with this VirtualHub.
     types:
@@ -68,6 +83,11 @@ requestBody:
     description: Address-prefix for this VirtualHub.
     types:
     - uid: string
+  - name: properties.routeTable
+    in: body
+    description: The routeTable associated with this virtual hub.
+    types:
+    - uid: VirtualHubRouteTable
   - name: id
     in: body
     description: Resource ID.
@@ -101,6 +121,10 @@ definitions:
   description: HubVirtualNetworkConnection Resource.
   kind: object
   properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
   - name: etag
     isReadyOnly: true
     description: Gets a unique read-only string that changes whenever the resource is updated.
@@ -118,6 +142,10 @@ definitions:
     description: Allow RemoteVnet to use Virtual Hub's gateways.
     types:
     - uid: boolean
+  - name: properties.enableInternetSecurity
+    description: Enable internet security
+    types:
+    - uid: boolean
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the resource.
@@ -127,28 +155,15 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
+- name: VirtualHubRouteTable
+  description: VirtualHub route table
+  kind: object
+  properties:
+  - name: routes
+    description: list of all routes.
     types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
+    - uid: VirtualHubRoute
+      isArray: true
 - name: VirtualHub
   description: VirtualHub Resource.
   kind: object
@@ -162,7 +177,19 @@ definitions:
     description: The VirtualWAN to which the VirtualHub belongs
     types:
     - uid: SubResource
-  - name: properties.hubVirtualNetworkConnections
+  - name: properties.vpnGateway
+    description: The VpnGateway associated with this VirtualHub
+    types:
+    - uid: SubResource
+  - name: properties.p2SVpnGateway
+    description: The P2SVpnGateway associated with this VirtualHub
+    types:
+    - uid: SubResource
+  - name: properties.expressRouteGateway
+    description: The expressRouteGateway associated with this VirtualHub
+    types:
+    - uid: SubResource
+  - name: properties.virtualNetworkConnections
     description: list of all vnet connections with this VirtualHub.
     types:
     - uid: HubVirtualNetworkConnection
@@ -171,6 +198,10 @@ definitions:
     description: Address-prefix for this VirtualHub.
     types:
     - uid: string
+  - name: properties.routeTable
+    description: The routeTable associated with this virtual hub.
+    types:
+    - uid: VirtualHubRouteTable
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the resource.
@@ -242,6 +273,19 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: VirtualHubRoute
+  description: VirtualHub route
+  kind: object
+  properties:
+  - name: addressPrefixes
+    description: list of all addressPrefixes.
+    types:
+    - uid: string
+      isArray: true
+  - name: nextHopIpAddress
+    description: NextHop ip address.
+    types:
+    - uid: string
 - name: ErrorDetails
   kind: object
   properties:
@@ -260,7 +304,7 @@ definitions:
 examples:
 - name: VirtualHubPut
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2?api-version=2018-04-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2?api-version=2018-08-01
     body: >-
       {
         "location": "West US",
@@ -288,7 +332,7 @@ examples:
           "virtualWan": {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1"
           },
-          "hubVirtualNetworkConnections": [],
+          "virtualNetworkConnections": [],
           "addressPrefix": "10.168.0.0/24"
         }
       }
@@ -305,7 +349,7 @@ examples:
           "virtualWan": {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1"
           },
-          "hubVirtualNetworkConnections": [],
+          "virtualNetworkConnections": [],
           "addressPrefix": "10.168.0.0/24"
         }
       }

@@ -1,0 +1,153 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.supportedsecurityproviders.supportedsecurityproviders
+name: Supported Security Providers
+service: Virtual WAN
+groupName: Supported Security Providers
+apiVersion: 2018-08-01
+summary: Gives the supported security providers for the virtual wan.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/supportedSecurityProviders?api-version=2018-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: virtualWANName
+  in: path
+  isRequired: true
+  description: The name of the VirtualWAN for which supported security providers are needed.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns the object containing supported security providers.
+  types:
+  - uid: VirtualWanSecurityProviders
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: VirtualWanSecurityProviders
+  description: Collection of SecurityProviders.
+  kind: object
+  properties:
+  - name: supportedProviders
+    description: Collection of SecurityProviders.
+    types:
+    - uid: VirtualWanSecurityProvider
+      isArray: true
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: details
+    description: ''
+    types:
+    - uid: ErrorDetails
+      isArray: true
+  - name: innerError
+    description: ''
+    types:
+    - uid: string
+- name: VirtualWanSecurityProvider
+  description: Collection of SecurityProviders.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the security provider.
+    types:
+    - uid: string
+  - name: url
+    description: Url of the security provider.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Name of the security provider.
+    types:
+    - uid: virtualWanSecurityProviderType
+- name: ErrorDetails
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+- name: virtualWanSecurityProviderType
+  description: Name of the security provider.
+  kind: enum
+  properties:
+  - name: External
+    types:
+    - uid: string
+  - name: Native
+    types:
+    - uid: string
+examples:
+- name: supportedSecurityProviders
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/wan1/supportedSecurityProviders?api-version=2018-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "supportedProviders": [
+          {
+            "name": "Zscaler",
+            "url": "",
+            "type": "External"
+          },
+          {
+            "name": "AzureFirewall",
+            "url": "",
+            "type": "Native"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgatewayconnections.virtu
 name: Update Tags
 service: Network Gateway
 groupName: Virtual Network Gateway Connections
-apiVersion: 2018-04-01
+apiVersion: 2018-08-01
 summary: Updates a virtual network gateway connection tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2018-04-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2018-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -83,6 +83,10 @@ definitions:
     description: "Gateway connection type. Possible values are: 'Ipsec','Vnet2Vnet','ExpressRoute', and 'VPNClient."
     types:
     - uid: VirtualNetworkGatewayConnectionType
+  - name: properties.connectionProtocol
+    description: Connection protocol used for this connection
+    types:
+    - uid: VirtualNetworkGatewayConnectionProtocol
   - name: properties.routingWeight
     description: The routing weight.
     types:
@@ -138,6 +142,10 @@ definitions:
     description: "The provisioning state of the VirtualNetworkGatewayConnection resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
+  - name: properties.expressRouteGatewayBypass
+    description: Bypass ExpressRoute Gateway for data forwarding
+    types:
+    - uid: boolean
   - name: id
     description: Resource ID.
     types:
@@ -325,6 +333,16 @@ definitions:
     types:
     - uid: string
   - name: VPNClient
+    types:
+    - uid: string
+- name: VirtualNetworkGatewayConnectionProtocol
+  description: Connection protocol used for this connection
+  kind: enum
+  properties:
+  - name: IKEv2
+    types:
+    - uid: string
+  - name: IKEv1
     types:
     - uid: string
 - name: VirtualNetworkGatewayConnectionStatus
@@ -854,7 +872,7 @@ definitions:
 examples:
 - name: UpdateVirtualNetworkGatewayConnectionTags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/test?api-version=2018-04-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/test?api-version=2018-08-01
     body: >-
       {
         "tags": {
@@ -878,10 +896,12 @@ examples:
           "provisioningState": "Succeeded",
           "resourceGuid": "00000000-0000-0000-0000-000000000000",
           "virtualNetworkGateway1": {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw"
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw",
+            "properties": {}
           },
           "localNetworkGateway2": {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/localNetworkGateways/lgw"
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/localNetworkGateways/lgw",
+            "properties": {}
           },
           "connectionType": "IPsec",
           "routingWeight": 0,

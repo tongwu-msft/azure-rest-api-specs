@@ -3,14 +3,14 @@ uid: management.azure.com.firewall.azurefirewalls.azurefirewalls_get
 name: Get
 service: Firewall
 groupName: Azure Firewalls
-apiVersion: 2018-04-01
+apiVersion: 2018-08-01
 summary: Gets the specified Azure Firewall.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}?api-version=2018-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}?api-version=2018-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,7 +38,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Request successful. The operation returns a AzureFirewall resource.
+  description: Request successful. The operation returns an AzureFirewall resource.
   types:
   - uid: AzureFirewall
 requestHeader: []
@@ -53,12 +53,17 @@ definitions:
     types:
     - uid: string
   - name: properties.applicationRuleCollections
-    description: Collection of application rule collections used by a Azure Firewall.
+    description: Collection of application rule collections used by Azure Firewall.
     types:
     - uid: AzureFirewallApplicationRuleCollection
       isArray: true
+  - name: properties.natRuleCollections
+    description: Collection of NAT rule collections used by Azure Firewall.
+    types:
+    - uid: AzureFirewallNatRuleCollection
+      isArray: true
   - name: properties.networkRuleCollections
-    description: Collection of network rule collections used by a Azure Firewall.
+    description: Collection of network rule collections used by Azure Firewall.
     types:
     - uid: AzureFirewallNetworkRuleCollection
       isArray: true
@@ -133,6 +138,41 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: AzureFirewallNatRuleCollection
+  description: NAT rule collection resource
+  kind: object
+  properties:
+  - name: name
+    description: Gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.priority
+    description: Priority of the NAT rule collection resource.
+    types:
+    - uid: integer
+  - name: properties.action
+    description: The action type of a NAT rule collection
+    types:
+    - uid: AzureFirewallNatRCAction
+  - name: properties.rules
+    description: Collection of rules used by a NAT rule collection.
+    types:
+    - uid: AzureFirewallNatRule
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: AzureFirewallNetworkRuleCollection
   description: Network rule collection resource
   kind: object
@@ -177,6 +217,7 @@ definitions:
     types:
     - uid: string
   - name: etag
+    isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
@@ -188,12 +229,8 @@ definitions:
     description: Reference of the subnet resource. This resource must be named 'AzureFirewallSubnet'.
     types:
     - uid: SubResource
-  - name: properties.internalPublicIpAddress
-    description: Reference of the PublicIP resource. This field is a mandatory input.
-    types:
-    - uid: SubResource
   - name: properties.publicIPAddress
-    description: Reference of the PublicIP resource. This field is populated in the output.
+    description: Reference of the PublicIP resource. This field is a mandatory input if subnet is not null.
     types:
     - uid: SubResource
   - name: properties.provisioningState
@@ -251,11 +288,64 @@ definitions:
     types:
     - uid: AzureFirewallApplicationRuleProtocol
       isArray: true
-  - name: targetUrls
-    description: List of URLs for this rule.
+  - name: targetFqdns
+    description: List of FQDNs for this rule.
     types:
     - uid: string
       isArray: true
+  - name: fqdnTags
+    description: List of FQDN Tags for this rule.
+    types:
+    - uid: string
+      isArray: true
+- name: AzureFirewallNatRCAction
+  description: AzureFirewall NAT Rule Collection Action.
+  kind: object
+  properties:
+  - name: type
+    description: The type of action.
+    types:
+    - uid: AzureFirewallNatRCActionType
+- name: AzureFirewallNatRule
+  description: Properties of a NAT rule.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the NAT rule.
+    types:
+    - uid: string
+  - name: description
+    description: Description of the rule.
+    types:
+    - uid: string
+  - name: sourceAddresses
+    description: List of source IP addresses for this rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: destinationAddresses
+    description: List of destination IP addresses for this rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: destinationPorts
+    description: List of destination ports.
+    types:
+    - uid: string
+      isArray: true
+  - name: protocols
+    description: Array of AzureFirewallNetworkRuleProtocols applicable to this NAT rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: translatedAddress
+    description: The translated address for this NAT rule.
+    types:
+    - uid: string
+  - name: translatedPort
+    description: The translated port for this NAT rule.
+    types:
+    - uid: string
 - name: AzureFirewallNetworkRule
   description: Properties of the network rule.
   kind: object
@@ -318,6 +408,16 @@ definitions:
     description: Port number for the protocol, cannot be greater than 64000. This field is optional.
     types:
     - uid: integer
+- name: AzureFirewallNatRCActionType
+  description: The action type of a NAT rule collection
+  kind: enum
+  properties:
+  - name: Snat
+    types:
+    - uid: string
+  - name: Dnat
+    types:
+    - uid: string
 - name: AzureFirewallApplicationRuleProtocolType
   description: The protocol type of a Application Rule resource
   kind: enum
@@ -331,7 +431,7 @@ definitions:
 examples:
 - name: Get Azure Firewall
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall?api-version=2018-04-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall?api-version=2018-08-01
   responses:
   - statusCode: "200"
     body: >-
@@ -379,13 +479,42 @@ examples:
                         "port": 443
                       }
                     ],
-                    "targetUrls": [
+                    "targetFqdns": [
                       "www.test.com"
                     ],
                     "sourceAddresses": [
                       "216.58.216.164",
                       "10.0.0.0/24"
                     ]
+                  }
+                ]
+              }
+            }
+          ],
+          "natRuleCollections": [
+            {
+              "name": "natrulecoll",
+              "properties": {
+                "priority": 112,
+                "action": "Dnat",
+                "rules": [
+                  {
+                    "name": "DNAT-HTTPS-traffic",
+                    "description": "D-NAT all outbound web traffic for inspection",
+                    "sourceAddresses": [
+                      "*"
+                    ],
+                    "destinationAddresses": [
+                      "1.2.3.4"
+                    ],
+                    "destinationPorts": [
+                      "443"
+                    ],
+                    "protocols": [
+                      "TCP"
+                    ],
+                    "translatedAddress": "1.2.3.5",
+                    "translatedPort": "8443"
                   }
                 ]
               }
@@ -399,8 +528,8 @@ examples:
                 "action": "Deny",
                 "rules": [
                   {
-                    "name": "D-NAT-web-traffic",
-                    "description": "D-NAT all outbound web traffic for inspection",
+                    "name": "L4-traffic",
+                    "description": "Block traffic based on source IPs and ports",
                     "sourceAddresses": [
                       "192.168.1.1-192.168.1.12",
                       "10.1.4.12-10.1.4.255"
@@ -413,8 +542,7 @@ examples:
                       "*"
                     ],
                     "protocols": [
-                      "TCP",
-                      "ICMP"
+                      "TCP"
                     ]
                   }
                 ]

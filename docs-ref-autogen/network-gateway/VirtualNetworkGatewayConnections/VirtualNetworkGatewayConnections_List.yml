@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgatewayconnections.virtu
 name: List
 service: Network Gateway
 groupName: Virtual Network Gateway Connections
-apiVersion: 2018-04-01
+apiVersion: 2018-08-01
 summary: The List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections?api-version=2018-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections?api-version=2018-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -79,6 +79,10 @@ definitions:
     description: "Gateway connection type. Possible values are: 'Ipsec','Vnet2Vnet','ExpressRoute', and 'VPNClient."
     types:
     - uid: VirtualNetworkGatewayConnectionType
+  - name: properties.connectionProtocol
+    description: Connection protocol used for this connection
+    types:
+    - uid: VirtualNetworkGatewayConnectionProtocol
   - name: properties.routingWeight
     description: The routing weight.
     types:
@@ -134,6 +138,10 @@ definitions:
     description: "The provisioning state of the VirtualNetworkGatewayConnection resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
+  - name: properties.expressRouteGatewayBypass
+    description: Bypass ExpressRoute Gateway for data forwarding
+    types:
+    - uid: boolean
   - name: id
     description: Resource ID.
     types:
@@ -309,6 +317,16 @@ definitions:
     types:
     - uid: string
   - name: VPNClient
+    types:
+    - uid: string
+- name: VirtualNetworkGatewayConnectionProtocol
+  description: Connection protocol used for this connection
+  kind: enum
+  properties:
+  - name: IKEv2
+    types:
+    - uid: string
+  - name: IKEv1
     types:
     - uid: string
 - name: VirtualNetworkGatewayConnectionStatus
@@ -838,7 +856,7 @@ definitions:
 examples:
 - name: ListVirtualNetworkGatewayConnectionsinResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections?api-version=2018-04-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections?api-version=2018-08-01
   responses:
   - statusCode: "200"
     body: >-
@@ -862,6 +880,7 @@ examples:
                 "properties": {}
               },
               "connectionType": "IPsec",
+              "connectionProtocol": "IKEv1",
               "routingWeight": 0,
               "enableBgp": false,
               "usePolicyBasedTrafficSelectors": false,
@@ -888,6 +907,7 @@ examples:
                 "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/localNetworkGateways/localgw2"
               },
               "connectionType": "IPsec",
+              "connectionProtocol": "IKEv2",
               "routingWeight": 0,
               "enableBgp": false,
               "usePolicyBasedTrafficSelectors": false,

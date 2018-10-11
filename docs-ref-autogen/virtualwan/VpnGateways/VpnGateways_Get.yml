@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.vpngateways.vpngateways_get
 name: Get
 service: Virtual WAN
 groupName: Vpn Gateways
-apiVersion: 2018-04-01
+apiVersion: 2018-08-01
 summary: Retrieves the details of a virtual wan vpn gateway.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}?api-version=2018-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}?api-version=2018-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -74,10 +74,10 @@ definitions:
     description: The provisioning state of the resource.
     types:
     - uid: ProvisioningState
-  - name: properties.policies
-    description: The policies applied to this vpn gateway.
+  - name: properties.vpnGatewayScaleUnit
+    description: The scale unit for this vpn gateway.
     types:
-    - uid: Policies
+    - uid: integer
   - name: id
     description: Resource ID.
     types:
@@ -141,7 +141,6 @@ definitions:
   kind: object
   properties:
   - name: name
-    isReadyOnly: true
     description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
     types:
     - uid: string
@@ -163,6 +162,10 @@ definitions:
     description: The connection status.
     types:
     - uid: vpnConnectionStatus
+  - name: properties.vpnConnectionProtocolType
+    description: Connection protocol used for this connection
+    types:
+    - uid: VirtualNetworkGatewayConnectionProtocol
   - name: properties.ingressBytesTransferred
     isReadyOnly: true
     description: Ingress bytes transferred.
@@ -174,7 +177,6 @@ definitions:
     types:
     - uid: integer
   - name: properties.connectionBandwidth
-    isReadyOnly: true
     description: Expected bandwidth in MBPS.
     types:
     - uid: integer
@@ -191,6 +193,14 @@ definitions:
     types:
     - uid: IpsecPolicy
       isArray: true
+  - name: properties.enableRateLimiting
+    description: EnableBgp flag
+    types:
+    - uid: boolean
+  - name: properties.enableInternetSecurity
+    description: Enable internet security
+    types:
+    - uid: boolean
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the resource.
@@ -200,23 +210,6 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: BgpSettings
   description: BGP settings details
   kind: object
@@ -249,18 +242,6 @@ definitions:
   - name: Failed
     types:
     - uid: string
-- name: Policies
-  description: Policies for vpn gateway.
-  kind: object
-  properties:
-  - name: allowBranchToBranchTraffic
-    description: True if branch to branch traffic is allowed.
-    types:
-    - uid: boolean
-  - name: allowVnetToVnetTraffic
-    description: True if Vnet to Vnet traffic is allowed.
-    types:
-    - uid: boolean
 - name: ErrorDetails
   kind: object
   properties:
@@ -290,6 +271,16 @@ definitions:
     types:
     - uid: string
   - name: NotConnected
+    types:
+    - uid: string
+- name: VirtualNetworkGatewayConnectionProtocol
+  description: Connection protocol used for this connection
+  kind: enum
+  properties:
+  - name: IKEv2
+    types:
+    - uid: string
+  - name: IKEv1
     types:
     - uid: string
 - name: IpsecPolicy
@@ -490,7 +481,7 @@ definitions:
 examples:
 - name: VpnGatewayGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1?api-version=2018-04-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1?api-version=2018-08-01
   responses:
   - statusCode: "200"
     body: >-
@@ -530,10 +521,6 @@ examples:
             "asn": 65514,
             "bgpPeeringAddress": "10.0.1.30",
             "peerWeight": 0
-          },
-          "policies": {
-            "allowBranchToBranchTraffic": true,
-            "allowVnetToVnetTraffic": false
           }
         }
       }
