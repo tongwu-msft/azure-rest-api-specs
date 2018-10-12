@@ -116,7 +116,7 @@ private static string createToken(string resourceUri, string keyName, string key
 }
 ```
 
-## Azure PowerShell
+## PowerShell
 
 ```azurepowershell-interactive
 [Reflection.Assembly]::LoadWithPartialName("System.Web")| out-null
