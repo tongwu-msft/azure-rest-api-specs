@@ -1,10 +1,10 @@
 ### YamlMime:RESTOperation
-uid: graph.windows.net.graphrbac.serviceprincipals.serviceprincipals_create
-name: Create
+uid: graph.windows.net.graphrbac.serviceprincipals.serviceprincipals_update
+name: Update
 service: Graph RBAC
 groupName: Service Principals
 apiVersion: "1.6"
-summary: Creates a service principal in the directory.
+summary: Updates a service principal in the directory.
 consumes:
 - application/json
 - text/json
@@ -12,12 +12,18 @@ produces:
 - application/json
 - text/json
 paths:
-- content: POST https://graph.windows.net/{tenantID}/servicePrincipals?api-version=1.6
+- content: PATCH https://graph.windows.net/{tenantID}/servicePrincipals/{objectId}?api-version=1.6
 uriParameters:
 - name: tenantID
   in: path
   isRequired: true
   description: The tenant ID.
+  types:
+  - uid: string
+- name: objectId
+  in: path
+  isRequired: true
+  description: The object ID of the service principal to delete.
   types:
   - uid: string
 - name: api-version
@@ -27,10 +33,8 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 201 Created
-  description: The service principal was created successfully.
-  types:
-  - uid: ServicePrincipal
+- name: 204 No Content
+  description: No Content
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -45,7 +49,6 @@ requestBody:
     - uid: boolean
   - name: appId
     in: body
-    isRequired: true
     description: application Id
     types:
     - uid: string
@@ -163,43 +166,6 @@ definitions:
     description: Key value.
     types:
     - uid: string
-- name: ServicePrincipal
-  description: Active Directory service principal information.
-  kind: object
-  properties:
-  - name: displayName
-    description: The display name of the service principal.
-    types:
-    - uid: string
-  - name: appId
-    description: The application ID.
-    types:
-    - uid: string
-  - name: appRoles
-    description: The collection of application roles that an application may declare. These roles can be assigned to users, groups or service principals.
-    types:
-    - uid: AppRole
-      isArray: true
-  - name: servicePrincipalNames
-    description: A collection of service principal names.
-    types:
-    - uid: string
-      isArray: true
-  - name: objectId
-    isReadyOnly: true
-    description: The object ID.
-    types:
-    - uid: string
-  - name: objectType
-    isReadyOnly: true
-    description: The object type.
-    types:
-    - uid: string
-  - name: deletionTimestamp
-    isReadyOnly: true
-    description: The time at which the directory object was deleted.
-    types:
-    - uid: string
 - name: GraphError
   description: Active Directory error information.
   kind: object
@@ -212,7 +178,7 @@ definitions:
     description: Error message value.
     types:
     - uid: string
-- name: ServicePrincipalCreateParameters
+- name: ServicePrincipalUpdateParameters
   description: Request parameters for creating a new service principal.
   kind: object
   properties:
@@ -273,34 +239,6 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: AppRole
-  kind: object
-  properties:
-  - name: id
-    description: Unique role identifier inside the appRoles collection.
-    types:
-    - uid: string
-  - name: allowedMemberTypes
-    description: "Specifies whether this app role definition can be assigned to users and groups by setting to 'User', or to other applications (that are accessing this application in daemon service scenarios) by setting to 'Application', or to both. "
-    types:
-    - uid: string
-      isArray: true
-  - name: description
-    description: Permission help text that appears in the admin app assignment and consent experiences.
-    types:
-    - uid: string
-  - name: displayName
-    description: Display name for the permission that appears in the admin consent and app assignment experiences.
-    types:
-    - uid: string
-  - name: isEnabled
-    description: When creating or updating a role definition, this must be set to true (which is the default). To delete a role, this must first be set to false. At that point, in a subsequent call, this role may be removed.
-    types:
-    - uid: boolean
-  - name: value
-    description: Specifies the value of the roles claim that the application should expect in the authentication and access tokens.
-    types:
-    - uid: string
 examples: []
 security:
 - type: oauth2

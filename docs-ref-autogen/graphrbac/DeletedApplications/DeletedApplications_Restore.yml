@@ -1,10 +1,10 @@
 ### YamlMime:RESTOperation
-uid: graph.windows.net.graphrbac.serviceprincipals.serviceprincipals_get
-name: Get
+uid: graph.windows.net.graphrbac.deletedapplications.deletedapplications_restore
+name: Restore
 service: Graph RBAC
-groupName: Service Principals
+groupName: Deleted Applications
 apiVersion: "1.6"
-summary: Gets service principal information from the directory. Query by objectId or pass a filter to query by appId
+summary: Restores the deleted application in the directory.
 consumes:
 - application/json
 - text/json
@@ -12,7 +12,7 @@ produces:
 - application/json
 - text/json
 paths:
-- content: GET https://graph.windows.net/{tenantID}/servicePrincipals/{objectId}?api-version=1.6
+- content: POST https://graph.windows.net/{tenantID}/deletedApplications/{objectId}/restore?api-version=1.6
 uriParameters:
 - name: tenantID
   in: path
@@ -23,7 +23,7 @@ uriParameters:
 - name: objectId
   in: path
   isRequired: true
-  description: The object ID of the service principal to get.
+  description: Application object ID.
   types:
   - uid: string
 - name: api-version
@@ -34,23 +34,19 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK. The operation was successful.
+  description: The application was restored successfully.
   types:
-  - uid: ServicePrincipal
+  - uid: Application
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: GraphError
 requestHeader: []
 definitions:
-- name: ServicePrincipal
-  description: Active Directory service principal information.
+- name: Application
+  description: Active Directory application information.
   kind: object
   properties:
-  - name: displayName
-    description: The display name of the service principal.
-    types:
-    - uid: string
   - name: appId
     description: The application ID.
     types:
@@ -60,11 +56,37 @@ definitions:
     types:
     - uid: AppRole
       isArray: true
-  - name: servicePrincipalNames
-    description: A collection of service principal names.
+  - name: appPermissions
+    description: The application permissions.
     types:
     - uid: string
       isArray: true
+  - name: availableToOtherTenants
+    description: Whether the application is be available to other tenants.
+    types:
+    - uid: boolean
+  - name: displayName
+    description: The display name of the application.
+    types:
+    - uid: string
+  - name: identifierUris
+    description: A collection of URIs for the application.
+    types:
+    - uid: string
+      isArray: true
+  - name: replyUrls
+    description: A collection of reply URLs for the application.
+    types:
+    - uid: string
+      isArray: true
+  - name: homepage
+    description: The home page of the application.
+    types:
+    - uid: string
+  - name: oauth2AllowImplicitFlow
+    description: Whether to allow implicit grant flow for OAuth2
+    types:
+    - uid: boolean
   - name: objectId
     isReadyOnly: true
     description: The object ID.
