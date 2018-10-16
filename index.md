@@ -19,6 +19,7 @@ Welcome to the Azure REST API Reference.
 
 Representational State Transfer (REST) APIs are service endpoints that support sets of HTTP operations (methods), which provide create, retrieve, update, or delete access to the service's resources. This article walks you through:
 
+* **NEW** Azure REST APIs with Postman in 2 Minutes - A quickstart for calling the Azure REST APIs with a client id and secret.
 * The basic components of a REST API request/response pair.
 * How to register your client application with Azure Active Directory (Azure AD) to secure your REST requests.
 * Overviews of creating and sending a REST request, and handling the response.
@@ -31,6 +32,13 @@ Representational State Transfer (REST) APIs are service endpoints that support s
 > [Node.js][SDK-NODE]   
 > [Python][SDK-PYTHON]   
 > [Azure CLI 2.0 SDK][SDK-CLI]    
+
+## Azure REST APIs with Postman in 2 Minutes
+
+The following video will show you how to quickly authenticate with the Azure REST APIs via the client id/secret method.  We encourage you continue reading below to learn about what constitutes a REST operation, but if you need to quickly call the APIs, this video is for you.
+
+
+[!VIDEO https://aka.ms/azurerestpostman]
 
 ## Components of a REST API request/response
 
