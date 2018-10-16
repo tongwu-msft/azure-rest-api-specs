@@ -1,7 +1,6 @@
 ---
 title: "Get Application Event List"
 ms.date: "2018-07-20"
-ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

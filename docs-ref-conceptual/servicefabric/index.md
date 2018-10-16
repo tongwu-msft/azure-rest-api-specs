@@ -1,7 +1,6 @@
 ---
 title: "Service Fabric REST APIs"
 ms.date: "2018-07-23"
-ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
