@@ -40,6 +40,8 @@ The following video will show you how to quickly authenticate with the Azure RES
 
 [!VIDEO https://aka.ms/azurerestpostman]
 
+You can read the full walk through on Jon Gallant's blog here: [Azure REST APIs with Postman in 2 Minutes](https://aka.ms/azurerest)
+
 ## Components of a REST API request/response
 
 A REST API request/response pair can be separated into five components:
