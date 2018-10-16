@@ -35,7 +35,7 @@ Representational State Transfer (REST) APIs are service endpoints that support s
 
 ## Azure REST APIs with Postman in 2 Minutes
 
-The following video will show you how to quickly authenticate with the Azure REST APIs via the client id/secret method.  We encourage you continue reading below to learn about what constitutes a REST operation, but if you need to quickly call the APIs, this video is for you.
+The following video will show you how to quickly authenticate with the Azure REST APIs via the client id/secret method.  We encourage you continue reading below to learn about what constitutes an REST operation, but if you need to quickly call the APIs, this video is for you.
 
 
 [!VIDEO https://aka.ms/azurerestpostman]
