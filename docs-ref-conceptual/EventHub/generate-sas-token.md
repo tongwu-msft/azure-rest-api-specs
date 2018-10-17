@@ -118,7 +118,7 @@ private static string createToken(string resourceUri, string keyName, string key
 
 ## PowerShell
 
-```azurepowershell-interactive
+```powershell-interactive
 [Reflection.Assembly]::LoadWithPartialName("System.Web")| out-null
 $URI="myNamespace.servicebus.windows.net/myEventHub"
 $Access_Policy_Name="RootManageSharedAccessKey"
