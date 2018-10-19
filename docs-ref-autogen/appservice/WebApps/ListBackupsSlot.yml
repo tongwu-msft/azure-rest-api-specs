@@ -1,0 +1,242 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.webapps.listbackupsslot
+name: List Backups Slot
+service: App Service
+groupName: Web Apps
+apiVersion: 2016-08-01
+summary: Gets existing backups of an app.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/backups?api-version=2016-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the app.
+  types:
+  - uid: string
+- name: slot
+  in: path
+  isRequired: true
+  description: Name of the deployment slot. If a slot is not specified, the API will get backups of the production slot.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: BackupItemCollection
+requestHeader: []
+definitions:
+- name: BackupItemCollection
+  description: Collection of backup items.
+  kind: object
+  properties:
+  - name: value
+    description: Collection of resources.
+    types:
+    - uid: BackupItem
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to next page of resources.
+    types:
+    - uid: string
+- name: BackupItem
+  description: Backup description.
+  kind: object
+  properties:
+  - name: properties.id
+    isReadyOnly: true
+    description: Id of the backup.
+    types:
+    - uid: integer
+  - name: properties.storageAccountUrl
+    isReadyOnly: true
+    description: SAS URL for the storage account container which contains this backup.
+    types:
+    - uid: string
+  - name: properties.blobName
+    isReadyOnly: true
+    description: Name of the blob which contains data for this backup.
+    types:
+    - uid: string
+  - name: properties.name
+    isReadyOnly: true
+    description: Name of this backup.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: Backup status.
+    types:
+    - uid: BackupItemStatus
+  - name: properties.sizeInBytes
+    isReadyOnly: true
+    description: Size of the backup in bytes.
+    types:
+    - uid: integer
+  - name: properties.created
+    isReadyOnly: true
+    description: Timestamp of the backup creation.
+    types:
+    - uid: string
+  - name: properties.log
+    isReadyOnly: true
+    description: Details regarding this backup. Might contain an error message.
+    types:
+    - uid: string
+  - name: properties.databases
+    isReadyOnly: true
+    description: List of databases included in the backup.
+    types:
+    - uid: DatabaseBackupSetting
+      isArray: true
+  - name: properties.scheduled
+    isReadyOnly: true
+    description: True if this backup has been created due to a schedule being triggered.
+    types:
+    - uid: boolean
+  - name: properties.lastRestoreTimeStamp
+    isReadyOnly: true
+    description: Timestamp of a last restore operation which used this backup.
+    types:
+    - uid: string
+  - name: properties.finishedTimeStamp
+    isReadyOnly: true
+    description: Timestamp when this backup finished.
+    types:
+    - uid: string
+  - name: properties.correlationId
+    isReadyOnly: true
+    description: Unique correlation identifier. Please use this along with the timestamp while communicating with Azure support.
+    types:
+    - uid: string
+  - name: properties.websiteSizeInBytes
+    isReadyOnly: true
+    description: Size of the original web app which has been backed up.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: BackupItemStatus
+  description: Backup status.
+  kind: enum
+  properties:
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: TimedOut
+    types:
+    - uid: string
+  - name: Created
+    types:
+    - uid: string
+  - name: Skipped
+    types:
+    - uid: string
+  - name: PartiallySucceeded
+    types:
+    - uid: string
+  - name: DeleteInProgress
+    types:
+    - uid: string
+  - name: DeleteFailed
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+- name: DatabaseBackupSetting
+  description: Database backup settings.
+  kind: object
+  properties:
+  - name: databaseType
+    description: Database type (e.g. SqlAzure / MySql).
+    types:
+    - uid: DatabaseType
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: connectionStringName
+    description: >-
+      Contains a connection string name that is linked to the SiteConfig.ConnectionStrings.
+
+      This is used during restore with overwrite connection strings options.
+    types:
+    - uid: string
+  - name: connectionString
+    description: Contains a connection string to a database which is being backed up or restored. If the restore should happen to a new database, the database name inside is the new one.
+    types:
+    - uid: string
+- name: DatabaseType
+  description: Database type (e.g. SqlAzure / MySql).
+  kind: enum
+  properties:
+  - name: SqlAzure
+    types:
+    - uid: string
+  - name: MySql
+    types:
+    - uid: string
+  - name: LocalMySql
+    types:
+    - uid: string
+  - name: PostgreSql
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

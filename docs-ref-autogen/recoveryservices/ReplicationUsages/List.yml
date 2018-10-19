@@ -1,0 +1,163 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.recoveryservices.replicationusages.list
+name: List
+service: Recovery Services
+groupName: Replication Usages
+apiVersion: 2016-06-01
+summary: Fetches the replication usages of the vault.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/replicationUsages?api-version=2016-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ReplicationUsageList
+requestHeader: []
+definitions:
+- name: ReplicationUsageList
+  description: Replication usages for vault.
+  kind: object
+  properties:
+  - name: value
+    description: The list of replication usages for the given vault.
+    types:
+    - uid: ReplicationUsage
+      isArray: true
+- name: ReplicationUsage
+  description: Replication usages of a vault.
+  kind: object
+  properties:
+  - name: monitoringSummary
+    description: Summary of the replication monitoring data for this vault.
+    types:
+    - uid: MonitoringSummary
+  - name: jobsSummary
+    description: Summary of the replication jobs data for this vault.
+    types:
+    - uid: JobsSummary
+  - name: protectedItemCount
+    description: Number of replication protected items for this vault.
+    types:
+    - uid: integer
+  - name: recoveryPlanCount
+    description: Number of replication recovery plans for this vault.
+    types:
+    - uid: integer
+  - name: registeredServersCount
+    description: Number of servers registered to this vault.
+    types:
+    - uid: integer
+  - name: recoveryServicesProviderAuthType
+    description: The authentication type of recovery service providers in the vault.
+    types:
+    - uid: integer
+- name: MonitoringSummary
+  description: Summary of the replication monitoring data for this vault.
+  kind: object
+  properties:
+  - name: unHealthyVmCount
+    description: Count of unhealthy VMs.
+    types:
+    - uid: integer
+  - name: unHealthyProviderCount
+    description: Count of unhealthy replication providers.
+    types:
+    - uid: integer
+  - name: eventsCount
+    description: Count of all critical warnings.
+    types:
+    - uid: integer
+  - name: deprecatedProviderCount
+    description: Count of all deprecated recovery service providers.
+    types:
+    - uid: integer
+  - name: supportedProviderCount
+    description: Count of all the supported recovery service providers.
+    types:
+    - uid: integer
+  - name: unsupportedProviderCount
+    description: Count of all the unsupported recovery service providers.
+    types:
+    - uid: integer
+- name: JobsSummary
+  description: Summary of the replication job data for this vault.
+  kind: object
+  properties:
+  - name: failedJobs
+    description: Count of failed jobs.
+    types:
+    - uid: integer
+  - name: suspendedJobs
+    description: Count of suspended jobs.
+    types:
+    - uid: integer
+  - name: inProgressJobs
+    description: Count of in-progress jobs.
+    types:
+    - uid: integer
+examples:
+- name: Gets Replication usages of vault
+  request:
+    uri: GET https://management.azure.com/Subscriptions/6808dbbc-98c7-431f-a1b1-9580902423b7/resourceGroups/avrai7517RG1/providers/Microsoft.RecoveryServices/vaults/avrai7517Vault1/replicationUsages?api-version=2016-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "monitoringSummary": {
+              "unHealthyVmCount": 0,
+              "unHealthyProviderCount": 0,
+              "eventsCount": 0,
+              "deprecatedProviderCount": 0,
+              "supportedProviderCount": 0,
+              "unsupportedProviderCount": 0
+            },
+            "jobsSummary": {
+              "failedJobs": 0,
+              "suspendedJobs": 0,
+              "inProgressJobs": 0
+            },
+            "protectedItemCount": 2,
+            "registeredServersCount": 2,
+            "recoveryPlanCount": 1
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.

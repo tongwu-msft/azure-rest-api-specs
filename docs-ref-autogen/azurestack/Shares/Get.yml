@@ -1,0 +1,162 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.shares.get
+name: Get
+service: Azure Stack Admin
+groupName: Shares
+apiVersion: 2015-12-01-preview
+summary: Returns a storage share.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage.Admin/farms/{farmId}/shares/{shareName}?api-version=2015-12-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name.
+  types:
+  - uid: string
+- name: farmId
+  in: path
+  isRequired: true
+  description: Farm Id.
+  types:
+  - uid: string
+- name: shareName
+  in: path
+  isRequired: true
+  description: Share name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: REST Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- The storage share has been returned.
+  types:
+  - uid: Share
+- name: 404 Not Found
+  description: NOT FOUND -- The farm or storage share cannot be found.
+requestHeader: []
+definitions:
+- name: Share
+  description: Storage share.
+  kind: object
+  properties:
+  - name: properties.shareName
+    isReadyOnly: true
+    description: The name of the storage share.
+    types:
+    - uid: string
+  - name: properties.uncPath
+    isReadyOnly: true
+    description: The UNC path to the storage share.
+    types:
+    - uid: string
+  - name: properties.totalCapacity
+    isReadyOnly: true
+    description: The total capacity of the storage share in bytes.
+    types:
+    - uid: integer
+  - name: properties.usedCapacity
+    isReadyOnly: true
+    description: The used capacity of the storage share in bytes.
+    types:
+    - uid: integer
+  - name: properties.freeCapacity
+    isReadyOnly: true
+    description: The free space of the storage share in bytes.
+    types:
+    - uid: integer
+  - name: properties.healthStatus
+    isReadyOnly: true
+    description: The health status of the storage share.
+    types:
+    - uid: HealthStatus
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: HealthStatus
+  description: Current health status.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Healthy
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Critical
+    types:
+    - uid: string
+examples:
+- name: Returns a storage share.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/9ad61516-995c-4873-a21f-7e44904f0ed2/resourcegroups/System.local/providers/Microsoft.Storage.Admin/farms/3cf03497-c44a-4e51-a56f-3987d88c70af/shares/||SU1FileServer.azurestack.local|SU1_ObjStore?api-version=2015-12-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/9ad61516-995c-4873-a21f-7e44904f0ed2/resourceGroups/System.local/providers/Microsoft.Storage.Admin/farms/3cf03497-c44a-4e51-a56f-3987d88c70af/shares/||SU1FileServer.azurestack.local|SU1_ObjStore",
+        "name": "3cf03497-c44a-4e51-a56f-3987d88c70af/||SU1FileServer.azurestack.local|SU1_ObjStore",
+        "type": "Microsoft.Storage.Admin/farms/shares",
+        "location": "local",
+        "properties": {
+          "shareName": "||SU1FileServer.azurestack.local|SU1_ObjStore",
+          "uncPath": "\\\\\\\\SU1FileServer.azurestack.local\\\\SU1_ObjStore",
+          "totalCapacity": 2728176648192,
+          "usedCapacity": 400509059072,
+          "freeCapacity": 2327667589120,
+          "healthStatus": "Healthy"
+        }
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

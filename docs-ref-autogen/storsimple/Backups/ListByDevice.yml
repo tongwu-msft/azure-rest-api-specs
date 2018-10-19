@@ -1,0 +1,283 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storsimple.backups.listbydevice
+name: List By Device
+service: StorSimple
+groupName: Backups
+apiVersion: 2017-06-01
+summary: Retrieves all the backups in a device.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backups?api-version=2017-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backups?api-version=2017-06-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription id
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name
+  types:
+  - uid: string
+- name: managerName
+  in: path
+  isRequired: true
+  description: The manager name
+  types:
+  - uid: string
+- name: deviceName
+  in: path
+  isRequired: true
+  description: The device name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData Filter options
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The collection of backups.
+  types:
+  - uid: BackupList
+requestHeader: []
+definitions:
+- name: BackupList
+  description: The collection of backups.
+  kind: object
+  properties:
+  - name: value
+    description: The value.
+    types:
+    - uid: Backup
+      isArray: true
+  - name: nextLink
+    description: The NextLink.
+    types:
+    - uid: string
+- name: Backup
+  description: The backup.
+  kind: object
+  properties:
+  - name: properties.createdOn
+    description: The time when the backup was created.
+    types:
+    - uid: string
+  - name: properties.sizeInBytes
+    description: The backup size in bytes.
+    types:
+    - uid: integer
+  - name: properties.backupType
+    description: The type of the backup.
+    types:
+    - uid: BackupType
+  - name: properties.backupJobCreationType
+    description: The backup job creation type.
+    types:
+    - uid: BackupJobCreationType
+  - name: properties.backupPolicyId
+    description: The path ID of the backup policy.
+    types:
+    - uid: string
+  - name: properties.ssmHostName
+    description: The StorSimple Snapshot Manager host name.
+    types:
+    - uid: string
+  - name: properties.elements
+    description: The backup elements.
+    types:
+    - uid: BackupElement
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the object.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+  - name: kind
+    description: The Kind of the object. Currently only Series8000 is supported
+    types:
+    - uid: Kind
+- name: BackupType
+  description: The type of the backup.
+  kind: enum
+  properties:
+  - name: LocalSnapshot
+    types:
+    - uid: string
+  - name: CloudSnapshot
+    types:
+    - uid: string
+- name: BackupJobCreationType
+  description: The backup job creation type.
+  kind: enum
+  properties:
+  - name: Adhoc
+    types:
+    - uid: string
+  - name: BySchedule
+    types:
+    - uid: string
+  - name: BySSM
+    types:
+    - uid: string
+- name: BackupElement
+  description: The backup element.
+  kind: object
+  properties:
+  - name: elementId
+    description: The path ID that uniquely identifies the backup element.
+    types:
+    - uid: string
+  - name: elementName
+    description: The name of the backup element.
+    types:
+    - uid: string
+  - name: elementType
+    description: The hierarchical type of the backup element.
+    types:
+    - uid: string
+  - name: sizeInBytes
+    description: The size in bytes.
+    types:
+    - uid: integer
+  - name: volumeName
+    description: The name of the volume.
+    types:
+    - uid: string
+  - name: volumeContainerId
+    description: The path ID of the volume container.
+    types:
+    - uid: string
+  - name: volumeType
+    description: The volume type.
+    types:
+    - uid: VolumeType
+- name: Kind
+  description: The Kind of the object. Currently only Series8000 is supported
+  kind: enum
+  properties:
+  - name: Series8000
+    types:
+    - uid: string
+- name: VolumeType
+  description: The volume type.
+  kind: enum
+  properties:
+  - name: Tiered
+    types:
+    - uid: string
+  - name: Archival
+    types:
+    - uid: string
+  - name: LocallyPinned
+    types:
+    - uid: string
+examples:
+- name: BackupsListByDevice
+  request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups?api-version=2017-06-01&$filter=createdTime%20ge%20'2017-06-22T18:30:00Z'%20and%20backupPolicyId%20eq%20'%2Fsubscriptions%2F4385cf00-2d3a-425a-832f-f4285b1c9dce%2FresourceGroups%2FResourceGroupForSDKTest%2Fproviders%2FMicrosoft.StorSimple%2Fmanagers%2FManagerForSDKTest1%2Fdevices%2FDevice05ForSDKTest%2FbackupPolicies%2FBkUpPolicy01ForSDKTest'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "createdOn": "2017-06-23T22:01:19.708Z",
+              "sizeInBytes": 21474836480,
+              "backupType": "CloudSnapshot",
+              "backupJobCreationType": "Adhoc",
+              "backupPolicyId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backupPolicies/BkUpPolicy01ForSDKTest",
+              "elements": [
+                {
+                  "elementId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/880e1774-94a8-4f3e-85e6-a61e6b94a8b7/elements/87d398b9-63e8-4973-af85-12707c280ce8_0000000000000000",
+                  "elementName": "87d398b9-63e8-4973-af85-12707c280ce8_0000000000000000",
+                  "elementType": "managers/devices/backups/elements",
+                  "sizeInBytes": 10737418240,
+                  "volumeName": "volume1",
+                  "volumeContainerId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/volumeContainerForSDKTest",
+                  "volumeType": "Tiered"
+                },
+                {
+                  "elementId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/880e1774-94a8-4f3e-85e6-a61e6b94a8b7/elements/7e115577-4a3b-4921-bfd4-ee5a1b9bcbb5_0000000000000000",
+                  "elementName": "7e115577-4a3b-4921-bfd4-ee5a1b9bcbb5_0000000000000000",
+                  "elementType": "managers/devices/backups/elements",
+                  "sizeInBytes": 10737418240,
+                  "volumeName": "Clonedvolume1",
+                  "volumeContainerId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/volumeContainerForSDKTest",
+                  "volumeType": "Tiered"
+                }
+              ]
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/880e1774-94a8-4f3e-85e6-a61e6b94a8b7",
+            "name": "880e1774-94a8-4f3e-85e6-a61e6b94a8b7",
+            "type": "Microsoft.StorSimple/managers/devices/backups",
+            "kind": "Series8000"
+          },
+          {
+            "properties": {
+              "createdOn": "2017-06-23T21:22:01.372Z",
+              "sizeInBytes": 26843545600,
+              "backupType": "CloudSnapshot",
+              "backupJobCreationType": "Adhoc",
+              "backupPolicyId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backupPolicies/BkUpPolicyForSDKTest1032280949",
+              "elements": [
+                {
+                  "elementId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/0826eda8-3d17-4cb9-b2af-d18ecf6ab819/elements/89f8af90-6420-45ec-9963-6b3e55d9a44c_0000000000000000",
+                  "elementName": "89f8af90-6420-45ec-9963-6b3e55d9a44c_0000000000000000",
+                  "elementType": "managers/devices/backups/elements",
+                  "sizeInBytes": 16106127360,
+                  "volumeName": "volume2",
+                  "volumeContainerId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/volumeContainerForSDKTest",
+                  "volumeType": "Tiered"
+                },
+                {
+                  "elementId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/0826eda8-3d17-4cb9-b2af-d18ecf6ab819/elements/95581ea2-b0aa-482a-be0c-8b7bd7658345_0000000000000000",
+                  "elementName": "95581ea2-b0aa-482a-be0c-8b7bd7658345_0000000000000000",
+                  "elementType": "managers/devices/backups/elements",
+                  "sizeInBytes": 10737418240,
+                  "volumeName": "volume1",
+                  "volumeContainerId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/volumeContainers/volumeContainerForSDKTest",
+                  "volumeType": "Tiered"
+                }
+              ]
+            },
+            "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups/0826eda8-3d17-4cb9-b2af-d18ecf6ab819",
+            "name": "0826eda8-3d17-4cb9-b2af-d18ecf6ab819",
+            "type": "Microsoft.StorSimple/managers/devices/backups",
+            "kind": "Series8000"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

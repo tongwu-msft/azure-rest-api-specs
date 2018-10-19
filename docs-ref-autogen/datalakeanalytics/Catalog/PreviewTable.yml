@@ -1,0 +1,134 @@
+### YamlMime:RESTOperation
+uid: datalakeanalytics.catalog.previewtable
+name: Preview Table
+service: Data Lake Analytics
+groupName: Catalog
+apiVersion: 2016-11-01
+summary: Retrieves a preview set of rows in given table.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{accountName}.{adlaCatalogDnsSuffix}/catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/previewrows?api-version=2016-11-01
+- content: GET https://{accountName}.{adlaCatalogDnsSuffix}/catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/previewrows?maxRows={maxRows}&maxColumns={maxColumns}&api-version=2016-11-01
+  isOptional: true
+uriParameters:
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Data Lake Analytics account upon which to execute catalog operations.
+  types:
+  - uid: string
+- name: adlaCatalogDnsSuffix
+  in: path
+  isRequired: true
+  description: Gets the DNS suffix used as the base for all Azure Data Lake Analytics Catalog service requests.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database containing the table.
+  types:
+  - uid: string
+- name: schemaName
+  in: path
+  isRequired: true
+  description: The name of the schema containing the table.
+  types:
+  - uid: string
+- name: tableName
+  in: path
+  isRequired: true
+  description: The name of the table.
+  types:
+  - uid: string
+- name: maxRows
+  in: query
+  description: The maximum number of preview rows to be retrieved. Rows returned may be less than or equal to this number depending on row sizes and number of rows in the table.
+  types:
+  - uid: integer
+  format: int64
+- name: maxColumns
+  in: query
+  description: The maximum number of columns to be retrieved.
+  types:
+  - uid: integer
+  format: int64
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved preview rows for the specified table.
+  types:
+  - uid: USqlTablePreview
+requestHeader: []
+definitions:
+- name: USqlTablePreview
+  description: A Data Lake Analytics catalog table or partition preview rows item.
+  kind: object
+  properties:
+  - name: totalRowCount
+    description: the total number of rows in the table or partition.
+    types:
+    - uid: integer
+  - name: totalColumnCount
+    description: the total number of columns in the table or partition.
+    types:
+    - uid: integer
+  - name: rows
+    description: "the rows of the table or partition preview, where each row is an array of string representations the row's values. Note: Byte arrays will appear as base-64 encoded values, SqlMap and SqlArray objects will appear as escaped JSON objects, and DateTime objects will appear as ISO formatted UTC date-times."
+    types:
+    - uid: array
+      isArray: true
+  - name: truncated
+    description: true if the amount of data in the response is less than expected due to the preview operation's size limitations. This can occur if the requested rows or row counts are too large.
+    types:
+    - uid: boolean
+  - name: schema
+    description: the schema of the table or partition.
+    types:
+    - uid: USqlTableColumn
+      isArray: true
+- name: USqlTableColumn
+  description: A Data Lake Analytics catalog U-SQL table column item.
+  kind: object
+  properties:
+  - name: name
+    description: the name of the column in the table.
+    types:
+    - uid: string
+  - name: type
+    description: the object type of the specified column (such as System.String).
+    types:
+    - uid: string
+examples:
+- name: Retrieves a preview set of rows in given table
+  request:
+    uri: GET https://contosoadla.azuredatalakeanalytics.net/catalog/usql/databases/master/schemas/dbo/tables/test_table_name/previewrows?api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalRowCount": 1,
+        "totalColumnCount": 2,
+        "rows": [
+          [
+            "value_a",
+            "value_b"
+          ]
+        ],
+        "truncated": false,
+        "schema": [
+          {
+            "name": "test_column_name",
+            "type": "test_data_type"
+          }
+        ]
+      }
+security: []

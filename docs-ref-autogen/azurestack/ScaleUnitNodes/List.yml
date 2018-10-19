@@ -1,0 +1,221 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.scaleunitnodes.list
+name: List
+service: Azure Stack Admin
+groupName: Scale Unit Nodes
+apiVersion: 2016-05-01
+summary: Returns a list of all scale unit nodes in a location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/scaleUnitNodes?api-version=2016-05-01
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/scaleUnitNodes?api-version=2016-05-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Location of the resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter parameter.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ScaleUnitNodeList
+- name: 404 Not Found
+  description: NOT FOUND
+requestHeader: []
+definitions:
+- name: ScaleUnitNodeList
+  description: A pageable list of scale unit nodes.
+  kind: object
+  properties:
+  - name: value
+    description: List of scale unit nodes.
+    types:
+    - uid: ScaleUnitNode
+      isArray: true
+  - name: nextLink
+    description: The URI to the next page.
+    types:
+    - uid: string
+- name: ScaleUnitNode
+  description: The physical server in a cluster.
+  kind: object
+  properties:
+  - name: properties.scaleUnitNodeStatus
+    description: Status of the physical machine.
+    types:
+    - uid: ScaleUnitNodeStatus
+  - name: properties.powerState
+    description: PowerState of the physical machine.
+    types:
+    - uid: PowerState
+  - name: properties.bmcAddress
+    description: BMC address of the physical machine.
+    types:
+    - uid: string
+  - name: properties.scaleUnitName
+    description: Cluster name of the physical machine.
+    types:
+    - uid: string
+  - name: properties.scaleUnitUri
+    description: URI of the corresponding cluster.
+    types:
+    - uid: string
+  - name: properties.canPowerOff
+    description: Value indicating whether the node can be powered off.
+    types:
+    - uid: boolean
+  - name: properties.vendor
+    description: Vendor of the physical machine.
+    types:
+    - uid: string
+  - name: properties.model
+    description: Model of the physical machine.
+    types:
+    - uid: string
+  - name: properties.serialNumber
+    description: Serial number of the physical machine.
+    types:
+    - uid: string
+  - name: properties.biosVersion
+    description: BIOS version of the physical machine.
+    types:
+    - uid: string
+  - name: properties.capacity
+    description: Capacity of the physical machine.
+    types:
+    - uid: ScaleUnitCapacity
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: The region where the resource is located.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ScaleUnitNodeStatus
+  description: Status of the physical machine.
+  kind: enum
+  properties:
+  - name: Running
+    types:
+    - uid: string
+  - name: Maintenance
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
+- name: PowerState
+  description: PowerState of the physical machine.
+  kind: enum
+  properties:
+  - name: Stopped
+    types:
+    - uid: string
+  - name: Starting
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Stopping
+    types:
+    - uid: string
+- name: ScaleUnitCapacity
+  description: The capacity information for a physical machine.
+  kind: object
+  properties:
+  - name: memoryGB
+    description: The memory for the physical machine.
+    types:
+    - uid: number
+  - name: cores
+    description: The number of CPU cores for the physical machine.
+    types:
+    - uid: integer
+examples:
+- name: List all scale unit node
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/scaleUnitNodes?api-version=2016-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/scaleUnitNodes/N1S2",
+            "name": "N1S2",
+            "type": "Microsoft.Fabric.Admin/fabricLocations/scaleUnitNodes",
+            "location": "local",
+            "tags": {},
+            "properties": {
+              "scaleUnitNodeStatus": "Running",
+              "powerState": "Running",
+              "scaleUnitName": "S-Cluster",
+              "scaleUnitUri": "/fabricLocations/local/scaleUnits/S-Cluster",
+              "canPowerOff": false,
+              "capacity": {
+                "memoryGB": 255.875,
+                "cores": 56
+              }
+            }
+          }
+        ]
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

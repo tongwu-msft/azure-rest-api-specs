@@ -1,0 +1,101 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.p2svpngateways.generatevpnprofile
+name: Generate Vpn Profile
+service: Virtual WAN
+groupName: P2s Vpn Gateways
+apiVersion: 2018-08-01
+summary: Generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/generatevpnprofile?api-version=2018-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: gatewayName
+  in: path
+  isRequired: true
+  description: The name of the P2SVpnGateway.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: VPN profile package URL.
+  types:
+  - uid: VpnProfileResponse
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+requestBody:
+- name: default
+  parameters:
+  - name: authenticationMethod
+    in: body
+    description: "VPN client Authentication Method. Possible values are: 'EAPTLS' and 'EAPMSCHAPv2'."
+    types:
+    - uid: AuthenticationMethod
+requestHeader: []
+definitions:
+- name: VpnProfileResponse
+  description: Vpn Profile Response for package generation
+  kind: object
+  properties:
+  - name: profileUrl
+    description: URL to the VPN profile
+    types:
+    - uid: string
+- name: P2SVpnProfileParameters
+  description: Vpn Client Parameters for package generation
+  kind: object
+  properties:
+  - name: authenticationMethod
+    description: "VPN client Authentication Method. Possible values are: 'EAPTLS' and 'EAPMSCHAPv2'."
+    types:
+    - uid: AuthenticationMethod
+- name: AuthenticationMethod
+  description: "VPN client Authentication Method. Possible values are: 'EAPTLS' and 'EAPMSCHAPv2'."
+  kind: enum
+  properties:
+  - name: EAPTLS
+    types:
+    - uid: string
+  - name: EAPMSCHAPv2
+    types:
+    - uid: string
+examples:
+- name: GenerateP2SVpnGatewayVPNProfile
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2svpnGateways/p2sVpnGateway1/generatevpnprofile?api-version=2018-08-01
+    body: >-
+      {
+        "authenticationMethod": "EAPTLS"
+      }
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: "\"\""
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

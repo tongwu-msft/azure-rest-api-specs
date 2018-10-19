@@ -1,0 +1,170 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.containers.cancelmigration
+name: Cancel Migration
+service: Azure Stack Admin
+groupName: Containers
+apiVersion: 2015-12-01-preview
+summary: Cancel a container migration job.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage.Admin/farms/{farmId}/shares/operationresults/{operationId}?api-version=2015-12-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name.
+  types:
+  - uid: string
+- name: farmId
+  in: path
+  isRequired: true
+  description: Farm Id.
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: Operation Id.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: REST Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- Operation has been accepted and processed
+  types:
+  - uid: MigrationResult
+- name: 202 Accepted
+  description: ACCEPTED - Operation has been accepted will be processed asynchronously
+  types:
+  - uid: MigrationResult
+requestHeader: []
+definitions:
+- name: MigrationResult
+  description: The result of the container migration.
+  kind: object
+  properties:
+  - name: jobId
+    isReadyOnly: true
+    description: The migration job ID.
+    types:
+    - uid: string
+  - name: sourceShareName
+    isReadyOnly: true
+    description: The name of the source storage share.
+    types:
+    - uid: string
+  - name: storageAccountName
+    isReadyOnly: true
+    description: The storage account name.
+    types:
+    - uid: string
+  - name: containerName
+    isReadyOnly: true
+    description: The name of the container to be migrated.
+    types:
+    - uid: string
+  - name: destinationShareName
+    isReadyOnly: true
+    description: The name of the destination storage share.
+    types:
+    - uid: string
+  - name: migrationStatus
+    isReadyOnly: true
+    description: The migration status.
+    types:
+    - uid: MigrationState
+  - name: subEntitiesCompleted
+    isReadyOnly: true
+    description: The number of entities which have been migrated.
+    types:
+    - uid: integer
+  - name: subEntitiesFailed
+    isReadyOnly: true
+    description: The number of entities which failed in migration.
+    types:
+    - uid: integer
+  - name: failureReason
+    isReadyOnly: true
+    description: The migration failure reason.
+    types:
+    - uid: string
+- name: MigrationState
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Paused
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+  - name: Rollback
+    types:
+    - uid: string
+  - name: Complete
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
+examples:
+- name: Cancel a container migration job.
+  request:
+    uri: POST https://adminmanagement.local.azurestack.external/subscriptions/9ad61516-995c-4873-a21f-7e44904f0ed2/resourcegroups/System.local/providers/Microsoft.Storage.Admin/farms/3cf03497-c44a-4e51-a56f-3987d88c70af/shares/operationresults/3ada6328-89ae-4263-8bfd-b76504a2bf66?api-version=2015-12-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "jobId": "3ada6328-89ae-4263-8bfd-b76504a2bf66",
+        "sourceShareName": "||SU1FileServer.azurestack.local|SU1_ObjStore",
+        "storageAccountName": "StorageAccountName1",
+        "containerName": "ContainerName1",
+        "destinationShareName": "\\\\192.168.1.1\\DestinationShare",
+        "migrationStatus": "Canceled",
+        "subEntitiesCompleted": 165,
+        "subEntitiesFailed": 5,
+        "failureReason": ""
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "jobId": "3ada6328-89ae-4263-8bfd-b76504a2bf66",
+        "sourceShareName": "||SU1FileServer.azurestack.local|SU1_ObjStore",
+        "storageAccountName": "StorageAccountName1",
+        "containerName": "ContainerName1",
+        "destinationShareName": "\\\\192.168.1.1\\DestinationShare",
+        "migrationStatus": "Rollback",
+        "subEntitiesCompleted": 165,
+        "subEntitiesFailed": 5,
+        "failureReason": ""
+      }
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

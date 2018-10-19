@@ -1,0 +1,215 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.elasticpooloperations.listbyelasticpool
+name: List By Elastic Pool
+service: SQL Database
+groupName: Elastic Pool Operations
+apiVersion: 2017-10-01-preview
+summary: Gets a list of operations performed on the elastic pool.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/operations?api-version=2017-10-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: elasticPoolName
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request for getting elastic pool operations has been executed successfully.
+  types:
+  - uid: ElasticPoolOperationListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 OperationIdNotFound - The operation with Id does not exist.
+
+     * 404 OperationIdNotFound - The operation with Id does not exist.
+
+     * 409 OperationCancelled - The operation has been cancelled by user.
+
+     * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.
+
+     * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation.
+requestHeader: []
+definitions:
+- name: ElasticPoolOperationListResult
+  description: The response to a list elastic pool operations request
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: ElasticPoolOperation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: ElasticPoolOperation
+  description: A elastic pool operation.
+  kind: object
+  properties:
+  - name: properties.elasticPoolName
+    isReadyOnly: true
+    description: The name of the elastic pool the operation is being performed on.
+    types:
+    - uid: string
+  - name: properties.operation
+    isReadyOnly: true
+    description: The name of operation.
+    types:
+    - uid: string
+  - name: properties.operationFriendlyName
+    isReadyOnly: true
+    description: The friendly name of operation.
+    types:
+    - uid: string
+  - name: properties.percentComplete
+    isReadyOnly: true
+    description: The percentage of the operation completed.
+    types:
+    - uid: integer
+  - name: properties.serverName
+    isReadyOnly: true
+    description: The name of the server.
+    types:
+    - uid: string
+  - name: properties.startTime
+    isReadyOnly: true
+    description: The operation start time.
+    types:
+    - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: The operation state.
+    types:
+    - uid: string
+  - name: properties.errorCode
+    isReadyOnly: true
+    description: The operation error code.
+    types:
+    - uid: integer
+  - name: properties.errorDescription
+    isReadyOnly: true
+    description: The operation error description.
+    types:
+    - uid: string
+  - name: properties.errorSeverity
+    isReadyOnly: true
+    description: The operation error severity.
+    types:
+    - uid: integer
+  - name: properties.isUserError
+    isReadyOnly: true
+    description: Whether or not the error is a user error.
+    types:
+    - uid: boolean
+  - name: properties.estimatedCompletionTime
+    isReadyOnly: true
+    description: The estimated completion time of the operation.
+    types:
+    - uid: string
+  - name: properties.description
+    isReadyOnly: true
+    description: The operation description.
+    types:
+    - uid: string
+  - name: properties.isCancellable
+    isReadyOnly: true
+    description: Whether the operation can be cancelled.
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: List the elastic pool management operations
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtestgroup/providers/Microsoft.Sql/servers/sqlcrudtestserver/elasticPools/testpool/operations?api-version=2017-10-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtestgroup/providers/Microsoft.Sql/servers/sqlcrudtestserver/elasticPools/testpool/operations/11111111-1111-1111-1111-111111111111",
+            "name": "11111111-1111-1111-1111-111111111111",
+            "type": "Microsoft.Sql/servers/elasticPools/operations",
+            "properties": {
+              "elasticPoolName": "testpool",
+              "operation": "UPDATE",
+              "operationFriendlyName": "UPDATE",
+              "percentComplete": 100,
+              "serverName": "sqlcrudtestserver",
+              "startTime": "2017-10-30T09:10:08.1Z",
+              "state": "COMPLETED",
+              "estimatedCompletionTime": "2017-10-30T13:10:10Z",
+              "description": "UpdateLogicalResourcePool on pool 'testpool', target Edition 'Standard', target pool DTU 300",
+              "isCancellable": false
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtestgroup/providers/Microsoft.Sql/servers/sqlcrudtestserver/elasticPools/testpool/operations/55555555-5555-5555-5555-555555555555",
+            "name": "55555555-5555-5555-5555-555555555555",
+            "type": "Microsoft.Sql/servers/elasticPools/operations",
+            "properties": {
+              "elasticPoolName": "testpool",
+              "operation": "UPDATE",
+              "operationFriendlyName": "UPDATE",
+              "percentComplete": 0,
+              "serverName": "sqlcrudtestserver",
+              "startTime": "2017-10-30T10:10:08.1Z",
+              "state": "IN_PROGRESS",
+              "estimatedCompletionTime": "2017-10-31T09:10:10Z",
+              "description": "UpdateLogicalResourcePool on pool 'testpool', target Edition 'Standard', target pool DTU 300",
+              "isCancellable": true
+            }
+          }
+        ]
+      }
+security: []

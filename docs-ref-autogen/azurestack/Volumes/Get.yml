@@ -1,0 +1,141 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.volumes.get
+name: Get
+service: Azure Stack Admin
+groupName: Volumes
+apiVersion: 2016-05-01
+summary: Return the requested a storage volume.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/storageSubSystems/{storageSubSystem}/storagePools/{storagePool}/volumes/{volume}?api-version=2016-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Location of the resource.
+  types:
+  - uid: string
+- name: storageSubSystem
+  in: path
+  isRequired: true
+  description: Name of the storage system.
+  types:
+  - uid: string
+- name: storagePool
+  in: path
+  isRequired: true
+  description: Storage pool name.
+  types:
+  - uid: string
+- name: volume
+  in: path
+  isRequired: true
+  description: Name of the storage volume.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Volume
+- name: 404 Not Found
+  description: NOT FOUND
+requestHeader: []
+definitions:
+- name: Volume
+  description: Representation of a volume resource.
+  kind: object
+  properties:
+  - name: properties.fileSystem
+    description: Filesystem type.
+    types:
+    - uid: string
+  - name: properties.remainingSizeGB
+    description: Amount of free space in GB.
+    types:
+    - uid: integer
+  - name: properties.sizeGB
+    description: Total amount of space in GB.
+    types:
+    - uid: integer
+  - name: properties.volumeLabel
+    description: Volume label.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: The region where the resource is located.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Return the requested a storage volume.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/storageSubSystems/S-Cluster.azurestack.local/storagePools/SU1_Pool/volumes/28fbffa4?api-version=2016-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/36e98cad-c8a5-4580-bef7-af878a237908/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/storageSubSystems/S-Cluster.azurestack.local/storagePools/SU1_Pool/volumes/05c1cbb7",
+        "name": "05c1cbb7",
+        "type": "Microsoft.Fabric.Admin/fabricLocations/storageSubSystems/storagePools/volumes",
+        "location": "local",
+        "tags": {},
+        "properties": {
+          "fileSystem": "CSVFS_ReFS",
+          "remainingSizeGB": 2191,
+          "sizeGB": 2540,
+          "volumeLabel": "SU1_Volume"
+        }
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

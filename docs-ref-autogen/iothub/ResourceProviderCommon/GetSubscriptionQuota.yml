@@ -1,0 +1,144 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iothub.resourceprovidercommon.getsubscriptionquota
+name: Get Subscription Quota
+service: IoT Hub
+groupName: Resource Provider Common
+apiVersion: 2018-04-01
+summary: "Get the number of iot hubs in the subscription  \nGet the number of free and paid iot hubs in the subscription"
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Devices/usages?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: UserSubscriptionQuotaListResult
+- name: Other Status Codes
+  description: DefaultErrorResponse
+  types:
+  - uid: ErrorDetails
+requestHeader: []
+definitions:
+- name: UserSubscriptionQuotaListResult
+  description: Json-serialized array of User subscription quota response
+  kind: object
+  properties:
+  - name: value
+    description: User subscription quota response
+    types:
+    - uid: UserSubscriptionQuota
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: httpStatusCode
+    isReadyOnly: true
+    description: The HTTP status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: string
+- name: UserSubscriptionQuota
+  description: User subscription quota response
+  kind: object
+  properties:
+  - name: id
+    description: IotHub type id
+    types:
+    - uid: string
+  - name: type
+    description: Response type
+    types:
+    - uid: string
+  - name: unit
+    description: Unit of IotHub type
+    types:
+    - uid: string
+  - name: currentValue
+    description: Current number of IotHub type
+    types:
+    - uid: integer
+  - name: limit
+    description: Numerical limit on IotHub type
+    types:
+    - uid: integer
+  - name: name
+    description: IotHub type
+    types:
+    - uid: Name
+- name: Name
+  description: Name of Iot Hub type
+  kind: object
+  properties:
+  - name: value
+    description: IotHub type
+    types:
+    - uid: string
+  - name: localizedValue
+    description: Localized value of name
+    types:
+    - uid: string
+examples:
+- name: ResourceProviderCommon_GetSubscriptionQuota
+  request:
+    uri: GET https://management.azure.com/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/providers/Microsoft.Devices/usages?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscription/91d12660-3dec-467a-be2a-213b5544ddc0/providers/Microsoft.Devices/usages/freeHubCount",
+            "type": "/subscription/91d12660-3dec-467a-be2a-213b5544ddc0/providers/Microsoft.Devices/usages",
+            "unit": "count",
+            "currentValue": 1,
+            "limit": 1,
+            "name": {
+              "value": "FreeHubCount",
+              "localizedValue": "Free Hub Count"
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

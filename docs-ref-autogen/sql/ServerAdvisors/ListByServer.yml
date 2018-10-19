@@ -1,0 +1,1192 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.serveradvisors.listbyserver
+name: List By Server
+service: SQL Database
+groupName: Server Advisors
+apiVersion: 2015-05-01-preview
+summary: Gets a list of server advisors.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advisors?api-version=2015-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of server advisors.
+  types:
+  - uid: Advisor
+    isArray: true
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 DatabaseDoesNotExist - The requested database was not found
+
+     * 404 SubscriptionDoesNotHaveElasticPool - The requested elastic pool was not found
+
+     * 404 AdvisorNotFound - The requested advisor was not found.
+
+     * 405 NotSupported - This functionality is not supported.
+
+     * 409 Conflict - Request could not be processed because of conflict in the request.
+
+     * 503 ServiceTemporarilyUnavailable - Feature temporarily unavailable.
+requestHeader: []
+definitions:
+- name: Advisor
+  description: Database, Server or Elatic Pool Advisor.
+  kind: object
+  properties:
+  - name: kind
+    isReadyOnly: true
+    description: Resource kind.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Resource location.
+    types:
+    - uid: string
+  - name: properties.advisorStatus
+    isReadyOnly: true
+    description: Gets the status of availability of this advisor to customers. Possible values are 'GA', 'PublicPreview', 'LimitedPublicPreview' and 'PrivatePreview'.
+    types:
+    - uid: AdvisorStatus
+  - name: properties.autoExecuteStatus
+    description: Gets the auto-execute status (whether to let the system execute the recommendations) of this advisor. Possible values are 'Enabled' and 'Disabled'
+    types:
+    - uid: AutoExecuteStatus
+  - name: properties.autoExecuteStatusInheritedFrom
+    isReadyOnly: true
+    description: Gets the resource from which current value of auto-execute status is inherited. Auto-execute status can be set on (and inhertied from) different levels in the resource heirarchy. Possible values are 'Subscription', 'Server', 'ElasticPool', 'Database' and 'Default' (when status is not explicitly set on any level).
+    types:
+    - uid: AutoExecuteStatusInheritedFrom
+  - name: properties.recommendationsStatus
+    isReadyOnly: true
+    description: Gets that status of recommendations for this advisor and reason for not having any recommendations. Possible values include, but are not limited to, 'Ok' (Recommendations available),LowActivity (not enough workload to analyze), 'DbSeemsTuned' (Database is doing well), etc.
+    types:
+    - uid: string
+  - name: properties.lastChecked
+    isReadyOnly: true
+    description: Gets the time when the current resource was analyzed for recommendations by this advisor.
+    types:
+    - uid: string
+  - name: properties.recommendedActions
+    isReadyOnly: true
+    description: Gets the recommended actions for this advisor.
+    types:
+    - uid: RecommendedAction
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: AdvisorStatus
+  description: Gets the status of availability of this advisor to customers. Possible values are 'GA', 'PublicPreview', 'LimitedPublicPreview' and 'PrivatePreview'.
+  kind: enum
+  properties:
+  - name: GA
+    types:
+    - uid: string
+  - name: PublicPreview
+    types:
+    - uid: string
+  - name: LimitedPublicPreview
+    types:
+    - uid: string
+  - name: PrivatePreview
+    types:
+    - uid: string
+- name: AutoExecuteStatus
+  description: Gets the auto-execute status (whether to let the system execute the recommendations) of this advisor. Possible values are 'Enabled' and 'Disabled'
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Default
+    types:
+    - uid: string
+- name: AutoExecuteStatusInheritedFrom
+  description: Gets the resource from which current value of auto-execute status is inherited. Auto-execute status can be set on (and inhertied from) different levels in the resource heirarchy. Possible values are 'Subscription', 'Server', 'ElasticPool', 'Database' and 'Default' (when status is not explicitly set on any level).
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: Subscription
+    types:
+    - uid: string
+  - name: Server
+    types:
+    - uid: string
+  - name: ElasticPool
+    types:
+    - uid: string
+  - name: Database
+    types:
+    - uid: string
+- name: RecommendedAction
+  description: Database, Server or Elastic Pool Recommended Action.
+  kind: object
+  properties:
+  - name: kind
+    isReadyOnly: true
+    description: Resource kind.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Resource location.
+    types:
+    - uid: string
+  - name: properties.recommendationReason
+    isReadyOnly: true
+    description: Gets the reason for recommending this action. e.g., DuplicateIndex
+    types:
+    - uid: string
+  - name: properties.validSince
+    isReadyOnly: true
+    description: Gets the time since when this recommended action is valid.
+    types:
+    - uid: string
+  - name: properties.lastRefresh
+    isReadyOnly: true
+    description: Gets time when this recommended action was last refreshed.
+    types:
+    - uid: string
+  - name: properties.state
+    description: Gets the info of the current state the recommended action is in.
+    types:
+    - uid: RecommendedActionStateInfo
+  - name: properties.isExecutableAction
+    isReadyOnly: true
+    description: Gets if this recommended action is actionable by user
+    types:
+    - uid: boolean
+  - name: properties.isRevertableAction
+    isReadyOnly: true
+    description: Gets if changes applied by this recommended action can be reverted by user
+    types:
+    - uid: boolean
+  - name: properties.isArchivedAction
+    isReadyOnly: true
+    description: Gets if this recommended action was suggested some time ago but user chose to ignore this and system added a new recommended action again.
+    types:
+    - uid: boolean
+  - name: properties.executeActionStartTime
+    isReadyOnly: true
+    description: Gets the time when system started applying this recommended action on the user resource. e.g., index creation start time
+    types:
+    - uid: string
+  - name: properties.executeActionDuration
+    isReadyOnly: true
+    description: Gets the time taken for applying this recommended action on user resource. e.g., time taken for index creation
+    types:
+    - uid: string
+  - name: properties.revertActionStartTime
+    isReadyOnly: true
+    description: Gets the time when system started reverting changes of this recommended action on user resource. e.g., time when index drop is executed.
+    types:
+    - uid: string
+  - name: properties.revertActionDuration
+    isReadyOnly: true
+    description: Gets the time taken for reverting changes of this recommended action on user resource. e.g., time taken for dropping the created index.
+    types:
+    - uid: string
+  - name: properties.executeActionInitiatedBy
+    isReadyOnly: true
+    description: Gets if approval for applying this recommended action was given by user/system.
+    types:
+    - uid: RecommendedActionInitiatedBy
+  - name: properties.executeActionInitiatedTime
+    isReadyOnly: true
+    description: Gets the time when this recommended action was approved for execution.
+    types:
+    - uid: string
+  - name: properties.revertActionInitiatedBy
+    isReadyOnly: true
+    description: Gets if approval for reverting this recommended action was given by user/system.
+    types:
+    - uid: RecommendedActionInitiatedBy
+  - name: properties.revertActionInitiatedTime
+    isReadyOnly: true
+    description: Gets the time when this recommended action was approved for revert.
+    types:
+    - uid: string
+  - name: properties.score
+    isReadyOnly: true
+    description: Gets the impact of this recommended action. Possible values are 1 - Low impact, 2 - Medium Impact and 3 - High Impact
+    types:
+    - uid: integer
+  - name: properties.implementationDetails
+    isReadyOnly: true
+    description: Gets the implementation details of this recommended action for user to apply it manually.
+    types:
+    - uid: RecommendedActionImplementationInfo
+  - name: properties.errorDetails
+    isReadyOnly: true
+    description: Gets the error details if and why this recommended action is put to error state.
+    types:
+    - uid: RecommendedActionErrorInfo
+  - name: properties.estimatedImpact
+    isReadyOnly: true
+    description: Gets the estimated impact info for this recommended action e.g., Estimated CPU gain, Estimated Disk Space change
+    types:
+    - uid: RecommendedActionImpactRecord
+      isArray: true
+  - name: properties.observedImpact
+    isReadyOnly: true
+    description: Gets the observed/actual impact info for this recommended action e.g., Actual CPU gain, Actual Disk Space change
+    types:
+    - uid: RecommendedActionImpactRecord
+      isArray: true
+  - name: properties.timeSeries
+    isReadyOnly: true
+    description: Gets the time series info of metrics for this recommended action e.g., CPU consumption time series
+    types:
+    - uid: RecommendedActionMetricInfo
+      isArray: true
+  - name: properties.linkedObjects
+    isReadyOnly: true
+    description: Gets the linked objects, if any.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.details
+    isReadyOnly: true
+    description: Gets additional details specific to this recommended action.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: RecommendedActionStateInfo
+  description: Contains information of current state for an Azure SQL Database, Server or Elastic Pool Recommended Action.
+  kind: object
+  properties:
+  - name: currentValue
+    description: 'Current state the recommended action is in. Some commonly used states are: Active      -> recommended action is active and no action has been taken yet. Pending     -> recommended action is approved for and is awaiting execution. Executing   -> recommended action is being applied on the user database. Verifying   -> recommended action was applied and is being verified of its usefulness by the system. Success     -> recommended action was applied and improvement found during verification. Pending Revert  -> verification found little or no improvement so recommended action is queued for revert or user has manually reverted. Reverting   -> changes made while applying recommended action are being reverted on the user database. Reverted    -> succesfully reverted the changes made by recommended action on user database. Ignored     -> user explicitly ignored/discarded the recommended action. '
+    types:
+    - uid: RecommendedActionCurrentState
+  - name: actionInitiatedBy
+    isReadyOnly: true
+    description: "Gets who initiated the execution of this recommended action. Possible Value are: User    -> When user explicity notified system to apply the recommended action. System  -> When auto-execute status of this advisor was set to 'Enabled', in which case the system applied it."
+    types:
+    - uid: RecommendedActionInitiatedBy
+  - name: lastModified
+    isReadyOnly: true
+    description: Gets the time when the state was last modified
+    types:
+    - uid: string
+- name: RecommendedActionInitiatedBy
+  description: "Gets who initiated the execution of this recommended action. Possible Value are: User    -> When user explicity notified system to apply the recommended action. System  -> When auto-execute status of this advisor was set to 'Enabled', in which case the system applied it."
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: System
+    types:
+    - uid: string
+- name: RecommendedActionImplementationInfo
+  description: Contains information for manual implementation for an Azure SQL Database, Server or Elastic Pool Recommended Action.
+  kind: object
+  properties:
+  - name: method
+    isReadyOnly: true
+    description: Gets the method in which this recommended action can be manually implemented. e.g., TSql, AzurePowerShell.
+    types:
+    - uid: ImplementationMethod
+  - name: script
+    isReadyOnly: true
+    description: Gets the manual implementation script. e.g., T-SQL script that could be executed on the database.
+    types:
+    - uid: string
+- name: RecommendedActionErrorInfo
+  description: Contains error information for an Azure SQL Database, Server or Elastic Pool Recommended Action.
+  kind: object
+  properties:
+  - name: errorCode
+    isReadyOnly: true
+    description: Gets the reason why the recommended action was put to error state. e.g., DatabaseHasQdsOff, IndexAlreadyExists
+    types:
+    - uid: string
+  - name: isRetryable
+    isReadyOnly: true
+    description: 'Gets whether the error could be ignored and recommended action could be retried. Possible values are: Yes/No'
+    types:
+    - uid: IsRetryable
+- name: RecommendedActionImpactRecord
+  description: Contains information of estimated or observed impact on various metrics for an Azure SQL Database, Server or Elastic Pool Recommended Action.
+  kind: object
+  properties:
+  - name: dimensionName
+    isReadyOnly: true
+    description: Gets the name of the impact dimension. e.g., CPUChange, DiskSpaceChange, NumberOfQueriesAffected.
+    types:
+    - uid: string
+  - name: unit
+    isReadyOnly: true
+    description: Gets the name of the impact dimension. e.g., CPUChange, DiskSpaceChange, NumberOfQueriesAffected.
+    types:
+    - uid: string
+  - name: absoluteValue
+    isReadyOnly: true
+    description: Gets the absolute value of this dimension if applicable. e.g., Number of Queries affected
+    types:
+    - uid: number
+  - name: changeValueAbsolute
+    isReadyOnly: true
+    description: Gets the absolute change in the value of this dimension. e.g., Absolute Disk space change in Megabytes
+    types:
+    - uid: number
+  - name: changeValueRelative
+    isReadyOnly: true
+    description: Gets the relative change in the value of this dimension. e.g., Relative Disk space change in Percentage
+    types:
+    - uid: number
+- name: RecommendedActionMetricInfo
+  description: Contains time series of various impacted metrics for an Azure SQL Database, Server or Elastic Pool Recommended Action.
+  kind: object
+  properties:
+  - name: metricName
+    isReadyOnly: true
+    description: Gets the name of the metric. e.g., CPU, Number of Queries.
+    types:
+    - uid: string
+  - name: unit
+    isReadyOnly: true
+    description: Gets the unit in which metric is measured. e.g., DTU, Frequency
+    types:
+    - uid: string
+  - name: timeGrain
+    isReadyOnly: true
+    description: Gets the duration of time interval for the value given by this MetricInfo. e.g., PT1H (1 hour)
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: Gets the start time of time interval given by this MetricInfo.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: Gets the value of the metric in the time interval given by this MetricInfo.
+    types:
+    - uid: number
+- name: RecommendedActionCurrentState
+  description: 'Current state the recommended action is in. Some commonly used states are: Active      -> recommended action is active and no action has been taken yet. Pending     -> recommended action is approved for and is awaiting execution. Executing   -> recommended action is being applied on the user database. Verifying   -> recommended action was applied and is being verified of its usefulness by the system. Success     -> recommended action was applied and improvement found during verification. Pending Revert  -> verification found little or no improvement so recommended action is queued for revert or user has manually reverted. Reverting   -> changes made while applying recommended action are being reverted on the user database. Reverted    -> succesfully reverted the changes made by recommended action on user database. Ignored     -> user explicitly ignored/discarded the recommended action. '
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Executing
+    types:
+    - uid: string
+  - name: Verifying
+    types:
+    - uid: string
+  - name: PendingRevert
+    types:
+    - uid: string
+  - name: RevertCancelled
+    types:
+    - uid: string
+  - name: Reverting
+    types:
+    - uid: string
+  - name: Reverted
+    types:
+    - uid: string
+  - name: Ignored
+    types:
+    - uid: string
+  - name: Expired
+    types:
+    - uid: string
+  - name: Monitoring
+    types:
+    - uid: string
+  - name: Resolved
+    types:
+    - uid: string
+  - name: Success
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+- name: ImplementationMethod
+  description: Gets the method in which this recommended action can be manually implemented. e.g., TSql, AzurePowerShell.
+  kind: enum
+  properties:
+  - name: TSql
+    types:
+    - uid: string
+  - name: AzurePowerShell
+    types:
+    - uid: string
+- name: IsRetryable
+  description: 'Gets whether the error could be ignored and recommended action could be retried. Possible values are: Yes/No'
+  kind: enum
+  properties:
+  - name: Yes
+    types:
+    - uid: string
+  - name: No
+    types:
+    - uid: string
+examples:
+- name: List of server advisors
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors?api-version=2015-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/CreateIndex",
+          "name": "CreateIndex",
+          "type": "Microsoft.Sql/servers/advisors",
+          "location": "East Asia",
+          "kind": "",
+          "properties": {
+            "advisorStatus": "GA",
+            "autoExecuteStatus": "Disabled",
+            "autoExecuteStatusInheritedFrom": "Default"
+          }
+        },
+        {
+          "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/DropIndex",
+          "name": "DropIndex",
+          "type": "Microsoft.Sql/servers/advisors",
+          "location": "East Asia",
+          "kind": "",
+          "properties": {
+            "advisorStatus": "GA",
+            "autoExecuteStatus": "Disabled",
+            "autoExecuteStatusInheritedFrom": "Default"
+          }
+        },
+        {
+          "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/DbParameterization",
+          "name": "DbParameterization",
+          "type": "Microsoft.Sql/servers/advisors",
+          "location": "East Asia",
+          "kind": "",
+          "properties": {
+            "advisorStatus": "GA",
+            "autoExecuteStatus": "Disabled",
+            "autoExecuteStatusInheritedFrom": "Default"
+          }
+        },
+        {
+          "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/SchemaIssue",
+          "name": "SchemaIssue",
+          "type": "Microsoft.Sql/servers/advisors",
+          "location": "East Asia",
+          "kind": "",
+          "properties": {
+            "advisorStatus": "PublicPreview",
+            "autoExecuteStatus": "Disabled",
+            "autoExecuteStatusInheritedFrom": "Default"
+          }
+        },
+        {
+          "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/ForceLastGoodPlan",
+          "name": "ForceLastGoodPlan",
+          "type": "Microsoft.Sql/servers/advisors",
+          "location": "East Asia",
+          "kind": "",
+          "properties": {
+            "advisorStatus": "PrivatePreview",
+            "autoExecuteStatus": "Disabled",
+            "autoExecuteStatusInheritedFrom": "Default"
+          }
+        }
+      ]
+- name: List of server recommended actions for all advisors
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors?api-version=2015-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/CreateIndex",
+          "name": "CreateIndex",
+          "type": "Microsoft.Sql/servers/advisors",
+          "location": "East Asia",
+          "kind": "",
+          "properties": {
+            "advisorStatus": "GA",
+            "autoExecuteStatus": "Disabled",
+            "autoExecuteStatusInheritedFrom": "Server",
+            "recommendedActions": [
+              {
+                "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/CreateIndex/recommendedActions/IR_[CRM]_[DataPoints]_4821CD2F9510D98184BB",
+                "name": "IR_[CRM]_[DataPoints]_4821CD2F9510D98184BB",
+                "type": "Microsoft.Sql/servers/advisors/recommendedActions",
+                "location": "East Asia",
+                "kind": "",
+                "properties": {
+                  "recommendationReason": "",
+                  "validSince": "2017-03-01T14:38:04Z",
+                  "lastRefresh": "2017-03-01T14:38:04Z",
+                  "state": {
+                    "currentValue": "Active",
+                    "lastModified": "2017-06-20T15:15:40Z"
+                  },
+                  "isExecutableAction": true,
+                  "isRevertableAction": true,
+                  "isArchivedAction": false,
+                  "score": 1,
+                  "implementationDetails": {
+                    "method": "TSql",
+                    "script": "CREATE NONCLUSTERED INDEX [nci_wi_DataPoints_B892614093BAC56295EF6018BD4CB51B] ON [CRM].[DataPoints] ([Name],[Money],[Power]) INCLUDE ([Hour], [System], [LastChanged]) WITH (ONLINE = ON)"
+                  },
+                  "errorDetails": {},
+                  "estimatedImpact": [
+                    {
+                      "dimensionName": "ActionDuration",
+                      "unit": "Seconds",
+                      "absoluteValue": 1440
+                    },
+                    {
+                      "dimensionName": "SpaceChange",
+                      "unit": "Megabytes",
+                      "absoluteValue": 209.3125
+                    }
+                  ],
+                  "observedImpact": [],
+                  "timeSeries": [],
+                  "details": {
+                    "indexName": "nci_wi_DataPoints_B892614093BAC56295EF6018BD4CB51B",
+                    "indexType": "NONCLUSTERED",
+                    "schema": "[CRM]",
+                    "table": "[DataPoints]",
+                    "indexColumns": "[Name],[Money],[Power]",
+                    "includedColumns": "[Hour], [System], [LastChanged]",
+                    "databaseName": "IndexAdvisor_test_3"
+                  }
+                }
+              },
+              {
+                "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/CreateIndex/recommendedActions/IR_[dbo]_[Employees]_560E15A98D14CA09BDFB",
+                "name": "IR_[dbo]_[Employees]_560E15A98D14CA09BDFB",
+                "type": "Microsoft.Sql/servers/advisors/recommendedActions",
+                "location": "East Asia",
+                "kind": "",
+                "properties": {
+                  "recommendationReason": "",
+                  "validSince": "2017-03-01T14:38:05Z",
+                  "lastRefresh": "2017-03-01T14:38:05Z",
+                  "state": {
+                    "currentValue": "Active",
+                    "lastModified": "2017-03-01T14:38:05Z"
+                  },
+                  "isExecutableAction": true,
+                  "isRevertableAction": true,
+                  "isArchivedAction": false,
+                  "score": 3,
+                  "implementationDetails": {
+                    "method": "TSql",
+                    "script": "CREATE NONCLUSTERED INDEX [nci_wi_Employees_8C18C2AF4267DC77793040782641CCDE] ON [dbo].[Employees] ([City], [State]) INCLUDE ([Postal]) WITH (ONLINE = ON)"
+                  },
+                  "errorDetails": {},
+                  "estimatedImpact": [
+                    {
+                      "dimensionName": "ActionDuration",
+                      "unit": "Seconds",
+                      "absoluteValue": 17
+                    },
+                    {
+                      "dimensionName": "SpaceChange",
+                      "unit": "Megabytes",
+                      "absoluteValue": 128
+                    }
+                  ],
+                  "observedImpact": [],
+                  "timeSeries": [],
+                  "details": {
+                    "indexName": "nci_wi_Employees_8C18C2AF4267DC77793040782641CCDE",
+                    "indexType": "NONCLUSTERED",
+                    "schema": "[dbo]",
+                    "table": "[Employees]",
+                    "indexColumns": "[City], [State]",
+                    "includedColumns": "[Postal]",
+                    "databaseName": "IndexAdvisor_test_3"
+                  }
+                }
+              },
+              {
+                "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/CreateIndex/recommendedActions/IR_[dbo]_[DataPoints]_F5D2F347AA22DB46E4CC",
+                "name": "IR_[dbo]_[DataPoints]_F5D2F347AA22DB46E4CC",
+                "type": "Microsoft.Sql/servers/advisors/recommendedActions",
+                "location": "East Asia",
+                "kind": "",
+                "properties": {
+                  "recommendationReason": "",
+                  "validSince": "2017-03-01T14:38:05Z",
+                  "lastRefresh": "2017-03-01T14:38:05Z",
+                  "state": {
+                    "currentValue": "Success",
+                    "actionInitiatedBy": "User",
+                    "lastModified": "2017-03-01T14:38:05Z"
+                  },
+                  "isExecutableAction": true,
+                  "isRevertableAction": true,
+                  "isArchivedAction": false,
+                  "executeActionStartTime": "2017-03-01T14:38:05Z",
+                  "executeActionDuration": "PT1M",
+                  "executeActionInitiatedBy": "User",
+                  "executeActionInitiatedTime": "2017-03-01T14:38:05Z",
+                  "score": 3,
+                  "implementationDetails": {
+                    "method": "TSql",
+                    "script": "DROP INDEX [nci_wi_DataPoints_609E4B7D6A3813990ED44B28B340C8FC] ON [dbo].[DataPoints]"
+                  },
+                  "errorDetails": {},
+                  "estimatedImpact": [
+                    {
+                      "dimensionName": "ActionDuration",
+                      "unit": "Seconds",
+                      "absoluteValue": 5040
+                    },
+                    {
+                      "dimensionName": "SpaceChange",
+                      "unit": "Megabytes",
+                      "absoluteValue": 120
+                    }
+                  ],
+                  "observedImpact": [
+                    {
+                      "dimensionName": "AffectedQueriesCpuUtilization",
+                      "unit": "CpuCores",
+                      "changeValueAbsolute": -12.7,
+                      "changeValueRelative": -0.9
+                    },
+                    {
+                      "dimensionName": "CpuUtilization",
+                      "unit": "CpuCores",
+                      "changeValueAbsolute": -12.7,
+                      "changeValueRelative": -0.3175
+                    },
+                    {
+                      "dimensionName": "QueriesWithImprovedPerformance",
+                      "unit": "Count",
+                      "absoluteValue": 12
+                    },
+                    {
+                      "dimensionName": "QueriesWithRegressedPerformance",
+                      "unit": "Count",
+                      "absoluteValue": 1
+                    },
+                    {
+                      "dimensionName": "SpaceChange",
+                      "unit": "Megabytes",
+                      "absoluteValue": 130.742187
+                    },
+                    {
+                      "dimensionName": "VerificationProgress",
+                      "unit": "Percent",
+                      "absoluteValue": 0
+                    }
+                  ],
+                  "timeSeries": [],
+                  "details": {
+                    "indexName": "nci_wi_DataPoints_609E4B7D6A3813990ED44B28B340C8FC",
+                    "indexType": "NONCLUSTERED",
+                    "schema": "[dbo]",
+                    "table": "[DataPoints]",
+                    "indexColumns": "[Name],[Money]",
+                    "includedColumns": "[Power],[Pineapple]",
+                    "indexActionStartTime": "2017-03-01T14:38:05.337",
+                    "indexActionDuration": "00:01:00",
+                    "databaseName": "IndexAdvisor_test_3"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/DropIndex",
+          "name": "DropIndex",
+          "type": "Microsoft.Sql/servers/advisors",
+          "location": "East Asia",
+          "kind": "",
+          "properties": {
+            "advisorStatus": "GA",
+            "autoExecuteStatus": "Disabled",
+            "autoExecuteStatusInheritedFrom": "Default",
+            "recommendedActions": [
+              {
+                "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/DropIndex/recommendedActions/IR_[CRM]_[DataPoints1]_29AEA82685D24704DE1A",
+                "name": "IR_[CRM]_[DataPoints1]_29AEA82685D24704DE1A",
+                "type": "Microsoft.Sql/servers/advisors/recommendedActions",
+                "location": "East Asia",
+                "kind": "",
+                "properties": {
+                  "recommendationReason": "Duplicate",
+                  "validSince": "2017-03-01T14:38:05Z",
+                  "lastRefresh": "2017-03-01T14:38:05Z",
+                  "state": {
+                    "currentValue": "Pending",
+                    "actionInitiatedBy": "System",
+                    "lastModified": "2017-03-01T14:38:05Z"
+                  },
+                  "isExecutableAction": true,
+                  "isRevertableAction": true,
+                  "isArchivedAction": false,
+                  "executeActionInitiatedBy": "System",
+                  "executeActionInitiatedTime": "2017-03-01T14:38:05Z",
+                  "score": 1,
+                  "implementationDetails": {
+                    "method": "TSql",
+                    "script": "DROP INDEX [MyIndex123] ON [CRM].[DataPoints1]"
+                  },
+                  "errorDetails": {},
+                  "estimatedImpact": [
+                    {
+                      "dimensionName": "ActionDuration",
+                      "unit": "Seconds",
+                      "absoluteValue": 803
+                    },
+                    {
+                      "dimensionName": "SpaceChange",
+                      "unit": "Megabytes",
+                      "absoluteValue": 144.6875
+                    }
+                  ],
+                  "observedImpact": [],
+                  "timeSeries": [],
+                  "details": {
+                    "indexName": "MyIndex123",
+                    "originalIndexName": "IX_COM_SKU_SKUDepartmentID",
+                    "indexType": "NONCLUSTERED",
+                    "schema": "[CRM]",
+                    "table": "[DataPoints1]",
+                    "indexColumns": "[Cookies],[SessionId]",
+                    "includedColumns": "[Apple]",
+                    "databaseName": "IndexAdvisor_test_3"
+                  }
+                }
+              },
+              {
+                "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/DropIndex/recommendedActions/IR_[CRM]_[DataPoints2]_E4B21F229379807E531A",
+                "name": "IR_[CRM]_[DataPoints2]_E4B21F229379807E531A",
+                "type": "Microsoft.Sql/servers/advisors/recommendedActions",
+                "location": "East Asia",
+                "kind": "",
+                "properties": {
+                  "recommendationReason": "Duplicate",
+                  "validSince": "2017-03-01T14:38:05Z",
+                  "lastRefresh": "2017-03-01T14:38:05Z",
+                  "state": {
+                    "currentValue": "Success",
+                    "actionInitiatedBy": "User",
+                    "lastModified": "2017-03-01T14:38:05Z"
+                  },
+                  "isExecutableAction": true,
+                  "isRevertableAction": true,
+                  "isArchivedAction": false,
+                  "executeActionStartTime": "2017-03-01T14:38:05Z",
+                  "executeActionDuration": "PT1M",
+                  "executeActionInitiatedBy": "User",
+                  "executeActionInitiatedTime": "2017-03-01T14:38:05Z",
+                  "score": 1,
+                  "implementationDetails": {
+                    "method": "TSql",
+                    "script": "CREATE NONCLUSTERED INDEX [MyIndex321] ON [CRM].[DataPoints2] ([Cookies],[SessionId],[Protocol]) INCLUDE ([Apple]) WITH (ONLINE = ON)"
+                  },
+                  "errorDetails": {},
+                  "estimatedImpact": [
+                    {
+                      "dimensionName": "ActionDuration",
+                      "unit": "Seconds",
+                      "absoluteValue": 705
+                    },
+                    {
+                      "dimensionName": "SpaceChange",
+                      "unit": "Megabytes",
+                      "absoluteValue": 342
+                    }
+                  ],
+                  "observedImpact": [
+                    {
+                      "dimensionName": "AffectedQueriesCpuUtilization",
+                      "unit": "CpuCores",
+                      "changeValueAbsolute": 0,
+                      "changeValueRelative": 0
+                    },
+                    {
+                      "dimensionName": "CpuUtilization",
+                      "unit": "CpuCores",
+                      "changeValueAbsolute": 0,
+                      "changeValueRelative": 0
+                    },
+                    {
+                      "dimensionName": "QueriesWithImprovedPerformance",
+                      "unit": "Count",
+                      "absoluteValue": 0
+                    },
+                    {
+                      "dimensionName": "QueriesWithRegressedPerformance",
+                      "unit": "Count",
+                      "absoluteValue": 0
+                    },
+                    {
+                      "dimensionName": "SpaceChange",
+                      "unit": "Megabytes",
+                      "absoluteValue": -342
+                    },
+                    {
+                      "dimensionName": "VerificationProgress",
+                      "unit": "Percent",
+                      "absoluteValue": 0
+                    }
+                  ],
+                  "timeSeries": [],
+                  "details": {
+                    "indexName": "MyIndex321",
+                    "originalIndexName": "IX_COM_SKU_SKUDepartmentID",
+                    "indexType": "NONCLUSTERED",
+                    "schema": "[CRM]",
+                    "table": "[DataPoints2]",
+                    "indexColumns": "[Cookies],[SessionId],[Protocol]",
+                    "includedColumns": "[Apple]",
+                    "indexActionStartTime": "2017-03-01T14:38:05.697",
+                    "indexActionDuration": "00:01:00",
+                    "databaseName": "IndexAdvisor_test_3"
+                  }
+                }
+              },
+              {
+                "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/DropIndex/recommendedActions/IR_[dbo]_[FactFinance]_13ADA5F354E9E14A983B",
+                "name": "IR_[dbo]_[FactFinance]_13ADA5F354E9E14A983B",
+                "type": "Microsoft.Sql/servers/advisors/recommendedActions",
+                "location": "East Asia",
+                "kind": "",
+                "properties": {
+                  "recommendationReason": "Duplicate",
+                  "validSince": "2017-03-01T14:38:05Z",
+                  "lastRefresh": "2017-03-01T14:38:05Z",
+                  "state": {
+                    "currentValue": "Success",
+                    "actionInitiatedBy": "System",
+                    "lastModified": "2017-02-28T14:38:05Z"
+                  },
+                  "isExecutableAction": true,
+                  "isRevertableAction": true,
+                  "isArchivedAction": false,
+                  "executeActionStartTime": "2017-03-01T14:38:05Z",
+                  "executeActionDuration": "PT1M",
+                  "executeActionInitiatedBy": "System",
+                  "executeActionInitiatedTime": "2017-03-01T14:38:05Z",
+                  "score": 1,
+                  "implementationDetails": {
+                    "method": "TSql",
+                    "script": "CREATE NONCLUSTERED INDEX [IX_FF] ON [dbo].[FactFinance] ([FinanceKey],[DateKey]) INCLUDE ([OrganizationKey]) WITH (ONLINE = ON)"
+                  },
+                  "errorDetails": {},
+                  "estimatedImpact": [
+                    {
+                      "dimensionName": "ActionDuration",
+                      "unit": "Seconds",
+                      "absoluteValue": 705
+                    },
+                    {
+                      "dimensionName": "SpaceChange",
+                      "unit": "Megabytes",
+                      "absoluteValue": 342
+                    }
+                  ],
+                  "observedImpact": [
+                    {
+                      "dimensionName": "AffectedQueriesCpuUtilization",
+                      "unit": "CpuCores",
+                      "changeValueAbsolute": 0,
+                      "changeValueRelative": 0
+                    },
+                    {
+                      "dimensionName": "CpuUtilization",
+                      "unit": "CpuCores",
+                      "changeValueAbsolute": 0,
+                      "changeValueRelative": 0
+                    },
+                    {
+                      "dimensionName": "QueriesWithImprovedPerformance",
+                      "unit": "Count",
+                      "absoluteValue": 0
+                    },
+                    {
+                      "dimensionName": "QueriesWithRegressedPerformance",
+                      "unit": "Count",
+                      "absoluteValue": 0
+                    },
+                    {
+                      "dimensionName": "SpaceChange",
+                      "unit": "Megabytes",
+                      "absoluteValue": -342
+                    },
+                    {
+                      "dimensionName": "VerificationProgress",
+                      "unit": "Percent",
+                      "absoluteValue": 0
+                    }
+                  ],
+                  "timeSeries": [],
+                  "details": {
+                    "indexName": "IX_FF",
+                    "originalIndexName": "IX_COM_SKU_SKUDepartmentID",
+                    "indexType": "NONCLUSTERED",
+                    "schema": "[dbo]",
+                    "table": "[FactFinance]",
+                    "indexColumns": "[FinanceKey],[DateKey]",
+                    "includedColumns": "[OrganizationKey]",
+                    "indexActionStartTime": "2017-03-01T14:38:05.837",
+                    "indexActionDuration": "00:01:00",
+                    "databaseName": "IndexAdvisor_test_3"
+                  }
+                }
+              },
+              {
+                "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/DropIndex/recommendedActions/IR_[CRM]_[DataPoints1]_13ADA5F354E9E14A983B",
+                "name": "IR_[CRM]_[DataPoints1]_13ADA5F354E9E14A983B",
+                "type": "Microsoft.Sql/servers/advisors/recommendedActions",
+                "location": "East Asia",
+                "kind": "",
+                "properties": {
+                  "recommendationReason": "Unused",
+                  "validSince": "2017-03-01T14:38:05Z",
+                  "lastRefresh": "2017-03-01T14:38:05Z",
+                  "state": {
+                    "currentValue": "Pending",
+                    "actionInitiatedBy": "System",
+                    "lastModified": "2017-03-23T14:14:35Z"
+                  },
+                  "isExecutableAction": true,
+                  "isRevertableAction": true,
+                  "isArchivedAction": false,
+                  "executeActionInitiatedBy": "System",
+                  "executeActionInitiatedTime": "2017-03-23T14:14:35Z",
+                  "score": 1,
+                  "implementationDetails": {
+                    "method": "TSql",
+                    "script": "DROP INDEX [IX_FF] ON [CRM].[DataPoints1]"
+                  },
+                  "errorDetails": {},
+                  "estimatedImpact": [
+                    {
+                      "dimensionName": "ActionDuration",
+                      "unit": "Seconds",
+                      "absoluteValue": 645
+                    },
+                    {
+                      "dimensionName": "SpaceChange",
+                      "unit": "Megabytes",
+                      "absoluteValue": 342
+                    }
+                  ],
+                  "observedImpact": [],
+                  "timeSeries": [],
+                  "details": {
+                    "indexName": "IX_FF",
+                    "originalIndexName": "IX_COM_SKU_SKUDepartmentID",
+                    "indexType": "NONCLUSTERED",
+                    "schema": "[CRM]",
+                    "table": "[DataPoints1]",
+                    "indexColumns": "[Protocol],[SessionId]",
+                    "includedColumns": "[Apple]",
+                    "databaseName": "IndexAdvisor_test_3"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/DbParameterization",
+          "name": "DbParameterization",
+          "type": "Microsoft.Sql/servers/advisors",
+          "location": "East Asia",
+          "kind": "",
+          "properties": {
+            "advisorStatus": "GA",
+            "autoExecuteStatus": "Disabled",
+            "autoExecuteStatusInheritedFrom": "Default",
+            "recommendedActions": [
+              {
+                "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/DbParameterization/recommendedActions/ForceDbParameterization",
+                "name": "ForceDbParameterization",
+                "type": "Microsoft.Sql/servers/advisors/recommendedActions",
+                "location": "East Asia",
+                "kind": "",
+                "properties": {
+                  "recommendationReason": "",
+                  "validSince": "2017-03-01T14:37:44Z",
+                  "lastRefresh": "2017-03-01T14:37:44Z",
+                  "state": {
+                    "currentValue": "Pending",
+                    "actionInitiatedBy": "System",
+                    "lastModified": "2017-05-11T15:08:31Z"
+                  },
+                  "isExecutableAction": true,
+                  "isRevertableAction": true,
+                  "isArchivedAction": false,
+                  "executeActionInitiatedBy": "System",
+                  "executeActionInitiatedTime": "2017-05-11T15:08:31Z",
+                  "score": 3,
+                  "implementationDetails": {
+                    "method": "TSql",
+                    "script": "ALTER DATABASE [IndexAdvisor_test_3] SET PARAMETERIZATION FORCED"
+                  },
+                  "errorDetails": {},
+                  "estimatedImpact": [
+                    {
+                      "dimensionName": "CpuSavings",
+                      "unit": "Percent",
+                      "changeValueAbsolute": 22.5613696939135
+                    },
+                    {
+                      "dimensionName": "QueryDurationDecrease",
+                      "unit": "secs",
+                      "changeValueAbsolute": 0.701823681806341
+                    }
+                  ],
+                  "observedImpact": [],
+                  "timeSeries": [],
+                  "details": {
+                    "databaseName": "IndexAdvisor_test_3"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/SchemaIssue",
+          "name": "SchemaIssue",
+          "type": "Microsoft.Sql/servers/advisors",
+          "location": "East Asia",
+          "kind": "",
+          "properties": {
+            "advisorStatus": "PublicPreview",
+            "autoExecuteStatus": "Disabled",
+            "autoExecuteStatusInheritedFrom": "Default",
+            "recommendedActions": [
+              {
+                "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/SchemaIssue/recommendedActions/SchemaProblem_1A258C5714A7410C9D23",
+                "name": "SchemaProblem_1A258C5714A7410C9D23",
+                "type": "Microsoft.Sql/servers/advisors/recommendedActions",
+                "location": "East Asia",
+                "kind": "",
+                "properties": {
+                  "recommendationReason": "SchemaProblem",
+                  "validSince": "2017-03-01T14:37:48Z",
+                  "lastRefresh": "2017-06-07T22:19:53Z",
+                  "state": {
+                    "currentValue": "Active",
+                    "lastModified": "2017-03-01T14:37:48Z"
+                  },
+                  "isExecutableAction": false,
+                  "isRevertableAction": false,
+                  "isArchivedAction": false,
+                  "score": 3,
+                  "implementationDetails": {},
+                  "errorDetails": {},
+                  "estimatedImpact": [],
+                  "observedImpact": [],
+                  "timeSeries": [],
+                  "details": {
+                    "sqlErrorNumber": 208,
+                    "sqlErrorMessage": "Invalid object name 'dbo.Companies'.",
+                    "sqlErrorCount": 342482,
+                    "databaseName": "IndexAdvisor_test_3"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/workloadinsight-demos/providers/Microsoft.Sql/servers/misosisvr/advisors/ForceLastGoodPlan",
+          "name": "ForceLastGoodPlan",
+          "type": "Microsoft.Sql/servers/advisors",
+          "location": "East Asia",
+          "kind": "",
+          "properties": {
+            "advisorStatus": "PrivatePreview",
+            "autoExecuteStatus": "Disabled",
+            "autoExecuteStatusInheritedFrom": "Default",
+            "recommendedActions": []
+          }
+        }
+      ]
+security: []

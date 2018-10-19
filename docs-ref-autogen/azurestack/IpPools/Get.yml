@@ -1,0 +1,138 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.ippools.get
+name: Get
+service: Azure Stack Admin
+groupName: Ip Pools
+apiVersion: 2016-05-01
+summary: Return the requested IP pool.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/ipPools/{ipPool}?api-version=2016-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Location of the resource.
+  types:
+  - uid: string
+- name: ipPool
+  in: path
+  isRequired: true
+  description: IP pool name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: IpPool
+- name: 404 Not Found
+  description: NOT FOUND
+requestHeader: []
+definitions:
+- name: IpPool
+  description: This resource defines the range of IP addresses from which addresses are  allocated for nodes within a subnet.
+  kind: object
+  properties:
+  - name: properties.startIpAddress
+    description: The starting IP address.
+    types:
+    - uid: string
+  - name: properties.endIpAddress
+    description: The ending IP address.
+    types:
+    - uid: string
+  - name: properties.addressPrefix
+    description: The address prefix.
+    types:
+    - uid: string
+  - name: properties.numberOfIpAddresses
+    description: The total number of IP addresses.
+    types:
+    - uid: integer
+  - name: properties.numberOfAllocatedIpAddresses
+    description: The number of currently allocated IP addresses.
+    types:
+    - uid: integer
+  - name: properties.numberOfIpAddressesInTransition
+    description: The current number of IP addresses in transition.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: The region where the resource is located.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Return the requested IP pool.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/ipPools/981fec89-67d6-453e-bf21-5ff11562564f?api-version=2016-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/23a94a7f-64b3-42d8-807c-733284339015/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/ipPools/TestIpPool1993",
+        "name": "TestIpPool1993",
+        "type": "Microsoft.Fabric.Admin/fabricLocations/ipPools",
+        "location": "local",
+        "tags": {},
+        "properties": {
+          "startIpAddress": "192.3.9.1",
+          "endIpAddress": "192.3.9.255",
+          "numberOfIpAddresses": 255,
+          "numberOfAllocatedIpAddresses": 0,
+          "numberOfIpAddressesInTransition": 0
+        }
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

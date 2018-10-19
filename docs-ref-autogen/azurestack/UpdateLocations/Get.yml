@@ -1,0 +1,139 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.updatelocations.get
+name: Get
+service: Azure Stack Admin
+groupName: Update Locations
+apiVersion: 2016-05-01
+summary: Get an update location based on name.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Update.Admin/updateLocations/{updateLocation}?api-version=2016-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription.  The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name.
+  types:
+  - uid: string
+- name: updateLocation
+  in: path
+  isRequired: true
+  description: The name of the update location.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: UpdateLocation
+requestHeader: []
+definitions:
+- name: UpdateLocation
+  description: Information related to a location's update status.
+  kind: object
+  properties:
+  - name: properties.currentVersion
+    description: Current version of your AzureStack deployment.
+    types:
+    - uid: string
+  - name: properties.currentOemVersion
+    description: Current OEM version of your AzureStack deployment.
+    types:
+    - uid: string
+  - name: properties.lastUpdated
+    description: Date of last update.
+    types:
+    - uid: string
+  - name: properties.state
+    description: State with respect to the update.
+    types:
+    - uid: RegionUpdateState
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: Region location of resource.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: RegionUpdateState
+  description: State of the region in regard to update.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: AppliedSuccessfully
+    types:
+    - uid: string
+  - name: AppliedUpdateAvailableSuccessfully
+    types:
+    - uid: string
+  - name: UpdateInProgress
+    types:
+    - uid: string
+  - name: UpdateFailed
+    types:
+    - uid: string
+examples:
+- name: Get an update location based on name.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/System.Redmond/providers/Microsoft.Update.Admin/updateLocations/redmond?api-version=2016-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/23d66fd1-4743-42ff-b391-e29dc51d799e/resourcegroups/System.Redmond/providers/Microsoft.Update.Admin/updateLocations/redmond",
+        "name": "redmond",
+        "type": "Microsoft.Update.Admin/updateLocations",
+        "location": "redmond",
+        "tags": {},
+        "properties": {
+          "currentVersion": "1.0.180302.1",
+          "currentOemVersion": "1.0.1709.3",
+          "lastUpdated": "2018-03-03T08:09:12.8824552Z",
+          "state": "AppliedSuccessfully"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

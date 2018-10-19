@@ -1,0 +1,101 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.largepersongroup.list
+name: List
+service: Cognitive Services
+groupName: Large Person Group
+apiVersion: "1.0"
+summary: List large person groups and their information.
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/face/v1.0/largepersongroups
+- content: GET {Endpoint}/face/v1.0/largepersongroups?start={start}&top={top}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: start
+  in: query
+  description: List large person groups from the least largePersonGroupId greater than the "start".
+  types:
+  - uid: string
+- name: top
+  in: query
+  description: The number of large person groups to list.
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: A successful call returns an array of large person groups and their information.
+  types:
+  - uid: LargePersonGroup
+    isArray: true
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader: []
+definitions:
+- name: LargePersonGroup
+  description: Large person group object.
+  kind: object
+  properties:
+  - name: largePersonGroupId
+    description: LargePersonGroupId of the target large person groups
+    types:
+    - uid: string
+  - name: name
+    description: User defined name, maximum length is 128.
+    types:
+    - uid: string
+  - name: userData
+    description: User specified data. Length should not exceed 16KB.
+    types:
+    - uid: string
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: List large person groups example
+  request:
+    uri: GET {Endpoint}/face/v1.0/largepersongroups?start=sample_group&top=2
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "largePersonGroupId": "f92f6f1b-3258-4444-8fa2-c2df505cc7ac",
+          "name": "large-person-group-name1",
+          "userData": "User-provided data attached to the large person group"
+        },
+        {
+          "largePersonGroupId": "c76f7f13-0ed3-4d00-8a3e-2ad3d78f6c37",
+          "name": "large-person-group-name2",
+          "userData": "User-provided data attached to the large person group"
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

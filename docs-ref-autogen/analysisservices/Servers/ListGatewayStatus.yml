@@ -1,0 +1,104 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.analysisservices.servers.listgatewaystatus
+name: List Gateway Status
+service: Analysis Services
+groupName: Servers
+apiVersion: 2017-08-01
+summary: Return the gateway status of the specified Analysis Services server instance.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}/listGatewayStatus?api-version=2017-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the Azure Resource group of which a given Analysis Services server is part. This name must be at least 1 character in length, and no more than 90.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the Analysis Services server.
+  types:
+  - uid: string
+  pattern: ^[a-z][a-z0-9]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: GatewayListStatusLive
+- name: Other Status Codes
+  description: Default response as an error
+  types:
+  - uid: GatewayListStatusError
+requestHeader: []
+definitions:
+- name: GatewayListStatusLive
+  description: Status of gateway is live.
+  kind: object
+  properties:
+  - name: status
+    description: Live message of list gateway.
+    types:
+    - uid: Status
+- name: GatewayListStatusError
+  description: Status of gateway is error.
+  kind: object
+  properties:
+  - name: error
+    description: Error of the list gateway status.
+    types:
+    - uid: GatewayError
+- name: Status
+  description: Live message of list gateway.
+  kind: enum
+  properties:
+  - name: Live
+    types:
+    - uid: string
+- name: GatewayError
+  description: Detail of gateway errors.
+  kind: object
+  properties:
+  - name: code
+    description: Error code of list gateway.
+    types:
+    - uid: string
+  - name: message
+    description: Error message of list gateway.
+    types:
+    - uid: string
+examples:
+- name: Get details of a server
+  request:
+    uri: POST https://management.azure.com/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.AnalysisServices/servers/azsdktest/listGatewayStatus?api-version=2017-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "Live"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

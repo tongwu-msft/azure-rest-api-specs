@@ -1,0 +1,196 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.updates.apply
+name: Apply
+service: Azure Stack Admin
+groupName: Updates
+apiVersion: 2016-05-01
+summary: Apply a specific update at an update location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Update.Admin/updateLocations/{updateLocation}/updates/{updateName}/Apply?api-version=2016-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription.  The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name.
+  types:
+  - uid: string
+- name: updateLocation
+  in: path
+  isRequired: true
+  description: The name of the update location.
+  types:
+  - uid: string
+- name: updateName
+  in: path
+  isRequired: true
+  description: Name of the update.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: UpdateRun
+- name: 202 Accepted
+  description: ACCEPTED
+  types:
+  - uid: UpdateRun
+requestHeader: []
+definitions:
+- name: UpdateRun
+  description: Representation of a update run resource.
+  kind: object
+  properties:
+  - name: properties.progress
+    description: Current progress of the update run.
+    types:
+    - uid: Step
+  - name: properties.timeStarted
+    description: Update start time.
+    types:
+    - uid: string
+  - name: properties.duration
+    description: Duration of the update.
+    types:
+    - uid: string
+  - name: properties.state
+    description: State of the update run.
+    types:
+    - uid: UpdateRunState
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: Region location of resource.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: Step
+  description: Inforamtion about each step of the update process.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the step.
+    types:
+    - uid: string
+  - name: description
+    description: Description of the step.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message, if any.
+    types:
+    - uid: string
+  - name: status
+    description: State of the step.
+    types:
+    - uid: string
+  - name: startTimeUtc
+    description: Time at which this step started executing
+    types:
+    - uid: string
+  - name: endTimeUtc
+    description: Time at which this step stopped executing
+    types:
+    - uid: string
+  - name: steps
+    description: Inner steps
+    types:
+    - uid: Step
+      isArray: true
+- name: UpdateRunState
+  description: State of the update run.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: Apply a specific update at an update location.
+  request:
+    uri: POST https://adminmanagement.local.azurestack.external/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/System.Redmond/providers/Microsoft.Update.Admin/updateLocations/Redmond/updates/Microsoft1.0.180302.1/Apply?api-version=2016-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/3c2a4c80-e594-46eb-b923-98fd98d50155/resourcegroups/System.Redmond/providers/Microsoft.Update.Admin/updateLocations/redmond/updates/Microsoft1.0.180410.1/updateRuns/5495b71f-692c-4580-8dcd-03dc6ce00209",
+        "name": "5495b71f-692c-4580-8dcd-03dc6ce00209",
+        "type": "Microsoft.Update.Admin/updateLocations/updates/updateRuns",
+        "location": "redmond",
+        "tags": {},
+        "properties": {
+          "progress": {
+            "name": "Downloading"
+          },
+          "duration": "PT0S",
+          "state": "InProgress"
+        }
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "id": "/subscriptions/3c2a4c80-e594-46eb-b923-98fd98d50155/resourcegroups/System.Redmond/providers/Microsoft.Update.Admin/updateLocations/redmond/updates/Microsoft1.0.180410.1/updateRuns/5495b71f-692c-4580-8dcd-03dc6ce00209",
+        "name": "5495b71f-692c-4580-8dcd-03dc6ce00209",
+        "type": "Microsoft.Update.Admin/updateLocations/updates/updateRuns",
+        "location": "redmond",
+        "tags": {},
+        "properties": {
+          "progress": {
+            "name": "Downloading"
+          },
+          "duration": "PT0S",
+          "state": "InProgress"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

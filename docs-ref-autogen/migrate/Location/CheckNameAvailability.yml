@@ -1,0 +1,179 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.migrate.location.checknameavailability
+name: Check Name Availability
+service: Migrate
+groupName: Location
+apiVersion: 2018-02-02
+summary: Checks whether the project name is available in the specified region.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Migrate/locations/{locationName}/checkNameAvailability?api-version=2018-02-02
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription Id in which project was created.
+  types:
+  - uid: string
+- name: locationName
+  in: path
+  isRequired: true
+  description: The desired region for the name check.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Standard request header. Used by service to identify API version used by client.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. Returns details about whether a project name is available.
+  types:
+  - uid: CheckNameAvailabilityResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    isRequired: true
+    description: The name to check for availability
+    types:
+    - uid: string
+  - name: type
+    in: body
+    isRequired: true
+    description: The resource type. Must be set to Microsoft.Migrate/projects
+    types:
+    - uid: Type
+requestHeader: []
+definitions:
+- name: CheckNameAvailabilityResult
+  description: The CheckNameAvailability operation response.
+  kind: object
+  properties:
+  - name: nameAvailable
+    isReadyOnly: true
+    description: Gets a boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already been taken or invalid and cannot be used.
+    types:
+    - uid: boolean
+  - name: reason
+    isReadyOnly: true
+    description: Gets the reason that a project name could not be used. The Reason element is only returned if NameAvailable is false.
+    types:
+    - uid: NameAvailabilityReason
+  - name: message
+    isReadyOnly: true
+    description: Gets an error message explaining the Reason value in more detail.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Azure Migrate service.
+    types:
+    - uid: CloudErrorBody
+- name: CheckNameAvailabilityParameters
+  description: Parameters for a check name availability request.
+  kind: object
+  properties:
+  - name: name
+    description: The name to check for availability
+    types:
+    - uid: string
+  - name: type
+    description: The resource type. Must be set to Microsoft.Migrate/projects
+    types:
+    - uid: Type
+- name: NameAvailabilityReason
+  description: Gets the reason that a project name could not be used. The Reason element is only returned if NameAvailable is false.
+  kind: enum
+  properties:
+  - name: Available
+    types:
+    - uid: string
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AlreadyExists
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: Type
+  description: The resource type. Must be set to Microsoft.Migrate/projects
+  kind: enum
+  properties:
+  - name: Microsoft.Migrate/projects
+    types:
+    - uid: string
+examples:
+- name: LocationCheckNameAvailability_Available
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Migrate/locations/eastus/checkNameAvailability?api-version=2018-02-02
+    body: >-
+      {
+        "name": "newprojectname",
+        "type": "Microsoft.Migrate/projects"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": true,
+        "reason": "Available",
+        "message": "The Migration project name 'newprojectname' is available for the given subscription"
+      }
+- name: LocationCheckNameAvailability_AlreadyExists
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Migrate/locations/eastus/checkNameAvailability?api-version=2018-02-02
+    body: >-
+      {
+        "name": "existingprojectname",
+        "type": "Microsoft.Migrate/projects"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": false,
+        "reason": "AlreadyExists",
+        "message": "The Migration project name 'existingprojectname' already exists for the given subscription. Please choose another name."
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

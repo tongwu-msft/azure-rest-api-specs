@@ -1,0 +1,296 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.jobexecutions.createorupdate
+name: Create Or Update
+service: SQL Database
+groupName: Job Executions
+apiVersion: 2017-03-01-preview
+summary: Creates or updatess a job execution.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}?api-version=2017-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: jobAgentName
+  in: path
+  isRequired: true
+  description: The name of the job agent.
+  types:
+  - uid: string
+- name: jobName
+  in: path
+  isRequired: true
+  description: The name of the job to get.
+  types:
+  - uid: string
+- name: jobExecutionId
+  in: path
+  isRequired: true
+  description: The job execution id to create the job execution under.
+  types:
+  - uid: string
+  format: uuid
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A job execution for the job with the given id already existed.
+  types:
+  - uid: JobExecution
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 ElasticJobsOperationFailed - Elastic jobs management operation failed.
+
+     * 400 ElasticJobsOperationFailed - Elastic jobs management operation failed.
+
+     * 404 JobAgentNotFound - Specified job agent does not exist in the specified logical server.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+- name: 202 Accepted
+  description: Accepted
+- name: 201 Created
+  description: Successfully started an execution for the job.
+  types:
+  - uid: JobExecution
+requestHeader: []
+definitions:
+- name: JobExecution
+  description: An execution of a job
+  kind: object
+  properties:
+  - name: properties.jobVersion
+    isReadyOnly: true
+    description: The job version number.
+    types:
+    - uid: integer
+  - name: properties.stepName
+    isReadyOnly: true
+    description: The job step name.
+    types:
+    - uid: string
+  - name: properties.stepId
+    isReadyOnly: true
+    description: The job step id.
+    types:
+    - uid: integer
+  - name: properties.jobExecutionId
+    isReadyOnly: true
+    description: The unique identifier of the job execution.
+    types:
+    - uid: string
+  - name: properties.lifecycle
+    isReadyOnly: true
+    description: The detailed state of the job execution.
+    types:
+    - uid: JobExecutionLifecycle
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The ARM provisioning state of the job execution.
+    types:
+    - uid: ProvisioningState
+  - name: properties.createTime
+    isReadyOnly: true
+    description: The time that the job execution was created.
+    types:
+    - uid: string
+  - name: properties.startTime
+    isReadyOnly: true
+    description: The time that the job execution started.
+    types:
+    - uid: string
+  - name: properties.endTime
+    isReadyOnly: true
+    description: The time that the job execution completed.
+    types:
+    - uid: string
+  - name: properties.currentAttempts
+    description: Number of times the job execution has been attempted.
+    types:
+    - uid: integer
+  - name: properties.currentAttemptStartTime
+    isReadyOnly: true
+    description: Start time of the current attempt.
+    types:
+    - uid: string
+  - name: properties.lastMessage
+    isReadyOnly: true
+    description: The last status or error message.
+    types:
+    - uid: string
+  - name: properties.target
+    isReadyOnly: true
+    description: The target that this execution is executed on.
+    types:
+    - uid: JobExecutionTarget
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: JobExecutionLifecycle
+  description: The detailed state of the job execution.
+  kind: enum
+  properties:
+  - name: Created
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: WaitingForChildJobExecutions
+    types:
+    - uid: string
+  - name: WaitingForRetry
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: SucceededWithSkipped
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: TimedOut
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Skipped
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The ARM provisioning state of the job execution.
+  kind: enum
+  properties:
+  - name: Created
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: JobExecutionTarget
+  description: The target that a job execution is executed on.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of the target.
+    types:
+    - uid: JobTargetType
+  - name: serverName
+    isReadyOnly: true
+    description: The server name.
+    types:
+    - uid: string
+  - name: databaseName
+    isReadyOnly: true
+    description: The database name.
+    types:
+    - uid: string
+- name: JobTargetType
+  description: The type of the target.
+  kind: enum
+  properties:
+  - name: TargetGroup
+    types:
+    - uid: string
+  - name: SqlDatabase
+    types:
+    - uid: string
+  - name: SqlElasticPool
+    types:
+    - uid: string
+  - name: SqlShardMap
+    types:
+    - uid: string
+  - name: SqlServer
+    types:
+    - uid: string
+examples:
+- name: Create job execution.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1/executions/5555-6666-7777-8888-999999999999?api-version=2017-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "jobVersion": 1,
+          "jobExecutionId": "5555-6666-7777-8888-999999999999",
+          "lifecycle": "Created",
+          "provisioningState": "Created",
+          "createTime": "2017-12-18T19:02:00.8707045Z",
+          "currentAttempts": 0,
+          "lastMessage": "Job execution created."
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1/executions/5555-6666-7777-8888-999999999999",
+        "name": "5555-6666-7777-8888-999999999999",
+        "type": "Microsoft.Sql/servers/jobAgents/executions"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "jobVersion": 1,
+          "jobExecutionId": "5555-6666-7777-8888-999999999999",
+          "lifecycle": "Created",
+          "provisioningState": "Created",
+          "createTime": "2017-05-04T19:02:00.8707045Z",
+          "currentAttempts": 0,
+          "lastMessage": "Job execution created."
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1/executions/5555-6666-7777-8888-999999999999",
+        "name": "5555-6666-7777-8888-999999999999",
+        "type": "Microsoft.Sql/servers/jobAgents/executions"
+      }
+  - statusCode: "202"
+security: []

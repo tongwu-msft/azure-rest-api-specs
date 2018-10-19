@@ -1,0 +1,82 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securitycenter.alerts.updatesubscriptionlevelalertstate
+name: Update Subscription Level Alert State
+service: Security Center
+groupName: Alerts
+apiVersion: 2015-06-01-preview
+summary: Update the alert's state
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/{alertUpdateActionType}?api-version=2015-06-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: ascLocation
+  in: path
+  isRequired: true
+  description: The location where ASC stores the data of the subscription. can be retrieved from Get locations
+  types:
+  - uid: string
+- name: alertName
+  in: path
+  isRequired: true
+  description: Name of the alert object
+  types:
+  - uid: string
+- name: alertUpdateActionType
+  in: path
+  isRequired: true
+  description: Type of the action to do on the alert
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: No Content
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+examples:
+- name: Update security alert state on a subscription from a security data location
+  request:
+    uri: POST https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/locations/westeurope/alerts/2518770965529163669_F144EE95-A3E5-42DA-A279-967D115809AA/Dismiss?api-version=2015-06-01-preview
+  responses:
+  - statusCode: "204"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

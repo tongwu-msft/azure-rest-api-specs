@@ -1,0 +1,363 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.instancefailovergroups.listbylocation
+name: List By Location
+service: SQL Database
+groupName: Instance Failover Groups
+apiVersion: 2017-10-01-preview
+summary: Lists the failover groups in a location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups?api-version=2017-10-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: locationName
+  in: path
+  isRequired: true
+  description: The name of the region where the resource is located.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the failover groups.
+  types:
+  - uid: InstanceFailoverGroupListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InstanceFailoverGroupCreateOrUpdateRequestInvalidPartner - The given partners field in create or update instance failover group request body is empty or invalid.
+
+     * 400 InstanceFailoverGroupCreateOrUpdateRequestDuplicatePartner - One or more of the provided partner servers are already part of the instance failover group. Please make sure the primary server and all of the given partner servers are unique.
+
+     * 400 InstanceFailoverGroupCreateOrUpdateRequestInvalidManagedInstanceRegion - The provided partner managed instance region in the instance failover group request body is empty or invalid.
+
+     * 400 InstanceFailoverGroupCreateOrUpdateRequestUnsupportedPartnerCount - Only one partner region is supported.
+
+     * 400 InstanceFailoverGroupCreateOrUpdateRequestUnsupportedPairCount - Only one managed instance pair is supported.
+
+     * 400 InstanceFailoverGroupCreateOrUpdateRequestInvalidReadWriteEndpoint - The readWriteEndpoint field is required for create or update requests.
+
+     * 400 InstanceFailoverGroupCreateOrUpdateRequestInvalid - The create or update instance failover group request body is empty or invalid.
+
+     * 400 InstanceFailoverGroupUpdateOrDeleteRequestOnSecondary - Modifications to the instance failover group are not allowed on a secondary server. Execute the request on the primary server.
+
+     * 400 InstanceFailoverGroupCreateOrUpdateRequestNegativeGracePeriodValues - Grace period value for the read-write endpoint must be non-negative.
+
+     * 400 InstanceFailoverGroupCreateOrUpdateRequestInvalidReadWriteEndpointFields - The property failoverWithDataLossGracePeriodMinutes must be provided when failover policy Automatic is selected for the read-write endpoint.
+
+     * 400 InstanceFailoverGroupCreateOrUpdateRequestInvalidReadWriteFailoverPolicy - The failoverPolicy field for the read-write endpoint is required for create or update requests.
+
+     * 400 InstanceFailoverGroupCreateOrUpdateRequestInvalidReadWriteEndpointFieldsForManualPolicy - Grace period value should not be provided when failover policy Manual is selected for the read-write endpoint.
+
+     * 400 InstanceFailoverGroupCreateOrUpdateRequestReadOnlyPropertyModified - The create or update instance failover group request body should not modify the read-only property '{0}'.
+
+     * 400 InstanceFailoverGroupFailoverRequestOnPrimary - The failover request should be initiated on the secondary server of instance failover group.
+
+     * 400 InstanceFailoverGroupPartnerManagedInstanceFromDifferentSubscription - Primary server and the partner server of failover group are from different subscriptions. Cross subscription for servers of failover group is not allowed.
+
+     * 400 InvalidAddSecondaryPermission - User does not have sufficient permission to add secondary on the specified server.
+
+     * 400 InvalidSku - The user specified an invalid sku.
+
+     * 400 ServerNotFound - The requested server was not found.
+
+     * 400 FeatureDisabledOnSelectedEdition - User attempted to use a feature which is disabled on current database edition.
+
+     * 400 TokenTooLong - The provided token is too long.
+
+     * 400 InvalidTargetSubregion - The target server of a non-readable secondary is not in a DR paired Azure region.
+
+     * 400 IncorrectReplicationLinkState - The operation expects the database to be in an expected state on the replication link.
+
+     * 400 PlannedFailoverTimedOutForDatabase - User invoked planned failover, it timed out, and a specific database appears to be to blame.
+
+     * 400 PlannedFailoverTimedOut - User invoked planned failover, and it timed out while trying to contact the partner management service.
+
+     * 400 CannotUseReservedDatabaseName - Cannot use reserved database name in this operation.
+
+     * 400 InvalidFailoverGroupRegion - Servers specified in an Instance Failover Group need to reside in different regions to provide isolation.
+
+     * 400 InstanceFailoverGroupDoesNotExist - Failover group does not exist on a server.
+
+     * 400 InstanceFailoverGroupNotSecondary - Failover cannot be initiated from the primary server in a instance failover group.
+
+     * 400 InvalidServerName - Invalid server name specified.
+
+     * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.
+
+     * 400 GeoReplicationDatabaseNotSecondary - The operation expects the database to be a replication target.
+
+     * 400 UnableToResolveRemoteServer - The remote partner server name could not be resolved due to an invalid server name or DNS connectivity issues.
+
+     * 400 RemoteDatabaseCopyPermission - User does not have sufficient permission to create a database copy on the specified server.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 404 ServerNotInSubscription - Specified server does not exist on the specified subscription.
+
+     * 404 SourceDatabaseNotFound - The source database does not exist.
+
+     * 405 UnsupportedReplicationOperation - An unsupported replication operation was initiated on the database.
+
+     * 409 ConflictingServerOperation - An operation is currently in progress for the server.
+
+     * 409 SubscriptionDisabled - Subscription is disabled.
+
+     * 409 ConflictingSystemOperationInProgress - A system maintenance operation is in progress on the database and further operations need to wait until it is completed.
+
+     * 409 GeoReplicationCannotBecomePrimaryDuringUndo - User attempted to failover or force-terminate a geo-link while the secondary is in a state where it may not be physically consistent and so cannot enter the primary role.
+
+     * 409 UpdateSloInProgress - User tried to initiate an incompatible operation while a SLO update was in progress.
+
+     * 409 InstanceFailoverGroupAlreadyExists - Failover group already exists on a given server.
+
+     * 409 InstanceFailoverGroupBusy - Instance failover group is busy with another operation.
+
+     * 409 InstanceFailoverGroupDnsRecordInUse - A duplicate DNS record exists for the requested endpoint.
+
+     * 409 InvalidFailoverGroupName - Invalid Instance Failover Group name was supplied.
+
+     * 409 InvalidOperationForDatabaseNotInReplicationRelationship - A replication seeding operation was performed on a database that is already in a replication relationship.
+
+     * 409 InvalidDatabaseStateForOperation - The operation is not allowed on the database in its current replication state.
+
+     * 409 DuplicateGeoDrRelation - The databases are already in a replication relation. This is a duplicate request.
+
+     * 409 RemoteDatabaseExists - The destination database name already exists on the destination server.
+
+     * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 504 RequestTimeout - Service request exceeded the allowed timeout.
+requestHeader: []
+definitions:
+- name: InstanceFailoverGroupListResult
+  description: A list of instance failover groups.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: InstanceFailoverGroup
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: InstanceFailoverGroup
+  description: An instance failover group.
+  kind: object
+  properties:
+  - name: properties.readWriteEndpoint
+    description: Read-write endpoint of the failover group instance.
+    types:
+    - uid: InstanceFailoverGroupReadWriteEndpoint
+  - name: properties.readOnlyEndpoint
+    description: Read-only endpoint of the failover group instance.
+    types:
+    - uid: InstanceFailoverGroupReadOnlyEndpoint
+  - name: properties.replicationRole
+    isReadyOnly: true
+    description: Local replication role of the failover group instance.
+    types:
+    - uid: InstanceFailoverGroupReplicationRole
+  - name: properties.replicationState
+    isReadyOnly: true
+    description: Replication state of the failover group instance.
+    types:
+    - uid: string
+  - name: properties.partnerRegions
+    description: Partner region information for the failover group.
+    types:
+    - uid: PartnerRegionInfo
+      isArray: true
+  - name: properties.managedInstancePairs
+    description: List of managed instance pairs in the failover group.
+    types:
+    - uid: ManagedInstancePairInfo
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: InstanceFailoverGroupReadWriteEndpoint
+  description: Read-write endpoint of the failover group instance.
+  kind: object
+  properties:
+  - name: failoverPolicy
+    description: Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
+    types:
+    - uid: ReadWriteEndpointFailoverPolicy
+  - name: failoverWithDataLossGracePeriodMinutes
+    description: Grace period before failover with data loss is attempted for the read-write endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
+    types:
+    - uid: integer
+- name: InstanceFailoverGroupReadOnlyEndpoint
+  description: Read-only endpoint of the failover group instance.
+  kind: object
+  properties:
+  - name: failoverPolicy
+    description: Failover policy of the read-only endpoint for the failover group.
+    types:
+    - uid: ReadOnlyEndpointFailoverPolicy
+- name: InstanceFailoverGroupReplicationRole
+  description: Local replication role of the failover group instance.
+  kind: enum
+  properties:
+  - name: Primary
+    types:
+    - uid: string
+  - name: Secondary
+    types:
+    - uid: string
+- name: PartnerRegionInfo
+  description: Partner region information for the failover group.
+  kind: object
+  properties:
+  - name: location
+    description: Geo location of the partner managed instances.
+    types:
+    - uid: string
+  - name: replicationRole
+    isReadyOnly: true
+    description: Replication role of the partner managed instances.
+    types:
+    - uid: InstanceFailoverGroupReplicationRole
+- name: ManagedInstancePairInfo
+  description: Pairs of Managed Instances in the failover group.
+  kind: object
+  properties:
+  - name: primaryManagedInstanceId
+    description: Id of Primary Managed Instance in pair.
+    types:
+    - uid: string
+  - name: partnerManagedInstanceId
+    description: Id of Partner Managed Instance in pair.
+    types:
+    - uid: string
+- name: ReadWriteEndpointFailoverPolicy
+  description: Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
+  kind: enum
+  properties:
+  - name: Manual
+    types:
+    - uid: string
+  - name: Automatic
+    types:
+    - uid: string
+- name: ReadOnlyEndpointFailoverPolicy
+  description: Failover policy of the read-only endpoint for the failover group.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+examples:
+- name: List failover group
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/locations/Japan East/instanceFailoverGroups?api-version=2017-10-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/locations/JapanEast/instanceFailoverGroups/failover-group-test",
+            "name": "failover-group-test",
+            "type": "Microsoft.Sql/locations/failoverGroups",
+            "properties": {
+              "readWriteEndpoint": {
+                "failoverPolicy": "Automatic",
+                "failoverWithDataLossGracePeriodMinutes": 480
+              },
+              "readOnlyEndpoint": {
+                "failoverPolicy": "Disabled"
+              },
+              "replicationRole": "Primary",
+              "replicationState": "CATCH_UP",
+              "partnerRegions": [
+                {
+                  "location": "Japan West",
+                  "replicationRole": "Secondary"
+                }
+              ],
+              "managedInstancePairs": [
+                {
+                  "primaryManagedInstanceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/managedInstances/failover-group-primary-mngdInstance",
+                  "partnerManagedInstanceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/managedInstances/failover-group-secondary-mngdInstance"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/locations/JapanEast/instanceFailoverGroups/failover-group-test-1",
+            "name": "failover-group-test-1",
+            "type": "Microsoft.Sql/locations/failoverGroups",
+            "properties": {
+              "readWriteEndpoint": {
+                "failoverPolicy": "Automatic",
+                "failoverWithDataLossGracePeriodMinutes": 480
+              },
+              "readOnlyEndpoint": {
+                "failoverPolicy": "Disabled"
+              },
+              "replicationRole": "Primary",
+              "replicationState": "CATCH_UP",
+              "partnerRegions": [
+                {
+                  "location": "Japan West",
+                  "replicationRole": "Secondary"
+                }
+              ],
+              "managedInstancePairs": [
+                {
+                  "primaryManagedInstanceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/managedInstances/failover-group-primary-mngdInstance-1",
+                  "partnerManagedInstanceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/managedInstances/failover-group-secondary-mngdInstance-1"
+                }
+              ]
+            }
+          }
+        ]
+      }
+security: []
