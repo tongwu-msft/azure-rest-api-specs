@@ -1,7 +1,6 @@
 ---
 title: "Deploy Service Package To Node"
 ms.date: "2018-07-20"
-ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

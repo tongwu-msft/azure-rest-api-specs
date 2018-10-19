@@ -32,7 +32,7 @@ The Get Page Ranges operation returns the list of valid page ranges for a page b
   
 |GET Method Request URI|HTTP Version|  
 |----------------------------|------------------|  
-|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist`<br/><br/>`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist&snapshot=<DateTime>`<br/><br/>`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=p agelist&snapshot=<DateTime>&prevsnapshot=<DateTime>`|HTTP/1.1|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist`<br/><br/>`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist&snapshot=<DateTime>`<br/><br/>`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist&snapshot=<DateTime>&prevsnapshot=<DateTime>`|HTTP/1.1|  
   
 ### Emulated Storage Service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as 127.0.0.1:10000, followed by the emulated storage account name:  

@@ -146,7 +146,7 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  The `Put Range` operation writes a range of byte to a file. This operation can only be called on an existing file. It cannot be called to create a new file. Calling `Put Range` with a file name that does not currently exist returns status code 404 (Not Found).  
   
- To create a new file, call [Create File](Create-File.md). A file may be up to 1 TB in size.  
+ To create a new file, call [Create File](Create-File.md). A file may be up to 1 TiB in size.  
   
  A `Put Range` operation is permitted 10 minutes per MB to complete. If the operation is taking longer than 10 minutes per MB on average, the operation will timeout.  
   
