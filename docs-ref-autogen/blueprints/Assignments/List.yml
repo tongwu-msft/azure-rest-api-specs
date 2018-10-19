@@ -1,0 +1,266 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.blueprints.assignments.list
+name: List
+service: Blueprints
+groupName: Assignments
+apiVersion: 2017-11-11-preview
+summary: List Blueprint assignments within a subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Blueprint/blueprintAssignments?api-version=2017-11-11-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: azure subscriptionId, which we assign the blueprint to.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - all Blueprint assignment retrieved.
+  types:
+  - uid: AssignmentList
+requestHeader: []
+definitions:
+- name: AssignmentList
+  description: List of Blueprint assignments
+  kind: object
+  properties:
+  - name: value
+    description: List of Blueprint assignments.
+    types:
+    - uid: Assignment
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to the next page of results.
+    types:
+    - uid: string
+- name: Assignment
+  description: Represents a Blueprint assignment.
+  kind: object
+  properties:
+  - name: identity
+    description: Managed Service Identity for this Blueprint assignment
+    types:
+    - uid: ManagedServiceIdentity
+  - name: properties.blueprintId
+    description: ID of the Blueprint definition resource.
+    types:
+    - uid: string
+  - name: properties.parameters
+    description: Blueprint parameter values.
+    types:
+    - uid: ParameterValueCollection
+  - name: properties.resourceGroups
+    description: Names and locations of resource group placeholders.
+    types:
+    - uid: ResourceGroupValueCollection
+  - name: properties.status
+    isReadyOnly: true
+    description: Status of Blueprint assignment. This field is readonly.
+    types:
+    - uid: AssignmentStatus
+  - name: properties.locks
+    description: Defines how Blueprint-managed resources will be locked.
+    types:
+    - uid: AssignmentLockSettings
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: State of the assignment.
+    types:
+    - uid: AssignmentProvisioningState
+  - name: location
+    description: The location of this Blueprint assignment.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: String Id used to locate any resource on Azure.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of this resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of this resource.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: One-liner string explain this resource.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Multi-line explain this resource.
+    types:
+    - uid: string
+- name: ManagedServiceIdentity
+  description: Managed Service Identity
+  kind: object
+  properties:
+  - name: type
+    description: Type of the Managed Service Identity.
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: principalId
+    description: Azure Active Directory principal ID associated with this Identity.
+    types:
+    - uid: string
+  - name: tenantId
+    description: ID of the Azure Active Directory.
+    types:
+    - uid: string
+- name: ParameterValueCollection
+  description: A dictionary for parameters and their corresponding values.
+  kind: object
+  properties: []
+- name: ResourceGroupValueCollection
+  description: A dictionary which maps resource group placeholders to the resource groups which will be created.
+  kind: object
+  properties: []
+- name: AssignmentStatus
+  description: The status of Blueprint assignment. This field is readonly.
+  kind: object
+  properties:
+  - name: timeCreated
+    isReadyOnly: true
+    description: Creation time of this blueprint.
+    types:
+    - uid: string
+  - name: lastModified
+    isReadyOnly: true
+    description: Last modified time of this blueprint.
+    types:
+    - uid: string
+- name: AssignmentLockSettings
+  description: Defines how Blueprint-managed resources will be locked.
+  kind: object
+  properties:
+  - name: mode
+    description: Lock mode.
+    types:
+    - uid: AssignmentLockMode
+- name: AssignmentProvisioningState
+  description: State of the assignment.
+  kind: enum
+  properties:
+  - name: creating
+    types:
+    - uid: string
+  - name: validating
+    types:
+    - uid: string
+  - name: waiting
+    types:
+    - uid: string
+  - name: deploying
+    types:
+    - uid: string
+  - name: cancelling
+    types:
+    - uid: string
+  - name: locking
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+  - name: canceled
+    types:
+    - uid: string
+  - name: deleting
+    types:
+    - uid: string
+- name: ManagedServiceIdentityType
+  description: Type of the Managed Service Identity.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+- name: AssignmentLockMode
+  description: Lock mode.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: AllResources
+    types:
+    - uid: string
+examples:
+- name: Assignment
+  request:
+    uri: GET https://management.azure.com/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprintAssignments?api-version=2017-11-11-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "identity": {
+              "type": "SystemAssigned",
+              "tenantId": "00000000-0000-0000-0000-000000000000",
+              "principalId": "00000000-0000-0000-0000-000000000000"
+            },
+            "location": "eastus",
+            "properties": {
+              "description": "enforce pre-defined simpleBlueprint to this XXXXXXXX subscription.",
+              "provisioningState": "failed",
+              "blueprintId": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+              "parameters": {
+                "storageAccountType": {
+                  "value": "Standard_LRS"
+                },
+                "costCenter": {
+                  "value": "Contoso/Online/Shopping/Production"
+                },
+                "owners": {
+                  "value": [
+                    "johnDoe@contoso.com",
+                    "johnsteam@contoso.com"
+                  ]
+                }
+              },
+              "resourceGroups": {
+                "storageRG": {
+                  "name": "defaultRG",
+                  "location": "eastus"
+                }
+              }
+            },
+            "id": "/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint",
+            "type": "Microsoft.Blueprint/Assignment",
+            "name": "assignSimpleBlueprint"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
