@@ -5,14 +5,14 @@ author: juniwang
 ms.author: juniwang
 ms.date: 28/09/18
 ms.topic: reference
-ms.service: Azure
+ms.service: signalr
 ms.devlang: rest-api
-service_description: To be added
+service_description: Azure SignalR Service simplifies the process of adding real-time web functionality to applications over HTTP. This real-time functionality allows the service to push content updates to connected clients, such as a single page web or mobile application. As a result, clients are updated without the need to poll the server, or submit new HTTP requests for updates.
 ---
 
 # Azure SignalR Service REST API
 
-Azure SignalR Service is a personalized cloud consultant that helps you follow best practices to optimize your Azure deployments. For a more detailed overview, see the [Azure SignalR product page](https://azure.microsoft.com/en-us/services/signalr-service/).
+Azure SignalR Service is a fully-managed service that allows developers to focus on building real-time web experiences without worrying about capacity provisioning, reliable connections, scaling, encryption or authentication. For a more detailed overview, see the [Azure SignalR product page](https://azure.microsoft.com/en-us/services/signalr-service/).
 
 ## REST Operation Groups 
 
@@ -23,4 +23,4 @@ Azure SignalR Service is a personalized cloud consultant that helps you follow b
 
 ## See also
 
-- [Azure SignalR Service documentation](https://docs.microsoft.com/en-us/azure/azure-signalr/)
+- [Azure SignalR Service documentation](https://docs.microsoft.com/en-us/azure/azure-signalr/signalr-overview)
