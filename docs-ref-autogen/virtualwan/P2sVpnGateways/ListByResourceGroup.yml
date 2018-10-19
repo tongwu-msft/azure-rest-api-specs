@@ -1,0 +1,293 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.p2svpngateways.listbyresourcegroup
+name: List By Resource Group
+service: Virtual WAN
+groupName: P2s Vpn Gateways
+apiVersion: 2018-08-01
+summary: Lists all the P2SVpnGateways in a resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways?api-version=2018-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name of the P2SVpnGateway.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns the details of all the P2SVpnGateways in the resource group.
+  types:
+  - uid: ListP2SVpnGatewaysResult
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: ListP2SVpnGatewaysResult
+  description: Result of the request to list P2SVpnGateways. It contains a list of P2SVpnGateways and a URL nextLink to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of P2SVpnGateways.
+    types:
+    - uid: P2SVpnGateway
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: details
+    description: ''
+    types:
+    - uid: ErrorDetails
+      isArray: true
+  - name: innerError
+    description: ''
+    types:
+    - uid: string
+- name: P2SVpnGateway
+  description: P2SVpnGateway Resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.virtualHub
+    description: The VirtualHub to which the gateway belongs
+    types:
+    - uid: SubResource
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.vpnGatewayScaleUnit
+    description: The scale unit for this p2s vpn gateway.
+    types:
+    - uid: integer
+  - name: properties.p2SVpnServerConfiguration
+    description: The P2SVpnServerConfiguration to which the p2sVpnGateway is attached to.
+    types:
+    - uid: SubResource
+  - name: properties.vpnClientAddressPool
+    description: The reference of the address space resource which represents Address space for P2S VpnClient.
+    types:
+    - uid: AddressSpace
+  - name: properties.vpnClientConnectionHealth
+    isReadyOnly: true
+    description: All P2S vpnclients' connection health status.
+    types:
+    - uid: VpnClientConnectionHealth
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorDetails
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisisoning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: AddressSpace
+  description: AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
+  kind: object
+  properties:
+  - name: addressPrefixes
+    description: A list of address blocks reserved for this virtual network in CIDR notation.
+    types:
+    - uid: string
+      isArray: true
+- name: VpnClientConnectionHealth
+  description: VpnClientConnectionHealth properties
+  kind: object
+  properties:
+  - name: totalIngressBytesTransferred
+    isReadyOnly: true
+    description: Total of the Ingress Bytes Transferred in this P2S Vpn connection
+    types:
+    - uid: integer
+  - name: totalEgressBytesTransferred
+    isReadyOnly: true
+    description: Total of the Egress Bytes Transferred in this connection
+    types:
+    - uid: integer
+  - name: vpnClientConnectionsCount
+    description: The total of p2s vpn clients connected at this time to this P2SVpnGateway.
+    types:
+    - uid: integer
+  - name: allocatedIpAddresses
+    description: List of allocated ip addresses to the connected p2s vpn clients.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: P2SVpnGatewayListByResourceGroup
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2svpnGateways?api-version=2018-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "p2sVpnGateway1",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/P2SvpnGateways/p2sVpnGateway1",
+            "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+            "location": "West US",
+            "type": "Microsoft.Network/p2sVpnGateways",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "virtualHub": {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1"
+              },
+              "p2SVpnServerConfiguration": {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1/p2sVpnServerConfigurations/p2sVpnServerConfiguration1"
+              },
+              "vpnClientAddressPool": {
+                "addressPrefixes": [
+                  "101.3.0.0/16"
+                ]
+              },
+              "vpnGatewayScaleUnit": 1,
+              "vpnClientConnectionHealth": {
+                "vpnClientConnectionsCount": 2,
+                "allocatedIpAddresses": [
+                  "1.1.1.1",
+                  "2.2.2.2"
+                ],
+                "totalIngressBytesTransferred": 2000,
+                "totalEgressBytesTransferred": 3000
+              }
+            }
+          },
+          {
+            "name": "p2sVpnGateway2",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/P2SvpnGateways/p2sVpnGateway2",
+            "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+            "location": "West US",
+            "type": "Microsoft.Network/p2sVpnGateways",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "virtualHub": {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2"
+              },
+              "p2SVpnServerConfiguration": {
+                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1/p2sVpnServerConfigurations/p2sVpnServerConfiguration1"
+              },
+              "vpnClientAddressPool": {
+                "addressPrefixes": [
+                  "101.4.0.0/16"
+                ]
+              },
+              "vpnGatewayScaleUnit": 1,
+              "vpnClientConnectionHealth": {
+                "vpnClientConnectionsCount": 2,
+                "allocatedIpAddresses": [
+                  "1.1.1.1",
+                  "2.2.2.2"
+                ],
+                "totalIngressBytesTransferred": 2000,
+                "totalEgressBytesTransferred": 3000
+              }
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,204 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.syncgroups.listlogs
+name: List Logs
+service: SQL Database
+groupName: Sync Groups
+apiVersion: 2015-05-01-preview
+summary: Gets a collection of sync group logs.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/logs?startTime={startTime}&endTime={endTime}&type={type}&api-version=2015-05-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/logs?startTime={startTime}&endTime={endTime}&type={type}&continuationToken={continuationToken}&api-version=2015-05-01-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database on which the sync group is hosted.
+  types:
+  - uid: string
+- name: syncGroupName
+  in: path
+  isRequired: true
+  description: The name of the sync group.
+  types:
+  - uid: string
+- name: startTime
+  in: query
+  isRequired: true
+  description: Get logs generated after this time.
+  types:
+  - uid: string
+- name: endTime
+  in: query
+  isRequired: true
+  description: Get logs generated before this time.
+  types:
+  - uid: string
+- name: type
+  in: query
+  isRequired: true
+  description: The types of logs to retrieve.
+  types:
+  - uid: string
+- name: continuationToken
+  in: query
+  description: The continuation token for this operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved sync group logs.
+  types:
+  - uid: SyncGroupLogListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidSyncGroupCreateOrUpdateRequest - The create or update sync group request body is empty.
+
+     * 400 InvalidSyncMemberCreateOrUpdateRequest - The create or update sync member request body is empty.
+
+     * 400 InvalidSyncAgentCreateOrUpdateRequest - The create or update sync agent request body is empty.
+
+     * 400 InvalidDatabaseResourceId - Invalid database resource identifier.
+
+     * 400 MismatchingSubscriptionWithUrl - The provided subscription did not match the subscription in the Url.
+
+     * 400 InvalidSyncAgentResourceId - Invalid sync agent resource identifier.
+
+     * 400 MismatchingResourceGroupNameWithUrl - The provided resource group name did not match the name in the Url.
+
+     * 400 MismatchingServerNameWithUrl - The provided server name did not match the name in the Url.
+
+     * 400 InvalidSyncGroup - Sync group is invalid.
+
+     * 400 InvalidSyncMetadataDatabase - Sync metadata database is invalid.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+
+     * 409 CannotCreateSyncGroupDueToQuotaExceeded - Cannot create sync group due to quota exceeded.
+requestHeader: []
+definitions:
+- name: SyncGroupLogListResult
+  description: A list of sync group log properties.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: SyncGroupLogProperties
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: SyncGroupLogProperties
+  description: Properties of an Azure SQL Database sync group log.
+  kind: object
+  properties:
+  - name: timestamp
+    isReadyOnly: true
+    description: Timestamp of the sync group log.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the sync group log.
+    types:
+    - uid: SyncGroupLogType
+  - name: source
+    isReadyOnly: true
+    description: Source of the sync group log.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Details of the sync group log.
+    types:
+    - uid: string
+  - name: tracingId
+    isReadyOnly: true
+    description: TracingId of the sync group log.
+    types:
+    - uid: string
+  - name: operationStatus
+    isReadyOnly: true
+    description: OperationStatus of the sync group log.
+    types:
+    - uid: string
+- name: SyncGroupLogType
+  description: Type of the sync group log.
+  kind: enum
+  properties:
+  - name: All
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Success
+    types:
+    - uid: string
+examples:
+- name: Get sync group logs
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-65440/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328/syncGroups/syncgroupcrud-3187/logs?startTime=1/1/2017 12:00:00 AM&endTime=12/31/2017 12:00:00 AM&type=All&api-version=2015-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "timestamp": "2017-05-30T07:16:08.25Z",
+            "type": "Success",
+            "source": "syncgroupcrud-8475.database.windows.net/hub",
+            "details": "Schema information obtained successfully.",
+            "tracingId": "c0480c8e-6269-424e-9404-b00efce0ebae",
+            "operationStatus": "SchemaRefreshSuccess"
+          },
+          {
+            "timestamp": "2017-05-30T07:03:37.5733333Z",
+            "type": "Error",
+            "source": "syncgroupcrud-8475.database.windows.net/member",
+            "details": "Getting schema information for the database failed with the exception \"Failed to connect to server .\nInner exception: SqlException Error Code: -2146232060 - SqlError Number:53, Message: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server) \nInner exception: The network path was not found\n For more information, provide tracing ID ‘cd3aa28c-0c31-471f-8a77-f1b21c908cbd’ to customer support.\"",
+            "tracingId": "cd3aa28c-0c31-471f-8a77-f1b21c908cbd",
+            "operationStatus": "SchemaRefreshFailure"
+          }
+        ]
+      }
+security: []

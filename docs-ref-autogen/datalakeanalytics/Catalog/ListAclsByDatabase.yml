@@ -1,0 +1,174 @@
+### YamlMime:RESTOperation
+uid: datalakeanalytics.catalog.listaclsbydatabase
+name: List Acls By Database
+service: Data Lake Analytics
+groupName: Catalog
+apiVersion: 2016-11-01
+summary: Retrieves the list of access control list (ACL) entries for the database from the Data Lake Analytics catalog.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{accountName}.{adlaCatalogDnsSuffix}/catalog/usql/databases/{databaseName}/acl?api-version=2016-11-01
+- content: GET https://{accountName}.{adlaCatalogDnsSuffix}/catalog/usql/databases/{databaseName}/acl?$filter={$filter}&$top={$top}&$skip={$skip}&$select={$select}&$orderby={$orderby}&$count={$count}&api-version=2016-11-01
+  isOptional: true
+uriParameters:
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Data Lake Analytics account upon which to execute catalog operations.
+  types:
+  - uid: string
+- name: adlaCatalogDnsSuffix
+  in: path
+  isRequired: true
+  description: Gets the DNS suffix used as the base for all Azure Data Lake Analytics Catalog service requests.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter. Optional.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The number of items to return. Optional.
+  types:
+  - uid: integer
+  format: int32
+- name: $skip
+  in: query
+  description: The number of items to skip over before returning elements. Optional.
+  types:
+  - uid: integer
+  format: int32
+- name: $select
+  in: query
+  description: OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+  types:
+  - uid: string
+- name: $orderby
+  in: query
+  description: OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+  types:
+  - uid: string
+- name: $count
+  in: query
+  description: The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+  types:
+  - uid: boolean
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of access control list (ACL) entries for the specified database.
+  types:
+  - uid: AclList
+requestHeader: []
+definitions:
+- name: AclList
+  description: A Data Lake Analytics catalog access control list (ACL).
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: the access control list (ACL).
+    types:
+    - uid: Acl
+      isArray: true
+  - name: nextLink
+    description: the link to the next page of results.
+    types:
+    - uid: string
+- name: Acl
+  description: A Data Lake Analytics catalog access control list (ACL) entry.
+  kind: object
+  properties:
+  - name: aceType
+    isReadyOnly: true
+    description: the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively.
+    types:
+    - uid: AclType
+  - name: principalId
+    isReadyOnly: true
+    description: the Azure AD object ID of the user or group being specified in the access control list (ACL) entry.
+    types:
+    - uid: string
+  - name: permission
+    isReadyOnly: true
+    description: the permission type of the access control list (ACL) entry.
+    types:
+    - uid: PermissionType
+- name: AclType
+  description: the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively.
+  kind: enum
+  properties:
+  - name: UserObj
+    types:
+    - uid: string
+  - name: GroupObj
+    types:
+    - uid: string
+  - name: Other
+    types:
+    - uid: string
+  - name: User
+    types:
+    - uid: string
+  - name: Group
+    types:
+    - uid: string
+- name: PermissionType
+  description: the permission type of the access control list (ACL) entry.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Use
+    types:
+    - uid: string
+  - name: Create
+    types:
+    - uid: string
+  - name: Drop
+    types:
+    - uid: string
+  - name: Alter
+    types:
+    - uid: string
+  - name: Write
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
+examples:
+- name: Retrieves the list of access control list (ACL) entries for the database from the Data Lake Analytics catalog
+  request:
+    uri: GET https://contosoadla.azuredatalakeanalytics.net/catalog/usql/databases/master/acl?$filter=test_filter&$top=1&$skip=1&$select=test_select&$orderby=test_orderby&$count=False&api-version=2016-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nextLink": "https://contosoadla.datalakeanalytics.net/catalog/usql/databases/master/schema/dbo/statistics?api-version=2016-11-01&%24skiptoken=<token>",
+        "value": [
+          {
+            "aceType": "User",
+            "principalId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+            "permission": "Use"
+          }
+        ]
+      }
+security: []

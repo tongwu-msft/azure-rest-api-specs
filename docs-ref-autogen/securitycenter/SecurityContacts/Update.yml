@@ -1,0 +1,180 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securitycenter.securitycontacts.update
+name: Update
+service: Security Center
+groupName: Security Contacts
+apiVersion: 2017-08-01-preview
+summary: Security contact configurations for the subscription
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}?api-version=2017-08-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: securityContactName
+  in: path
+  isRequired: true
+  description: Name of the security contact object
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SecurityContact
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.email
+    in: body
+    isRequired: true
+    description: The email of this security contact
+    types:
+    - uid: string
+  - name: properties.phone
+    in: body
+    isRequired: true
+    description: The phone number of this security contact
+    types:
+    - uid: string
+  - name: properties.alertNotifications
+    in: body
+    isRequired: true
+    description: Whether to send security alerts notifications to the security contact
+    types:
+    - uid: alertNotifications
+  - name: properties.alertsToAdmins
+    in: body
+    isRequired: true
+    description: Whether to send security alerts notifications to subscription admins
+    types:
+    - uid: alertsToAdmins
+requestHeader: []
+definitions:
+- name: SecurityContact
+  description: Contact details for security issues
+  kind: object
+  properties:
+  - name: properties.email
+    description: The email of this security contact
+    types:
+    - uid: string
+  - name: properties.phone
+    description: The phone number of this security contact
+    types:
+    - uid: string
+  - name: properties.alertNotifications
+    description: Whether to send security alerts notifications to the security contact
+    types:
+    - uid: alertNotifications
+  - name: properties.alertsToAdmins
+    description: Whether to send security alerts notifications to subscription admins
+    types:
+    - uid: alertsToAdmins
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: alertNotifications
+  description: Whether to send security alerts notifications to the security contact
+  kind: enum
+  properties:
+  - name: On
+    description: Get notifications on new alerts
+    types:
+    - uid: string
+  - name: Off
+    description: Don't get notifications on new alerts
+    types:
+    - uid: string
+- name: alertsToAdmins
+  description: Whether to send security alerts notifications to subscription admins
+  kind: enum
+  properties:
+  - name: On
+    description: Send notification on new alerts to the subscription's admins
+    types:
+    - uid: string
+  - name: Off
+    description: Don't send notification on new alerts to the subscription's admins
+    types:
+    - uid: string
+examples:
+- name: Update security contact data
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/securityContacts/john?api-version=2017-08-01-preview
+    body: >-
+      {
+        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/securityContacts/john",
+        "name": "john",
+        "type": "Microsoft.Security/securityContacts",
+        "properties": {
+          "phone": "(214)275-4038",
+          "alertNotifications": "On"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/securityContacts/john",
+        "name": "john",
+        "type": "Microsoft.Security/securityContacts",
+        "properties": {
+          "email": "john@contoso.com",
+          "phone": "(214)275-4038",
+          "alertNotifications": "On",
+          "alertsToAdmins": "Off"
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

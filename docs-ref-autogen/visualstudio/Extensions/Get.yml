@@ -1,0 +1,151 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.visualstudio.extensions.get
+name: Get
+service: Visual Studio
+groupName: Extensions
+apiVersion: 2017-11-01-preview
+summary: "Extensions_Get  \nGets the details of an extension associated with a Visual Studio Team Services account resource."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.visualstudio/account/{accountResourceName}/extension/{extensionResourceName}?api-version=2017-11-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: accountResourceName
+  in: path
+  isRequired: true
+  description: The name of the Visual Studio Team Services account resource.
+  types:
+  - uid: string
+- name: extensionResourceName
+  in: path
+  isRequired: true
+  description: The name of the extension.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation succeeded. The response contains the extension resource details for the specified account.
+  types:
+  - uid: ExtensionResource
+- name: 404 Not Found
+  description: The specified extension has no plans defined.
+requestHeader: []
+definitions:
+- name: ExtensionResource
+  description: The response to an extension resource GET request.
+  kind: object
+  properties:
+  - name: plan
+    description: The extension plan that was purchased.
+    types:
+    - uid: ExtensionResourcePlan
+  - name: properties
+    description: Resource properties.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Unique identifier of the resource.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ExtensionResourcePlan
+  description: Plan data for an extension resource.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the plan.
+    types:
+    - uid: string
+  - name: product
+    description: Product name.
+    types:
+    - uid: string
+  - name: promotionCode
+    description: 'Optional: the promotion code associated with the plan.'
+    types:
+    - uid: string
+  - name: publisher
+    description: Name of the extension publisher.
+    types:
+    - uid: string
+  - name: version
+    description: A string that uniquely identifies the plan version.
+    types:
+    - uid: string
+examples:
+- name: Get an extension resource
+  request:
+    uri: GET https://management.azure.com/subscriptions/0de7f055-dbea-498d-8e9e-da287eedca90/resourcegroups/VS-Example-Group/providers/microsoft.visualstudio/account/ExampleAccount/extension/ms.example?api-version=2017-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/0de7f055-dbea-498d-8e9e-da287eedca90/resourceGroups/VS-Example-Group/providers/Microsoft.VisualStudio/account/ExampleAccount/extension/ms.example",
+        "name": "ms.example",
+        "type": "Microsoft.VisualStudio/account/extension",
+        "location": "Central US",
+        "tags": {},
+        "properties": {},
+        "plan": {
+          "name": "ExamplePlan",
+          "publisher": "ExampleExtensionPublisher",
+          "product": "ExampleExtensionName",
+          "promotionCode": "",
+          "version": "1.0"
+        }
+      }
+  - statusCode: "404"
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

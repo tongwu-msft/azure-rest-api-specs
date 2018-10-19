@@ -1,0 +1,99 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.operations(network).list
+name: List
+service: Azure Stack Admin
+groupName: Operations (Network)
+apiVersion: 2015-06-15
+summary: Returns the list of support REST operations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/providers/Microsoft.Network.Admin/operations?api-version=2015-06-15
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: OperationList
+requestHeader: []
+definitions:
+- name: OperationList
+  description: List of Operations
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of operations
+    types:
+    - uid: Operation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URI to the next page of operations.
+    types:
+    - uid: string
+- name: Operation
+  description: Describes the supported REST operation.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The name of the operation being performed on this particular object. This name should match the name that appears in RBAC or the event service.
+    types:
+    - uid: string
+  - name: display
+    isReadyOnly: true
+    description: Contains the localized display information for this particular operation / action.
+    types:
+    - uid: Display
+- name: Display
+  description: Contains the localized display information for this particular operation / action.
+  kind: object
+  properties:
+  - name: provider
+    isReadyOnly: true
+    description: The localized friendly form of the resource provider name – it is expected to also include the publisher/company responsible. It should use Title Casing and begin with "Microsoft" for 1st party services. e.g. "Microsoft Monitoring Insights" or "Microsoft Compute."
+    types:
+    - uid: string
+  - name: resource
+    isReadyOnly: true
+    description: The localized, friendly version of the resource type related to this action or operation; the resource type should match the public documentation for the resource provider.
+    types:
+    - uid: string
+  - name: operation
+    isReadyOnly: true
+    description: The localized, friendly name for the operation. Use the name as it will displayed to the user.
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: The localized, friendly description for the operation. The description will be displayed to the user. It should be thorough and concise for used in both tooltips and detailed views.
+    types:
+    - uid: string
+examples:
+- name: Returns the list of support REST operations.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/providers/Microsoft.Network.Admin/operations?api-version=2015-06-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [],
+        "nextLink": ""
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

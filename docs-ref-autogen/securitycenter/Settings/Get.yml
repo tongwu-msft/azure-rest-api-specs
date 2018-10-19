@@ -1,0 +1,118 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securitycenter.settings.get
+name: Get
+service: Security Center
+groupName: Settings
+apiVersion: 2017-08-01-preview
+summary: Settings of different configurations in security center
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/settings/{settingName}?api-version=2017-08-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: settingName
+  in: path
+  isRequired: true
+  description: Name of setting
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: DataExportSetting
+  typesTitle: Setting
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: DataExportSetting
+  description: Represents a data export setting
+  kind: object
+  properties:
+  - name: properties.enabled
+    description: Is the data export setting is enabled
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: kind
+    description: the kind of the settings string
+    types:
+    - uid: SettingKind
+- name: SettingKind
+  description: The kind of the security setting
+  kind: object
+  properties:
+  - name: kind
+    description: the kind of the settings string
+    types:
+    - uid: SettingKind
+examples:
+- name: Get a setting on subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/settings/MCAS?api-version=2017-08-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/settings/MCAS",
+        "name": "MCAS",
+        "kind": "DataExportSetting",
+        "type": "Microsoft.Security/settings",
+        "properties": {
+          "enabled": true
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

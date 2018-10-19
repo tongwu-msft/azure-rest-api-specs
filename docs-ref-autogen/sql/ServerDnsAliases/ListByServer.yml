@@ -1,0 +1,119 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.serverdnsaliases.listbyserver
+name: List By Server
+service: SQL Database
+groupName: Server Dns Aliases
+apiVersion: 2017-03-01-preview
+summary: Gets a list of server DNS aliases for a server.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/dnsAliases?api-version=2017-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server that the alias is pointing to.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of server DNS aliases.
+  types:
+  - uid: ServerDnsAliasListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ResourceNotFound - The requested resource was not found.
+requestHeader: []
+definitions:
+- name: ServerDnsAliasListResult
+  description: A list of server DNS aliases.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: ServerDnsAlias
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: ServerDnsAlias
+  description: A server DNS alias.
+  kind: object
+  properties:
+  - name: properties.azureDnsRecord
+    isReadyOnly: true
+    description: The fully qualified DNS record for alias
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: List server DNS aliases
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/dns-alias-server/dnsAliases?api-version=2017-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/dns-alias-server/dnsAliases/dns-alias-1",
+            "name": "server-dns-alias-1",
+            "type": "Microsoft.Sql/servers/dnsAliases",
+            "properties": {
+              "azureDnsRecord": "dns-alias-1.database.windows.net"
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/dns-alias-server/dnsAliases/dns-alias-2",
+            "name": "server-dns-alias-2",
+            "type": "Microsoft.Sql/servers/dnsAliases",
+            "properties": {
+              "azureDnsRecord": "dns-alias-2.database.windows.net"
+            }
+          }
+        ]
+      }
+security: []

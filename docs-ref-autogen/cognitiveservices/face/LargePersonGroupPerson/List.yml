@@ -1,0 +1,122 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.largepersongroupperson.list
+name: List
+service: Cognitive Services
+groupName: Large Person Group Person
+apiVersion: "1.0"
+summary: List all persons in a large person group, and retrieve person information (including personId, name, userData and persistedFaceIds of registered faces of the person).
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/face/v1.0/largepersongroups/{largePersonGroupId}/persons
+- content: GET {Endpoint}/face/v1.0/largepersongroups/{largePersonGroupId}/persons?start={start}&top={top}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: largePersonGroupId
+  in: path
+  isRequired: true
+  description: Id referencing a particular large person group.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9-_]+$
+- name: start
+  in: query
+  description: Starting person id to return (used to list a range of persons).
+  types:
+  - uid: string
+- name: top
+  in: query
+  description: Number of persons to return starting with the person id indicated by the 'start' parameter.
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: A successful call returns an array of person information that belong to the large person group.
+  types:
+  - uid: Person
+    isArray: true
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: APIError
+requestHeader: []
+definitions:
+- name: Person
+  description: Person object.
+  kind: object
+  properties:
+  - name: personId
+    description: PersonId of the target face list.
+    types:
+    - uid: string
+  - name: persistedFaceIds
+    description: PersistedFaceIds of registered faces in the person. These persistedFaceIds are returned from Person - Add a Person Face, and will not expire.
+    types:
+    - uid: string
+      isArray: true
+  - name: name
+    description: User defined name, maximum length is 128.
+    types:
+    - uid: string
+  - name: userData
+    description: User specified data. Length should not exceed 16KB.
+    types:
+    - uid: string
+- name: APIError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: Error body.
+    types:
+    - uid: Error
+- name: Error
+  description: Error body.
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: List persons in person group
+  request:
+    uri: GET {Endpoint}/face/v1.0/largepersongroups/abc/persons?start=25985303-c537-4467-b41d-bdb45cd95ca1&top=2
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "personId": "25985303-c537-4467-b41d-bdb45cd95ca1",
+          "name": "person-name1",
+          "userData": "User-provided data attached to the person",
+          "persistedFaceIds": [
+            "015839fb-fbd9-4f79-ace9-7675fc2f1dd9",
+            "fce92aed-d578-4d2e-8114-068f8af4492e",
+            "b64d5e15-8257-4af2-b20a-5a750f8940e7"
+          ]
+        },
+        {
+          "personId": "2ae4935b-9659-44c3-977f-61fac20d0538",
+          "name": "person-name2",
+          "userData": "User-provided data attached to the person",
+          "persistedFaceIds": [
+            "30ea1073-cc9e-4652-b1e3-d08fb7b95315",
+            "fbd2a038-dbff-452c-8e79-2ee81b1aa84e"
+          ]
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

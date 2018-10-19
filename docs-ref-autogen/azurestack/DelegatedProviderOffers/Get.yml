@@ -1,0 +1,144 @@
+### YamlMime:RESTOperation
+uid: adminmanagement.local.azurestack.external.azurestack.delegatedprovideroffers.get
+name: Get
+service: Azure Stack Admin
+groupName: Delegated Provider Offers
+apiVersion: 2015-11-01
+summary: Get the specified delegated provider offer.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://adminmanagement.local.azurestack.external/subscriptions/{subscriptionId}/providers/Microsoft.Subscriptions.Admin/delegatedProviders/{delegatedProviderSubscriptionId}/offers/{offer}?api-version=2015-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription.The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: delegatedProviderSubscriptionId
+  in: path
+  isRequired: true
+  description: Delegated provider subscription identifier.
+  types:
+  - uid: string
+- name: offer
+  in: path
+  isRequired: true
+  description: Name of an offer.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: DelegatedProviderOffer
+requestHeader: []
+definitions:
+- name: DelegatedProviderOffer
+  description: The delegated provider offer.
+  kind: object
+  properties:
+  - name: properties.delegatedOfferId
+    description: The delegated offer identifier.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: Display name of offer.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Description of offer.
+    types:
+    - uid: string
+  - name: properties.externalReferenceId
+    description: External reference identifier.
+    types:
+    - uid: string
+  - name: properties.accessibilityState
+    description: Offer accessibility state.
+    types:
+    - uid: AccessibilityState
+  - name: properties.subscriptionCount
+    description: Current subscription count.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: Location of the resource
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: AccessibilityState
+  description: Represents the state of the offer
+  kind: enum
+  properties:
+  - name: Private
+    description: The offer or plan is private. Only an Admin can see and manage it.
+    types:
+    - uid: string
+  - name: Public
+    description: The offer or plan is public. Users can see and self-subscribe to it.
+    types:
+    - uid: string
+  - name: Decommissioned
+    description: The offer or plan is decommissioned. Current subscriptions can still consume it but new subscriptions cannot.
+    types:
+    - uid: string
+examples:
+- name: Get the specified delegated provider offer.
+  request:
+    uri: GET https://adminmanagement.local.azurestack.external/subscriptions/8ab2551d-41e5-489b-9273-1cdf1cbc7dc6/providers/Microsoft.Subscriptions.Admin/delegatedProviders/8ab2551d-41e5-489b-9273-1cdf1cbc7dc6/offers/Del1?api-version=2015-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/36a6bf33-6df4-4acd-a30e-7b92c1c7b322/providers/Microsoft.Subscriptions.Admin/delegatedProviders/8bb14c82-7b09-40f4-ade3-e5c71308cfcd/offers/del1",
+        "name": "8bb14c82-7b09-40f4-ade3-e5c71308cfcd/del1",
+        "type": "Microsoft.Subscriptions.Admin/delegatedProviders/offers",
+        "location": "local",
+        "properties": {
+          "delegatedOfferId": "/subscriptions/8bb14c82-7b09-40f4-ade3-e5c71308cfcd/providers/Microsoft.Subscriptions/delegatedOffers/TestOffer-0440a67b-3b55-45aa-8fc4-e3b6246186e7c45bf",
+          "displayName": "Del1",
+          "accessibilityState": "Private",
+          "subscriptionCount": 0
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

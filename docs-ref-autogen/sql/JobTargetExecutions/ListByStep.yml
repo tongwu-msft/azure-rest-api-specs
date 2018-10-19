@@ -1,0 +1,345 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.jobtargetexecutions.listbystep
+name: List By Step
+service: SQL Database
+groupName: Job Target Executions
+apiVersion: 2017-03-01-preview
+summary: Lists the target executions of a job step execution.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/steps/{stepName}/targets?api-version=2017-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/steps/{stepName}/targets?createTimeMin={createTimeMin}&createTimeMax={createTimeMax}&endTimeMin={endTimeMin}&endTimeMax={endTimeMax}&isActive={isActive}&$skip={$skip}&$top={$top}&api-version=2017-03-01-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: jobAgentName
+  in: path
+  isRequired: true
+  description: The name of the job agent.
+  types:
+  - uid: string
+- name: jobName
+  in: path
+  isRequired: true
+  description: The name of the job to get.
+  types:
+  - uid: string
+- name: jobExecutionId
+  in: path
+  isRequired: true
+  description: The id of the job execution
+  types:
+  - uid: string
+  format: uuid
+- name: stepName
+  in: path
+  isRequired: true
+  description: The name of the step.
+  types:
+  - uid: string
+- name: createTimeMin
+  in: query
+  description: If specified, only job executions created at or after the specified time are included.
+  types:
+  - uid: string
+  format: date-time
+- name: createTimeMax
+  in: query
+  description: If specified, only job executions created before the specified time are included.
+  types:
+  - uid: string
+  format: date-time
+- name: endTimeMin
+  in: query
+  description: If specified, only job executions completed at or after the specified time are included.
+  types:
+  - uid: string
+  format: date-time
+- name: endTimeMax
+  in: query
+  description: If specified, only job executions completed before the specified time are included.
+  types:
+  - uid: string
+  format: date-time
+- name: isActive
+  in: query
+  description: If specified, only active or only completed job executions are included.
+  types:
+  - uid: boolean
+- name: $skip
+  in: query
+  description: The number of elements in the collection to skip.
+  types:
+  - uid: integer
+- name: $top
+  in: query
+  description: The number of elements to return from the collection.
+  types:
+  - uid: integer
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the target executions.
+  types:
+  - uid: JobExecutionListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 404 JobAgentNotFound - Specified job agent does not exist in the specified logical server.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+requestHeader: []
+definitions:
+- name: JobExecutionListResult
+  description: A list of job executions.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: JobExecution
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: JobExecution
+  description: An execution of a job
+  kind: object
+  properties:
+  - name: properties.jobVersion
+    isReadyOnly: true
+    description: The job version number.
+    types:
+    - uid: integer
+  - name: properties.stepName
+    isReadyOnly: true
+    description: The job step name.
+    types:
+    - uid: string
+  - name: properties.stepId
+    isReadyOnly: true
+    description: The job step id.
+    types:
+    - uid: integer
+  - name: properties.jobExecutionId
+    isReadyOnly: true
+    description: The unique identifier of the job execution.
+    types:
+    - uid: string
+  - name: properties.lifecycle
+    isReadyOnly: true
+    description: The detailed state of the job execution.
+    types:
+    - uid: JobExecutionLifecycle
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The ARM provisioning state of the job execution.
+    types:
+    - uid: ProvisioningState
+  - name: properties.createTime
+    isReadyOnly: true
+    description: The time that the job execution was created.
+    types:
+    - uid: string
+  - name: properties.startTime
+    isReadyOnly: true
+    description: The time that the job execution started.
+    types:
+    - uid: string
+  - name: properties.endTime
+    isReadyOnly: true
+    description: The time that the job execution completed.
+    types:
+    - uid: string
+  - name: properties.currentAttempts
+    description: Number of times the job execution has been attempted.
+    types:
+    - uid: integer
+  - name: properties.currentAttemptStartTime
+    isReadyOnly: true
+    description: Start time of the current attempt.
+    types:
+    - uid: string
+  - name: properties.lastMessage
+    isReadyOnly: true
+    description: The last status or error message.
+    types:
+    - uid: string
+  - name: properties.target
+    isReadyOnly: true
+    description: The target that this execution is executed on.
+    types:
+    - uid: JobExecutionTarget
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: JobExecutionLifecycle
+  description: The detailed state of the job execution.
+  kind: enum
+  properties:
+  - name: Created
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: WaitingForChildJobExecutions
+    types:
+    - uid: string
+  - name: WaitingForRetry
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: SucceededWithSkipped
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: TimedOut
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Skipped
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The ARM provisioning state of the job execution.
+  kind: enum
+  properties:
+  - name: Created
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: JobExecutionTarget
+  description: The target that a job execution is executed on.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of the target.
+    types:
+    - uid: JobTargetType
+  - name: serverName
+    isReadyOnly: true
+    description: The server name.
+    types:
+    - uid: string
+  - name: databaseName
+    isReadyOnly: true
+    description: The database name.
+    types:
+    - uid: string
+- name: JobTargetType
+  description: The type of the target.
+  kind: enum
+  properties:
+  - name: TargetGroup
+    types:
+    - uid: string
+  - name: SqlDatabase
+    types:
+    - uid: string
+  - name: SqlElasticPool
+    types:
+    - uid: string
+  - name: SqlShardMap
+    types:
+    - uid: string
+  - name: SqlServer
+    types:
+    - uid: string
+examples:
+- name: List job step target executions
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1/executions/5555-6666-7777-8888-999999999999/steps/step1/targets?api-version=2017-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "jobVersion": 1,
+              "stepName": "step1",
+              "stepId": 1,
+              "jobExecutionId": "5555-6666-7777-8888-999999999999",
+              "lifecycle": "Succeeded",
+              "provisioningState": "Succeeded",
+              "createTime": "2017-07-01T04:33:17.5133333Z",
+              "startTime": "2017-07-01T04:33:18.1230403Z",
+              "endTime": "2017-07-01T04:33:18.7031029Z",
+              "currentAttempts": 1,
+              "currentAttemptStartTime": "2017-07-01T04:33:18.2391013Z",
+              "lastMessage": "Step 1 succeeded execution on target (server 'server1', database 'database1').",
+              "target": {
+                "type": "SqlDatabase",
+                "serverName": "server1",
+                "databaseName": "database1"
+              }
+            },
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1/executions/5555-6666-7777-8888-999999999999/steps/step1/targets/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+            "name": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+            "type": "Microsoft.Sql/servers/jobAgents/jobs/executions/steps/targets"
+          }
+        ]
+      }
+security: []

@@ -1,0 +1,256 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.job.listbyautomationaccount
+name: List By Automation Account
+service: Automation
+groupName: Job
+apiVersion: 2017-05-15-preview
+summary: Retrieve a list of jobs.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs?api-version=2017-05-15-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs?$filter={$filter}&api-version=2017-05-15-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure Resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The name of the automation account.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: JobListResultV2
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: clientRequestId
+  in: header
+  description: Identifies this specific client request.
+  types:
+  - uid: string
+definitions:
+- name: JobListResultV2
+  description: The response model for the list job operation.
+  kind: object
+  properties:
+  - name: value
+    description: List of jobs.
+    types:
+    - uid: JobCollectionItem
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The  link to the next page.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: JobCollectionItem
+  description: Job collection item properties.
+  kind: object
+  properties:
+  - name: properties.runbook
+    isReadyOnly: true
+    description: The runbook association.
+    types:
+    - uid: RunbookAssociationProperty
+  - name: properties.jobId
+    isReadyOnly: true
+    description: The id of the job.
+    types:
+    - uid: string
+  - name: properties.creationTime
+    isReadyOnly: true
+    description: The creation time of the job.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: The status of the job.
+    types:
+    - uid: JobStatus
+  - name: properties.startTime
+    isReadyOnly: true
+    description: The start time of the job.
+    types:
+    - uid: string
+  - name: properties.endTime
+    isReadyOnly: true
+    description: The end time of the job.
+    types:
+    - uid: string
+  - name: properties.lastModifiedTime
+    isReadyOnly: true
+    description: The last modified time of the job.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of a resource.
+    types:
+    - uid: string
+  - name: properties.runOn
+    description: Specifies the runOn group name where the job was executed.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: RunbookAssociationProperty
+  description: The runbook property associated with the entity.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the runbook.
+    types:
+    - uid: string
+- name: JobStatus
+  description: Gets or sets the status of the job.
+  kind: enum
+  properties:
+  - name: New
+    types:
+    - uid: string
+  - name: Activating
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
+  - name: Blocked
+    types:
+    - uid: string
+  - name: Suspended
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+  - name: Suspending
+    types:
+    - uid: string
+  - name: Stopping
+    types:
+    - uid: string
+  - name: Resuming
+    types:
+    - uid: string
+  - name: Removing
+    types:
+    - uid: string
+examples:
+- name: List jobs by automation account
+  request:
+    uri: GET https://management.azure.com/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/jobs?api-version=2017-05-15-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/jobs/job1",
+            "name": "job1",
+            "type": "Microsoft.Automation/AutomationAccounts/Jobs",
+            "properties": {
+              "jobId": "45203a94-a8cb-47c3-8ce4-4dcc3a5f7d23",
+              "runbook": {
+                "name": "TestRunbook"
+              },
+              "provisioningState": "Succeeded",
+              "status": "New",
+              "creationTime": "2017-03-30T05:53:30.243+00:00",
+              "startTime": null,
+              "lastModifiedTime": "2017-03-30T05:53:30.243+00:00",
+              "endTime": null
+            }
+          },
+          {
+            "id": "/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/jobs/job2",
+            "name": "job2",
+            "type": "Microsoft.Automation/AutomationAccounts/Jobs",
+            "properties": {
+              "jobId": "7584055f-5118-460a-a2dd-5176c9c8efe9",
+              "runbook": {
+                "name": "TestRunbook"
+              },
+              "provisioningState": "Succeeded",
+              "status": "Completed",
+              "creationTime": "2017-03-30T05:46:49.37+00:00",
+              "startTime": "2017-03-30T05:47:35.2+00:00",
+              "lastModifiedTime": "2017-03-30T05:48:38.857+00:00",
+              "endTime": "2017-03-30T05:48:38.857+00:00"
+            }
+          }
+        ],
+        "nextLink": ""
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

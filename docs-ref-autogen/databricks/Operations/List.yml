@@ -1,0 +1,161 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.databricks.operations.list
+name: List
+service: Databricks
+groupName: Operations
+apiVersion: 2018-04-01
+summary: Lists all of the available RP operations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Databricks/operations?api-version=2018-04-01
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: OperationListResult
+- name: Other Status Codes
+  description: Resource Provider error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: OperationListResult
+  description: Result of the request to list Resource Provider operations. It contains a list of operations and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of Resource Provider operations supported by the Resource Provider resource provider.
+    types:
+    - uid: Operation
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: "The code and message for an error.  \nThe error details."
+    types:
+    - uid: ErrorInfo
+- name: Operation
+  description: REST API operation
+  kind: object
+  properties:
+  - name: name
+    description: 'Operation name: {provider}/{resource}/{operation}'
+    types:
+    - uid: string
+  - name: display
+    description: The object that represents the operation.
+    types:
+    - uid: Display
+- name: ErrorInfo
+  description: The code and message for an error.
+  kind: object
+  properties:
+  - name: code
+    description: A machine readable error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: details
+    description: error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: innererror
+    description: Inner error details if they exist.
+    types:
+    - uid: string
+- name: Display
+  description: The object that represents the operation.
+  kind: object
+  properties:
+  - name: provider
+    description: 'Service provider: Microsoft.ResourceProvider'
+    types:
+    - uid: string
+  - name: resource
+    description: Resource on which the operation is performed.
+    types:
+    - uid: string
+  - name: operation
+    description: 'Operation type: Read, write, delete, etc.'
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error's code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: target
+    description: Indicates which property in the request is responsible for the error.
+    types:
+    - uid: string
+examples:
+- name: Operations
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Databricks/operations?api-version=2018-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "name": "Microsoft.Databricks/workspaces/read",
+          "display": {
+            "provider": "Microsoft Databricks",
+            "resource": "Workspace",
+            "operation": "List Workspaces",
+            "description": "Retrieves a list of workspaces."
+          }
+        },
+        {
+          "name": "Microsoft.Databricks/workspaces/write",
+          "display": {
+            "provider": "Microsoft Databricks",
+            "resource": "Workspace",
+            "operation": "Create Workspace",
+            "description": "Creates an workspace."
+          }
+        },
+        {
+          "name": "Microsoft.Databricks/workspaces/delete",
+          "display": {
+            "provider": "Microsoft Databricks",
+            "resource": "Workspace",
+            "operation": "Remove Workspace",
+            "description": "Removes an workspace."
+          }
+        }
+      ]
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

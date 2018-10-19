@@ -1,0 +1,189 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.nodecountinformation.get
+name: Get
+service: Automation
+groupName: Node Count Information
+apiVersion: 2018-01-15
+summary: Retrieve counts for Dsc Nodes.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodecounts/{countType}?api-version=2018-01-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure Resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The name of the automation account.
+  types:
+  - uid: string
+- name: countType
+  in: path
+  isRequired: true
+  description: The type of counts to retrieve
+  types:
+  - uid: CountType
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: NodeCounts
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: CountType
+  description: The type of counts to retrieve
+  kind: enum
+  properties:
+  - name: status
+    types:
+    - uid: string
+  - name: nodeconfiguration
+    types:
+    - uid: string
+- name: NodeCounts
+  description: Gets the count of nodes by count type
+  kind: object
+  properties:
+  - name: value
+    description: Gets an array of counts
+    types:
+    - uid: NodeCount
+      isArray: true
+  - name: totalCount
+    description: Gets the total number of records matching countType criteria.
+    types:
+    - uid: integer
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: NodeCount
+  description: Number of nodes based on the Filter
+  kind: object
+  properties:
+  - name: name
+    description: Gets the name of a count type
+    types:
+    - uid: string
+  - name: properties
+    description: ''
+    types:
+    - uid: NodeCountProperties
+- name: NodeCountProperties
+  kind: object
+  properties:
+  - name: count
+    description: Gets the count for the name
+    types:
+    - uid: integer
+examples:
+- name: Get node's status counts
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodecounts/status?api-version=2018-01-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Compliant",
+            "properties": {
+              "count": 10
+            }
+          },
+          {
+            "name": "Failed",
+            "properties": {
+              "count": 1
+            }
+          },
+          {
+            "name": "InProgress",
+            "properties": {
+              "count": 1
+            }
+          },
+          {
+            "name": "NotCompliant",
+            "properties": {
+              "count": 3
+            }
+          },
+          {
+            "name": "Pending",
+            "properties": {
+              "count": 0
+            }
+          },
+          {
+            "name": "Unresponsive",
+            "properties": {
+              "count": 4
+            }
+          }
+        ],
+        "totalCount": 6
+      }
+- name: Get node's node configuration counts
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/nodecounts/nodeconfiguration?api-version=2018-01-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "client.localhost",
+            "properties": {
+              "count": 24
+            }
+          },
+          {
+            "name": "server.localhost",
+            "properties": {
+              "count": 3
+            }
+          }
+        ],
+        "totalCount": 16
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

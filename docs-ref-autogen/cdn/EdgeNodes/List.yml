@@ -1,0 +1,226 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cdn.edgenodes.list
+name: List
+service: CDN
+groupName: Edge Nodes
+apiVersion: 2017-10-12
+summary: Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Cdn/edgenodes?api-version=2017-10-12
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2017-04-02.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: EdgenodeResult
+- name: Other Status Codes
+  description: CDN error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: EdgenodeResult
+  description: Result of the request to list CDN edgenodes. It contains a list of ip address group and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Edge node of CDN service.
+    types:
+    - uid: EdgeNode
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of edgenode list results if there are any.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error reponse indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: EdgeNode
+  description: Edgenode is a global Point of Presence (POP) location used to deliver CDN content to end users.
+  kind: object
+  properties:
+  - name: properties.ipAddressGroups
+    description: List of ip address groups.
+    types:
+    - uid: IpAddressGroup
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: IpAddressGroup
+  description: CDN Ip address group
+  kind: object
+  properties:
+  - name: deliveryRegion
+    description: The delivery region of the ip address group
+    types:
+    - uid: string
+  - name: ipv4Addresses
+    description: The list of ip v4 addresses.
+    types:
+    - uid: cidrIpAddress
+      isArray: true
+  - name: ipv6Addresses
+    description: The list of ip v6 addresses.
+    types:
+    - uid: cidrIpAddress
+      isArray: true
+- name: cidrIpAddress
+  description: CIDR Ip address
+  kind: object
+  properties:
+  - name: baseIpAddress
+    description: Ip adress itself.
+    types:
+    - uid: string
+  - name: prefixLength
+    description: The length of the prefix of the ip address.
+    types:
+    - uid: integer
+examples:
+- name: EdgeNodes_List
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Cdn/edgenodes?api-version=2017-10-12
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Standard_Verizon",
+            "id": "/providers/Microsoft.Cdn/edgenodes/Standard_Verizon",
+            "type": "Microsoft.Cdn/edgenodes",
+            "properties": {
+              "ipAddressGroups": [
+                {
+                  "deliveryRegion": "All",
+                  "ipv4Addresses": [
+                    {
+                      "baseIpAddress": "192.229.176.0",
+                      "prefixLength": 24
+                    },
+                    {
+                      "baseIpAddress": "180.240.184.128",
+                      "prefixLength": 25
+                    },
+                    {
+                      "baseIpAddress": "152.195.27.0",
+                      "prefixLength": 24
+                    }
+                  ],
+                  "ipv6Addresses": [
+                    {
+                      "baseIpAddress": "2606:2800:60f2::",
+                      "prefixLength": 48
+                    },
+                    {
+                      "baseIpAddress": "2606:2800:700c::",
+                      "prefixLength": 48
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "Premium_Verizon",
+            "id": "/providers/Microsoft.Cdn/edgenodes/Premium_Verizon",
+            "type": "Microsoft.Cdn/edgenodes",
+            "properties": {
+              "ipAddressGroups": [
+                {
+                  "deliveryRegion": "All",
+                  "ipv4Addresses": [
+                    {
+                      "baseIpAddress": "192.229.176.0",
+                      "prefixLength": 24
+                    },
+                    {
+                      "baseIpAddress": "152.195.27.0",
+                      "prefixLength": 24
+                    }
+                  ],
+                  "ipv6Addresses": [
+                    {
+                      "baseIpAddress": "2606:2800:60f2::",
+                      "prefixLength": 48
+                    },
+                    {
+                      "baseIpAddress": "2606:2800:700c::",
+                      "prefixLength": 48
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "Custom_Verizon",
+            "id": "/providers/Microsoft.Cdn/edgenodes/Custom_Verizon",
+            "type": "Microsoft.Cdn/edgenodes",
+            "properties": {
+              "ipAddressGroups": [
+                {
+                  "deliveryRegion": "All",
+                  "ipv4Addresses": [
+                    {
+                      "baseIpAddress": "192.229.176.0",
+                      "prefixLength": 24
+                    },
+                    {
+                      "baseIpAddress": "2606:2800:420b::",
+                      "prefixLength": 48
+                    },
+                    {
+                      "baseIpAddress": "2606:2800:700c::",
+                      "prefixLength": 48
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

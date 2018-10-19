@@ -1,0 +1,163 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securitycenter.discoveredsecuritysolutions.list
+name: List
+service: Security Center
+groupName: Discovered Security Solutions
+apiVersion: 2015-06-01-preview
+summary: Gets a list of discovered Security Solutions for the subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/discoveredSecuritySolutions?api-version=2015-06-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: DiscoveredSecuritySolutionList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: DiscoveredSecuritySolutionList
+  kind: object
+  properties:
+  - name: value
+    description: ''
+    types:
+    - uid: DiscoveredSecuritySolution
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URI to fetch the next page.
+    types:
+    - uid: string
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: DiscoveredSecuritySolution
+  kind: object
+  properties:
+  - name: properties.securityFamily
+    description: The security family of the discovered solution
+    types:
+    - uid: securityFamily
+  - name: properties.offer
+    description: The security solutions' image offer
+    types:
+    - uid: string
+  - name: properties.publisher
+    description: The security solutions' image publisher
+    types:
+    - uid: string
+  - name: properties.sku
+    description: The security solutions' image sku
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Location where the resource is stored
+    types:
+    - uid: string
+- name: securityFamily
+  description: The security family of the discovered solution
+  kind: enum
+  properties:
+  - name: Waf
+    types:
+    - uid: string
+  - name: Ngfw
+    types:
+    - uid: string
+  - name: SaasWaf
+    types:
+    - uid: string
+  - name: Va
+    types:
+    - uid: string
+examples:
+- name: Get discovered security solutions
+  request:
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/discoveredSecuritySolutions?api-version=2015-06-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "securityFamily": "Ngfw",
+              "offer": "cisco-asav",
+              "publisher": "cisco",
+              "sku": "asav-azure-byol"
+            },
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Security/locations/centralus/discoveredSecuritySolutions/CP",
+            "name": "CP",
+            "type": "Microsoft.Security/locations/discoveredSecuritySolutions",
+            "location": "eastus"
+          },
+          {
+            "properties": {
+              "securityFamily": "Ngfw",
+              "offer": "vmseries1",
+              "publisher": "paloaltonetworks",
+              "sku": "byol"
+            },
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg2/providers/Microsoft.Security/locations/centralus/discoveredSecuritySolutions/paloalto7",
+            "name": "paloalto7",
+            "type": "Microsoft.Security/locations/discoveredSecuritySolutions",
+            "location": "eastus2"
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

@@ -1,0 +1,178 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.serverkeys.listbyserver
+name: List By Server
+service: SQL Database
+groupName: Server Keys
+apiVersion: 2015-05-01-preview
+summary: Gets a list of server keys.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys?api-version=2015-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of server keys.
+  types:
+  - uid: ServerKeyListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidKeyName - An invalid value was given for the server key name.
+
+     * 400 InvalidKeyType - The create server key type is not supported.
+
+     * 400 InvalidKeyUpsertRequest - The create server key request does not exist or has no properties object.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+requestHeader: []
+definitions:
+- name: ServerKeyListResult
+  description: A list of server keys.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: ServerKey
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: ServerKey
+  description: A server key.
+  kind: object
+  properties:
+  - name: kind
+    description: Kind of encryption protector. This is metadata used for the Azure portal experience.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Resource location.
+    types:
+    - uid: string
+  - name: properties.subregion
+    isReadyOnly: true
+    description: Subregion of the server key.
+    types:
+    - uid: string
+  - name: properties.serverKeyType
+    description: The server key type like 'ServiceManaged', 'AzureKeyVault'.
+    types:
+    - uid: ServerKeyType
+  - name: properties.uri
+    description: The URI of the server key.
+    types:
+    - uid: string
+  - name: properties.thumbprint
+    description: Thumbprint of the server key.
+    types:
+    - uid: string
+  - name: properties.creationDate
+    description: The server key creation date.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ServerKeyType
+  description: The server key type like 'ServiceManaged', 'AzureKeyVault'.
+  kind: enum
+  properties:
+  - name: ServiceManaged
+    types:
+    - uid: string
+  - name: AzureKeyVault
+    types:
+    - uid: string
+examples:
+- name: List the server keys by server
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/keys?api-version=2015-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/keys/someVault_someKey_01234567890123456789012345678901",
+            "name": "someVault_someKey_01234567890123456789012345678901",
+            "type": "Microsoft.Sql/servers/keys",
+            "location": "Japan East",
+            "kind": "azurekeyvault",
+            "properties": {
+              "serverKeyType": "AzureKeyVault",
+              "uri": "https://someVault.vault.azure.net/keys/someKey/01234567890123456789012345678901",
+              "thumbprint": "00112233445566778899AABBCCDDEEFFAABBCCDD",
+              "creationDate": "2017-05-01T00:00:00Z"
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/keys/myVault_myKey_11111111111111111111111111111111",
+            "name": "myVault_myKey_11111111111111111111111111111111",
+            "type": "Microsoft.Sql/servers/keys",
+            "location": "Japan East",
+            "kind": "azurekeyvault",
+            "properties": {
+              "serverKeyType": "AzureKeyVault",
+              "uri": "https://myVault.vault.azure.net/keys/myKey/11111111111111111111111111111111",
+              "thumbprint": "AAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBBBBB",
+              "creationDate": "2017-05-01T00:00:00Z"
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/servers/sqlcrudtest-4645/keys/ServiceManaged",
+            "name": "ServiceManaged",
+            "type": "Microsoft.Sql/servers/keys",
+            "location": "Japan East",
+            "kind": "servicemanaged",
+            "properties": {
+              "serverKeyType": "ServiceManaged"
+            }
+          }
+        ]
+      }
+security: []

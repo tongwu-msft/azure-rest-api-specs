@@ -1,0 +1,267 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.syncmembers.listbysyncgroup
+name: List By Sync Group
+service: SQL Database
+groupName: Sync Members
+apiVersion: 2015-05-01-preview
+summary: Lists sync members in the given sync group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/syncMembers?api-version=2015-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database on which the sync group is hosted.
+  types:
+  - uid: string
+- name: syncGroupName
+  in: path
+  isRequired: true
+  description: The name of the sync group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of sync members.
+  types:
+  - uid: SyncMemberListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidSyncGroupCreateOrUpdateRequest - The create or update sync group request body is empty.
+
+     * 400 InvalidSyncMemberCreateOrUpdateRequest - The create or update sync member request body is empty.
+
+     * 400 InvalidSyncAgentCreateOrUpdateRequest - The create or update sync agent request body is empty.
+
+     * 400 InvalidDatabaseResourceId - Invalid database resource identifier.
+
+     * 400 MismatchingSubscriptionWithUrl - The provided subscription did not match the subscription in the Url.
+
+     * 400 InvalidSyncAgentResourceId - Invalid sync agent resource identifier.
+
+     * 400 MismatchingResourceGroupNameWithUrl - The provided resource group name did not match the name in the Url.
+
+     * 400 MismatchingServerNameWithUrl - The provided server name did not match the name in the Url.
+
+     * 400 InvalidSyncGroup - Sync group is invalid.
+
+     * 400 InvalidSyncMember - Sync member is invalid.
+
+     * 400 InvalidSyncAgent - Sync agent is invalid.
+
+     * 400 InvalidSyncMetadataDatabase - Sync metadata database is invalid.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+
+     * 409 CannotCreateSyncMemberDueToQuotaExceeded - Cannot create sync member due to quota exceeded.
+requestHeader: []
+definitions:
+- name: SyncMemberListResult
+  description: A list of Azure SQL Database sync members.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: SyncMember
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: SyncMember
+  description: An Azure SQL Database sync member.
+  kind: object
+  properties:
+  - name: properties.databaseType
+    description: Database type of the sync member.
+    types:
+    - uid: SyncMemberDbType
+  - name: properties.syncAgentId
+    description: ARM resource id of the sync agent in the sync member.
+    types:
+    - uid: string
+  - name: properties.sqlServerDatabaseId
+    description: SQL Server database id of the sync member.
+    types:
+    - uid: string
+  - name: properties.serverName
+    description: Server name of the member database in the sync member
+    types:
+    - uid: string
+  - name: properties.databaseName
+    description: Database name of the member database in the sync member.
+    types:
+    - uid: string
+  - name: properties.userName
+    description: User name of the member database in the sync member.
+    types:
+    - uid: string
+  - name: properties.password
+    description: Password of the member database in the sync member.
+    types:
+    - uid: string
+  - name: properties.syncDirection
+    description: Sync direction of the sync member.
+    types:
+    - uid: SyncDirection
+  - name: properties.syncState
+    isReadyOnly: true
+    description: Sync state of the sync member.
+    types:
+    - uid: SyncMemberState
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: SyncMemberDbType
+  description: Database type of the sync member.
+  kind: enum
+  properties:
+  - name: AzureSqlDatabase
+    types:
+    - uid: string
+  - name: SqlServerDatabase
+    types:
+    - uid: string
+- name: SyncDirection
+  description: Sync direction of the sync member.
+  kind: enum
+  properties:
+  - name: Bidirectional
+    types:
+    - uid: string
+  - name: OneWayMemberToHub
+    types:
+    - uid: string
+  - name: OneWayHubToMember
+    types:
+    - uid: string
+- name: SyncMemberState
+  description: Sync state of the sync member.
+  kind: enum
+  properties:
+  - name: SyncInProgress
+    types:
+    - uid: string
+  - name: SyncSucceeded
+    types:
+    - uid: string
+  - name: SyncFailed
+    types:
+    - uid: string
+  - name: DisabledTombstoneCleanup
+    types:
+    - uid: string
+  - name: DisabledBackupRestore
+    types:
+    - uid: string
+  - name: SyncSucceededWithWarnings
+    types:
+    - uid: string
+  - name: SyncCancelling
+    types:
+    - uid: string
+  - name: SyncCancelled
+    types:
+    - uid: string
+  - name: UnProvisioned
+    types:
+    - uid: string
+  - name: Provisioning
+    types:
+    - uid: string
+  - name: Provisioned
+    types:
+    - uid: string
+  - name: ProvisionFailed
+    types:
+    - uid: string
+  - name: DeProvisioning
+    types:
+    - uid: string
+  - name: DeProvisioned
+    types:
+    - uid: string
+  - name: DeProvisionFailed
+    types:
+    - uid: string
+  - name: Reprovisioning
+    types:
+    - uid: string
+  - name: ReprovisionFailed
+    types:
+    - uid: string
+  - name: UnReprovisioned
+    types:
+    - uid: string
+examples:
+- name: List sync members under a sync group
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-65440/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328/syncGroups/syncgroupcrud-3187/syncMembers?api-version=2015-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "databaseType": "AzureSqlDatabase",
+              "serverName": "syncgroupcrud-3379.database.windows.net",
+              "databaseName": "syncgroupcrud-7421",
+              "userName": "myUser",
+              "syncDirection": "Bidirectional",
+              "syncState": "UnProvisioned"
+            },
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-65440/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328/syncGroups/syncgroupcrud-3187/syncMembers/syncgroupcrud-4879",
+            "name": "syncgroupcrud-4879",
+            "type": "Microsoft.Sql/servers/databases/syncGroups/syncMembers"
+          }
+        ]
+      }
+security: []

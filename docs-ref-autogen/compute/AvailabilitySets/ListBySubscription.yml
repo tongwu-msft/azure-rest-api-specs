@@ -1,0 +1,169 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.availabilitysets.listbysubscription
+name: List By Subscription
+service: Compute
+groupName: Availability Sets
+apiVersion: 2017-12-01
+summary: Lists all availability sets in a subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets?api-version=2017-12-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: AvailabilitySetListResult
+requestHeader: []
+definitions:
+- name: AvailabilitySetListResult
+  description: The List Availability Set operation response.
+  kind: object
+  properties:
+  - name: value
+    description: The list of availability sets
+    types:
+    - uid: AvailabilitySet
+      isArray: true
+  - name: nextLink
+    description: The URI to fetch the next page of AvailabilitySets. Call ListNext() with this URI to fetch the next page of AvailabilitySets.
+    types:
+    - uid: string
+- name: AvailabilitySet
+  description: Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> For more information on Azure planned maintainance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set.
+  kind: object
+  properties:
+  - name: sku
+    description: Sku of the availability set
+    types:
+    - uid: Sku
+  - name: properties.platformUpdateDomainCount
+    description: Update Domain count.
+    types:
+    - uid: integer
+  - name: properties.platformFaultDomainCount
+    description: Fault Domain count.
+    types:
+    - uid: integer
+  - name: properties.virtualMachines
+    description: A list of references to all virtual machines in the availability set.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.statuses
+    isReadyOnly: true
+    description: The resource status information.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: Sku
+  description: Describes a virtual machine scale set sku.
+  kind: object
+  properties:
+  - name: name
+    description: The sku name.
+    types:
+    - uid: string
+  - name: tier
+    description: Specifies the tier of virtual machines in a scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic**
+    types:
+    - uid: string
+  - name: capacity
+    description: Specifies the number of virtual machines in the scale set.
+    types:
+    - uid: integer
+- name: SubResource
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id
+    types:
+    - uid: string
+- name: InstanceViewStatus
+  description: Instance view status.
+  kind: object
+  properties:
+  - name: code
+    description: The status code.
+    types:
+    - uid: string
+  - name: level
+    description: The level code.
+    types:
+    - uid: StatusLevelTypes
+  - name: displayStatus
+    description: The short localizable label for the status.
+    types:
+    - uid: string
+  - name: message
+    description: The detailed status message, including for alerts and error messages.
+    types:
+    - uid: string
+  - name: time
+    description: The time of the status.
+    types:
+    - uid: string
+- name: StatusLevelTypes
+  description: The level code.
+  kind: enum
+  properties:
+  - name: Info
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+examples: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

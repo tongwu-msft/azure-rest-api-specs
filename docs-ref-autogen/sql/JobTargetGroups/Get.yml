@@ -1,0 +1,195 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.jobtargetgroups.get
+name: Get
+service: SQL Database
+groupName: Job Target Groups
+apiVersion: 2017-03-01-preview
+summary: Gets a target group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups/{targetGroupName}?api-version=2017-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: jobAgentName
+  in: path
+  isRequired: true
+  description: The name of the job agent.
+  types:
+  - uid: string
+- name: targetGroupName
+  in: path
+  isRequired: true
+  description: The name of the target group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the target group.
+  types:
+  - uid: JobTargetGroup
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 404 JobAgentNotFound - Specified job agent does not exist in the specified logical server.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ResourceNotFound - The requested resource was not found.
+requestHeader: []
+definitions:
+- name: JobTargetGroup
+  description: A group of job targets.
+  kind: object
+  properties:
+  - name: properties.members
+    description: Members of the target group.
+    types:
+    - uid: JobTarget
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: JobTarget
+  description: A job target, for example a specific database or a container of databases that is evaluated during job execution.
+  kind: object
+  properties:
+  - name: membershipType
+    description: Whether the target is included or excluded from the group.
+    types:
+    - uid: JobTargetGroupMembershipType
+  - name: type
+    description: The target type.
+    types:
+    - uid: JobTargetType
+  - name: serverName
+    description: The target server name.
+    types:
+    - uid: string
+  - name: databaseName
+    description: The target database name.
+    types:
+    - uid: string
+  - name: elasticPoolName
+    description: The target elastic pool name.
+    types:
+    - uid: string
+  - name: shardMapName
+    description: The target shard map.
+    types:
+    - uid: string
+  - name: refreshCredential
+    description: The resource ID of the credential that is used during job execution to connect to the target and determine the list of databases inside the target.
+    types:
+    - uid: string
+- name: JobTargetGroupMembershipType
+  description: Whether the target is included or excluded from the group.
+  kind: enum
+  properties:
+  - name: Include
+    types:
+    - uid: string
+  - name: Exclude
+    types:
+    - uid: string
+- name: JobTargetType
+  description: The type of the target.
+  kind: enum
+  properties:
+  - name: TargetGroup
+    types:
+    - uid: string
+  - name: SqlDatabase
+    types:
+    - uid: string
+  - name: SqlElasticPool
+    types:
+    - uid: string
+  - name: SqlShardMap
+    types:
+    - uid: string
+  - name: SqlServer
+    types:
+    - uid: string
+examples:
+- name: Get a target group.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup1?api-version=2017-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "members": [
+            {
+              "membershipType": "Exclude",
+              "type": "SqlDatabase",
+              "serverName": "server1",
+              "databaseName": "database1"
+            },
+            {
+              "membershipType": "Include",
+              "type": "SqlServer",
+              "serverName": "server1",
+              "refreshCredential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/testCredential"
+            },
+            {
+              "membershipType": "Include",
+              "type": "SqlElasticPool",
+              "serverName": "server2",
+              "elasticPoolName": "pool1",
+              "refreshCredential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/testCredential"
+            },
+            {
+              "membershipType": "Include",
+              "type": "SqlShardMap",
+              "serverName": "server3",
+              "shardMapName": "shardMap1",
+              "databaseName": "database1",
+              "refreshCredential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/testCredential"
+            }
+          ]
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup1",
+        "name": "targetGroup1",
+        "type": "Microsoft.Sql/servers/jobAgents/targetGroups"
+      }
+security: []

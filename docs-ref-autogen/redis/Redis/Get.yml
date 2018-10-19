@@ -1,0 +1,231 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.redis.redis.get
+name: Get
+service: Redis Cache
+groupName: Redis
+apiVersion: 2016-04-01
+summary: Gets a Redis cache (resource description).
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}?api-version=2016-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The name of the Redis cache.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully found the cache
+  types:
+  - uid: RedisResource
+requestHeader: []
+definitions:
+- name: RedisResource
+  description: A single Redis item in List or Get Operation.
+  kind: object
+  properties:
+  - name: properties.sku
+    description: The SKU of the Redis cache to deploy.
+    types:
+    - uid: Sku
+  - name: properties.redisVersion
+    isReadyOnly: true
+    description: Redis version.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Redis instance provisioning status.
+    types:
+    - uid: string
+  - name: properties.hostName
+    isReadyOnly: true
+    description: Redis host name.
+    types:
+    - uid: string
+  - name: properties.port
+    isReadyOnly: true
+    description: Redis non-SSL port.
+    types:
+    - uid: integer
+  - name: properties.sslPort
+    isReadyOnly: true
+    description: Redis SSL port.
+    types:
+    - uid: integer
+  - name: properties.accessKeys
+    isReadyOnly: true
+    description: The keys of the Redis cache - not set if this object is not the response to Create or Update redis cache
+    types:
+    - uid: RedisAccessKeys
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.redisConfiguration
+    description: 'All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc.'
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.enableNonSslPort
+    description: Specifies whether the non-ssl Redis server port (6379) is enabled.
+    types:
+    - uid: boolean
+  - name: properties.tenantSettings
+    description: tenantSettings
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.shardCount
+    description: The number of shards to be created on a Premium Cluster Cache.
+    types:
+    - uid: integer
+  - name: properties.subnetId
+    description: 'The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subid}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1'
+    types:
+    - uid: string
+  - name: properties.staticIP
+    description: Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network.
+    types:
+    - uid: string
+- name: Sku
+  description: SKU parameters supplied to the create Redis operation.
+  kind: object
+  properties:
+  - name: name
+    description: 'The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)'
+    types:
+    - uid: SkuName
+  - name: family
+    description: 'The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).'
+    types:
+    - uid: SkuFamily
+  - name: capacity
+    description: 'The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3, 4).'
+    types:
+    - uid: integer
+- name: RedisAccessKeys
+  description: Redis cache access keys.
+  kind: object
+  properties:
+  - name: primaryKey
+    isReadyOnly: true
+    description: The current primary key that clients can use to authenticate with Redis cache.
+    types:
+    - uid: string
+  - name: secondaryKey
+    isReadyOnly: true
+    description: The current secondary key that clients can use to authenticate with Redis cache.
+    types:
+    - uid: string
+- name: SkuName
+  description: 'The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)'
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+- name: SkuFamily
+  description: 'The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).'
+  kind: enum
+  properties:
+  - name: C
+    types:
+    - uid: string
+  - name: P
+    types:
+    - uid: string
+examples:
+- name: RedisCacheGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1?api-version=2016-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1",
+        "location": "West US",
+        "name": "cache1",
+        "type": "Microsoft.Cache/Redis",
+        "tags": {},
+        "properties": {
+          "provisioningState": "Creating",
+          "redisVersion": "3.2",
+          "sku": {
+            "name": "Standard",
+            "family": "C",
+            "capacity": 6
+          },
+          "enableNonSslPort": true,
+          "redisConfiguration": {},
+          "hostName": "cache1.redis.cache.windows.net",
+          "port": 6379,
+          "sslPort": 6380
+        }
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account

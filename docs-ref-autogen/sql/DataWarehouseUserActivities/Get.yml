@@ -1,0 +1,117 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.datawarehouseuseractivities.get
+name: Get
+service: SQL Database
+groupName: Data Warehouse User Activities
+apiVersion: 2017-03-01-preview
+summary: Gets the user activities of a data warehouse which includes running and suspended queries
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataWarehouseUserActivities/current?api-version=2017-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: dataWarehouseUserActivityName
+  in: path
+  isRequired: true
+  description: 'The activity name of the data warehouse. '
+  types:
+  - uid: DataWarehouseUserActivityName
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully get the data warehouse user activities.
+  types:
+  - uid: DataWarehouseUserActivities
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 UpdateNotAllowedOnPausedDatabase - User attempted to perform an update on a paused database.
+
+     * 400 FeatureDisabledOnSelectedEdition - User attempted to use a feature which is disabled on current database edition.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+
+     * 404 ResourceNotFound - The specified resource was not found.
+requestHeader: []
+definitions:
+- name: DataWarehouseUserActivityName
+  description: 'The activity name of the data warehouse. '
+  kind: enum
+  properties:
+  - name: current
+    types:
+    - uid: string
+- name: DataWarehouseUserActivities
+  description: User activities of a data warehouse
+  kind: object
+  properties:
+  - name: properties.activeQueriesCount
+    isReadyOnly: true
+    description: Count of running and suspended queries.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: Get the list of the user activities of a data warehouse
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/dataWarehouseUserActivities/current?api-version=2017-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "activeQueriesCount": 0
+        },
+        "id": "subscriptions/326affc3-21f4-4471-a545-e37430b70113/resourceGroups/Default-SQL-Onebox/providers/Microsoft.Sql/servers/testsvr/databases/dwdb01/dataWarehouseUserActivities/current",
+        "name": "current",
+        "type": "Microsoft.Sql/servers/databases/dataWarehouseUserActivities"
+      }
+security: []
