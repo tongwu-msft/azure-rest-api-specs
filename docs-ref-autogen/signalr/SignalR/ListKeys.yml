@@ -1,0 +1,86 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.signalr.signalr.listkeys
+name: List Keys
+service: SignalR Service
+groupName: SignalR
+apiVersion: 2018-03-01-preview
+summary: Get the access keys of the SignalR resource.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR/{resourceName}/listKeys?api-version=2018-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription Id which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the SignalR resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The response describes SignalR service access keys.
+  types:
+  - uid: SignalRKeys
+requestHeader: []
+definitions:
+- name: SignalRKeys
+  description: A class represents the access keys of SignalR service.
+  kind: object
+  properties:
+  - name: primaryKey
+    description: The primary access key.
+    types:
+    - uid: string
+  - name: secondaryKey
+    description: The secondary access key.
+    types:
+    - uid: string
+  - name: primaryConnectionString
+    description: SignalR connection string constructed via the primaryKey
+    types:
+    - uid: string
+  - name: secondaryConnectionString
+    description: SignalR connection string constructed via the secondaryKey
+    types:
+    - uid: string
+examples:
+- name: ListKeys
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/SignalR/mySignalRService/listKeys?api-version=2018-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "primaryKey": "primaryAccessKey",
+        "secondaryKey": "secondaryAccessKey",
+        "primaryConnectionString": "Endpoint=https://yourServiceName.service.signalr.net;AccessKey=primaryAccessKey;",
+        "secondaryConnectionString": "Endpoint=https://yourServiceName.service.signalr.net;AccessKey=secondaryAccessKey;"
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
