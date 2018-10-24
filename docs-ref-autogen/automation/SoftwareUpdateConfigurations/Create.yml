@@ -73,9 +73,14 @@ requestBody:
     - uid: ScheduleProperties
   - name: properties.error
     in: body
-    description: detailes of provisioning error
+    description: Details of provisioning error
     types:
     - uid: ErrorResponse
+  - name: properties.tasks
+    in: body
+    description: Tasks information for the Software update configuration.
+    types:
+    - uid: softwareUpdateConfigurationTasks
 requestHeader:
 - name: clientRequestId
   in: header
@@ -190,6 +195,18 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
+- name: softwareUpdateConfigurationTasks
+  description: Task properties of the software update configuration.
+  kind: object
+  properties:
+  - name: preTask
+    description: Pre task properties.
+    types:
+    - uid: taskProperties
+  - name: postTask
+    description: Post task properties.
+    types:
+    - uid: taskProperties
 - name: softwareUpdateConfiguration
   description: Software update configuration properties.
   kind: object
@@ -223,17 +240,17 @@ definitions:
     types:
     - uid: string
   - name: properties.error
-    description: detailes of provisioning error
+    description: Details of provisioning error
     types:
     - uid: ErrorResponse
   - name: properties.creationTime
     isReadyOnly: true
-    description: Creation time of theresource, which only appears in the response.
+    description: Creation time of the resource, which only appears in the response.
     types:
     - uid: string
   - name: properties.createdBy
     isReadyOnly: true
-    description: createdBy property, which only appears in the response.
+    description: CreatedBy property, which only appears in the response.
     types:
     - uid: string
   - name: properties.lastModifiedTime
@@ -243,9 +260,13 @@ definitions:
     - uid: string
   - name: properties.lastModifiedBy
     isReadyOnly: true
-    description: lastModifiedBy property, which only appears in the response.
+    description: LastModifiedBy property, which only appears in the response.
     types:
     - uid: string
+  - name: properties.tasks
+    description: Tasks information for the Software update configuration.
+    types:
+    - uid: softwareUpdateConfigurationTasks
 - name: OperatingSystemType
   description: operating system of target machines
   kind: enum
@@ -347,6 +368,22 @@ definitions:
     types:
     - uid: AdvancedScheduleMonthlyOccurrence
       isArray: true
+- name: taskProperties
+  description: Task properties of the software update configuration.
+  kind: object
+  properties:
+  - name: parameters
+    description: Gets or sets the parameters of the task.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: source
+    description: Gets or sets the name of the runbook.
+    types:
+    - uid: string
 - name: WindowsUpdateClasses
   description: Update classification included in the software update configuration. A comma separated string with required values
   kind: enum
@@ -403,7 +440,7 @@ definitions:
     types:
     - uid: string
       isArray: true
-  - name: location
+  - name: locations
     description: List of locations to scope the query to.
     types:
     - uid: string
@@ -548,6 +585,18 @@ examples:
                 "Thursday"
               ]
             }
+          },
+          "tasks": {
+            "preTask": {
+              "source": "HelloWorld",
+              "parameters": {
+                "COMPUTERNAME": "Computer1"
+              }
+            },
+            "postTask": {
+              "source": "GetCache",
+              "parameters": null
+            }
           }
         }
       }
@@ -568,6 +617,33 @@ examples:
               ]
             },
             "linux": {},
+            "targets": {
+              "azureQueries": [
+                {
+                  "scope": [
+                    "/subscriptions/422b6c61-95b0-4213-b3be-7282315df71d/resourceGroups/a-stasku-rg0",
+                    "/subscriptions/422b6c61-95b0-4213-b3be-7282315df71d"
+                  ],
+                  "tagSettings": {
+                    "tags": {
+                      "tag1": [
+                        "tag1Value1",
+                        "tag1Value2"
+                      ],
+                      "tag2": [
+                        "tag2Value1",
+                        "tag2Value2"
+                      ]
+                    },
+                    "filterOperator": "All"
+                  },
+                  "locations": [
+                    "Japan East",
+                    "UK South"
+                  ]
+                }
+              ]
+            },
             "duration": "PT2H",
             "azureVirtualMachines": [
               "/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-01",
@@ -595,6 +671,18 @@ examples:
             "timeZone": "America/Los_Angeles",
             "advancedSchedule": {}
           },
+          "tasks": {
+            "preTask": {
+              "source": "HelloWorld",
+              "parameters": {
+                "COMPUTERNAME": "Computer1"
+              }
+            },
+            "postTask": {
+              "source": "GetCache",
+              "parameters": null
+            }
+          },
           "provisioningState": "Provisioning",
           "error": {},
           "creationTime": "2017-10-19T18:54:50.5233333+00:00",
@@ -619,6 +707,33 @@ examples:
               ]
             },
             "linux": {},
+            "targets": {
+              "azureQueries": [
+                {
+                  "scope": [
+                    "/subscriptions/422b6c61-95b0-4213-b3be-7282315df71d/resourceGroups/a-stasku-rg0",
+                    "/subscriptions/422b6c61-95b0-4213-b3be-7282315df71d"
+                  ],
+                  "tagSettings": {
+                    "tags": {
+                      "tag1": [
+                        "tag1Value1",
+                        "tag1Value2"
+                      ],
+                      "tag2": [
+                        "tag2Value1",
+                        "tag2Value2"
+                      ]
+                    },
+                    "filterOperator": "All"
+                  },
+                  "locations": [
+                    "Japan East",
+                    "UK South"
+                  ]
+                }
+              ]
+            },
             "duration": "PT2H",
             "azureVirtualMachines": [
               "/subscriptions/5ae68d89-69a4-454f-b5ce-e443cc4e0067/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-01",
@@ -644,6 +759,18 @@ examples:
             "creationTime": "2017-10-19T18:54:50.5233333+00:00",
             "lastModifiedTime": "2017-10-19T18:54:50.5233333+00:00",
             "timeZone": "America/Los_Angeles"
+          },
+          "tasks": {
+            "preTask": {
+              "source": "HelloWorld",
+              "parameters": {
+                "COMPUTERNAME": "Computer1"
+              }
+            },
+            "postTask": {
+              "source": "GetCache",
+              "parameters": null
+            }
           },
           "provisioningState": "Provisioning",
           "error": {},
