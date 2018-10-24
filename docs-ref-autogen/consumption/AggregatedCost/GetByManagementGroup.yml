@@ -3,15 +3,15 @@ uid: management.azure.com.consumption.aggregatedcost.getbymanagementgroup
 name: Get By Management Group
 service: Consumption
 groupName: Aggregated Cost
-apiVersion: 2018-08-31
+apiVersion: 2018-10-01
 summary: Provides the aggregate cost of a management group and all child management groups by current billing period.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Consumption/aggregatedcost?api-version=2018-08-31
-- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Consumption/aggregatedcost?api-version=2018-08-31&$filter={$filter}
+- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Consumption/aggregatedcost?api-version=2018-10-01
+- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Consumption/aggregatedcost?api-version=2018-10-01&$filter={$filter}
   isOptional: true
 uriParameters:
 - name: managementGroupId
@@ -23,7 +23,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2018-08-31.
+  description: Version of the API to be used with the client request. The current version is 2018-10-01.
   types:
   - uid: string
 - name: $filter
@@ -86,6 +86,16 @@ definitions:
     types:
     - uid: ManagementGroupAggregatedCostResult
       isArray: true
+  - name: properties.includedSubscriptions
+    description: List of subscription Guids included in the calculation of aggregated cost
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.excludedSubscriptions
+    description: List of subscription Guids excluded from the calculation of aggregated cost
+    types:
+    - uid: string
+      isArray: true
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -135,7 +145,7 @@ definitions:
 examples:
 - name: AggregatedCostByManagementGroup
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/managementGroupForTest/providers/Microsoft.Consumption/aggregatedcost?api-version=2018-08-31
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/managementGroupForTest/providers/Microsoft.Consumption/aggregatedcost?api-version=2018-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -144,8 +154,12 @@ examples:
         "name": "aggregatedcostId1",
         "type": "Microsoft.Consumption/aggregatedcost",
         "properties": {
-          "usageStart": "2018-08-01T00:00:00Z",
-          "usageEnd": "2018-08-31T00:00:00Z",
+          "includedSubscriptions": [
+            "1caaa5a3-2b66-438e-8ab4-bce37d518c5d"
+          ],
+          "excludedSubscriptions": [],
+          "usageStart": "2018-10-01T00:00:00Z",
+          "usageEnd": "2018-10-31T00:00:00Z",
           "azureCharges": 250.9876,
           "marketplaceCharges": 150.786,
           "chargesBilledSeparately": 120.345,
@@ -156,8 +170,12 @@ examples:
               "name": "aggregatedcostId2",
               "type": "Microsoft.Consumption/aggregatedcost",
               "properties": {
-                "usageStart": "2018-08-01T00:00:00Z",
-                "usageEnd": "2018-08-31T00:00:00Z",
+                "includedSubscriptions": [
+                  "c349567d-c83a-48c9-ab0e-578c69dc97a4"
+                ],
+                "excludedSubscriptions": [],
+                "usageStart": "2018-10-01T00:00:00Z",
+                "usageEnd": "2018-10-31T00:00:00Z",
                 "azureCharges": 150,
                 "marketplaceCharges": 50.786,
                 "chargesBilledSeparately": 30.345,
@@ -170,7 +188,7 @@ examples:
       }
 - name: AggregatedCostByManagementGroupFilterByDate
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/managementGroupForTest/providers/Microsoft.Consumption/aggregatedcost?api-version=2018-08-31&$filter=usageStart ge '2018-08-15' and properties/usageStart le '2018-08-31'
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/managementGroupForTest/providers/Microsoft.Consumption/aggregatedcost?api-version=2018-10-01&$filter=usageStart ge '2018-08-15' and properties/usageStart le '2018-08-31'
   responses:
   - statusCode: "200"
     body: >-
@@ -179,6 +197,10 @@ examples:
         "name": "aggregatedcostId1",
         "type": "Microsoft.Consumption/aggregatedcost",
         "properties": {
+          "includedSubscriptions": [
+            "1caaa5a3-2b66-438e-8ab4-bce37d518c5d"
+          ],
+          "excludedSubscriptions": [],
           "usageStart": "2018-08-15T00:00:00Z",
           "usageEnd": "2018-08-31T00:00:00Z",
           "azureCharges": 150.9876,
@@ -191,6 +213,10 @@ examples:
               "name": "aggregatedcostId2",
               "type": "Microsoft.Consumption/aggregatedcost",
               "properties": {
+                "includedSubscriptions": [
+                  "c349567d-c83a-48c9-ab0e-578c69dc97a4"
+                ],
+                "excludedSubscriptions": [],
                 "usageStart": "2018-08-15T00:00:00Z",
                 "usageEnd": "2018-08-31T00:00:00Z",
                 "azureCharges": 50,
