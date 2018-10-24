@@ -5126,6 +5126,7 @@
 #### [List Ip Filter Rules](servicebus/Namespaces/ListIpFilterRules.yml)
 #### [List Keys](servicebus/Namespaces/ListKeys.yml)
 #### [List Virtual Network Rules](servicebus/Namespaces/ListVirtualNetworkRules.yml)
+#### [Migrate](servicebus/Namespaces/Migrate.yml)
 #### [Regenerate Keys](servicebus/Namespaces/RegenerateKeys.yml)
 #### [Update](servicebus/Namespaces/Update.yml)
 ### [Operations](servicebus/Operations.yml)
