@@ -1,16 +1,18 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resources.deployments.createorupdate
-name: Create Or Update
+uid: management.azure.com.resources.deployments.listatsubscriptionscope
+name: List At Subscription Scope
 service: Resource Management
 groupName: Deployments
 apiVersion: 2018-05-01
-summary: "Deploys resources to a resource group.  \nYou can provide the template and parameters directly in the request or link to JSON files."
+summary: Get all the deployments for a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}?api-version=2018-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/?api-version=2018-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/?$filter={$filter}&$top={$top}&api-version=2018-05-01
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -18,20 +20,17 @@ uriParameters:
   description: The ID of the target subscription.
   types:
   - uid: string
-- name: resourceGroupName
-  in: path
-  isRequired: true
-  description: The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
+- name: $filter
+  in: query
+  description: The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
   types:
   - uid: string
-  pattern: ^[-\w\._\(\)]+$
-- name: deploymentName
-  in: path
-  isRequired: true
-  description: The name of the deployment.
+- name: $top
+  in: query
+  description: The number of results to get. If null is passed, returns all deployments.
   types:
-  - uid: string
-  pattern: ^[-\w\._\(\)]+$
+  - uid: integer
+  format: int32
 - name: api-version
   in: query
   isRequired: true
@@ -40,61 +39,25 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns information about the deployment, including provisioning status.
+  description: OK - Returns an array of deployments.
   types:
-  - uid: DeploymentExtended
-- name: 201 Created
-  description: Created - Returns information about the deployment, including provisioning status.
-  types:
-  - uid: DeploymentExtended
-requestBody:
-- name: default
-  parameters:
-  - name: location
-    in: body
-    description: The location to store the deployment data.
-    types:
-    - uid: string
-  - name: properties
-    in: body
-    isRequired: true
-    description: The deployment properties.
-    types:
-    - uid: DeploymentProperties
+  - uid: DeploymentListResult
 requestHeader: []
 definitions:
-- name: DeploymentProperties
-  description: Deployment properties.
+- name: DeploymentListResult
+  description: List of deployments.
   kind: object
   properties:
-  - name: template
-    description: The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both.
+  - name: value
+    description: An array of deployments.
     types:
-    - uid: object
-  - name: templateLink
-    description: The URI of the template. Use either the templateLink property or the template property, but not both.
+    - uid: DeploymentExtended
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to use for getting the next set of results.
     types:
-    - uid: TemplateLink
-  - name: parameters
-    description: Name and value pairs that define the deployment parameters for the template. You use this element when you want to provide the parameter values directly in the request rather than link to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string.
-    types:
-    - uid: object
-  - name: parametersLink
-    description: The URI of parameters file. You use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both.
-    types:
-    - uid: ParametersLink
-  - name: mode
-    description: The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources.
-    types:
-    - uid: DeploymentMode
-  - name: debugSetting
-    description: The debug setting of the deployment.
-    types:
-    - uid: DebugSetting
-  - name: onErrorDeployment
-    description: The deployment on error behavior.
-    types:
-    - uid: OnErrorDeployment
+    - uid: string
 - name: DeploymentExtended
   description: Deployment information.
   kind: object
@@ -117,71 +80,6 @@ definitions:
     description: Deployment properties.
     types:
     - uid: DeploymentPropertiesExtended
-- name: Deployment
-  description: Deployment operation parameters.
-  kind: object
-  properties:
-  - name: location
-    description: The location to store the deployment data.
-    types:
-    - uid: string
-  - name: properties
-    description: The deployment properties.
-    types:
-    - uid: DeploymentProperties
-- name: TemplateLink
-  description: Entity representing the reference to the template.
-  kind: object
-  properties:
-  - name: uri
-    description: The URI of the template to deploy.
-    types:
-    - uid: string
-  - name: contentVersion
-    description: If included, must match the ContentVersion in the template.
-    types:
-    - uid: string
-- name: ParametersLink
-  description: Entity representing the reference to the deployment paramaters.
-  kind: object
-  properties:
-  - name: uri
-    description: The URI of the parameters file.
-    types:
-    - uid: string
-  - name: contentVersion
-    description: If included, must match the ContentVersion in the template.
-    types:
-    - uid: string
-- name: DeploymentMode
-  description: The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources.
-  kind: enum
-  properties:
-  - name: Incremental
-    types:
-    - uid: string
-  - name: Complete
-    types:
-    - uid: string
-- name: DebugSetting
-  kind: object
-  properties:
-  - name: detailLevel
-    description: Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information you are passing in during deployment. By logging information about the request or response, you could potentially expose sensitive data that is retrieved through the deployment operations.
-    types:
-    - uid: string
-- name: OnErrorDeployment
-  description: Deployment on error behavior.
-  kind: object
-  properties:
-  - name: type
-    description: The deployment on error behavior type. Possible values are LastSuccessful and SpecificDeployment.
-    types:
-    - uid: OnErrorDeploymentType
-  - name: deploymentName
-    description: The deployment to be used on error case.
-    types:
-    - uid: string
 - name: DeploymentPropertiesExtended
   description: Deployment properties with additional details.
   kind: object
@@ -243,16 +141,6 @@ definitions:
     description: The deployment on error behavior.
     types:
     - uid: OnErrorDeploymentExtended
-- name: OnErrorDeploymentType
-  description: The deployment on error behavior type. Possible values are LastSuccessful and SpecificDeployment.
-  kind: enum
-  properties:
-  - name: LastSuccessful
-    types:
-    - uid: string
-  - name: SpecificDeployment
-    types:
-    - uid: string
 - name: Provider
   description: Resource provider information.
   kind: object
@@ -296,6 +184,47 @@ definitions:
     - uid: string
   - name: resourceName
     description: The dependency resource name.
+    types:
+    - uid: string
+- name: TemplateLink
+  description: Entity representing the reference to the template.
+  kind: object
+  properties:
+  - name: uri
+    description: The URI of the template to deploy.
+    types:
+    - uid: string
+  - name: contentVersion
+    description: If included, must match the ContentVersion in the template.
+    types:
+    - uid: string
+- name: ParametersLink
+  description: Entity representing the reference to the deployment paramaters.
+  kind: object
+  properties:
+  - name: uri
+    description: The URI of the parameters file.
+    types:
+    - uid: string
+  - name: contentVersion
+    description: If included, must match the ContentVersion in the template.
+    types:
+    - uid: string
+- name: DeploymentMode
+  description: The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources.
+  kind: enum
+  properties:
+  - name: Incremental
+    types:
+    - uid: string
+  - name: Complete
+    types:
+    - uid: string
+- name: DebugSetting
+  kind: object
+  properties:
+  - name: detailLevel
+    description: Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information you are passing in during deployment. By logging information about the request or response, you could potentially expose sensitive data that is retrieved through the deployment operations.
     types:
     - uid: string
 - name: OnErrorDeploymentExtended
@@ -360,6 +289,16 @@ definitions:
     - uid: string
   - name: resourceName
     description: The dependency resource name.
+    types:
+    - uid: string
+- name: OnErrorDeploymentType
+  description: The deployment on error behavior type. Possible values are LastSuccessful and SpecificDeployment.
+  kind: enum
+  properties:
+  - name: LastSuccessful
+    types:
+    - uid: string
+  - name: SpecificDeployment
     types:
     - uid: string
 - name: AliasType
