@@ -3,7 +3,7 @@ title: Blueprints REST API
 author: DCtheGeek
 ms.author: dacoulte
 ms.manager: carmonm
-ms.date: 10/23/18
+ms.date: 10/25/18
 ms.topic: reference
 ms.service: blueprints
 ms.devlang: rest-api
@@ -20,12 +20,12 @@ The Blueprints REST API provides operations for working with the following resou
 
 |Operation Group | Description |
 |----------------|-------------|
-| [Artifact](xref:management.azure.com.blueprint.artifact) | Operations for managing Artifacts on a Blueprint. |
-| [Assignment](xref:management.azure.com.blueprint.assignment) | Operations for managing Assignments of Blueprints. |
-| [Blueprint](xref:management.azure.com.blueprint.blueprint) | Operations for managing a Blueprint. |
-| [Operations](xref:management.azure.com.blueprint.operations) | Review all of the available REST API options for Blueprints. |
-| [PublishedArtifact](xref:management.azure.com.blueprint.publishedartifact) | Operations for getting published Blueprint Artifacts. |
-| [PublishedBlueprint](xref:management.azure.com.blueprint.publishedblueprint) | Operations for managing the publishing of Blueprints. |
+| [Artifacts](xref:management.azure.com.blueprints.artifacts) | Operations for managing Artifacts on a Blueprint. |
+| [Assignments](xref:management.azure.com.blueprints.assignments) | Operations for managing Assignments of Blueprints. |
+| [Blueprints](xref:management.azure.com.blueprints.blueprints) | Operations for managing a Blueprint. |
+| [Operations](xref:management.azure.com.blueprints.operations) | Review all of the available REST API options for Blueprints. |
+| [PublishedArtifacts](xref:management.azure.com.blueprints.publishedartifacts) | Operations for getting published Blueprint Artifacts. |
+| [PublishedBlueprints](xref:management.azure.com.blueprints.publishedblueprints) | Operations for managing the publishing of Blueprints. |
 
 ## See Also
 
