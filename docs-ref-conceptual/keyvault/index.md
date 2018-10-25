@@ -5,12 +5,12 @@ ms.service: key-vault
 author: BryanLa
 ms.author: bryanla
 ms.manager: mbaldwin
-ms.date: 08/08/2018
+ms.date: 10/24/2018
 ---
 
 # Azure Key Vault REST API reference
 
-Managing your Key Vault and the contents of your Key Vault can be accomplished through a REST interface. Below are lists of common tasks for managing both.
+Managing your Key Vault and the contents of your Key Vault can be accomplished through a REST interface. Below are lists of some of the common tasks for managing both.
 
 ## Key Vaults
 
@@ -19,11 +19,11 @@ Manage your Key Vault using the following set of operations, which are also know
 - [Manage a Key Vault](/rest/api/keyvault/vaults)
 - [Create or update a Key Vault](/rest/api/keyvault/vaults/createorupdate)
 - [Delete a Key Vault](/rest/api/keyvault/vaults/delete)
-- [Get info about a Key Vault](/rest/api/keyvault/vaults/vaults.get)
+- [Get info about a Key Vault](/rest/api/keyvault/vaults/get)
 
 ## Keys, secrets, certificates, and storage accounts
 
-Managing data within a Key Vault, such as keys, secrets, certificates, and storage keys, is accomplished by [data plane](\azure\key-vault\key-vault-secure-your-key-vault#management-plane-and-data-plane) operations. The data plane interface is used to add, delete, modify, and use the keys, secrets, and certificates stored in a Key Vault.
+Managing data within a Key Vault, such as keys, secrets, certificates, and storage keys, is accomplished by [data plane](\azure\key-vault\key-vault-secure-your-key-vault#management-plane-and-data-plane) operations. The data plane interface is used to add, delete, modify, and use the keys, secrets, and certificates stored in a Key Vault. 
 
 ### Keys
 
@@ -40,8 +40,6 @@ Managing data within a Key Vault, such as keys, secrets, certificates, and stora
 
 ### Certificates
 
-For concepts and more detailed information, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
-
 - [Create a certificate](xref:keyvault.createcertificate)
 - [Import a certificate](xref:keyvault.importcertificate)
 - [Update a certificate](xref:keyvault.updatecertificate)
@@ -53,6 +51,8 @@ For concepts and more detailed information, see [About keys, secrets, and certif
 - [Set a storage account](xref:keyvault.setstorageaccount)
 - [Get a storage account](xref:keyvault.getstorageaccount)
 - [Delete a storage account](xref:keyvault.deletestorageaccount)
+
+For concepts and detailed information about data plane objects, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
 
 ## See also
 
