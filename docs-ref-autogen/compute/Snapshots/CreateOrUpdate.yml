@@ -3,14 +3,14 @@ uid: management.azure.com.compute.snapshots.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Snapshots
-apiVersion: 2017-03-30
+apiVersion: 2018-06-01
 summary: Creates or updates a snapshot.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}?api-version=2017-03-30
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -50,9 +50,9 @@ requestBody:
   parameters:
   - name: sku
     in: body
-    description: The disks and snapshots sku name. Can be Standard_LRS or Premium_LRS.
+    description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
     types:
-    - uid: DiskSku
+    - uid: SnapshotSku
   - name: properties.osType
     in: body
     description: The Operating System type.
@@ -91,14 +91,14 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: DiskSku
-  description: The disks and snapshots sku name. Can be Standard_LRS or Premium_LRS.
+- name: SnapshotSku
+  description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
   kind: object
   properties:
   - name: name
     description: The sku name.
     types:
-    - uid: StorageAccountTypes
+    - uid: SnapshotStorageAccountTypes
   - name: tier
     isReadyOnly: true
     description: The sku tier.
@@ -154,9 +154,9 @@ definitions:
     types:
     - uid: string
   - name: sku
-    description: The disks and snapshots sku name. Can be Standard_LRS or Premium_LRS.
+    description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
     types:
-    - uid: DiskSku
+    - uid: SnapshotSku
   - name: properties.timeCreated
     isReadyOnly: true
     description: The time when the disk was created.
@@ -210,7 +210,7 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: StorageAccountTypes
+- name: SnapshotStorageAccountTypes
   description: The sku name.
   kind: enum
   properties:
@@ -218,6 +218,9 @@ definitions:
     types:
     - uid: string
   - name: Premium_LRS
+    types:
+    - uid: string
+  - name: Standard_ZRS
     types:
     - uid: string
 - name: DiskCreateOption
@@ -237,6 +240,9 @@ definitions:
     types:
     - uid: string
   - name: Copy
+    types:
+    - uid: string
+  - name: Restore
     types:
     - uid: string
 - name: ImageDiskReference
@@ -296,7 +302,7 @@ definitions:
 examples:
 - name: Create a snapshot from an existing snapshot in the same or a different subscription.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2?api-version=2017-03-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2?api-version=2018-06-01
     body: >-
       {
         "name": "mySnapshot2",
@@ -322,9 +328,22 @@ examples:
           }
         }
       }
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "mySnapshot2",
+        "location": "West US",
+        "properties": {
+          "provisioningState": "Updating",
+          "creationData": {
+            "createOption": "Copy",
+            "sourceResourceId": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1"
+          }
+        }
+      }
 - name: Create a snapshot by importing an unmanaged blob from the same subscription.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1?api-version=2017-03-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1?api-version=2018-06-01
     body: >-
       {
         "name": "mySnapshot1",
@@ -350,9 +369,22 @@ examples:
         "location": "West US",
         "name": "mySnapshot1"
       }
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "creationData": {
+            "createOption": "Import",
+            "sourceUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "mySnapshot1"
+      }
 - name: Create a snapshot by importing an unmanaged blob from a different subscription.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1?api-version=2017-03-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1?api-version=2018-06-01
     body: >-
       {
         "name": "mySnapshot1",
@@ -367,6 +399,20 @@ examples:
       }
   responses:
   - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "creationData": {
+            "createOption": "Import",
+            "storageAccountId": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+            "sourceUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "mySnapshot1"
+      }
+  - statusCode: "200"
     body: >-
       {
         "properties": {

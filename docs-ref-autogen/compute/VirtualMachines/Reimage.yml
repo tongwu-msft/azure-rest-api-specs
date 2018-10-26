@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.compute.virtualmachinescalesetvms.reimage
+uid: management.azure.com.compute.virtualmachines.reimage
 name: Reimage
 service: Compute
-groupName: Virtual Machine Scale Set VMs
+groupName: Virtual Machines
 apiVersion: 2018-06-01
-summary: Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
+summary: Reimages (upgrade the operating system) virtual machine. This operation is only supported for differencing OS disks.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/reimage?api-version=2018-06-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reimage?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,16 +24,10 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
-- name: vmScaleSetName
+- name: vmName
   in: path
   isRequired: true
-  description: The name of the VM scale set.
-  types:
-  - uid: string
-- name: instanceId
-  in: path
-  isRequired: true
-  description: The instance ID of the virtual machine.
+  description: The name of the virtual machine.
   types:
   - uid: string
 - name: api-version
@@ -57,15 +51,25 @@ requestBody:
     - uid: boolean
 requestHeader: []
 definitions:
-- name: VirtualMachineScaleSetVMReimageParameters
-  description: Describes a Virtual Machine Scale Set VM Reimage Parameters.
+- name: VirtualMachineReimageParameters
+  description: 'Paramaters for Reimaging Virtual Machine. Default value for OSDisk : true.'
   kind: object
   properties:
   - name: tempDisk
     description: 'Specified whether to reimage temp disk. Default value: false.'
     types:
     - uid: boolean
-examples: []
+examples:
+- name: Reimage a Virtual Machine.
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVMName/reimage?api-version=2018-06-01
+    body: >-
+      {
+        "tempDisk": true
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow
