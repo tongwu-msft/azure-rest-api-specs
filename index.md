@@ -5,7 +5,7 @@ keywords: Azure REST, Azure REST API Reference
 author: bryanla
 manager: douge
 ms.author: bryanla
-ms.date: 10/10/2018
+ms.date: 10/29/2018
 ms.topic: reference
 ms.prod: azure
 ms.technology: azure
@@ -256,23 +256,23 @@ For information about testing HTTP requests/responses, see:
 
 <!--Reference style links: DOCS -->
 
-[AAD-Apps-And-Sps]: /active-directory/active-directory-application-objects
-[AAD-Auth-Libraries]: /active-directory/active-directory-authentication-libraries
-[AAD-Dev-Guide]: /active-directory/active-directory-developers-guide
-[AAD-Glossary-Access-Token]: /active-directory/active-directory-dev-glossary#access-token
-[AAD-Glossary-Authorization-Grant]: /active-directory/active-directory-dev-glossary#authorization-grant
-[AAD-Glossary-Claim]: /active-directory/active-directory-dev-glossary#claim
-[AAD-Glossary-Client-Application]: /active-directory/active-directory-dev-glossary#client-application
-[AAD-Glossary-Permissions]: /active-directory/active-directory-dev-glossary#permissions
-[AAD-Glossary-Tenant]: /active-directory/active-directory-dev-glossary#tenant
-[AAD-Glossary-Native-Client]: /active-directory/active-directory-dev-glossary#native-client
-[AAD-Glossary-Web-Client]: /active-directory/active-directory-dev-glossary#web-client
+[AAD-Apps-And-Sps]: /azure/active-directory/active-directory-application-objects
+[AAD-Auth-Libraries]: /azure/active-directory/active-directory-authentication-libraries
+[AAD-Dev-Guide]: /azure/active-directory/active-directory-developers-guide
+[AAD-Glossary-Access-Token]: /azure/active-directory/active-directory-dev-glossary#access-token
+[AAD-Glossary-Authorization-Grant]: /azure/active-directory/active-directory-dev-glossary#authorization-grant
+[AAD-Glossary-Claim]: /azure/active-directory/active-directory-dev-glossary#claim
+[AAD-Glossary-Client-Application]: /azure/active-directory/active-directory-dev-glossary#client-application
+[AAD-Glossary-Permissions]: /azure/active-directory/active-directory-dev-glossary#permissions
+[AAD-Glossary-Tenant]: /azure/active-directory/active-directory-dev-glossary#tenant
+[AAD-Glossary-Native-Client]: /azure/active-directory/active-directory-dev-glossary#native-client
+[AAD-Glossary-Web-Client]: /azure/active-directory/active-directory-dev-glossary#web-client
 [AAD-Graph-Application]: https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity
-[AAD-Howto-Tenant]: /active-directory/active-directory-howto-tenant
-[AAD-Integrating-Apps]: /active-directory/active-directory-integrating-applications
-[AAD-OAuth-Client-Creds]: /active-directory/active-directory-protocols-oauth-service-to-service#request-an-access-token
-[AAD-Oauth-Code-Authz]: /active-directory/active-directory-protocols-oauth-code#request-an-authorization-code
-[AAD-Oauth-Code-Token]: /active-directory/active-directory-protocols-oauth-code#use-the-authorization-code-to-request-an-access-token
+[AAD-Howto-Tenant]: /azure/active-directory/active-directory-howto-tenant
+[AAD-Integrating-Apps]: /azure/active-directory/active-directory-integrating-applications
+[AAD-OAuth-Client-Creds]: /azure/active-directory/active-directory-protocols-oauth-service-to-service#request-an-access-token
+[AAD-Oauth-Code-Authz]: /azure/active-directory/active-directory-protocols-oauth-code#request-an-authorization-code
+[AAD-Oauth-Code-Token]: /azure/active-directory/active-directory-protocols-oauth-code#use-the-authorization-code-to-request-an-access-token
 [ARM-Create-Sp-Portal]: /azure/azure-resource-manager/resource-group-create-service-principal-portal
 [ARM-Provider-Summary]: /azure/azure-resource-manager/resource-manager-supported-services
 [ARM-Async-Ops]: /azure/azure-resource-manager/resource-manager-async-operations
