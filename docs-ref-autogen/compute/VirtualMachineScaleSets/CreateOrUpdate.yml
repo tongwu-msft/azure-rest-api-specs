@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2017-12-01
+apiVersion: 2018-06-01
 summary: Create or update a VM scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2017-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -170,11 +170,10 @@ definitions:
     description: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set.
     types:
     - uid: ResourceIdentityType
-  - name: identityIds
-    description: "The list of user identities associated with the virtual machine scale set. The user identity references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/identities/{identityName}'."
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
     types:
-    - uid: string
-      isArray: true
+    - uid: UserAssignedIdentities
 - name: UpgradePolicy
   description: Describes an upgrade policy - automatic, manual, or rolling.
   kind: object
@@ -207,6 +206,10 @@ definitions:
     description: Specifies the storage settings for the virtual machine disks.
     types:
     - uid: VirtualMachineScaleSetStorageProfile
+  - name: additionalCapabilities
+    description: 'Specifies additional capabilities enabled or disabled on the virtual machine in the scale set. For instance: whether the virtual machine has the capability to support attaching managed data disks with UltraSSD_LRS storage account type.'
+    types:
+    - uid: AdditionalCapabilities
   - name: networkProfile
     description: Specifies properties of the network interfaces of the virtual machines in the scale set.
     types:
@@ -329,6 +332,14 @@ definitions:
   - name: None
     types:
     - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: UpgradeMode
   description: Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action.<br /><br /> **Automatic** - All virtual machines in the scale set are  automatically updated at the same time.
   kind: enum
@@ -420,6 +431,14 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetDataDisk
       isArray: true
+- name: AdditionalCapabilities
+  description: Enables or disables a capability on the virtual machine or virtual machine scale set.
+  kind: object
+  properties:
+  - name: ultraSSDEnabled
+    description: The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a virtual machine or virtual machine scale set only if this property is enabled.
+    types:
+    - uid: boolean
 - name: VirtualMachineScaleSetNetworkProfile
   description: Describes a virtual machine scale set network profile.
   kind: object
@@ -507,6 +526,10 @@ definitions:
     description: Specifies the ssh key configuration for a Linux OS.
     types:
     - uid: SshConfiguration
+  - name: provisionVMAgent
+    description: Indicates whether virtual machine agent should be provisioned on the virtual machine. <br><br> When this property is not specified in the request body, default behavior is to set it to true.  This will ensure that VM Agent is installed on the VM so that extensions can be added to the VM later.
+    types:
+    - uid: boolean
 - name: VaultSecretGroup
   description: Describes a set of certificates which are all in the same Key Vault.
   kind: object
@@ -564,6 +587,14 @@ definitions:
     description: 'Specifies how the virtual machines in the scale set should be created.<br><br> The only allowed value is: **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.'
     types:
     - uid: DiskCreateOptionTypes
+  - name: diffDiskSettings
+    description: Specifies the differencing Disk Settings for the operating system disk used by the virtual machine scale set.
+    types:
+    - uid: DiffDiskSettings
+  - name: diskSizeGB
+    description: Specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    types:
+    - uid: integer
   - name: osType
     description: 'This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux**'
     types:
@@ -799,6 +830,14 @@ definitions:
   - name: Attach
     types:
     - uid: string
+- name: DiffDiskSettings
+  description: 'Describes the parameters of differencing disk settings that can be be specified for operating system disk. <br><br> NOTE: The differencing disk settings can only be specified for managed disk.'
+  kind: object
+  properties:
+  - name: option
+    description: Specifies the differencing disk settings for operating system disk.
+    types:
+    - uid: DiffDiskOptions
 - name: OperatingSystemTypes
   description: The operating system of the osDiskImage.
   kind: enum
@@ -822,7 +861,7 @@ definitions:
   kind: object
   properties:
   - name: storageAccountType
-    description: 'Specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS.'
+    description: 'Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
     types:
     - uid: StorageAccountTypes
 - name: VirtualMachineScaleSetNetworkConfigurationDnsSettings
@@ -860,6 +899,11 @@ definitions:
     - uid: IPVersion
   - name: properties.applicationGatewayBackendAddressPools
     description: Specifies an array of references to backend address pools of application gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot use the same application gateway.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.applicationSecurityGroups
+    description: Specifies an array of references to application security group.
     types:
     - uid: SubResource
       isArray: true
@@ -925,14 +969,27 @@ definitions:
     description: SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
     types:
     - uid: string
+- name: DiffDiskOptions
+  description: Specifies the differencing disk settings for operating system disk.
+  kind: enum
+  properties:
+  - name: Local
+    types:
+    - uid: string
 - name: StorageAccountTypes
-  description: 'Specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS.'
+  description: 'Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
   kind: enum
   properties:
   - name: Standard_LRS
     types:
     - uid: string
   - name: Premium_LRS
+    types:
+    - uid: string
+  - name: StandardSSD_LRS
+    types:
+    - uid: string
+  - name: UltraSSD_LRS
     types:
     - uid: string
 - name: VirtualMachineScaleSetPublicIPAddressConfiguration
@@ -951,6 +1008,15 @@ definitions:
     description: The dns settings to be applied on the publicIP addresses .
     types:
     - uid: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
+  - name: properties.ipTags
+    description: The list of IP tags associated with the public IP address.
+    types:
+    - uid: VirtualMachineScaleSetIpTag
+      isArray: true
+  - name: properties.publicIPPrefix
+    description: The PublicIPPrefix from which to allocate publicIP addresses.
+    types:
+    - uid: SubResource
 - name: IPVersion
   description: "Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
   kind: enum
@@ -979,10 +1045,22 @@ definitions:
     description: The Domain name label.The concatenation of the domain name label and vm index will be the domain name labels of the PublicIPAddress resources that will be created
     types:
     - uid: string
+- name: VirtualMachineScaleSetIpTag
+  description: Contains the IP tag associated with the public IP address.
+  kind: object
+  properties:
+  - name: ipTagType
+    description: 'IP tag type. Example: FirstPartyUsage.'
+    types:
+    - uid: string
+  - name: tag
+    description: 'IP tag associated with the public IP. Example: SQL, Storage etc.'
+    types:
+    - uid: string
 examples:
 - name: Create a scale set with password authentication.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2018-06-01
     body: >-
       {
         "sku": {
@@ -1192,7 +1270,7 @@ examples:
       }
 - name: Create a scale set with ssh authentication.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2018-06-01
     body: >-
       {
         "sku": {
@@ -1426,7 +1504,7 @@ examples:
       }
 - name: Create a scale set with premium storage.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2018-06-01
     body: >-
       {
         "sku": {
@@ -1636,7 +1714,7 @@ examples:
       }
 - name: Create a scale set with empty data disks on each vm.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2018-06-01
     body: >-
       {
         "sku": {
@@ -1660,7 +1738,8 @@ examples:
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS"
                 },
-                "createOption": "FromImage"
+                "createOption": "FromImage",
+                "diskSizeGB": 512
               },
               "dataDisks": [
                 {
@@ -1734,7 +1813,8 @@ examples:
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS"
                 },
-                "createOption": "FromImage"
+                "createOption": "FromImage",
+                "diskSizeGB": 512
               },
               "dataDisks": [
                 {
@@ -1796,7 +1876,7 @@ examples:
           "upgradePolicy": {
             "mode": "Manual"
           },
-          "provisioningState": "Creating"
+          "provisioningState": "Succeeded"
         },
         "location": "westus",
         "type": "Microsoft.Compute/virtualMachineScaleSets",
@@ -1828,7 +1908,8 @@ examples:
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS"
                 },
-                "createOption": "FromImage"
+                "createOption": "FromImage",
+                "diskSizeGB": 512
               },
               "dataDisks": [
                 {
@@ -1898,7 +1979,7 @@ examples:
       }
 - name: Create a scale set with an azure load balancer.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2018-06-01
     body: >-
       {
         "sku": {
@@ -2138,7 +2219,7 @@ examples:
       }
 - name: Create a scale set with an azure application gateway.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2018-06-01
     body: >-
       {
         "sku": {
@@ -2363,7 +2444,7 @@ examples:
       }
 - name: Create a scale set with boot diagnostics.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2018-06-01
     body: >-
       {
         "sku": {
@@ -2591,7 +2672,7 @@ examples:
       }
 - name: Create a scale set with a marketplace image plan.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2018-06-01
     body: >-
       {
         "sku": {
@@ -2816,7 +2897,7 @@ examples:
       }
 - name: Create a scale set from a custom image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2018-06-01
     body: >-
       {
         "sku": {
@@ -3015,7 +3096,7 @@ examples:
       }
 - name: Create a platform-image scale set with unmanaged os disks.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2018-06-01
     body: >-
       {
         "sku": {
@@ -3232,7 +3313,7 @@ examples:
       }
 - name: Create a custom-image scale set from an unmanaged generalized os image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2017-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2018-06-01
     body: >-
       {
         "sku": {
@@ -3426,6 +3507,519 @@ examples:
         "location": "westus",
         "type": "Microsoft.Compute/virtualMachineScaleSets",
         "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
+- name: Create a scale set with virtual machines in different zones.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2018-06-01
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 2,
+          "name": "Standard_A1_v2"
+        },
+        "location": "centralus",
+        "properties": {
+          "overprovision": true,
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage",
+                "diskSizeGB": 512
+              },
+              "dataDisks": [
+                {
+                  "diskSizeGB": 1023,
+                  "createOption": "Empty",
+                  "lun": 0
+                },
+                {
+                  "diskSizeGB": 1023,
+                  "createOption": "Empty",
+                  "lun": 1
+                }
+              ]
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "adminPassword": "{your-password}"
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Automatic"
+          }
+        },
+        "zones": [
+          "1",
+          "3"
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 2,
+          "name": "Standard_A1_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": false,
+          "overprovision": true,
+          "uniqueId": "8042c376-4690-4c47-9fa2-fbdad70e32fa",
+          "zoneBalance": false,
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage",
+                "diskSizeGB": 512
+              },
+              "dataDisks": [
+                {
+                  "caching": "None",
+                  "managedDisk": {
+                    "storageAccountType": "Standard_LRS"
+                  },
+                  "createOption": "Empty",
+                  "lun": 0,
+                  "diskSizeGB": 1023
+                },
+                {
+                  "caching": "None",
+                  "managedDisk": {
+                    "storageAccountType": "Standard_LRS"
+                  },
+                  "createOption": "Empty",
+                  "lun": 1,
+                  "diskSizeGB": 1023
+                }
+              ]
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Automatic"
+          },
+          "provisioningState": "Succeeded"
+        },
+        "zones": [
+          "1",
+          "3"
+        ],
+        "location": "centralus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 2,
+          "name": "Standard_A1_v2"
+        },
+        "name": "{vmss-name}",
+        "properties": {
+          "singlePlacementGroup": false,
+          "overprovision": true,
+          "uniqueId": "8042c376-4690-4c47-9fa2-fbdad70e32fa",
+          "zoneBalance": false,
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage",
+                "diskSizeGB": 512
+              },
+              "dataDisks": [
+                {
+                  "caching": "None",
+                  "managedDisk": {
+                    "storageAccountType": "Standard_LRS"
+                  },
+                  "createOption": "Empty",
+                  "lun": 0,
+                  "diskSizeGB": 1023
+                },
+                {
+                  "caching": "None",
+                  "managedDisk": {
+                    "storageAccountType": "Standard_LRS"
+                  },
+                  "createOption": "Empty",
+                  "lun": 1,
+                  "diskSizeGB": 1023
+                }
+              ]
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Automatic"
+          },
+          "provisioningState": "Creating"
+        },
+        "zones": [
+          "1",
+          "3"
+        ],
+        "location": "centralus",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
+- name: Create a scale set with differencing os disks.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2018-06-01
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_DS1_v2"
+        },
+        "properties": {
+          "overprovision": true,
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "windows2016",
+                "publisher": "microsoft-ads",
+                "version": "latest",
+                "offer": "windows-data-science-vm"
+              },
+              "osDisk": {
+                "caching": "ReadOnly",
+                "diffDiskSettings": {
+                  "option": "Local"
+                },
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "adminPassword": "{your-password}"
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          }
+        },
+        "plan": {
+          "publisher": "microsoft-ads",
+          "product": "windows-data-science-vm",
+          "name": "windows2016"
+        },
+        "location": "westus"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_DS1_v2"
+        },
+        "name": "{vmss-name}",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}",
+        "plan": {
+          "publisher": "microsoft-ads",
+          "product": "standard-data-science-vm",
+          "name": "standard-data-science-vm"
+        },
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "b9e23088-6ffc-46e0-9e02-b0a6eeef47db",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "standard-data-science-vm",
+                "publisher": "microsoft-ads",
+                "version": "latest",
+                "offer": "standard-data-science-vm"
+              },
+              "osDisk": {
+                "caching": "ReadOnly",
+                "diffDiskSettings": {
+                  "option": "Local"
+                },
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_DS1_v2"
+        },
+        "name": "{vmss-name}",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}",
+        "plan": {
+          "publisher": "microsoft-ads",
+          "product": "standard-data-science-vm",
+          "name": "standard-data-science-vm"
+        },
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "b9e23088-6ffc-46e0-9e02-b0a6eeef47db",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "standard-data-science-vm",
+                "publisher": "microsoft-ads",
+                "version": "latest",
+                "offer": "standard-data-science-vm"
+              },
+              "osDisk": {
+                "caching": "ReadOnly",
+                "diffDiskSettings": {
+                  "option": "Local"
+                },
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus"
       }
 security:
 - type: oauth2

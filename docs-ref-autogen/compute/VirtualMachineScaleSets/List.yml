@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.list
 name: List
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2017-12-01
+apiVersion: 2018-06-01
 summary: Gets a list of all VM scale sets under a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets?api-version=2017-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -186,11 +186,10 @@ definitions:
     description: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set.
     types:
     - uid: ResourceIdentityType
-  - name: identityIds
-    description: "The list of user identities associated with the virtual machine scale set. The user identity references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/identities/{identityName}'."
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
     types:
-    - uid: string
-      isArray: true
+    - uid: UserAssignedIdentities
 - name: UpgradePolicy
   description: Describes an upgrade policy - automatic, manual, or rolling.
   kind: object
@@ -223,6 +222,10 @@ definitions:
     description: Specifies the storage settings for the virtual machine disks.
     types:
     - uid: VirtualMachineScaleSetStorageProfile
+  - name: additionalCapabilities
+    description: 'Specifies additional capabilities enabled or disabled on the virtual machine in the scale set. For instance: whether the virtual machine has the capability to support attaching managed data disks with UltraSSD_LRS storage account type.'
+    types:
+    - uid: AdditionalCapabilities
   - name: networkProfile
     description: Specifies properties of the network interfaces of the virtual machines in the scale set.
     types:
@@ -263,6 +266,14 @@ definitions:
   - name: None
     types:
     - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: UpgradeMode
   description: Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action.<br /><br /> **Automatic** - All virtual machines in the scale set are  automatically updated at the same time.
   kind: enum
@@ -354,6 +365,14 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetDataDisk
       isArray: true
+- name: AdditionalCapabilities
+  description: Enables or disables a capability on the virtual machine or virtual machine scale set.
+  kind: object
+  properties:
+  - name: ultraSSDEnabled
+    description: The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a virtual machine or virtual machine scale set only if this property is enabled.
+    types:
+    - uid: boolean
 - name: VirtualMachineScaleSetNetworkProfile
   description: Describes a virtual machine scale set network profile.
   kind: object
@@ -441,6 +460,10 @@ definitions:
     description: Specifies the ssh key configuration for a Linux OS.
     types:
     - uid: SshConfiguration
+  - name: provisionVMAgent
+    description: Indicates whether virtual machine agent should be provisioned on the virtual machine. <br><br> When this property is not specified in the request body, default behavior is to set it to true.  This will ensure that VM Agent is installed on the VM so that extensions can be added to the VM later.
+    types:
+    - uid: boolean
 - name: VaultSecretGroup
   description: Describes a set of certificates which are all in the same Key Vault.
   kind: object
@@ -498,6 +521,14 @@ definitions:
     description: 'Specifies how the virtual machines in the scale set should be created.<br><br> The only allowed value is: **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.'
     types:
     - uid: DiskCreateOptionTypes
+  - name: diffDiskSettings
+    description: Specifies the differencing Disk Settings for the operating system disk used by the virtual machine scale set.
+    types:
+    - uid: DiffDiskSettings
+  - name: diskSizeGB
+    description: Specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    types:
+    - uid: integer
   - name: osType
     description: 'This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux**'
     types:
@@ -733,6 +764,14 @@ definitions:
   - name: Attach
     types:
     - uid: string
+- name: DiffDiskSettings
+  description: 'Describes the parameters of differencing disk settings that can be be specified for operating system disk. <br><br> NOTE: The differencing disk settings can only be specified for managed disk.'
+  kind: object
+  properties:
+  - name: option
+    description: Specifies the differencing disk settings for operating system disk.
+    types:
+    - uid: DiffDiskOptions
 - name: OperatingSystemTypes
   description: The operating system of the osDiskImage.
   kind: enum
@@ -756,7 +795,7 @@ definitions:
   kind: object
   properties:
   - name: storageAccountType
-    description: 'Specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS.'
+    description: 'Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
     types:
     - uid: StorageAccountTypes
 - name: VirtualMachineScaleSetNetworkConfigurationDnsSettings
@@ -794,6 +833,11 @@ definitions:
     - uid: IPVersion
   - name: properties.applicationGatewayBackendAddressPools
     description: Specifies an array of references to backend address pools of application gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot use the same application gateway.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.applicationSecurityGroups
+    description: Specifies an array of references to application security group.
     types:
     - uid: SubResource
       isArray: true
@@ -859,14 +903,27 @@ definitions:
     description: SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
     types:
     - uid: string
+- name: DiffDiskOptions
+  description: Specifies the differencing disk settings for operating system disk.
+  kind: enum
+  properties:
+  - name: Local
+    types:
+    - uid: string
 - name: StorageAccountTypes
-  description: 'Specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS.'
+  description: 'Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
   kind: enum
   properties:
   - name: Standard_LRS
     types:
     - uid: string
   - name: Premium_LRS
+    types:
+    - uid: string
+  - name: StandardSSD_LRS
+    types:
+    - uid: string
+  - name: UltraSSD_LRS
     types:
     - uid: string
 - name: VirtualMachineScaleSetPublicIPAddressConfiguration
@@ -885,6 +942,15 @@ definitions:
     description: The dns settings to be applied on the publicIP addresses .
     types:
     - uid: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
+  - name: properties.ipTags
+    description: The list of IP tags associated with the public IP address.
+    types:
+    - uid: VirtualMachineScaleSetIpTag
+      isArray: true
+  - name: properties.publicIPPrefix
+    description: The PublicIPPrefix from which to allocate publicIP addresses.
+    types:
+    - uid: SubResource
 - name: IPVersion
   description: "Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
   kind: enum
@@ -911,6 +977,18 @@ definitions:
   properties:
   - name: domainNameLabel
     description: The Domain name label.The concatenation of the domain name label and vm index will be the domain name labels of the PublicIPAddress resources that will be created
+    types:
+    - uid: string
+- name: VirtualMachineScaleSetIpTag
+  description: Contains the IP tag associated with the public IP address.
+  kind: object
+  properties:
+  - name: ipTagType
+    description: 'IP tag type. Example: FirstPartyUsage.'
+    types:
+    - uid: string
+  - name: tag
+    description: 'IP tag associated with the public IP. Example: SQL, Storage etc.'
     types:
     - uid: string
 examples: []

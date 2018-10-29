@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesetvms.get
 name: Get
 service: Compute
 groupName: Virtual Machine Scale Set VMs
-apiVersion: 2017-12-01
+apiVersion: 2018-06-01
 summary: Gets a virtual machine from a VM scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}?api-version=2017-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -73,6 +73,12 @@ definitions:
     types:
     - uid: VirtualMachineExtension
       isArray: true
+  - name: zones
+    isReadyOnly: true
+    description: The virtual machine zones.
+    types:
+    - uid: string
+      isArray: true
   - name: properties.latestModelApplied
     isReadyOnly: true
     description: Specifies whether the latest model has been applied to the virtual machine.
@@ -96,6 +102,10 @@ definitions:
     description: Specifies the storage settings for the virtual machine disks.
     types:
     - uid: StorageProfile
+  - name: properties.additionalCapabilities
+    description: 'Specifies additional capabilities enabled or disabled on the virtual machine in the scale set. For instance: whether the virtual machine has the capability to support attaching managed data disks with UltraSSD_LRS storage account type.'
+    types:
+    - uid: AdditionalCapabilities
   - name: properties.osProfile
     description: Specifies the operating system settings for the virtual machine.
     types:
@@ -329,6 +339,14 @@ definitions:
     types:
     - uid: DataDisk
       isArray: true
+- name: AdditionalCapabilities
+  description: Enables or disables a capability on the virtual machine or virtual machine scale set.
+  kind: object
+  properties:
+  - name: ultraSSDEnabled
+    description: The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a virtual machine or virtual machine scale set only if this property is enabled.
+    types:
+    - uid: boolean
 - name: OSProfile
   description: Specifies the operating system settings for the virtual machine.
   kind: object
@@ -362,6 +380,10 @@ definitions:
     types:
     - uid: VaultSecretGroup
       isArray: true
+  - name: allowExtensionOperations
+    description: Specifies whether extension operations should be allowed on the virtual machine. <br><br>This may only be set to False when no extensions are present on the virtual machine.
+    types:
+    - uid: boolean
 - name: NetworkProfile
   description: Specifies the network interfaces of the virtual machine.
   kind: object
@@ -503,6 +525,11 @@ definitions:
     description: The Linux serial console log blob Uri.
     types:
     - uid: string
+  - name: status
+    isReadyOnly: true
+    description: 'The boot diagnostics status information for the VM. <br><br> NOTE: It will be set only if there are errors encountered in enabling boot diagnostics.'
+    types:
+    - uid: InstanceViewStatus
 - name: InstanceViewStatus
   description: Instance view status.
   kind: object
@@ -1085,6 +1112,10 @@ definitions:
     description: Specifies whether writeAccelerator should be enabled or disabled on the disk.
     types:
     - uid: boolean
+  - name: diffDiskSettings
+    description: Specifies the differencing Disk Settings for the operating system disk used by the virtual machine.
+    types:
+    - uid: DiffDiskSettings
   - name: createOption
     description: Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.
     types:
@@ -1174,6 +1205,10 @@ definitions:
     description: Specifies the ssh key configuration for a Linux OS.
     types:
     - uid: SshConfiguration
+  - name: provisionVMAgent
+    description: Indicates whether virtual machine agent should be provisioned on the virtual machine. <br><br> When this property is not specified in the request body, default behavior is to set it to true.  This will ensure that VM Agent is installed on the VM so that extensions can be added to the VM later.
+    types:
+    - uid: boolean
 - name: VaultSecretGroup
   description: Describes a set of certificates which are all in the same Key Vault.
   kind: object
@@ -1303,6 +1338,14 @@ definitions:
   - name: ReadWrite
     types:
     - uid: string
+- name: DiffDiskSettings
+  description: 'Describes the parameters of differencing disk settings that can be be specified for operating system disk. <br><br> NOTE: The differencing disk settings can only be specified for managed disk.'
+  kind: object
+  properties:
+  - name: option
+    description: Specifies the differencing disk settings for operating system disk.
+    types:
+    - uid: DiffDiskOptions
 - name: DiskCreateOptionTypes
   description: Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.
   kind: enum
@@ -1321,7 +1364,7 @@ definitions:
   kind: object
   properties:
   - name: storageAccountType
-    description: 'Specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS.'
+    description: 'Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
     types:
     - uid: StorageAccountTypes
   - name: id
@@ -1402,14 +1445,27 @@ definitions:
     description: The relative URL of the Key Vault containing the key.
     types:
     - uid: SubResource
+- name: DiffDiskOptions
+  description: Specifies the differencing disk settings for operating system disk.
+  kind: enum
+  properties:
+  - name: Local
+    types:
+    - uid: string
 - name: StorageAccountTypes
-  description: 'Specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS.'
+  description: 'Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
   kind: enum
   properties:
   - name: Standard_LRS
     types:
     - uid: string
   - name: Premium_LRS
+    types:
+    - uid: string
+  - name: StandardSSD_LRS
+    types:
+    - uid: string
+  - name: UltraSSD_LRS
     types:
     - uid: string
 - name: PassNames
