@@ -1,5 +1,6 @@
 ---
 title: Policy Insights REST API
+description: Operation groups for the Policy Insights REST API
 author: DCtheGeek
 ms.author: dacoulte
 ms.manager: carmonm
