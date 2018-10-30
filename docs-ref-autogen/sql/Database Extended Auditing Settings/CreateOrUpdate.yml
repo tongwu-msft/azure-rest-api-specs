@@ -69,19 +69,23 @@ responses:
 
      * 400 BlobAuditingPredicateExpressionEmpty - Invalid parameter 'predicateExpression', value can not be empty.
 
-     * 400 BlobAuditingInsufficientStorageAccountPermissions - Insufficient read or write permissions on the provided storage account.
-
-     * 400 BlobAuditingStorageAccountIsDisabled - The provided storage account is disabled.
-
      * 400 BlobAuditingInvalidStorageAccountName - The provided storage account is not valid or does not exist.
 
      * 400 BlobAuditingInvalidStorageAccountCredentials - The provided storage account or access key is not valid.
 
      * 400 BlobAuditingIsNotSupportedOnGeoDr - Blob auditing can be configured on primary databases only.
 
-     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+     * 400 InvalidBlobAuditActionsAndGroupsForDW - Unsupported audit actions or action groups for DW.
+
+     * 400 BlobAuditingInsufficientStorageAccountPermissions - Insufficient read or write permissions on the provided storage account.
+
+     * 400 BlobAuditingStorageAccountIsDisabled - The provided storage account is disabled.
+
+     * 400 InvalidBlobAuditActions - Invalid audit action
 
      * 404 SourceDatabaseNotFound - The source database does not exist.
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
 
      * 500 DatabaseIsUnavailable - Loading failed. Please try again later.
 - name: 201 Created
@@ -99,7 +103,7 @@ requestBody:
   - name: properties.state
     in: body
     isRequired: true
-    description: Specifies the state of the policy. If state is Enabled, storageEndpoint and storageAccountAccessKey are required.
+    description: Specifies the state of the policy. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.
     types:
     - uid: BlobAuditingPolicyState
   - name: properties.storageEndpoint
@@ -109,12 +113,12 @@ requestBody:
     - uid: string
   - name: properties.storageAccountAccessKey
     in: body
-    description: Specifies the identifier key of the auditing storage account. If state is Enabled, storageAccountAccessKey is required.
+    description: Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, storageAccountAccessKey is required.
     types:
     - uid: string
   - name: properties.retentionDays
     in: body
-    description: Specifies the number of days to keep in the audit logs.
+    description: Specifies the number of days to keep in the audit logs in the storage account.
     types:
     - uid: integer
   - name: properties.auditActionsAndGroups
@@ -234,6 +238,11 @@ requestBody:
     description: Specifies whether storageAccountAccessKey value is the storage's secondary key.
     types:
     - uid: boolean
+  - name: properties.isAzureMonitorTargetEnabled
+    in: body
+    description: "Specifies whether audit events are sent to Azure Monitor. \nIn order to send the events to Azure Monitor, specify 'State' as 'Enabled' and 'IsAzureMonitorTargetEnabled' as true.\n\nWhen using REST API to configure auditing, Diagnostic Settings with 'SQLSecurityAuditEvents' diagnostic logs category on the database should be also created.\nNote that for server level audit you should use the 'master' database as <databaseName>.\nDiagnostic Settings URI format:\nPUT https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.Sql/servers/<serverName>/databases/<databaseName>/providers/microsoft.insights/diagnosticSettings/<settingsName>?api-version=2017-05-01-preview\n\nFor more information, see [Diagnostic Settings REST API](https://go.microsoft.com/fwlink/?linkid=2033207)\nor [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)\r"
+    types:
+    - uid: boolean
 requestHeader: []
 definitions:
 - name: ExtendedDatabaseBlobAuditingPolicy
@@ -245,7 +254,7 @@ definitions:
     types:
     - uid: string
   - name: properties.state
-    description: Specifies the state of the policy. If state is Enabled, storageEndpoint and storageAccountAccessKey are required.
+    description: Specifies the state of the policy. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.
     types:
     - uid: BlobAuditingPolicyState
   - name: properties.storageEndpoint
@@ -253,11 +262,11 @@ definitions:
     types:
     - uid: string
   - name: properties.storageAccountAccessKey
-    description: Specifies the identifier key of the auditing storage account. If state is Enabled, storageAccountAccessKey is required.
+    description: Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, storageAccountAccessKey is required.
     types:
     - uid: string
   - name: properties.retentionDays
-    description: Specifies the number of days to keep in the audit logs.
+    description: Specifies the number of days to keep in the audit logs in the storage account.
     types:
     - uid: integer
   - name: properties.auditActionsAndGroups
@@ -372,6 +381,10 @@ definitions:
     - uid: string
   - name: properties.isStorageSecondaryKeyInUse
     description: Specifies whether storageAccountAccessKey value is the storage's secondary key.
+    types:
+    - uid: boolean
+  - name: properties.isAzureMonitorTargetEnabled
+    description: "Specifies whether audit events are sent to Azure Monitor. \nIn order to send the events to Azure Monitor, specify 'State' as 'Enabled' and 'IsAzureMonitorTargetEnabled' as true.\n\nWhen using REST API to configure auditing, Diagnostic Settings with 'SQLSecurityAuditEvents' diagnostic logs category on the database should be also created.\nNote that for server level audit you should use the 'master' database as <databaseName>.\nDiagnostic Settings URI format:\nPUT https://management.azure.com/subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.Sql/servers/<serverName>/databases/<databaseName>/providers/microsoft.insights/diagnosticSettings/<settingsName>?api-version=2017-05-01-preview\n\nFor more information, see [Diagnostic Settings REST API](https://go.microsoft.com/fwlink/?linkid=2033207)\nor [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)\r"
     types:
     - uid: boolean
   - name: id
@@ -390,7 +403,7 @@ definitions:
     types:
     - uid: string
 - name: BlobAuditingPolicyState
-  description: Specifies the state of the policy. If state is Enabled, storageEndpoint and storageAccountAccessKey are required.
+  description: Specifies the state of the policy. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.
   kind: enum
   properties:
   - name: Enabled
@@ -428,7 +441,8 @@ examples:
             "SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP",
             "FAILED_DATABASE_AUTHENTICATION_GROUP",
             "BATCH_COMPLETED_GROUP"
-          ]
+          ],
+          "isAzureMonitorTargetEnabled": false
         }
       }
   - statusCode: "201"
@@ -447,7 +461,8 @@ examples:
             "SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP",
             "FAILED_DATABASE_AUTHENTICATION_GROUP",
             "BATCH_COMPLETED_GROUP"
-          ]
+          ],
+          "isAzureMonitorTargetEnabled": false
         }
       }
 - name: Create or update an extended database's blob auditing policy with all parameters
@@ -467,7 +482,8 @@ examples:
             "DATABASE_ROLE_MEMBER_CHANGE_GROUP",
             "UPDATE on database::TestDatabaseName by public"
           ],
-          "predicateExpression": "statement = 'select 1'"
+          "predicateExpression": "statement = 'select 1'",
+          "isAzureMonitorTargetEnabled": true
         }
       }
   responses:
@@ -488,7 +504,8 @@ examples:
             "DATABASE_ROLE_MEMBER_CHANGE_GROUP",
             "UPDATE on database::TestDatabaseName by public"
           ],
-          "predicateExpression": "statement = 'select 1'"
+          "predicateExpression": "statement = 'select 1'",
+          "isAzureMonitorTargetEnabled": true
         }
       }
   - statusCode: "201"
@@ -508,7 +525,57 @@ examples:
             "DATABASE_ROLE_MEMBER_CHANGE_GROUP",
             "UPDATE on database::TestDatabaseName by public"
           ],
-          "predicateExpression": "statement = 'select 1'"
+          "predicateExpression": "statement = 'select 1'",
+          "isAzureMonitorTargetEnabled": true
+        }
+      }
+- name: Create or update an extended database's azure monitor auditing policy with minimal parameters
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-4799/providers/Microsoft.Sql/servers/blobauditingtest-6440/databases/testdb/extendedAuditingSettings/default?api-version=2017-03-01-preview
+    body: >-
+      {
+        "properties": {
+          "state": "Enabled",
+          "isAzureMonitorTargetEnabled": true
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-4799/providers/Microsoft.Sql/servers/blobauditingtest-6440/databases/testdb",
+        "name": "default",
+        "type": "Microsoft.Sql/servers/databases/extendedAuditingSettings",
+        "properties": {
+          "state": "Enabled",
+          "isAzureMonitorTargetEnabled": true,
+          "retentionDays": 0,
+          "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000",
+          "isStorageSecondaryKeyInUse": false,
+          "auditActionsAndGroups": [
+            "SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP",
+            "FAILED_DATABASE_AUTHENTICATION_GROUP",
+            "BATCH_COMPLETED_GROUP"
+          ]
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-4799/providers/Microsoft.Sql/servers/blobauditingtest-6440/databases/testdb",
+        "name": "default",
+        "type": "Microsoft.Sql/servers/databases/extendedAuditingSettings",
+        "properties": {
+          "state": "Enabled",
+          "isAzureMonitorTargetEnabled": true,
+          "retentionDays": 0,
+          "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000",
+          "isStorageSecondaryKeyInUse": false,
+          "auditActionsAndGroups": [
+            "SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP",
+            "FAILED_DATABASE_AUTHENTICATION_GROUP",
+            "BATCH_COMPLETED_GROUP"
+          ]
         }
       }
 security: []
