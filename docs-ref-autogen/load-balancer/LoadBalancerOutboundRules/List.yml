@@ -1,0 +1,154 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.load-balancer.loadbalanceroutboundrules.list
+name: List
+service: Load balancer
+groupName: Load Balancer Outbound Rules
+apiVersion: 2018-08-01
+summary: Gets all the outbound rules in a load balancer.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/outboundRules?api-version=2018-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: loadBalancerName
+  in: path
+  isRequired: true
+  description: The name of the load balancer.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns a list of LoadBalancer OutboundRule resources.
+  types:
+  - uid: LoadBalancerOutboundRuleListResult
+requestHeader: []
+definitions:
+- name: LoadBalancerOutboundRuleListResult
+  description: Response for ListOutboundRule API service call.
+  kind: object
+  properties:
+  - name: value
+    description: A list of outbound rules in a load balancer.
+    types:
+    - uid: OutboundRule
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: OutboundRule
+  description: Outbound pool of the load balancer.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.allocatedOutboundPorts
+    description: The number of outbound ports to be used for NAT.
+    types:
+    - uid: integer
+  - name: properties.frontendIPConfigurations
+    description: The Frontend IP addresses of the load balancer.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.backendAddressPool
+    description: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend IPs.
+    types:
+    - uid: SubResource
+  - name: properties.provisioningState
+    description: "Gets the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: properties.protocol
+    description: Protocol - TCP, UDP or All
+    types:
+    - uid: Tcp
+    - uid: Udp
+    - uid: All
+    typesTitle: enum
+  - name: properties.enableTcpReset
+    description: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP.
+    types:
+    - uid: boolean
+  - name: properties.idleTimeoutInMinutes
+    description: The timeout for the TCP idle connection
+    types:
+    - uid: integer
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+examples:
+- name: LoadBalancerOutboundRuleList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/outboundRules?api-version=2018-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "rule1",
+            "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/outboundRules/rule1",
+            "etag": "W/\\\"00000000-0000-0000-0000-000000000000\\\"",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "frontendIPConfigurations": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/frontendIPConfigurations/lbfrontend"
+                }
+              ],
+              "allocatedOutboundPorts": 64,
+              "idleTimeoutInMinutes": 15,
+              "protocol": "Tcp",
+              "enableTcpReset": true,
+              "backendAddressPool": {
+                "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/backendAddressPools/bepool1"
+              }
+            }
+          }
+        ]
+      }
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
