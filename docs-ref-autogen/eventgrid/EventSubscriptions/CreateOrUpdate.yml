@@ -3,14 +3,14 @@ uid: management.azure.com.eventgrid.eventsubscriptions.createorupdate
 name: Create Or Update
 service: Event Grid
 groupName: Event Subscriptions
-apiVersion: 2018-05-01-preview
+apiVersion: 2018-09-15-preview
 summary: "Create or update an event subscription  \nAsynchronously creates a new event subscription or updates an existing event subscription based on the specified scope."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}?api-version=2018-05-01-preview
+- content: PUT https://management.azure.com/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}?api-version=2018-09-15-preview
 uriParameters:
 - name: scope
   in: path
@@ -65,6 +65,11 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: properties.expirationTimeUtc
+    in: body
+    description: Expiration time of the event subscription.
+    types:
+    - uid: string
   - name: properties.eventDeliverySchema
     in: body
     description: The event delivery schema for the event subscription.
@@ -107,6 +112,34 @@ definitions:
     description: "Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter \nshould be compared in a case sensitive manner."
     types:
     - uid: boolean
+  - name: advancedFilters
+    description: A list of advanced filters.
+    types:
+    - uid: NumberInAdvancedFilter
+      isArray: true
+    - uid: NumberNotInAdvancedFilter
+      isArray: true
+    - uid: NumberLessThanAdvancedFilter
+      isArray: true
+    - uid: NumberGreaterThanAdvancedFilter
+      isArray: true
+    - uid: NumberLessThanOrEqualsAdvancedFilter
+      isArray: true
+    - uid: NumberGreaterThanOrEqualsAdvancedFilter
+      isArray: true
+    - uid: BoolEqualsAdvancedFilter
+      isArray: true
+    - uid: StringInAdvancedFilter
+      isArray: true
+    - uid: StringNotInAdvancedFilter
+      isArray: true
+    - uid: StringBeginsWithAdvancedFilter
+      isArray: true
+    - uid: StringEndsWithAdvancedFilter
+      isArray: true
+    - uid: StringContainsAdvancedFilter
+      isArray: true
+    typesTitle: AdvancedFilter[]
 - name: RetryPolicy
   description: Information about the retry policy for an event subscription
   kind: object
@@ -150,6 +183,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.expirationTimeUtc
+    description: Expiration time of the event subscription.
+    types:
+    - uid: string
   - name: properties.eventDeliverySchema
     description: The event delivery schema for the event subscription.
     types:
@@ -288,16 +325,227 @@ definitions:
   - name: EventGridSchema
     types:
     - uid: string
-  - name: InputEventSchema
+  - name: CloudEventV01Schema
     types:
     - uid: string
-  - name: CloudEventV01Schema
+  - name: CustomInputSchema
+    types:
+    - uid: string
+- name: NumberInAdvancedFilter
+  description: NumberIn filter
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values
+    types:
+    - uid: number
+      isArray: true
+  - name: operatorType
+    description: Represents the filter operator
+    types:
+    - uid: NumberIn
+    typesTitle: string
+  - name: key
+    description: The filter key. Represents an event property with upto two levels of nesting.
+    types:
+    - uid: string
+- name: NumberNotInAdvancedFilter
+  description: NumberNotIn Filter
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values
+    types:
+    - uid: number
+      isArray: true
+  - name: operatorType
+    description: Represents the filter operator
+    types:
+    - uid: NumberNotIn
+    typesTitle: string
+  - name: key
+    description: The filter key. Represents an event property with upto two levels of nesting.
+    types:
+    - uid: string
+- name: NumberLessThanAdvancedFilter
+  description: NumberLessThan Filter
+  kind: object
+  properties:
+  - name: value
+    description: The filter value
+    types:
+    - uid: number
+  - name: operatorType
+    description: Represents the filter operator
+    types:
+    - uid: NumberLessThan
+    typesTitle: string
+  - name: key
+    description: The filter key. Represents an event property with upto two levels of nesting.
+    types:
+    - uid: string
+- name: NumberGreaterThanAdvancedFilter
+  description: NumberGreaterThan Filter
+  kind: object
+  properties:
+  - name: value
+    description: The filter value
+    types:
+    - uid: number
+  - name: operatorType
+    description: Represents the filter operator
+    types:
+    - uid: NumberGreaterThan
+    typesTitle: string
+  - name: key
+    description: The filter key. Represents an event property with upto two levels of nesting.
+    types:
+    - uid: string
+- name: NumberLessThanOrEqualsAdvancedFilter
+  description: NumberLessThanOrEquals Filter
+  kind: object
+  properties:
+  - name: value
+    description: The filter value
+    types:
+    - uid: number
+  - name: operatorType
+    description: Represents the filter operator
+    types:
+    - uid: NumberLessThanOrEquals
+    typesTitle: string
+  - name: key
+    description: The filter key. Represents an event property with upto two levels of nesting.
+    types:
+    - uid: string
+- name: NumberGreaterThanOrEqualsAdvancedFilter
+  description: NumberGreaterThanOrEquals Filter
+  kind: object
+  properties:
+  - name: value
+    description: The filter value
+    types:
+    - uid: number
+  - name: operatorType
+    description: Represents the filter operator
+    types:
+    - uid: NumberGreaterThanOrEquals
+    typesTitle: string
+  - name: key
+    description: The filter key. Represents an event property with upto two levels of nesting.
+    types:
+    - uid: string
+- name: BoolEqualsAdvancedFilter
+  description: BoolEquals Filter
+  kind: object
+  properties:
+  - name: value
+    description: The filter value
+    types:
+    - uid: boolean
+  - name: operatorType
+    description: Represents the filter operator
+    types:
+    - uid: BoolEquals
+    typesTitle: string
+  - name: key
+    description: The filter key. Represents an event property with upto two levels of nesting.
+    types:
+    - uid: string
+- name: StringInAdvancedFilter
+  description: StringIn Filter
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values
+    types:
+    - uid: string
+      isArray: true
+  - name: operatorType
+    description: Represents the filter operator
+    types:
+    - uid: StringIn
+    typesTitle: string
+  - name: key
+    description: The filter key. Represents an event property with upto two levels of nesting.
+    types:
+    - uid: string
+- name: StringNotInAdvancedFilter
+  description: StringNotIn Filter
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values
+    types:
+    - uid: string
+      isArray: true
+  - name: operatorType
+    description: Represents the filter operator
+    types:
+    - uid: StringNotIn
+    typesTitle: string
+  - name: key
+    description: The filter key. Represents an event property with upto two levels of nesting.
+    types:
+    - uid: string
+- name: StringBeginsWithAdvancedFilter
+  description: StringBeginsWith Filter
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values
+    types:
+    - uid: string
+      isArray: true
+  - name: operatorType
+    description: Represents the filter operator
+    types:
+    - uid: StringBeginsWith
+    typesTitle: string
+  - name: key
+    description: The filter key. Represents an event property with upto two levels of nesting.
+    types:
+    - uid: string
+- name: StringEndsWithAdvancedFilter
+  description: StringEndsWith Filter
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values
+    types:
+    - uid: string
+      isArray: true
+  - name: operatorType
+    description: Represents the filter operator
+    types:
+    - uid: StringEndsWith
+    typesTitle: string
+  - name: key
+    description: The filter key. Represents an event property with upto two levels of nesting.
+    types:
+    - uid: string
+- name: StringContainsAdvancedFilter
+  description: StringContains Filter
+  kind: object
+  properties:
+  - name: values
+    description: The set of filter values
+    types:
+    - uid: string
+      isArray: true
+  - name: operatorType
+    description: Represents the filter operator
+    types:
+    - uid: StringContains
+    typesTitle: string
+  - name: key
+    description: The filter key. Represents an event property with upto two levels of nesting.
     types:
     - uid: string
 examples:
 - name: EventSubscriptions_CreateOrUpdateForSubscription
   request:
-    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription3?api-version=2018-05-01-preview
+    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription3?api-version=2018-09-15-preview
     body: >-
       {
         "properties": {
@@ -340,7 +588,7 @@ examples:
       }
 - name: EventSubscriptions_CreateOrUpdateForResourceGroup
   request:
-    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription2?api-version=2018-05-01-preview
+    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription2?api-version=2018-09-15-preview
     body: >-
       {
         "properties": {
@@ -385,7 +633,7 @@ examples:
       }
 - name: EventSubscriptions_CreateOrUpdateForResource
   request:
-    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription10?api-version=2018-05-01-preview
+    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription10?api-version=2018-09-15-preview
     body: >-
       {
         "properties": {
@@ -430,7 +678,7 @@ examples:
       }
 - name: EventSubscriptions_CreateOrUpdateForCustomTopic
   request:
-    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2018-05-01-preview
+    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2018-09-15-preview
     body: >-
       {
         "properties": {
