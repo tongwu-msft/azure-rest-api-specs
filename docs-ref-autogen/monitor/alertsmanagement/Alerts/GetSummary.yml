@@ -4,7 +4,7 @@ name: Get Summary
 service: Monitor
 groupName: Alerts
 apiVersion: 2018-05-05
-summary: Summary of alerts with the count each severity.
+summary: Get a summarized count of your alerts grouped by various parameters (e.g. grouping by 'Severity' returns the count of alerts for each severity).
 consumes:
 - application/json
 produces:
@@ -23,7 +23,7 @@ uriParameters:
 - name: groupby
   in: query
   isRequired: true
-  description: This parameter allows the result set to be aggregated by input fields. For example, groupby=severity,alertstate.
+  description: This parameter allows the result set to be grouped by input fields. For example, groupby=severity,alertstate.
   types:
   - uid: AlertsSummaryGroupByFields
 - name: includeSmartGroupsCount
@@ -48,12 +48,12 @@ uriParameters:
   - uid: string
 - name: monitorService
   in: query
-  description: Filter by monitor service which is the source of the alert instance. Default value is select all.
+  description: Filter by monitor service which generates the alert instance. Default value is select all.
   types:
   - uid: MonitorService
 - name: monitorCondition
   in: query
-  description: Filter by monitor condition which is the state of the  monitor(alertRule) at monitor service. Default value is to select all.
+  description: Filter by monitor condition which is either 'Fired' or 'Resolved'. Default value is to select all.
   types:
   - uid: MonitorCondition
 - name: severity
@@ -68,7 +68,7 @@ uriParameters:
   - uid: AlertState
 - name: alertRule
   in: query
-  description: Filter by alert rule(monitor) which fired alert instance.  Default value is to select all.
+  description: Filter by specific alert rule.  Default value is to select all.
   types:
   - uid: string
 - name: timeRange
@@ -99,7 +99,7 @@ responses:
 requestHeader: []
 definitions:
 - name: AlertsSummaryGroupByFields
-  description: This parameter allows the result set to be aggregated by input fields. For example, groupby=severity,alertstate.
+  description: This parameter allows the result set to be grouped by input fields. For example, groupby=severity,alertstate.
   kind: enum
   properties:
   - name: severity
@@ -167,7 +167,7 @@ definitions:
     types:
     - uid: string
 - name: MonitorCondition
-  description: Represents rule condition(Fired/Resolved) maintained by monitor service depending on the state of the state.
+  description: Can be 'Fired' or 'Resolved', which represents whether the underlying conditions have crossed the defined alert rule thresholds.
   kind: enum
   properties:
   - name: Fired
@@ -177,7 +177,7 @@ definitions:
     types:
     - uid: string
 - name: Severity
-  description: Severity of alert Sev0 being highest and Sev3 being lowest.
+  description: Severity of alert Sev0 being highest and Sev4 being lowest.
   kind: enum
   properties:
   - name: Sev0
@@ -196,7 +196,7 @@ definitions:
     types:
     - uid: string
 - name: AlertState
-  description: Alert object state, which is modified by the user.
+  description: Alert object state, which can be modified by the user.
   kind: enum
   properties:
   - name: New

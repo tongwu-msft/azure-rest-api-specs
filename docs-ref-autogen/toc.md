@@ -7006,6 +7006,7 @@
 #### [Create Or Update](sql/DatabaseVulnerabilityAssessments/CreateOrUpdate.yml)
 #### [Delete](sql/DatabaseVulnerabilityAssessments/Delete.yml)
 #### [Get](sql/DatabaseVulnerabilityAssessments/Get.yml)
+#### [List By Database](sql/DatabaseVulnerabilityAssessments/ListByDatabase.yml)
 ### [Databases](sql/Databases.yml)
 #### [Create Or Update](sql/Databases/CreateOrUpdate.yml)
 #### [Delete](sql/Databases/Delete.yml)

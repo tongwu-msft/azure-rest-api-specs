@@ -4,7 +4,7 @@ name: Get All
 service: Monitor
 groupName: Alerts
 apiVersion: 2018-05-05
-summary: 'List all the existing alerts, where the results can be selective by passing multiple filter parameters including time range and sorted on specific fields. '
+summary: 'List all existing alerts, where the results can be filtered on the basis of multiple parameters (e.g. time range). The results can then be sorted on the basis specific fields, with the default being lastModifiedDateTime. '
 consumes:
 - application/json
 produces:
@@ -37,12 +37,12 @@ uriParameters:
   - uid: string
 - name: monitorService
   in: query
-  description: Filter by monitor service which is the source of the alert instance. Default value is select all.
+  description: Filter by monitor service which generates the alert instance. Default value is select all.
   types:
   - uid: MonitorService
 - name: monitorCondition
   in: query
-  description: Filter by monitor condition which is the state of the  monitor(alertRule) at monitor service. Default value is to select all.
+  description: Filter by monitor condition which is either 'Fired' or 'Resolved'. Default value is to select all.
   types:
   - uid: MonitorCondition
 - name: severity
@@ -57,7 +57,7 @@ uriParameters:
   - uid: AlertState
 - name: alertRule
   in: query
-  description: Filter by alert rule(monitor) which fired alert instance.  Default value is to select all.
+  description: Filter by specific alert rule.  Default value is to select all.
   types:
   - uid: string
 - name: smartGroupId
@@ -67,7 +67,7 @@ uriParameters:
   - uid: string
 - name: includeContext
   in: query
-  description: Include context which has data contextual to the monitor service. Default value is false'
+  description: Include context which has contextual data specific to the monitor service. Default value is false'
   types:
   - uid: boolean
 - name: includeEgressConfig
@@ -169,7 +169,7 @@ definitions:
     types:
     - uid: string
 - name: MonitorCondition
-  description: Represents rule condition(Fired/Resolved) maintained by monitor service depending on the state of the state.
+  description: Can be 'Fired' or 'Resolved', which represents whether the underlying conditions have crossed the defined alert rule thresholds.
   kind: enum
   properties:
   - name: Fired
@@ -179,7 +179,7 @@ definitions:
     types:
     - uid: string
 - name: Severity
-  description: Severity of alert Sev0 being highest and Sev3 being lowest.
+  description: Severity of alert Sev0 being highest and Sev4 being lowest.
   kind: enum
   properties:
   - name: Sev0
@@ -198,7 +198,7 @@ definitions:
     types:
     - uid: string
 - name: AlertState
-  description: Alert object state, which is modified by the user.
+  description: Alert object state, which can be modified by the user.
   kind: enum
   properties:
   - name: New
@@ -337,12 +337,12 @@ definitions:
   kind: object
   properties:
   - name: essentials
-    description: This object contains normalized fields across different monitor service and also contains state related fields.
+    description: This object contains consistent fields across different monitor services.
     types:
     - uid: essentials
   - name: context
     isReadyOnly: true
-    description: More details which are contextual to the monitor service.
+    description: Information specific to the monitor service that gives more contextual details about the alert.
     types:
     - uid: object
   - name: egressConfig
@@ -351,27 +351,27 @@ definitions:
     types:
     - uid: object
 - name: essentials
-  description: This object contains normalized fields across different monitor service and also contains state related fields.
+  description: This object contains consistent fields across different monitor services.
   kind: object
   properties:
   - name: severity
     isReadyOnly: true
-    description: Severity of alert Sev0 being highest and Sev3 being lowest.
+    description: Severity of alert Sev0 being highest and Sev4 being lowest.
     types:
     - uid: Severity
   - name: signalType
     isReadyOnly: true
-    description: Log based alert or metric based alert
+    description: The type of signal the alert is based on, which could be metrics, logs or activity logs.
     types:
     - uid: SignalType
   - name: alertState
     isReadyOnly: true
-    description: Alert object state, which is modified by the user.
+    description: Alert object state, which can be modified by the user.
     types:
     - uid: AlertState
   - name: monitorCondition
     isReadyOnly: true
-    description: Represents rule condition(Fired/Resolved) maintained by monitor service depending on the state of the state.
+    description: Can be 'Fired' or 'Resolved', which represents whether the underlying conditions have crossed the defined alert rule thresholds.
     types:
     - uid: MonitorCondition
   - name: targetResource
@@ -427,7 +427,7 @@ definitions:
     - uid: string
   - name: monitorConditionResolvedDateTime
     isReadyOnly: true
-    description: Resolved time(ISO-8601 format) of alert instance. This will be updated when monitor service resolves the alert instance because of the rule condition is not met.
+    description: Resolved time(ISO-8601 format) of alert instance. This will be updated when monitor service resolves the alert instance because the rule condition is no longer met.
     types:
     - uid: string
   - name: lastModifiedUserName
@@ -436,7 +436,7 @@ definitions:
     types:
     - uid: string
 - name: SignalType
-  description: Log based alert or metric based alert
+  description: The type of signal the alert is based on, which could be metrics, logs or activity logs.
   kind: enum
   properties:
   - name: Metric

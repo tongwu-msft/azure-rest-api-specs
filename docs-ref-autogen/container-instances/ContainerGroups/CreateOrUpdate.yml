@@ -112,6 +112,11 @@ requestBody:
     description: The network profile information for a container group.
     types:
     - uid: ContainerGroupNetworkProfile
+  - name: properties.dnsConfig
+    in: body
+    description: The DNS config information for a container group.
+    types:
+    - uid: DnsConfiguration
 requestHeader: []
 definitions:
 - name: ContainerGroupIdentity
@@ -296,6 +301,23 @@ definitions:
     description: The identifier for a network profile.
     types:
     - uid: string
+- name: DnsConfiguration
+  description: DNS configuration for the container group.
+  kind: object
+  properties:
+  - name: nameServers
+    description: The DNS servers for the container group.
+    types:
+    - uid: string
+      isArray: true
+  - name: searchDomains
+    description: The DNS search domains for hostname lookup in the container group.
+    types:
+    - uid: string
+  - name: options
+    description: The DNS options for the container group.
+    types:
+    - uid: string
 - name: ContainerGroup
   description: A container group.
   kind: object
@@ -376,6 +398,10 @@ definitions:
     description: The network profile information for a container group.
     types:
     - uid: ContainerGroupNetworkProfile
+  - name: properties.dnsConfig
+    description: The DNS config information for a container group.
+    types:
+    - uid: DnsConfiguration
 - name: ResourceIdentityType
   description: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the container group.
   kind: enum
@@ -671,6 +697,10 @@ definitions:
     description: The CPU request of this container instance.
     types:
     - uid: number
+  - name: gpu
+    description: The GPU request of this container instance.
+    types:
+    - uid: GpuResource
 - name: ResourceLimits
   description: The resource limits.
   kind: object
@@ -683,6 +713,10 @@ definitions:
     description: The CPU limit of this container instance.
     types:
     - uid: number
+  - name: gpu
+    description: The GPU limit of this container instance.
+    types:
+    - uid: GpuResource
 - name: ContainerExec
   description: The container execution command, for liveness or readiness probe
   kind: object
@@ -730,6 +764,31 @@ definitions:
   - name: ContainerInstanceLogs
     types:
     - uid: string
+- name: GpuResource
+  description: The GPU resource.
+  kind: object
+  properties:
+  - name: count
+    description: The count of the GPU resource.
+    types:
+    - uid: integer
+  - name: sku
+    description: The SKU of the GPU resource.
+    types:
+    - uid: GpuSku
+- name: GpuSku
+  description: The SKU of the GPU resource.
+  kind: enum
+  properties:
+  - name: K80
+    types:
+    - uid: string
+  - name: P100
+    types:
+    - uid: string
+  - name: V100
+    types:
+    - uid: string
 examples:
 - name: ContainerGroupsCreateOrUpdate
   request:
@@ -761,7 +820,11 @@ examples:
                 "resources": {
                   "requests": {
                     "cpu": 1,
-                    "memoryInGB": 1.5
+                    "memoryInGB": 1.5,
+                    "gpu": {
+                      "count": 1,
+                      "sku": "K80"
+                    }
                   }
                 },
                 "volumeMounts": [
@@ -796,6 +859,13 @@ examples:
           },
           "networkProfile": {
             "id": "test-network-profile-id"
+          },
+          "dnsConfig": {
+            "nameServers": [
+              "1.1.1.1"
+            ],
+            "searchDomains": "cluster.local svc.cluster.local",
+            "options": "ndots:2"
           },
           "imageRegistryCredentials": [],
           "ipAddress": {
@@ -856,7 +926,11 @@ examples:
                 "resources": {
                   "requests": {
                     "cpu": 1,
-                    "memoryInGB": 1.5
+                    "memoryInGB": 1.5,
+                    "gpu": {
+                      "count": 1,
+                      "sku": "K80"
+                    }
                   }
                 },
                 "volumeMounts": [
@@ -884,6 +958,13 @@ examples:
               "workspaceId": "workspaceid",
               "workspaceKey": ""
             }
+          },
+          "dnsConfig": {
+            "nameServers": [
+              "1.1.1.1"
+            ],
+            "searchDomains": "cluster.local svc.cluster.local",
+            "options": "ndots:2"
           },
           "imageRegistryCredentials": [],
           "ipAddress": {
@@ -942,7 +1023,11 @@ examples:
                 "resources": {
                   "requests": {
                     "cpu": 1,
-                    "memoryInGB": 1.5
+                    "memoryInGB": 1.5,
+                    "gpu": {
+                      "count": 1,
+                      "sku": "K80"
+                    }
                   }
                 },
                 "volumeMounts": [
@@ -965,6 +1050,11 @@ examples:
               }
             }
           ],
+          "dnsConfig": {
+            "nameServers": [
+              "1.1.1.1"
+            ]
+          },
           "imageRegistryCredentials": [],
           "ipAddress": {
             "ip": "10.0.0.1",
