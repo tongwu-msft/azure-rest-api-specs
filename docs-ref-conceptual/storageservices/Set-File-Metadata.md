@@ -68,7 +68,7 @@ The `Set File Metadata` operation updates user-defined metadata for the specifie
  The response includes an HTTP status code and a set of response headers.  
   
 ## Status Code  
- A successful operation returns status code 202 (Accepted).  
+ A successful operation returns status code 200 (OK).  
   
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
