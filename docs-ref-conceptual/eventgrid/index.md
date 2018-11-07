@@ -17,6 +17,8 @@ Azure Event Grid enables you to easily build applications with event-based archi
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
+| [Domain Topics](xref:management.azure.com.eventgrid.domaintopics) | Returns information about Event Grid domain topics. |
+| [Domains](xref:management.azure.com.eventgrid.domains) | Provides operations for working with Event Grid domains. |
 | [Event Subscriptions](xref:management.azure.com.eventgrid.eventsubscriptions) | Provides operations for indicating which events to route to an endpoint. |
 | [Operations](xref:management.azure.com.eventgrid.operations) | Shows operations from the Event Grid resource provider. |
 | [Topic Types](xref:management.azure.com.eventgrid.topictypes) | Returns information about topic and event types. |
