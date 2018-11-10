@@ -1102,6 +1102,7 @@
 ### [Close](azurestack/Alerts/Close.yml)
 ### [Get](azurestack/Alerts/Get.yml)
 ### [List](azurestack/Alerts/List.yml)
+### [Repair](azurestack/Alerts/Repair.yml)
 ## [Backup Locations](azurestack/BackupLocations.yml)
 ### [Create Backup](azurestack/BackupLocations/CreateBackup.yml)
 ### [Get](azurestack/BackupLocations/Get.yml)
