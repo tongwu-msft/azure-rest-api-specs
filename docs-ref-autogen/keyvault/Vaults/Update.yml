@@ -3,14 +3,14 @@ uid: management.azure.com.keyvault.vaults.update
 name: Update
 service: Key Vault
 groupName: Vaults
-apiVersion: 2016-10-01
+apiVersion: 2018-02-14
 summary: Update a key vault in the specified subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}?api-version=2016-10-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}?api-version=2018-02-14
 uriParameters:
 - name: subscriptionId
   in: path
@@ -95,7 +95,7 @@ definitions:
     types:
     - uid: boolean
   - name: enableSoftDelete
-    description: Property specifying whether recoverable deletion ('soft' delete) is enabled for this key vault. The property may not be set to false.
+    description: Property to specify whether the 'soft delete' functionality is enabled for this key vault. It does not accept false value.
     types:
     - uid: boolean
   - name: createMode
@@ -103,9 +103,13 @@ definitions:
     types:
     - uid: CreateMode
   - name: enablePurgeProtection
-    description: Property specifying whether protection against purge is enabled for this vault; it is only effective if soft delete is also enabled. Once activated, the property may no longer be reset to false.
+    description: Property specifying whether protection against purge is enabled for this vault. Setting this property to true activates protection against purge for this vault and its content - only the Key Vault service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible - that is, the property does not accept false as its value.
     types:
     - uid: boolean
+  - name: networkAcls
+    description: A collection of rules governing the accessibility of the vault from specific network locations.
+    types:
+    - uid: NetworkRuleSet
 - name: Vault
   description: Resource information with extended details.
   kind: object
@@ -199,6 +203,28 @@ definitions:
   - name: default
     types:
     - uid: string
+- name: NetworkRuleSet
+  description: A set of rules governing the network accessibility of a vault.
+  kind: object
+  properties:
+  - name: bypass
+    description: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the default is 'AzureServices'.
+    types:
+    - uid: NetworkRuleBypassOptions
+  - name: defaultAction
+    description: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated.
+    types:
+    - uid: NetworkRuleAction
+  - name: ipRules
+    description: The list of IP address rules.
+    types:
+    - uid: IPRule
+      isArray: true
+  - name: virtualNetworkRules
+    description: The list of virtual network rules.
+    types:
+    - uid: VirtualNetworkRule
+      isArray: true
 - name: VaultProperties
   description: Properties of the vault
   kind: object
@@ -233,7 +259,7 @@ definitions:
     types:
     - uid: boolean
   - name: enableSoftDelete
-    description: Property specifying whether recoverable deletion is enabled for this key vault. Setting this property to true activates the soft delete feature, whereby vaults or vault entities can be recovered after deletion. Enabling this functionality is irreversible - that is, the property does not accept false as its value.
+    description: Property to specify whether the 'soft delete' functionality is enabled for this key vault. It does not accept false value.
     types:
     - uid: boolean
   - name: createMode
@@ -244,6 +270,10 @@ definitions:
     description: Property specifying whether protection against purge is enabled for this vault. Setting this property to true activates protection against purge for this vault and its content - only the Key Vault service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible - that is, the property does not accept false as its value.
     types:
     - uid: boolean
+  - name: networkAcls
+    description: A collection of rules governing the accessibility of the vault from specific network locations.
+    types:
+    - uid: NetworkRuleSet
 - name: SkuFamily
   description: SKU family name
   kind: enum
@@ -285,10 +315,46 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: NetworkRuleBypassOptions
+  description: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the default is 'AzureServices'.
+  kind: enum
+  properties:
+  - name: AzureServices
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: NetworkRuleAction
+  description: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated.
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+- name: IPRule
+  description: A rule governing the accesibility of a vault from a specific ip address or ip range.
+  kind: object
+  properties:
+  - name: value
+    description: An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78).
+    types:
+    - uid: string
+- name: VirtualNetworkRule
+  description: A rule governing the accesibility of a vault from a specific virtual network.
+  kind: object
+  properties:
+  - name: id
+    description: Full resource id of a vnet subnet, such as '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
+    types:
+    - uid: string
 examples:
 - name: Update an existing vault
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-resource-group/providers/Microsoft.KeyVault/vaults/sample-vault?api-version=2016-10-01
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-resource-group/providers/Microsoft.KeyVault/vaults/sample-vault?api-version=2018-02-14
     body: >-
       {
         "properties": {
