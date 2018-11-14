@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.apimanagement.apiissue.createorupdate
-name: Create Or Update
+uid: management.azure.com.apimanagement.apiissue.update
+name: Update
 service: API Management
 groupName: Api Issue
 apiVersion: 2018-06-01-preview
-summary: Creates a new Issue for an API or updates an existing one.
+summary: Updates an existing issue for an API.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}?api-version=2018-06-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}?api-version=2018-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,14 +52,8 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 201 Created
-  description: Issue was successfully created.
-  types:
-  - uid: IssueContract
-- name: 200 OK
-  description: Issue was successfully updated.
-  types:
-  - uid: IssueContract
+- name: 204 No Content
+  description: The Issue was successfully updated.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -69,19 +63,16 @@ requestBody:
   parameters:
   - name: properties.title
     in: body
-    isRequired: true
     description: The issue title.
     types:
     - uid: string
   - name: properties.description
     in: body
-    isRequired: true
     description: Text describing the issue.
     types:
     - uid: string
   - name: properties.userId
     in: body
-    isRequired: true
     description: A resource identifier for the user created the issue.
     types:
     - uid: string
@@ -107,49 +98,6 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: IssueContract
-  description: Issue Contract details.
-  kind: object
-  properties:
-  - name: properties.title
-    description: The issue title.
-    types:
-    - uid: string
-  - name: properties.description
-    description: Text describing the issue.
-    types:
-    - uid: string
-  - name: properties.userId
-    description: A resource identifier for the user created the issue.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type for API Management resource.
-    types:
-    - uid: string
-  - name: properties.createdDate
-    description: Date and time when the issue was created.
-    types:
-    - uid: string
-  - name: properties.state
-    description: Status of the issue.
-    types:
-    - uid: State
-  - name: properties.apiId
-    description: A resource identifier for the API the issue was created for.
-    types:
-    - uid: string
 - name: ErrorResponse
   description: Error Response.
   kind: object
@@ -167,6 +115,50 @@ definitions:
     types:
     - uid: ErrorFieldContract
       isArray: true
+- name: IssueUpdateContract
+  description: Issue update Parameters.
+  kind: object
+  properties:
+  - name: properties.title
+    description: The issue title.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Text describing the issue.
+    types:
+    - uid: string
+  - name: properties.userId
+    description: A resource identifier for the user created the issue.
+    types:
+    - uid: string
+  - name: properties.createdDate
+    description: Date and time when the issue was created.
+    types:
+    - uid: string
+  - name: properties.state
+    description: Status of the issue.
+    types:
+    - uid: State
+  - name: properties.apiId
+    description: A resource identifier for the API the issue was created for.
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
 - name: State
   description: Status of the issue.
   kind: enum
@@ -191,65 +183,18 @@ definitions:
     description: The issue was closed.
     types:
     - uid: string
-- name: ErrorFieldContract
-  description: Error Field contract.
-  kind: object
-  properties:
-  - name: code
-    description: Property level error code.
-    types:
-    - uid: string
-  - name: message
-    description: Human-readable representation of property-level error.
-    types:
-    - uid: string
-  - name: target
-    description: Property name.
-    types:
-    - uid: string
 examples:
-- name: ApiManagementCreateApiIssue
+- name: ApiManagementUpdateApiIssue
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues/57d2ef278aa04f0ad01d6cdc?api-version=2018-06-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues/57d2ef278aa04f0ad01d6cdc?api-version=2018-06-01-preview
     body: >-
       {
         "properties": {
-          "title": "New API issue",
-          "description": "New API issue description",
-          "createdDate": "2018-02-01T22:21:20.467Z",
-          "state": "open",
-          "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/1"
+          "state": "closed"
         }
       }
   responses:
-  - statusCode: "201"
-    body: >-
-      {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues/57d2ef278aa04f0ad01d6cdc",
-        "type": "Microsoft.ApiManagement/service/apis/issues",
-        "name": "57d2ef278aa04f0ad01d6cdc",
-        "properties": {
-          "title": "New API issue",
-          "description": "New API issue description",
-          "createdDate": "2018-02-01T22:21:20.467Z",
-          "state": "open",
-          "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/1"
-        }
-      }
-  - statusCode: "200"
-    body: >-
-      {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/57d1f7558aa04f15146d9d8a/issues/57d2ef278aa04f0ad01d6cdc",
-        "type": "Microsoft.ApiManagement/service/apis/issues",
-        "name": "57d2ef278aa04f0ad01d6cdc",
-        "properties": {
-          "title": "New API issue",
-          "description": "New API issue description",
-          "createdDate": "2018-02-01T22:21:20.467Z",
-          "state": "open",
-          "userId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/1"
-        }
-      }
+  - statusCode: "204"
 security:
 - type: oauth2
   description: Azure Active Directory OAuth2 Flow.
