@@ -11,6 +11,8 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2018-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2018-07-01&$expand=geoReplicationStats
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,6 +39,11 @@ uriParameters:
   description: The API version to use for this operation.
   types:
   - uid: string
+- name: $expand
+  in: query
+  description: May be used to expand the properties within account's properties. By default, data is not included when fecthing properties. Currently we only support geoReplicationStats.
+  types:
+  - uid: StorageAccountExpand
 responses:
 - name: 200 OK
   description: OK -- properties retrieved successfully for the storage account.
@@ -44,6 +51,13 @@ responses:
   - uid: StorageAccount
 requestHeader: []
 definitions:
+- name: StorageAccountExpand
+  description: May be used to expand the properties within account's properties. By default, data is not included when fecthing properties. Currently we only support geoReplicationStats.
+  kind: enum
+  properties:
+  - name: geoReplicationStats
+    types:
+    - uid: string
 - name: StorageAccount
   description: The storage account.
   kind: object
@@ -139,6 +153,11 @@ definitions:
     description: Account HierarchicalNamespace enabled if sets to true.
     types:
     - uid: boolean
+  - name: properties.geoReplicationStats
+    isReadyOnly: true
+    description: Geo Replication Stats
+    types:
+    - uid: GeoReplicationStats
   - name: properties.failoverInProgress
     isReadyOnly: true
     description: If the failover is in progress, the value will be true, otherwise, it will be null.
@@ -365,6 +384,20 @@ definitions:
     description: Specifies the default action of allow or deny when no other rules match.
     types:
     - uid: DefaultAction
+- name: GeoReplicationStats
+  description: Statistics related to replication for storage account's Blob, Table, Queue and File services. It is only available when geo-redundant replication is enabled for the storage account.
+  kind: object
+  properties:
+  - name: status
+    isReadyOnly: true
+    description: 'The status of the secondary location. Possible values are: - Live: Indicates that the secondary location is active and operational. - Bootstrap: Indicates initial synchronization from the primary location to the secondary location is in progress.This typically occurs when replication is first enabled. - Unavailable: Indicates that the secondary location is temporarily unavailable.'
+    types:
+    - uid: GeoReplicationStatus
+  - name: lastSyncTime
+    isReadyOnly: true
+    description: All primary writes preceding this UTC date/time value are guaranteed to be available for read operations. Primary writes following this point in time may or may not be available for reads. Element may be default value if value of LastSyncTime is not available, this can happen if secondary is offline or we are in bootstrap.
+    types:
+    - uid: string
 - name: SkuName
   description: Gets or sets the sku name. Required for account creation; optional for update. Note that in older versions, sku name was called accountType.
   kind: enum
@@ -539,6 +572,19 @@ definitions:
   - name: Deny
     types:
     - uid: string
+- name: GeoReplicationStatus
+  description: 'The status of the secondary location. Possible values are: - Live: Indicates that the secondary location is active and operational. - Bootstrap: Indicates initial synchronization from the primary location to the secondary location is in progress.This typically occurs when replication is first enabled. - Unavailable: Indicates that the secondary location is temporarily unavailable.'
+  kind: enum
+  properties:
+  - name: Live
+    types:
+    - uid: string
+  - name: Bootstrap
+    types:
+    - uid: string
+  - name: Unavailable
+    types:
+    - uid: string
 - name: ReasonCode
   description: The reason for the restriction. As of now this can be "QuotaId" or "NotAvailableForSubscription". Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The "NotAvailableForSubscription" is related to capacity at DC.
   kind: enum
@@ -591,7 +637,7 @@ definitions:
 examples:
 - name: StorageAccountGetProperties
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2018-07-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2018-07-01&$expand=geoReplicationStats
   responses:
   - statusCode: "200"
     body: >-
@@ -601,6 +647,10 @@ examples:
         "location": "eastus2(stage)",
         "name": "sto8596",
         "properties": {
+          "geoReplicationStats": {
+            "status": "Live",
+            "lastSyncTime": "2018-10-30T00:25:34Z"
+          },
           "isHnsEnabled": true,
           "azureFilesAadIntegration": true,
           "creationTime": "2017-06-01T02:42:41.7633306Z",
