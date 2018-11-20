@@ -95,7 +95,7 @@ Response Body:
 The Types API enable CRUD on Time Series Types and their associated Variables.
 
 ### Get Types
-`GET https://api.timeseries.azure.com/timeseries/types/$batch?api-version=2018-11-01-preview`
+`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/types?api-version=2018-11-01-preview`
 
 The Get Types API returns all the Time Series Types and their associated Variables.
 
@@ -103,6 +103,42 @@ Request Body: None
 
 Response Body:
 ```json
+{
+  "types": [
+    {
+      "id": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+      "name": "DefaultType",
+      "description": "Default type",
+      "variables": {
+        "EventCount": {
+          "kind": "aggregate",
+          "value": null,
+          "filter": null,
+          "aggregation": {
+            "tsx": "count()"
+          }
+        }
+      }
+    },
+    {
+      "id": "c1cb7a33-ed9b-4cf1-9958-f3162fed8ee8",
+      "name": "TemperatureSensor",
+      "description": "This is a temperature sensor.",
+      "variables": {
+        "AverageTemperature": {
+          "kind": "numeric",
+          "value": {
+            "tsx": "$event.Temperature.Double"
+          },
+          "filter": null,
+          "aggregation": {
+            "tsx": "avg($value)"
+          }
+        }
+      }
+    }
+  ]
+}
 ```
 ### Manage Types
 
