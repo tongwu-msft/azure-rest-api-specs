@@ -26,7 +26,7 @@ TSM makes it easy to find and analyze IoT data by enabling curation, maintenance
 
 ## Common headers and parameters
 
-For authentication and authorization, a valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/#create-the-request). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
+For authentication and authorization, a valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/#create-the-request). The token must be issued to `https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/` resource (also known as "audience" in the token).
 
 Optional request headers:
 - `x-ms-client-request-id` - a client request ID. Service records this value. Allows the service to trace operation across services.
@@ -41,7 +41,7 @@ Response headers:
 The Model Settings API enable CRUD on auto created model in the environment for TimeSeriesIds
 
 ### Get Model Settings
-`GET https://api.timeseries.azure.com/timeseries/modelsettings?api-version=2018-11-01-preview`
+`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/modelsettings?api-version=2018-11-01-preview`
 
 The Get Model Setting API returns the auto created model in the environment for TimeSeriesIds 
 
@@ -62,7 +62,7 @@ Response Body:
 ```
 ### Patch Model Settings
 
-`PATCH https://api.timeseries.azure.com/timeseries/modelsettings?api-version=2018-11-01-preview`
+`PATCH https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/modelsettings?api-version=2018-11-01-preview`
 
 The Patch Model Settings API updates the model in the environment for TimeSeriesIds with the new values provided in the request
 
@@ -142,26 +142,185 @@ Response Body:
 ```
 ### Manage Types
 
-`POST https://api.timeseries.azure.com/timeseries/types/$batch?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/types/$batch?api-version=2018-11-01-preview`
 
 The Post Types API enables batch operations on Types. All operations against this API are HTTP POST operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported opearions are put, update and delete.
 
+#### Get Types
 Request Body:
 ```json
+{
+  "get": {
+    "typeIds": [
+      "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+      "c1cb7a33-ed9b-4cf1-9958-f3162fed8ee8"
+    ],
+    "names": null
+  }
+}
 ```
 
 Response Body:
 ```json
+{
+  "get": [
+    {
+      "timeSeriesType": {
+        "id": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+        "name": "DefaultType",
+        "description": "Default type",
+        "variables": {
+          "EventCount": {
+            "kind": "aggregate",
+            "value": null,
+            "filter": null,
+            "aggregation": {
+              "tsx": "count()"
+            }
+          }
+        }
+      },
+      "error": null
+    },
+    {
+      "timeSeriesType": {
+        "id": "c1cb7a33-ed9b-4cf1-9958-f3162fed8ee8",
+        "name": "TemperatureSensor",
+        "description": "This is a temperature sensor.",
+        "variables": {
+          "AverageTemperature": {
+            "kind": "numeric",
+            "value": {
+              "tsx": "$event.Temperature.Double"
+            },
+            "filter": null,
+            "aggregation": {
+              "tsx": "avg($value)"
+            }
+          }
+        },
+      "error": null
+    }
+  }]
+}
 ```
 
-Continuation Token
+#### Create or Update Types
+Request Body:
+```json
+{
+  "put": [
+    {
+      "id": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+      "name": "DefaultType",
+      "description": "My Default type",
+      "variables": {
+        "EventCount": {
+          "kind": "aggregate",
+          "value": null,
+          "filter": null,
+          "aggregation": {
+            "tsx": "count()"
+          }
+        }
+      }
+    },
+    {
+      "id": "c1cb7a33-ed9b-4cf1-9958-f3162fed8ee8",
+      "name": "OutdoorTemperatureSensor",
+      "description": "This is an outdoor temperature sensor.",
+      "variables": {
+        "AverageTemperature": {
+          "kind": "numeric",
+          "value": {
+            "tsx": "$event.Temperature.Double"
+          },
+          "filter": {
+            "tsx": "$event.Mode.String = 'outdoor'"
+          },
+          "aggregation": {
+            "tsx": "avg($value)"
+          }
+        }
+      }
+  }]
+}
+```
+
+Response Body:
+```json
+{
+  "put": [
+    {
+      "timeSeriesType": {
+        "id": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+        "name": "DefaultType",
+        "description": "My Default type",
+        "variables": {
+          "EventCount": {
+            "kind": "aggregate",
+            "value": null,
+            "filter": null,
+            "aggregation": {
+              "tsx": "count()"
+            }
+          }
+        }
+      },
+      "error": null
+    },
+    {
+      "timeSeriesType": {
+        "id": "c1cb7a33-ed9b-4cf1-9958-f3162fed8ee8",
+        "name": "OutdoorTemperatureSensor",
+        "description": "This is an outdoor temperature sensor.",
+        "variables": {
+          "AverageTemperature": {
+            "kind": "numeric",
+            "value": {
+              "tsx": "$event.Temperature.Double"
+            },
+            "filter": {
+              "tsx": "$event.Mode.String = 'outdoor'"
+            },
+            "aggregation": {
+              "tsx": "avg($value)"
+            }
+          }
+        },
+      "error": null
+    }
+  }]
+}
+```
+
+#### Delete Types
+Request Body:
+```json
+{
+  "delete": {
+    "typeIds": [
+      "9250f816-faed-44c4-88e6-630e5eefa38b"
+    ]
+  }
+}
+```
+
+Response Body:
+```json
+{
+  "delete": [
+    null
+  ]
+}
+```
 
 ## Hierarchies API
 
 The Hierarchies API enable CRUD on Time Series Hierarchies.
 
 ### Get Hierarchies
-`GET https://api.timeseries.azure.com/timeseries/hierarchies/$batch?api-version=2018-11-01-preview`
+`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/hierarchies?api-version=2018-11-01-preview`
 
 The Get Hierarchies API returns all the Time Series Hierarchies matching the request
 
@@ -169,19 +328,163 @@ Request Body: None
 
 Response Body:
 ```json
+{
+  "hierarchies": [
+    {
+      "id": "6e292e54-9a26-4be1-9034-607d71492707",
+      "name": "Location",
+      "source": {
+        "instanceFieldNames": [
+          "state",
+          "city"
+        ]
+      }
+    },
+    {
+      "id": "a28fd14c-6b98-4ab5-9301-3840f142d30e",
+      "name": "ManufactureDate",
+      "source": {
+        "instanceFieldNames": [
+          "year",
+          "month"
+        ]
+      }
+    }
+  ]
+}
 ```
 ### Manage Hierarchies
 
-`POST https://api.timeseries.azure.com/timeseries/hierarchies/$batch?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/hierarchies/$batch?api-version=2018-11-01-preview`
 
 The Post Hierarchies API enables batch operations on Hierarchies. All operations against this API are HTTP POST operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported opearions are put, update and delete.
 
+#### Get Hierarchies
+
 Request Body:
 ```json
+{
+  "get": {
+    "hierarchyIds": [
+      "6e292e54-9a26-4be1-9034-607d71492707",
+      "a28fd14c-6b98-4ab5-9301-3840f142d30e"
+    ]
+  }
+}
 ```
 
 Response Body:
 ```json
+{
+  "get": [
+    {
+      "id": "6e292e54-9a26-4be1-9034-607d71492707",
+      "name": "Location",
+      "source": {
+        "instanceFieldNames": [
+          "state",
+          "city"
+        ]
+      }
+    },
+    {
+      "id": "a28fd14c-6b98-4ab5-9301-3840f142d30e",
+      "name": "ManufactureDate",
+      "source": {
+        "instanceFieldNames": [
+          "year",
+          "month"
+        ]
+      }
+    }
+  ]
+}
+```
+
+#### Create or Update Hierarchies
+
+Request Body:
+```json
+{
+  "put": [
+    {
+      "id": "6e292e54-9a26-4be1-9034-607d71492707",
+      "name": "Location",
+      "source": {
+        "instanceFieldNames": [
+          "state",
+          "city"
+        ]
+      }
+    },
+    {
+      "id": "a28fd14c-6b98-4ab5-9301-3840f142d30e",
+      "name": "ManufactureDate",
+      "source": {
+        "instanceFieldNames": [
+          "year",
+          "month"
+        ]
+      }
+    }
+  ]
+}
+```
+
+Response Body:
+```json
+{
+  "put": [
+    {
+      "hierarchy": {
+        "id": "6e292e54-9a26-4be1-9034-607d71492707",
+        "name": "Location",
+        "source": {
+          "instanceFieldNames": [
+            "state",
+            "city"
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "hierarchy": {
+        "id": "a28fd14c-6b98-4ab5-9301-3840f142d30e",
+        "name": "ManufactureDate",
+        "source": {
+          "instanceFieldNames": [
+            "year",
+            "month"
+          ]
+        }
+      },
+      "error": null
+    }
+  ]
+}
+```
+
+#### Delete Hierarchies
+
+Request Body:
+```json
+{
+  "delete": {
+    "hierarchyIds": [
+      "a28fd14c-6b98-4ab5-9301-3840f142d30e"
+    ]
+  }
+}
+```
+
+Response Body:
+```json
+{
+  "delete": [
+    null
+  ]
+}
 ```
 
 ## Instances API
@@ -189,7 +492,7 @@ Response Body:
 The Instances API enable CRUD on Time Series Instances.
 
 ### Get Instances
-`GET https://api.timeseries.azure.com/timeseries/instances?api-version=2018-11-01-preview`
+`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/instances?api-version=2018-11-01-preview`
 
 The Get Instances API returns all the Time Series Instances matching the request
 
@@ -197,36 +500,211 @@ Request Body: None
 
 Response Body:
 ```json
+{
+  "instances": [
+        {
+            "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+            "timeSeriesId": [
+                "Id1One",
+                "Id2One",
+                1.0
+            ],
+            "description": "floor 100",
+            "hierarchyIds": [
+                "1643004c-0a84-48a5-80e5-7688c5ae9295"
+            ],
+            "instanceFields": {
+                "state": "California",
+                "city": "Los Angeles"
+            }
+        }
+    ],
+    "continuationToken": "aXsic2tpcCI6MSwidGFrZSI6MX0="
+}
 ```
+This API returns at most 1000 instances. To get the next batch of instances, send the same request with header `x-ms-continuation-token` with value from the received response.
 
 ### Discover Instances
 
 #### Suggest
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/instances/suggest?api-version=2018-11-01-preview`
+
+Request:
+```json
+{
+    "searchString": "flo",
+    "take": 100
+}
+```
+
+Response:
+
+```json
+{
+  "suggestions": [
+        {
+            "searchString": "floor 100",
+            "highlightedSearchString": "<hit>flo</hit>or 100"
+        },
+        {
+            "searchString": "sensor on floor 0",
+            "highlightedSearchString": "sensor on <hit>flo</hit>or 0"
+        },
+        {
+            "searchString": "sensor on floor 1",
+            "highlightedSearchString": "sensor on <hit>flo</hit>or 1"
+        }
+    ]
+}
+```
 
 #### Search
-
-`POST https://api.timeseries.azure.com/timeseries/instances/$batch?api-version=2018-11-01-preview`
-
-The Post Instances API enables batch operations on Instances. All operations against this API are HTTP POST operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported opearions are put, update and delete.
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/instances/suggest?api-version=2018-11-01-preview`
 
 Request Body:
 ```json
+{
+    "searchString": "floor 100",
+    "predicate": {
+        "and": [
+            true,
+            false
+        ]
+    }
+}
 ```
 
 Response Body:
 ```json
+{
+  "instances": [
+        {
+            "timeSeriesId": ["Id1One", "Id2One", 1.0],
+            "highlights": {
+                "timeSeriesIds": ["Id1One", "Id2One", 1.0],
+                "type": "DefaultType",
+                "description": "<hit>floor</hit> <hit>100</hit>",
+                "hierarchyIds": [
+                    "1643004c-0a84-48a5-80e5-7688c5ae9295"
+                ],
+                "instanceFieldNames": [
+                    "state",
+                    "city"
+                ],
+                "instanceFieldValues": [
+                    "California",
+                    "Los Angeles"
+                ]
+            }
+        }
+    ],
+    "instancesContinuationToken": null
+}
 ```
 
 ### Manage Instances
 
-`POST https://api.timeseries.azure.com/timeseries/instances/$batch?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/instances/$batch?api-version=2018-11-01-preview`
 
 The Post Instances API enables batch operations on Instances. All operations against this API are HTTP POST operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported opearions are put, update and delete.
 
+#### Get Instances
+
 Request Body:
 ```json
+{
+  "get": [
+    ["Id1One", "Id2One", 1.0]
+  ]
+}
 ```
 
 Response Body:
 ```json
+{
+  "get": {
+    "instance": {
+        "timeSeriesId": ["Id1One", "Id2One", 1.0],
+        "highlights": {
+            "timeSeriesIds": ["Id1One", "Id2One", 1.0],
+            "type": "DefaultType",
+            "description": "<hit>floor</hit> <hit>100</hit>",
+            "hierarchyIds": [
+                "1643004c-0a84-48a5-80e5-7688c5ae9295"
+            ],
+            "instanceFieldNames": null,
+            "instanceFieldValues": null
+        }
+    },
+    "error": null
+  }
+}
+```
+#### Create or Update instances
+
+Request Body:
+```json
+{
+  "put": [
+        {
+            "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+            "timeSeriesId": [
+                "Id1One",
+                "Id2One",
+                1.0
+            ],
+            "description": "This is the temperature sensor 123134.",
+            "instanceFieldNames": [
+                "state",
+                "city"
+            ],
+            "instanceFieldValues": [
+                "California",
+                "Los Angeles"
+            ]
+        }
+    ]
+}
+```
+
+Response Body:
+```json
+{
+    "put": [
+        {
+            "instance": null,
+            "error": null
+        }
+    ]
+}
+```
+
+#### Delete instances
+
+Request Body:
+```json
+{
+    "delete": [
+        [
+            "Id1One",
+            "Id2One",
+            1.0
+        ],
+        [
+            "Id1Two",
+            "Id2Two",
+            2.0
+        ]
+    ]
+}
+```
+
+Response Body:
+```json
+{
+  "delete": [
+        null,
+        null
+      ]
+}
 ```
