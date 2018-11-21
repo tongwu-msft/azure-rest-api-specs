@@ -42,9 +42,9 @@ Azure Storage accepts OAuth 2.0 access tokens from the Azure AD tenant associate
 - Managed service identities
 - Applications using permissions delegated by users 
 
-Azure storage exposes a single delegation scope named `user_impersonation` that permits applications to take any action allowed by the user.
+Azure Storage exposes a single delegation scope named `user_impersonation` that permits applications to take any action allowed by the user.
 
-To request tokens for Azure storage, specify the value `https://storage.azure.com/` for the Resource ID.
+To request tokens for Azure Storage, specify the value `https://storage.azure.com/` for the Resource ID.
 
 For more information on requesting access tokens from Azure AD for users and service principals, see [Authentication scenarios for Azure AD](https://docs.microsoft.com/azure/active-directory/develop/active-directory-authentication-scenarios).
 
