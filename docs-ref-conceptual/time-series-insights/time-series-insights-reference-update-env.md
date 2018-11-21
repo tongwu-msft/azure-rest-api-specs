@@ -25,7 +25,7 @@ To better understand the API calls described in this document, see [Azure Time S
 
 ## Get Environments API
 
-`GET https://api.timeseries.azure.com/environments?api-version=2016-12-12`
+`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/environments?api-version=2016-12-12`
 
 The Get Environments API returns the list of environments that the caller is authorized to access.
 
@@ -56,7 +56,7 @@ Here, `environmentFqdn` is unique fully qualified domain name for environment us
 
 ## Get Environment Availability API
 
-`GET https://<environmentFqdn>/availability?api-version=2018-11-01-preview`
+`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/availability?api-version=2018-11-01-preview`
 
 The get Environments Availability API returns the distribution of event count over the event timestamp `$ts`. This API can be used to provide landing experience of navigating to the environment.
 
@@ -87,7 +87,7 @@ An empty object is returned for environments with no events. Environment availab
 
 **Example:** If the property name is **'temperature'** and datatype is **'double'** in the event, it will be stored as **'temperature_double'**. This is the same format we use in the generated parquet files.
 
-`POST https://<environmentFqdn>/eventSchema?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/eventSchema?api-version=2018-11-01-preview`
 
 
 The Get Event Schema API returns environment metadata for a given search span. Event Schema is returned as a set of property references.

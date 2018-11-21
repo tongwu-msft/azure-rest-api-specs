@@ -78,7 +78,7 @@ Response headers:
 
 ## Get Events API
 
-`POST https://<environmentFqdn>/events?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/events?api-version=2018-11-01-preview`
 
 The Get Events API returns a list of raw events matching the search span and predicate.
 
@@ -98,9 +98,9 @@ Request Body:
         "from": {"dateTime": "2016-08-01T00:00:00Z"},
         "to": {"dateTime": "2016-08-01T00:16:50Z"}
     },
-    "filter": { "tsx": "($event.Value_double != null) OR ($event.Status_string == 'Good')"
+    "filter": { "tsx": "($event.Value.Double != null) OR ($event.Status.String == 'Good')"
     },
-    "projectedProperties": ["Building_string","Temperature_double"]
+    "projectedProperties": ["Building","Temperature"]
  }
 ```
 
@@ -121,7 +121,7 @@ Response Body:
   ],
   "properties": [
     {
-      "name": "Building_string",
+      "name": "Building",
       "type": "String",
       "values": [
         "Millenium",
@@ -137,7 +137,7 @@ Response Body:
       ]
     },
     {
-      "name": "Temperature_double",
+      "name": "Temperature",
       "type": "Double",
       "values": [
         65.125,
@@ -160,7 +160,7 @@ Events can not be sorted at this time.
 
 ## Get Series API
 
-`POST https://<environmentFqdn>/aggregates?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/aggregates?api-version=2018-11-01-preview`
 
 The Get Series API enables query and retrieval of Time Series Insights data from captured events by leveraging data recorded on the wire using the variables define in model or provided inline. Please note if interpolation and aggregation clause is provided in variable, or interval is specified, it will be ignored.
 
@@ -185,7 +185,7 @@ Request Body:
     "inlineVariables": {
         "temperatures": {
             "kind": "numeric",
-            "value": { "tsx": "$event.Temperature_double"},
+            "value": { "tsx": "$event.Temperature"},
             "filter": null,
             "aggregation": null
         }
@@ -232,11 +232,11 @@ Response Body:
 }
 ```
 
-Inline varibales can override variable defintion stored in model part of types.
+Inline variables can override variable definition stored in model part of types.
 
 ## Aggregate Series API
 
-`POST https://<environmentFqdn>/aggregates?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/aggregates?api-version=2018-11-01-preview`
 
 The Aggregate Series API enables query and retrieval of Time Series Insights data from captured events by aggregating recorded data using the aggregate or sample functions. 
 
@@ -269,13 +269,13 @@ Request Body:
         },
         "MinTemperature": {
             "kind": "numeric",
-            "value": {"tsx": "$event.Temperature_double"},
+            "value": {"tsx": "$event.Temperature"},
             "filter": null,
             "aggregation": {"tsx": "min($value)"}
         },
         "MaxTemperature": {
             "kind": "numeric",
-            "value": {"tsx": "$event.Temperature_double"},
+            "value": {"tsx": "$event.Temperature"},
             "filter": null,
             "aggregation": {"tsx": "max($value)"}
         }
@@ -373,7 +373,7 @@ Response Body:
 }
 ```
 
-Inline varibales can override variable defintion stored in model part of types.
+Inline variables can override variable definition stored in model part of types.
 
 ## Limits
 
@@ -410,17 +410,17 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 | 400 | InvalidApiVersion | API version '2016' is not supported. Supported versions are '2016-12-12', '2018-11-01-preview'. | - |
 | 400 | InvalidUrl | The request URL '/a/b' could not be parsed. | - |
 | 400 | InvalidInput | The given query 'aggregate' is not valid. Supported queries are 'getEvents','getSeries','aggregateSeries'. | InvalidQueryType |
-| 400 | InvalidInput | The '$event.temperature_double > 0' time series expression in 'projectedVariables.temperature.value' is not a valid property reference expression. | InvalidPropertyReferenceExpression |
-| 400 | InvalidInput | The '$event.temperature_double' time series expression in 'projectedVariables.temperature.filter' is invalid. It can only be a predicate expression that returns a boolean. | InvalidPredicateExpression |
-| 400 | InvalidInput | The '$event.temperature_double' time series expression in 'projectedVariables.temperature.aggregation' is invalid. It did not contain an aggregate expression. | InvalidAggregateExpression |
-| 400 | InvalidInput | The '$event.temperature_double > 0' time series expression in 'projectedVariables.temperature.value' is not a valid value expression of type 'numeric'. | InvalidValueExpression |
+| 400 | InvalidInput | The '$event.temperature.Double > 0' time series expression in 'projectedVariables.temperature.value' is not a valid property reference expression. | InvalidPropertyReferenceExpression |
+| 400 | InvalidInput | The '$event.temperature.Double' time series expression in 'projectedVariables.temperature.filter' is invalid. It can only be a predicate expression that returns a boolean. | InvalidPredicateExpression |
+| 400 | InvalidInput | The '$event.temperature.Double' time series expression in 'projectedVariables.temperature.aggregation' is invalid. It did not contain an aggregate expression. | InvalidAggregateExpression |
+| 400 | InvalidInput | The '$event.temperature.Double > 0' time series expression in 'projectedVariables.temperature.value' is not a valid value expression of type 'numeric'. | InvalidValueExpression |
 | 400 | InvalidInput | The value time series expression in 'projectedVariables.temperature.value' should not be specified or should be null for variable of kind 'aggregate'. | ValueExpressionShouldNotBeSpecified |
 | 400 | InvalidInput | The value time series expression in 'projectedVariables.temperature.value' should be specified for variable kind 'numeric'. | ValueExpressionShouldBeSpecified |
 | 400 | InvalidInput | The variable kind 'aggregate' is invalid for expression 'min($value)' in 'projectedVariables.temperature.aggregation' . | InvalidVariableKind |
 | 400 | InvalidInput | The timespan '00.00:01' in 'interval' is not a valid ISO8601 timespan format. | InvalidTimeSpanFormat |
 | 400 | InvalidInput | The instance with timeSeriesId '[\"ABC123\"]' is not found. | InstanceNotFound |
 | 400 | InvalidInput | The instance with timeSeriesId '[\"ABC321\"]' cannot be deleted. There is already ingested events associated with this time series id. | CannotDeleteInstance |
-| 400 | InvalidInput | The environment with id '5e19f688-83fb-4aee-8321-5c123ed016b7' does not suppport time series query APIs. | TimeSeriesQueryNotSupported |
+| 400 | InvalidInput | The environment with id '5e19f688-83fb-4aee-8321-5c123ed016b7' does not support time series query APIs. | TimeSeriesQueryNotSupported |
 | 400 | InvalidInput | The projected variable with name 'temperature' was not found in the type or inline variable definitions. | ProjectedVariableNotFound |
 | 400 | InvalidInput | Unable to upsert type with id '7e19g688-83fb-4aee-8321-5c123ed016b7' and name 'ABC123'. This name is already used by type with id '6e19g688-83fb-4aee-8321-5c123ed016b7'. | NameAlreadyExists |
 | 400 | InvalidInput | Unable to upsert hierarchy with id '4e19g688-83fb-4aee-8321-7c123ed016b7' and name 'XYZ123'. This name is already used by hierarchy with id '8e39g688-83fb-4aee-8321-5c123ed016b7'. | HierarchyNotDefined |
