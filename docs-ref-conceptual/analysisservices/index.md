@@ -2,7 +2,7 @@
 ms.assetid: 6f3911f9-189d-4713-9a29-881b4b3d70fa
 ms.title: Azure Analysis Services REST API reference | Microsoft Docs
 ms.service: analysis-services
-ms.date: 08/27/2018
+ms.date: 11/26/2018
 author: minewiskan
 ms.author: owend
 ms.manager: kfile
@@ -19,4 +19,5 @@ The Analysis Services REST API provides operations for working with the followin
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
+| [Operations](xref:management.azure.com.analysisservices.operations)| A single Lists operation lists available consumption REST API operations.|
 | [Servers](xref:management.azure.com.analysisservices.servers) | Provides operations for provisioning and managing Analysis Services servers. |
