@@ -1,6 +1,7 @@
 ---
 title: "Resolve Service"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -86,7 +87,11 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Partition key. This is required if the partition scheme for the service is Int64Range or Named.
+Partition key. This is required if the partition scheme for the service is Int64Range or Named. 
+This is not the partition ID, but rather, either the integer key value, or the name of the partition ID.
+For example, if your service is using ranged partitions from 0 to 10, then they PartitionKeyValue would be an
+integer in that range. Query service description to see the range or name.
+
 
 ____
 ### `PreviousRspVersion`

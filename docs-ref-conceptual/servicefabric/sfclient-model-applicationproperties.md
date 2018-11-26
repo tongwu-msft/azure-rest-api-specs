@@ -1,6 +1,7 @@
 ---
 title: "ApplicationProperties"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -28,20 +29,20 @@ translation.priority.mt:
 ---
 # ApplicationProperties
 
-This type describes properties of an application resource.
+Describes properties of a application resource.
 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
 | [`description`](#description) | string | No |
-| [`debugParams`](#debugparams) | string | No |
 | [`services`](#services) | array of [ServiceResourceDescription](sfclient-model-serviceresourcedescription.md) | No |
-| [`healthState`](#healthstate) | string (enum) | No |
-| [`unhealthyEvaluation`](#unhealthyevaluation) | string | No |
+| [`diagnostics`](#diagnostics) | [DiagnosticsDescription](sfclient-model-diagnosticsdescription.md) | No |
+| [`debugParams`](#debugparams) | string | No |
+| [`serviceNames`](#servicenames) | array of string | No |
 | [`status`](#status) | string (enum) | No |
 | [`statusDetails`](#statusdetails) | string | No |
-| [`serviceNames`](#servicenames) | array of string | No |
-| [`diagnostics`](#diagnostics) | [DiagnosticsDescription](sfclient-model-diagnosticsdescription.md) | No |
+| [`healthState`](#healthstate) | string (enum) | No |
+| [`unhealthyEvaluation`](#unhealthyevaluation) | string | No |
 
 ____
 ### `description`
@@ -51,18 +52,59 @@ __Required__: No<br/>
 User readable description of the application.
 
 ____
-### `debugParams`
-__Type__: string <br/>
-__Required__: No<br/>
-<br/>
-Internal use.
-
-____
 ### `services`
 __Type__: array of [ServiceResourceDescription](sfclient-model-serviceresourcedescription.md) <br/>
 __Required__: No<br/>
 <br/>
-describes the services in the application.
+Describes the services in the application. This property is used to create or modify services of the application. On get only the name of the service is returned. The service description can be obtained by querying for the service resource.
+
+____
+### `diagnostics`
+__Type__: [DiagnosticsDescription](sfclient-model-diagnosticsdescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Describes the diagnostics definition and usage for an application resource.
+
+____
+### `debugParams`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+Internal - used by Visual Studio to setup the debugging session on the local development environment.
+
+____
+### `serviceNames`
+__Type__: array of string <br/>
+__Required__: No<br/>
+<br/>
+Names of the services in the application.
+
+____
+### `status`
+__Type__: string (enum) <br/>
+__Required__: No<br/>
+<br/>
+Status of the application.
+
+Status of the resource.
+
+Possible values are: 
+
+  - `Unknown` - Indicates the resource status is unknown. The value is zero.
+  - `Ready` - Indicates the resource is ready. The value is 1.
+  - `Upgrading` - Indicates the resource is upgrading. The value is 2.
+  - `Creating` - Indicates the resource is being created. The value is 3.
+  - `Deleting` - Indicates the resource is being deletd. The value is 4.
+  - `Failed` - Indicates the resource is not functional due to persistent failures. See statusDetails property for more details. The value is 5.
+
+
+
+____
+### `statusDetails`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+Gives additional information about the current status of the application.
 
 ____
 ### `healthState`
@@ -89,34 +131,3 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 When the application's health state is not 'Ok', this additional details from service fabric Health Manager for the user to know why the application is marked unhealthy.
-
-____
-### `status`
-__Type__: string (enum) <br/>
-__Required__: No<br/>
-<br/>
-Status of the application resource.
-
-
-
-
-____
-### `statusDetails`
-__Type__: string <br/>
-__Required__: No<br/>
-<br/>
-Gives additional information about the current status of the application deployment.
-
-____
-### `serviceNames`
-__Type__: array of string <br/>
-__Required__: No<br/>
-<br/>
-Names of the services in the application.
-
-____
-### `diagnostics`
-__Type__: [DiagnosticsDescription](sfclient-model-diagnosticsdescription.md) <br/>
-__Required__: No<br/>
-<br/>
-Describes the diagnostics definition and usage for an application resource.

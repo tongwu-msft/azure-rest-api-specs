@@ -1,6 +1,7 @@
 ---
 title: "Cancel Operation"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -81,7 +82,7 @@ __Type__: boolean <br/>
 __Required__: Yes<br/>
 __Default__: `false` <br/>
 <br/>
-Indicates whether to gracefully rollback and clean up internal system state modified by executing the user-induced operation.
+Indicates whether to gracefully roll back and clean up internal system state modified by executing the user-induced operation.
 
 ____
 ### `timeout`

@@ -1,6 +1,7 @@
 ---
 title: "FabricEvent"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -47,63 +48,57 @@ The following table lists the value of the `Kind` property and corresponding der
 | ServiceEvent | [ServiceEvent](sfclient-model-serviceevent.md) |
 | ApplicationCreated | [ApplicationCreatedEvent](sfclient-model-applicationcreatedevent.md) |
 | ApplicationDeleted | [ApplicationDeletedEvent](sfclient-model-applicationdeletedevent.md) |
-| ApplicationHealthReportCreated | [ApplicationHealthReportCreatedEvent](sfclient-model-applicationhealthreportcreatedevent.md) |
+| ApplicationNewHealthReport | [ApplicationNewHealthReportEvent](sfclient-model-applicationnewhealthreportevent.md) |
 | ApplicationHealthReportExpired | [ApplicationHealthReportExpiredEvent](sfclient-model-applicationhealthreportexpiredevent.md) |
-| ApplicationUpgradeComplete | [ApplicationUpgradeCompleteEvent](sfclient-model-applicationupgradecompleteevent.md) |
-| ApplicationUpgradeDomainComplete | [ApplicationUpgradeDomainCompleteEvent](sfclient-model-applicationupgradedomaincompleteevent.md) |
-| ApplicationUpgradeRollbackComplete | [ApplicationUpgradeRollbackCompleteEvent](sfclient-model-applicationupgraderollbackcompleteevent.md) |
-| ApplicationUpgradeRollbackStart | [ApplicationUpgradeRollbackStartEvent](sfclient-model-applicationupgraderollbackstartevent.md) |
-| ApplicationUpgradeStart | [ApplicationUpgradeStartEvent](sfclient-model-applicationupgradestartevent.md) |
-| DeployedApplicationHealthReportCreated | [DeployedApplicationHealthReportCreatedEvent](sfclient-model-deployedapplicationhealthreportcreatedevent.md) |
+| ApplicationUpgradeCompleted | [ApplicationUpgradeCompletedEvent](sfclient-model-applicationupgradecompletedevent.md) |
+| ApplicationUpgradeDomainCompleted | [ApplicationUpgradeDomainCompletedEvent](sfclient-model-applicationupgradedomaincompletedevent.md) |
+| ApplicationUpgradeRollbackCompleted | [ApplicationUpgradeRollbackCompletedEvent](sfclient-model-applicationupgraderollbackcompletedevent.md) |
+| ApplicationUpgradeRollbackStarted | [ApplicationUpgradeRollbackStartedEvent](sfclient-model-applicationupgraderollbackstartedevent.md) |
+| ApplicationUpgradeStarted | [ApplicationUpgradeStartedEvent](sfclient-model-applicationupgradestartedevent.md) |
+| DeployedApplicationNewHealthReport | [DeployedApplicationNewHealthReportEvent](sfclient-model-deployedapplicationnewhealthreportevent.md) |
 | DeployedApplicationHealthReportExpired | [DeployedApplicationHealthReportExpiredEvent](sfclient-model-deployedapplicationhealthreportexpiredevent.md) |
-| ProcessDeactivated | [ProcessDeactivatedEvent](sfclient-model-processdeactivatedevent.md) |
-| ContainerDeactivated | [ContainerDeactivatedEvent](sfclient-model-containerdeactivatedevent.md) |
-| DeployedServiceHealthReportCreated | [DeployedServiceHealthReportCreatedEvent](sfclient-model-deployedservicehealthreportcreatedevent.md) |
-| DeployedServiceHealthReportExpired | [DeployedServiceHealthReportExpiredEvent](sfclient-model-deployedservicehealthreportexpiredevent.md) |
-| ChaosRestartCodePackageFaultScheduled | [ChaosRestartCodePackageFaultScheduledEvent](sfclient-model-chaosrestartcodepackagefaultscheduledevent.md) |
-| ChaosRestartCodePackageFaultCompleted | [ChaosRestartCodePackageFaultCompletedEvent](sfclient-model-chaosrestartcodepackagefaultcompletedevent.md) |
-| ClusterHealthReportCreated | [ClusterHealthReportCreatedEvent](sfclient-model-clusterhealthreportcreatedevent.md) |
+| ApplicationProcessExited | [ApplicationProcessExitedEvent](sfclient-model-applicationprocessexitedevent.md) |
+| ApplicationContainerInstanceExited | [ApplicationContainerInstanceExitedEvent](sfclient-model-applicationcontainerinstanceexitedevent.md) |
+| DeployedServicePackageNewHealthReport | [DeployedServicePackageNewHealthReportEvent](sfclient-model-deployedservicepackagenewhealthreportevent.md) |
+| DeployedServicePackageHealthReportExpired | [DeployedServicePackageHealthReportExpiredEvent](sfclient-model-deployedservicepackagehealthreportexpiredevent.md) |
+| ChaosCodePackageRestartScheduled | [ChaosCodePackageRestartScheduledEvent](sfclient-model-chaoscodepackagerestartscheduledevent.md) |
+| ClusterNewHealthReport | [ClusterNewHealthReportEvent](sfclient-model-clusternewhealthreportevent.md) |
 | ClusterHealthReportExpired | [ClusterHealthReportExpiredEvent](sfclient-model-clusterhealthreportexpiredevent.md) |
-| ClusterUpgradeComplete | [ClusterUpgradeCompleteEvent](sfclient-model-clusterupgradecompleteevent.md) |
-| ClusterUpgradeDomainComplete | [ClusterUpgradeDomainCompleteEvent](sfclient-model-clusterupgradedomaincompleteevent.md) |
-| ClusterUpgradeRollbackComplete | [ClusterUpgradeRollbackCompleteEvent](sfclient-model-clusterupgraderollbackcompleteevent.md) |
-| ClusterUpgradeRollbackStart | [ClusterUpgradeRollbackStartEvent](sfclient-model-clusterupgraderollbackstartevent.md) |
-| ClusterUpgradeStart | [ClusterUpgradeStartEvent](sfclient-model-clusterupgradestartevent.md) |
+| ClusterUpgradeCompleted | [ClusterUpgradeCompletedEvent](sfclient-model-clusterupgradecompletedevent.md) |
+| ClusterUpgradeDomainCompleted | [ClusterUpgradeDomainCompletedEvent](sfclient-model-clusterupgradedomaincompletedevent.md) |
+| ClusterUpgradeRollbackCompleted | [ClusterUpgradeRollbackCompletedEvent](sfclient-model-clusterupgraderollbackcompletedevent.md) |
+| ClusterUpgradeRollbackStarted | [ClusterUpgradeRollbackStartedEvent](sfclient-model-clusterupgraderollbackstartedevent.md) |
+| ClusterUpgradeStarted | [ClusterUpgradeStartedEvent](sfclient-model-clusterupgradestartedevent.md) |
 | ChaosStopped | [ChaosStoppedEvent](sfclient-model-chaosstoppedevent.md) |
 | ChaosStarted | [ChaosStartedEvent](sfclient-model-chaosstartedevent.md) |
 | NodeAborted | [NodeAbortedEvent](sfclient-model-nodeabortedevent.md) |
-| NodeAborting | [NodeAbortingEvent](sfclient-model-nodeabortingevent.md) |
-| NodeAdded | [NodeAddedEvent](sfclient-model-nodeaddedevent.md) |
-| NodeClose | [NodeCloseEvent](sfclient-model-nodecloseevent.md) |
-| NodeClosing | [NodeClosingEvent](sfclient-model-nodeclosingevent.md) |
-| NodeDeactivateComplete | [NodeDeactivateCompleteEvent](sfclient-model-nodedeactivatecompleteevent.md) |
-| NodeDeactivateStart | [NodeDeactivateStartEvent](sfclient-model-nodedeactivatestartevent.md) |
+| NodeAddedToCluster | [NodeAddedToClusterEvent](sfclient-model-nodeaddedtoclusterevent.md) |
+| NodeClosed | [NodeClosedEvent](sfclient-model-nodeclosedevent.md) |
+| NodeDeactivateCompleted | [NodeDeactivateCompletedEvent](sfclient-model-nodedeactivatecompletedevent.md) |
+| NodeDeactivateStarted | [NodeDeactivateStartedEvent](sfclient-model-nodedeactivatestartedevent.md) |
 | NodeDown | [NodeDownEvent](sfclient-model-nodedownevent.md) |
-| NodeHealthReportCreated | [NodeHealthReportCreatedEvent](sfclient-model-nodehealthreportcreatedevent.md) |
+| NodeNewHealthReport | [NodeNewHealthReportEvent](sfclient-model-nodenewhealthreportevent.md) |
 | NodeHealthReportExpired | [NodeHealthReportExpiredEvent](sfclient-model-nodehealthreportexpiredevent.md) |
-| NodeOpenedSuccess | [NodeOpenedSuccessEvent](sfclient-model-nodeopenedsuccessevent.md) |
+| NodeOpenSucceeded | [NodeOpenSucceededEvent](sfclient-model-nodeopensucceededevent.md) |
 | NodeOpenFailed | [NodeOpenFailedEvent](sfclient-model-nodeopenfailedevent.md) |
-| NodeOpening | [NodeOpeningEvent](sfclient-model-nodeopeningevent.md) |
-| NodeRemoved | [NodeRemovedEvent](sfclient-model-noderemovedevent.md) |
+| NodeRemovedFromCluster | [NodeRemovedFromClusterEvent](sfclient-model-noderemovedfromclusterevent.md) |
 | NodeUp | [NodeUpEvent](sfclient-model-nodeupevent.md) |
-| ChaosRestartNodeFaultCompleted | [ChaosRestartNodeFaultCompletedEvent](sfclient-model-chaosrestartnodefaultcompletedevent.md) |
-| ChaosRestartNodeFaultScheduled | [ChaosRestartNodeFaultScheduledEvent](sfclient-model-chaosrestartnodefaultscheduledevent.md) |
+| ChaosNodeRestartScheduled | [ChaosNodeRestartScheduledEvent](sfclient-model-chaosnoderestartscheduledevent.md) |
 | PartitionAnalysisEvent | [PartitionAnalysisEvent](sfclient-model-partitionanalysisevent.md) |
-| PartitionHealthReportCreated | [PartitionHealthReportCreatedEvent](sfclient-model-partitionhealthreportcreatedevent.md) |
+| PartitionNewHealthReport | [PartitionNewHealthReportEvent](sfclient-model-partitionnewhealthreportevent.md) |
 | PartitionHealthReportExpired | [PartitionHealthReportExpiredEvent](sfclient-model-partitionhealthreportexpiredevent.md) |
-| PartitionReconfigurationCompleted | [PartitionReconfigurationCompletedEvent](sfclient-model-partitionreconfigurationcompletedevent.md) |
-| ChaosMoveSecondaryFaultScheduled | [ChaosMoveSecondaryFaultScheduledEvent](sfclient-model-chaosmovesecondaryfaultscheduledevent.md) |
-| ChaosMovePrimaryFaultScheduled | [ChaosMovePrimaryFaultScheduledEvent](sfclient-model-chaosmoveprimaryfaultscheduledevent.md) |
+| PartitionReconfigured | [PartitionReconfiguredEvent](sfclient-model-partitionreconfiguredevent.md) |
+| ChaosPartitionSecondaryMoveScheduled | [ChaosPartitionSecondaryMoveScheduledEvent](sfclient-model-chaospartitionsecondarymovescheduledevent.md) |
+| ChaosPartitionPrimaryMoveScheduled | [ChaosPartitionPrimaryMoveScheduledEvent](sfclient-model-chaospartitionprimarymovescheduledevent.md) |
 | PartitionPrimaryMoveAnalysis | [PartitionPrimaryMoveAnalysisEvent](sfclient-model-partitionprimarymoveanalysisevent.md) |
-| StatefulReplicaHealthReportCreated | [StatefulReplicaHealthReportCreatedEvent](sfclient-model-statefulreplicahealthreportcreatedevent.md) |
+| StatefulReplicaNewHealthReport | [StatefulReplicaNewHealthReportEvent](sfclient-model-statefulreplicanewhealthreportevent.md) |
 | StatefulReplicaHealthReportExpired | [StatefulReplicaHealthReportExpiredEvent](sfclient-model-statefulreplicahealthreportexpiredevent.md) |
-| StatelessReplicaHealthReportCreated | [StatelessReplicaHealthReportCreatedEvent](sfclient-model-statelessreplicahealthreportcreatedevent.md) |
+| StatelessReplicaNewHealthReport | [StatelessReplicaNewHealthReportEvent](sfclient-model-statelessreplicanewhealthreportevent.md) |
 | StatelessReplicaHealthReportExpired | [StatelessReplicaHealthReportExpiredEvent](sfclient-model-statelessreplicahealthreportexpiredevent.md) |
-| ChaosRemoveReplicaFaultScheduled | [ChaosRemoveReplicaFaultScheduledEvent](sfclient-model-chaosremovereplicafaultscheduledevent.md) |
-| ChaosRemoveReplicaFaultCompleted | [ChaosRemoveReplicaFaultCompletedEvent](sfclient-model-chaosremovereplicafaultcompletedevent.md) |
-| ChaosRestartReplicaFaultScheduled | [ChaosRestartReplicaFaultScheduledEvent](sfclient-model-chaosrestartreplicafaultscheduledevent.md) |
+| ChaosReplicaRemovalScheduled | [ChaosReplicaRemovalScheduledEvent](sfclient-model-chaosreplicaremovalscheduledevent.md) |
+| ChaosReplicaRestartScheduled | [ChaosReplicaRestartScheduledEvent](sfclient-model-chaosreplicarestartscheduledevent.md) |
 | ServiceCreated | [ServiceCreatedEvent](sfclient-model-servicecreatedevent.md) |
 | ServiceDeleted | [ServiceDeletedEvent](sfclient-model-servicedeletedevent.md) |
-| ServiceHealthReportCreated | [ServiceHealthReportCreatedEvent](sfclient-model-servicehealthreportcreatedevent.md) |
+| ServiceNewHealthReport | [ServiceNewHealthReportEvent](sfclient-model-servicenewhealthreportevent.md) |
 | ServiceHealthReportExpired | [ServiceHealthReportExpiredEvent](sfclient-model-servicehealthreportexpiredevent.md) |
 

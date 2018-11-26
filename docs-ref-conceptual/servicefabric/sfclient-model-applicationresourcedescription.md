@@ -1,6 +1,7 @@
 ---
 title: "ApplicationResourceDescription"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -28,25 +29,24 @@ translation.priority.mt:
 ---
 # ApplicationResourceDescription
 
-Describes a service fabric application resource.
+This type describes a application resource.
 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`properties`](#properties) | [ApplicationProperties](sfclient-model-applicationproperties.md) | Yes |
 | [`name`](#name) | string | Yes |
-
-____
-### `properties`
-__Type__: [ApplicationProperties](sfclient-model-applicationproperties.md) <br/>
-__Required__: Yes<br/>
-<br/>
-This type describes properties of an application resource.
+| [`properties`](#properties) | [ApplicationProperties](sfclient-model-applicationproperties.md) | Yes |
 
 ____
 ### `name`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-Application resource name.
+Name of the Application resource.
 
+____
+### `properties`
+__Type__: [ApplicationProperties](sfclient-model-applicationproperties.md) <br/>
+__Required__: Yes<br/>
+<br/>
+Describes properties of a application resource.

@@ -1,6 +1,7 @@
 ---
 title: "PagedServiceResourceDescriptionList"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -28,7 +29,7 @@ translation.priority.mt:
 ---
 # PagedServiceResourceDescriptionList
 
-The list of service resources in the cluster. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.
+The list of service resources. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.
 
 ## Properties
 | Name | Type | Required |
@@ -48,4 +49,4 @@ ____
 __Type__: array of [ServiceResourceDescription](sfclient-model-serviceresourcedescription.md) <br/>
 __Required__: No<br/>
 <br/>
-List of service resource description.
+One page of the list.

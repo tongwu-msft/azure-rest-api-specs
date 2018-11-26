@@ -1,6 +1,7 @@
 ---
 title: "Models"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -34,10 +35,12 @@ translation.priority.mt:
 | [AadMetadata](sfclient-model-aadmetadata.md) | Azure Active Directory metadata used for secured connection to cluster.<br/> |
 | [AadMetadataObject](sfclient-model-aadmetadataobject.md) | Azure Active Directory metadata object used for secured connection to cluster.<br/> |
 | [AddRemoveIncrementalNamedPartitionScalingMechanism](sfclient-model-addremoveincrementalnamedpartitionscalingmechanism.md) | Represents a scaling mechanism for adding or removing named partitions of a stateless service. Partition names are in the format '0','1''N-1'<br/> |
+| [AddRemoveReplicaScalingMechanism](sfclient-model-addremovereplicascalingmechanism.md) | Describes the horizontal auto scaling mechanism that adds or removes replicas (containers or container groups).<br/> |
 | [AnalysisEventMetadata](sfclient-model-analysiseventmetadata.md) | Metadata about an Analysis Event.<br/> |
 | [ApplicationBackupConfigurationInfo](sfclient-model-applicationbackupconfigurationinfo.md) | Backup configuration information for a specific Service Fabric application specifying what backup policy is being applied and suspend description, if any.<br/> |
 | [ApplicationBackupEntity](sfclient-model-applicationbackupentity.md) | Identifies the Service Fabric application which is being backed up.<br/> |
 | [ApplicationCapacityDescription](sfclient-model-applicationcapacitydescription.md) | Describes capacity information for services of this application. This description can be used for describing the following.<br/>- Reserving the capacity for the services on the nodes<br/>- Limiting the total number of nodes that services of this application can run on<br/>- Limiting the custom capacity metrics to limit the total consumption of this metric by the services of this application<br/> |
+| [ApplicationContainerInstanceExitedEvent](sfclient-model-applicationcontainerinstanceexitedevent.md) | Container Exited event.<br/> |
 | [ApplicationCreatedEvent](sfclient-model-applicationcreatedevent.md) | Application Created event.<br/> |
 | [ApplicationDefinitionKind enum](sfclient-model-applicationdefinitionkind.md) | The mechanism used to define a Service Fabric application.<br/> |
 | [ApplicationDeletedEvent](sfclient-model-applicationdeletedevent.md) | Application Deleted event.<br/> |
@@ -48,7 +51,6 @@ translation.priority.mt:
 | [ApplicationHealthPolicies](sfclient-model-applicationhealthpolicies.md) | Defines the application health policy map used to evaluate the health of an application or one of its children entities.<br/> |
 | [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) | Defines a health policy used to evaluate the health of an application or one of its children entities.<br/> |
 | [ApplicationHealthPolicyMapItem](sfclient-model-applicationhealthpolicymapitem.md) | Defines an item in ApplicationHealthPolicyMap.<br/> |
-| [ApplicationHealthReportCreatedEvent](sfclient-model-applicationhealthreportcreatedevent.md) | Application Health Report Created event.<br/> |
 | [ApplicationHealthReportExpiredEvent](sfclient-model-applicationhealthreportexpiredevent.md) | Application Health Report Expired event.<br/> |
 | [ApplicationHealthState](sfclient-model-applicationhealthstate.md) | Represents the health state of an application, which contains the application identifier and the aggregated health state.<br/> |
 | [ApplicationHealthStateChunk](sfclient-model-applicationhealthstatechunk.md) | Represents the health state chunk of a application.<br/>The application health state chunk contains the application name, its aggregated health state and any children services and deployed applications that respect the filters in cluster health chunk query description.<br/> |
@@ -58,11 +60,16 @@ translation.priority.mt:
 | [ApplicationLoadInfo](sfclient-model-applicationloadinfo.md) | Load Information about a Service Fabric application.<br/> |
 | [ApplicationMetricDescription](sfclient-model-applicationmetricdescription.md) | Describes capacity information for a custom resource balancing metric. This can be used to limit the total consumption of this metric by the services of this application.<br/> |
 | [ApplicationNameInfo](sfclient-model-applicationnameinfo.md) | Information about the application name.<br/> |
+| [ApplicationNewHealthReportEvent](sfclient-model-applicationnewhealthreportevent.md) | Application Health Report Created event.<br/> |
 | [ApplicationPackageCleanupPolicy enum](sfclient-model-applicationpackagecleanuppolicy.md) | The kind of action that needs to be taken for cleaning up the application package after successful provision.<br/> |
 | [ApplicationParameter](sfclient-model-applicationparameter.md) | Describes an application parameter override to be applied when creating or upgrading an application.<br/> |
-| [ApplicationProperties](sfclient-model-applicationproperties.md) | This type describes properties of an application resource.<br/> |
-| [ApplicationResourceDescription](sfclient-model-applicationresourcedescription.md) | Describes a service fabric application resource.<br/> |
-| [ApplicationResourceStatus enum](sfclient-model-applicationresourcestatus.md) | Possible values include: 'Invalid', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'<br/> |
+| [ApplicationProcessExitedEvent](sfclient-model-applicationprocessexitedevent.md) | Process Exited event.<br/> |
+| [ApplicationProperties](sfclient-model-applicationproperties.md) | Describes properties of a application resource.<br/> |
+| [ApplicationResourceDescription](sfclient-model-applicationresourcedescription.md) | This type describes a application resource.<br/> |
+| [ApplicationScopedVolume](sfclient-model-applicationscopedvolume.md) | Describes a volume whose lifetime is scoped to the application's lifetime.<br/> |
+| [ApplicationScopedVolumeCreationParameters](sfclient-model-applicationscopedvolumecreationparameters.md) | Describes parameters for creating application-scoped volumes.<br/> |
+| [ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk](sfclient-model-applicationscopedvolumecreationparametersservicefabricvolumedisk.md) | Describes parameters for creating application-scoped volumes provided by Service Fabric Volume Disks<br/> |
+| [ApplicationScopedVolumeKind enum](sfclient-model-applicationscopedvolumekind.md) | Specifies the application-scoped volume kind.<br/> |
 | [ApplicationsHealthEvaluation](sfclient-model-applicationshealthevaluation.md) | Represents health evaluation for applications, containing health evaluations for each unhealthy application that impacted current aggregated health state.<br/> |
 | [ApplicationStatus enum](sfclient-model-applicationstatus.md) | The status of the application.<br/> |
 | [ApplicationTypeApplicationsHealthEvaluation](sfclient-model-applicationtypeapplicationshealthevaluation.md) | Represents health evaluation for applications of a particular application type. The application type applications evaluation can be returned when cluster health evaluation returns unhealthy aggregated health state, either Error or Warning. It contains health evaluations for each unhealthy application of the included application type that impacted current aggregated health state.<br/> |
@@ -72,21 +79,31 @@ translation.priority.mt:
 | [ApplicationTypeInfo](sfclient-model-applicationtypeinfo.md) | Information about an application type.<br/> |
 | [ApplicationTypeManifest](sfclient-model-applicationtypemanifest.md) | Contains the manifest describing an application type registered in a Service Fabric cluster.<br/> |
 | [ApplicationTypeStatus enum](sfclient-model-applicationtypestatus.md) | The status of the application type.<br/> |
-| [ApplicationUpgradeCompleteEvent](sfclient-model-applicationupgradecompleteevent.md) | Application Upgrade Complete event.<br/> |
+| [ApplicationUpgradeCompletedEvent](sfclient-model-applicationupgradecompletedevent.md) | Application Upgrade Completed event.<br/> |
 | [ApplicationUpgradeDescription](sfclient-model-applicationupgradedescription.md) | Describes the parameters for an application upgrade. Note that upgrade description replaces the existing application description. This means that if the parameters are not specified, the existing parameters on the applications will be overwritten with the empty parameters list. This would result in the application using the default value of the parameters from the application manifest. If you do not want to change any existing parameter values, please get the application parameters first using the GetApplicationInfo query and then supply those values as Parameters in this ApplicationUpgradeDescription.<br/> |
-| [ApplicationUpgradeDomainCompleteEvent](sfclient-model-applicationupgradedomaincompleteevent.md) | Application Upgrade Domain Complete event.<br/> |
+| [ApplicationUpgradeDomainCompletedEvent](sfclient-model-applicationupgradedomaincompletedevent.md) | Application Upgrade Domain Completed event.<br/> |
 | [ApplicationUpgradeProgressInfo](sfclient-model-applicationupgradeprogressinfo.md) | Describes the parameters for an application upgrade.<br/> |
-| [ApplicationUpgradeRollbackCompleteEvent](sfclient-model-applicationupgraderollbackcompleteevent.md) | Application Upgrade Rollback Complete event.<br/> |
-| [ApplicationUpgradeRollbackStartEvent](sfclient-model-applicationupgraderollbackstartevent.md) | Application Upgrade Rollback Start event.<br/> |
-| [ApplicationUpgradeStartEvent](sfclient-model-applicationupgradestartevent.md) | Application Upgrade Start event.<br/> |
+| [ApplicationUpgradeRollbackCompletedEvent](sfclient-model-applicationupgraderollbackcompletedevent.md) | Application Upgrade Rollback Completed event.<br/> |
+| [ApplicationUpgradeRollbackStartedEvent](sfclient-model-applicationupgraderollbackstartedevent.md) | Application Upgrade Rollback Started event.<br/> |
+| [ApplicationUpgradeStartedEvent](sfclient-model-applicationupgradestartedevent.md) | Application Upgrade Started event.<br/> |
 | [ApplicationUpgradeUpdateDescription](sfclient-model-applicationupgradeupdatedescription.md) | Describes the parameters for updating an ongoing application upgrade.<br/> |
+| [AutoScalingMechanism](sfclient-model-autoscalingmechanism.md) | Describes the mechanism for performing auto scaling operation. Derived classes will describe the actual mechanism.<br/> |
+| [AutoScalingMechanismKind enum](sfclient-model-autoscalingmechanismkind.md) | Enumerates the mechanisms for auto scaling.<br/> |
+| [AutoScalingMetric](sfclient-model-autoscalingmetric.md) | Describes the metric that is used for triggering auto scaling operation. Derived classes will describe resources or metrics.<br/> |
+| [AutoScalingMetricKind enum](sfclient-model-autoscalingmetrickind.md) | Enumerates the metrics that are used for triggering auto scaling.<br/> |
+| [AutoScalingPolicy](sfclient-model-autoscalingpolicy.md) | Describes the auto scaling policy<br/> |
+| [AutoScalingResourceMetric](sfclient-model-autoscalingresourcemetric.md) | Describes the resource that is used for triggering auto scaling.<br/> |
+| [AutoScalingResourceMetricName enum](sfclient-model-autoscalingresourcemetricname.md) | Enumerates the resources that are used for triggering auto scaling.<br/> |
+| [AutoScalingTrigger](sfclient-model-autoscalingtrigger.md) | Describes the trigger for performing auto scaling operation.<br/> |
+| [AutoScalingTriggerKind enum](sfclient-model-autoscalingtriggerkind.md) | Enumerates the triggers for auto scaling.<br/> |
+| [AverageLoadScalingTrigger](sfclient-model-averageloadscalingtrigger.md) | Describes the average load trigger used for auto scaling.<br/> |
 | [AveragePartitionLoadScalingTrigger](sfclient-model-averagepartitionloadscalingtrigger.md) | Represents a scaling trigger related to an average load of a metric/resource of a partition.<br/> |
 | [AverageServiceLoadScalingTrigger](sfclient-model-averageserviceloadscalingtrigger.md) | Represents a scaling policy related to an average load of a metric/resource of a service.<br/> |
 | [AzureBlobBackupStorageDescription](sfclient-model-azureblobbackupstoragedescription.md) | Describes the parameters for Azure blob store used for storing and enumerating backups.<br/> |
+| [AzureInternalMonitoringPipelineSinkDescription](sfclient-model-azureinternalmonitoringpipelinesinkdescription.md) | Diagnostics settings for Geneva.<br/> |
 | [BackupConfigurationInfo](sfclient-model-backupconfigurationinfo.md) | Describes the backup configuration information.<br/> |
 | [BackupEntity](sfclient-model-backupentity.md) | Describes the Service Fabric entity that is configured for backup.<br/> |
 | [BackupEntityKind enum](sfclient-model-backupentitykind.md) | The entity type of a Service Fabric entity such as Application, Service or a Partition where periodic backups can be enabled.<br/> |
-| [BackupEpoch](sfclient-model-backupepoch.md) | An Epoch is a configuration number for the partition as a whole. When the configuration of the replica set changes, for example when the Primary replica changes, the operations that are replicated from the new Primary replica are said to be a new Epoch from the ones which were sent by the old Primary replica.<br/> |
 | [BackupInfo](sfclient-model-backupinfo.md) | Represents a backup point which can be used to trigger a restore.<br/> |
 | [BackupPartitionDescription](sfclient-model-backuppartitiondescription.md) | Describes the parameters for triggering partition's backup.<br/> |
 | [BackupPolicyDescription](sfclient-model-backuppolicydescription.md) | Describes a backup policy for configuring periodic backup.<br/> |
@@ -101,24 +118,22 @@ translation.priority.mt:
 | [BackupSuspensionInfo](sfclient-model-backupsuspensioninfo.md) | Describes the backup suspension details.<br/> |
 | [BackupSuspensionScope enum](sfclient-model-backupsuspensionscope.md) | Specifies the scope at which the backup suspension was applied.<br/> |
 | [BackupType enum](sfclient-model-backuptype.md) | Describes the type of backup, whether its full or incremental.<br/> |
+| [BasicRetentionPolicyDescription](sfclient-model-basicretentionpolicydescription.md) | Describes basic retention policy.<br/> |
 | [BinaryPropertyValue](sfclient-model-binarypropertyvalue.md) | Describes a Service Fabric property value of type Binary.<br/> |
 | [Chaos](sfclient-model-chaos.md) | Contains a description of Chaos.<br/> |
+| [ChaosCodePackageRestartScheduledEvent](sfclient-model-chaoscodepackagerestartscheduledevent.md) | Chaos Restart Code Package Fault Scheduled event.<br/> |
 | [ChaosContext](sfclient-model-chaoscontext.md) | Describes a map, which is a collection of (string, string) type key-value pairs. The map can be used to record information about<br/>the Chaos run. There cannot be more than 100 such pairs and each string (key or value) can be at most 4095 characters long.<br/>This map is set by the starter of the Chaos run to optionally store the context about the specific run.<br/> |
 | [ChaosEvent](sfclient-model-chaosevent.md) | Represents an event generated during a Chaos run.<br/> |
 | [ChaosEventKind enum](sfclient-model-chaoseventkind.md) | The kind of Chaos event.<br/> |
 | [ChaosEventsSegment](sfclient-model-chaoseventssegment.md) | Contains the list of Chaos events and the continuation token to get the next segment.<br/> |
 | [ChaosEventWrapper](sfclient-model-chaoseventwrapper.md) | Wrapper object for Chaos event.<br/> |
-| [ChaosMovePrimaryFaultScheduledEvent](sfclient-model-chaosmoveprimaryfaultscheduledevent.md) | Chaos Move Primary Fault Scheduled event.<br/> |
-| [ChaosMoveSecondaryFaultScheduledEvent](sfclient-model-chaosmovesecondaryfaultscheduledevent.md) | Chaos Move Secondary Fault Scheduled event.<br/> |
+| [ChaosNodeRestartScheduledEvent](sfclient-model-chaosnoderestartscheduledevent.md) | Chaos Restart Node Fault Scheduled event.<br/> |
 | [ChaosParameters](sfclient-model-chaosparameters.md) | Defines all the parameters to configure a Chaos run.<br/> |
 | [ChaosParametersDictionaryItem](sfclient-model-chaosparametersdictionaryitem.md) | Defines an item in ChaosParametersDictionary of the Chaos Schedule.<br/> |
-| [ChaosRemoveReplicaFaultCompletedEvent](sfclient-model-chaosremovereplicafaultcompletedevent.md) | Chaos Remove Replica Fault Completed event.<br/> |
-| [ChaosRemoveReplicaFaultScheduledEvent](sfclient-model-chaosremovereplicafaultscheduledevent.md) | Chaos Remove Replica Fault Scheduled event.<br/> |
-| [ChaosRestartCodePackageFaultCompletedEvent](sfclient-model-chaosrestartcodepackagefaultcompletedevent.md) | Chaos Restart Code Package Fault Completed event.<br/> |
-| [ChaosRestartCodePackageFaultScheduledEvent](sfclient-model-chaosrestartcodepackagefaultscheduledevent.md) | Chaos Restart Code Package Fault Scheduled event.<br/> |
-| [ChaosRestartNodeFaultCompletedEvent](sfclient-model-chaosrestartnodefaultcompletedevent.md) | Chaos Restart Node Fault Completed event.<br/> |
-| [ChaosRestartNodeFaultScheduledEvent](sfclient-model-chaosrestartnodefaultscheduledevent.md) | Chaos Restart Node Fault Scheduled event.<br/> |
-| [ChaosRestartReplicaFaultScheduledEvent](sfclient-model-chaosrestartreplicafaultscheduledevent.md) | Chaos Restart Replica Fault Scheduled event.<br/> |
+| [ChaosPartitionPrimaryMoveScheduledEvent](sfclient-model-chaospartitionprimarymovescheduledevent.md) | Chaos Move Primary Fault Scheduled event.<br/> |
+| [ChaosPartitionSecondaryMoveScheduledEvent](sfclient-model-chaospartitionsecondarymovescheduledevent.md) | Chaos Move Secondary Fault Scheduled event.<br/> |
+| [ChaosReplicaRemovalScheduledEvent](sfclient-model-chaosreplicaremovalscheduledevent.md) | Chaos Remove Replica Fault Scheduled event.<br/> |
+| [ChaosReplicaRestartScheduledEvent](sfclient-model-chaosreplicarestartscheduledevent.md) | Chaos Restart Replica Fault Scheduled event.<br/> |
 | [ChaosSchedule](sfclient-model-chaosschedule.md) | Defines the schedule used by Chaos.<br/> |
 | [ChaosScheduleDescription](sfclient-model-chaosscheduledescription.md) | Defines the Chaos Schedule used by Chaos and the version of the Chaos Schedule. The version value wraps back to 0 after surpassing 2,147,483,647.<br/> |
 | [ChaosScheduleJob](sfclient-model-chaosschedulejob.md) | Defines a repetition rule and parameters of Chaos to be used with the Chaos Schedule.<br/> |
@@ -140,17 +155,18 @@ translation.priority.mt:
 | [ClusterHealthChunkQueryDescription](sfclient-model-clusterhealthchunkquerydescription.md) | The cluster health chunk query description, which can specify the health policies to evaluate cluster health and very expressive filters to select which cluster entities to include in response.<br/> |
 | [ClusterHealthPolicies](sfclient-model-clusterhealthpolicies.md) | Health policies to evaluate cluster health.<br/> |
 | [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) | Defines a health policy used to evaluate the health of the cluster or of a cluster node.<br/> |
-| [ClusterHealthReportCreatedEvent](sfclient-model-clusterhealthreportcreatedevent.md) | Cluster Health Report Created event.<br/> |
 | [ClusterHealthReportExpiredEvent](sfclient-model-clusterhealthreportexpiredevent.md) | Cluster Health Report Expired event.<br/> |
 | [ClusterManifest](sfclient-model-clustermanifest.md) | Information about the cluster manifest.<br/> |
-| [ClusterUpgradeCompleteEvent](sfclient-model-clusterupgradecompleteevent.md) | Cluster Upgrade Complete event.<br/> |
+| [ClusterNewHealthReportEvent](sfclient-model-clusternewhealthreportevent.md) | Cluster Health Report Created event.<br/> |
+| [ClusterUpgradeCompletedEvent](sfclient-model-clusterupgradecompletedevent.md) | Cluster Upgrade Completed event.<br/> |
 | [ClusterUpgradeDescriptionObject](sfclient-model-clusterupgradedescriptionobject.md) | Represents a ServiceFabric cluster upgrade<br/> |
-| [ClusterUpgradeDomainCompleteEvent](sfclient-model-clusterupgradedomaincompleteevent.md) | Cluster Upgrade Domain Complete event.<br/> |
+| [ClusterUpgradeDomainCompletedEvent](sfclient-model-clusterupgradedomaincompletedevent.md) | Cluster Upgrade Domain Completed event.<br/> |
 | [ClusterUpgradeHealthPolicyObject](sfclient-model-clusterupgradehealthpolicyobject.md) | Defines a health policy used to evaluate the health of the cluster during a cluster upgrade.<br/> |
 | [ClusterUpgradeProgressObject](sfclient-model-clusterupgradeprogressobject.md) | Information about a cluster upgrade.<br/> |
-| [ClusterUpgradeRollbackCompleteEvent](sfclient-model-clusterupgraderollbackcompleteevent.md) | Cluster Upgrade Rollback Complete event.<br/> |
-| [ClusterUpgradeRollbackStartEvent](sfclient-model-clusterupgraderollbackstartevent.md) | Cluster Upgrade Rollback Start event.<br/> |
-| [ClusterUpgradeStartEvent](sfclient-model-clusterupgradestartevent.md) | Cluster Upgrade Start event.<br/> |
+| [ClusterUpgradeRollbackCompletedEvent](sfclient-model-clusterupgraderollbackcompletedevent.md) | Cluster Upgrade Rollback Completed event.<br/> |
+| [ClusterUpgradeRollbackStartedEvent](sfclient-model-clusterupgraderollbackstartedevent.md) | Cluster Upgrade Rollback Started event.<br/> |
+| [ClusterUpgradeStartedEvent](sfclient-model-clusterupgradestartedevent.md) | Cluster Upgrade Started event.<br/> |
+| [ClusterVersion](sfclient-model-clusterversion.md) | The cluster version.<br/> |
 | [CodePackageEntryPoint](sfclient-model-codepackageentrypoint.md) | Information about setup or main entry point of a code package deployed on a Service Fabric node.<br/> |
 | [CodePackageEntryPointStatistics](sfclient-model-codepackageentrypointstatistics.md) | Statistics about setup or main entry point  of a code package deployed on a Service Fabric node.<br/> |
 | [ComposeDeploymentStatus enum](sfclient-model-composedeploymentstatus.md) | The status of the compose deployment.<br/> |
@@ -162,14 +178,12 @@ translation.priority.mt:
 | [ContainerApiResponse](sfclient-model-containerapiresponse.md) | Response body that wraps container API result.<br/> |
 | [ContainerApiResult](sfclient-model-containerapiresult.md) | Container API result.<br/> |
 | [ContainerCodePackageProperties](sfclient-model-containercodepackageproperties.md) | Describes a container and its runtime properties.<br/> |
-| [ContainerDeactivatedEvent](sfclient-model-containerdeactivatedevent.md) | Container Deactivated event.<br/> |
 | [ContainerEvent](sfclient-model-containerevent.md) | A container event.<br/> |
 | [ContainerInstanceEvent](sfclient-model-containerinstanceevent.md) | Represents the base for all Container Events.<br/> |
 | [ContainerInstanceView](sfclient-model-containerinstanceview.md) | Runtime information of a container instance.<br/> |
 | [ContainerLabel](sfclient-model-containerlabel.md) | Describes a container label.<br/> |
 | [ContainerLogs](sfclient-model-containerlogs.md) | Container logs.<br/> |
 | [ContainerState](sfclient-model-containerstate.md) | The container state.<br/> |
-| [ContainerVolume](sfclient-model-containervolume.md) | Describes how a volume is attached to a container.<br/> |
 | [CreateComposeDeploymentDescription](sfclient-model-createcomposedeploymentdescription.md) | Defines description for creating a Service Fabric compose deployment.<br/> |
 | [CreateFabricDump enum](sfclient-model-createfabricdump.md) | Possible values include: 'False', 'True'<br/> |
 | [CurrentUpgradeDomainProgressInfo](sfclient-model-currentupgradedomainprogressinfo.md) | Information about the current in-progress upgrade domain.<br/> |
@@ -181,25 +195,25 @@ translation.priority.mt:
 | [DeltaNodesCheckHealthEvaluation](sfclient-model-deltanodescheckhealthevaluation.md) | Represents health evaluation for delta nodes, containing health evaluations for each unhealthy node that impacted current aggregated health state.<br/>Can be returned during cluster upgrade when the aggregated health state of the cluster is Warning or Error.<br/> |
 | [DeployedApplicationHealth](sfclient-model-deployedapplicationhealth.md) | Information about the health of an application deployed on a Service Fabric node.<br/> |
 | [DeployedApplicationHealthEvaluation](sfclient-model-deployedapplicationhealthevaluation.md) | Represents health evaluation for a deployed application, containing information about the data and the algorithm used by the health store to evaluate health.<br/> |
-| [DeployedApplicationHealthReportCreatedEvent](sfclient-model-deployedapplicationhealthreportcreatedevent.md) | Deployed Application Health Report Created event.<br/> |
 | [DeployedApplicationHealthReportExpiredEvent](sfclient-model-deployedapplicationhealthreportexpiredevent.md) | Deployed Application Health Report Expired event.<br/> |
 | [DeployedApplicationHealthState](sfclient-model-deployedapplicationhealthstate.md) | Represents the health state of a deployed application, which contains the entity identifier and the aggregated health state.<br/> |
 | [DeployedApplicationHealthStateChunk](sfclient-model-deployedapplicationhealthstatechunk.md) | Represents the health state chunk of a deployed application, which contains the node where the application is deployed, the aggregated health state and any deployed service packages that respect the chunk query description filters.<br/> |
 | [DeployedApplicationHealthStateChunkList](sfclient-model-deployedapplicationhealthstatechunklist.md) | The list of deployed application health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.<br/> |
 | [DeployedApplicationHealthStateFilter](sfclient-model-deployedapplicationhealthstatefilter.md) | Defines matching criteria to determine whether a deployed application should be included as a child of an application in the cluster health chunk.<br/>The deployed applications are only returned if the parent application matches a filter specified in the cluster health chunk query description.<br/>One filter can match zero, one or multiple deployed applications, depending on its properties.<br/> |
 | [DeployedApplicationInfo](sfclient-model-deployedapplicationinfo.md) | Information about application deployed on the node.<br/> |
+| [DeployedApplicationNewHealthReportEvent](sfclient-model-deployedapplicationnewhealthreportevent.md) | Deployed Application Health Report Created event.<br/> |
 | [DeployedApplicationsHealthEvaluation](sfclient-model-deployedapplicationshealthevaluation.md) | Represents health evaluation for deployed applications, containing health evaluations for each unhealthy deployed application that impacted current aggregated health state.<br/>Can be returned when evaluating application health and the aggregated health state is either Error or Warning.<br/> |
 | [DeployedApplicationStatus enum](sfclient-model-deployedapplicationstatus.md) | The status of the application deployed on the node. Following are the possible values.<br/> |
 | [DeployedCodePackageInfo](sfclient-model-deployedcodepackageinfo.md) | Information about code package deployed on a Service Fabric node.<br/> |
-| [DeployedServiceHealthReportCreatedEvent](sfclient-model-deployedservicehealthreportcreatedevent.md) | Deployed Service Health Report Created event.<br/> |
-| [DeployedServiceHealthReportExpiredEvent](sfclient-model-deployedservicehealthreportexpiredevent.md) | Deployed Service Health Report Expired event.<br/> |
 | [DeployedServicePackageHealth](sfclient-model-deployedservicepackagehealth.md) | Information about the health of a service package for a specific application deployed on a Service Fabric node.<br/> |
 | [DeployedServicePackageHealthEvaluation](sfclient-model-deployedservicepackagehealthevaluation.md) | Represents health evaluation for a deployed service package, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.<br/> |
+| [DeployedServicePackageHealthReportExpiredEvent](sfclient-model-deployedservicepackagehealthreportexpiredevent.md) | Deployed Service Health Report Expired event.<br/> |
 | [DeployedServicePackageHealthState](sfclient-model-deployedservicepackagehealthstate.md) | Represents the health state of a deployed service package, containing the entity identifier and the aggregated health state.<br/> |
 | [DeployedServicePackageHealthStateChunk](sfclient-model-deployedservicepackagehealthstatechunk.md) | Represents the health state chunk of a deployed service package, which contains the service manifest name and the service package aggregated health state.<br/> |
 | [DeployedServicePackageHealthStateChunkList](sfclient-model-deployedservicepackagehealthstatechunklist.md) | The list of deployed service package health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.<br/> |
 | [DeployedServicePackageHealthStateFilter](sfclient-model-deployedservicepackagehealthstatefilter.md) | Defines matching criteria to determine whether a deployed service package should be included as a child of a deployed application in the cluster health chunk.<br/>The deployed service packages are only returned if the parent entities match a filter specified in the cluster health chunk query description. The parent deployed application and its parent application must be included in the cluster health chunk.<br/>One filter can match zero, one or multiple deployed service packages, depending on its properties.<br/> |
 | [DeployedServicePackageInfo](sfclient-model-deployedservicepackageinfo.md) | Information about service package deployed on a Service Fabric node.<br/> |
+| [DeployedServicePackageNewHealthReportEvent](sfclient-model-deployedservicepackagenewhealthreportevent.md) | Deployed Service Health Report Created event.<br/> |
 | [DeployedServicePackagesHealthEvaluation](sfclient-model-deployedservicepackageshealthevaluation.md) | Represents health evaluation for deployed service packages, containing health evaluations for each unhealthy deployed service package that impacted current aggregated health state. Can be returned when evaluating deployed application health and the aggregated health state is either Error or Warning.<br/> |
 | [DeployedServiceReplicaDetailInfo](sfclient-model-deployedservicereplicadetailinfo.md) | Information about a Service Fabric service replica deployed on a node.<br/> |
 | [DeployedServiceReplicaInfo](sfclient-model-deployedservicereplicainfo.md) | Information about a Service Fabric service replica deployed on a node.<br/> |
@@ -214,9 +228,11 @@ translation.priority.mt:
 | [DiagnosticsRef](sfclient-model-diagnosticsref.md) | Reference to sinks in DiagnosticsDescription.<br/> |
 | [DiagnosticsSinkKind enum](sfclient-model-diagnosticssinkkind.md) | The kind of DiagnosticsSink.<br/> |
 | [DiagnosticsSinkProperties](sfclient-model-diagnosticssinkproperties.md) | Properties of a DiagnosticsSink.<br/> |
+| [DisableBackupDescription](sfclient-model-disablebackupdescription.md) | It describes the body parameters while disabling backup of a backup entity(Application/Service/Partition).<br/> |
 | [DoublePropertyValue](sfclient-model-doublepropertyvalue.md) | Describes a Service Fabric property value of type Double.<br/> |
 | [EnableBackupDescription](sfclient-model-enablebackupdescription.md) | Specifies the parameters needed to enable periodic backup.<br/> |
 | [EndpointProperties](sfclient-model-endpointproperties.md) | Describes a container endpoint.<br/> |
+| [EndpointRef](sfclient-model-endpointref.md) | Describes a reference to a service endpoint.<br/> |
 | [EnsureAvailabilitySafetyCheck](sfclient-model-ensureavailabilitysafetycheck.md) | Safety check that waits to ensure the availability of the partition. It waits until there are replicas available such that bringing down this replica will not cause availability loss for the partition.<br/> |
 | [EnsurePartitionQurumSafetyCheck](sfclient-model-ensurepartitionqurumsafetycheck.md) | Safety check that ensures that a quorum of replicas are not lost for a partition.<br/> |
 | [EntityHealth](sfclient-model-entityhealth.md) | Health information common to all entities in the cluster. It contains the aggregated health state, health events and unhealthy evaluation.<br/> |
@@ -234,7 +250,7 @@ translation.priority.mt:
 | [FabricCodeVersionInfo](sfclient-model-fabriccodeversioninfo.md) | Information about a Service Fabric code version.<br/> |
 | [FabricConfigVersionInfo](sfclient-model-fabricconfigversioninfo.md) | Information about a Service Fabric config version.<br/> |
 | [FabricError](sfclient-model-fabricerror.md) | The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.<br/> |
-| [FabricErrorCodes enum](sfclient-model-fabricerrorcodes.md) | Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.<br/><br/>  - Possible values of the error code for HTTP status code 400 (Bad Request)<br/>    - "FABRIC_E_INVALID_PARTITION_KEY"<br/>    - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"<br/>    - "FABRIC_E_INVALID_ADDRESS"<br/>    - "FABRIC_E_APPLICATION_NOT_UPGRADING"<br/>    - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"<br/>    - "FABRIC_E_FABRIC_NOT_UPGRADING"<br/>    - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"<br/>    - "FABRIC_E_INVALID_CONFIGURATION"<br/>    - "FABRIC_E_INVALID_NAME_URI"<br/>    - "FABRIC_E_PATH_TOO_LONG"<br/>    - "FABRIC_E_KEY_TOO_LARGE"<br/>    - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"<br/>    - "FABRIC_E_INVALID_ATOMIC_GROUP"<br/>    - "FABRIC_E_VALUE_EMPTY"<br/>    - "FABRIC_E_BACKUP_IS_ENABLED"<br/>    - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"<br/>    - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"<br/>    - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"<br/>    - "E_INVALIDARG"<br/><br/>  - Possible values of the error code for HTTP status code 404 (Not Found)<br/>    - "FABRIC_E_NODE_NOT_FOUND"<br/>    - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"<br/>    - "FABRIC_E_APPLICATION_NOT_FOUND"<br/>    - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"<br/>    - "FABRIC_E_SERVICE_DOES_NOT_EXIST"<br/>    - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"<br/>    - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"<br/>    - "FABRIC_E_PARTITION_NOT_FOUND"<br/>    - "FABRIC_E_REPLICA_DOES_NOT_EXIST"<br/>    - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"<br/>    - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"<br/>    - "FABRIC_E_DIRECTORY_NOT_FOUND"<br/>    - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"<br/>    - "FABRIC_E_FILE_NOT_FOUND"<br/>    - "FABRIC_E_NAME_DOES_NOT_EXIST"<br/>    - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"<br/>    - "FABRIC_E_ENUMERATION_COMPLETED"<br/>    - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"<br/>    - "FABRIC_E_KEY_NOT_FOUND"<br/>    - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"<br/>    - "FABRIC_E_BACKUP_NOT_ENABLED"<br/>    - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"<br/>    - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"<br/><br/>  - Possible values of the error code for HTTP status code 409 (Conflict)<br/>    - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"<br/>    - "FABRIC_E_APPLICATION_ALREADY_EXISTS"<br/>    - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"<br/>    - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"<br/>    - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"<br/>    - "FABRIC_E_SERVICE_ALREADY_EXISTS"<br/>    - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"<br/>    - "FABRIC_E_APPLICATION_TYPE_IN_USE"<br/>    - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"<br/>    - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"<br/>    - "FABRIC_E_FABRIC_VERSION_IN_USE"<br/>    - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"<br/>    - "FABRIC_E_NAME_ALREADY_EXISTS"<br/>    - "FABRIC_E_NAME_NOT_EMPTY"<br/>    - "FABRIC_E_PROPERTY_CHECK_FAILED"<br/>    - "FABRIC_E_SERVICE_METADATA_MISMATCH"<br/>    - "FABRIC_E_SERVICE_TYPE_MISMATCH"<br/>    - "FABRIC_E_HEALTH_STALE_REPORT"<br/>    - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"<br/>    - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"<br/>    - "FABRIC_E_INSTANCE_ID_MISMATCH"<br/>    - "FABRIC_E_BACKUP_IN_PROGRESS"<br/>    - "FABRIC_E_RESTORE_IN_PROGRESS"<br/>    - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"<br/><br/>  - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)<br/>    - "FABRIC_E_VALUE_TOO_LARGE"<br/><br/>  - Possible values of the error code for HTTP status code 500 (Internal Server Error)<br/>    - "FABRIC_E_NODE_IS_UP"<br/>    - "E_FAIL"<br/>    - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS"<br/>    - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND"<br/>    - "FABRIC_E_VOLUME_ALREADY_EXISTS"<br/>    - "ABRIC_E_VOLUME_NOT_FOUND"<br/>    - "SerializationError"<br/><br/>  - Possible values of the error code for HTTP status code 503 (Service Unavailable)<br/>    - "FABRIC_E_NO_WRITE_QUORUM"<br/>    - "FABRIC_E_NOT_PRIMARY"<br/>    - "FABRIC_E_NOT_READY"<br/>    - "FABRIC_E_RECONFIGURATION_PENDING"<br/>    - "FABRIC_E_SERVICE_OFFLINE"<br/>    - "E_ABORT"<br/>    - "FABRIC_E_VALUE_TOO_LARGE"<br/><br/>  - Possible values of the error code for HTTP status code 504 (Gateway Timeout)<br/>    - "FABRIC_E_COMMUNICATION_ERROR"<br/>    - "FABRIC_E_OPERATION_NOT_COMPLETE"<br/>    - "FABRIC_E_TIMEOUT"<br/> |
+| [FabricErrorCodes enum](sfclient-model-fabricerrorcodes.md) | Defines the fabric error codes that be returned as part of the error object in response to Service Fabric API operations that are not successful. Following are the error code values that can be returned for a specific HTTP status code.<br/><br/>  - Possible values of the error code for HTTP status code 400 (Bad Request)<br/>    - "FABRIC_E_INVALID_PARTITION_KEY"<br/>    - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"<br/>    - "FABRIC_E_INVALID_ADDRESS"<br/>    - "FABRIC_E_APPLICATION_NOT_UPGRADING"<br/>    - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"<br/>    - "FABRIC_E_FABRIC_NOT_UPGRADING"<br/>    - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"<br/>    - "FABRIC_E_INVALID_CONFIGURATION"<br/>    - "FABRIC_E_INVALID_NAME_URI"<br/>    - "FABRIC_E_PATH_TOO_LONG"<br/>    - "FABRIC_E_KEY_TOO_LARGE"<br/>    - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"<br/>    - "FABRIC_E_INVALID_ATOMIC_GROUP"<br/>    - "FABRIC_E_VALUE_EMPTY"<br/>    - "FABRIC_E_BACKUP_IS_ENABLED"<br/>    - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"<br/>    - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"<br/>    - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"<br/>    - "E_INVALIDARG"<br/><br/>  - Possible values of the error code for HTTP status code 404 (Not Found)<br/>    - "FABRIC_E_NODE_NOT_FOUND"<br/>    - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"<br/>    - "FABRIC_E_APPLICATION_NOT_FOUND"<br/>    - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"<br/>    - "FABRIC_E_SERVICE_DOES_NOT_EXIST"<br/>    - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"<br/>    - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"<br/>    - "FABRIC_E_PARTITION_NOT_FOUND"<br/>    - "FABRIC_E_REPLICA_DOES_NOT_EXIST"<br/>    - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"<br/>    - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"<br/>    - "FABRIC_E_DIRECTORY_NOT_FOUND"<br/>    - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"<br/>    - "FABRIC_E_FILE_NOT_FOUND"<br/>    - "FABRIC_E_NAME_DOES_NOT_EXIST"<br/>    - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"<br/>    - "FABRIC_E_ENUMERATION_COMPLETED"<br/>    - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"<br/>    - "FABRIC_E_KEY_NOT_FOUND"<br/>    - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"<br/>    - "FABRIC_E_BACKUP_NOT_ENABLED"<br/>    - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"<br/>    - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"<br/>    - "FABRIC_E_IMAGEBUILDER_RESERVED_DIRECTORY_ERROR"<br/><br/>  - Possible values of the error code for HTTP status code 409 (Conflict)<br/>    - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"<br/>    - "FABRIC_E_APPLICATION_ALREADY_EXISTS"<br/>    - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"<br/>    - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"<br/>    - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"<br/>    - "FABRIC_E_SERVICE_ALREADY_EXISTS"<br/>    - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"<br/>    - "FABRIC_E_APPLICATION_TYPE_IN_USE"<br/>    - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"<br/>    - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"<br/>    - "FABRIC_E_FABRIC_VERSION_IN_USE"<br/>    - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"<br/>    - "FABRIC_E_NAME_ALREADY_EXISTS"<br/>    - "FABRIC_E_NAME_NOT_EMPTY"<br/>    - "FABRIC_E_PROPERTY_CHECK_FAILED"<br/>    - "FABRIC_E_SERVICE_METADATA_MISMATCH"<br/>    - "FABRIC_E_SERVICE_TYPE_MISMATCH"<br/>    - "FABRIC_E_HEALTH_STALE_REPORT"<br/>    - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"<br/>    - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"<br/>    - "FABRIC_E_INSTANCE_ID_MISMATCH"<br/>    - "FABRIC_E_BACKUP_IN_PROGRESS"<br/>    - "FABRIC_E_RESTORE_IN_PROGRESS"<br/>    - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"<br/><br/>  - Possible values of the error code for HTTP status code 413 (Request Entity Too Large)<br/>    - "FABRIC_E_VALUE_TOO_LARGE"<br/><br/>  - Possible values of the error code for HTTP status code 500 (Internal Server Error)<br/>    - "FABRIC_E_NODE_IS_UP"<br/>    - "E_FAIL"<br/>    - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS"<br/>    - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND"<br/>    - "FABRIC_E_VOLUME_ALREADY_EXISTS"<br/>    - "ABRIC_E_VOLUME_NOT_FOUND"<br/>    - "SerializationError"<br/><br/>  - Possible values of the error code for HTTP status code 503 (Service Unavailable)<br/>    - "FABRIC_E_NO_WRITE_QUORUM"<br/>    - "FABRIC_E_NOT_PRIMARY"<br/>    - "FABRIC_E_NOT_READY"<br/>    - "FABRIC_E_RECONFIGURATION_PENDING"<br/>    - "FABRIC_E_SERVICE_OFFLINE"<br/>    - "E_ABORT"<br/>    - "FABRIC_E_VALUE_TOO_LARGE"<br/><br/>  - Possible values of the error code for HTTP status code 504 (Gateway Timeout)<br/>    - "FABRIC_E_COMMUNICATION_ERROR"<br/>    - "FABRIC_E_OPERATION_NOT_COMPLETE"<br/>    - "FABRIC_E_TIMEOUT"<br/> |
 | [FabricErrorError](sfclient-model-fabricerrorerror.md) | Error object containing error code and error message.<br/> |
 | [FabricEvent](sfclient-model-fabricevent.md) | Represents the base for all Fabric Events.<br/> |
 | [FabricEventKind enum](sfclient-model-fabriceventkind.md) | The kind of FabricEvent.<br/> |
@@ -249,9 +265,13 @@ translation.priority.mt:
 | [FileVersion](sfclient-model-fileversion.md) | Information about the version of image store file.<br/> |
 | [FolderInfo](sfclient-model-folderinfo.md) | Information about a image store folder. It includes how many files this folder contains and its image store relative path.<br/> |
 | [FrequencyBasedBackupScheduleDescription](sfclient-model-frequencybasedbackupscheduledescription.md) | Describes the frequency based backup schedule.<br/> |
+| [GatewayDestination](sfclient-model-gatewaydestination.md) | Describes destination endpoint for routing traffic.<br/> |
+| [GatewayProperties](sfclient-model-gatewayproperties.md) | Describes properties of a gateway resource.<br/> |
+| [GatewayResourceDescription](sfclient-model-gatewayresourcedescription.md) | This type describes a gateway resource.<br/> |
 | [GetBackupByStorageQueryDescription](sfclient-model-getbackupbystoragequerydescription.md) | Describes additional filters to be applied, while listing backups, and backup storage details from where to fetch the backups.<br/> |
 | [GetPropertyBatchOperation](sfclient-model-getpropertybatchoperation.md) | Represents a PropertyBatchOperation that gets the specified property if it exists.<br/>Note that if one PropertyBatchOperation in a PropertyBatch fails,<br/>the entire batch fails and cannot be committed in a transactional manner.<br/> |
 | [GuidPropertyValue](sfclient-model-guidpropertyvalue.md) | Describes a Service Fabric property value of type Guid.<br/> |
+| [HeaderMatchType enum](sfclient-model-headermatchtype.md) | Possible values include: 'exact'<br/> |
 | [HealthEvaluation](sfclient-model-healthevaluation.md) | Represents a health evaluation which describes the data and the algorithm used by health manager to evaluate the health of an entity.<br/> |
 | [HealthEvaluationKind enum](sfclient-model-healthevaluationkind.md) | The health manager in the cluster performs health evaluations in determining the aggregated health state of an entity. This enumeration provides information on the kind of evaluation that was performed. Following are the possible values.<br/> |
 | [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | Wrapper object for health evaluation.<br/> |
@@ -262,10 +282,17 @@ translation.priority.mt:
 | [HealthStatistics](sfclient-model-healthstatistics.md) | The health statistics of an entity, returned as part of the health query result when the query description is configured to include statistics.<br/>The statistics include health state counts for all children types of the current entity.<br/>For example, for cluster, the health statistics include health state counts for nodes, applications, services, partitions, replicas, deployed applications and deployed service packages.<br/>For partition, the health statistics include health counts for replicas.<br/> |
 | [HostIsolationMode enum](sfclient-model-hostisolationmode.md) | Specifies the isolation mode of main entry point of a code package when it's host type is ContainerHost. This is specified as part of container host policies in application manifest while importing service manifest.<br/> |
 | [HostType enum](sfclient-model-hosttype.md) | Specifies the type of host for main entry point of a code package as specified in service manifest.<br/> |
+| [HttpConfig](sfclient-model-httpconfig.md) | Describes the http configuration for external connectivity for this network.<br/> |
+| [HttpHostConfig](sfclient-model-httphostconfig.md) | Describes the hostname properties for http routing.<br/> |
+| [HttpRouteConfig](sfclient-model-httprouteconfig.md) | Describes the hostname properties for http routing.<br/> |
+| [HttpRouteMatchHeader](sfclient-model-httproutematchheader.md) | Describes header information for http route matching.<br/> |
+| [HttpRouteMatchPath](sfclient-model-httproutematchpath.md) | Path to match for routing.<br/> |
+| [HttpRouteMatchRule](sfclient-model-httproutematchrule.md) | Describes a rule for http route matching.<br/> |
 | [ImageRegistryCredential](sfclient-model-imageregistrycredential.md) | Image registry credential.<br/> |
 | [ImageStoreContent](sfclient-model-imagestorecontent.md) | Information about the image store content.<br/> |
 | [ImageStoreCopyDescription](sfclient-model-imagestorecopydescription.md) | Information about how to copy image store content from one image store relative path to another image store relative path.<br/> |
 | [ImpactLevel enum](sfclient-model-impactlevel.md) | Possible values include: 'Invalid', 'None', 'Restart', 'RemoveData', 'RemoveNode'<br/> |
+| [InlinedValueSecretResourceProperties](sfclient-model-inlinedvaluesecretresourceproperties.md) | Describes the properties of a secret resource whose value is provided explicitly as plaintext. The secret resource may have multiple values, each being uniquely versioned. The secret value of each version is stored encrypted, and delivered as plaintext into the context of applications referencing it.<br/> |
 | [Int64PropertyValue](sfclient-model-int64propertyvalue.md) | Describes a Service Fabric property value of type Int64.<br/> |
 | [Int64RangePartitionInformation](sfclient-model-int64rangepartitioninformation.md) | Describes the partition information for the integer range that is based on partition schemes.<br/> |
 | [InvokeDataLossResult](sfclient-model-invokedatalossresult.md) | Represents information about an operation in a terminal state (Completed or Faulted).<br/> |
@@ -273,19 +300,21 @@ translation.priority.mt:
 | [KeyValueStoreReplicaStatus](sfclient-model-keyvaluestorereplicastatus.md) | Key value store related information for the replica.<br/> |
 | [LoadMetricReport](sfclient-model-loadmetricreport.md) | Represents the load metric report which contains the time metric was reported, its name and value.<br/> |
 | [LoadMetricReportInfo](sfclient-model-loadmetricreportinfo.md) | Information about load reported by replica.<br/> |
+| [LocalNetworkResourceProperties](sfclient-model-localnetworkresourceproperties.md) | Information about a Service Fabric container network local to a single Service Fabric cluster.<br/> |
 | [MonitoringPolicyDescription](sfclient-model-monitoringpolicydescription.md) | Describes the parameters for monitoring an upgrade in Monitored mode.<br/> |
 | [MoveCost enum](sfclient-model-movecost.md) | Specifies the move cost for the service.<br/> |
 | [NameDescription](sfclient-model-namedescription.md) | Describes a Service Fabric name.<br/> |
 | [NamedPartitionInformation](sfclient-model-namedpartitioninformation.md) | Describes the partition information for the name as a string that is based on partition schemes.<br/> |
 | [NamedPartitionSchemeDescription](sfclient-model-namedpartitionschemedescription.md) | Describes the named partition scheme of the service.<br/> |
+| [NetworkKind enum](sfclient-model-networkkind.md) | The type of a Service Fabric container network.<br/> |
 | [NetworkRef](sfclient-model-networkref.md) | Describes a network reference in a service.<br/> |
+| [NetworkResourceDescription](sfclient-model-networkresourcedescription.md) | This type describes a network resource.<br/> |
+| [NetworkResourcePropertiesBase](sfclient-model-networkresourcepropertiesbase.md) | This type describes the properties of a network resource, including its kind.<br/> |
 | [NodeAbortedEvent](sfclient-model-nodeabortedevent.md) | Node Aborted event.<br/> |
-| [NodeAbortingEvent](sfclient-model-nodeabortingevent.md) | Node Aborting event.<br/> |
-| [NodeAddedEvent](sfclient-model-nodeaddedevent.md) | Node Added event.<br/> |
-| [NodeCloseEvent](sfclient-model-nodecloseevent.md) | Node Close event.<br/> |
-| [NodeClosingEvent](sfclient-model-nodeclosingevent.md) | Node Closing event.<br/> |
-| [NodeDeactivateCompleteEvent](sfclient-model-nodedeactivatecompleteevent.md) | Node Deactivate Complete event.<br/> |
-| [NodeDeactivateStartEvent](sfclient-model-nodedeactivatestartevent.md) | Node Deactivate Start event.<br/> |
+| [NodeAddedToClusterEvent](sfclient-model-nodeaddedtoclusterevent.md) | Node Added event.<br/> |
+| [NodeClosedEvent](sfclient-model-nodeclosedevent.md) | Node Closed event.<br/> |
+| [NodeDeactivateCompletedEvent](sfclient-model-nodedeactivatecompletedevent.md) | Node Deactivate Completed event.<br/> |
+| [NodeDeactivateStartedEvent](sfclient-model-nodedeactivatestartedevent.md) | Node Deactivate Started event.<br/> |
 | [NodeDeactivationInfo](sfclient-model-nodedeactivationinfo.md) | Information about the node deactivation. This information is valid for a node that is undergoing deactivation or has already been deactivated.<br/> |
 | [NodeDeactivationIntent enum](sfclient-model-nodedeactivationintent.md) | The intent or the reason for deactivating the node. Following are the possible values for it.<br/> |
 | [NodeDeactivationStatus enum](sfclient-model-nodedeactivationstatus.md) | The status of node deactivation operation. Following are the possible values.<br/> |
@@ -296,7 +325,6 @@ translation.priority.mt:
 | [NodeEvent](sfclient-model-nodeevent.md) | Represents the base for all Node Events.<br/> |
 | [NodeHealth](sfclient-model-nodehealth.md) | Information about the health of a Service Fabric node.<br/> |
 | [NodeHealthEvaluation](sfclient-model-nodehealthevaluation.md) | Represents health evaluation for a node, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.<br/> |
-| [NodeHealthReportCreatedEvent](sfclient-model-nodehealthreportcreatedevent.md) | Node Health Report Created event.<br/> |
 | [NodeHealthReportExpiredEvent](sfclient-model-nodehealthreportexpiredevent.md) | Node Health Report Expired event.<br/> |
 | [NodeHealthState](sfclient-model-nodehealthstate.md) | Represents the health state of a node, which contains the node identifier and its aggregated health state.<br/> |
 | [NodeHealthStateChunk](sfclient-model-nodehealthstatechunk.md) | Represents the health state chunk of a node, which contains the node name and its aggregated health state.<br/> |
@@ -307,10 +335,10 @@ translation.priority.mt:
 | [NodeInfo](sfclient-model-nodeinfo.md) | Information about a node in Service Fabric cluster.<br/> |
 | [NodeLoadInfo](sfclient-model-nodeloadinfo.md) | Information about load on a Service Fabric node. It holds a summary of all metrics and their load on a node.<br/> |
 | [NodeLoadMetricInformation](sfclient-model-nodeloadmetricinformation.md) | Represents data structure that contains load information for a certain metric on a node.<br/> |
-| [NodeOpenedSuccessEvent](sfclient-model-nodeopenedsuccessevent.md) | Node Opened Success event.<br/> |
+| [NodeNewHealthReportEvent](sfclient-model-nodenewhealthreportevent.md) | Node Health Report Created event.<br/> |
 | [NodeOpenFailedEvent](sfclient-model-nodeopenfailedevent.md) | Node Open Failed event.<br/> |
-| [NodeOpeningEvent](sfclient-model-nodeopeningevent.md) | Node Opening event.<br/> |
-| [NodeRemovedEvent](sfclient-model-noderemovedevent.md) | Node Removed event.<br/> |
+| [NodeOpenSucceededEvent](sfclient-model-nodeopensucceededevent.md) | Node Opened Succeeded event.<br/> |
+| [NodeRemovedFromClusterEvent](sfclient-model-noderemovedfromclusterevent.md) | Node Removed event.<br/> |
 | [NodeRepairImpactDescription](sfclient-model-noderepairimpactdescription.md) | Describes the expected impact of a repair on a set of nodes.<br/><br/>This type supports the Service Fabric platform; it is not meant to be used directly from your code.<br/> |
 | [NodeRepairTargetDescription](sfclient-model-noderepairtargetdescription.md) | Describes the list of nodes targeted by a repair action.<br/><br/>This type supports the Service Fabric platform; it is not meant to be used directly from your code.<br/> |
 | [NodeResult](sfclient-model-noderesult.md) | Contains information about a node that was targeted by a user-induced operation.<br/> |
@@ -323,13 +351,14 @@ translation.priority.mt:
 | [NodeUpEvent](sfclient-model-nodeupevent.md) | Node Up event.<br/> |
 | [NodeUpgradePhase enum](sfclient-model-nodeupgradephase.md) | The state of the upgrading node.<br/> |
 | [NodeUpgradeProgressInfo](sfclient-model-nodeupgradeprogressinfo.md) | Information about the upgrading node and its status<br/> |
-| [OperatingSystemTypes enum](sfclient-model-operatingsystemtypes.md) | Possible values include: 'Linux', 'Windows'<br/> |
+| [OperatingSystemType enum](sfclient-model-operatingsystemtype.md) | The operation system required by the code in service.<br/> |
 | [OperationState enum](sfclient-model-operationstate.md) | The state of the operation.<br/> |
 | [OperationStatus](sfclient-model-operationstatus.md) | Contains the OperationId, OperationState, and OperationType for user-induced operations.<br/> |
 | [OperationType enum](sfclient-model-operationtype.md) | The type of the operation.<br/> |
 | [PackageSharingPolicyInfo](sfclient-model-packagesharingpolicyinfo.md) | Represents a policy for the package sharing.<br/> |
 | [PackageSharingPolicyScope enum](sfclient-model-packagesharingpolicyscope.md) | Represents the scope for PackageSharingPolicy. This is specified during DeployServicePackageToNode operation.<br/> |
 | [PagedApplicationInfoList](sfclient-model-pagedapplicationinfolist.md) | The list of applications in the cluster. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
+| [PagedApplicationResourceDescriptionList](sfclient-model-pagedapplicationresourcedescriptionlist.md) | The list of application resources. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedApplicationTypeInfoList](sfclient-model-pagedapplicationtypeinfolist.md) | The list of application types that are provisioned or being provisioned in the cluster. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedBackupConfigurationInfoList](sfclient-model-pagedbackupconfigurationinfolist.md) | The list of backup configuration information. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedBackupEntityList](sfclient-model-pagedbackupentitylist.md) | The list of backup entities that are being periodically backed. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
@@ -337,14 +366,19 @@ translation.priority.mt:
 | [PagedBackupPolicyDescriptionList](sfclient-model-pagedbackuppolicydescriptionlist.md) | The list of backup policies configured in the cluster. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedComposeDeploymentStatusInfoList](sfclient-model-pagedcomposedeploymentstatusinfolist.md) | The list of compose deployments in the cluster. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedDeployedApplicationInfoList](sfclient-model-pageddeployedapplicationinfolist.md) | The list of deployed applications in activating, downloading, or active states on a node.<br/>The list is paged when all of the results cannot fit in a single message.<br/>The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
+| [PagedGatewayResourceDescriptionList](sfclient-model-pagedgatewayresourcedescriptionlist.md) | The list of gateway resources. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
+| [PagedNetworkResourceDescriptionList](sfclient-model-pagednetworkresourcedescriptionlist.md) | The list of network resources. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedNodeInfoList](sfclient-model-pagednodeinfolist.md) | The list of nodes in the cluster. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedPropertyInfoList](sfclient-model-pagedpropertyinfolist.md) | The paged list of Service Fabric properties under a given name. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedReplicaInfoList](sfclient-model-pagedreplicainfolist.md) | The list of replicas in the cluster for a given partition. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
+| [PagedSecretResourceDescriptionList](sfclient-model-pagedsecretresourcedescriptionlist.md) | The list of secret resources. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
+| [PagedSecretValueResourceDescriptionList](sfclient-model-pagedsecretvalueresourcedescriptionlist.md) | The list of values of a secret resource, paged if the number of results exceeds the limits of a single message. The next set of results can be obtained by executing the same query with the continuation token provided in the previous page.<br/> |
 | [PagedServiceInfoList](sfclient-model-pagedserviceinfolist.md) | The list of services in the cluster for an application. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedServicePartitionInfoList](sfclient-model-pagedservicepartitioninfolist.md) | The list of partition in the cluster for a service. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
-| [PagedServiceResourceDescriptionList](sfclient-model-pagedserviceresourcedescriptionlist.md) | The list of service resources in the cluster. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
-| [PagedServiceResourceReplicaDescriptionList](sfclient-model-pagedserviceresourcereplicadescriptionlist.md) | The list of service resources in the cluster. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
+| [PagedServiceReplicaDescriptionList](sfclient-model-pagedservicereplicadescriptionlist.md) | The list of service resource replicas in the cluster. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
+| [PagedServiceResourceDescriptionList](sfclient-model-pagedserviceresourcedescriptionlist.md) | The list of service resources. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedSubNameInfoList](sfclient-model-pagedsubnameinfolist.md) | A paged list of Service Fabric names. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
+| [PagedVolumeResourceDescriptionList](sfclient-model-pagedvolumeresourcedescriptionlist.md) | The list of volume resources. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PartitionAccessStatus enum](sfclient-model-partitionaccessstatus.md) | Specifies the access status of the partition.<br/> |
 | [PartitionAnalysisEvent](sfclient-model-partitionanalysisevent.md) | Represents the base for all Partition Analysis Events.<br/> |
 | [PartitionBackupConfigurationInfo](sfclient-model-partitionbackupconfigurationinfo.md) | Backup configuration information, for a specific partition, specifying what backup policy is being applied and suspend description, if any.<br/> |
@@ -353,7 +387,6 @@ translation.priority.mt:
 | [PartitionEvent](sfclient-model-partitionevent.md) | Represents the base for all Partition Events.<br/> |
 | [PartitionHealth](sfclient-model-partitionhealth.md) | Information about the health of a Service Fabric partition.<br/> |
 | [PartitionHealthEvaluation](sfclient-model-partitionhealthevaluation.md) | Represents health evaluation for a partition, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.<br/> |
-| [PartitionHealthReportCreatedEvent](sfclient-model-partitionhealthreportcreatedevent.md) | Partition Health Report Created event.<br/> |
 | [PartitionHealthReportExpiredEvent](sfclient-model-partitionhealthreportexpiredevent.md) | Partition Health Report Expired event.<br/> |
 | [PartitionHealthState](sfclient-model-partitionhealthstate.md) | Represents the health state of a partition, which contains the partition identifier and its aggregated health state.<br/> |
 | [PartitionHealthStateChunk](sfclient-model-partitionhealthstatechunk.md) | Represents the health state chunk of a partition, which contains the partition ID, its aggregated health state and any replicas that respect the filters in the cluster health chunk query description.<br/> |
@@ -362,15 +395,15 @@ translation.priority.mt:
 | [PartitionInformation](sfclient-model-partitioninformation.md) | Information about the partition identity, partitioning scheme and keys supported by it.<br/> |
 | [PartitionInstanceCountScaleMechanism](sfclient-model-partitioninstancecountscalemechanism.md) | Represents a scaling mechanism for adding or removing instances of stateless service partition.<br/> |
 | [PartitionLoadInformation](sfclient-model-partitionloadinformation.md) | Represents load information for a partition, which contains the primary and secondary reported load metrics.<br/>In case there is no load reported, PartitionLoadInformation will contain the default load for the service of the partition.<br/>For default loads, LoadMetricReport's LastReportedUtc is set to 0.<br/> |
+| [PartitionNewHealthReportEvent](sfclient-model-partitionnewhealthreportevent.md) | Partition Health Report Created event.<br/> |
 | [PartitionPrimaryMoveAnalysisEvent](sfclient-model-partitionprimarymoveanalysisevent.md) | Partition Primary Move Analysis event.<br/> |
 | [PartitionQuorumLossProgress](sfclient-model-partitionquorumlossprogress.md) | Information about a partition quorum loss user-induced operation.<br/> |
-| [PartitionReconfigurationCompletedEvent](sfclient-model-partitionreconfigurationcompletedevent.md) | Partition Reconfiguration Completed event.<br/> |
+| [PartitionReconfiguredEvent](sfclient-model-partitionreconfiguredevent.md) | Partition Reconfiguration event.<br/> |
 | [PartitionRestartProgress](sfclient-model-partitionrestartprogress.md) | Information about a partition restart user-induced operation.<br/> |
 | [PartitionScheme enum](sfclient-model-partitionscheme.md) | Enumerates the ways that a service can be partitioned.<br/> |
 | [PartitionSchemeDescription](sfclient-model-partitionschemedescription.md) | Describes how the service is partitioned.<br/> |
 | [PartitionsHealthEvaluation](sfclient-model-partitionshealthevaluation.md) | Represents health evaluation for the partitions of a service, containing health evaluations for each unhealthy partition that impacts current aggregated health state. Can be returned when evaluating service health and the aggregated health state is either Error or Warning.<br/> |
 | [PrimaryReplicatorStatus](sfclient-model-primaryreplicatorstatus.md) | Provides statistics about the Service Fabric Replicator, when it is functioning in a Primary role.<br/> |
-| [ProcessDeactivatedEvent](sfclient-model-processdeactivatedevent.md) | Process Deactivated event.<br/> |
 | [PropertyBatchDescriptionList](sfclient-model-propertybatchdescriptionlist.md) | Describes a list of property batch operations to be executed. Either all or none of the operations will be committed.<br/> |
 | [PropertyBatchInfo](sfclient-model-propertybatchinfo.md) | Information about the results of a property batch.<br/> |
 | [PropertyBatchInfoKind enum](sfclient-model-propertybatchinfokind.md) | The kind of property batch info, determined by the results of a property batch. The following are the possible values.<br/> |
@@ -391,6 +424,7 @@ translation.priority.mt:
 | [ReconfigurationPhase enum](sfclient-model-reconfigurationphase.md) | The reconfiguration phase of a replica of a stateful service.<br/> |
 | [ReconfigurationType enum](sfclient-model-reconfigurationtype.md) | The type of reconfiguration for replica of a stateful service.<br/> |
 | [RegistryCredential](sfclient-model-registrycredential.md) | Credential information to connect to container registry.<br/> |
+| [ReliableCollectionsRef](sfclient-model-reliablecollectionsref.md) | Specifying this parameter adds support for reliable collections<br/> |
 | [RemoteReplicatorAcknowledgementDetail](sfclient-model-remotereplicatoracknowledgementdetail.md) | Provides various statistics of the acknowledgements that are being received from the remote replicator.<br/> |
 | [RemoteReplicatorAcknowledgementStatus](sfclient-model-remotereplicatoracknowledgementstatus.md) | Provides details about the remote replicators from the primary replicator's point of view.<br/> |
 | [RemoteReplicatorStatus](sfclient-model-remotereplicatorstatus.md) | Represents the state of the secondary replicator from the primary replicator’s point of view.<br/> |
@@ -428,6 +462,7 @@ translation.priority.mt:
 | [ResourceLimits](sfclient-model-resourcelimits.md) | This type describes the resource limits for a given container. It describes the most amount of resources a container is allowed to use before being restarted.<br/> |
 | [ResourceRequests](sfclient-model-resourcerequests.md) | This type describes the requested resources for a given container. It describes the least amount of resources required for the container. A container can consume more than requested resources up to the specified limits before being restarted. Currently, the requested resources are treated as limits.<br/> |
 | [ResourceRequirements](sfclient-model-resourcerequirements.md) | This type describes the resource requirements for a container or a service.<br/> |
+| [ResourceStatus enum](sfclient-model-resourcestatus.md) | Status of the resource.<br/> |
 | [RestartDeployedCodePackageDescription](sfclient-model-restartdeployedcodepackagedescription.md) | Defines description for restarting a deployed code package on Service Fabric node.<br/> |
 | [RestartNodeDescription](sfclient-model-restartnodedescription.md) | Describes the parameters to restart a Service Fabric node.<br/> |
 | [RestartPartitionMode enum](sfclient-model-restartpartitionmode.md) | Possible values include: 'Invalid', 'AllReplicasOrInstances', 'OnlyActiveSecondaries'<br/> |
@@ -438,6 +473,8 @@ translation.priority.mt:
 | [ResultStatus enum](sfclient-model-resultstatus.md) | Possible values include: 'Invalid', 'Succeeded', 'Cancelled', 'Interrupted', 'Failed', 'Pending'<br/> |
 | [ResumeApplicationUpgradeDescription](sfclient-model-resumeapplicationupgradedescription.md) | Describes the parameters for resuming an unmonitored manual Service Fabric application upgrade<br/> |
 | [ResumeClusterUpgradeDescription](sfclient-model-resumeclusterupgradedescription.md) | Describes the parameters for resuming a cluster upgrade.<br/> |
+| [RetentionPolicyDescription](sfclient-model-retentionpolicydescription.md) | Describes the retention policy configured.<br/> |
+| [RetentionPolicyType enum](sfclient-model-retentionpolicytype.md) | The type of retention policy. Currently only "Basic" retention policy is supported.<br/> |
 | [RollingUpgradeUpdateDescription](sfclient-model-rollingupgradeupdatedescription.md) | Describes the parameters for updating a rolling upgrade of application or cluster.<br/> |
 | [SafetyCheck](sfclient-model-safetycheck.md) | Represents a safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state.<br/> |
 | [SafetyCheckKind enum](sfclient-model-safetycheckkind.md) | The kind of safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state. Following are the kinds of safety checks.<br/> |
@@ -449,6 +486,13 @@ translation.priority.mt:
 | [ScalingTriggerKind enum](sfclient-model-scalingtriggerkind.md) | Enumerates the ways that a service can be scaled.<br/> |
 | [SecondaryActiveReplicatorStatus](sfclient-model-secondaryactivereplicatorstatus.md) | Status of the secondary replicator when it is in active mode and is part of the replica set.<br/> |
 | [SecondaryIdleReplicatorStatus](sfclient-model-secondaryidlereplicatorstatus.md) | Status of the secondary replicator when it is in idle mode and is being built by the primary.<br/> |
+| [SecretKind enum](sfclient-model-secretkind.md) | Describes the kind of secret.<br/> |
+| [SecretResourceDescription](sfclient-model-secretresourcedescription.md) | This type describes a secret resource.<br/> |
+| [SecretResourcePropertiesBase](sfclient-model-secretresourcepropertiesbase.md) | This type describes the properties of a secret resource, including its kind.<br/> |
+| [SecretValue](sfclient-model-secretvalue.md) | This type represents the unencrypted value of the secret.<br/> |
+| [SecretValueProperties](sfclient-model-secretvalueproperties.md) | This type describes properties of secret value resource.<br/> |
+| [SecretValueResourceDescription](sfclient-model-secretvalueresourcedescription.md) | This type describes a value of a secret resource. The name of this resource is the version identifier corresponding to this secret value.<br/> |
+| [SecretValueResourceProperties](sfclient-model-secretvalueresourceproperties.md) | This type describes properties of a secret value resource.<br/> |
 | [SeedNodeSafetyCheck](sfclient-model-seednodesafetycheck.md) | Represents a safety check for the seed nodes being performed by service fabric before continuing with node level operations.<br/> |
 | [SelectedPartition](sfclient-model-selectedpartition.md) | This class returns information about the partition that the user-induced operation acted upon.<br/> |
 | [ServiceBackupConfigurationInfo](sfclient-model-servicebackupconfigurationinfo.md) | Backup configuration information for a specific Service Fabric service specifying what backup policy is being applied and suspend description, if any.<br/> |
@@ -463,7 +507,6 @@ translation.priority.mt:
 | [ServiceFromTemplateDescription](sfclient-model-servicefromtemplatedescription.md) | Defines description for creating a Service Fabric service from a template defined in the application manifest.<br/> |
 | [ServiceHealth](sfclient-model-servicehealth.md) | Information about the health of a Service Fabric service.<br/> |
 | [ServiceHealthEvaluation](sfclient-model-servicehealthevaluation.md) | Represents health evaluation for a service, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.<br/> |
-| [ServiceHealthReportCreatedEvent](sfclient-model-servicehealthreportcreatedevent.md) | Service Health Report Created event.<br/> |
 | [ServiceHealthReportExpiredEvent](sfclient-model-servicehealthreportexpiredevent.md) | Service Health Report Expired event.<br/> |
 | [ServiceHealthState](sfclient-model-servicehealthstate.md) | Represents the health state of a service, which contains the service identifier and its aggregated health state.<br/> |
 | [ServiceHealthStateChunk](sfclient-model-servicehealthstatechunk.md) | Represents the health state chunk of a service, which contains the service name, its aggregated health state and any partitions that respect the filters in the cluster health chunk query description.<br/> |
@@ -474,6 +517,7 @@ translation.priority.mt:
 | [ServiceLoadMetricDescription](sfclient-model-serviceloadmetricdescription.md) | Specifies a metric to load balance a service during runtime.<br/> |
 | [ServiceLoadMetricWeight enum](sfclient-model-serviceloadmetricweight.md) | Determines the metric weight relative to the other metrics that are configured for this service. During runtime, if two metrics end up in conflict, the Cluster Resource Manager prefers the metric with the higher weight.<br/> |
 | [ServiceNameInfo](sfclient-model-servicenameinfo.md) | Information about the service name.<br/> |
+| [ServiceNewHealthReportEvent](sfclient-model-servicenewhealthreportevent.md) | Service Health Report Created event.<br/> |
 | [ServiceOperationName enum](sfclient-model-serviceoperationname.md) | Specifies the current active life-cycle operation on a stateful service replica or stateless service instance.<br/> |
 | [ServicePackageActivationMode enum](sfclient-model-servicepackageactivationmode.md) | The activation mode of service package to be used for a Service Fabric service. This is specified at the time of creating the Service.<br/> |
 | [ServicePartitionInfo](sfclient-model-servicepartitioninfo.md) | Information about a partition of a Service Fabric service.<br/> |
@@ -486,11 +530,11 @@ translation.priority.mt:
 | [ServicePlacementPreferPrimaryDomainPolicyDescription](sfclient-model-serviceplacementpreferprimarydomainpolicydescription.md) | Describes the policy to be used for placement of a Service Fabric service where the service's Primary replicas should optimally be placed in a particular domain.<br/><br/>This placement policy is usually used with fault domains in scenarios where the Service Fabric cluster is geographically distributed in order to indicate that a service�s primary replica should be located in a particular fault domain, which in geo-distributed scenarios usually aligns with regional or datacenter boundaries. Note that since this is an optimization it is possible that the Primary replica may not end up located in this domain due to failures, capacity limits, or other constraints.<br/> |
 | [ServicePlacementRequiredDomainPolicyDescription](sfclient-model-serviceplacementrequireddomainpolicydescription.md) | Describes the policy to be used for placement of a Service Fabric service where the instances or replicas of that service must be placed in a particular domain<br/> |
 | [ServicePlacementRequireDomainDistributionPolicyDescription](sfclient-model-serviceplacementrequiredomaindistributionpolicydescription.md) | Describes the policy to be used for placement of a Service Fabric service where two replicas from the same partition should never be placed in the same fault or upgrade domain.<br/><br/>While this is not common it can expose the service to an increased risk of concurrent failures due to unplanned outages or other cases of subsequent/concurrent failures. As an example, consider a case where replicas are deployed across different data center, with one replica per location. In the event that one of the datacenters goes offline, normally the replica that was placed in that datacenter will be packed into one of the remaining datacenters. If this is not desirable then this policy should be set.<br/> |
+| [ServiceProperties](sfclient-model-serviceproperties.md) | Describes properties of a service resource.<br/> |
+| [ServiceReplicaDescription](sfclient-model-servicereplicadescription.md) | Describes a replica of a service resource.<br/> |
 | [ServiceReplicaProperties](sfclient-model-servicereplicaproperties.md) | Describes the properties of a service replica.<br/> |
-| [ServiceResourceDescription](sfclient-model-serviceresourcedescription.md) | Describes a service fabric service resource.<br/> |
+| [ServiceResourceDescription](sfclient-model-serviceresourcedescription.md) | This type describes a service resource.<br/> |
 | [ServiceResourceProperties](sfclient-model-serviceresourceproperties.md) | This type describes properties of a service resource.<br/> |
-| [ServiceResourceReplicaDescription](sfclient-model-serviceresourcereplicadescription.md) | Describes a replica of a service resource.<br/> |
-| [ServiceResourceStatus enum](sfclient-model-serviceresourcestatus.md) | Possible values include: 'Unknown', 'Active', 'Upgrading', 'Deleting', 'Creating', 'Failed'<br/> |
 | [ServicesHealthEvaluation](sfclient-model-serviceshealthevaluation.md) | Represents health evaluation for services of a certain service type belonging to an application, containing health evaluations for each unhealthy service that impacted current aggregated health state. Can be returned when evaluating application health and the aggregated health state is either Error or Warning.<br/> |
 | [ServiceStatus enum](sfclient-model-servicestatus.md) | The status of the application.<br/> |
 | [ServiceTypeDescription](sfclient-model-servicetypedescription.md) | Describes a service type defined in the service manifest of a provisioned application type. The properties the ones defined in the service manifest.<br/> |
@@ -501,14 +545,15 @@ translation.priority.mt:
 | [ServiceTypeManifest](sfclient-model-servicetypemanifest.md) | Contains the manifest describing a service type registered as part of an application in a Service Fabric cluster.<br/> |
 | [ServiceTypeRegistrationStatus enum](sfclient-model-servicetyperegistrationstatus.md) | The status of the service type registration on the node.<br/> |
 | [ServiceUpdateDescription](sfclient-model-serviceupdatedescription.md) | A ServiceUpdateDescription contains all of the information necessary to update a service.<br/> |
-| [Setting](sfclient-model-setting.md) | Describes a setting for the container.<br/> |
+| [Setting](sfclient-model-setting.md) | Describes a setting for the container. The setting file path can be fetched from environment variable "Fabric_SettingPath". The path for Windows container is "C:\\secrets". The path for Linux container is "/var/secrets".<br/> |
 | [SingletonPartitionInformation](sfclient-model-singletonpartitioninformation.md) | Information about a partition that is singleton. The services with singleton partitioning scheme are effectively non-partitioned. They only have one partition.<br/> |
 | [SingletonPartitionSchemeDescription](sfclient-model-singletonpartitionschemedescription.md) | Describes the partition scheme of a singleton-partitioned, or non-partitioned service.<br/> |
+| [SizeTypes enum](sfclient-model-sizetypes.md) | Possible values include: 'Small', 'Medium', 'Large'<br/> |
 | [StartClusterUpgradeDescription](sfclient-model-startclusterupgradedescription.md) | Describes the parameters for starting a cluster upgrade.<br/> |
 | [StartedChaosEvent](sfclient-model-startedchaosevent.md) | Describes a Chaos event that gets generated when Chaos is started.<br/> |
 | [State enum](sfclient-model-state.md) | Possible values include: 'Invalid', 'Created', 'Claimed', 'Preparing', 'Approved', 'Executing', 'Restoring', 'Completed'<br/> |
-| [StatefulReplicaHealthReportCreatedEvent](sfclient-model-statefulreplicahealthreportcreatedevent.md) | Stateful Replica Health Report Created event.<br/> |
 | [StatefulReplicaHealthReportExpiredEvent](sfclient-model-statefulreplicahealthreportexpiredevent.md) | Stateful Replica Health Report Expired event.<br/> |
+| [StatefulReplicaNewHealthReportEvent](sfclient-model-statefulreplicanewhealthreportevent.md) | Stateful Replica Health Report Created event.<br/> |
 | [StatefulServiceDescription](sfclient-model-statefulservicedescription.md) | Describes a stateful service.<br/> |
 | [StatefulServiceInfo](sfclient-model-statefulserviceinfo.md) | Information about a stateful Service Fabric service.<br/> |
 | [StatefulServicePartitionInfo](sfclient-model-statefulservicepartitioninfo.md) | Information about a partition of a stateful Service Fabric service..<br/> |
@@ -517,8 +562,8 @@ translation.priority.mt:
 | [StatefulServiceReplicaInfo](sfclient-model-statefulservicereplicainfo.md) | Represents a stateful service replica. This includes information about the identity, role, status, health, node name, uptime, and other details about the replica.<br/> |
 | [StatefulServiceTypeDescription](sfclient-model-statefulservicetypedescription.md) | Describes a stateful service type defined in the service manifest of a provisioned application type.<br/> |
 | [StatefulServiceUpdateDescription](sfclient-model-statefulserviceupdatedescription.md) | Describes an update for a stateful service.<br/> |
-| [StatelessReplicaHealthReportCreatedEvent](sfclient-model-statelessreplicahealthreportcreatedevent.md) | Stateless Replica Health Report Created event.<br/> |
 | [StatelessReplicaHealthReportExpiredEvent](sfclient-model-statelessreplicahealthreportexpiredevent.md) | Stateless Replica Health Report Expired event.<br/> |
+| [StatelessReplicaNewHealthReportEvent](sfclient-model-statelessreplicanewhealthreportevent.md) | Stateless Replica Health Report Created event.<br/> |
 | [StatelessServiceDescription](sfclient-model-statelessservicedescription.md) | Describes a stateless service.<br/> |
 | [StatelessServiceInfo](sfclient-model-statelessserviceinfo.md) | Information about a stateless Service Fabric service.<br/> |
 | [StatelessServiceInstanceHealth](sfclient-model-statelessserviceinstancehealth.md) | Represents the health of the stateless service instance.<br/>Contains the instance aggregated health state, the health events and the unhealthy evaluations.<br/> |
@@ -531,6 +576,7 @@ translation.priority.mt:
 | [StringPropertyValue](sfclient-model-stringpropertyvalue.md) | Describes a Service Fabric property value of type String.<br/> |
 | [SuccessfulPropertyBatchInfo](sfclient-model-successfulpropertybatchinfo.md) | Derived from PropertyBatchInfo. Represents the property batch succeeding. Contains the results of any "Get" operations in the batch.<br/> |
 | [SystemApplicationHealthEvaluation](sfclient-model-systemapplicationhealthevaluation.md) | Represents health evaluation for the fabric:/System application, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state of the cluster is either Error or Warning.<br/> |
+| [TcpConfig](sfclient-model-tcpconfig.md) | Describes the tcp configuration for external connectivity for this network.<br/> |
 | [TestErrorChaosEvent](sfclient-model-testerrorchaosevent.md) | Describes a Chaos event that gets generated when an unexpected event occurs in the Chaos engine.<br/>For example, due to the cluster snapshot being inconsistent, while faulting an entity, Chaos found that the entity was already faulted -- which would be an unexpected event.<br/> |
 | [TimeBasedBackupScheduleDescription](sfclient-model-timebasedbackupscheduledescription.md) | Describes the time based backup schedule.<br/> |
 | [TimeOfDay](sfclient-model-timeofday.md) | Defines an hour and minute of the day specified in 24 hour time.<br/> |
@@ -553,9 +599,11 @@ translation.priority.mt:
 | [UploadSession](sfclient-model-uploadsession.md) | Information about a image store upload session<br/> |
 | [UploadSessionInfo](sfclient-model-uploadsessioninfo.md) | Information about an image store upload session. A session is associated with a relative path in the image store.<br/> |
 | [ValidationFailedChaosEvent](sfclient-model-validationfailedchaosevent.md) | Chaos event corresponding to a failure during validation.<br/> |
-| [VolumeProperties](sfclient-model-volumeproperties.md) | This type describes properties of a volume resource.<br/> |
+| [VolumeProperties](sfclient-model-volumeproperties.md) | Describes properties of a volume resource.<br/> |
+| [VolumeProvider enum](sfclient-model-volumeprovider.md) | Describes the provider of the volume resource.<br/> |
 | [VolumeProviderParametersAzureFile](sfclient-model-volumeproviderparametersazurefile.md) | This type describes a volume provided by an Azure Files file share.<br/> |
-| [VolumeResourceDescription](sfclient-model-volumeresourcedescription.md) | Describes a service fabric volume resource.<br/> |
+| [VolumeReference](sfclient-model-volumereference.md) | Describes a reference to a volume resource.<br/> |
+| [VolumeResourceDescription](sfclient-model-volumeresourcedescription.md) | This type describes a volume resource.<br/> |
 | [WaitForInbuildReplicaSafetyCheck](sfclient-model-waitforinbuildreplicasafetycheck.md) | Safety check that waits for the replica build operation to finish. This indicates that there is a replica that is going through the copy or is providing data for building another replica. Bring the node down will abort this copy operation which are typically expensive involving data movements.<br/> |
 | [WaitForPrimaryPlacementSafetyCheck](sfclient-model-waitforprimaryplacementsafetycheck.md) | Safety check that waits for the primary replica that was moved out of the node due to upgrade to be placed back again on that node.<br/> |
 | [WaitForPrimarySwapSafetyCheck](sfclient-model-waitforprimaryswapsafetycheck.md) | Safety check that waits for the primary replica to be moved out of the node before starting an upgrade to ensure the availability of the primary replica for the partition.<br/> |

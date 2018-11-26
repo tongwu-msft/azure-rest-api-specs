@@ -1,6 +1,7 @@
 ---
 title: "ResolvedServicePartition"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

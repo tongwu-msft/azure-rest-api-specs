@@ -1,6 +1,7 @@
 ---
 title: "Get Partition Backup Progress"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -35,7 +36,7 @@ Returns information about the state of the latest backup along with details or f
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/Partitions/{partitionId}/$/GetBackupProgress?api-version=6.2-preview&timeout={timeout}` |
+| GET | `/Partitions/{partitionId}/$/GetBackupProgress?api-version=6.4&timeout={timeout}` |
 
 
 ## Parameters
@@ -56,9 +57,13 @@ ____
 ### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: `6.2-preview` <br/>
+__Default__: `6.4` <br/>
 <br/>
-The version of the API. This parameter is required and its value must be '6.2-preview'.
+The version of the API. This parameter is required and its value must be '6.4'.
+
+Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This version is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+Additionally the runtime accepts any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0 and the runtime is 6.1, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
 
 
 ____
@@ -86,7 +91,7 @@ This shows an example of possible output when GetPartitionBackupProgress has rea
 
 #### Request
 ```
-GET http://localhost:19080/Partitions/1daae3f5-7fd6-42e9-b1ba-8c05f873994d/$/GetBackupProgress?api-version=6.2-preview
+GET http://localhost:19080/Partitions/1daae3f5-7fd6-42e9-b1ba-8c05f873994d/$/GetBackupProgress?api-version=6.4
 ```
 
 #### 200 Response
@@ -98,8 +103,8 @@ GET http://localhost:19080/Partitions/1daae3f5-7fd6-42e9-b1ba-8c05f873994d/$/Get
   "BackupId": "3a056ac9-7206-43c3-8424-6f6103003eba",
   "BackupLocation": "CalcApp\\CalcService\\1daae3f5-7fd6-42e9-b1ba-8c05f873994d\\2018-01-01 09.00.55.zip",
   "EpochOfLastBackupRecord": {
-    "DataLossNumber": "131462452931584510",
-    "ConfigurationNumber": "8589934592"
+    "DataLossVersion": "131462452931584510",
+    "ConfigurationVersion": "8589934592"
   },
   "LsnOfLastBackupRecord": "261",
   "FailureError": null

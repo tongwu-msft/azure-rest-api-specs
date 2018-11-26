@@ -1,6 +1,7 @@
 ---
 title: "Create Service"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -218,7 +219,7 @@ POST http://localhost:19080/Applications/test/$/GetServices/$/Create?api-version
   "ServiceTypeName": "StatefulBackendService",
   "InitializationData": [],
   "PartitionDescription": {
-    "PartitionScheme": "NamedParitionSchemeDescription",
+    "PartitionScheme": "NamedPartitionSchemeDescription",
     "Count": "1",
     "Names": [
       "0"
