@@ -8,8 +8,8 @@ summary: "Get Filesystem Properties.  \nAll system and user-defined filesystem p
 produces:
 - application/json
 paths:
-- content: HEAD http://{accountName}.{dnsSuffix}/{filesystem}
-- content: HEAD http://{accountName}.{dnsSuffix}/{filesystem}?timeout={timeout}
+- content: HEAD http://{accountName}.{dnsSuffix}/{filesystem}?resource=filesystem
+- content: HEAD http://{accountName}.{dnsSuffix}/{filesystem}?resource=filesystem&timeout={timeout}
   isOptional: true
 uriParameters:
 - name: accountName
@@ -27,10 +27,15 @@ uriParameters:
 - name: filesystem
   in: path
   isRequired: true
-  description: The filesystem identifier.
+  description: The filesystem identifier.  The value must start and end with a letter or number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes are not permitted.  All letters must be lowercase.  The value must have between 3 and 63 characters.
   types:
   - uid: string
-  pattern: ^[a-z0-9](?!.*--)[-a-z0-9]{1,61}[a-z0-9]$
+- name: resource
+  in: query
+  isRequired: true
+  description: The value must be "filesystem" for all filesystem operations.
+  types:
+  - uid: FilesystemResourceType
 - name: timeout
   in: query
   description: An optional operation timeout value in seconds. The period begins when the request is received by the service. If the timeout value elapses before the operation completes, the operation fails.
@@ -207,6 +212,13 @@ requestHeader:
   types:
   - uid: string
 definitions:
+- name: FilesystemResourceType
+  description: The value must be "filesystem" for all filesystem operations.
+  kind: enum
+  properties:
+  - name: filesystem
+    types:
+    - uid: string
 - name: DataLakeStorageError
   kind: object
   properties:
