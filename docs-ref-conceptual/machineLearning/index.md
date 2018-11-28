@@ -3,9 +3,9 @@ ms.assetid:
 ms.title: Machine Learning Studio API Web Service
 ms.prod: 
 ms.service: machine-learning
-author: garyericson
-ms.author: garye
-ms.manager: jhubbard
+author: ericlicoding
+ms.author: amlstudiodocs
+ms.manager: cgronlun
 service_description: To be added
 ---
 
