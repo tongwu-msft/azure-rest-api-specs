@@ -11,7 +11,7 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs?api-version=2018-07-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs?api-version=2018-07-01&$filter={$filter}&$top={$top}&$skip={$skip}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs?api-version=2018-07-01&$filter={$filter}&$orderby={$orderby}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -49,16 +49,11 @@ uriParameters:
   description: Restricts the set of items returned.
   types:
   - uid: string
-- name: $top
+- name: $orderby
   in: query
-  description: Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n.
+  description: Specifies the the key by which the result collection should be ordered.
   types:
-  - uid: integer
-- name: $skip
-  in: query
-  description: Specifies a non-negative integer n that excludes the first n items of the queried collection from the result. The service returns items starting at position n+1.
-  types:
-  - uid: integer
+  - uid: string
 responses:
 - name: 200 OK
   description: OK
@@ -531,6 +526,407 @@ examples:
                   "progress": 100,
                   "label": "example-custom-label",
                   "assetName": "job3 output"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {}
+            }
+          }
+        ]
+      }
+- name: Lists Jobs for the Transform filter by name.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2018-07-01&$filter=name eq 'job1' or name eq 'job2'&$orderby=name
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "job1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job1",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Queued",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "assetName": "job1 input"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Queued",
+                  "progress": 0,
+                  "label": "example-custom-label",
+                  "assetName": "job1 output"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {}
+            }
+          },
+          {
+            "name": "job2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Processing",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "assetName": "job2 input"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Processing",
+                  "progress": 50,
+                  "label": "example-custom-label",
+                  "assetName": "job2 output"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {}
+            }
+          }
+        ]
+      }
+- name: Lists Jobs for the Transform filter by state equal.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2018-07-01&$filter=properties/state eq Microsoft.Media.JobState'Processing'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "job2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Processing",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "assetName": "job2 input"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Processing",
+                  "progress": 50,
+                  "label": "example-custom-label",
+                  "assetName": "job2 output"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {}
+            }
+          },
+          {
+            "name": "job3",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Processing",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "assetName": "job3 input"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Processing",
+                  "progress": 50,
+                  "label": "example-custom-label",
+                  "assetName": "job3 output"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {}
+            }
+          }
+        ]
+      }
+- name: Lists Jobs for the Transform filter by state not equal.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2018-07-01&$filter=properties/state ne Microsoft.Media.JobState'processing'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "job1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job1",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Queued",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "assetName": "job1 input"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Queued",
+                  "progress": 0,
+                  "label": "example-custom-label",
+                  "assetName": "job1 output"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {}
+            }
+          },
+          {
+            "name": "job4",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job4",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Finished",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "assetName": "job4 input"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Finished",
+                  "progress": 100,
+                  "label": "example-custom-label",
+                  "assetName": "job4 output"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {}
+            }
+          }
+        ]
+      }
+- name: Lists Jobs for the Transform filter by name and state.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2018-07-01&$filter=name eq 'job3' and properties/state eq Microsoft.Media.JobState'finished'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "job3",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Finished",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "assetName": "job3 input"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Finished",
+                  "progress": 100,
+                  "label": "example-custom-label",
+                  "assetName": "job3 output"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {}
+            }
+          }
+        ]
+      }
+- name: Lists Jobs for the Transform filter by created.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2018-07-01&$filter=properties/created ge 2018-09-27T22:56:18.5507138Z and properties/created le 2018-09-27T22:56:28.5507138Z&$orderby=properties/created
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "job2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "2018-09-27T22:56:18.5507138Z",
+              "state": "Processing",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "assetName": "job2 input"
+                  }
+                ]
+              },
+              "lastModified": "2018-09-27T22:56:18.5507138Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Processing",
+                  "progress": 50,
+                  "label": "example-custom-label",
+                  "assetName": "job2 output"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {}
+            }
+          },
+          {
+            "name": "job3",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "2018-09-27T22:56:28.5507138Z",
+              "state": "Finished",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "assetName": "job3 input"
+                  }
+                ]
+              },
+              "lastModified": "2018-09-27T22:56:28.5507138Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Finished",
+                  "progress": 100,
+                  "label": "example-custom-label",
+                  "assetName": "job3 output"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {}
+            }
+          }
+        ]
+      }
+- name: Lists Jobs for the Transform filter by lastmodified.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2018-07-01&$filter=properties/lastmodified ge 2018-09-27T22:56:18.5821662Z and properties/lastmodified le 2018-09-27T22:56:28.5821662Z&$orderby=properties/lastmodified desc
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "job3",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "2018-09-27T22:56:28.5821662Z",
+              "state": "Finished",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "assetName": "job3 input"
+                  }
+                ]
+              },
+              "lastModified": "2018-09-27T22:56:28.5821662Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Finished",
+                  "progress": 100,
+                  "label": "example-custom-label",
+                  "assetName": "job3 output"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {}
+            }
+          },
+          {
+            "name": "job2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "2018-09-27T22:56:18.5821662Z",
+              "state": "Processing",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "assetName": "job2 input"
+                  }
+                ]
+              },
+              "lastModified": "2018-09-27T22:56:18.5821662Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Processing",
+                  "progress": 50,
+                  "label": "example-custom-label",
+                  "assetName": "job2 output"
                 }
               ],
               "priority": "Low",
