@@ -83,12 +83,9 @@ An empty object is returned for environments with no events. Environment availab
 ## Get Event Schema API
 
 ### **Event Schema**
-**Time Series Insights** detects the **types** of properties that are sent part of events, and creates a schema. This schema will have properties defined by name and datatype (string, double, bool, & datetime). The property name that is comes with the event is converted into **'propertyname_datatype'**.
-
-**Example:** If the property name is **'temperature'** and datatype is **'double'** in the event, it will be stored as **'temperature_double'**. This is the same format we use in the generated parquet files.
+**Time Series Insights** detects the **types** of properties that are sent part of events, and creates a schema. This schema will have properties defined by name and datatype (string, double, bool, & datetime).
 
 `POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/eventSchema?api-version=2018-11-01-preview`
-
 
 The Get Event Schema API returns environment metadata for a given search span. Event Schema is returned as a set of property references.
 
@@ -110,27 +107,27 @@ Response Body:
 {
     "properties": [
         {
-    		"name": "Building_string",
+    		"name": "Building",
     		"type": "String"
     	},
     	{
-    		"name": "Room_string",
+    		"name": "Room",
     		"type": "String"
     	},
     	{
-    		"name": "DeviceId_double",
+    		"name": "DeviceId",
     		"type": "Double"
     	},
     	{
-    		"name": "Temperature_double",
+    		"name": "Temperature",
     		"type": "Double"
     	},
     	{
-    		"name": "Pressure_double",
+    		"name": "Pressure",
     		"type": "Double"
     	},
     	{
-    		"name": "Status_string",
+    		"name": "Status",
     		"type": "String"
     	}
     ]
