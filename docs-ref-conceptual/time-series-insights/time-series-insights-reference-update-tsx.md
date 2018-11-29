@@ -21,14 +21,14 @@ ms.author:
 
 Time Series Expression (tsx) is a string based expression language with strong typing. TSX is used to represent the following entities in a [Time Series Query](time-series-insights-reference-update-tsq.md).
 
-- Predicate
+- Filter
 - Value
 - Aggregation
 
-## Predicate Expressions
-**Predicate expressions** are used to represent boolean clauses. Examples of predicate string:
+## Filter Expressions
+**Filter expressions** are used to represent boolean clauses. Examples of filters:
 
-| Predicate string | Description |
+| TSX | Description |
 |-|-|
 | $event.PointValue.Double = 3.14 | `true` for events with double PointValue equal to 3.14 |
 | $event.PointValue > 3.14 AND $event.Status.String = 'Good' | `true` for events with PointValue greater than 3.14 and string Status 'Good' |
@@ -38,7 +38,13 @@ Time Series Expression (tsx) is a string based expression language with strong t
 ## Value Expressions
 **Value expressions** are used to depict the value for Numeric variables. It can be only a single property reference expression of type Double.
 
-For example: `$event.temperature.Double`
+For example: 
+
+| TSX | Notes |
+|--|--|
+| `$event.temperature.Double` | |
+| `$event.[Temperature.ABC].Double` | Use `[` and `]` for escaping |
+| `$event.Temperature` | The type is assumed to be double |
 
 ## Aggregation Expressions
 **Aggregate expressions** are used to depict the aggregation operation to be used on the query. It results in a single value for each interval. Aggregate expression can be applied on Numeric and Aggregate variable kinds.
@@ -77,7 +83,7 @@ For example: `count()`
 |--|--|--|--|--|
 | utcNow | DateTime | None | utcNow() | Returns current time in UTC format. Function name is case-sensitive. |
 
-For comparison predicates (`<`, `>`, `<=`, `>=`, `=`, `!=`), operand can be `NULL` or have a single type.
+For comparison expressions (`<`, `>`, `<=`, `>=`, `=`, `!=`), operand can be `NULL` or have a single type.
 In each predicate expression, types of left-hand side and right-hand side operands are validated to match.
 Errors occur when types of left and right sides do not agree, or operation is not allowed on particular types.
 
@@ -85,30 +91,21 @@ Errors occur when types of left and right sides do not agree, or operation is no
    * Any property type is accepted against NULL literal
    * Otherwise, types of left-hand side and right-hand side should match
 
-    Here are examples given properties "p1" and "p2" of type String, and property "p3" of type Double:
+2. If type is omitted for property but name is specified, then type is assumed to be double.
 
-    | Predicate string | Is valid? | Notes |
-    | - | - | - |
-    | p1.String = 'abc' | Yes | |
-    | p1.String = p2.String | Yes | |
-    | p1.String = NULL | Yes | NULL matches any left-hand side type. |
-    | p3.Double = 'abc' | No | Type mismatch. |
-    | p3.Double = p1.String | No | Type mismatch. |
+Here are examples given properties "p1" and "p2" of type String, and property "p3" of type Double:
 
-2. If type is omitted for property but name is specified, then the following steps are performed:
+| Filter | Is valid? | Notes |
+| - | - | - |
+| $event.p1.String = 'abc' | Yes | |
+| $event.p1.String = $event.p2.String | Yes | |
+| $event.p1.String = NULL | Yes | NULL matches any left-hand side type. |
+| $event.p3.Double = 'abc' | No | Type mismatch. |
+| $event.p3.Double = $event.p1.String | No | Type mismatch. |
+| $event.p1 = 'abc' | No |  Type mismatch. |
+| $event.p1 = true | No | Type mismatch. |
+| $event.p1 = NULL | Yes | $event.p1.Double = NULL |
+| $event.p1 != NULL | Yes | $event.p1.Double != NULL |
+| $event.p1 = '1.0' | No | Type mismatch. |
 
-    1. All properties with given name and types are taken.
-    2. Left-hand side and right-hand side operands are grouped in pairs by type.
-    3. Pairs are concatenated via `AND` operation.
-
-    Here are examples given properties "p1" and "p2" of type String and Double:
-
-    | Predicate string | Equivalent strong-typed predicate string | Notes |
-    |--|--|--|--|
-    | p1 = 'abc' | p1.String = 'abc' |  |
-    | p1 = true | - | No p1 property of type Bool, so missing property error is emitted. |
-    | p1 = NULL | p1.String = NULL AND p1.Double = NULL | For NULL right-hand side it is assumed that all matching properties should be NULL. |
-    | p1 != NULL | p1.String != NULL OR p1.Double != NULL | Inversion of the preceding expression |
-    | p1 = '1.0' | p1.String = '1.0' |  |
-    | p1 = p2 | p1.String = p2.String AND p1.Double = p2.Double |  |
-    | p1 != p2 | p1.String != p2.String OR p1.Double != p2.Double | Inversion of the preceding expression |
+    
