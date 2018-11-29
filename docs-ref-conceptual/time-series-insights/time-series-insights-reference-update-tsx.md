@@ -67,10 +67,10 @@ For example: `count()`
 
 ### Supported operand types
 | Operation | Supported Types | Notes |
-|--|--|--|--|
+|--|--|--|
 | <, >, <=, >= | Double, DateTime, TimeSpan | |
 | =, !=, <> | String, Bool, Double, DateTime, TimeSpan, NULL | <> is equivalent for != |
-| +, -, *, / | Double, DateTime, TimeSpan | |
+| +, -, *, / |  Double, DateTime, TimeSpan | |
 
 ### Supported scalar functions
 | Function name | Return value | Arguments | Example | Notes |
