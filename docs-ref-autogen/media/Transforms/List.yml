@@ -11,7 +11,7 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms?api-version=2018-07-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms?api-version=2018-07-01&$filter={$filter}&$top={$top}&$skip={$skip}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms?api-version=2018-07-01&$filter={$filter}&$orderby={$orderby}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -43,16 +43,11 @@ uriParameters:
   description: Restricts the set of items returned.
   types:
   - uid: string
-- name: $top
+- name: $orderby
   in: query
-  description: Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n.
+  description: Specifies the the key by which the result collection should be ordered.
   types:
-  - uid: integer
-- name: $skip
-  in: query
-  description: Specifies a non-negative integer n that excludes the first n items of the queried collection from the result. The service returns items starting at position n+1.
-  types:
-  - uid: integer
+  - uid: string
 responses:
 - name: 200 OK
   description: OK
@@ -945,9 +940,9 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/sampleEncode",
             "type": "Microsoft.Media/mediaservices/transforms",
             "properties": {
-              "created": "2018-08-23T19:09:34.2372568+00:00",
+              "created": "2018-07-27T02:11:48.9717921+00:00",
               "description": "A sample Transform using the Standard Encoder with a built in preset.",
-              "lastModified": "2018-08-23T19:09:34.2372568+00:00",
+              "lastModified": "2018-07-27T02:11:48.9717921+00:00",
               "outputs": [
                 {
                   "onError": "StopProcessingJob",
@@ -965,9 +960,9 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/sampleEncodeAndVideoIndex",
             "type": "Microsoft.Media/mediaservices/transforms",
             "properties": {
-              "created": "2018-08-23T19:09:34.2422668+00:00",
+              "created": "2018-07-27T02:11:48.9767793+00:00",
               "description": "A sample Transform using the Standard Encoder with a built-in preset, as well as the Video Analyzer.",
-              "lastModified": "2018-08-23T19:09:34.2422668+00:00",
+              "lastModified": "2018-07-27T02:11:48.9767793+00:00",
               "outputs": [
                 {
                   "onError": "StopProcessingJob",
@@ -983,6 +978,124 @@ examples:
                   "preset": {
                     "@odata.type": "#Microsoft.Media.BuiltInStandardEncoderPreset",
                     "presetName": "AdaptiveStreaming"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+- name: Lists the Transforms filter by name
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms?api-version=2018-07-01&$filter=(name eq 'sampleEncode') or (name eq 'sampleEncodeAndVideoIndex')&$orderby=name desc
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "sampleEncodeAndVideoIndex",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/sampleEncodeAndVideoIndex",
+            "type": "Microsoft.Media/mediaservices/transforms",
+            "properties": {
+              "created": "2018-09-28T05:56:07.5846087+00:00",
+              "description": "A sample Transform using the Standard Encoder with a built-in preset, as well as the Video Analyzer.",
+              "lastModified": "2018-09-28T05:56:07.5846087+00:00",
+              "outputs": [
+                {
+                  "onError": "StopProcessingJob",
+                  "relativePriority": "Normal",
+                  "preset": {
+                    "@odata.type": "#Microsoft.Media.VideoAnalyzerPreset",
+                    "insightsToExtract": "AllInsights"
+                  }
+                },
+                {
+                  "onError": "StopProcessingJob",
+                  "relativePriority": "Normal",
+                  "preset": {
+                    "@odata.type": "#Microsoft.Media.BuiltInStandardEncoderPreset",
+                    "presetName": "AdaptiveStreaming"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "sampleEncode",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/sampleEncode",
+            "type": "Microsoft.Media/mediaservices/transforms",
+            "properties": {
+              "created": "2018-09-28T05:56:07.5846087+00:00",
+              "description": "A sample Transform using the Standard Encoder with a built in preset.",
+              "lastModified": "2018-09-28T05:56:07.5846087+00:00",
+              "outputs": [
+                {
+                  "onError": "StopProcessingJob",
+                  "relativePriority": "Normal",
+                  "preset": {
+                    "@odata.type": "#Microsoft.Media.BuiltInStandardEncoderPreset",
+                    "presetName": "AdaptiveStreaming"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+- name: Lists the Transforms filter by created
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms?api-version=2018-07-01&$filter=properties/created gt 2018-09-27T22:56:07.7621546Z and properties/created le 2018-09-27T22:56:17.7621546Z&$orderby=properties/created
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "sampleEncodeAndVideoIndex",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/sampleEncodeAndVideoIndex",
+            "type": "Microsoft.Media/mediaservices/transforms",
+            "properties": {
+              "created": "2018-09-28T05:56:17.7621546+00:00",
+              "description": "A sample Transform using the Video Analyzer.",
+              "lastModified": "2018-09-28T05:56:17.7621546+00:00",
+              "outputs": [
+                {
+                  "onError": "StopProcessingJob",
+                  "relativePriority": "Normal",
+                  "preset": {
+                    "@odata.type": "#Microsoft.Media.VideoAnalyzerPreset",
+                    "insightsToExtract": "AllInsights"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+- name: Lists the Transforms filter by lastmodified
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms?api-version=2018-07-01&$filter=properties/lastmodified gt 2018-09-27T22:56:07.7840953Z and properties/lastmodified le 2018-09-27T22:56:17.7840953Z&$orderby=properties/lastmodified desc
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "sampleEncodeAndVideoIndex",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/sampleEncodeAndVideoIndex",
+            "type": "Microsoft.Media/mediaservices/transforms",
+            "properties": {
+              "created": "2018-09-28T05:56:17.7840953+00:00",
+              "description": "A sample Transform using the Video Analyzer.",
+              "lastModified": "2018-09-28T05:56:17.7840953+00:00",
+              "outputs": [
+                {
+                  "onError": "StopProcessingJob",
+                  "relativePriority": "Normal",
+                  "preset": {
+                    "@odata.type": "#Microsoft.Media.VideoAnalyzerPreset",
+                    "insightsToExtract": "AllInsights"
                   }
                 }
               ]

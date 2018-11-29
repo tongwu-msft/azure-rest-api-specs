@@ -33,7 +33,7 @@ For information about permitted use and display of results, see [Bing Search API
 To request custom query suggestions, send a GET request to:
 
 ```
-https://api.cognitive.microsoft.com/bingcustomsearch/v7.0/Suggestions
+https://api.cognitive.microsoft.com/bingcustomsearch/v7.0/suggestions/search
 ```  
   
 The request must use the HTTPS protocol.  
