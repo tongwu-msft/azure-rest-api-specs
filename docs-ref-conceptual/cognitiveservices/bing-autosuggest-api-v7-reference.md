@@ -35,7 +35,7 @@ For information about permitted use and display of results, see [Bing Search API
 To request query suggestions, send a GET request to:
 
 ```
-https://api.cognitive.microsoft.com/bing/v7.0/suggestions/search
+https://api.cognitive.microsoft.com/bing/v7.0/suggestions
 ```  
   
 The request must use the HTTPS protocol.  
