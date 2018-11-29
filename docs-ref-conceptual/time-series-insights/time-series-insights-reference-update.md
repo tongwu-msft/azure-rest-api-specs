@@ -27,32 +27,38 @@ Below is the terminology definition that will be helpful, as time series model a
 
 **Event** is the single timestamp + properties + values on the wire as persisted in TSI.
 
-**Time Series** is an array of rows, where each row has a timestamp and multiple values. **`ts`** is abbreviation used in JSON and APIs.
+**Time Series** is an array of rows, where each row has a timestamp and multiple values.
 
-**Time Series Instance** is a group of events that has the same **Time Series ID (`tsId`)**. Time Series ID is unique key within event stream and within the model.
+**Time Series Instance** is a group of events that has the same **Time Series ID**. Time Series ID is unique key within event stream and within the model.
 
 **Time Series Instance** has a required **Time Series Type** that is persisted in **Time Series Model (TSM)**.
 
-**Time Series Type** defines variables using **Time Series Query (TSQ)**. Variables are named calculations over values from the events.
+**Time Series Type** defines variables. Variables are named calculations over values from the events.
 Calculations can be aggregations, interpolations and scalar calculations.
 
 In addition to persisting calculations of variables in TSM, **TSQ can be used ad-hoc to perform calculations** and return values without
 persisting calculations in the TSM.
 
-**Time Series Expressions (TSX)** is a string based expression language with strong typing (unlike predicate string). Type specification is required, e.g. `p1.Double`. In JSON, TSX is a string value of `tsx` property.
+**Time Series Expressions (TSX)** is a string based expression language with strong typing. Type specification is required, e.g. `$event.p1.Double`. In JSON, TSX is a string value of `tsx` property.
 
-**Time Series Variable** is a name associated with a value of one of TSI types. Variable definitions also contain formulas and computation rules.
-Variable definitions can be stored in types in TSM, as well as provided ad-hoc on TSQ APIs.
+**Time Series Variable** is a name associated with a value of one of the types. Variable definitions also contain formulas and computation rules.
+Variable definitions can be stored in types in TSM, as well as provided ad-hoc (inline variables) on TSQ APIs.
 
 Most APIs operate on and return **Time Series Value (TSV)** data structure:
+Time Series Value - rectangular data structure.
+Timestamps may not be unique.
 
 ```
-// Time Series Value - rectangular data structure.
-// Timestamps may not be unique.
-TSV = { search span, variable names with types, Dictionary<Timestamp, object[]> values }
+{
+  "timestamps": ["2018-01-01T00:02:03Z", "2018-01-01T00:02:03Z", ..],
+  "properties": [
+  {
+    "name": "Temperature",
+    "type": "Double",
+    "values": [1.0, 2.0 ...]
+  },
+  ..
+  ]
+}
+
 ```
-
-### **Event Schema**
-**Time Series Insights** detects the **types** of properties that are sent part of events, and creates a schema. This schema will have properties defined by name and datatype (string, double, bool, & datetime). The property name that is comes with the event is converted into **'propertyname_datatype'**.
-
-**Example:** If the property name is **'temperature'** and datatype is **'double'** in the event, it will be stored as **'temperature_double'**. This is the same format we use in the generated parquet files.
