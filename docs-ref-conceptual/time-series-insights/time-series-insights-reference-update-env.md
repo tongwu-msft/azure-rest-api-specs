@@ -39,7 +39,7 @@ Response Body:
             "displayName": "Sensors",
             "environmentId": "123f394f-a3c6-4cc2-b13a-55e2fcf57823",
             "environmentFqdn": "123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com",
-            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/RdxProdAssetsEastUs/providers/Microsoft.TimeSeriesInsights/environments/Sensors",
+            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SampleResourceGroup/providers/Microsoft.TimeSeriesInsights/environments/Sensors",
             "features": [
                 "TimeSeriesQuery",
                 "TimeSeriesModel"
