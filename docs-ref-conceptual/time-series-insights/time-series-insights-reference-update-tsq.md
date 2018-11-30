@@ -381,7 +381,17 @@ The following limits are applied during query execution to fairly utilize resour
 
 | Applicable APIs | Limit name | Limit value | SKUs affected |
 |-|-|-|-|
-| All | Max request size | 32 KB | L1 |
+| All | Max batch request size | 16 KB | L1 |
+| All | Max number of TSM objects per request | 10000 or 8 MB | L1 |
+| All | Max model request execution time | 30 seconds | L1 |
+| All | Max number of instances per environment | 500,000 | L1 |
+| All | Max number of instance fields per instance | 50 | L1 |
+| All | Max number of types per environment | 1000 | L1 |
+| All | Max number of variables per type | 50 | L1 |
+| All | Max number of hierarchies per environment | 32 | L1 |
+| All | Max number of hierarchies associated with an instance | 32 | L1 |
+| All | Max hierarchy depth | 32 | L1 |
+| All | Max number of characters in type name, hierarchy name, instance fields name, Time Series Id property value, Time Series Id each property name | 1024 | L1 |
 | Get Availability, Get EventSchema, Get Events, Get Series, Aggregate Series | Max number of concurrent requests per environment | 20 | L1 |
 | Get Events, Get Series, Aggregate Series | Max response size | 16 MB | L1 |
 | Get Events, Get Series, Aggregate Series | Max number of projected properties or variables | 50 | L1 |
@@ -427,7 +437,9 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 | 400 | InvalidInput | Number of instances exceeded the limit of '500,000'. | NumberOfInstancesExceededLimit |
 | 400 | InvalidInput | Number of types exceeded the limit of '1000'. | NumberOfTypesExceededLimit |
 | 400 | InvalidInput | Number of hierarchies exceeded the limit of '32'. | NumberOfHierarchiesExceededLimit |
-| 408 | RequestTimeout | Request timed out after '30' second(s). | - |
+| 400 | InvalidInput | The entity size is more than the maximum allowed size '16,384'. | ObjectSizeExceededLimit |
+| 400 | InvalidInput | The object name 'ABC123' with length '6' exceeds the maximum allowed character limit of '5'. | NameExceededLimit |
+| 408 | RequestTimeout | Request timed out after '30' second(s). | BatchRequestSizeExceededLimit |
 | 503 | TooManyRequests | Concurrent request count of '10' exceeded for environment '95880732-01b9-44ea-8d2d-4d764dfe1904'. | EnvRequestLimitExceeded |
 
 ## More information
