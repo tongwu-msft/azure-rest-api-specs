@@ -13,13 +13,12 @@ ms.service: time-series-insights
 ms.devlang: na
 ms.topic: data-acesss-api
 ms.tgt_pltfrm: na
-ms.workload: big-data
+ms.workload: azure-iot
 ms.date: 11/10/2017
 ms.author: anshan
 ---
 
 # Azure Time Series Insights reference data API
-
 
 This document describes the reference data API used to manage items within a reference data set. It assumes that the reference data set has already been created.
 

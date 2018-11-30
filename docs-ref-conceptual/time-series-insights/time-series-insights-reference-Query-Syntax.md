@@ -13,7 +13,7 @@ ms.service: time-series-insights
 ms.devlang: na
 ms.topic: data-acesss-api
 ms.tgt_pltfrm: na
-ms.workload: big-data
+ms.workload: azure-iot
 ms.date: 05/23/2017
 ms.author: v-mamcge
 ---
