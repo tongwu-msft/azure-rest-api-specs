@@ -4,7 +4,7 @@ description: This topic describes the Azure Time Series Insights GA landing
 keywords:
 services: time-series-insights
 documentationcenter:
-author: dpalled
+author: TheGrungeByte
 manager: cshankar
 editor: 
 
