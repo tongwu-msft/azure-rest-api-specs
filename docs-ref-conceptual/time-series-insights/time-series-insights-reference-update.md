@@ -17,6 +17,9 @@ ms.workload: big-data
 ms.date: 11/13/2017
 ms.author: 
 ---
+
+# Azure Time Series Insights Update
+
 Azure Time Series Insights Update that is in Public Preview, enables following data access operations in Time Series Insights Update environment:
 * View and query events data for an environment. For more information, see [Time Series Query](time-series-insights-reference-update-tsq.md) section.
 * Model and query metadata associated with the events in an environment. For more information, see [Time Series Model](time-series-insights-reference-update-tsm.md) section.
@@ -48,16 +51,15 @@ Most APIs operate on and return **Time Series Value (TSV)** data structure:
 Time Series Value - rectangular data structure.
 Timestamps may not be unique.
 
-```
+```json
 {
-  "timestamps": ["2018-01-01T00:02:03Z", "2018-01-01T00:02:03Z", ..],
+  "timestamps": ["2018-01-01T00:02:03Z", "2018-01-01T00:02:03Z"],
   "properties": [
-  {
-    "name": "Temperature",
-    "type": "Double",
-    "values": [1.0, 2.0 ...]
-  },
-  ..
+    {
+      "name": "Temperature",
+      "type": "Double",
+      "values": [1.0, 2.0]
+    }
   ]
 }
 
