@@ -4,7 +4,7 @@ description: This topic describes the Azure Time Series Insights update TSQ
 keywords:
 services: time-series-insights
 documentationcenter:
-author: dpalled
+author: TheGrungeByte
 manager: cshankar
 editor: 
 
