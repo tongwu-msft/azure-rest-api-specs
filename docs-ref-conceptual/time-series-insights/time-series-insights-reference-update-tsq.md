@@ -88,6 +88,11 @@ Input payload structure:
 * Filter clause (optional).
 * Projected Properties (optional).
 
+* `timeSeriesId` (mandatory).
+* `searchSpan` clause (mandatory).
+* `filter` clause (optional – For filtering the rows using a predicate. Ex: `$event.Status.String = 'Good'`).
+* `projectedProperties` (optional – Only the list of properties to be retrieved using the query, if not specified all properties will be retrieved.).
+
 Payload examples:
 
 Request Body:
@@ -165,11 +170,11 @@ Events can not be sorted at this time.
 The Get Series API enables query and retrieval of Time Series Insights data from captured events by leveraging data recorded on the wire using the variables define in model or provided inline. Please note if interpolation and aggregation clause is provided in variable, or interval is specified, it will be ignored.
 
 Input payload structure:
-* Time Series Id (mandatory).
-* Search span clause (mandatory).
-* Filter clause (optional).
-* Inline Variables (optional).
-* Projected Variables (optional).
+* `timeSeriesId` (mandatory).
+* `searchSpan` clause (mandatory).
+* `filter` clause (optional – For filtering the rows using a predicate. Ex: `$event.Status.String = 'Good'`).
+* `inlineVariables` (optional – If specified the variable definition stored in the model part of types is overwritten by this definition, only if the name matches).
+* `projectedVariables` (optional – If specified only the mentioned variables are retrieved part of the result, else all variables from model are considered for querying).
 
 Payload examples:
 
@@ -241,12 +246,12 @@ Inline variables can override variable definition stored in model part of types.
 The Aggregate Series API enables query and retrieval of Time Series Insights data from captured events by aggregating recorded data using the aggregate or sample functions. 
 
 Input payload structure:
-* Time Series Id (mandatory).
-* Search span clause (mandatory).
-* Interval (mandatory)
-* Filter clause (optional).
-* Inline Variables (optional).
-* Projected Variables (optional).
+* `timeSeriesId` (mandatory).
+* `searchSpan` clause (mandatory).
+* `interval` (mandatory).
+* `filter` clause (optional – For filtering the rows using a predicate. Ex: `$event.Status.String = 'Good'`)
+* `inlineVariables` (optional – This enables creation of variables by specifying aggregate functions such as sum, max, etc. If the name of variable matches with variable definition stored in the model part of types, the definition is overwritten).
+* `projectedVariables` (optional – If specified only the mentioned variables are retrieved part of the result, else all variables from model are considered for querying).
 
 Payload examples:
 
@@ -381,17 +386,6 @@ The following limits are applied during query execution to fairly utilize resour
 
 | Applicable APIs | Limit name | Limit value | SKUs affected |
 |-|-|-|-|
-| All | Max batch request size | 16 KB | L1 |
-| All | Max number of TSM objects per request | 10000 or 8 MB | L1 |
-| All | Max model request execution time | 30 seconds | L1 |
-| All | Max number of instances per environment | 500,000 | L1 |
-| All | Max number of instance fields per instance | 50 | L1 |
-| All | Max number of types per environment | 1000 | L1 |
-| All | Max number of variables per type | 50 | L1 |
-| All | Max number of hierarchies per environment | 32 | L1 |
-| All | Max number of hierarchies associated with an instance | 32 | L1 |
-| All | Max hierarchy depth | 32 | L1 |
-| All | Max number of characters in type name, hierarchy name, instance fields name, Time Series Id property value, Time Series Id each property name | 1024 | L1 |
 | Get Availability, Get EventSchema, Get Events, Get Series, Aggregate Series | Max number of concurrent requests per environment | 20 | L1 |
 | Get Events, Get Series, Aggregate Series | Max response size | 16 MB | L1 |
 | Get Events, Get Series, Aggregate Series | Max number of projected properties or variables | 50 | L1 |
