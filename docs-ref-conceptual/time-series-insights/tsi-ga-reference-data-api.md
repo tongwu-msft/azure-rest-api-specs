@@ -293,7 +293,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ## Common error response example
 
-The following JSON shows sample error response. The first item in the request was invalid while the second item was successfully posted. This response structure is the same for all operations except for [get](time-series-insights-reference-reference-data-api.md###get-reference-data-items). For *get*, on successful completion of an operation, the item itself is returned.
+The following JSON shows sample error response. The first item in the request was invalid while the second item was successfully posted. This response structure is the same for all operations except for [get](tsi-ga-reference-data-api.md###get-reference-data-items). For *get*, on successful completion of an operation, the item itself is returned.
 
 ```json
 {
