@@ -21,7 +21,7 @@ ms.author:
 
 This document describes various REST query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Time Series Insights environments. 
 
-To better understand the API calls described in this document, see [Azure Time Series Insights Update Expression Syntax](time-series-insights-reference-update-tsx.md).
+To better understand the API calls described in this document, see [Azure Time Series Insights Update Expression Syntax](tsi-update-tsx.md).
 
 ## Components of a REST API request/response
 
@@ -51,7 +51,7 @@ A REST API request/response pair can be separated into the following components:
 
 - HTTP **response message body**: JSON encoded response data.
  
-Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API](time-series-insights-authentication-and-authorization.md).
+Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 
 
 ## Common Headers and Parameters
