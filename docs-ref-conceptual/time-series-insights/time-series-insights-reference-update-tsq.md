@@ -83,11 +83,6 @@ Response headers:
 The Get Events API returns a list of raw events matching the search span and predicate.
 
 Input payload structure:
-* Time Series Id (mandatory).
-* Search span clause (mandatory).
-* Filter clause (optional).
-* Projected Properties (optional).
-
 * `timeSeriesId` (mandatory).
 * `searchSpan` clause (mandatory).
 * `filter` clause (optional – For filtering the rows using a predicate. Ex: `$event.Status.String = 'Good'`).
