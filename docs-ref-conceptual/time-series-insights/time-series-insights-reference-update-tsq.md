@@ -51,7 +51,7 @@ A REST API request/response pair can be separated into the following components:
 
 - HTTP **response message body**: JSON encoded response data.
  
-Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API](https://docs.microsoft.com/en-us/azure/time-series-insights/time-series-insights-authentication-and-authorization).
+Depending on your application, you may also need to register your client application with Azure Active Directory. For more information, see [Authentication and authorization for Azure Time Series Insights API](time-series-insights-authentication-and-authorization.md).
 
 
 ## Common Headers and Parameters
