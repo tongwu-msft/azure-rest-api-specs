@@ -21,8 +21,8 @@ ms.author:
 # Azure Time Series Insights Update
 
 Azure Time Series Insights Update that is in Public Preview, enables following data access operations in Time Series Insights Update environment:
-* View and query events data for an environment. For more information, see [Time Series Query](tsi-update-tsq.md) section.
-* Model and query metadata associated with the events in an environment. For more information, see [Time Series Model](tsi-update-tsm.md) section.
+* View and query events data for an environment. For more information, see [Time Series Query](update-tsq.md) section.
+* Model and query metadata associated with the events in an environment. For more information, see [Time Series Model](update-tsm.md) section.
 
 Below is the terminology definition that will be helpful, as time series model and time series query introduce many new concepts.
 

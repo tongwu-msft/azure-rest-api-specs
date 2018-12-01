@@ -21,7 +21,7 @@ ms.author: venkatja
 
 This document describes various REST query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Time Series Insights environments. 
 
-To better understand the API calls described in this document, see [Azure Time Series Insights Query Syntax](tsi-ga-query-syntax.md).
+To better understand the API calls described in this document, see [Azure Time Series Insights Query Syntax](ga-query-syntax.md).
 
 ## Components of a REST API request/response
 
