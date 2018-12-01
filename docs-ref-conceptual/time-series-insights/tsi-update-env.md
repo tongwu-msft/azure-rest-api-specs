@@ -21,7 +21,7 @@ ms.author:
 
 This document describes various REST APIs for environment management. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Time Series Insights environments. 
 
-To better understand the API calls described in this document, see [Azure Time Series Insights Update Expression Syntax](https://docs.microsoft.com/rest/api/time-series-insights/time-series-insights-reference-update-tsx).
+To better understand the API calls described in this document, see [Azure Time Series Insights Update Expression Syntax](tsi-update-tsx.md).
 
 ## Get Environments API
 

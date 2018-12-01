@@ -21,7 +21,7 @@ ms.author:
 
 This document describes various REST query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Time Series Insights environments. 
 
-To better understand the API calls described in this document, see [Azure Time Series Insights Update Expression Syntax](https://docs.microsoft.com/rest/api/time-series-insights/time-series-insights-reference-update-tsx).
+To better understand the API calls described in this document, see [Azure Time Series Insights Update Expression Syntax](tsi-update-tsx.md).
 
 ## Components of a REST API request/response
 
@@ -83,11 +83,6 @@ Response headers:
 The Get Events API returns a list of raw events matching the search span and predicate.
 
 Input payload structure:
-* Time Series Id (mandatory).
-* Search span clause (mandatory).
-* Filter clause (optional).
-* Projected Properties (optional).
-
 * `timeSeriesId` (mandatory).
 * `searchSpan` clause (mandatory).
 * `filter` clause (optional – For filtering the rows using a predicate. Ex: `$event.Status.String = 'Good'`).

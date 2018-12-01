@@ -18,5 +18,5 @@ ms.date: 11/15/2018
 ms.author: 
 ---
 Azure Time Series Insights GA enables following data access operations in Time Series Insights (GA) environment:
-* View and query data for an environment. For more information, see [Query](time-series-insights-reference-query.md) section.
+* View and query data for an environment. For more information, see [Query](tsi-ga-query.md) section.
 * Push reference data in an environment.
