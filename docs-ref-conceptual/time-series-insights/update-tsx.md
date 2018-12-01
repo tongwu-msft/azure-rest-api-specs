@@ -19,7 +19,7 @@ ms.author:
 ---
 # Time Series Expression (TSX)
 
-Time Series Expression (tsx) is a string based expression language with strong typing. TSX is used to represent the following entities in a [Time Series Query](tsi-update-tsq.md).
+Time Series Expression (tsx) is a string based expression language with strong typing. TSX is used to represent the following entities in a [Time Series Query](update-tsq.md).
 
 - Filter
 - Value
