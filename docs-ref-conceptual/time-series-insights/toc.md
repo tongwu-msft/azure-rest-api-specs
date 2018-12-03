@@ -1,4 +1,4 @@
-# [Time Series Insights (GA)](ga.md)
+# [Azure Time Series Insights (GA)](ga.md)
 ## [Query](ga-query.md)
 ### [API](ga-query-api.md)
 ### [Syntax](ga-query-syntax.md)
