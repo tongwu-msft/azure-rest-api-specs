@@ -1,6 +1,6 @@
 ---
-title: Azure Time Series Insights Update TSM landing  | Microsoft Docs
-description: This topic describes the Azure Time Series Insights update Model Experience
+title: Azure Time Series Insights (Preview) TSM landing  | Microsoft Docs
+description: This topic describes the Azure Time Series Insights (Preview) Model Experience
 keywords:
 services: time-series-insights
 documentationcenter:
