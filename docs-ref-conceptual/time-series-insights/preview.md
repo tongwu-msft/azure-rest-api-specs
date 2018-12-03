@@ -1,6 +1,6 @@
 ---
-title: Azure Time Series Insights Update data access landing  | Microsoft Docs
-description: This topic describes the Azure Time Series Insights update data access
+title: Azure Time Series Insights (Preview) data access landing  | Microsoft Docs
+description: This topic describes the Azure Time Series Insights (Preview) data access
 keywords:
 services: time-series-insights
 documentationcenter:
@@ -18,11 +18,11 @@ ms.date: 11/13/2017
 ms.author: 
 ---
 
-# Azure Time Series Insights Update
+# Azure Time Series Insights (Preview)
 
-Azure Time Series Insights Update that is in Public Preview, enables following data access operations in Time Series Insights Update environment:
-* View and query events data for an environment. For more information, see [Time Series Query](update-tsq.md) section.
-* Model and query metadata associated with the events in an environment. For more information, see [Time Series Model](update-tsm.md) section.
+Azure Time Series Insights (Preview) that is in Public Preview, enables following data access operations in Time Series Insights Update environment:
+* View and query events data for an environment. For more information, see [Time Series Query](preview-query.md) section.
+* Model and query metadata associated with the events in an environment. For more information, see [Time Series Model](preview-model.md) section.
 
 Below is the terminology definition that will be helpful, as time series model and time series query introduce many new concepts.
 

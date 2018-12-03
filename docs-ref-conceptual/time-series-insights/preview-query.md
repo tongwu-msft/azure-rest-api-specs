@@ -1,6 +1,6 @@
 ---
-title: Azure Time Series Insights Update TSQ  | Microsoft Docs
-description: This topic describes the Azure Time Series Insights update TSQ
+title: Azure Time Series Insights (Preview) TSQ  | Microsoft Docs
+description: This topic describes the Azure Time Series Insights (Preview) TSQ
 keywords:
 services: time-series-insights
 documentationcenter:
@@ -17,15 +17,15 @@ ms.workload: big-data
 ms.date: 11/13/2017
 ms.author: 
 ---
-# Azure Time Series Insights Update Query API
+# Azure Time Series Insights (Preview) Query API
 
 This document describes various REST query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Time Series Insights environments. 
 
-To better understand the API calls described in this document, see [Azure Time Series Insights Update Expression Syntax](update-tsx.md).
+To better understand the API calls described in this document, see [Azure Time Series Insights (Preview) Expression Syntax](preview-tsx.md).
 
 ## Components of a REST API request/response
 
-Time Series Insights uses the HTTPS protocol for Get Environments, Get Availability, Get Metadata API.
+Time Series Insights uses the HTTPS protocol for Get Environments, Get Availability, Get Event Schema API.
 
 Time Series Insights uses secure WebSockets protocol (WSS) for Get Aggregates and Get Events.
 

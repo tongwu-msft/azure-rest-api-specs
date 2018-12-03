@@ -1,6 +1,6 @@
 ---
-title: Azure Time Series Insights Update data access landing  | Microsoft Docs
-description: This topic describes the Azure Time Series Insights update data access
+title: Azure Time Series Insights (Preview) data access landing  | Microsoft Docs
+description: This topic describes the Azure Time Series Insights (Preview) data access
 keywords:
 services: time-series-insights
 documentationcenter:
@@ -17,11 +17,11 @@ ms.workload: azure-iot
 ms.date: 11/13/2017
 ms.author: 
 ---
-# Azure Time Series Insights Update Environment APIs
+# Azure Time Series Insights (Preview) Environment APIs
 
 This document describes various REST APIs for environment management. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Time Series Insights environments. 
 
-To better understand the API calls described in this document, see [Azure Time Series Insights Update Expression Syntax](update-tsx.md).
+To better understand the API calls described in this document, see [Azure Time Series Insights (Preview) Expression Syntax](preview-tsx.md).
 
 ## Get Environments API
 
