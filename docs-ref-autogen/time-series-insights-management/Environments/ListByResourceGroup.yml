@@ -3,14 +3,14 @@ uid: management.azure.com.time-series-insights-management.environments.listbyres
 name: List By Resource Group
 service: Time Series Insights Management
 groupName: Environments
-apiVersion: 2017-11-15
+apiVersion: 2018-08-15-preview
 summary: Lists all the available environments associated with the subscription and within the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments?api-version=2017-11-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments?api-version=2018-08-15-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,8 +48,11 @@ definitions:
   - name: value
     description: Result of the List Environments operation.
     types:
-    - uid: EnvironmentResource
+    - uid: StandardEnvironmentResource
       isArray: true
+    - uid: LongTermEnvironmentResource
+      isArray: true
+    typesTitle: EnvironmentResource[]
 - name: CloudError
   description: Contains information about an API error.
   kind: object
@@ -58,29 +61,40 @@ definitions:
     description: Describes a particular API error with an error code and a message.
     types:
     - uid: CloudErrorBody
-- name: EnvironmentResource
-  description: An environment is a set of time-series data avaliable for query, and is the top level Azure Time Series Insights resource.
+- name: CloudErrorBody
+  description: Describes a particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: Contains nested errors that are related to this error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: StandardEnvironmentResource
+  description: An environment is a set of time-series data avaliable for query, and is the top level Azure Time Series Insights resource. Standard environments have data retention limits.
   kind: object
   properties:
   - name: sku
-    description: The sku determines the capacity of the environment, the SLA (in queries-per-minute and total capacity), and the billing rate.
+    description: The sku determines the type of environment, either standard (S1 or S2) or long-term (L1). For standard environments the sku determines the capacity of the environment, the ingress rate, and the billing rate.
     types:
     - uid: Sku
-  - name: properties.dataAccessId
-    isReadyOnly: true
-    description: An id used to access the environment data, e.g. to query the environment's events or upload reference data for the environment.
+  - name: kind
+    description: The kind of the environment.
     types:
-    - uid: string
-  - name: properties.dataAccessFqdn
-    isReadyOnly: true
-    description: The fully qualified domain name used to access the environment data, e.g. to query the environment's events or upload reference data for the environment.
-    types:
-    - uid: string
-  - name: properties.status
-    isReadyOnly: true
-    description: An object that represents the status of the environment, and its internal state in the Time Series Insights service.
-    types:
-    - uid: EnvironmentStatus
+    - uid: Standard
+    typesTitle: string
   - name: location
     description: Resource location
     types:
@@ -117,10 +131,35 @@ definitions:
     types:
     - uid: StorageLimitExceededBehavior
   - name: properties.partitionKeyProperties
-    description: The list of partition keys according to which the data in the environment will be ordered.
+    description: The list of event properties which will be used to partition data in the environment.
     types:
-    - uid: PartitionKeyProperty
+    - uid: TimeSeriesIdProperty
       isArray: true
+  - name: properties.dataAccessId
+    isReadyOnly: true
+    description: An id used to access the environment data, e.g. to query the environment's events or upload reference data for the environment.
+    types:
+    - uid: string
+  - name: properties.dataAccessFqdn
+    isReadyOnly: true
+    description: The fully qualified domain name used to access the environment data, e.g. to query the environment's events or upload reference data for the environment.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: An object that represents the status of the environment, and its internal state in the Time Series Insights service.
+    types:
+    - uid: EnvironmentStatus
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: creationTime
+    isReadyOnly: true
+    description: The time the resource was created.
+    types:
+    - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the resource.
@@ -131,29 +170,92 @@ definitions:
     description: The time the resource was created.
     types:
     - uid: string
-- name: CloudErrorBody
-  description: Describes a particular API error with an error code and a message.
+- name: LongTermEnvironmentResource
+  description: An environment is a set of time-series data avaliable for query, and is the top level Azure Time Series Insights resource. LongTerm environments do not have set data retention limits.
   kind: object
   properties:
-  - name: code
-    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programatically handle specific error cases.
+  - name: properties.timeSeriesIdProperties
+    description: The list of event properties which will be used to define the environment's time series id.
     types:
-    - uid: string
-  - name: message
-    description: A message that describes the error in detail and provides debugging information.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error (for example, the name of the property in error).
-    types:
-    - uid: string
-  - name: details
-    description: Contains nested errors that are related to this error.
-    types:
-    - uid: CloudErrorBody
+    - uid: TimeSeriesIdProperty
       isArray: true
+  - name: properties.storageConfiguration
+    description: The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data.
+    types:
+    - uid: LongTermStorageConfigurationOutput
+  - name: sku
+    description: The sku determines the type of environment, either standard (S1 or S2) or long-term (L1). For standard environments the sku determines the capacity of the environment, the ingress rate, and the billing rate.
+    types:
+    - uid: Sku
+  - name: kind
+    description: The kind of the environment.
+    types:
+    - uid: LongTerm
+    typesTitle: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: properties.dataAccessId
+    isReadyOnly: true
+    description: An id used to access the environment data, e.g. to query the environment's events or upload reference data for the environment.
+    types:
+    - uid: string
+  - name: properties.dataAccessFqdn
+    isReadyOnly: true
+    description: The fully qualified domain name used to access the environment data, e.g. to query the environment's events or upload reference data for the environment.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: An object that represents the status of the environment, and its internal state in the Time Series Insights service.
+    types:
+    - uid: EnvironmentStatus
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: creationTime
+    isReadyOnly: true
+    description: The time the resource was created.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.creationTime
+    isReadyOnly: true
+    description: The time the resource was created.
+    types:
+    - uid: string
 - name: Sku
-  description: The sku determines the capacity of the environment, the SLA (in queries-per-minute and total capacity), and the billing rate.
+  description: The sku determines the type of environment, either standard (S1 or S2) or long-term (L1). For standard environments the sku determines the capacity of the environment, the ingress rate, and the billing rate.
   kind: object
   properties:
   - name: name
@@ -161,18 +263,9 @@ definitions:
     types:
     - uid: SkuName
   - name: capacity
-    description: The capacity of the sku. This value can be changed to support scale out of environments after they have been created.
+    description: The capacity of the sku. For standard environments, this value can be changed to support scale out of environments after they have been created.
     types:
     - uid: integer
-- name: EnvironmentStatus
-  description: An object that represents the status of the environment, and its internal state in the Time Series Insights service.
-  kind: object
-  properties:
-  - name: ingress
-    isReadyOnly: true
-    description: An object that represents the status of ingress on an environment.
-    types:
-    - uid: IngressEnvironmentStatus
 - name: StorageLimitExceededBehavior
   description: The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData.
   kind: enum
@@ -183,8 +276,8 @@ definitions:
   - name: PauseIngress
     types:
     - uid: string
-- name: PartitionKeyProperty
-  description: The structure of the property that a partition key can have. An environment can have multiple such properties.
+- name: TimeSeriesIdProperty
+  description: The structure of the property that a time series id can have. An environment can have multiple such properties.
   kind: object
   properties:
   - name: name
@@ -195,6 +288,15 @@ definitions:
     description: The type of the property.
     types:
     - uid: PropertyType
+- name: EnvironmentStatus
+  description: An object that represents the status of the environment, and its internal state in the Time Series Insights service.
+  kind: object
+  properties:
+  - name: ingress
+    isReadyOnly: true
+    description: An object that represents the status of ingress on an environment.
+    types:
+    - uid: IngressEnvironmentStatus
 - name: ProvisioningState
   description: Provisioning state of the resource.
   kind: enum
@@ -217,6 +319,14 @@ definitions:
   - name: Deleting
     types:
     - uid: string
+- name: LongTermStorageConfigurationOutput
+  description: The storage configuration provides the non-secret connection details about the customer storage account that is used to store the environment's data.
+  kind: object
+  properties:
+  - name: accountName
+    description: The name of the storage account that will hold the environment's long term data.
+    types:
+    - uid: string
 - name: SkuName
   description: The name of this SKU.
   kind: enum
@@ -225,6 +335,16 @@ definitions:
     types:
     - uid: string
   - name: S2
+    types:
+    - uid: string
+  - name: L1
+    types:
+    - uid: string
+- name: PropertyType
+  description: The type of the property.
+  kind: enum
+  properties:
+  - name: String
     types:
     - uid: string
 - name: IngressEnvironmentStatus
@@ -240,13 +360,6 @@ definitions:
     description: An object that contains the details about an environment's state.
     types:
     - uid: EnvironmentStateDetails
-- name: PropertyType
-  description: The type of the property.
-  kind: enum
-  properties:
-  - name: String
-    types:
-    - uid: string
 - name: IngressState
   description: This string represents the state of ingress operations on an environment. It can be "Disabled", "Ready", "Running", "Paused" or "Unknown"
   kind: enum
@@ -281,7 +394,7 @@ definitions:
 examples:
 - name: EnvironmentsByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/environments?api-version=2017-11-15
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.TimeSeriesInsights/environments?api-version=2018-08-15-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -292,6 +405,7 @@ examples:
             "location": "West US",
             "name": "env1",
             "type": "Microsoft.TimeSeriesInsights/Environments",
+            "kind": "Standard",
             "tags": {},
             "properties": {
               "dataRetentionTime": "P31D",
