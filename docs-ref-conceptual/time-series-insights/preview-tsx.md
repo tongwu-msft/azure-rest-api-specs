@@ -1,6 +1,6 @@
 ---
-title: Azure Time Series Insights Update TSX  | Microsoft Docs
-description: This topic describes the Azure Time Series Insights update TSX
+title: Azure Time Series Insights (Preview) TSX  | Microsoft Docs
+description: This topic describes the Azure Time Series Insights (Preview) TSX
 keywords:
 services: time-series-insights
 documentationcenter:
@@ -19,7 +19,7 @@ ms.author:
 ---
 # Time Series Expression (TSX)
 
-Time Series Expression (tsx) is a string based expression language with strong typing. TSX is used to represent the following entities in a [Time Series Query](update-tsq.md).
+Time Series Expression (tsx) is a string based expression language with strong typing. TSX is used to represent the following entities in a [Time Series Query](preview-query.md).
 
 - Filter
 - Value
