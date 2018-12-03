@@ -13,7 +13,7 @@ ms.service: time-series-insights
 ms.devlang: na
 ms.topic: data-acesss-api
 ms.tgt_pltfrm: na
-ms.workload: big-data
+ms.workload: azure-iot
 ms.date: 05/23/2017
 ms.author: v-mamcge
 ---
@@ -30,7 +30,7 @@ The language is subdivided into the following elements:
 
 ## Getting Started
 
-To get started, see [Azure Time Series Insights query API](time-series-insights-reference-QueryAPI.md) and [Create the request ](https://docs.microsoft.com/en-us/rest/api/#create-the-request) section from the Azure REST API reference. These topics step you through the REST API request/response pair, how to register your client application with Azure Active Directory to secure REST requests, and how to create and send REST requests, handle responses, and parse query results.
+To get started, see [Azure Time Series Insights query API](ga-query-api.md) and [Create the request ](https://docs.microsoft.com/en-us/rest/api/#create-the-request) section from the Azure REST API reference. These topics step you through the REST API request/response pair, how to register your client application with Azure Active Directory to secure REST requests, and how to create and send REST requests, handle responses, and parse query results.
 
 ## Data Model
 
