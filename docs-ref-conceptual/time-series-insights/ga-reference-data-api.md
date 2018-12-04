@@ -13,13 +13,12 @@ ms.service: time-series-insights
 ms.devlang: na
 ms.topic: data-acesss-api
 ms.tgt_pltfrm: na
-ms.workload: big-data
+ms.workload: azure-iot
 ms.date: 11/10/2017
 ms.author: anshan
 ---
 
 # Azure Time Series Insights reference data API
-
 
 This document describes the reference data API used to manage items within a reference data set. It assumes that the reference data set has already been created.
 
@@ -44,11 +43,11 @@ Response headers:
 
 The reference data management API is a batch API. All operations against this API are HTTP POST operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. The operation names are the following:
 
-* [put](time-series-insights-reference-reference-data-api.md#put-reference-data-items)
-* [patch](time-series-insights-reference-reference-data-api.md#patch-reference-data-items)
-* [deleteproperties](time-series-insights-reference-reference-data-api.md#delete-properties-in-reference-data-items)
-* [delete](time-series-insights-reference-reference-data-api.md#delete-reference-data-items)
-* [get](time-series-insights-reference-reference-data-api.md#get-reference-data-items)
+* [put](ga-reference-data-api.md#put-reference-data-items)
+* [patch](ga-reference-data-api.md#patch-reference-data-items)
+* [deleteproperties](ga-reference-data-api.md#delete-properties-in-reference-data-items)
+* [delete](ga-reference-data-api.md#delete-reference-data-items)
+* [get](ga-reference-data-api.md#get-reference-data-items)
 
 The property value is an array of reference data items over which the operation must be applied.
 
@@ -168,7 +167,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### *Patch* operation request validations
 
-1. Same as [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
+1. Same as [put-API](ga-reference-data-api.md###put-request-validations).
 2. If the item does not exist, a new item is created.
 
 ## Delete properties in reference data items
@@ -207,7 +206,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### *Delete properties* operation validations
 
-- Same as [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
+- Same as [put-API](ga-reference-data-api.md###put-request-validations).
 - If a property specified in $.deleteProperties[i].properties does not exist, it is a no-op for that property.
 
 ## Delete reference data items
@@ -241,7 +240,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### *Delete* operation request validations
 
-- Values in delete.[i] follow same key properties restrictions mentioned in [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
+- Values in delete.[i] follow same key properties restrictions mentioned in [put-API](ga-reference-data-api.md###put-request-validations).
 - If item not found, a response code of 404 is returned.
 
 ## Get reference data items
@@ -289,12 +288,12 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### *Get* operation validations
 
-- Values in get.[i] follow same key properties restrictions mentioned in [put-API](time-series-insights-reference-reference-data-api.md###put-request-validations).
+- Values in get.[i] follow same key properties restrictions mentioned in [put-API](ga-reference-data-api.md###put-request-validations).
 - If item not found, return error response 404 against that item.
 
 ## Common error response example
 
-The following JSON shows sample error response. The first item in the request was invalid while the second item was successfully posted. This response structure is the same for all operations except for [get](time-series-insights-reference-reference-data-api.md###get-reference-data-items). For *get*, on successful completion of an operation, the item itself is returned.
+The following JSON shows sample error response. The first item in the request was invalid while the second item was successfully posted. This response structure is the same for all operations except for [get](ga-reference-data-api.md###get-reference-data-items). For *get*, on successful completion of an operation, the item itself is returned.
 
 ```json
 {
@@ -373,7 +372,7 @@ Given these constraints, the join engine can apply the join in any order for a g
 You can add up to two reference data per Time Series Insights environment.  Below are additional limitations associated with Time Series Insights reference data.
 
 | Limit name | Limit value | SKUs affected | Notes |
-|-|-|-|-|-|
+|-|-|-|-|
 | Key property count  | 3 | S1, S2 | Per reference data set.  Azure Resource Manager/Azure Portal only|
 | Key property size| 1KB | S1, S2 | Per reference data set |
 | Reference Data Item count  | 2,000/20,000 (S1/S2) | S1, S2 | Per unit.  Example:  4 unit S1 SKU = 8,000 items (4 x 2,000) |
