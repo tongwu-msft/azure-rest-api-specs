@@ -101,6 +101,8 @@
 #### [Update](apimanagement/ApiManagementService/Update.yml)
 #### [Update Hostname](apimanagement/ApiManagementService/UpdateHostname.yml)
 #### [Upload Certificate](apimanagement/ApiManagementService/UploadCertificate.yml)
+### [Api Management Service Skus](apimanagement/ApiManagementServiceSkus.yml)
+#### [List Available Service Skus](apimanagement/ApiManagementServiceSkus/ListAvailableServiceSkus.yml)
 ### [Api Operation](apimanagement/ApiOperation.yml)
 #### [Create Or Update](apimanagement/ApiOperation/CreateOrUpdate.yml)
 #### [Delete](apimanagement/ApiOperation/Delete.yml)
