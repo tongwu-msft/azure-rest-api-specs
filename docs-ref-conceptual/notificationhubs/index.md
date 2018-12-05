@@ -1,7 +1,6 @@
 ---
 ms.assetid: 0f08effd-87f9-495b-8649-fedacc456aca
 ms.title: Notification Hubs REST API reference
-ms.prod: Azure
 ms.service: NotificationHubs
 author: davidmu1
 ms.author: davidmu
