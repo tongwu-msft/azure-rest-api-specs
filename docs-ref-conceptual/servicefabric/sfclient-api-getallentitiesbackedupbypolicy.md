@@ -1,6 +1,7 @@
 ---
 title: "Get All Entities Backed Up By Policy"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -35,7 +36,7 @@ Returns a list of Service Fabric application, service or partition which are ass
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| GET | `/BackupRestore/BackupPolicies/{backupPolicyName}/$/GetBackupEnabledEntities?api-version=6.2-preview&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}&timeout={timeout}` |
+| GET | `/BackupRestore/BackupPolicies/{backupPolicyName}/$/GetBackupEnabledEntities?api-version=6.4&ContinuationToken={ContinuationToken}&MaxResults={MaxResults}&timeout={timeout}` |
 
 
 ## Parameters
@@ -58,9 +59,13 @@ ____
 ### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: `6.2-preview` <br/>
+__Default__: `6.4` <br/>
 <br/>
-The version of the API. This parameter is required and its value must be '6.2-preview'.
+The version of the API. This parameter is required and its value must be '6.4'.
+
+Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This version is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+Additionally the runtime accepts any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0 and the runtime is 6.1, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
 
 
 ____
@@ -104,7 +109,7 @@ This example shows how to get list of backup entities that are currently associa
 
 #### Request
 ```
-GET http://localhost:19080/BackupRestore/BackupPolicies/DailyAzureBackupPolicy/$/GetBackupEnabledEntities?api-version=6.2-preview&MaxResults=2
+GET http://localhost:19080/BackupRestore/BackupPolicies/DailyAzureBackupPolicy/$/GetBackupEnabledEntities?api-version=6.4&MaxResults=2
 ```
 
 #### 200 Response
@@ -132,7 +137,7 @@ This example shows how to get list of backup entities that are currently associa
 
 #### Request
 ```
-GET http://localhost:19080/BackupRestore/BackupPolicies/DailyAzureBackupPolicy/$/GetBackupEnabledEntities?api-version=6.2-preview&ContinuationToken=fabric:/DemoApp&MaxResults=2
+GET http://localhost:19080/BackupRestore/BackupPolicies/DailyAzureBackupPolicy/$/GetBackupEnabledEntities?api-version=6.4&ContinuationToken=fabric:/DemoApp&MaxResults=2
 ```
 
 #### 200 Response

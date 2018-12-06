@@ -1,6 +1,6 @@
 ---
 title: "StatefulServicePartitionInfo"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -41,7 +41,7 @@ Information about a partition of a stateful Service Fabric service..
 | [`TargetReplicaSetSize`](#targetreplicasetsize) | integer (int64) | No |
 | [`MinReplicaSetSize`](#minreplicasetsize) | integer (int64) | No |
 | [`LastQuorumLossDuration`](#lastquorumlossduration) | string (duration) | No |
-| [`CurrentConfigurationEpoch`](#currentconfigurationepoch) | [Epoch](sfclient-model-epoch.md) | No |
+| [`PrimaryEpoch`](#primaryepoch) | [Epoch](sfclient-model-epoch.md) | No |
 
 ____
 ### ServiceKind
@@ -118,7 +118,7 @@ __Required__: No<br/>
 The duration for which this partition was in quorum loss. If the partition is currently in quorum loss, it returns the duration since it has been in that state. This field is using ISO8601 format for specifying the duration.
 
 ____
-### `CurrentConfigurationEpoch`
+### `PrimaryEpoch`
 __Type__: [Epoch](sfclient-model-epoch.md) <br/>
 __Required__: No<br/>
 <br/>

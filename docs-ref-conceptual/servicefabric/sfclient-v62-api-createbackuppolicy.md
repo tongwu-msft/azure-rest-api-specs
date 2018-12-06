@@ -76,7 +76,7 @@ Describes the backup policy.
 
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
-| 201 (Created) | A sucessful operation returns 201 status code and creates a new backup policy.<br/> |  |
+| 201 (Created) | A successful operation returns 201 status code and creates a new backup policy.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-v62-model-fabricerror.md) |
 
 ## Examples

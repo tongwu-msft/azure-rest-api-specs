@@ -1,6 +1,7 @@
 ---
 title: "ContainerCodePackageProperties"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -43,9 +44,11 @@ Describes a container and its runtime properties.
 | [`labels`](#labels) | array of [ContainerLabel](sfclient-model-containerlabel.md) | No |
 | [`endpoints`](#endpoints) | array of [EndpointProperties](sfclient-model-endpointproperties.md) | No |
 | [`resources`](#resources) | [ResourceRequirements](sfclient-model-resourcerequirements.md) | Yes |
-| [`volumeRefs`](#volumerefs) | array of [ContainerVolume](sfclient-model-containervolume.md) | No |
-| [`instanceView`](#instanceview) | [ContainerInstanceView](sfclient-model-containerinstanceview.md) | No |
+| [`volumeRefs`](#volumerefs) | array of [VolumeReference](sfclient-model-volumereference.md) | No |
+| [`volumes`](#volumes) | array of [ApplicationScopedVolume](sfclient-model-applicationscopedvolume.md) | No |
 | [`diagnostics`](#diagnostics) | [DiagnosticsRef](sfclient-model-diagnosticsref.md) | No |
+| [`reliableCollectionsRefs`](#reliablecollectionsrefs) | array of [ReliableCollectionsRef](sfclient-model-reliablecollectionsref.md) | No |
+| [`instanceView`](#instanceview) | [ContainerInstanceView](sfclient-model-containerinstanceview.md) | No |
 
 ____
 ### `name`
@@ -115,21 +118,21 @@ ____
 __Type__: [ResourceRequirements](sfclient-model-resourcerequirements.md) <br/>
 __Required__: Yes<br/>
 <br/>
-This type describes the resource requirements for a container or a service.
+The resources required by this container.
 
 ____
 ### `volumeRefs`
-__Type__: array of [ContainerVolume](sfclient-model-containervolume.md) <br/>
+__Type__: array of [VolumeReference](sfclient-model-volumereference.md) <br/>
 __Required__: No<br/>
 <br/>
-The volumes to be attached to the container.
+Volumes to be attached to the container. The lifetime of these volumes is independent of the application's lifetime.
 
 ____
-### `instanceView`
-__Type__: [ContainerInstanceView](sfclient-model-containerinstanceview.md) <br/>
+### `volumes`
+__Type__: array of [ApplicationScopedVolume](sfclient-model-applicationscopedvolume.md) <br/>
 __Required__: No<br/>
 <br/>
-Runtime information of a container instance.
+Volumes to be attached to the container. The lifetime of these volumes is scoped to the application's lifetime.
 
 ____
 ### `diagnostics`
@@ -137,3 +140,17 @@ __Type__: [DiagnosticsRef](sfclient-model-diagnosticsref.md) <br/>
 __Required__: No<br/>
 <br/>
 Reference to sinks in DiagnosticsDescription.
+
+____
+### `reliableCollectionsRefs`
+__Type__: array of [ReliableCollectionsRef](sfclient-model-reliablecollectionsref.md) <br/>
+__Required__: No<br/>
+<br/>
+A list of ReliableCollection resources used by this particular code package. Please refer to ReliablecollectionsRef for more details.
+
+____
+### `instanceView`
+__Type__: [ContainerInstanceView](sfclient-model-containerinstanceview.md) <br/>
+__Required__: No<br/>
+<br/>
+Runtime information of a container instance.

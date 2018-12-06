@@ -1,6 +1,7 @@
 ---
 title: "FabricErrorError"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -90,6 +91,7 @@ Defines the fabric error codes that be returned as part of the error object in r
     - "FABRIC_E_BACKUP_NOT_ENABLED"
     - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
     - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+    - "FABRIC_E_IMAGEBUILDER_RESERVED_DIRECTORY_ERROR"
 
   - Possible values of the error code for HTTP status code 409 (Conflict)
     - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"

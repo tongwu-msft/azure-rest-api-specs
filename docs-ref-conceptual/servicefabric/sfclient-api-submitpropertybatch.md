@@ -1,6 +1,7 @@
 ---
 title: "Submit Property Batch"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -87,7 +88,7 @@ Describes the property batch operations to be submitted.
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
 | 200 (OK) | A successful response means that the property batch succeeded.<br/> | [SuccessfulPropertyBatchInfo](sfclient-model-successfulpropertybatchinfo.md) |
-| 409 (Conflict) | A 409 response means that one of the property batch operations failed, and contains more information about the failure. None of the operations were commited.<br/> | [FailedPropertyBatchInfo](sfclient-model-failedpropertybatchinfo.md) |
+| 409 (Conflict) | A 409 response means that one of the property batch operations failed, and contains more information about the failure. None of the operations were committed.<br/> | [FailedPropertyBatchInfo](sfclient-model-failedpropertybatchinfo.md) |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |
 
 ## Examples

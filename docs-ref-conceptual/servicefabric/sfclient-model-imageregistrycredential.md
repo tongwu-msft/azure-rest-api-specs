@@ -1,6 +1,7 @@
 ---
 title: "ImageRegistryCredential"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -56,4 +57,4 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The password for the private registry.
+The password for the private registry. The password is required for create or update operations, however it is not returned in the get or list operations.

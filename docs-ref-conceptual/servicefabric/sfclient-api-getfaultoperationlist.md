@@ -1,6 +1,7 @@
 ---
 title: "Get Fault Operation List"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -29,7 +30,7 @@ translation.priority.mt:
 # Get Fault Operation List
 Gets a list of user-induced fault operations filtered by provided input.
 
-Gets the a list of user-induced fault operations filtered by provided input.
+Gets the list of user-induced fault operations filtered by provided input.
 
 ## Request
 | Method | Request URI |

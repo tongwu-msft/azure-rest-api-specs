@@ -84,7 +84,7 @@ Describes the backup policy.
 
 | HTTP Status Code | Description | Response Schema |
 | --- | --- | --- |
-| 200 (OK) | A sucessful operation resturns 200 status code and updates the backup policy description.<br/> |  |
+| 200 (OK) | A successful operation returns 200 status code and updates the backup policy description.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-v62-model-fabricerror.md) |
 
 ## Examples
