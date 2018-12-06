@@ -5,7 +5,7 @@ ms.service: monitoring-and-diagnostics
 author: steved0x
 ms.author: sdanie
 ms.manager: douge
-service_description: To be added
+service_description: Allows you to monitor your services running in Azure via metrics, logs, and activity log entries. Includes managing autoscale and alerts. 
 ---
 
 # Azure Monitor REST API reference
@@ -39,13 +39,13 @@ Organized by subject area.
 | [Activity log profiles](xref:management.azure.com.monitor.logprofiles)       | Operations to manage [activity log profiles](https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-overview-activity-logs#export-the-activity-log-with-a-log-profile) so you can route activity log events to other locations.  |
 | ***Alerts Management and Action Groups*** | |
 | [Action groups](xref:management.azure.com.monitor.actiongroups)      | Operations you can take on [Action Groups](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-action-groups). All newer alerts call Action Groups to send notifications or trigger other actions. |
-| [Alert management](xref:management.azure.com.monitor.alertsmanagement)             | Provides operations for managing [alert](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-overview-alerts) rules. |
-| [Metric lerts](xref:management.azure.com.monitor.metricalerts)                | Operations to manage [newer metric alerts](https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-overview-unified-alerts). | 
+| [Alert management](xref:management.azure.com.monitor.alertsmanagement)             | Provides operations for managing [alert](https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/alert-metric-overview?toc=/azure/azure-monitor/toc.json) rules. |
+| [Metric alerts](xref:management.azure.com.monitor.metricalerts)                | Operations to manage [newer metric alerts](https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-overview-unified-alerts). | 
 | [Metric alerts status](xref:management.azure.com.monitor.metricalertsstatus)   | Lists status of a [newer metric alerts](https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-overview-unified-alerts). |
 | [Metric alert baseline](xref:management.azure.com.monitor.metricbaseline)            | Obtains the baselines for a metric for use in [dynamic alerts](https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-alerts-dynamic-thresholds). | 
 | [Log alert scheduled query rules](xref:management.azure.com.monitor.scheduledqueryrules)    | Provides operations for managing analytic query-based log alerts.   |
 | [Activity log alerts](xref:management.azure.com.monitor.activitylogalerts)        | Configure and list alerts based on [Activity Log](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-overview-activity-logs) events.|
 | ***Retired or being retired*** | |
 | [Alerts (classic) rule incidents](xref:management.azure.com.monitor.alertruleincidents)      | [Being retired in 2019](https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-classic-retirement) in the public cloud. Older classic alerts functions. Gets an incident associated to a [classic metric alert rule](https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-overview-alerts-classic?toc=/azure/azure-monitor/toc.json). When an alert rule fires because the threshold is crossed in the up or down direction, an incident is created and an entry added to the [Activity Log](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-overview-activity-logs). | 
-| [Alert (classic) rules](xref:management.azure.com.monitor.alertrules)             | [Being retired in 2019](https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-classic-retirement) in the public cloud. Provides operations for managing [alert (classic)](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-overview-alerts) rules. |
+| [Alert (classic) rules](xref:management.azure.com.monitor.alertrules)             | [Being retired in 2019](https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-classic-retirement) in the public cloud. Provides operations for managing [classic alert](https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-overview-alerts-classic?toc=/azure/azure-monitor/toc.json) rules. |
 
