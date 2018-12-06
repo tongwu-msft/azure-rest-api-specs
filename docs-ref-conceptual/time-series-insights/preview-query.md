@@ -78,7 +78,7 @@ Response headers:
 
 ## Get Events API
 
-`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/events?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview`
 
 The Get Events API returns a list of raw events matching the search span and predicate.
 
@@ -93,6 +93,7 @@ Payload examples:
 Request Body:
 ```json
 {
+  "getEvents": {
     "timeSeriesId": ["PU.123","W00158","ABN.9890"],
     "searchSpan": {
         "from": {"dateTime": "2016-08-01T00:00:00Z"},
@@ -101,6 +102,7 @@ Request Body:
     "filter": { "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
     },
     "projectedProperties": ["Building","Temperature"]
+  }
  }
 ```
 
@@ -160,7 +162,7 @@ Events can not be sorted at this time.
 
 ## Get Series API
 
-`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/aggregates?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview`
 
 The Get Series API enables query and retrieval of Time Series Insights data from captured events by leveraging data recorded on the wire using the variables define in model or provided inline. Please note if interpolation and aggregation clause is provided in variable, or interval is specified, it will be ignored.
 
@@ -176,6 +178,7 @@ Payload examples:
 Request Body:
 ```json
 {
+  "getSeries": {
     "timeSeriesId": ["Millenium","Kitchen","Cooker"],
     "searchSpan": {
         "from": { "dateTime": "2016-08-01T00:00:00Z" },
@@ -191,6 +194,7 @@ Request Body:
         }
     },
     "projectedVariables": ["temperatures"]
+  }
 }
 ```
 
@@ -236,7 +240,7 @@ Inline variables can override variable definition stored in model part of types.
 
 ## Aggregate Series API
 
-`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/aggregates?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/query?api-version=2018-11-01-preview`
 
 The Aggregate Series API enables query and retrieval of Time Series Insights data from captured events by aggregating recorded data using the aggregate or sample functions. 
 
@@ -253,6 +257,7 @@ Payload examples:
 Request Body:
 ```json
 {
+  "aggregateSeries": {
     "timeSeriesId": ["Millenium","Kitchen","Cooker"],
     "searchSpan": {
         "from": { "dateTime": "2016-08-01T00:00:00Z" },
@@ -280,7 +285,8 @@ Request Body:
             "aggregation": {"tsx": "max($value)"}
         }
     },
-    "projectedVariables": ["Count","AverageTemperature","MinTemperature","MaxTemperature"]
+    "projectedVariables": ["Count","MinTemperature","MaxTemperature"]
+  }
 }
 ```
 
