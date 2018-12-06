@@ -1,6 +1,7 @@
 ---
 title: "BackupProgressInfo"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -37,7 +38,7 @@ Describes the progress of a partition's backup.
 | [`TimeStampUtc`](#timestamputc) | string (date-time) | No |
 | [`BackupId`](#backupid) | string (uuid) | No |
 | [`BackupLocation`](#backuplocation) | string | No |
-| [`EpochOfLastBackupRecord`](#epochoflastbackuprecord) | [BackupEpoch](sfclient-model-backupepoch.md) | No |
+| [`EpochOfLastBackupRecord`](#epochoflastbackuprecord) | [Epoch](sfclient-model-epoch.md) | No |
 | [`LsnOfLastBackupRecord`](#lsnoflastbackuprecord) | string | No |
 | [`FailureError`](#failureerror) | [FabricErrorError](sfclient-model-fabricerrorerror.md) | No |
 
@@ -85,7 +86,7 @@ Location, relative to the backup store, of the newly created backup.
 
 ____
 ### `EpochOfLastBackupRecord`
-__Type__: [BackupEpoch](sfclient-model-backupepoch.md) <br/>
+__Type__: [Epoch](sfclient-model-epoch.md) <br/>
 __Required__: No<br/>
 <br/>
 Specifies the epoch of the last record included in backup.

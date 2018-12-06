@@ -1,6 +1,7 @@
 ---
 title: "Rollback Cluster Upgrade"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -27,9 +28,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Rollback Cluster Upgrade
-Rollback the upgrade of a Service Fabric cluster.
+Roll back the upgrade of a Service Fabric cluster.
 
-Rollback the code or configuration upgrade of a Service Fabric cluster.
+Roll back the code or configuration upgrade of a Service Fabric cluster.
 
 ## Request
 | Method | Request URI |

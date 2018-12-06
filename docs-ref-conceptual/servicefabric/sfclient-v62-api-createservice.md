@@ -219,7 +219,7 @@ POST http://localhost:19080/Applications/test/$/GetServices/$/Create?api-version
   "ServiceTypeName": "StatefulBackendService",
   "InitializationData": [],
   "PartitionDescription": {
-    "PartitionScheme": "NamedParitionSchemeDescription",
+    "PartitionScheme": "NamedPartitionSchemeDescription",
     "Count": "1",
     "Names": [
       "0"

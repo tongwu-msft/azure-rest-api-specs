@@ -1,6 +1,7 @@
 ---
 title: "LoadMetricReportInfo"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -35,6 +36,7 @@ Information about load reported by replica.
 | --- | --- | --- |
 | [`Name`](#name) | string | No |
 | [`Value`](#value) | integer (int32) | No |
+| [`CurrentValue`](#currentvalue) | string (double) | No |
 | [`LastReportedUtc`](#lastreportedutc) | string (date-time) | No |
 
 ____
@@ -49,7 +51,14 @@ ____
 __Type__: integer (int32) <br/>
 __Required__: No<br/>
 <br/>
-The value of the load for the metric..
+The value of the load for the metric. In future releases of Service Fabric this parameter will be deprecated in favor of CurrentValue.
+
+____
+### `CurrentValue`
+__Type__: string (double) <br/>
+__Required__: No<br/>
+<br/>
+The double value of the load for the metric.
 
 ____
 ### `LastReportedUtc`

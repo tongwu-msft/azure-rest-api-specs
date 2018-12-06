@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Service Type Info By Name
 Gets the information about a specific service type that is supported by a provisioned application type in a Service Fabric cluster.
 
-Gets the information about a specific service type that is supported by a provisioned application type in a Service Fabric cluster. The provided application type must exist. Otherwise, a 404 status is returned. A 204 response is returned if the specificed service type is not found in the cluster.
+Gets the information about a specific service type that is supported by a provisioned application type in a Service Fabric cluster. The provided application type must exist. Otherwise, a 404 status is returned. A 204 response is returned if the specified service type is not found in the cluster.
 
 ## Request
 | Method | Request URI |
@@ -103,7 +103,7 @@ The server timeout for performing the operation in seconds. This timeout specifi
 
 ### Get information about all nodes.
 
-This example shows how to get information about a specific service type. A 204 response is returned if the specificed service type is not found in the cluster.
+This example shows how to get information about a specific service type. A 204 response is returned if the specified service type is not found in the cluster.
 
 #### Request
 ```

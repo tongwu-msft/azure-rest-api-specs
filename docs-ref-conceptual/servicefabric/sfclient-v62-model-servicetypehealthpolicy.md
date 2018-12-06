@@ -73,7 +73,7 @@ __Type__: integer <br/>
 __Required__: No<br/>
 __Default__: `0` <br/>
 <br/>
-The maximum maximum allowed percentage of unhealthy services. Allowed values are Byte values from zero to 100.
+The maximum allowed percentage of unhealthy services. Allowed values are Byte values from zero to 100.
 
 The percentage represents the maximum tolerated percentage of services that can be unhealthy before the application is considered in error.
 If the percentage is respected but there is at least one unhealthy service, the health is evaluated as Warning.

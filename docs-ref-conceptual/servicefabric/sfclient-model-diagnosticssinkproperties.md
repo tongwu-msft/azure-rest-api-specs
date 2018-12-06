@@ -1,6 +1,7 @@
 ---
 title: "DiagnosticsSinkProperties"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -38,4 +39,5 @@ The following table lists the value of the `Kind` property and corresponding der
 
 | kind | Derived Type |
 | --- | --- | 
+| AzureInternalMonitoringPipeline | [AzureInternalMonitoringPipelineSinkDescription](sfclient-model-azureinternalmonitoringpipelinesinkdescription.md) |
 

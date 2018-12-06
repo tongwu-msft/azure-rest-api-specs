@@ -1,6 +1,7 @@
 ---
 title: "ClusterConfigurationUpgradeDescription"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -50,7 +51,7 @@ ____
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The cluster configuration.
+The cluster configuration as a JSON string. For example, [this file](https://github.com/Azure-Samples/service-fabric-dotnet-standalone-cluster-configuration/blob/master/Samples/ClusterConfig.Unsecure.DevCluster.json) contains JSON describing the [nodes and other properties of the cluster](https://docs.microsoft.com/azure/service-fabric/service-fabric-cluster-manifest).
 
 ____
 ### `HealthCheckRetryTimeout`
@@ -58,7 +59,7 @@ __Type__: string (duration) <br/>
 __Required__: No<br/>
 __Default__: `PT0H0M0S` <br/>
 <br/>
-The length of time between attempts to perform a health checks if the application or cluster is not healthy.
+The length of time between attempts to perform health checks if the application or cluster is not healthy.
 
 ____
 ### `HealthCheckWaitDurationInSeconds`
@@ -74,7 +75,7 @@ __Type__: string (duration) <br/>
 __Required__: No<br/>
 __Default__: `PT0H0M0S` <br/>
 <br/>
-The length of time that the application or cluster must remain healthy.
+The length of time that the application or cluster must remain healthy before the upgrade proceeds to the next upgrade domain.
 
 ____
 ### `UpgradeDomainTimeoutInSeconds`
