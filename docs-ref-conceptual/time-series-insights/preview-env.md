@@ -56,7 +56,7 @@ Here, `environmentFqdn` is unique fully qualified domain name for environment us
 
 ## Get Environment Availability API
 
-`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/availability?api-version=2018-11-01-preview`
+`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/availability?api-version=2018-11-01-preview`
 
 The get Environments Availability API returns the distribution of event count over the event timestamp `$ts`. This API can be used to provide landing experience of navigating to the environment.
 
@@ -85,7 +85,7 @@ An empty object is returned for environments with no events. Environment availab
 ### **Event Schema**
 **Time Series Insights** detects the **types** of properties that are sent part of events, and creates a schema. This schema will have properties defined by name and datatype (string, double, bool, & datetime).
 
-`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/eventSchema?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/eventSchema?api-version=2018-11-01-preview`
 
 The Get Event Schema API returns environment metadata for a given search span. Event Schema is returned as a set of property references.
 
