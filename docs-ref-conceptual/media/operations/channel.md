@@ -283,7 +283,7 @@ Authorization: Bearer <token value>
    {  
       "SystemPreset":"Default720p",  
       "IgnoreCea708ClosedCaptions": false,  
-      "AdMarkerSource": "Api"  
+      "AdMarkerSource": "Api",
       "VideoStream":  
       {  
          "Index":1,  
