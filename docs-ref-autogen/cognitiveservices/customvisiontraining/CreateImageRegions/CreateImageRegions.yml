@@ -1,0 +1,182 @@
+### YamlMime:RESTOperation
+uid: southcentralus.api.cognitive.microsoft.com.customvision.v2.2.training.cognitiveservices.createimageregions.createimageregions
+name: Create Image Regions
+service: Cognitive Services
+groupName: Create Image Regions
+apiVersion: "2.2"
+summary: "Create a set of image regions.  \nThis API accepts a batch of image regions, and optionally tags, to update existing images with region information.\nThere is a limit of 64 entries in the batch."
+consumes:
+- application/json
+- text/json
+- application/xml
+- text/xml
+- application/x-www-form-urlencoded
+produces:
+- application/json
+- text/json
+- application/xml
+- text/xml
+paths:
+- content: POST {Endpoint}/customvision/v2.2/Training/projects/{projectId}/images/regions
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: Supported Cognitive Services endpoints
+  types:
+  - uid: string
+- name: projectId
+  in: path
+  isRequired: true
+  description: The project id.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ImageRegionCreateSummary
+requestBody:
+- name: default
+  parameters:
+  - name: regions
+    in: body
+    description: Entry associating a region to an image.
+    types:
+    - uid: ImageRegionCreateEntry
+      isArray: true
+requestHeader:
+- name: Training-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: ImageRegionCreateEntry
+  description: Entry associating a region to an image.
+  kind: object
+  properties:
+  - name: imageId
+    description: Id of the image.
+    types:
+    - uid: string
+  - name: tagId
+    description: Id of the tag associated with this region.
+    types:
+    - uid: string
+  - name: left
+    description: ''
+    types:
+    - uid: number
+  - name: top
+    description: ''
+    types:
+    - uid: number
+  - name: width
+    description: ''
+    types:
+    - uid: number
+  - name: height
+    description: ''
+    types:
+    - uid: number
+- name: ImageRegionCreateSummary
+  kind: object
+  properties:
+  - name: created
+    description: ''
+    types:
+    - uid: ImageRegionCreateResult
+      isArray: true
+  - name: duplicated
+    description: Entry associating a region to an image.
+    types:
+    - uid: ImageRegionCreateEntry
+      isArray: true
+  - name: exceeded
+    description: Entry associating a region to an image.
+    types:
+    - uid: ImageRegionCreateEntry
+      isArray: true
+- name: ImageRegionCreateBatch
+  description: Batch of image region information to create.
+  kind: object
+  properties:
+  - name: regions
+    description: Entry associating a region to an image.
+    types:
+    - uid: ImageRegionCreateEntry
+      isArray: true
+- name: ImageRegionCreateResult
+  kind: object
+  properties:
+  - name: imageId
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: regionId
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: tagName
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: created
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: tagId
+    description: Id of the tag associated with this region.
+    types:
+    - uid: string
+  - name: left
+    description: ''
+    types:
+    - uid: number
+  - name: top
+    description: ''
+    types:
+    - uid: number
+  - name: width
+    description: ''
+    types:
+    - uid: number
+  - name: height
+    description: ''
+    types:
+    - uid: number
+examples:
+- name: Successful CreateImageRegions request
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/customvision/v2.2/Training/projects/bc3f7dad-5544-468c-8573-3ef04d55463e/images/regions
+    body: >-
+      {
+        "regions": [
+          {
+            "imageId": "4d6eb844-42ee-42bc-bd6f-c32455ef07c9",
+            "tagId": "b607964f-7bd6-4a3b-a869-6791fb6aab87",
+            "left": 0.25,
+            "top": 0.25,
+            "width": 0.25,
+            "height": 0.25
+          }
+        ]
+      }
+    headers:
+    - name: Training-Key
+      value: '{API Key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "created": [],
+        "duplicated": [],
+        "exceeded": []
+      }
+security: []

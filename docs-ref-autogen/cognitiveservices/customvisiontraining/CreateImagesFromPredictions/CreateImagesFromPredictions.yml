@@ -1,0 +1,336 @@
+### YamlMime:RESTOperation
+uid: southcentralus.api.cognitive.microsoft.com.customvision.v2.2.training.cognitiveservices.createimagesfrompredictions.createimagesfrompredictions
+name: Create Images From Predictions
+service: Cognitive Services
+groupName: Create Images From Predictions
+apiVersion: "2.2"
+summary: "Add the specified predicted images to the set of training images.  \nThis API creates a batch of images from predicted images specified. There is a limit of 64 images and 20 tags."
+consumes:
+- application/json
+- text/json
+- application/xml
+- text/xml
+- application/x-www-form-urlencoded
+produces:
+- application/json
+- text/json
+- application/xml
+- text/xml
+paths:
+- content: POST {Endpoint}/customvision/v2.2/Training/projects/{projectId}/images/predictions
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: Supported Cognitive Services endpoints
+  types:
+  - uid: string
+- name: projectId
+  in: path
+  isRequired: true
+  description: The project id.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ImageCreateSummary
+requestBody:
+- name: default
+  parameters:
+  - name: images
+    in: body
+    description: ''
+    types:
+    - uid: ImageIdCreateEntry
+      isArray: true
+  - name: tagIds
+    in: body
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+requestHeader:
+- name: Training-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: ImageIdCreateEntry
+  kind: object
+  properties:
+  - name: id
+    description: ''
+    types:
+    - uid: string
+  - name: tagIds
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: regions
+    description: ''
+    types:
+    - uid: Region
+      isArray: true
+- name: ImageCreateSummary
+  kind: object
+  properties:
+  - name: isBatchSuccessful
+    isReadyOnly: true
+    description: True if all of the images in the batch were created successfully, otherwise false.
+    types:
+    - uid: boolean
+  - name: images
+    isReadyOnly: true
+    description: List of the image creation results.
+    types:
+    - uid: ImageCreateResult
+      isArray: true
+- name: ImageIdCreateBatch
+  kind: object
+  properties:
+  - name: images
+    description: ''
+    types:
+    - uid: ImageIdCreateEntry
+      isArray: true
+  - name: tagIds
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: Region
+  kind: object
+  properties:
+  - name: tagId
+    description: Id of the tag associated with this region.
+    types:
+    - uid: string
+  - name: left
+    description: ''
+    types:
+    - uid: number
+  - name: top
+    description: ''
+    types:
+    - uid: number
+  - name: width
+    description: ''
+    types:
+    - uid: number
+  - name: height
+    description: ''
+    types:
+    - uid: number
+- name: ImageCreateResult
+  kind: object
+  properties:
+  - name: sourceUrl
+    isReadyOnly: true
+    description: Source URL of the image.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Status of the image creation.
+    types:
+    - uid: ImageCreateStatus
+  - name: image
+    isReadyOnly: true
+    description: The image.
+    types:
+    - uid: Image
+- name: ImageCreateStatus
+  description: Status of the image creation.
+  kind: enum
+  properties:
+  - name: OK
+    types:
+    - uid: string
+  - name: OKDuplicate
+    types:
+    - uid: string
+  - name: ErrorSource
+    types:
+    - uid: string
+  - name: ErrorImageFormat
+    types:
+    - uid: string
+  - name: ErrorImageSize
+    types:
+    - uid: string
+  - name: ErrorStorage
+    types:
+    - uid: string
+  - name: ErrorLimitExceed
+    types:
+    - uid: string
+  - name: ErrorTagLimitExceed
+    types:
+    - uid: string
+  - name: ErrorRegionLimitExceed
+    types:
+    - uid: string
+  - name: ErrorUnknown
+    types:
+    - uid: string
+  - name: ErrorNegativeAndRegularTagOnSameImage
+    types:
+    - uid: string
+- name: Image
+  description: Image model to be sent as JSON.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Id of the image.
+    types:
+    - uid: string
+  - name: created
+    isReadyOnly: true
+    description: Date the image was created.
+    types:
+    - uid: string
+  - name: width
+    isReadyOnly: true
+    description: Width of the image.
+    types:
+    - uid: integer
+  - name: height
+    isReadyOnly: true
+    description: Height of the image.
+    types:
+    - uid: integer
+  - name: resizedImageUri
+    isReadyOnly: true
+    description: The URI to the (resized) image used for training.
+    types:
+    - uid: string
+  - name: thumbnailUri
+    isReadyOnly: true
+    description: The URI to the thumbnail of the original image.
+    types:
+    - uid: string
+  - name: originalImageUri
+    isReadyOnly: true
+    description: The URI to the original uploaded image.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Tags associated with this image.
+    types:
+    - uid: ImageTag
+      isArray: true
+  - name: regions
+    isReadyOnly: true
+    description: Regions associated with this image.
+    types:
+    - uid: ImageRegion
+      isArray: true
+- name: ImageTag
+  kind: object
+  properties:
+  - name: tagId
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: tagName
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: created
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: ImageRegion
+  kind: object
+  properties:
+  - name: regionId
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: tagName
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: created
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: tagId
+    description: Id of the tag associated with this region.
+    types:
+    - uid: string
+  - name: left
+    description: ''
+    types:
+    - uid: number
+  - name: top
+    description: ''
+    types:
+    - uid: number
+  - name: width
+    description: ''
+    types:
+    - uid: number
+  - name: height
+    description: ''
+    types:
+    - uid: number
+examples:
+- name: Successful CreateImagesFromPredictions request
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/customvision/v2.2/Training/projects/64b822c5-8082-4b36-a426-27225f4aa18c/images/predictions
+    body: >-
+      {
+        "images": [
+          {
+            "id": "4d6eb844-42ee-42bc-bd6f-c32455ef07c9"
+          }
+        ],
+        "tagIds": [
+          "b607964f-7bd6-4a3b-a869-6791fb6aab87"
+        ]
+      }
+    headers:
+    - name: Training-Key
+      value: '{API Key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "isBatchSuccessful": true,
+        "images": [
+          {
+            "sourceUrl": "\"hemlock_10.jpg\"",
+            "status": "OK",
+            "image": {
+              "id": "4d6eb844-42ee-42bc-bd6f-c32455ef07c9",
+              "created": "2017-12-19T15:56:10.65Z",
+              "width": 1095,
+              "height": 900,
+              "resizedImageUri": "{Resized Image Uri}",
+              "originalImageUri": "{Image Uri}",
+              "thumbnailUri": "{Thumbnail Uri}",
+              "tags": [
+                {
+                  "tagId": "b607964f-7bd6-4a3b-a869-6791fb6aab87",
+                  "created": "2017-12-19T15:56:09.6105895Z"
+                }
+              ]
+            }
+          }
+        ]
+      }
+security: []

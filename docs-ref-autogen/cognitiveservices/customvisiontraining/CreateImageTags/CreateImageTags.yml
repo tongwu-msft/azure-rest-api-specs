@@ -1,0 +1,124 @@
+### YamlMime:RESTOperation
+uid: southcentralus.api.cognitive.microsoft.com.customvision.v2.2.training.cognitiveservices.createimagetags.createimagetags
+name: Create Image Tags
+service: Cognitive Services
+groupName: Create Image Tags
+apiVersion: "2.2"
+summary: Associate a set of images with a set of tags.
+consumes:
+- application/json
+- text/json
+- application/xml
+- text/xml
+- application/x-www-form-urlencoded
+produces:
+- application/json
+- text/json
+- application/xml
+- text/xml
+paths:
+- content: POST {Endpoint}/customvision/v2.2/Training/projects/{projectId}/images/tags
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: Supported Cognitive Services endpoints
+  types:
+  - uid: string
+- name: projectId
+  in: path
+  isRequired: true
+  description: The project id.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ImageTagCreateSummary
+requestBody:
+- name: default
+  parameters:
+  - name: tags
+    in: body
+    description: Image Tag entries to include in this batch.
+    types:
+    - uid: ImageTagCreateEntry
+      isArray: true
+requestHeader:
+- name: Training-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: ImageTagCreateEntry
+  description: Entry associating a tag to an image.
+  kind: object
+  properties:
+  - name: imageId
+    description: Id of the image.
+    types:
+    - uid: string
+  - name: tagId
+    description: Id of the tag.
+    types:
+    - uid: string
+- name: ImageTagCreateSummary
+  kind: object
+  properties:
+  - name: created
+    description: Entry associating a tag to an image.
+    types:
+    - uid: ImageTagCreateEntry
+      isArray: true
+  - name: duplicated
+    description: Entry associating a tag to an image.
+    types:
+    - uid: ImageTagCreateEntry
+      isArray: true
+  - name: exceeded
+    description: Entry associating a tag to an image.
+    types:
+    - uid: ImageTagCreateEntry
+      isArray: true
+- name: ImageTagCreateBatch
+  description: Batch of image tags.
+  kind: object
+  properties:
+  - name: tags
+    description: Image Tag entries to include in this batch.
+    types:
+    - uid: ImageTagCreateEntry
+      isArray: true
+examples:
+- name: Successful CreateImageTags request
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/customvision/v2.2/Training/projects/bc3f7dad-5544-468c-8573-3ef04d55463e/images/tags
+    body: >-
+      {
+        "tags": [
+          {
+            "imageId": "e31a14ab-5d78-4f7b-a267-3a1e4fd8a758",
+            "tagId": "349d72ac-0948-4d51-b1e4-c14a1f9b848a"
+          }
+        ]
+      }
+    headers:
+    - name: Training-Key
+      value: '{API Key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "created": [
+          {
+            "imageId": "e31a14ab-5d78-4f7b-a267-3a1e4fd8a758",
+            "tagId": "349d72ac-0948-4d51-b1e4-c14a1f9b848a"
+          }
+        ],
+        "duplicated": null,
+        "exceeded": null
+      }
+security: []
