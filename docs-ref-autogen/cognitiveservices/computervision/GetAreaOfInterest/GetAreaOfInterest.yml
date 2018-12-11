@@ -1,23 +1,21 @@
 ### YamlMime:RESTOperation
-uid: westcentralus.api.cognitive.microsoft.com.vision.v2.0.cognitiveservices.tagimage.tagimage
-name: Tag Image
+uid: westcentralus.api.cognitive.microsoft.com.vision.v2.0.cognitiveservices.getareaofinterest.getareaofinterest
+name: Get Area Of Interest
 service: Cognitive Services
-groupName: Tag Image
+groupName: Get Area Of Interest
 apiVersion: "2.0"
 summary: >-
-  This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag "cello" may be accompanied by the hint "musical instrument". All tags are in English.
+  This operation returns a bounding box around the most important area of the image.
 
-  Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+  A successful response will be returned in JSON. If the request failed, the response contains an error code and a message to help determine what went wrong.
 
-  A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+  Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {Endpoint}/vision/v2.0/tag
-- content: POST {Endpoint}/vision/v2.0/tag?language={language}
-  isOptional: true
+- content: POST {Endpoint}/vision/v2.0/areaOfInterest
 uriParameters:
 - name: Endpoint
   in: path
@@ -25,16 +23,11 @@ uriParameters:
   description: Supported Cognitive Services endpoints.
   types:
   - uid: string
-- name: language
-  in: query
-  description: The desired language for output generation. If this parameter is not specified, the default value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese.
-  types:
-  - uid: string
 responses:
 - name: 200 OK
-  description: Image tags object.
+  description: The response includes the extracted area of interest in JSON format.
   types:
-  - uid: TagResult
+  - uid: AreaOfInterestResult
 - name: Other Status Codes
   description: Error response.
   types:
@@ -50,15 +43,15 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
-- name: TagResult
-  description: The results of a image tag operation, including any tags and image metadata.
+- name: AreaOfInterestResult
+  description: Result of AreaOfInterest operation.
   kind: object
   properties:
-  - name: tags
-    description: A list of tags with confidence level.
+  - name: areaOfInterest
+    isReadyOnly: true
+    description: A bounding box for an area of interest inside an image.
     types:
-    - uid: ImageTag
-      isArray: true
+    - uid: BoundingRect
   - name: requestId
     description: Id of the REST API request.
     types:
@@ -90,22 +83,26 @@ definitions:
     description: Publicly reachable URL of an image.
     types:
     - uid: string
-- name: ImageTag
-  description: An entity observation in the image, along with the confidence score.
+- name: BoundingRect
+  description: A bounding box for an area inside an image.
   kind: object
   properties:
-  - name: name
-    description: Name of the entity.
+  - name: x
+    description: X-coordinate of the top left point of the area, in pixels.
     types:
-    - uid: string
-  - name: confidence
-    description: The level of confidence that the entity was observed.
+    - uid: integer
+  - name: y
+    description: Y-coordinate of the top left point of the area, in pixels.
     types:
-    - uid: number
-  - name: hint
-    description: Optional hint/details for this tag.
+    - uid: integer
+  - name: w
+    description: Width measured from the top-left point of the area, in pixels.
     types:
-    - uid: string
+    - uid: integer
+  - name: h
+    description: Height measured from the top-left point of the area, in pixels.
+    types:
+    - uid: integer
 - name: ImageMetadata
   description: Image metadata.
   kind: object
@@ -184,53 +181,25 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Successful TagImage request
+- name: Successful GetAreaOfInterest request
   request:
-    uri: POST https://westus.api.cognitive.microsoft.com/vision/v2.0/tag?language={language}
+    uri: POST https://westus.api.cognitive.microsoft.com/vision/v2.0/areaOfInterest
     body: "\"{url}\""
   responses:
   - statusCode: "200"
     body: >-
       {
-        "tags": [
-          {
-            "name": "grass",
-            "confidence": 0.9999997615814209
-          },
-          {
-            "name": "outdoor",
-            "confidence": 0.99997067451477051
-          },
-          {
-            "name": "sky",
-            "confidence": 0.99928975105285645
-          },
-          {
-            "name": "building",
-            "confidence": 0.99646323919296265
-          },
-          {
-            "name": "house",
-            "confidence": 0.99279803037643433
-          },
-          {
-            "name": "lawn",
-            "confidence": 0.82268029451370239
-          },
-          {
-            "name": "green",
-            "confidence": 0.64122253656387329
-          },
-          {
-            "name": "residential",
-            "confidence": 0.31403225660324097
-          }
-        ],
-        "requestId": "1ad0e45e-b7b4-4be3-8042-53be96103337",
+        "areaOfInterest": {
+          "h": 951,
+          "w": 950,
+          "x": 160,
+          "y": 0
+        },
+        "requestId": "ed2de1c6-fb55-4686-b0da-4da6e05d283f",
         "metadata": {
-          "width": 400,
-          "height": 400,
-          "format": "Jpeg"
+          "format": "Jpeg",
+          "height": 951,
+          "width": 1378
         }
       }
 security:

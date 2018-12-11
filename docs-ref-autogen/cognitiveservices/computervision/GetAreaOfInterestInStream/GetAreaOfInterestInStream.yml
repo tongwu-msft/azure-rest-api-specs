@@ -1,25 +1,22 @@
 ### YamlMime:RESTOperation
-uid: westcentralus.api.cognitive.microsoft.com.vision.v2.0.cognitiveservices.analyzeimagebydomain.analyzeimagebydomain
-name: Analyze Image By Domain
+uid: westcentralus.api.cognitive.microsoft.com.vision.v2.0.cognitiveservices.getareaofinterestinstream.getareaofinterestinstream
+name: Get Area Of Interest In Stream
 service: Cognitive Services
-groupName: Analyze Image By Domain
+groupName: Get Area Of Interest In Stream
 apiVersion: "2.0"
 summary: >-
-  This operation recognizes content within an image by applying a domain-specific model. The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request. Currently, the API provides following domain-specific models: celebrities, landmarks.
+  This operation returns a bounding box around the most important area of the image.
 
-  Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+  A successful response will be returned in JSON. If the request failed, the response contains an error code and a message to help determine what went wrong.
 
-  A successful response will be returned in JSON.
-
-  If the request failed, the response will contain an error code and a message to help understand what went wrong.
+  Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
 consumes:
-- application/json
+- application/octet-stream
+- multipart/form-data
 produces:
 - application/json
 paths:
-- content: POST {Endpoint}/vision/v2.0/models/{model}/analyze
-- content: POST {Endpoint}/vision/v2.0/models/{model}/analyze?language={language}
-  isOptional: true
+- content: POST {Endpoint}/vision/v2.0/areaOfInterest
 uriParameters:
 - name: Endpoint
   in: path
@@ -27,22 +24,11 @@ uriParameters:
   description: Supported Cognitive Services endpoints.
   types:
   - uid: string
-- name: model
-  in: path
-  isRequired: true
-  description: The domain-specific content to recognize.
-  types:
-  - uid: string
-- name: language
-  in: query
-  description: The desired language for output generation. If this parameter is not specified, the default value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese.
-  types:
-  - uid: string
 responses:
 - name: 200 OK
-  description: Analysis result based on the domain model.
+  description: The response includes the extracted area of interest in JSON format.
   types:
-  - uid: DomainModelResults
+  - uid: AreaOfInterestResult
 - name: Other Status Codes
   description: Error response.
   types:
@@ -50,18 +36,21 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: url
+  - name: Image
     in: body
-    isRequired: true
-    description: Publicly reachable URL of an image.
     types:
-    - uid: string
+    - uid: object
 requestHeader: []
 definitions:
-- name: DomainModelResults
-  description: Result of image analysis using a specific domain model including additional metadata.
+- name: AreaOfInterestResult
+  description: Result of AreaOfInterest operation.
   kind: object
   properties:
+  - name: areaOfInterest
+    isReadyOnly: true
+    description: A bounding box for an area of interest inside an image.
+    types:
+    - uid: BoundingRect
   - name: requestId
     description: Id of the REST API request.
     types:
@@ -86,13 +75,26 @@ definitions:
     description: A unique request identifier.
     types:
     - uid: string
-- name: ImageUrl
+- name: BoundingRect
+  description: A bounding box for an area inside an image.
   kind: object
   properties:
-  - name: url
-    description: Publicly reachable URL of an image.
+  - name: x
+    description: X-coordinate of the top left point of the area, in pixels.
     types:
-    - uid: string
+    - uid: integer
+  - name: y
+    description: Y-coordinate of the top left point of the area, in pixels.
+    types:
+    - uid: integer
+  - name: w
+    description: Width measured from the top-left point of the area, in pixels.
+    types:
+    - uid: integer
+  - name: h
+    description: Height measured from the top-left point of the area, in pixels.
+    types:
+    - uid: integer
 - name: ImageMetadata
   description: Image metadata.
   kind: object
@@ -171,33 +173,25 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Successful AnalyzeImageByDomain request
+- name: Successful GetAreaOfInterest request
   request:
-    uri: POST https://westus.api.cognitive.microsoft.com/vision/v2.0/models/Celebrities/analyze?language={language}
-    body: "\"{url}\""
+    uri: POST https://westus.api.cognitive.microsoft.com/vision/v2.0/areaOfInterest
+    body: "\"{binary}\""
   responses:
   - statusCode: "200"
     body: >-
       {
-        "requestId": "f0027b4b-dc0d-4082-9228-1545ed246b03",
-        "metadata": {
-          "width": 1500,
-          "height": 1000,
-          "format": "Jpeg"
+        "areaOfInterest": {
+          "h": 951,
+          "w": 950,
+          "x": 160,
+          "y": 0
         },
-        "result": {
-          "celebrities": [
-            {
-              "name": "Satya Nadella",
-              "faceRectangle": {
-                "left": 597,
-                "top": 162,
-                "width": 248,
-                "height": 248
-              },
-              "confidence": 0.999028444
-            }
-          ]
+        "requestId": "ed2de1c6-fb55-4686-b0da-4da6e05d283f",
+        "metadata": {
+          "format": "Jpeg",
+          "height": 951,
+          "width": 1378
         }
       }
 security:
