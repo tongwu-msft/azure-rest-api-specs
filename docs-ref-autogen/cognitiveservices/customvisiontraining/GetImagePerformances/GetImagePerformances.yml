@@ -1,0 +1,264 @@
+### YamlMime:RESTOperation
+uid: southcentralus.api.cognitive.microsoft.com.customvision.v2.2.training.cognitiveservices.getimageperformances.getimageperformances
+name: Get Image Performances
+service: Cognitive Services
+groupName: Get Image Performances
+apiVersion: "2.2"
+summary: "Get image with its prediction for a given project iteration.  \nThis API supports batching and range selection. By default it will only return first 50 images matching images.\nUse the {take} and {skip} parameters to control how many images to return in a given batch.\nThe filtering is on an and/or relationship. For example, if the provided tag ids are for the \"Dog\" and\n\"Cat\" tags, then only images tagged with Dog and/or Cat will be returned"
+consumes: []
+produces:
+- application/json
+- text/json
+- application/xml
+- text/xml
+paths:
+- content: GET {Endpoint}/customvision/v2.2/Training/projects/{projectId}/iterations/{iterationId}/performance/images
+- content: GET {Endpoint}/customvision/v2.2/Training/projects/{projectId}/iterations/{iterationId}/performance/images?tagIds={tagIds}&orderBy={orderBy}&take={take}&skip={skip}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: Supported Cognitive Services endpoints
+  types:
+  - uid: string
+- name: projectId
+  in: path
+  isRequired: true
+  description: The project id.
+  types:
+  - uid: string
+  format: uuid
+- name: iterationId
+  in: path
+  isRequired: true
+  description: The iteration id. Defaults to workspace.
+  types:
+  - uid: string
+  format: uuid
+- name: tagIds
+  in: query
+  description: A list of tags ids to filter the images. Defaults to all tagged images when null. Limited to 20.
+  types:
+  - uid: array
+- name: orderBy
+  in: query
+  description: The ordering. Defaults to newest.
+  types:
+  - uid: string
+- name: take
+  in: query
+  description: Maximum number of images to return. Defaults to 50, limited to 256.
+  types:
+  - uid: integer
+  format: int32
+- name: skip
+  in: query
+  description: Number of images to skip before beginning the image batch. Defaults to 0.
+  types:
+  - uid: integer
+  format: int32
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ImagePerformance
+    isArray: true
+requestHeader:
+- name: Training-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: ImagePerformance
+  description: Image performance model.
+  kind: object
+  properties:
+  - name: predictions
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: Prediction
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: created
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: width
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: integer
+  - name: height
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: integer
+  - name: imageUri
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: thumbnailUri
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: ImageTag
+      isArray: true
+  - name: regions
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: ImageRegion
+      isArray: true
+- name: Prediction
+  kind: object
+  properties:
+  - name: probability
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: number
+  - name: tagId
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: tagName
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: boundingBox
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: BoundingBox
+- name: ImageTag
+  kind: object
+  properties:
+  - name: tagId
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: tagName
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: created
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: ImageRegion
+  kind: object
+  properties:
+  - name: regionId
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: tagName
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: created
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: tagId
+    description: Id of the tag associated with this region.
+    types:
+    - uid: string
+  - name: left
+    description: ''
+    types:
+    - uid: number
+  - name: top
+    description: ''
+    types:
+    - uid: number
+  - name: width
+    description: ''
+    types:
+    - uid: number
+  - name: height
+    description: ''
+    types:
+    - uid: number
+- name: BoundingBox
+  kind: object
+  properties:
+  - name: left
+    description: ''
+    types:
+    - uid: number
+  - name: top
+    description: ''
+    types:
+    - uid: number
+  - name: width
+    description: ''
+    types:
+    - uid: number
+  - name: height
+    description: ''
+    types:
+    - uid: number
+examples:
+- name: Successful GetImagePerformances request
+  request:
+    uri: >-
+      GET https://westus.api.cognitive.microsoft.com/customvision/v2.2/Training/projects/bc3f7dad-5544-468c-8573-3ef04d55463e/iterations/b7b9d99c-a2c6-4658-9900-a98d2ff5bc66/performance/images?tagIds=[
+
+        ""
+
+      ]&orderBy=Newest
+    headers:
+    - name: Training-Key
+      value: '{API Key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "id": "dfd2d346-3ed5-4e1e-857d-af4e32cec042",
+          "created": "2018-01-31T20:18:26.5806336Z",
+          "predictions": [
+            {
+              "tagId": "b5f7e6a2-a481-49a6-afec-a7cef1af3544",
+              "tagName": "Tag 1",
+              "probability": 1,
+              "boundingBox": {
+                "left": 0.25,
+                "top": 0.25,
+                "width": 0.25,
+                "height": 0.25
+              }
+            }
+          ],
+          "width": 600,
+          "height": 1600,
+          "imageUri": "<image uri>",
+          "thumbnailUri": "<thumbnail uri>",
+          "tags": [],
+          "regions": []
+        }
+      ]
+security: []

@@ -1,0 +1,190 @@
+### YamlMime:RESTOperation
+uid: southcentralus.api.cognitive.microsoft.com.customvision.v2.2.training.cognitiveservices.gettaggedimages.gettaggedimages
+name: Get Tagged Images
+service: Cognitive Services
+groupName: Get Tagged Images
+apiVersion: "2.2"
+summary: "Get tagged images for a given project iteration.  \nThis API supports batching and range selection. By default it will only return first 50 images matching images.\nUse the {take} and {skip} parameters to control how many images to return in a given batch.\nThe filtering is on an and/or relationship. For example, if the provided tag ids are for the \"Dog\" and\n\"Cat\" tags, then only images tagged with Dog and/or Cat will be returned"
+consumes: []
+produces:
+- application/json
+- text/json
+- application/xml
+- text/xml
+paths:
+- content: GET {Endpoint}/customvision/v2.2/Training/projects/{projectId}/images/tagged
+- content: GET {Endpoint}/customvision/v2.2/Training/projects/{projectId}/images/tagged?iterationId={iterationId}&tagIds={tagIds}&orderBy={orderBy}&take={take}&skip={skip}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: Supported Cognitive Services endpoints
+  types:
+  - uid: string
+- name: projectId
+  in: path
+  isRequired: true
+  description: The project id.
+  types:
+  - uid: string
+  format: uuid
+- name: iterationId
+  in: query
+  description: The iteration id. Defaults to workspace.
+  types:
+  - uid: string
+  format: uuid
+- name: tagIds
+  in: query
+  description: A list of tags ids to filter the images. Defaults to all tagged images when null. Limited to 20.
+  types:
+  - uid: array
+- name: orderBy
+  in: query
+  description: The ordering. Defaults to newest.
+  types:
+  - uid: string
+- name: take
+  in: query
+  description: Maximum number of images to return. Defaults to 50, limited to 256.
+  types:
+  - uid: integer
+  format: int32
+- name: skip
+  in: query
+  description: Number of images to skip before beginning the image batch. Defaults to 0.
+  types:
+  - uid: integer
+  format: int32
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Image
+    isArray: true
+requestHeader:
+- name: Training-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: Image
+  description: Image model to be sent as JSON.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Id of the image.
+    types:
+    - uid: string
+  - name: created
+    isReadyOnly: true
+    description: Date the image was created.
+    types:
+    - uid: string
+  - name: width
+    isReadyOnly: true
+    description: Width of the image.
+    types:
+    - uid: integer
+  - name: height
+    isReadyOnly: true
+    description: Height of the image.
+    types:
+    - uid: integer
+  - name: resizedImageUri
+    isReadyOnly: true
+    description: The URI to the (resized) image used for training.
+    types:
+    - uid: string
+  - name: thumbnailUri
+    isReadyOnly: true
+    description: The URI to the thumbnail of the original image.
+    types:
+    - uid: string
+  - name: originalImageUri
+    isReadyOnly: true
+    description: The URI to the original uploaded image.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Tags associated with this image.
+    types:
+    - uid: ImageTag
+      isArray: true
+  - name: regions
+    isReadyOnly: true
+    description: Regions associated with this image.
+    types:
+    - uid: ImageRegion
+      isArray: true
+- name: ImageTag
+  kind: object
+  properties:
+  - name: tagId
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: tagName
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: created
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: ImageRegion
+  kind: object
+  properties:
+  - name: regionId
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: tagName
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: created
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: tagId
+    description: Id of the tag associated with this region.
+    types:
+    - uid: string
+  - name: left
+    description: ''
+    types:
+    - uid: number
+  - name: top
+    description: ''
+    types:
+    - uid: number
+  - name: width
+    description: ''
+    types:
+    - uid: number
+  - name: height
+    description: ''
+    types:
+    - uid: number
+examples:
+- name: Successful GetTaggedImages request
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/customvision/v2.2/Training/projects/bc3f7dad-5544-468c-8573-3ef04d55463e/images/tagged?iterationId=cf0f83fb-ebaa-4b25-8e34-613a6a0b8a12
+    headers:
+    - name: Training-Key
+      value: '{API Key}'
+  responses:
+  - statusCode: "200"
+    body: '[]'
+security: []
