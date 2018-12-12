@@ -43,9 +43,9 @@ You can read the full walk through on Jon Gallant's blog here: [Azure REST APIs 
 
 ## How to call Azure REST APIs with cUrl
 
-The process is very similar to the one used for Postman, with the exception that it shows how you can call Azure REST API using cUrl which is more suitable to be embedded in scripts and used in a DevOps process. 
+The process is very similar to the one used for Postman, with the exception that it shows how you can call Azure REST API using [cUrl](https://curl.haxx.se/) which is more suitable to be embedded in scripts and used in a DevOps process. 
 
-[Calling Azure REST API via curl]https://aka.ms/azurerestcurl
+[Calling Azure REST API via curl](https://aka.ms/azurerestcurl)
 
 ## Components of a REST API request/response
 
