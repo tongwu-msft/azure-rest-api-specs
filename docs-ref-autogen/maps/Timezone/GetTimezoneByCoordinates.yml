@@ -8,21 +8,25 @@ summary: >-
   __Time Zone by Coordinates__
 
 
+  **Applies to**: S0 and S1 pricing tiers.
+
+
+
   This API returns current, historical, and future time zone information for a specified latitude-longitude pair.
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://atlas.microsoft.com/timezone/byCoordinates/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/timezone/byCoordinates/{format}?subscription-key={subscription-key}&api-version=1.0&options={options}&timeStamp={timeStamp}&transitionsFrom={transitionsFrom}&transitionsYears={transitionsYears}&query={query}
+- content: GET https://atlas.microsoft.com/timezone/byCoordinates/json?subscription-key={subscription-key}&api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/timezone/byCoordinates/json?subscription-key={subscription-key}&api-version=1.0&options={options}&timeStamp={timeStamp}&transitionsFrom={transitionsFrom}&transitionsYears={transitionsYears}&query={query}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Only `JSON` format is supported.
+  description: Desired format of the response. Only `json` format is supported.
   types:
-  - uid: string
+  - uid: JsonFormat
 - name: subscription-key
   in: query
   isRequired: true
@@ -60,7 +64,7 @@ uriParameters:
 - name: query
   in: query
   isRequired: true
-  description: The applicable query string. Must be properly URL encoded.
+  description: The applicable query specified as a comma separated string composed by latitude followed by longitude e.g. "47.641268,-122.125679".
   types:
   - uid: string
 responses:
@@ -113,6 +117,14 @@ definitions:
     - uid: string
   - name: all
     description: Include both zoneinfo and transitions in the result.
+    types:
+    - uid: string
+- name: JsonFormat
+  description: Desired format of the response. Only `json` format is supported.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
 - name: TimezoneByCoordinatesResult
@@ -262,12 +274,12 @@ definitions:
     description: Wall Time property
     types:
     - uid: string
-  - name: PosixTimezoneValidYear
+  - name: PosixTzValidYear
     isReadyOnly: true
     description: Posix Timezone Valid Year property
     types:
     - uid: integer
-  - name: PosixTimezone
+  - name: PosixTz
     isReadyOnly: true
     description: Posix timezone property
     types:

@@ -1,21 +1,21 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resourcehealth.availabilitystatuses.listbysubscriptionid
-name: List By Subscription Id
+uid: management.azure.com.resourcehealth.childresources.list
+name: List
 service: Resource Health
-groupName: Availability Statuses
+groupName: Child Resources
 apiVersion: 2015-01-01
-summary: Lists the current availability status for all the resources in the subscription. Use the nextLink property in the response to get the next page of availability statuses.
+summary: Lists the all the children and its current health status for a parent resource. Use the nextLink property in the response to get the next page of children current health
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/availabilityStatuses?api-version=2015-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/availabilityStatuses?api-version=2015-01-01&$filter={$filter}&$expand={$expand}
+- content: GET https://management.azure.com/{resourceUri}/providers/Microsoft.ResourceHealth/childResources?api-version=2015-01-01
+- content: GET https://management.azure.com/{resourceUri}/providers/Microsoft.ResourceHealth/childResources?api-version=2015-01-01&$filter={$filter}&$expand={$expand}
   isOptional: true
 uriParameters:
-- name: subscriptionId
+- name: resourceUri
   in: path
   isRequired: true
-  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: 'The fully qualified ID of the resource, including the resource name and resource type. Currently the API only support not nested parent resource type: /subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/{resource-provider-name}/{resource-type}/{resource-name}'
   types:
   - uid: string
 - name: api-version
@@ -36,7 +36,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The body contains the list of the current availability status for all the resources in the subscription
+  description: The body contains the list of the children's current availability statuses for a single resource which contains children
   types:
   - uid: availabilityStatusListResult
 - name: Other Status Codes
@@ -267,72 +267,95 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ListHealthBySubscriptionId
+- name: GetHealthHistoryByResource
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.ResourceHealth/availabilityStatuses?api-version=2015-01-01&$expand=recommendedactions
+    uri: GET https://management.azure.com/resourceUri/providers/Microsoft.ResourceHealth/childResources?api-version=2015-01-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "<resourceId>/providers/Microsoft.ResourceHealth/AvailabilityStatueses/current",
-            "name": "current",
+            "id": "/subscriptions/227b734f-e14f-4de6-b7fc-3190c21e69f6/resourceGroups/JUHACKETRHCTEST/providers/Microsoft.Compute/virtualMachineScaleSets/rhctest/virtualMachines/0/providers/Microsoft.ResourceHealth/child/availabilityStatuses/current",
+            "name": "rhctest_0",
             "type": "Microsoft.ResourceHealth/AvailabilityStatuses",
-            "location": "eastus",
+            "location": "southcentralus",
             "properties": {
               "availabilityState": "Available",
-              "summary": "Vm is available",
-              "reasonType": "Unplanned",
+              "summary": "There aren't any known Azure platform problems affecting this virtual machine",
+              "detailedStatus": "",
+              "reasonType": "",
+              "occuredTime": "2018-11-30T23:37:43Z",
               "reasonChronicity": "Persistent",
-              "detailedStatus": "We have not seen any issues with your virtual machine",
-              "occuredTime": "2016-03-29T09:12:00Z",
-              "reportedTime": "2016-05-04T14:11:29.7598931Z",
-              "RecentlyResolved": {
-                "UnavailableOccuredTime": "2017-02-28T00:48:00Z",
-                "ResolvedTime": "2017-02-28T00:49:00Z",
-                "UnavailableSummary": "We are sorry your SQL database is unavailable"
-              },
-              "RecommendedActions": [
-                {
-                  "Action": "To start this virtualmachine, open the resource blade and click Start",
-                  "ActionUrl": "<#ResourceBlade>",
-                  "ActionUrlText": "resourceblade"
-                }
-              ]
+              "reportedTime": "2018-12-04T01:18:25.575477Z",
+              "isArmResource": true
             }
           },
           {
-            "id": "<resourceId>/providers/Microsoft.ResourceHealth/AvailabilityStatueses/current",
-            "name": "current",
+            "id": "/subscriptions/227b734f-e14f-4de6-b7fc-3190c21e69f6/resourceGroups/JUHACKETRHCTEST/providers/Microsoft.Compute/virtualMachineScaleSets/rhctest/virtualMachines/3/providers/Microsoft.ResourceHealth/child/availabilityStatuses/current",
+            "name": "rhctest_3",
             "type": "Microsoft.ResourceHealth/AvailabilityStatuses",
-            "location": "eastus",
+            "location": "southcentralus",
             "properties": {
-              "availabilityState": "Unavailable",
-              "summary": "We are sorry, we couldn't automatically recovery our virtualmachine",
-              "reasonType": "Unplanned",
+              "availabilityState": "Available",
+              "summary": "There aren't any known Azure platform problems affecting this virtual machine",
+              "detailedStatus": "",
+              "reasonType": "",
+              "occuredTime": "2018-11-30T23:37:41Z",
               "reasonChronicity": "Persistent",
-              "detailedStatus": "Diskproblemsarepreventingusfromautomaticallyrecoveringyourvirtualmachine",
-              "occuredTime": "2016-03-29T09:12:00Z",
-              "reportedTime": "2016-05-04T14:11:29.7598931Z",
-              "rootCauseAttributionTime": "2016-03-29T09:13:00Z",
-              "resolutionETA": "2016-03-29T09:37:00Z",
-              "RecommendedActions": [
-                {
-                  "Action": "To start this virtualmachine, open the resource blade",
-                  "ActionUrl": "<#ResourceBlade>",
-                  "ActionUrlText": "resourceblade"
-                },
-                {
-                  "Action": "If you are experiencing problems you believe are caused by Azure, contact support",
-                  "ActionUrl": "<#SupportCase>",
-                  "ActionUrlText": "contactsupport"
-                }
-              ]
+              "reportedTime": "2018-12-04T01:18:25.575477Z",
+              "isArmResource": true
+            }
+          },
+          {
+            "id": "/subscriptions/227b734f-e14f-4de6-b7fc-3190c21e69f6/resourceGroups/JUHACKETRHCTEST/providers/Microsoft.Compute/virtualMachineScaleSets/rhctest/virtualMachines/1/providers/Microsoft.ResourceHealth/child/availabilityStatuses/current",
+            "name": "rhctest_1",
+            "type": "Microsoft.ResourceHealth/AvailabilityStatuses",
+            "location": "southcentralus",
+            "properties": {
+              "availabilityState": "Available",
+              "summary": "There aren't any known Azure platform problems affecting this virtual machine",
+              "detailedStatus": "",
+              "reasonType": "",
+              "occuredTime": "2018-11-30T23:37:48Z",
+              "reasonChronicity": "Persistent",
+              "reportedTime": "2018-12-04T01:18:25.575477Z",
+              "isArmResource": true
+            }
+          },
+          {
+            "id": "/subscriptions/227b734f-e14f-4de6-b7fc-3190c21e69f6/resourceGroups/JUHACKETRHCTEST/providers/Microsoft.Compute/virtualMachineScaleSets/rhctest/virtualMachines/2/providers/Microsoft.ResourceHealth/child/availabilityStatuses/current",
+            "name": "rhctest_2",
+            "type": "Microsoft.ResourceHealth/AvailabilityStatuses",
+            "location": "southcentralus",
+            "properties": {
+              "availabilityState": "Available",
+              "summary": "There aren't any known Azure platform problems affecting this virtual machine",
+              "detailedStatus": "",
+              "reasonType": "",
+              "occuredTime": "2018-11-30T23:37:43Z",
+              "reasonChronicity": "Persistent",
+              "reportedTime": "2018-12-04T01:18:25.575477Z",
+              "isArmResource": true
+            }
+          },
+          {
+            "id": "/subscriptions/227b734f-e14f-4de6-b7fc-3190c21e69f6/resourceGroups/JUHACKETRHCTEST/providers/Microsoft.Compute/virtualMachineScaleSets/rhctest/virtualMachines/4/providers/Microsoft.ResourceHealth/child/availabilityStatuses/current",
+            "name": "rhctest_4",
+            "type": "Microsoft.ResourceHealth/AvailabilityStatuses",
+            "location": "southcentralus",
+            "properties": {
+              "availabilityState": "Available",
+              "summary": "There aren't any known Azure platform problems affecting this virtual machine",
+              "detailedStatus": "",
+              "reasonType": "",
+              "occuredTime": "2018-11-30T23:37:44Z",
+              "reasonChronicity": "Persistent",
+              "reportedTime": "2018-12-04T01:18:25.575477Z",
+              "isArmResource": true
             }
           }
-        ],
-        "nextLink": "{originalRequestUrl}?$skipToken={OpaquePageNumber}"
+        ]
       }
 security:
 - type: oauth2
