@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.container-instances.containergroupusage.list
-name: List
+uid: management.azure.com.container-instances.listcachedimages.listcachedimages
+name: List Cached Images
 service: Container Instances
-groupName: Container Group Usage
+groupName: List Cached Images
 apiVersion: 2018-10-01
-summary: Get the usage for a subscription
+summary: "Get the list of cached images.  \nGet the list of cached images on specific OS type for a subscription in a region."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/usages?api-version=2018-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/cachedImages?api-version=2018-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,23 +34,26 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: UsageListResult
+  - uid: CachedImagesListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: UsageListResult
-  description: The response containing the usage data
+- name: CachedImagesListResult
+  description: The response containing cached images.
   kind: object
   properties:
   - name: value
-    isReadyOnly: true
-    description: A single usage result
+    description: The list of cached images.
     types:
-    - uid: Usage
+    - uid: cachedImages
       isArray: true
+  - name: nextLink
+    description: The URI to fetch the next page of cached images.
+    types:
+    - uid: string
 - name: CloudError
   description: An error response from the Batch service.
   kind: object
@@ -59,30 +62,22 @@ definitions:
     description: An error response from the Batch service.
     types:
     - uid: CloudErrorBody
-- name: Usage
-  description: A single usage result
+- name: cachedImages
+  description: The cached image and OS type.
   kind: object
   properties:
-  - name: unit
-    isReadyOnly: true
-    description: Unit of the usage result
+  - name: id
+    description: The resource Id of the cached image.
     types:
     - uid: string
-  - name: currentValue
-    isReadyOnly: true
-    description: The current usage of the resource
+  - name: osType
+    description: The OS type of the cached image.
     types:
-    - uid: integer
-  - name: limit
-    isReadyOnly: true
-    description: The maximum permitted usage of the resource.
+    - uid: string
+  - name: image
+    description: The cached image name.
     types:
-    - uid: integer
-  - name: name
-    isReadyOnly: true
-    description: The name object of the resource
-    types:
-    - uid: Name
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the Batch service.
   kind: object
@@ -104,37 +99,26 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: Name
-  description: The name object of the resource
-  kind: object
-  properties:
-  - name: value
-    isReadyOnly: true
-    description: The name of the resource
-    types:
-    - uid: string
-  - name: localizedValue
-    isReadyOnly: true
-    description: The localized name of the resource
-    types:
-    - uid: string
 examples:
-- name: ContainerUsage
+- name: CachedImages
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ContainerInstance/locations/westcentralus/usages?api-version=2018-10-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ContainerInstance/locations/westcentralus/cachedImages?api-version=2018-10-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "unit": "Count",
-            "currentValue": 1,
-            "limit": 2000,
-            "name": {
-              "value": "ContainerGroups",
-              "localizedValue": "Container Groups"
-            }
+            "osType": "Linux",
+            "image": "ubuntu:16.04"
+          },
+          {
+            "osType": "Linux",
+            "image": "alpine:3.6"
+          },
+          {
+            "osType": "Windows",
+            "image": "microsoft/nanoserver:10.0.14393.2485"
           }
         ]
       }

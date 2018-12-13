@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.container-instances.containergroupusage.list
-name: List
+uid: management.azure.com.container-instances.listcapabilities.listcapabilities
+name: List Capabilities
 service: Container Instances
-groupName: Container Group Usage
+groupName: List Capabilities
 apiVersion: 2018-10-01
-summary: Get the usage for a subscription
+summary: "Get the list of capabilities of the location.  \nGet the list of CPU/memory/GPU capabilities of a region."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/usages?api-version=2018-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/capabilities?api-version=2018-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,23 +34,26 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: UsageListResult
+  - uid: CapabilitiesListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: UsageListResult
-  description: The response containing the usage data
+- name: CapabilitiesListResult
+  description: The response containing list of capabilities.
   kind: object
   properties:
   - name: value
-    isReadyOnly: true
-    description: A single usage result
+    description: The list of capabilities.
     types:
-    - uid: Usage
+    - uid: Capabilities
       isArray: true
+  - name: nextLink
+    description: The URI to fetch the next page of capabilities.
+    types:
+    - uid: string
 - name: CloudError
   description: An error response from the Batch service.
   kind: object
@@ -59,30 +62,40 @@ definitions:
     description: An error response from the Batch service.
     types:
     - uid: CloudErrorBody
-- name: Usage
-  description: A single usage result
+- name: Capabilities
+  description: The regional capabilities.
   kind: object
   properties:
-  - name: unit
+  - name: resourceType
     isReadyOnly: true
-    description: Unit of the usage result
+    description: The resource type that this capability describes.
     types:
     - uid: string
-  - name: currentValue
+  - name: osType
     isReadyOnly: true
-    description: The current usage of the resource
+    description: The OS type that this capability describes.
     types:
-    - uid: integer
-  - name: limit
+    - uid: string
+  - name: location
     isReadyOnly: true
-    description: The maximum permitted usage of the resource.
+    description: The resource location.
     types:
-    - uid: integer
-  - name: name
+    - uid: string
+  - name: ipAddressType
     isReadyOnly: true
-    description: The name object of the resource
+    description: The ip address type that this capability describes.
     types:
-    - uid: Name
+    - uid: string
+  - name: gpu
+    isReadyOnly: true
+    description: The GPU sku that this capability describes.
+    types:
+    - uid: string
+  - name: capabilities
+    isReadyOnly: true
+    description: The supported capabilities.
+    types:
+    - uid: Capabilities
 - name: CloudErrorBody
   description: An error response from the Batch service.
   kind: object
@@ -104,36 +117,37 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: Name
-  description: The name object of the resource
-  kind: object
-  properties:
-  - name: value
-    isReadyOnly: true
-    description: The name of the resource
-    types:
-    - uid: string
-  - name: localizedValue
-    isReadyOnly: true
-    description: The localized name of the resource
-    types:
-    - uid: string
 examples:
-- name: ContainerUsage
+- name: GetCapabilities
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ContainerInstance/locations/westcentralus/usages?api-version=2018-10-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ContainerInstance/locations/westus/capabilities?api-version=2018-10-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "unit": "Count",
-            "currentValue": 1,
-            "limit": 2000,
-            "name": {
-              "value": "ContainerGroups",
-              "localizedValue": "Container Groups"
+            "resourceType": "containerGroups",
+            "osType": "Linux",
+            "location": "West US",
+            "ipAddressType": "Public",
+            "gpu": "K80",
+            "capabilities": {
+              "maxMemoryInGB": 14,
+              "maxCpu": 4,
+              "maxGpuCount": 4
+            }
+          },
+          {
+            "resourceType": "containerGroups",
+            "osType": "Windows",
+            "location": "West US",
+            "ipAddressType": "Public",
+            "gpu": "None",
+            "capabilities": {
+              "maxMemoryInGB": 14,
+              "maxCpu": 4,
+              "maxGpuCount": 0
             }
           }
         ]
