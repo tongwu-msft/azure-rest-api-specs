@@ -3242,6 +3242,7 @@
 ### [List](guestconfiguration/GuestConfigurationAssignmentReports/List.yml)
 ## [Guest Configuration Assignments](guestconfiguration/GuestConfigurationAssignments.yml)
 ### [Create Or Update](guestconfiguration/GuestConfigurationAssignments/CreateOrUpdate.yml)
+### [Delete](guestconfiguration/GuestConfigurationAssignments/Delete.yml)
 ### [Get](guestconfiguration/GuestConfigurationAssignments/Get.yml)
 ### [List](guestconfiguration/GuestConfigurationAssignments/List.yml)
 ## [Operations](guestconfiguration/Operations.yml)
