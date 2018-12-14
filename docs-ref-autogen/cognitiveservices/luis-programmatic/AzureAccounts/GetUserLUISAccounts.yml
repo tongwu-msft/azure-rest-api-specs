@@ -1,0 +1,81 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.azureaccounts.getuserluisaccounts
+name: Get User LUIS Accounts
+service: Cognitive Services
+groupName: Azure Accounts
+apiVersion: "2.0"
+summary: "user - Get LUIS azure accounts  \nGets the LUIS azure accounts for the user using his ARM token."
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/luis/api/v2.0/azureaccounts
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A list of azure account information objects.
+  types:
+  - uid: AzureAccountInfoObject
+    isArray: true
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: The bearer authorization header to use; containing the user's ARM token used to validate azure accounts information.
+  types:
+  - uid: string
+definitions:
+- name: AzureAccountInfoObject
+  description: Defines the azure account information object.
+  kind: object
+  properties:
+  - name: azureSubscriptionId
+    description: The id for the azure subscription.
+    types:
+    - uid: string
+  - name: resourceGroup
+    description: The azure resource group name.
+    types:
+    - uid: string
+  - name: accountName
+    description: The azure account name.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Successful Get azure accounts request
+  request:
+    uri: GET {Endpoint}/luis/api/v2.0/azureaccounts
+    headers:
+    - name: Authorization
+      value: Bearer {ARM Token}
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "azureSubscriptionId": "{azure_subscription_id}",
+          "resourceGroup": "{resource_group_name}",
+          "accountName": "{account_name}"
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header

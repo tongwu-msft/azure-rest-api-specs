@@ -27,7 +27,11 @@ uriParameters:
   format: uuid
 responses:
 - name: 201 Created
-  description: An object containing the application endpoint URL and its assigned endpoint key.
+  description: An object containing the application endpoint URL, its assigned endpoint key and publishing status.
+  types:
+  - uid: ProductionOrStagingEndpointInfo
+- name: Other Status Codes
+  description: An object containing the application endpoint URL, its assigned endpoint key and publishing status in case that publishing one or more regions failed.
   types:
   - uid: ProductionOrStagingEndpointInfo
 - name: Other Status Codes
@@ -76,6 +80,10 @@ definitions:
     description: The endpoint's region.
     types:
     - uid: string
+  - name: failedRegions
+    description: Regions where publishing failed.
+    types:
+    - uid: string
   - name: publishedDateTime
     description: Timestamp when was last published.
     types:
@@ -116,7 +124,18 @@ examples:
         "isStaging": false,
         "endpointUrl": "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/11be6373fca44ded80fbe2afa8597c18",
         "assignedEndpointKey": "11be6373fca44ded80fbe2afa8597c18",
-        "endpointRegion": "westus",
+        "endpointRegion": "westus, cus",
+        "failedRegions": null,
+        "publishedDateTime": "2017-11-28T19:20:28Z"
+      }
+  - statusCode: "207"
+    body: >-
+      {
+        "isStaging": false,
+        "endpointUrl": "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/11be6373fca44ded80fbe2afa8597c18",
+        "assignedEndpointKey": "11be6373fca44ded80fbe2afa8597c18",
+        "endpointRegion": "westus, cus",
+        "failedRegions": "cus",
         "publishedDateTime": "2017-11-28T19:20:28Z"
       }
 security:

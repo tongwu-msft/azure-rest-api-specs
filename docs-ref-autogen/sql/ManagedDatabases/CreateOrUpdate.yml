@@ -51,11 +51,23 @@ responses:
   description: >-
     *** Error Responses: ***
 
+     * 400 PitrPointInTimeInvalid - The point in time {0} is not valid. Valid point in time range from {1} days early to now and not before source server creation time.
+
      * 400 CannotUseTrailingWhitespacesInDatabaseName - The database name validation failed.
+
+     * 400 InvalidBackupRetentionPeriod - The retention days of {0} is not a valid configuration. Valid backup retention in days must be between {1} and {2}
+
+     * 400 ManagedDatabaseNameInUse - Database '{0}' already exists. Choose a different database name.
+
+     * 400 NoMoreSpaceInManagedInstance - The managed instance has reached its storage limit. The storage usage for the managed instance cannot exceed (%d) MBs.
+
+     * 400 ManagedInstanceUpdateSloInProgress - "The operation could not be completed because a service tier change is in progress for managed instance '{0}.' Please wait for the operation in progress to complete and try again."
 
      * 400 SourceDatabaseNotFound - The source database does not exist.
 
      * 400 RegionDoesNotSupportVersion - A user attempted to create a server of a specified version in a location where that server version isn't supported.
+
+     * 400 PasswordNotComplex - The provided password is not complex enough.
 
      * 400 CannotUseReservedDatabaseName - Cannot use reserved database name in this operation.
 
@@ -77,11 +89,15 @@ responses:
 
      * 400 CurrentDatabaseLogSizeExceedsMaxSize - User attempted to change the database to a sku with lower max log size than the current usage.
 
+     * 400 DatabaseNumberLimitReached - Maximum number of databases for SQL Database Managed Instance reached.
+
      * 400 InvalidDatabaseCreateOrUpdateRequest - The request body for the create or update database operation is invalid.
 
      * 400 InvalidResourceId - Invalid resource identifier.
 
      * 400 InvalidSourceDatabaseId - Invalid source database identifier.
+
+     * 400 InvalidRestorableDroppedDatabaseId - Invalid restorable dropped database identifier
 
      * 400 MismatchingResourceGroupNameWithUrl - The provided resource group name did not match the name in the Url.
 
@@ -103,11 +119,19 @@ responses:
 
      * 404 SubscriptionDoesNotHaveServer - The requested server was not found
 
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
      * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 CannotFindServerCertificateWithThumbprint - Cannot find server certificate with thumbprint '{0}'. Please use PowerShell Cmdlet 'Add-AzureRmSqlManagedInstanceTransparentDataEncryptionCertificate' to create the certificate.
 
      * 404 CannotFindObject - Cannot find the object because it does not exist or you do not have permissions
 
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+
      * 404 ServerNotInSubscription - Specified server does not exist on the specified subscription.
+
+     * 404 RestoreSourceDatabaseNotFound - Could not find database '{0}' at time '{1}' that can be restored.
 
      * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
 
@@ -117,6 +141,8 @@ responses:
 
      * 409 SubscriptionDisabled - Subscription is disabled.
 
+     * 409 ManagementServiceDatabaseBusy - Database '{0}' is busy with another operation. Please try your operation later.
+
      * 409 ConflictingSystemOperationInProgress - A system maintenance operation is in progress on the database and further operations need to wait until it is completed.
 
      * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
@@ -124,6 +150,8 @@ responses:
      * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
 
      * 500 ActivateOrDeactivateWorkflowThrottling - Activation or deactivation workflow failed because there are too many concurrent workflows
+
+     * 503 DatabaseUnavailable - The operation failed because the database is unavailable.
 
      * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
 
@@ -154,7 +182,7 @@ requestBody:
     - uid: CatalogCollationType
   - name: properties.createMode
     in: body
-    description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified.'
+    description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified. Recovery: Creates a database by restoring a geo-replicated backup. RecoverableDatabaseId must be specified as the recoverable database resource ID to restore.'
     types:
     - uid: ManagedDatabaseCreateMode
   - name: properties.storageContainerUri
@@ -167,9 +195,19 @@ requestBody:
     description: The resource identifier of the source database associated with create operation of this database.
     types:
     - uid: string
+  - name: properties.restorableDroppedDatabaseId
+    in: body
+    description: The restorable dropped database resource id to restore when creating this database.
+    types:
+    - uid: string
   - name: properties.storageContainerSasToken
     in: body
     description: Conditional. If createMode is RestoreExternalBackup, this value is required. Specifies the storage container sas token.
+    types:
+    - uid: string
+  - name: properties.recoverableDatabaseId
+    in: body
+    description: The resource identifier of the recoverable database associated with create operation of this database.
     types:
     - uid: string
   - name: location
@@ -199,7 +237,7 @@ definitions:
     - uid: string
   - name: properties.status
     isReadyOnly: true
-    description: Status for the database.
+    description: Status of the database.
     types:
     - uid: ManagedDatabaseStatus
   - name: properties.creationDate
@@ -226,7 +264,7 @@ definitions:
     types:
     - uid: CatalogCollationType
   - name: properties.createMode
-    description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified.'
+    description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified. Recovery: Creates a database by restoring a geo-replicated backup. RecoverableDatabaseId must be specified as the recoverable database resource ID to restore.'
     types:
     - uid: ManagedDatabaseCreateMode
   - name: properties.storageContainerUri
@@ -237,6 +275,10 @@ definitions:
     description: The resource identifier of the source database associated with create operation of this database.
     types:
     - uid: string
+  - name: properties.restorableDroppedDatabaseId
+    description: The restorable dropped database resource id to restore when creating this database.
+    types:
+    - uid: string
   - name: properties.storageContainerSasToken
     description: Conditional. If createMode is RestoreExternalBackup, this value is required. Specifies the storage container sas token.
     types:
@@ -244,6 +286,10 @@ definitions:
   - name: properties.failoverGroupId
     isReadyOnly: true
     description: Instance Failover Group resource identifier that this managed database belongs to.
+    types:
+    - uid: string
+  - name: properties.recoverableDatabaseId
+    description: The resource identifier of the recoverable database associated with create operation of this database.
     types:
     - uid: string
   - name: location
@@ -274,7 +320,7 @@ definitions:
     types:
     - uid: string
 - name: ManagedDatabaseStatus
-  description: Status for the database.
+  description: Status of the database.
   kind: enum
   properties:
   - name: Online
@@ -292,6 +338,9 @@ definitions:
   - name: Inaccessible
     types:
     - uid: string
+  - name: Updating
+    types:
+    - uid: string
 - name: CatalogCollationType
   description: Collation of the metadata catalog.
   kind: enum
@@ -303,7 +352,7 @@ definitions:
     types:
     - uid: string
 - name: ManagedDatabaseCreateMode
-  description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified.'
+  description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified. Recovery: Creates a database by restoring a geo-replicated backup. RecoverableDatabaseId must be specified as the recoverable database resource ID to restore.'
   kind: enum
   properties:
   - name: Default
@@ -315,27 +364,21 @@ definitions:
   - name: PointInTimeRestore
     types:
     - uid: string
+  - name: Recovery
+    types:
+    - uid: string
 examples:
-- name: Creates a new managed database by restoring from an external backup
+- name: Creates a new managed database with minimal properties
   request:
     uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2017-03-01-preview
     body: >-
       {
-        "properties": {
-          "createMode": "RestoreExternalBackup",
-          "storageContainerUri": "https://myaccountname.blob.core.windows.net/backups",
-          "storageContainerSasToken": "sv=2015-12-11&sr=c&sp=rl&sig=1234",
-          "collation": "SQL_Latin1_General_CP1_CI_AS"
-        },
         "location": "southeastasia"
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "tags": {
-          "tagKey1": "TagValue1"
-        },
         "location": "southeastasia",
         "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb1",
         "name": "testdb1",
@@ -350,9 +393,6 @@ examples:
   - statusCode: "201"
     body: >-
       {
-        "tags": {
-          "tagKey1": "TagValue1"
-        },
         "location": "southeastasia",
         "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb2",
         "name": "testdb2",
@@ -411,17 +451,25 @@ examples:
         "type": "Microsoft.Sql/servers/databases"
       }
   - statusCode: "202"
-- name: Creates a new managed database with minimal properties
+- name: Creates a new managed database using point in time restore
   request:
     uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2017-03-01-preview
     body: >-
       {
-        "location": "southeastasia"
+        "location": "southeastasia",
+        "properties": {
+          "createMode": "PointInTimeRestore",
+          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/testsvr/databases/testdb",
+          "restorePointInTime": "2017-07-14T05:35:31.503Z"
+        }
       }
   responses:
   - statusCode: "200"
     body: >-
       {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
         "location": "southeastasia",
         "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb1",
         "name": "testdb1",
@@ -436,6 +484,9 @@ examples:
   - statusCode: "201"
     body: >-
       {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
         "location": "southeastasia",
         "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb2",
         "name": "testdb2",
@@ -448,17 +499,18 @@ examples:
         "type": "Microsoft.Sql/servers/databases"
       }
   - statusCode: "202"
-- name: Creates a new managed database using point in time restore
+- name: Creates a new managed database by restoring from an external backup
   request:
     uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2017-03-01-preview
     body: >-
       {
-        "location": "southeastasia",
         "properties": {
-          "createMode": "PointInTimeRestore",
-          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/testsvr/databases/testdb",
-          "restorePointInTime": "2017-07-14T05:35:31.503Z"
-        }
+          "createMode": "RestoreExternalBackup",
+          "storageContainerUri": "https://myaccountname.blob.core.windows.net/backups",
+          "storageContainerSasToken": "sv=2015-12-11&sr=c&sp=rl&sig=1234",
+          "collation": "SQL_Latin1_General_CP1_CI_AS"
+        },
+        "location": "southeastasia"
       }
   responses:
   - statusCode: "200"
