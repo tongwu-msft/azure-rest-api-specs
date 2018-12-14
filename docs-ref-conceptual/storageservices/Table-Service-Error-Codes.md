@@ -45,7 +45,7 @@ The error codes listed in the following table may be returned by an operation on
 |JsonFormatNotSupported|Unsupported Media Type (415)|JSON format is not supported.|  
 |MethodNotAllowed|Method Not Allowed (405)|The requested method is not allowed on the specified resource.|  
 |NotImplemented|Not Implemented (501)|The requested operation is not implemented on the specified resource.|  
-|OutOfRangeInput|Bad Request (400)|One of the request inputs is out of range.|  
+|OutOfRangeInput|Bad Request (400)|The '{0}' parameter of value '{1}' is out of range.|  
 |PropertiesNeedValue|Bad Request (400)|Values have not been specified for all properties in the entity.|  
 |PropertyNameInvalid|Bad Request (400)|The property name is invalid.|  
 |PropertyNameTooLong|Bad Request (400)|The property name exceeds the maximum allowed length.|  
