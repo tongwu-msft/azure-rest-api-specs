@@ -1413,6 +1413,7 @@
 ### [Create](BatchManagement/ApplicationPackage/Create.yml)
 ### [Delete](BatchManagement/ApplicationPackage/Delete.yml)
 ### [Get](BatchManagement/ApplicationPackage/Get.yml)
+### [List](BatchManagement/ApplicationPackage/List.yml)
 ## [Batch Account](BatchManagement/BatchAccount.yml)
 ### [Create](BatchManagement/BatchAccount/Create.yml)
 ### [Delete](BatchManagement/BatchAccount/Delete.yml)

@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.pool.disableautoscale
 name: Disable Auto Scale
 service: Batch Management
 groupName: Pool
-apiVersion: 2017-09-01
+apiVersion: 2018-12-01
 summary: Disables automatic scaling for a pool.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}/disableAutoScale?api-version=2017-09-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}/disableAutoScale?api-version=2018-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -78,7 +78,7 @@ definitions:
     - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The current state of the pool.  \nValues are:\n\n Succeeded - The pool is available to run tasks subject to the availability of compute nodes.\n Deleting - The user has requested that the pool be deleted, but the delete operation has not yet completed."
+    description: The current state of the pool.
     types:
     - uid: PoolProvisioningState
   - name: properties.provisioningStateTransitionTime
@@ -88,7 +88,7 @@ definitions:
     - uid: string
   - name: properties.allocationState
     isReadyOnly: true
-    description: "Whether the pool is resizing.  \nValues are:\n\n Steady - The pool is not resizing. There are no changes to the number of nodes in the pool in progress. A pool enters this state when it is created and when no operations are being performed on the pool to change the number of dedicated nodes.\n Resizing - The pool is resizing; that is, compute nodes are being added to or removed from the pool.\n Stopping - The pool was resizing, but the user has requested that the resize be stopped, but the stop request has not yet been completed."
+    description: Whether the pool is resizing.
     types:
     - uid: AllocationState
   - name: properties.allocationStateTransitionTime
@@ -206,9 +206,11 @@ definitions:
   kind: enum
   properties:
   - name: Succeeded
+    description: The pool is available to run tasks subject to the availability of compute nodes.
     types:
     - uid: string
   - name: Deleting
+    description: The user has requested that the pool be deleted, but the delete operation has not yet completed.
     types:
     - uid: string
 - name: AllocationState
@@ -216,12 +218,15 @@ definitions:
   kind: enum
   properties:
   - name: Steady
+    description: The pool is not resizing. There are no changes to the number of nodes in the pool in progress. A pool enters this state when it is created and when no operations are being performed on the pool to change the number of nodes.
     types:
     - uid: string
   - name: Resizing
+    description: The pool is resizing; that is, compute nodes are being added to or removed from the pool.
     types:
     - uid: string
   - name: Stopping
+    description: The pool was resizing, but the user has requested that the resize be stopped, but the stop request has not yet been completed.
     types:
     - uid: string
 - name: DeploymentConfiguration
@@ -269,9 +274,11 @@ definitions:
   kind: enum
   properties:
   - name: Enabled
+    description: Enable network communication between virtual machines.
     types:
     - uid: string
   - name: Disabled
+    description: Disable network communication between virtual machines.
     types:
     - uid: string
 - name: NetworkConfiguration
@@ -314,6 +321,10 @@ definitions:
     description: "The Linux-specific user configuration for the user account.  \nThis property is ignored if specified on a Windows pool. If not specified, the user is created with the default options."
     types:
     - uid: LinuxUserConfiguration
+  - name: windowsUserConfiguration
+    description: "The Windows-specific user configuration for the user account.  \nThis property can only be specified if the user is on a Windows pool. If not specified and on a Windows pool, the user is created with the default options."
+    types:
+    - uid: WindowsUserConfiguration
 - name: MetadataItem
   description: A name-value pair associated with a Batch service resource.
   kind: object
@@ -356,6 +367,10 @@ definitions:
     description: "Whether the Batch service should wait for the start task to complete successfully (that is, to exit with exit code 0) before scheduling any tasks on the compute node.  \nIf true and the start task fails on a compute node, the Batch service retries the start task up to its maximum retry count (maxTaskRetryCount). If the task has still not completed successfully after all retries, then the Batch service marks the compute node unusable, and will not schedule tasks to it. This condition can be detected via the node state and scheduling error detail. If false, the Batch service will not wait for the start task to complete. In this case, other tasks can start executing on the compute node while the start task is still running; and even if the start task fails, new tasks will continue to be scheduled on the node. The default is false."
     types:
     - uid: boolean
+  - name: containerSettings
+    description: "The settings for the container under which the start task runs.  \nWhen this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all task environment variables are mapped into the container, and the task command line is executed in the container."
+    types:
+    - uid: TaskContainerSettings
 - name: CertificateReference
   description: A reference to a certificate to be installed on compute nodes in a pool. This must exist inside the same account as the pool.
   kind: object
@@ -373,7 +388,7 @@ definitions:
     types:
     - uid: string
   - name: visibility
-    description: "Which user accounts on the compute node should have access to the private data of the certificate.  \nValues are:\n\n starttask - The user account under which the start task is run.\n task - The accounts under which job tasks are run.\n remoteuser - The accounts under which users remotely access the node.\n\n You can specify more than one visibility in this collection. The default is all accounts."
+    description: Which user accounts on the compute node should have access to the private data of the certificate.
     types:
     - uid: string
       isArray: true
@@ -447,12 +462,8 @@ definitions:
     description: "The Azure Guest OS family to be installed on the virtual machines in the pool.  \nPossible values are: 2 - OS Family 2, equivalent to Windows Server 2008 R2 SP1. 3 - OS Family 3, equivalent to Windows Server 2012. 4 - OS Family 4, equivalent to Windows Server 2012 R2. 5 - OS Family 5, equivalent to Windows Server 2016. For more information, see Azure Guest OS Releases (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases)."
     types:
     - uid: string
-  - name: targetOSVersion
+  - name: osVersion
     description: "The Azure Guest OS version to be installed on the virtual machines in the pool.  \nThe default value is * which specifies the latest operating system version for the specified OS family."
-    types:
-    - uid: string
-  - name: currentOSVersion
-    description: "The Azure Guest OS Version currently installed on the virtual machines in the pool.  \nThis may differ from targetOSVersion if the pool state is Upgrading. In this case some virtual machines may be on the targetOSVersion and some may be on the currentOSVersion during the upgrade process. Once all virtual machines have upgraded, currentOSVersion is updated to be the same as targetOSVersion."
     types:
     - uid: string
 - name: VirtualMachineConfiguration
@@ -463,10 +474,6 @@ definitions:
     description: A reference to the Azure Virtual Machines Marketplace Image or the custom Virtual Machine Image to use.
     types:
     - uid: ImageReference
-  - name: osDisk
-    description: Settings for the operating system disk of the Virtual Machine.
-    types:
-    - uid: OSDisk
   - name: nodeAgentSkuId
     description: "The SKU of the Batch node agent to be provisioned on compute nodes in the pool.  \nThe Batch node agent is a program that runs on each node in the pool, and provides the command-and-control interface between the node and the Batch service. There are different implementations of the node agent, known as SKUs, for different operating systems. You must specify a node agent SKU which matches the selected image reference. To get the list of supported node agent SKUs along with their list of verified image references, see the 'List supported node agent SKUs' operation."
     types:
@@ -484,6 +491,10 @@ definitions:
     description: "The type of on-premises license to be used when deploying the operating system.  \nThis only applies to images that contain the Windows operating system, and should only be used when you hold valid on-premises licenses for the nodes which will be deployed. If omitted, no on-premises licensing discount is applied. Values are:\n\n Windows_Server - The on-premises license is for Windows Server.\n Windows_Client - The on-premises license is for Windows Client."
     types:
     - uid: string
+  - name: containerConfiguration
+    description: "The container configuration for the pool.  \nIf specified, setup is performed on each node in the pool to allow tasks to run in containers. All regular tasks and job manager tasks run on this pool must specify the containerSettings property, and all other tasks may specify it."
+    types:
+    - uid: ContainerConfiguration
 - name: FixedScaleSettings
   description: Fixed scale settings for the pool.
   kind: object
@@ -547,9 +558,11 @@ definitions:
   kind: enum
   properties:
   - name: Spread
+    description: Tasks should be assigned evenly across all nodes in the pool.
     types:
     - uid: string
   - name: Pack
+    description: As many tasks as possible (maxTasksPerNode) should be assigned to each node in the pool before any tasks are assigned to the next node in the pool.
     types:
     - uid: string
 - name: ElevationLevel
@@ -557,9 +570,11 @@ definitions:
   kind: enum
   properties:
   - name: NonAdmin
+    description: The user is a standard user without elevated access.
     types:
     - uid: string
   - name: Admin
+    description: The user is a user with elevated access and operates with full Administrator permissions.
     types:
     - uid: string
 - name: LinuxUserConfiguration
@@ -578,16 +593,36 @@ definitions:
     description: "The SSH private key for the user account.  \nThe private key must not be password protected. The private key is used to automatically configure asymmetric-key based authentication for SSH between nodes in a Linux pool when the pool's enableInterNodeCommunication property is true (it is ignored if enableInterNodeCommunication is false). It does this by placing the key pair into the user's .ssh directory. If not specified, password-less SSH is not configured between nodes (no modification of the user's .ssh directory is done)."
     types:
     - uid: string
-- name: ResourceFile
-  description: A file to be downloaded from Azure blob storage to a compute node.
+- name: WindowsUserConfiguration
+  description: Properties used to create a user account on a Windows node.
   kind: object
   properties:
-  - name: blobSource
-    description: "The URL of the file within Azure Blob Storage.  \nThis URL must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+  - name: loginMode
+    description: "Login mode for user  \nSpecifies login mode for the user. The default value for VirtualMachineConfiguration pools is interactive mode and for CloudServiceConfiguration pools is batch mode."
+    types:
+    - uid: LoginMode
+- name: ResourceFile
+  description: A single file or multiple files to be downloaded to a compute node.
+  kind: object
+  properties:
+  - name: autoStorageContainerName
+    description: "The storage container name in the auto storage account.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified."
+    types:
+    - uid: string
+  - name: storageContainerUrl
+    description: "The URL of the blob container within Azure Blob Storage.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+    types:
+    - uid: string
+  - name: httpUrl
+    description: "The URL of the file to download.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL is Azure Blob Storage, it must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+    types:
+    - uid: string
+  - name: blobPrefix
+    description: "The blob prefix to use when downloading blobs from an Azure Storage container. Only the blobs whose names begin with the specified prefix will be downloaded.  \nThe property is valid only when autoStorageContainerName or storageContainerUrl is used. This prefix can be a partial filename or a subdirectory. If a prefix is not specified, all the files in the container will be downloaded."
     types:
     - uid: string
   - name: filePath
-    description: The location on the compute node to which to download the file, relative to the task's working directory.
+    description: "The location on the compute node to which to download the file, relative to the task's working directory.  \nIf the httpUrl property is specified, the filePath is required and describes the path which the file will be downloaded to, including the filename. Otherwise, if the autoStorageContainerName or storageContainerUrl property is specified, filePath is optional and is the directory to download the files to. In the case where filePath is used as a directory, any directory structure already associated with the input data will be retained in full and appended to the specified filePath directory. The specified relative path cannot break out of the task's working directory (for example by using '..')."
     types:
     - uid: string
   - name: fileMode
@@ -618,14 +653,32 @@ definitions:
     description: "The auto user under which the task is run.  \nThe userName and autoUser properties are mutually exclusive; you must specify one but not both."
     types:
     - uid: AutoUserSpecification
+- name: TaskContainerSettings
+  description: The container settings for a task.
+  kind: object
+  properties:
+  - name: containerRunOptions
+    description: "Additional options to the container create command.  \nThese additional options are supplied as arguments to the \"docker create\" command, in addition to those controlled by the Batch Service."
+    types:
+    - uid: string
+  - name: imageName
+    description: "The image to use to create the container in which the task will run.  \nThis is the full image reference, as would be specified to \"docker pull\". If no tag is provided as part of the image name, the tag \":latest\" is used as a default."
+    types:
+    - uid: string
+  - name: registry
+    description: "The private registry which contains the container image.  \nThis setting can be omitted if was already provided at pool creation."
+    types:
+    - uid: ContainerRegistry
 - name: CertificateStoreLocation
   description: The location of the certificate store on the compute node into which to install the certificate.
   kind: enum
   properties:
   - name: CurrentUser
+    description: Certificates should be installed to the CurrentUser certificate store.
     types:
     - uid: string
   - name: LocalMachine
+    description: Certificates should be installed to the LocalMachine certificate store.
     types:
     - uid: string
 - name: ComputeNodeDeallocationOption
@@ -633,15 +686,19 @@ definitions:
   kind: enum
   properties:
   - name: Requeue
+    description: Terminate running task processes and requeue the tasks. The tasks will run again when a node is available. Remove nodes as soon as tasks have been terminated.
     types:
     - uid: string
   - name: Terminate
+    description: Terminate running tasks. The tasks will be completed with failureInfo indicating that they were terminated, and will not run again. Remove nodes as soon as tasks have been terminated.
     types:
     - uid: string
   - name: TaskCompletion
+    description: Allow currently running tasks to complete. Schedule no new tasks while waiting. Remove nodes when all tasks have completed.
     types:
     - uid: string
   - name: RetainedData
+    description: Allow currently running tasks to complete, then wait for all task data retention periods to expire. Schedule no new tasks while waiting. Remove nodes when all task retention periods have expired.
     types:
     - uid: string
 - name: ResizeError
@@ -685,14 +742,6 @@ definitions:
     description: "The ARM resource identifier of the virtual machine image. Computes nodes of the pool will be created using this custom image. This is of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}  \nThis property is mutually exclusive with other properties. The virtual machine image must be in the same region and subscription as the Azure Batch account. For information about the firewall settings for Batch node agent to communicate with Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration ."
     types:
     - uid: string
-- name: OSDisk
-  description: Settings for the operating system disk of the virtual machine.
-  kind: object
-  properties:
-  - name: caching
-    description: "The type of caching to be enabled for the data disks. none - The caching mode for the disk is not enabled. readOnly - The caching mode for the disk is read only. readWrite - The caching mode for the disk is read and write.  \nDefault value is none."
-    types:
-    - uid: CachingType
 - name: WindowsConfiguration
   description: Windows operating system settings to apply to the virtual machine.
   kind: object
@@ -721,6 +770,24 @@ definitions:
     description: "The storage account type to be used for the data disk.  \nIf omitted, the default is \"Standard_LRS\". Values are:\n\n Standard_LRS - The data disk should use standard locally redundant storage.\n Premium_LRS - The data disk should use premium locally redundant storage."
     types:
     - uid: StorageAccountType
+- name: ContainerConfiguration
+  description: The configuration for container-enabled pools.
+  kind: object
+  properties:
+  - name: type
+    description: The container technology to be used.
+    types:
+    - uid: ContainerType
+  - name: containerImageNames
+    description: "The collection of container image names.  \nThis is the full image reference, as would be specified to \"docker pull\". An image will be sourced from the default Docker registry unless the image is fully qualified with an alternative registry."
+    types:
+    - uid: string
+      isArray: true
+  - name: containerRegistries
+    description: "Additional private registries from which containers can be pulled.  \nIf any images must be downloaded from a private registry which requires credentials, then those credentials must be provided here."
+    types:
+    - uid: ContainerRegistry
+      isArray: true
 - name: InboundNatPool
   description: A inbound NAT pool that can be used to address specific ports on compute nodes in a Batch pool externally.
   kind: object
@@ -750,29 +817,60 @@ definitions:
     types:
     - uid: NetworkSecurityGroupRule
       isArray: true
+- name: LoginMode
+  description: Login mode for user
+  kind: enum
+  properties:
+  - name: Batch
+    description: The LOGON32_LOGON_BATCH Win32 login mode. The batch login mode is recommended for long running parallel processes.
+    types:
+    - uid: string
+  - name: Interactive
+    description: The LOGON32_LOGON_INTERACTIVE Win32 login mode. Some applications require having permissions associated with the interactive login mode. If this is the case for an application used in your task, then this option is recommended.
+    types:
+    - uid: string
 - name: AutoUserSpecification
   description: Specifies the parameters for the auto user that runs a task on the Batch service.
   kind: object
   properties:
   - name: scope
-    description: "The scope for the auto user  \npool - specifies that the task runs as the common auto user account which is created on every node in a pool. task - specifies that the service should create a new user for the task. The default value is task."
+    description: "The scope for the auto user  \nThe default value is task."
     types:
     - uid: AutoUserScope
   - name: elevationLevel
     description: "The elevation level of the auto user.  \nnonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin."
     types:
     - uid: ElevationLevel
+- name: ContainerRegistry
+  description: A private container registry.
+  kind: object
+  properties:
+  - name: registryServer
+    description: "The registry URL.  \nIf omitted, the default is \"docker.io\"."
+    types:
+    - uid: string
+  - name: username
+    description: The user name to log into the registry server.
+    types:
+    - uid: string
+  - name: password
+    description: The password to log into the registry server.
+    types:
+    - uid: string
 - name: CachingType
   description: The type of caching to enable for the disk.
   kind: enum
   properties:
   - name: None
+    description: The caching mode for the disk is not enabled.
     types:
     - uid: string
   - name: ReadOnly
+    description: The caching mode for the disk is read only.
     types:
     - uid: string
   - name: ReadWrite
+    description: The caching mode for the disk is read and write.
     types:
     - uid: string
 - name: StorageAccountType
@@ -780,9 +878,19 @@ definitions:
   kind: enum
   properties:
   - name: Standard_LRS
+    description: The data disk should use standard locally redundant storage.
     types:
     - uid: string
   - name: Premium_LRS
+    description: The data disk should use premium locally redundant storage.
+    types:
+    - uid: string
+- name: ContainerType
+  description: The container technology to be used.
+  kind: enum
+  properties:
+  - name: DockerCompatible
+    description: A Docker compatible container technology will be used to launch the containers.
     types:
     - uid: string
 - name: InboundEndpointProtocol
@@ -790,9 +898,11 @@ definitions:
   kind: enum
   properties:
   - name: TCP
+    description: Use TCP for the endpoint.
     types:
     - uid: string
   - name: UDP
+    description: Use UDP for the endpoint.
     types:
     - uid: string
 - name: NetworkSecurityGroupRule
@@ -816,9 +926,11 @@ definitions:
   kind: enum
   properties:
   - name: Task
+    description: Specifies that the service should create a new user for the task.
     types:
     - uid: string
   - name: Pool
+    description: Specifies that the task runs as the common auto user account which is created on every node in a pool.
     types:
     - uid: string
 - name: NetworkSecurityGroupRuleAccess
@@ -826,15 +938,17 @@ definitions:
   kind: enum
   properties:
   - name: Allow
+    description: Allow access.
     types:
     - uid: string
   - name: Deny
+    description: Deny access.
     types:
     - uid: string
 examples:
 - name: Disable AutoScale
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/disableAutoScale?api-version=2017-09-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/disableAutoScale?api-version=2018-12-01
   responses:
   - statusCode: "200"
     headers:
