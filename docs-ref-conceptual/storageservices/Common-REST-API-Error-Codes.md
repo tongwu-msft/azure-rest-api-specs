@@ -1,7 +1,7 @@
 ---
 title: "Common REST API Error Codes"
 ms.custom: na
-ms.date: 2017-04-27
+ms.date: 12/13/2018
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
