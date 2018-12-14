@@ -53,6 +53,8 @@ responses:
 
      * 404 SubscriptionDoesNotHaveServer - The requested server was not found
 
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
      * 404 ResourceNotFound - The requested resource was not found.
 - name: 202 Accepted
   description: Deleting the managed database is in progress.
@@ -85,7 +87,7 @@ requestBody:
     - uid: CatalogCollationType
   - name: properties.createMode
     in: body
-    description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified.'
+    description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified. Recovery: Creates a database by restoring a geo-replicated backup. RecoverableDatabaseId must be specified as the recoverable database resource ID to restore.'
     types:
     - uid: ManagedDatabaseCreateMode
   - name: properties.storageContainerUri
@@ -98,9 +100,19 @@ requestBody:
     description: The resource identifier of the source database associated with create operation of this database.
     types:
     - uid: string
+  - name: properties.restorableDroppedDatabaseId
+    in: body
+    description: The restorable dropped database resource id to restore when creating this database.
+    types:
+    - uid: string
   - name: properties.storageContainerSasToken
     in: body
     description: Conditional. If createMode is RestoreExternalBackup, this value is required. Specifies the storage container sas token.
+    types:
+    - uid: string
+  - name: properties.recoverableDatabaseId
+    in: body
+    description: The resource identifier of the recoverable database associated with create operation of this database.
     types:
     - uid: string
 requestHeader: []
@@ -115,7 +127,7 @@ definitions:
     - uid: string
   - name: properties.status
     isReadyOnly: true
-    description: Status for the database.
+    description: Status of the database.
     types:
     - uid: ManagedDatabaseStatus
   - name: properties.creationDate
@@ -142,7 +154,7 @@ definitions:
     types:
     - uid: CatalogCollationType
   - name: properties.createMode
-    description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified.'
+    description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified. Recovery: Creates a database by restoring a geo-replicated backup. RecoverableDatabaseId must be specified as the recoverable database resource ID to restore.'
     types:
     - uid: ManagedDatabaseCreateMode
   - name: properties.storageContainerUri
@@ -153,6 +165,10 @@ definitions:
     description: The resource identifier of the source database associated with create operation of this database.
     types:
     - uid: string
+  - name: properties.restorableDroppedDatabaseId
+    description: The restorable dropped database resource id to restore when creating this database.
+    types:
+    - uid: string
   - name: properties.storageContainerSasToken
     description: Conditional. If createMode is RestoreExternalBackup, this value is required. Specifies the storage container sas token.
     types:
@@ -160,6 +176,10 @@ definitions:
   - name: properties.failoverGroupId
     isReadyOnly: true
     description: Instance Failover Group resource identifier that this managed database belongs to.
+    types:
+    - uid: string
+  - name: properties.recoverableDatabaseId
+    description: The resource identifier of the recoverable database associated with create operation of this database.
     types:
     - uid: string
   - name: location
@@ -207,7 +227,7 @@ definitions:
     - uid: string
   - name: properties.status
     isReadyOnly: true
-    description: Status for the database.
+    description: Status of the database.
     types:
     - uid: ManagedDatabaseStatus
   - name: properties.creationDate
@@ -234,7 +254,7 @@ definitions:
     types:
     - uid: CatalogCollationType
   - name: properties.createMode
-    description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified.'
+    description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified. Recovery: Creates a database by restoring a geo-replicated backup. RecoverableDatabaseId must be specified as the recoverable database resource ID to restore.'
     types:
     - uid: ManagedDatabaseCreateMode
   - name: properties.storageContainerUri
@@ -243,6 +263,10 @@ definitions:
     - uid: string
   - name: properties.sourceDatabaseId
     description: The resource identifier of the source database associated with create operation of this database.
+    types:
+    - uid: string
+  - name: properties.restorableDroppedDatabaseId
+    description: The restorable dropped database resource id to restore when creating this database.
     types:
     - uid: string
   - name: properties.storageContainerSasToken
@@ -254,8 +278,12 @@ definitions:
     description: Instance Failover Group resource identifier that this managed database belongs to.
     types:
     - uid: string
+  - name: properties.recoverableDatabaseId
+    description: The resource identifier of the recoverable database associated with create operation of this database.
+    types:
+    - uid: string
 - name: ManagedDatabaseStatus
-  description: Status for the database.
+  description: Status of the database.
   kind: enum
   properties:
   - name: Online
@@ -273,6 +301,9 @@ definitions:
   - name: Inaccessible
     types:
     - uid: string
+  - name: Updating
+    types:
+    - uid: string
 - name: CatalogCollationType
   description: Collation of the metadata catalog.
   kind: enum
@@ -284,7 +315,7 @@ definitions:
     types:
     - uid: string
 - name: ManagedDatabaseCreateMode
-  description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified.'
+  description: 'Managed database create mode. PointInTimeRestore: Create a database by restoring a point in time backup of an existing database. SourceDatabaseName, SourceManagedInstanceName and PointInTime must be specified. RestoreExternalBackup: Create a database by restoring from external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be specified. Recovery: Creates a database by restoring a geo-replicated backup. RecoverableDatabaseId must be specified as the recoverable database resource ID to restore.'
   kind: enum
   properties:
   - name: Default
@@ -294,6 +325,9 @@ definitions:
     types:
     - uid: string
   - name: PointInTimeRestore
+    types:
+    - uid: string
+  - name: Recovery
     types:
     - uid: string
 examples:
