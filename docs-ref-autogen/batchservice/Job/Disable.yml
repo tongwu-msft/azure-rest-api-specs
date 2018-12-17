@@ -1,19 +1,25 @@
 ### YamlMime:RESTOperation
-uid: batch.core.windows.net.batchservice.job.disable
+uid: batchservice.job.disable
 name: Disable
 service: Batch Service
 groupName: Job
-apiVersion: 2018-08-01.7.0
+apiVersion: 2018-12-01.8.0
 summary: "Disables the specified job, preventing new tasks from running.  \nThe Batch Service immediately moves the job to the disabling state. Batch then uses the disableTasks parameter to determine what to do with the currently running tasks of the job. The job remains in the disabling state until the disable operation is completed and all tasks have been dealt with according to the disableTasks option; the job then moves to the disabled state. No new tasks are started under the job until it moves back to active state. If you try to disable a job that is in any state other than active, disabling, or disabled, the request fails with status code 409."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: POST https://batch.core.windows.net/jobs/{jobId}/disable?api-version=2018-08-01.7.0
-- content: POST https://batch.core.windows.net/jobs/{jobId}/disable?timeout={timeout}&api-version=2018-08-01.7.0
+- content: POST {batchUrl}/jobs/{jobId}/disable?api-version=2018-12-01.8.0
+- content: POST {batchUrl}/jobs/{jobId}/disable?timeout={timeout}&api-version=2018-12-01.8.0
   isOptional: true
 uriParameters:
+- name: batchUrl
+  in: path
+  isRequired: true
+  description: The base URL for all Azure Batch service requests.
+  types:
+  - uid: string
 - name: jobId
   in: path
   isRequired: true
@@ -168,7 +174,7 @@ definitions:
 examples:
 - name: Job disable
   request:
-    uri: POST https://batch.core.windows.net/jobs/jobId/disable?api-version=2018-08-01.7.0
+    uri: POST account.region.batch.azure.com/jobs/jobId/disable?api-version=2018-12-01.8.0
     body: >-
       {
         "disableTasks": "terminate"
@@ -176,7 +182,19 @@ examples:
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
+    - name: ocp-date
+      value: Fri, 17 Feb 2017 00:00:00 GMT
   responses:
   - statusCode: "202"
     body: "\"\""
-security: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+- name: Authorization
+  type: apiKey
+  in: header

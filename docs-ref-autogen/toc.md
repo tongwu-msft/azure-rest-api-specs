@@ -1527,7 +1527,6 @@
 #### [Resize](batchservice/Pool/Resize.yml)
 #### [Stop Resize](batchservice/Pool/StopResize.yml)
 #### [Update Properties](batchservice/Pool/UpdateProperties.yml)
-#### [Upgrade OS](batchservice/Pool/UpgradeOS.yml)
 ### [Task](batchservice/Task.yml)
 #### [Add](batchservice/Task/Add.yml)
 #### [Add Collection](batchservice/Task/AddCollection.yml)

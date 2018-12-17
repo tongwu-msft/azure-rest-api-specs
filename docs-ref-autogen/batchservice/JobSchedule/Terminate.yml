@@ -1,19 +1,25 @@
 ### YamlMime:RESTOperation
-uid: batch.core.windows.net.batchservice.jobschedule.terminate
+uid: batchservice.jobschedule.terminate
 name: Terminate
 service: Batch Service
 groupName: Job Schedule
-apiVersion: 2018-08-01.7.0
+apiVersion: 2018-12-01.8.0
 summary: Terminates a job schedule.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: POST https://batch.core.windows.net/jobschedules/{jobScheduleId}/terminate?api-version=2018-08-01.7.0
-- content: POST https://batch.core.windows.net/jobschedules/{jobScheduleId}/terminate?timeout={timeout}&api-version=2018-08-01.7.0
+- content: POST {batchUrl}/jobschedules/{jobScheduleId}/terminate?api-version=2018-12-01.8.0
+- content: POST {batchUrl}/jobschedules/{jobScheduleId}/terminate?timeout={timeout}&api-version=2018-12-01.8.0
   isOptional: true
 uriParameters:
+- name: batchUrl
+  in: path
+  isRequired: true
+  description: The base URL for all Azure Batch service requests.
+  types:
+  - uid: string
 - name: jobScheduleId
   in: path
   isRequired: true
@@ -135,11 +141,23 @@ definitions:
 examples:
 - name: JobSchedule terminate
   request:
-    uri: POST https://batch.core.windows.net/jobschedules/jobScheduleId/terminate?api-version=2018-08-01.7.0
+    uri: POST account.region.batch.azure.com/jobschedules/jobScheduleId/terminate?api-version=2018-12-01.8.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
+    - name: ocp-date
+      value: Fri, 17 Feb 2017 00:00:00 GMT
   responses:
   - statusCode: "202"
     body: "\"\""
-security: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+- name: Authorization
+  type: apiKey
+  in: header

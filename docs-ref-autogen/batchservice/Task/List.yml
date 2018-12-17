@@ -1,19 +1,25 @@
 ### YamlMime:RESTOperation
-uid: batch.core.windows.net.batchservice.task.list
+uid: batchservice.task.list
 name: List
 service: Batch Service
 groupName: Task
-apiVersion: 2018-08-01.7.0
+apiVersion: 2018-12-01.8.0
 summary: "Lists all of the tasks that are associated with the specified job.  \nFor multi-instance tasks, information such as affinityId, executionInfo and nodeInfo refer to the primary task. Use the list subtasks API to retrieve information about subtasks."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET https://batch.core.windows.net/jobs/{jobId}/tasks?api-version=2018-08-01.7.0
-- content: GET https://batch.core.windows.net/jobs/{jobId}/tasks?$filter={$filter}&$select={$select}&$expand={$expand}&maxresults={maxresults}&timeout={timeout}&api-version=2018-08-01.7.0
+- content: GET {batchUrl}/jobs/{jobId}/tasks?api-version=2018-12-01.8.0
+- content: GET {batchUrl}/jobs/{jobId}/tasks?$filter={$filter}&$select={$select}&$expand={$expand}&maxresults={maxresults}&timeout={timeout}&api-version=2018-12-01.8.0
   isOptional: true
 uriParameters:
+- name: batchUrl
+  in: path
+  isRequired: true
+  description: The base URL for all Azure Batch service requests.
+  types:
+  - uid: string
 - name: jobId
   in: path
   isRequired: true
@@ -319,15 +325,27 @@ definitions:
     types:
     - uid: ContainerRegistry
 - name: ResourceFile
-  description: A file to be downloaded from Azure blob storage to a compute node.
+  description: A single file or multiple files to be downloaded to a compute node.
   kind: object
   properties:
-  - name: blobSource
-    description: "The URL of the file within Azure Blob Storage.  \nThis URL must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+  - name: autoStorageContainerName
+    description: "The storage container name in the auto storage account.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified."
+    types:
+    - uid: string
+  - name: storageContainerUrl
+    description: "The URL of the blob container within Azure Blob Storage.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable using anonymous access; that is, the Batch service does not present any credentials when downloading blobs from the container. There are two ways to get such a URL for a container in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the container, or set the ACL for the container to allow public access."
+    types:
+    - uid: string
+  - name: httpUrl
+    description: "The URL of the file to download.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+    types:
+    - uid: string
+  - name: blobPrefix
+    description: "The blob prefix to use when downloading blobs from an Azure Storage container. Only the blobs whose names begin with the specified prefix will be downloaded.  \nThe property is valid only when autoStorageContainerName or storageContainerUrl is used. This prefix can be a partial filename or a subdirectory. If a prefix is not specified, all the files in the container will be downloaded."
     types:
     - uid: string
   - name: filePath
-    description: The location on the compute node to which to download the file, relative to the task's working directory.
+    description: "The location on the compute node to which to download the file(s), relative to the task's working directory.  \nIf the httpUrl property is specified, the filePath is required and describes the path which the file will be downloaded to, including the filename. Otherwise, if the autoStorageContainerName or storageContainerUrl property is specified, filePath is optional and is the directory to download the files to. In the case where filePath is used as a directory, any directory structure already associated with the input data will be retained in full and appended to the specified filePath directory. The specified relative path cannot break out of the task's working directory (for example by using '..')."
     types:
     - uid: string
   - name: fileMode
@@ -379,11 +397,11 @@ definitions:
     types:
     - uid: string
   - name: retentionTime
-    description: "The minimum time to retain the task directory on the compute node where it ran, from the time it completes execution. After this time, the Batch service may delete the task directory and all its contents.  \nThe default is infinite, i.e. the task directory will be retained until the compute node is removed or reimaged."
+    description: "The minimum time to retain the task directory on the compute node where it ran, from the time it completes execution. After this time, the Batch service may delete the task directory and all its contents.  \nThe default is 7 days, i.e. the task directory will be retained for 7 days unless the compute node is removed or the job is deleted."
     types:
     - uid: string
   - name: maxTaskRetryCount
-    description: "The maximum number of times the task may be retried. The Batch service retries a task if its exit code is nonzero.  \nNote that this value specifically controls the number of retries for the task executable due to a nonzero exit code. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task after the first attempt. If the maximum retry count is -1, the Batch service retries the task without limit. Resource files and application packages are only downloaded again if the task is retried on a new compute node."
+    description: "The maximum number of times the task may be retried. The Batch service retries a task if its exit code is nonzero.  \nNote that this value specifically controls the number of retries for the task executable due to a nonzero exit code. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task after the first attempt. If the maximum retry count is -1, the Batch service retries the task without limit."
     types:
     - uid: integer
 - name: UserIdentity
@@ -603,7 +621,7 @@ definitions:
   kind: object
   properties:
   - name: jobAction
-    description: "An action to take on the job containing the task, if the task completes with the given exit condition and the job's onTaskFailed property is 'performExitOptionsJobAction'.  \nThe default is none for exit code 0 and terminate for all other exit conditions. If the job's onTaskFailed property is noAction, then specifying this property returns an error and the add task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request)."
+    description: "An action to take on the job containing the task, if the task completes with the given exit condition and the job's onTaskFailed property is 'performExitOptionsJobAction'.  \nThe default is none for exit code 0 and terminate for all other exit conditions. If the job's onTaskFailed property is noaction, then specifying this property returns an error and the add task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request)."
     types:
     - uid: JobAction
   - name: dependencyAction
@@ -822,10 +840,12 @@ definitions:
 examples:
 - name: Task list
   request:
-    uri: GET https://batch.core.windows.net/jobs/jobId/tasks?api-version=2018-08-01.7.0
+    uri: GET account.region.batch.azure.com/jobs/jobId/tasks?api-version=2018-12-01.8.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
+    - name: ocp-date
+      value: Fri, 17 Feb 2017 00:00:00 GMT
   responses:
   - statusCode: "200"
     body: >-
@@ -883,4 +903,14 @@ examples:
           }
         ]
       }
-security: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+- name: Authorization
+  type: apiKey
+  in: header

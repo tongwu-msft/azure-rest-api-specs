@@ -1,19 +1,25 @@
 ### YamlMime:RESTOperation
-uid: batch.core.windows.net.batchservice.job.getalllifetimestatistics
+uid: batchservice.job.getalllifetimestatistics
 name: Get All Lifetime Statistics
 service: Batch Service
 groupName: Job
-apiVersion: 2018-08-01.7.0
+apiVersion: 2018-12-01.8.0
 summary: "Gets lifetime summary statistics for all of the jobs in the specified account.  \nStatistics are aggregated across all jobs that have ever existed in the account, from account creation to the last update time of the statistics. The statistics may not be immediately available. The Batch service performs periodic roll-up of statistics. The typical delay is about 30 minutes."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET https://batch.core.windows.net/lifetimejobstats?api-version=2018-08-01.7.0
-- content: GET https://batch.core.windows.net/lifetimejobstats?timeout={timeout}&api-version=2018-08-01.7.0
+- content: GET {batchUrl}/lifetimejobstats?api-version=2018-12-01.8.0
+- content: GET {batchUrl}/lifetimejobstats?timeout={timeout}&api-version=2018-12-01.8.0
   isOptional: true
 uriParameters:
+- name: batchUrl
+  in: path
+  isRequired: true
+  description: The base URL for all Azure Batch service requests.
+  types:
+  - uid: string
 - name: timeout
   in: query
   description: The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds.
@@ -167,10 +173,12 @@ definitions:
 examples:
 - name: Job get lifetime statistics
   request:
-    uri: GET https://batch.core.windows.net/lifetimejobstats?api-version=2018-08-01.7.0
+    uri: GET account.region.batch.azure.com/lifetimejobstats?api-version=2018-12-01.8.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
+    - name: ocp-date
+      value: Fri, 17 Feb 2017 00:00:00 GMT
   responses:
   - statusCode: "200"
     body: >-
@@ -190,4 +198,14 @@ examples:
         "numTaskRetries": 0,
         "waitTime": "PT0S"
       }
-security: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+- name: Authorization
+  type: apiKey
+  in: header
