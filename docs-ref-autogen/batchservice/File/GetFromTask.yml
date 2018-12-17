@@ -1,9 +1,9 @@
 ### YamlMime:RESTOperation
-uid: batch.core.windows.net.batchservice.file.getfromtask
+uid: batchservice.file.getfromtask
 name: Get From Task
 service: Batch Service
 groupName: File
-apiVersion: 2018-08-01.7.0
+apiVersion: 2018-12-01.8.0
 summary: Returns the content of the specified task file.
 consumes:
 - application/json; odata=minimalmetadata
@@ -11,10 +11,16 @@ produces:
 - application/json
 - application/octet-stream
 paths:
-- content: GET https://batch.core.windows.net/jobs/{jobId}/tasks/{taskId}/files/{filePath}?api-version=2018-08-01.7.0
-- content: GET https://batch.core.windows.net/jobs/{jobId}/tasks/{taskId}/files/{filePath}?timeout={timeout}&api-version=2018-08-01.7.0
+- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}/files/{filePath}?api-version=2018-12-01.8.0
+- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}/files/{filePath}?timeout={timeout}&api-version=2018-12-01.8.0
   isOptional: true
 uriParameters:
+- name: batchUrl
+  in: path
+  isRequired: true
+  description: The base URL for all Azure Batch service requests.
+  types:
+  - uid: string
 - name: jobId
   in: path
   isRequired: true
@@ -155,11 +161,23 @@ definitions:
 examples:
 - name: Get File From Task
   request:
-    uri: GET https://batch.core.windows.net/jobs/jobId/tasks/task1/files/wd\testFile.txt?api-version=2018-08-01.7.0
+    uri: GET account.region.batch.azure.com/jobs/jobId/tasks/task1/files/wd\testFile.txt?api-version=2018-12-01.8.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
+    - name: ocp-date
+      value: Fri, 17 Feb 2017 00:00:00 GMT
   responses:
   - statusCode: "200"
     body: "\"This is actually a byte stream. This request/response is being presented as a string for readability in the example\""
-security: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+- name: Authorization
+  type: apiKey
+  in: header

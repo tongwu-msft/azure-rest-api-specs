@@ -1,7 +1,7 @@
 ---
 title: "Autocomplete (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2018-10-05"
+ms.date: "2018-12-14"
 services: search
 ms.service: search
 ms.suite: ""
@@ -89,7 +89,7 @@ api-key: [admin or query key]
 |Parameter|Description|  
 |---------------|-----------------|  
 |`search=[string]`|The search text to complete. Must be at least 1 character, and no more than 100 characters.|  
-|`autocompleteMode=oneTerm | twoTerms | oneTermWithContext (optional, defaults to oneTerm)`|	Sets the autocomplete mode as described above.|
+|<code>autocompleteMode=oneTerm &#124; twoTerms &#124; oneTermWithContext (optional, defaults to oneTerm)</code>|	Sets the autocomplete mode as described above.|
 |`highlightPreTag=[string] (optional, defaults to an empty string)`|A string tag that prepends to search hits. Must be set with `highlightPostTag`. **Note:**  When calling **Autocomplete** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
 |`highlightPostTag=[string] (optional, defaults to an empty string)`|A string tag that appends to search hits. Must be set with `highlightPreTag`. **Note:**  When calling **Autocomplete** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
 |`suggesterName=[string]`|The name of the **suggester** as specified in the **suggesters** collection that's part of the index definition. A **suggester** determines which fields are scanned for suggested query terms. For more information, see [Suggesters](suggesters.md).|  
