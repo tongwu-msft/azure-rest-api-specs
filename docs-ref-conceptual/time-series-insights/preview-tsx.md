@@ -53,7 +53,7 @@ For example:
 
 Numeric variables should refer to $value.
 
-| Aggregate Function | Example | Operation |
+| Aggregate Function | Example | Description |
 |--|--|--|
 | `min`  | `min($value)` | Calculates the minimum of the `$value` per interval. Avoids `null` values. |
 | `max`  | `max($value)` | Calculates the maximum of the `$value` per interval. Avoids `null` values. |
@@ -68,7 +68,7 @@ Aggregate variables should refer to `$event.<Property>.<Type>`.
 
 Here are the supported aggregate functions.
 
-| Aggregate Function | Example | Operation |
+| Aggregate Function | Example | Description |
 |--|--|--|
 | `count`  | `count()` | Returns the number of events per interval. |
 | `min`  | `min($event.Temperature.Double)` | Calculates the minimum of the `double` property `Temperature` per interval. Avoids `null` values. |
