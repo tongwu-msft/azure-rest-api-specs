@@ -275,7 +275,7 @@ The search score is computed based on statistical properties of the data and the
 |15 minutes|"PT15M"|  
 |30 days, 5 hours, 10 minutes, and 6.334 seconds|"P30DT5H10M6.334S"|  
 
- For more examples, see [XML Schema: Datatypes (W3.org web site)](http://www.w3.org/TR/xmlschema11-2/#dayTimeDuration).  
+ For more examples, see [XML Schema: Datatypes (W3.org web site)](https://www.w3.org/TR/xmlschema11-2/#dayTimeDuration).  
 
 ## See also  
  [Azure Search Service REST](index.md)   

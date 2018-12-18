@@ -70,7 +70,7 @@ Language-specific fields are also illustrated in this index. Description fields 
 
  For a code sample that shows how to create and build an index using the REST API, see [Get Started with Azure Search using REST](https://github.com/Azure-Samples/search-rest-api-getting-started).  
 
- For a video introduction to indexing, see the [Channel 9 Cloud Cover episode 152 on Azure Search](http://channel9.msdn.com/Shows/Cloud+Cover/Cloud-Cover-152-Azure-Search-with-Liam-Cavanagh).  
+ For a video introduction to indexing, see the [Channel 9 Cloud Cover episode 152 on Azure Search](https://channel9.msdn.com/Shows/Cloud+Cover/Cloud-Cover-152-Azure-Search-with-Liam-Cavanagh).  
 
 ## Operations on indexes  
 

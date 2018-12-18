@@ -54,7 +54,7 @@ api-key: [admin or query key]
 
  The request URI specifies the name of the index to query. Parameters, such as the partially input search term, are specified on the query string in the case of GET requests, and in the request body in the case of POST requests.  
 
- As a best practice when creating GET requests, remember to [URL-encode](https://msdn.microsoft.com/library/system.uri.escapedatastring.aspx) specific query parameters when calling the REST API directly. For **Suggestions** operations, this includes:  
+ As a best practice when creating GET requests, remember to [URL-encode](https://docs.microsoft.com/dotnet/api/system.uri.escapedatastring) specific query parameters when calling the REST API directly. For **Suggestions** operations, this includes:  
 
 -   **$filter**  
 
