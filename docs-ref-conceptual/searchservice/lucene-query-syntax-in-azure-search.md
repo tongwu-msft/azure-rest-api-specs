@@ -87,7 +87,7 @@ The following example helps illustrate the differences. Suppose that there's a s
  To boost a term use the caret, "^", symbol with a boost factor (a number) at the end of the term you are searching. You can also boost phrases. The higher the boost factor, the more relevant the term will be relative to other search terms. By default, the boost factor is 1. Although the boost factor must be positive, it can be less than 1 (for example, 0.20).  
 
 ##  <a name="bkmk_regex"></a> Regular expression search  
- A regular expression search finds a match based on the contents between forward slashes "/", as documented in the [RegExp class](http://lucene.apache.org/core/4_10_2/core/org/apache/lucene/util/automaton/RegExp.html).  
+ A regular expression search finds a match based on the contents between forward slashes "/", as documented in the [RegExp class](https://lucene.apache.org/core/4_10_2/core/org/apache/lucene/util/automaton/RegExp.html).  
 
  For example, to find documents containing "motel" or "hotel", specify `/[mh]otel/`.  Regular expression searches are matched against single words.   
 

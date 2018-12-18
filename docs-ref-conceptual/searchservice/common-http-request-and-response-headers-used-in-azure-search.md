@@ -32,8 +32,8 @@ translation.priority.mt:
 |OData-MaxVersion|"4.0"|Specifies the maximum version of the OData protocol supported by the client. Default is "4.0"|  
 |Prefer|"return=representation" or "return=minimal"|Used to control the response payload from PUT and POST /indexes requests. Default is "return=representation" when creating a new index via POST or PUT, and "return=minimal" for updating an existing index via PUT..|  
 |return-client-request-id|True or False|If specified when client-request-id is specified, instructs the server to include the client-request-id header in the response. Default is False.|  
-|If-Match|ETag or *|Used to change a resource only if the current version matches the specified ETag. Use this header with POST, PUT, or DELETE methods on resources (such as indexers, indexes, and data sources, but not documents) to enable [optimistic concurrency control](http://www.ietf.org/rfc/rfc7232.txt).|  
-|If-None-Match|ETag or *|Used to change a resource only if the current version does not match the specified ETag. Use this header with POST, PUT, or DELETE methods on resources (such as indexers, indexes, and data sources, but not documents) to enable [optimistic concurrency control](http://www.ietf.org/rfc/rfc7232.txt).|  
+|If-Match|ETag or *|Used to change a resource only if the current version matches the specified ETag. Use this header with POST, PUT, or DELETE methods on resources (such as indexers, indexes, and data sources, but not documents) to enable [optimistic concurrency control](https://www.ietf.org/rfc/rfc7232.txt).|  
+|If-None-Match|ETag or *|Used to change a resource only if the current version does not match the specified ETag. Use this header with POST, PUT, or DELETE methods on resources (such as indexers, indexes, and data sources, but not documents) to enable [optimistic concurrency control](https://www.ietf.org/rfc/rfc7232.txt).|  
 
 |Response Header|Type|Description|  
 |---------------------|----------|-----------------|  
@@ -43,7 +43,7 @@ translation.priority.mt:
 |OData-Version|"4.0"|OData protocol version of the response.|  
 |request-id|GUID|A unique identifier for the current operation. Equal to client-request-id if specified; otherwise the value is generated on the server.|  
 |elapsed-time|Number|Time, in milliseconds, that the service spent processing the request. This only includes the time spent on processing the request, and does not include network transfer time.|  
-|ETag|String|An opaque string representing the current version of a resource (returned for indexers, indexes, and data sources, but not documents). Use this string in the If-Match or If-None-Match header for [optimistic concurrency control](http://www.ietf.org/rfc/rfc7232.txt).|  
+|ETag|String|An opaque string representing the current version of a resource (returned for indexers, indexes, and data sources, but not documents). Use this string in the If-Match or If-None-Match header for [optimistic concurrency control](https://www.ietf.org/rfc/rfc7232.txt).|  
 
 ## See also  
  [Azure Search Service REST](index.md)   
