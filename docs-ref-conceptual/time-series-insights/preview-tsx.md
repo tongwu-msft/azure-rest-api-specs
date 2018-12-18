@@ -51,7 +51,9 @@ For example:
 
 ### Numeric
 
-Numeric variables should refer to $value.
+Numeric variables should refer to `$value`.
+
+Here are the supported aggregate functions.
 
 | Aggregate Function | Example | Description |
 |--|--|--|
@@ -64,7 +66,7 @@ Numeric variables should refer to $value.
 
 ### Aggregate
 
-Aggregate variables should refer to `$event.<Property>.<Type>`.
+Aggregate variables should only refer to `$event.<PropertyName>.<Type>`.
 
 Here are the supported aggregate functions.
 
