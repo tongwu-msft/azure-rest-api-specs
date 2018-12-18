@@ -387,7 +387,7 @@ The following limits are applied during query execution to fairly utilize resour
 
 | Applicable APIs | Limit name | Limit value | SKUs affected |
 |-|-|-|-|
-| Get Availability, Get EventSchema, Get Events, Get Series, Aggregate Series | Max number of concurrent requests per environment | 20 | L1 |
+| Get Availability, Get EventSchema, Get Events, Get Series, Aggregate Series | Max number of concurrent requests per environment | 10 | L1 |
 | Get Events, Get Series, Aggregate Series | Max response size | 16 MB | L1 |
 | Get Events, Get Series, Aggregate Series | Max number of projected properties or variables | 50 | L1 |
 
