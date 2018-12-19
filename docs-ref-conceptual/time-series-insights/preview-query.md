@@ -83,18 +83,39 @@ Response headers:
 The Get Events API returns a list of raw events matching the search span and predicate.
 
 Input payload structure:
-* `timeSeriesId` (mandatory).
+* `timeSeriesId` (mandatory if `name` is not provided. Both `timeSeriesId` and `name` can be set.)
+* `name` (mandatory if `timeSeriesId` is not provided. Both `timeSeriesId` and `name` can be set.)
 * `searchSpan` clause (mandatory).
 * `filter` clause (optional – For filtering the rows using a predicate. Ex: `$event.Status.String = 'Good'`).
 * `projectedProperties` (optional – Only the list of properties to be retrieved using the query, if not specified all properties will be retrieved.).
 
 Payload examples:
 
-Request Body:
+Request Body:  
+Using `timeSeriesId`
 ```json
 {
   "getEvents": {
     "timeSeriesId": ["PU.123","W00158","ABN.9890"],
+    "name" : null,
+    "searchSpan": {
+        "from": {"dateTime": "2016-08-01T00:00:00Z"},
+        "to": {"dateTime": "2016-08-01T00:16:50Z"}
+    },
+    "filter": { "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
+    },
+    "projectedProperties": ["Building","Temperature"]
+  }
+ }
+```
+
+OR  
+Using `name`
+```json
+{
+  "getEvents": {
+    "timeSeriesId": null,
+    "name" : "timeSeries1",
     "searchSpan": {
         "from": {"dateTime": "2016-08-01T00:00:00Z"},
         "to": {"dateTime": "2016-08-01T00:16:50Z"}
@@ -167,19 +188,46 @@ Events can not be sorted at this time.
 The Get Series API enables query and retrieval of Time Series Insights data from captured events by leveraging data recorded on the wire using the variables define in model or provided inline. Please note if interpolation and aggregation clause is provided in variable, or interval is specified, it will be ignored.
 
 Input payload structure:
-* `timeSeriesId` (mandatory).
-* `searchSpan` clause (mandatory).
+* `timeSeriesId` (mandatory if `name` is not provided. Both `timeSeriesId` and `name` can be set.)
+* `name` (mandatory if `timeSeriesId` is not provided. Both `timeSeriesId` and `name` can be set.)
 * `filter` clause (optional – For filtering the rows using a predicate. Ex: `$event.Status.String = 'Good'`).
 * `inlineVariables` (optional – If specified the variable definition stored in the model part of types is overwritten by this definition, only if the name matches).
 * `projectedVariables` (optional – If specified only the mentioned variables are retrieved part of the result, else all variables from model are considered for querying).
 
 Payload examples:
 
-Request Body:
+Request Body:  
+Using `timeSeriesId`
 ```json
 {
   "getSeries": {
     "timeSeriesId": ["Millenium","Kitchen","Cooker"],
+    "name" : null,
+    "searchSpan": {
+        "from": { "dateTime": "2016-08-01T00:00:00Z" },
+        "to": { "dateTime": "2016-08-01T00:16:50Z" }
+    },
+    "filter": null,
+    "inlineVariables": {
+        "temperatures": {
+            "kind": "numeric",
+            "value": { "tsx": "$event.Temperature"},
+            "filter": null,
+            "aggregation": null
+        }
+    },
+    "projectedVariables": ["temperatures"]
+  }
+}
+```
+OR  
+Using `name`
+
+```json
+{
+  "getSeries": {
+    "timeSeriesId": null,
+    "name" : "timeSeries1",
     "searchSpan": {
         "from": { "dateTime": "2016-08-01T00:00:00Z" },
         "to": { "dateTime": "2016-08-01T00:16:50Z" }
@@ -245,8 +293,8 @@ Inline variables can override variable definition stored in model part of types.
 The Aggregate Series API enables query and retrieval of Time Series Insights data from captured events by aggregating recorded data using the aggregate or sample functions. 
 
 Input payload structure:
-* `timeSeriesId` (mandatory).
-* `searchSpan` clause (mandatory).
+* `timeSeriesId` (mandatory if `name` is not provided. Both `timeSeriesId` and `name` can be set.)
+* `name` (mandatory if `timeSeriesId` is not provided. Both `timeSeriesId` and `name` can be set.)
 * `interval` (mandatory).
 * `filter` clause (optional – For filtering the rows using a predicate. Ex: `$event.Status.String = 'Good'`)
 * `inlineVariables` (optional – This enables creation of variables by specifying aggregate functions such as sum, max, etc. If the name of variable matches with variable definition stored in the model part of types, the definition is overwritten).
@@ -254,11 +302,50 @@ Input payload structure:
 
 Payload examples:
 
-Request Body:
+Request Body:  
+Using `timeSeriesId`
 ```json
 {
   "aggregateSeries": {
     "timeSeriesId": ["Millenium","Kitchen","Cooker"],
+    "name" : null,
+    "searchSpan": {
+        "from": { "dateTime": "2016-08-01T00:00:00Z" },
+        "to": { "dateTime": "2016-08-01T00:16:50Z" }
+    },
+    "filter": null,
+    "interval": "PT1M",
+    "inlineVariables": {
+        "Count": {
+            "kind": "Aggregate",
+            "value": null,
+            "filter": null,
+            "aggregation": {"tsx": "count()"}
+        },
+        "MinTemperature": {
+            "kind": "numeric",
+            "value": {"tsx": "$event.Temperature"},
+            "filter": null,
+            "aggregation": {"tsx": "min($value)"}
+        },
+        "MaxTemperature": {
+            "kind": "numeric",
+            "value": {"tsx": "$event.Temperature"},
+            "filter": null,
+            "aggregation": {"tsx": "max($value)"}
+        }
+    },
+    "projectedVariables": ["Count","MinTemperature","MaxTemperature"]
+  }
+}
+```
+OR  
+Using `name`
+```json
+{
+  "aggregateSeries": {
+    "timeSeriesId": null,
+    "name" : "timeSeries1",
     "searchSpan": {
         "from": { "dateTime": "2016-08-01T00:00:00Z" },
         "to": { "dateTime": "2016-08-01T00:16:50Z" }
@@ -424,6 +511,7 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 | 400 | InvalidInput | The variable kind 'aggregate' is invalid for expression 'min($value)' in 'projectedVariables.temperature.aggregation' . | InvalidVariableKind |
 | 400 | InvalidInput | The timespan '00.00:01' in 'interval' is not a valid ISO8601 timespan format. | InvalidTimeSpanFormat |
 | 400 | InvalidInput | The instance with timeSeriesId '[\"ABC123\"]' is not found. | InstanceNotFound |
+| 400 | InvalidInput | The instance with name 'timeSeriesName' is not found. | InstanceNotFound |
 | 400 | InvalidInput | The instance with timeSeriesId '[\"ABC321\"]' cannot be deleted. There is already ingested events associated with this time series id. | CannotDeleteInstance |
 | 400 | InvalidInput | The environment with id '5e19f688-83fb-4aee-8321-5c123ed016b7' does not support time series query APIs. | TimeSeriesQueryNotSupported |
 | 400 | InvalidInput | The projected variable with name 'temperature' was not found in the type or inline variable definitions. | ProjectedVariableNotFound |

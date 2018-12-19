@@ -602,6 +602,7 @@ Response Body:
                 "Id2One",
                 "Id3One"
             ],
+            "name" : "timeSeries1",
             "description": "floor 100",
             "hierarchyIds": [
                 "1643004c-0a84-48a5-80e5-7688c5ae9295"
@@ -658,6 +659,7 @@ Response:
 
 Search helps in identifying the instances based on the keywords provided, these keywords are matched with:
 - timeSeriesId
+- timeSeriesName
 - typeName
 - instanceFieldNames
 - instanceFieldValues
@@ -678,6 +680,7 @@ Response Body:
   "instances": [
         {
             "timeSeriesId": ["Id1One", "Id2One", "Id3One"],
+            "name" : "timeSeries1"
             "highlights": {
                 "timeSeriesIds": ["Id1One", "Id2One", "Id3One"],
                 "type": "DefaultType",
@@ -707,9 +710,10 @@ The Manage Instances API enables batch operations on Instances. All operations a
 
 #### Get Instances
 
-This API enables getting instances by timeSeriesId.
+This API enables getting instances by timeSeriesId or timeSeriesName.
 
-Request Body:
+Request Body:  
+Using `timeSeriesId`
 ```json
 {
   "get": [
@@ -717,7 +721,15 @@ Request Body:
   ]
 }
 ```
-
+OR   
+Using `name`
+```json
+{
+  "get": [
+    "timeSeries1"
+  ]
+}
+```
 Response Body:
 ```json
 {
@@ -730,6 +742,7 @@ Response Body:
           "Id2One",
           "Id3One"
         ],
+        "name" : "timeSeries1",
         "description": "This is the temperature sensor 123134.",
         "hierarchyIds": [
           "1643004c-0a84-48a5-80e5-7688c5ae9295"
@@ -745,7 +758,7 @@ Response Body:
 ```
 #### Create Instances
 
-This API enables creation of instances by timeSeriesId.
+This API enables creation of instances by timeSeriesId. TimeSeries name is not a mandatory parameter to create instances.
 
 Request Body:
 ```json
@@ -758,6 +771,7 @@ Request Body:
         "Id2One",
         "Id3One"
       ],
+      "name": "timeSeries1",
       "description": "This is the temperature sensor 123134.",
       "hierarchyIds": [
         "1643004c-0a84-48a5-80e5-7688c5ae9295"
@@ -785,7 +799,7 @@ Response Body:
 
 #### Update instances
 
-This API enables update of instances by timeSeriesId. This API only updates existing instances, but will throw an error if the instances already exists.
+This API enables update of instances by timeSeriesId. This API only updates existing instances, but will throw an error if the instances does not exists. The API also updates the name of the time series instance. The name of time series has to be unique in an environment.
 
 Request Body:
 ```json
@@ -798,6 +812,7 @@ Request Body:
         "Id2One",
         "Id3One"
       ],
+      "name" : "timeSeries1",
       "description": "This is the updated temperature sensor 123134.",
       "hierarchyIds": [
         "1643004c-0a84-48a5-80e5-7688c5ae9295"
@@ -826,9 +841,10 @@ Response Body:
 
 #### Delete instances
 
-This API enables deletion of instances by timeSeriesId. Instances can only be deleted when there is no telemetry associated with it. Successful deletion returns `null` on the corresponding index.
+This API enables deletion of instances by timeSeriesId or name. Only one of timeSeriesId's or name should be provided to perform the delete operation. Instances can only be deleted when there is no telemetry associated with it. Successful deletion returns `null` on the corresponding index.
 
-Request Body:
+Request Body:  
+Using `timeSeries1d`
 ```json
 {
     "delete": [
@@ -842,6 +858,18 @@ Request Body:
             "Id2Two",
             "Id3Two"
         ]
+    ]
+}
+```
+
+OR  
+Using `name`
+
+```json
+{
+    "delete": [
+        "timeSeries1",
+        "timeSeries2"
     ]
 }
 ```
@@ -871,4 +899,4 @@ The following limits are applied during query execution to fairly utilize resour
 | All | Max number of hierarchies per environment | 32 | L1 |
 | All | Max number of hierarchies associated with an instance | 32 | L1 |
 | All | Max hierarchy depth | 32 | L1 |
-| All | Max number of characters in type name, hierarchy name, instance fields name, Time Series Id property value, Time Series Id each property name | 1024 | L1 |
+| All | Max number of characters in type name, hierarchy name, instance fields name, Time Series Id property value, Time Series Id each property name, Time Series name | 1024 | L1 |
