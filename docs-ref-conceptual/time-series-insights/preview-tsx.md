@@ -19,7 +19,7 @@ ms.author:
 ---
 # Time Series Expression (TSX)
 
-Time Series Expression (tsx) is a string based expression language with strong typing. TSX is used to represent the following entities in a [Time Series Query](preview-query.md).
+Time Series Expression (tsx) is a string-based expression language with strong typing. TSX is used to represent the following entities in a [Time Series Query](preview-query.md).
 
 - Filter
 - Value
@@ -61,8 +61,8 @@ Here are the supported aggregate functions.
 | `max`  | `max($value)` | Calculates the maximum of the `$value` per interval. Avoids `null` values. |
 | `sum`  | `sum($value)` | Calculates the sum of `$value` over all the events in the interval. Avoids `null` values. |
 | `avg`  | `avg($value)` | Calculates the average of `$value` over all the events in the interval. Avoids `null` values. |
-| `first`  | `first($value)` | Returns `$value` of the first occurring event in the interval by event timestamp, this does not avoid null values. |
-| `last`  | `last($value)` | Returns `$value` of the last occurring event in the interval by event timestamp, this does not avoid null values. |
+| `first`  | `first($value)` | Returns `$value` of the first occurring event in the interval by event timestamp, this function does not avoid null values. |
+| `last`  | `last($value)` | Returns `$value` of the last occurring event in the interval by event timestamp, this function does not avoid null values. |
 
 ### Aggregate
 
@@ -77,8 +77,8 @@ Here are the supported aggregate functions.
 | `max`  | `max($event.Temperature.Double)` | Calculates the maximum of the `double` property `Temperature` per interval. Avoids `null` values.  |
 | `sum`  | `sum($event.Temperature.Double)` | Calculates the sum of the `double` property `Temperature` over all the events in the interval. Avoids `null` values. |
 | `avg`  | `avg($event.Temperature.Double)` | Calculates the average of the `double` property `Temperature` over all the events in the interval. Avoids `null` values. |
-| `first`  | `first($event.Temperature.Double)` | Returns the value of the `double` property `Temperature` from the first occurring event in the interval by event timestamp, this does not avoid null values. |
-| `last`  | `last($event.Temperature.Double)` | Returns the value of the `double` property `Temperature` from the last occurring event in the interval by event timestamp, this does not avoid null values. |
+| `first`  | `first($event.Temperature.Double)` | Returns the value of the `double` property `Temperature` from the first occurring event in the interval by event timestamp, this function does not avoid null values. |
+| `last`  | `last($event.Temperature.Double)` | Returns the value of the `double` property `Temperature` from the last occurring event in the interval by event timestamp, this function does not avoid null values. |
 
 ## Syntax
 
