@@ -785,7 +785,7 @@ Response Body:
 
 #### Update instances
 
-This API enables update of instances by timeSeriesId. This API only updates existing instances, but will throw an error if the instance don’t already exist.
+This API enables update of instances by timeSeriesId. This API only updates existing instances, but will throw an error if the instance does not already exist.
 
 Request Body:
 ```json
