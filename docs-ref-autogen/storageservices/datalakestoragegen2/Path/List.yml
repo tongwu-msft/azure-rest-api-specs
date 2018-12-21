@@ -3,13 +3,13 @@ uid: storageservices.path.list
 name: List
 service: Storage Services
 groupName: Path
-apiVersion: 2018-06-17
+apiVersion: 2018-11-09
 summary: "List Paths  \nList filesystem paths and their properties."
 produces:
 - application/json
 paths:
 - content: GET http://{accountName}.{dnsSuffix}/{filesystem}?recursive={recursive}&resource=filesystem
-- content: GET http://{accountName}.{dnsSuffix}/{filesystem}?directory={directory}&recursive={recursive}&continuation={continuation}&maxResults={maxResults}&resource=filesystem&timeout={timeout}
+- content: GET http://{accountName}.{dnsSuffix}/{filesystem}?directory={directory}&recursive={recursive}&continuation={continuation}&maxResults={maxResults}&upn={upn}&resource=filesystem&timeout={timeout}
   isOptional: true
 uriParameters:
 - name: accountName
@@ -30,6 +30,7 @@ uriParameters:
   description: The filesystem identifier.  The value must start and end with a letter or number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes are not permitted.  All letters must be lowercase.  The value must have between 3 and 63 characters.
   types:
   - uid: string
+  pattern: ^[a-z0-9](?!.*--)[-a-z0-9]{1,61}[a-z0-9]$
 - name: directory
   in: query
   description: Filters results to paths within the specified directory. An error occurs if the directory does not exist.
@@ -52,6 +53,11 @@ uriParameters:
   types:
   - uid: integer
   format: int32
+- name: upn
+  in: query
+  description: Optional. Valid only when Hierarchical Namespace is enabled for the account. If "true", the identity values returned in the owner and group fields of each list entry will be transformed from Azure Active Directory Object IDs to User Principal Names.  If "false", the values will be returned as Azure Active Directory Object IDs. The default value is false.
+  types:
+  - uid: boolean
 - name: resource
   in: query
   isRequired: true
