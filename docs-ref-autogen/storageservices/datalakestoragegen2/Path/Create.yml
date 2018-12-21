@@ -3,7 +3,7 @@ uid: storageservices.path.create
 name: Create
 service: Storage Services
 groupName: Path
-apiVersion: 2018-06-17
+apiVersion: 2018-11-09
 summary: "Create File | Create Directory | Rename File | Rename Directory  \nCreate or rename a file or directory.    By default, the destination is overwritten and if the destination already exists and has a lease the lease is broken.  This operation supports conditional HTTP requests.  For more information, see [Specifying Conditional Headers for Blob Service Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).  To fail if the destination already exists, use a conditional request with If-None-Match: \"*\"."
 consumes:
 - application/octet-stream
@@ -76,7 +76,7 @@ responses:
   - name: x-ms-continuation
     value: string
   - name: Content-Length
-    value: string
+    value: integer
   description: The file or directory was created.
 - name: Other Status Codes
   headers:
@@ -269,12 +269,6 @@ requestHeader:
   types:
   - uid: string
   pattern: ^[{(]?[0-9a-f]{8}[-]?([0-9a-f]{4}[-]?){3}[0-9a-f]{12}[)}]?$
-- name: x-ms-proposed-lease-id
-  in: header
-  description: Optional for create operations.  Required when "x-ms-lease-action" is used.  A lease will be acquired using the proposed ID when the resource is created.
-  types:
-  - uid: string
-  pattern: ^[{(]?[0-9a-f]{8}[-]?([0-9a-f]{4}[-]?){3}[0-9a-f]{12}[)}]?$
 - name: x-ms-source-lease-id
   in: header
   description: Optional for rename operations.  A lease ID for the source path.  The source path must have an active lease and the lease ID must match.
@@ -289,6 +283,11 @@ requestHeader:
 - name: x-ms-permissions
   in: header
   description: Optional and only valid if Hierarchical Namespace is enabled for the account. Sets POSIX access permissions for the file owner, the file owning group, and others. Each class may be granted read, write, or execute permission.  The sticky bit is also supported.  Both symbolic (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported.
+  types:
+  - uid: string
+- name: x-ms-umask
+  in: header
+  description: Optional and only valid if Hierarchical Namespace is enabled for the account. When creating a file or directory and the parent folder does not have a default ACL, the umask restricts the permissions of the file or directory to be created.  The resulting permission is given by p & ^u, where p is the permission and u is the umask.  For example, if p is 0777 and u is 0057, then the resulting permission is 0720.  The default permission is 0777 for a directory and 0666 for a file.  The default umask is 0027.  The umask must be specified in 4-digit octal notation (e.g. 0766).
   types:
   - uid: string
 - name: If-Match
