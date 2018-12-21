@@ -799,7 +799,7 @@ Response Body:
 
 #### Update instances
 
-This API enables update of instances by timeSeriesId. This API only updates existing instances, but will throw an error if the instances does not exists. The API also updates the name of the time series instance. The name of time series has to be unique in an environment.
+This API enables update of instances by timeSeriesId. This API only updates existing instances, but will throw an error if the instance does not already exist. The API also updates the name of the time series instance. The name of time series has to be unique in an environment.
 
 Request Body:
 ```json
