@@ -751,24 +751,23 @@ Request Body:
 ```json
 {
   "put": [
-        {
-            "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
-            "timeSeriesId": [
-                "Id1One",
-                "Id2One",
-                "Id3One"
-            ],
-            "description": "This is the temperature sensor 123134.",
-            "instanceFieldNames": [
-                "state",
-                "city"
-            ],
-            "instanceFieldValues": [
-                "California",
-                "Los Angeles"
-            ]
-        }
-    ]
+    {
+      "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+      "timeSeriesId": [
+        "Id1One",
+        "Id2One",
+        "Id3One"
+      ],
+      "description": "This is the temperature sensor 123134.",
+      "hierarchyIds": [
+        "1643004c-0a84-48a5-80e5-7688c5ae9295"
+      ],
+      "instanceFields": {
+        "state": "California",
+        "city": "Los Angeles"
+      }
+    }
+  ]
 }
 ```
 
@@ -786,30 +785,29 @@ Response Body:
 
 #### Update instances
 
-This API enables update of instances by timeSeriesId. This API only updates existing instances, but will throw an error if the instances already exists.
+This API enables update of instances by timeSeriesId. This API only updates existing instances, but will throw an error if the instance does not already exist.
 
 Request Body:
 ```json
 {
   "update": [
-        {
-            "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
-            "timeSeriesId": [
-                "Id1One",
-                "Id2One",
-                "Id3One"
-            ],
-            "description": "This is the temperature sensor 123134.",
-            "instanceFieldNames": [
-                "state",
-                "city"
-            ],
-            "instanceFieldValues": [
-                "California",
-                "Los Angeles"
-            ]
-        }
-    ]
+    {
+      "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+      "timeSeriesId": [
+        "Id1One",
+        "Id2One",
+        "Id3One"
+      ],
+      "description": "This is the updated temperature sensor 123134.",
+      "hierarchyIds": [
+        "1643004c-0a84-48a5-80e5-7688c5ae9295"
+      ],
+      "instanceFields": {
+        "state": "California",
+        "city": "Los Angeles"
+      }
+    }
+  ]
 }
 ```
 
