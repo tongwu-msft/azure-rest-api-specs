@@ -3,13 +3,13 @@ uid: storageservices.path.getproperties
 name: Get Properties
 service: Storage Services
 groupName: Path
-apiVersion: 2018-06-17
-summary: "Get Properties | Get Access Control List  \nGet the properties for a file or directory, and optionally include the access control list.  This operation supports conditional HTTP requests.  For more information, see [Specifying Conditional Headers for Blob Service Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations)."
+apiVersion: 2018-11-09
+summary: "Get Properties | Get Status | Get Access Control List  \nGet Properties returns all system and user defined properties for a path. Get Status returns all system defined properties for a path. Get Access Control List returns the access control list for a path. This operation supports conditional HTTP requests.  For more information, see [Specifying Conditional Headers for Blob Service Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations)."
 produces:
 - application/json
 paths:
 - content: HEAD http://{accountName}.{dnsSuffix}/{filesystem}/{path}
-- content: HEAD http://{accountName}.{dnsSuffix}/{filesystem}/{path}?action=getAccessControl&timeout={timeout}
+- content: HEAD http://{accountName}.{dnsSuffix}/{filesystem}/{path}?action={action}&upn={upn}&timeout={timeout}
   isOptional: true
 uriParameters:
 - name: accountName
@@ -39,9 +39,14 @@ uriParameters:
   - uid: string
 - name: action
   in: query
-  description: Optional. If the value is "getAccessControl" the access control list is returned in the response headers (Hierarchical Namespace must be enabled for the account).
+  description: Optional. If the value is "getStatus" only the system defined properties for the path are returned. If the value is "getAccessControl" the access control list is returned in the response headers (Hierarchical Namespace must be enabled for the account), otherwise the properties are returned.
   types:
   - uid: PathGetPropertiesAction
+- name: upn
+  in: query
+  description: Optional. Valid only when Hierarchical Namespace is enabled for the account. If "true", the identity values returned in the x-ms-owner, x-ms-group, and x-ms-acl response headers will be transformed from Azure Active Directory Object IDs to User Principal Names.  If "false", the values will be returned as Azure Active Directory Object IDs. The default value is false.
+  types:
+  - uid: boolean
 - name: timeout
   in: query
   description: An optional operation timeout value in seconds. The period begins when the request is received by the service. If the timeout value elapses before the operation completes, the operation fails.
@@ -62,7 +67,7 @@ responses:
   - name: Content-Language
     value: string
   - name: Content-Length
-    value: string
+    value: integer
   - name: Content-Range
     value: string
   - name: Content-Type
@@ -231,6 +236,12 @@ responses:
   types:
   - uid: DataLakeStorageError
 requestHeader:
+- name: x-ms-lease-id
+  in: header
+  description: "Optional. If this header is specified, the operation will be performed only if both of the following conditions are met: i) the path's lease is currently active and ii) the lease ID specified in the request matches that of the path."
+  types:
+  - uid: string
+  pattern: ^[{(]?[0-9a-f]{8}[-]?([0-9a-f]{4}[-]?){3}[0-9a-f]{12}[)}]?$
 - name: If-Match
   in: header
   description: Optional.  An ETag value. Specify this header to perform the operation only if the resource's ETag matches the value specified. The ETag must be specified in quotes.
@@ -269,10 +280,13 @@ requestHeader:
   - uid: string
 definitions:
 - name: PathGetPropertiesAction
-  description: Optional. If the value is "getAccessControl" the access control list is returned in the response headers (Hierarchical Namespace must be enabled for the account).
+  description: Optional. If the value is "getStatus" only the system defined properties for the path are returned. If the value is "getAccessControl" the access control list is returned in the response headers (Hierarchical Namespace must be enabled for the account), otherwise the properties are returned.
   kind: enum
   properties:
   - name: getAccessControl
+    types:
+    - uid: string
+  - name: getStatus
     types:
     - uid: string
 - name: DataLakeStorageError
