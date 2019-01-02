@@ -1,7 +1,7 @@
 ---
 title: "Batch Service REST API Versioning | Microsoft Docs"
 ms.custom: ""
-ms.date: "12/18/2018"
+ms.date: "01/02/2019"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"
@@ -35,11 +35,11 @@ manager: "jeconnoc"
     - `autoStorageContainerName` creates a `ResourceFile` pointing to an Azure Blob Storage container in the Batch registered auto-storage account.
   - URLs provided to `ResourceFile` via the `httpUrl` method can now be any HTTP URL. Previously, these had to be an Azure Blob Storage URL.
   - `blobPrefix` can be used to filter downloads from a storage container to only those matching the prefix.
-- **[Breaking]** Removed `osDisk` property from [`VirtualMachineConfiguration`](rest/api/batchservice/pool/add#virtualmachineconfiguration). This property is no longer supported.
+- **[Breaking]** Removed `osDisk` property from [`VirtualMachineConfiguration`][1]. This property is no longer supported.
 - Pools which set the `dynamicVNetAssignmentScope` on [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration) to be [`job`](/rest/api/batchservice/pool/add#dynamicvnetassignmentscope) can now dynamically assign a Virtual Network to each node the job's tasks run on. The specific Virtual Network to join the nodes to is specified in the new [`JobNetworkConfiguration`](/rest/api/batchservice/job/get#jobnetworkconfiguration) property on [`CloudJob`](/rest/api/batchservice/job/get#cloudjob) and [`JobSpecification`](/rest/api/batchservice/jobschedule/get#jobspecification). 
 > [!NOTE] This feature is in public preview. It is disabled for all Batch accounts except for those which have contacted us and requested to be in the pilot.
 - The maximum lifetime of a task is now 180 days (previously it was 7).
-- Added support on Windows pools for creating users with a specific login mode (either `batch` or `interactive`) via [`LoginMode`](rest/api/batchservice/job/add#loginmode).
+- Added support on Windows pools for creating users with a specific login mode (either `batch` or `interactive`) via [`LoginMode`](/rest/api/batchservice/job/add#loginmode). 
 - The default task retention time for all tasks is now 7 days, previously it was infinite.
 
 ## Previous Versions
@@ -356,5 +356,5 @@ You can now request that application licenses be provisioned to your pool, via t
 
 
 <!--Reference links in article-->
-[1]: https://docs.microsoft.com/en-us/rest/api/batchservice/Pool/Add#definitions_virtualmachineconfiguration
-[2]: https://docs.microsoft.com/en-us/rest/api/batchservice/Pool/Add#definitions_imagereference
+[1]: https://docs.microsoft.com/rest/api/batchservice/Pool/Add#definitions_virtualmachineconfiguration
+[2]: https://docs.microsoft.com/rest/api/batchservice/Pool/Add#definitions_imagereference
