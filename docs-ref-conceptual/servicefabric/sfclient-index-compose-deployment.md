@@ -1,6 +1,7 @@
 ---
 title: "Compose Deployment"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -36,4 +37,5 @@ translation.priority.mt:
 | [Get Compose Deployment Upgrade Progress](sfclient-api-getcomposedeploymentupgradeprogress.md) | Gets details for the latest upgrade performed on this Service Fabric compose deployment.<br/> |
 | [Remove Compose Deployment](sfclient-api-removecomposedeployment.md) | Deletes an existing Service Fabric compose deployment from cluster.<br/> |
 | [Start Compose Deployment Upgrade](sfclient-api-startcomposedeploymentupgrade.md) | Starts upgrading a compose deployment in the Service Fabric cluster.<br/> |
+| [Start Rollback Compose Deployment Upgrade](sfclient-api-startrollbackcomposedeploymentupgrade.md) | Starts rolling back a compose deployment upgrade in the Service Fabric cluster.<br/> |
 

@@ -227,6 +227,8 @@ For analyzers, index attributes vary depending on the whether you're using prede
 |Tokenizer|Required. Set to either one of predefined tokenizers listed in the [Tokenizers](#Tokenizers) table below or a custom tokenizer specified in the index definition.|  
 |TokenFilters|Set to either one of predefined token filters listed in the [Token filters](#TokenFilters) table or a custom token filter specified in the index definition.|  
 
+<a name="CharFilter"></a>
+
  ### Char Filters
 
  A char filter is used to prepare input text before it is processed by the tokenizer. For instance, they can replace certain characters or symbols. You can have multiple char filters in a custom analyzer. Char filters run in the order in which they are listed.  

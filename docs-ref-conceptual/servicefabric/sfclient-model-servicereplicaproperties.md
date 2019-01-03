@@ -1,6 +1,6 @@
 ---
 title: "ServiceReplicaProperties"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -44,9 +44,14 @@ ____
 __Type__: string (enum) <br/>
 __Required__: Yes<br/>
 <br/>
-The Operating system type required by the code in service.
 
 
+The operation system required by the code in service.
+
+Possible values are: 
+
+  - `Linux` - The required operating system is Linux.
+  - `Windows` - The required operating system is Windows.
 
 
 

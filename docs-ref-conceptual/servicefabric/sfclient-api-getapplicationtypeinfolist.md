@@ -1,6 +1,7 @@
 ---
 title: "Get Application Type Info List"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -259,7 +260,7 @@ This example shows how to exclude application parameter in the result when getti
 
 #### Request
 ```
-GET http://localhost:19080/ApplicationTypes?api-version=6.0&ExcludeApplicationParameters=true
+GET http://localhost:19080/ApplicationTypes?api-version=6.0&ExcludeApplicationParameters=True
 ```
 
 #### 200 Response

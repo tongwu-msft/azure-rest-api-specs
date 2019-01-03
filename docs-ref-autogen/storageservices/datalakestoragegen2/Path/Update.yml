@@ -3,7 +3,7 @@ uid: storageservices.path.update
 name: Update
 service: Storage Services
 groupName: Path
-apiVersion: 2018-06-17
+apiVersion: 2018-11-09
 summary: "Append Data | Flush Data | Set Properties | Set Access Control  \nUploads data to be appended to a file, flushes (writes) previously uploaded data to a file, sets properties for a file or directory, or sets access control for a file or directory. Data can only be appended to a file. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations)."
 consumes:
 - application/octet-stream
@@ -83,7 +83,7 @@ responses:
   - name: Content-Language
     value: string
   - name: Content-Length
-    value: string
+    value: integer
   - name: Content-Range
     value: string
   - name: Content-Type
@@ -131,7 +131,7 @@ responses:
 
     * 400 Bad Request, InvalidQueryParameterValue, "Value for one of the query parameters specified in the request URI is invalid."
 
-    * 400 Bad Request, InvalidResourceName, "The specifed resource name contains invalid characters."
+    * 400 Bad Request, InvalidResourceName, "The specified resource name contains invalid characters."
 
     * 400 Bad Request, InvalidSourceUri, "The source URI is invalid."
 
@@ -250,12 +250,8 @@ requestHeader:
   in: header
   description: Required for "Append Data" and "Flush Data".  Must be 0 for "Flush Data".  Must be the length of the request content in bytes for "Append Data".
   types:
-  - uid: string
-- name: x-ms-lease-action
-  in: header
-  description: Optional.  The lease action can be "renew" to renew an existing lease or "release" to release a lease.
-  types:
-  - uid: PathUpdateLeaseAction
+  - uid: integer
+  format: int64
 - name: x-ms-lease-id
   in: header
   description: The lease ID must be specified if there is an active lease.
@@ -363,16 +359,6 @@ definitions:
     types:
     - uid: string
   - name: setAccessControl
-    types:
-    - uid: string
-- name: PathUpdateLeaseAction
-  description: Optional.  The lease action can be "renew" to renew an existing lease or "release" to release a lease.
-  kind: enum
-  properties:
-  - name: renew
-    types:
-    - uid: string
-  - name: release
     types:
     - uid: string
 - name: DataLakeStorageError

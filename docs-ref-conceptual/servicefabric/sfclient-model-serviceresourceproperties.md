@@ -1,6 +1,6 @@
 ---
 title: "ServiceResourceProperties"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -40,17 +40,25 @@ This type describes properties of a service resource.
 | [`diagnostics`](#diagnostics) | [DiagnosticsRef](sfclient-model-diagnosticsref.md) | No |
 | [`description`](#description) | string | No |
 | [`replicaCount`](#replicacount) | integer | No |
-| [`healthState`](#healthstate) | string (enum) | No |
+| [`autoScalingPolicies`](#autoscalingpolicies) | array of [AutoScalingPolicy](sfclient-model-autoscalingpolicy.md) | No |
 | [`status`](#status) | string (enum) | No |
+| [`statusDetails`](#statusdetails) | string | No |
+| [`healthState`](#healthstate) | string (enum) | No |
+| [`unhealthyEvaluation`](#unhealthyevaluation) | string | No |
 
 ____
 ### `osType`
 __Type__: string (enum) <br/>
 __Required__: Yes<br/>
 <br/>
-The Operating system type required by the code in service.
 
 
+The operation system required by the code in service.
+
+Possible values are: 
+
+  - `Linux` - The required operating system is Linux.
+  - `Windows` - The required operating system is Windows.
 
 
 
@@ -91,11 +99,45 @@ __Required__: No<br/>
 The number of replicas of the service to create. Defaults to 1 if not specified.
 
 ____
+### `autoScalingPolicies`
+__Type__: array of [AutoScalingPolicy](sfclient-model-autoscalingpolicy.md) <br/>
+__Required__: No<br/>
+<br/>
+Auto scaling policies
+
+____
+### `status`
+__Type__: string (enum) <br/>
+__Required__: No<br/>
+<br/>
+
+
+Status of the resource.
+
+Possible values are: 
+
+  - `Unknown` - Indicates the resource status is unknown. The value is zero.
+  - `Ready` - Indicates the resource is ready. The value is 1.
+  - `Upgrading` - Indicates the resource is upgrading. The value is 2.
+  - `Creating` - Indicates the resource is being created. The value is 3.
+  - `Deleting` - Indicates the resource is being deletd. The value is 4.
+  - `Failed` - Indicates the resource is not functional due to persistent failures. See statusDetails property for more details. The value is 5.
+
+
+
+____
+### `statusDetails`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+Gives additional information about the current status of the service.
+
+____
 ### `healthState`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-Describes the health state of an services resource.
+
 
 The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
 
@@ -110,11 +152,8 @@ Possible values are:
 
 
 ____
-### `status`
-__Type__: string (enum) <br/>
+### `unhealthyEvaluation`
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
-
-
-
-
+When the service's health state is not 'Ok', this additional details from service fabric Health Manager for the user to know why the service is marked unhealthy.

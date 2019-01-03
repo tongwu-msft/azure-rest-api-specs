@@ -1,6 +1,7 @@
 ---
 title: "Cluster"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -45,10 +46,11 @@ translation.priority.mt:
 | [Set Upgrade Orchestration Service State](sfclient-api-setupgradeorchestrationservicestate.md) | Update the service state of Service Fabric Upgrade Orchestration Service.<br/> |
 | [Provision Cluster](sfclient-api-provisioncluster.md) | Provision the code or configuration packages of a Service Fabric cluster.<br/> |
 | [Unprovision Cluster](sfclient-api-unprovisioncluster.md) | Unprovision the code or configuration packages of a Service Fabric cluster.<br/> |
-| [Rollback Cluster Upgrade](sfclient-api-rollbackclusterupgrade.md) | Rollback the upgrade of a Service Fabric cluster.<br/> |
+| [Rollback Cluster Upgrade](sfclient-api-rollbackclusterupgrade.md) | Roll back the upgrade of a Service Fabric cluster.<br/> |
 | [Resume Cluster Upgrade](sfclient-api-resumeclusterupgrade.md) | Make the cluster upgrade move on to the next upgrade domain.<br/> |
 | [Start Cluster Upgrade](sfclient-api-startclusterupgrade.md) | Start upgrading the code or configuration version of a Service Fabric cluster.<br/> |
 | [Start Cluster Configuration Upgrade](sfclient-api-startclusterconfigurationupgrade.md) | Start upgrading the configuration of a Service Fabric standalone cluster.<br/> |
 | [Update Cluster Upgrade](sfclient-api-updateclusterupgrade.md) | Update the upgrade parameters of a Service Fabric cluster upgrade.<br/> |
 | [Get Aad Metadata](sfclient-api-getaadmetadata.md) | Gets the Azure Active Directory metadata used for secured connection to cluster.<br/> |
+| [Get Cluster Version](sfclient-api-getclusterversion.md) | Get the current Service Fabric cluster version.<br/> |
 

@@ -1,19 +1,25 @@
 ### YamlMime:RESTOperation
-uid: batch.core.windows.net.batchservice.job.list
+uid: batchservice.job.list
 name: List
 service: Batch Service
 groupName: Job
-apiVersion: 2018-08-01.7.0
+apiVersion: 2018-12-01.8.0
 summary: Lists all of the jobs in the specified account.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET https://batch.core.windows.net/jobs?api-version=2018-08-01.7.0
-- content: GET https://batch.core.windows.net/jobs?$filter={$filter}&$select={$select}&$expand={$expand}&maxresults={maxresults}&timeout={timeout}&api-version=2018-08-01.7.0
+- content: GET {batchUrl}/jobs?api-version=2018-12-01.8.0
+- content: GET {batchUrl}/jobs?$filter={$filter}&$select={$select}&$expand={$expand}&maxresults={maxresults}&timeout={timeout}&api-version=2018-12-01.8.0
   isOptional: true
 uriParameters:
+- name: batchUrl
+  in: path
+  isRequired: true
+  description: The base URL for all Azure Batch service requests.
+  types:
+  - uid: string
 - name: $filter
   in: query
   description: An OData $filter clause. For more information on constructing this filter, see https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-jobs.
@@ -199,6 +205,10 @@ definitions:
     description: "The action the Batch service should take when any task in the job fails.  \nA task is considered to have failed if has a failureInfo. A failureInfo is set if the task completes with a non-zero exit code after exhausting its retry count, or if there was an error starting the task, for example due to a resource file download error. The default is noaction."
     types:
     - uid: OnTaskFailure
+  - name: networkConfiguration
+    description: The network configuration for the job.
+    types:
+    - uid: JobNetworkConfiguration
   - name: metadata
     description: "A list of name-value pairs associated with the job as metadata.  \nThe Batch service does not assign any meaning to metadata; it is solely for the use of user code."
     types:
@@ -417,7 +427,7 @@ definitions:
     types:
     - uid: string
   - name: retentionTime
-    description: "The minimum time to retain the task directory for the Job Release task on the compute node. After this time, the Batch service may delete the task directory and all its contents.  \nThe default is infinite, i.e. the task directory will be retained until the compute node is removed or reimaged."
+    description: "The minimum time to retain the task directory for the Job Release task on the compute node. After this time, the Batch service may delete the task directory and all its contents.  \nThe default is 7 days, i.e. the task directory will be retained for 7 days unless the compute node is removed or the job is deleted."
     types:
     - uid: string
   - name: userIdentity
@@ -470,6 +480,14 @@ definitions:
     - uid: string
   - name: performexitoptionsjobaction
     description: Take the action associated with the task exit condition in the task's exitConditions collection. (This may still result in no action being taken, if that is what the task specifies.)
+    types:
+    - uid: string
+- name: JobNetworkConfiguration
+  description: The network configuration for the job.
+  kind: object
+  properties:
+  - name: subnetId
+    description: "The ARM resource identifier of the virtual network subnet which nodes running tasks from the job will join for the duration of the task.  \nThis is only supported for jobs running on VirtualMachineConfiguration pools. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}. The virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes which will run tasks from the job. For more details, see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration."
     types:
     - uid: string
 - name: MetadataItem
@@ -585,15 +603,27 @@ definitions:
     types:
     - uid: ContainerRegistry
 - name: ResourceFile
-  description: A file to be downloaded from Azure blob storage to a compute node.
+  description: A single file or multiple files to be downloaded to a compute node.
   kind: object
   properties:
-  - name: blobSource
-    description: "The URL of the file within Azure Blob Storage.  \nThis URL must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+  - name: autoStorageContainerName
+    description: "The storage container name in the auto storage account.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified."
+    types:
+    - uid: string
+  - name: storageContainerUrl
+    description: "The URL of the blob container within Azure Blob Storage.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable using anonymous access; that is, the Batch service does not present any credentials when downloading blobs from the container. There are two ways to get such a URL for a container in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the container, or set the ACL for the container to allow public access."
+    types:
+    - uid: string
+  - name: httpUrl
+    description: "The URL of the file to download.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+    types:
+    - uid: string
+  - name: blobPrefix
+    description: "The blob prefix to use when downloading blobs from an Azure Storage container. Only the blobs whose names begin with the specified prefix will be downloaded.  \nThe property is valid only when autoStorageContainerName or storageContainerUrl is used. This prefix can be a partial filename or a subdirectory. If a prefix is not specified, all the files in the container will be downloaded."
     types:
     - uid: string
   - name: filePath
-    description: The location on the compute node to which to download the file, relative to the task's working directory.
+    description: "The location on the compute node to which to download the file(s), relative to the task's working directory.  \nIf the httpUrl property is specified, the filePath is required and describes the path which the file will be downloaded to, including the filename. Otherwise, if the autoStorageContainerName or storageContainerUrl property is specified, filePath is optional and is the directory to download the files to. In the case where filePath is used as a directory, any directory structure already associated with the input data will be retained in full and appended to the specified filePath directory. The specified relative path cannot break out of the task's working directory (for example by using '..')."
     types:
     - uid: string
   - name: fileMode
@@ -625,11 +655,11 @@ definitions:
     types:
     - uid: string
   - name: retentionTime
-    description: "The minimum time to retain the task directory on the compute node where it ran, from the time it completes execution. After this time, the Batch service may delete the task directory and all its contents.  \nThe default is infinite, i.e. the task directory will be retained until the compute node is removed or reimaged."
+    description: "The minimum time to retain the task directory on the compute node where it ran, from the time it completes execution. After this time, the Batch service may delete the task directory and all its contents.  \nThe default is 7 days, i.e. the task directory will be retained for 7 days unless the compute node is removed or the job is deleted."
     types:
     - uid: string
   - name: maxTaskRetryCount
-    description: "The maximum number of times the task may be retried. The Batch service retries a task if its exit code is nonzero.  \nNote that this value specifically controls the number of retries for the task executable due to a nonzero exit code. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task after the first attempt. If the maximum retry count is -1, the Batch service retries the task without limit. Resource files and application packages are only downloaded again if the task is retried on a new compute node."
+    description: "The maximum number of times the task may be retried. The Batch service retries a task if its exit code is nonzero.  \nNote that this value specifically controls the number of retries for the task executable due to a nonzero exit code. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task after the first attempt. If the maximum retry count is -1, the Batch service retries the task without limit."
     types:
     - uid: integer
 - name: UserIdentity
@@ -935,13 +965,8 @@ definitions:
     description: "The Azure Guest OS family to be installed on the virtual machines in the pool.  \nPossible values are:\n2 - OS Family 2, equivalent to Windows Server 2008 R2 SP1.\n3 - OS Family 3, equivalent to Windows Server 2012.\n4 - OS Family 4, equivalent to Windows Server 2012 R2.\n5 - OS Family 5, equivalent to Windows Server 2016. For more information, see Azure Guest OS Releases (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases)."
     types:
     - uid: string
-  - name: targetOSVersion
+  - name: osVersion
     description: "The Azure Guest OS version to be installed on the virtual machines in the pool.  \nThe default value is * which specifies the latest operating system version for the specified OS family."
-    types:
-    - uid: string
-  - name: currentOSVersion
-    isReadyOnly: true
-    description: "The Azure Guest OS Version currently installed on the virtual machines in the pool.  \nThis may differ from targetOSVersion if the pool state is Upgrading. In this case some virtual machines may be on the targetOSVersion and some may be on the currentOSVersion during the upgrade process. Once all virtual machines have upgraded, currentOSVersion is updated to be the same as targetOSVersion."
     types:
     - uid: string
 - name: VirtualMachineConfiguration
@@ -952,20 +977,16 @@ definitions:
     description: A reference to the Azure Virtual Machines Marketplace image or the custom Virtual Machine image to use.
     types:
     - uid: ImageReference
-  - name: osDisk
-    description: Settings for the operating system disk of the Virtual Machine.
-    types:
-    - uid: OSDisk
   - name: nodeAgentSKUId
     description: "The SKU of the Batch node agent to be provisioned on compute nodes in the pool.  \nThe Batch node agent is a program that runs on each node in the pool, and provides the command-and-control interface between the node and the Batch service. There are different implementations of the node agent, known as SKUs, for different operating systems. You must specify a node agent SKU which matches the selected image reference. To get the list of supported node agent SKUs along with their list of verified image references, see the 'List supported node agent SKUs' operation."
     types:
     - uid: string
   - name: windowsConfiguration
-    description: "Windows operating system settings on the virtual machine.  \nThis property must not be specified if the imageReference or osDisk property specifies a Linux OS image."
+    description: "Windows operating system settings on the virtual machine.  \nThis property must not be specified if the imageReference property specifies a Linux OS image."
     types:
     - uid: WindowsConfiguration
   - name: dataDisks
-    description: "The configuration for data disks attached to the comptue nodes in the pool.  \nThis property must be specified if the compute nodes in the pool need to have empty data disks attached to them. This cannot be updated. Each node gets its own disk (the disk is not a file share). Existing disks cannot be attached, each attached disk is empty. When the node is removed from the pool, the disk and all data associated with it is also deleted. The disk is not formatted after being attached, it must be formatted before use - for more information see https://docs.microsoft.com/en-us/azure/virtual-machines/linux/classic/attach-disk#initialize-a-new-data-disk-in-linux and https://docs.microsoft.com/en-us/azure/virtual-machines/windows/attach-disk-ps#add-an-empty-data-disk-to-a-virtual-machine."
+    description: "The configuration for data disks attached to the compute nodes in the pool.  \nThis property must be specified if the compute nodes in the pool need to have empty data disks attached to them. This cannot be updated. Each node gets its own disk (the disk is not a file share). Existing disks cannot be attached, each attached disk is empty. When the node is removed from the pool, the disk and all data associated with it is also deleted. The disk is not formatted after being attached, it must be formatted before use - for more information see https://docs.microsoft.com/en-us/azure/virtual-machines/linux/classic/attach-disk#initialize-a-new-data-disk-in-linux and https://docs.microsoft.com/en-us/azure/virtual-machines/windows/attach-disk-ps#add-an-empty-data-disk-to-a-virtual-machine."
     types:
     - uid: DataDisk
       isArray: true
@@ -990,9 +1011,13 @@ definitions:
   kind: object
   properties:
   - name: subnetId
-    description: "The ARM resource identifier of the virtual network subnet which the compute nodes of the pool will join. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}.  \nThe virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes, and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. For pools created with virtualMachineConfiguration only ARM virtual networks ('Microsoft.Network/virtualNetworks') are supported, but for pools created with cloudServiceConfiguration both ARM and classic virtual networks are supported. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. For pools created with a virtual machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. For pools created with a cloud service configuration, enable ports 10100, 20100, and 30100. Also enable outbound connections to Azure Storage on port 443. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration"
+    description: "The ARM resource identifier of the virtual network subnet which the compute nodes of the pool will join.  \nThis is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}. The virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes, and a resize error will occur. For pools created with virtualMachineConfiguration only ARM virtual networks ('Microsoft.Network/virtualNetworks') are supported, but for pools created with cloudServiceConfiguration both ARM and classic virtual networks are supported. For more details, see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration"
     types:
     - uid: string
+  - name: dynamicVNetAssignmentScope
+    description: The scope of dynamic vnet assignment.
+    types:
+    - uid: DynamicVNetAssignmentScope
   - name: endpointConfiguration
     description: "The configuration for endpoints on compute nodes in the Batch pool.  \nPool endpoint configuration is only supported on pools with the virtualMachineConfiguration property."
     types:
@@ -1076,6 +1101,10 @@ definitions:
     description: "The Linux-specific user configuration for the user account.  \nThis property is ignored if specified on a Windows pool. If not specified, the user is created with the default options."
     types:
     - uid: LinuxUserConfiguration
+  - name: windowsUserConfiguration
+    description: "The Windows-specific user configuration for the user account.  \nThis property can only be specified if the user is on a Windows pool. If not specified and on a Windows pool, the user is created with the default options."
+    types:
+    - uid: WindowsUserConfiguration
 - name: ImageReference
   description: A reference to an Azure Virtual Machines Marketplace image or a custom Azure Virtual Machine image. To get the list of all Azure Marketplace image references verified by Azure Batch, see the 'List node agent SKUs' operation.
   kind: object
@@ -1097,17 +1126,9 @@ definitions:
     types:
     - uid: string
   - name: virtualMachineImageId
-    description: "The ARM resource identifier of the virtual machine image. Computes nodes of the pool will be created using this custom image. This is of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}  \nThis property is mutually exclusive with other ImageReference properties. The virtual machine image must be in the same region and subscription as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration."
+    description: "The ARM resource identifier of the virtual machine image. Computes nodes of the pool will be created using this custom image. This is of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}  \nThis property is mutually exclusive with other ImageReference properties. The virtual machine image must be in the same region and subscription as the Azure Batch account. For more details, see https://docs.microsoft.com/azure/batch/batch-custom-images."
     types:
     - uid: string
-- name: OSDisk
-  description: Settings for the operating system disk of the virtual machine.
-  kind: object
-  properties:
-  - name: caching
-    description: "The type of caching to enable for the OS disk.  \nThe default value for caching is readwrite. For information about the caching options see: https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/."
-    types:
-    - uid: CachingType
 - name: WindowsConfiguration
   description: Windows operating system settings to apply to the virtual machine.
   kind: object
@@ -1166,6 +1187,18 @@ definitions:
     description: As many tasks as possible (maxTasksPerNode) should be assigned to each node in the pool before any tasks are assigned to the next node in the pool.
     types:
     - uid: string
+- name: DynamicVNetAssignmentScope
+  description: The scope of dynamic vnet assignment.
+  kind: enum
+  properties:
+  - name: none
+    description: No dynamic VNet assignment is enabled.
+    types:
+    - uid: string
+  - name: job
+    description: Dynamic VNet assignment is done per-job.
+    types:
+    - uid: string
 - name: PoolEndpointConfiguration
   description: The endpoint configuration for a pool.
   kind: object
@@ -1203,6 +1236,14 @@ definitions:
     description: "The SSH private key for the user account.  \nThe private key must not be password protected. The private key is used to automatically configure asymmetric-key based authentication for SSH between nodes in a Linux pool when the pool's enableInterNodeCommunication property is true (it is ignored if enableInterNodeCommunication is false). It does this by placing the key pair into the user's .ssh directory. If not specified, password-less SSH is not configured between nodes (no modification of the user's .ssh directory is done)."
     types:
     - uid: string
+- name: WindowsUserConfiguration
+  description: Properties used to create a user account on a Windows node.
+  kind: object
+  properties:
+  - name: loginMode
+    description: "The login mode for the user.  \nThe default value for VirtualMachineConfiguration pools is batch and for CloudServiceConfiguration pools is interactive."
+    types:
+    - uid: LoginMode
 - name: CachingType
   description: The type of caching to enable for the disk.
   kind: enum
@@ -1268,6 +1309,18 @@ definitions:
     types:
     - uid: NetworkSecurityGroupRule
       isArray: true
+- name: LoginMode
+  description: The login mode for the user.
+  kind: enum
+  properties:
+  - name: batch
+    description: The LOGON32_LOGON_BATCH Win32 login mode. The batch login mode is recommended for long running parallel processes.
+    types:
+    - uid: string
+  - name: interactive
+    description: The LOGON32_LOGON_INTERACTIVE Win32 login mode. UAC is enabled on Windows VirtualMachineConfiguration pools. If this option is used with an elevated user identity in a Windows VirtualMachineConfiguration pool, the user session will not be elevated unless the application executed by the task command line is configured to always require administrative privilege or to always require maximum privilege.
+    types:
+    - uid: string
 - name: InboundEndpointProtocol
   description: The protocol of the endpoint.
   kind: enum
@@ -1311,10 +1364,12 @@ definitions:
 examples:
 - name: Job list
   request:
-    uri: GET https://batch.core.windows.net/jobs?api-version=2018-08-01.7.0
+    uri: GET account.region.batch.azure.com/jobs?api-version=2018-12-01.8.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
+    - name: ocp-date
+      value: Fri, 17 Feb 2017 00:00:00 GMT
   responses:
   - statusCode: "200"
     body: >-
@@ -1348,4 +1403,14 @@ examples:
           }
         ]
       }
-security: []
+security:
+- type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+- name: Authorization
+  type: apiKey
+  in: header

@@ -1,6 +1,7 @@
 ---
 title: "ChaosStoppedEvent"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -35,6 +36,7 @@ Chaos Stopped event.
 | --- | --- | --- |
 | [`Kind`](#kind) | string | Yes |
 | [`EventInstanceId`](#eventinstanceid) | string (uuid) | Yes |
+| [`Category`](#category) | string | No |
 | [`TimeStamp`](#timestamp) | string (date-time) | Yes |
 | [`HasCorrelatedEvents`](#hascorrelatedevents) | boolean | No |
 | [`Reason`](#reason) | string | Yes |
@@ -52,6 +54,13 @@ __Type__: string (uuid) <br/>
 __Required__: Yes<br/>
 <br/>
 The identifier for the FabricEvent instance.
+
+____
+### `Category`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+The category of event.
 
 ____
 ### `TimeStamp`

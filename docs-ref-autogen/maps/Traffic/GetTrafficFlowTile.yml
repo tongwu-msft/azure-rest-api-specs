@@ -4,22 +4,30 @@ name: Get Traffic Flow Tile
 service: Maps
 groupName: Traffic
 apiVersion: "1.0"
-summary: __Traffic Flow Tile__ <br/><br/>The Azure Flow Tile API serves 256 x 256 pixel tiles showing traffic flow. All tiles use the same grid system. Because the traffic tiles use transparent images, they can be layered on top of map tiles to create a compound display. The Flow tiles use colors to indicate either the speed of traffic on different road segments, or the difference between that speed and the free-flow speed on the road segment in question.
+summary: >-
+  __Traffic Flow Tile__
+
+
+
+  **Applies to**: S0 and S1 pricing tiers.
+
+
+  The Azure Flow Tile API serves 256 x 256 pixel tiles showing traffic flow. All tiles use the same grid system. Because the traffic tiles use transparent images, they can be layered on top of map tiles to create a compound  display. The Flow tiles use colors to indicate either the speed of traffic on different road segments, or the difference between that speed and the free-flow speed on the road segment in question.
 consumes: []
 produces:
 - image/png
 - application/json
 paths:
-- content: GET https://atlas.microsoft.com/traffic/flow/tile/png?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}
-- content: GET https://atlas.microsoft.com/traffic/flow/tile/png?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}&thickness={thickness}
+- content: GET https://atlas.microsoft.com/traffic/flow/tile/{format}?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}
+- content: GET https://atlas.microsoft.com/traffic/flow/tile/{format}?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}&thickness={thickness}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: 'Desired format of the response. Possible value: png.'
+  description: Desired format of the response. Possible values are png & pbf.
   types:
-  - uid: RasterTileFormat
+  - uid: TileFormat
 - name: subscription-key
   in: query
   isRequired: true
@@ -42,7 +50,7 @@ uriParameters:
   in: query
   isRequired: true
   description: >-
-    Zoom level for the desired tile. Zoom value must be in the range: 0-18 (inclusive).
+    Zoom level for the desired tile. For _raster_ tiles, value must be in the range: 0-18 (inclusive). For _vector_ tiles, value must be in the range: 0-20 (inclusive).
 
 
     Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
@@ -70,7 +78,7 @@ uriParameters:
   - uid: integer
 - name: thickness
   in: query
-  description: The value of the width of the line representing traffic. This value is a multiplier and the accepted values range from 1 - 20. The default value is 10.
+  description: The value of the width of the line representing traffic. This value is a multiplier and the accepted values range from 1 - 20. The default value is 10. This parameter is not valid when format is pbf.
   types:
   - uid: integer
 responses:
@@ -100,12 +108,16 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: RasterTileFormat
-  description: 'Desired format of the response. Possible value: png.'
+- name: TileFormat
+  description: Desired format of the response. Possible values are png & pbf.
   kind: enum
   properties:
   - name: png
     description: An image in the png format. Supports zoom levels 0 through 18.
+    types:
+    - uid: string
+  - name: pbf
+    description: Vector graphic in the pbf format. Supports zoom levels 0 through 20.
     types:
     - uid: string
 - name: TrafficFlowTileStyle
@@ -125,7 +137,7 @@ definitions:
     types:
     - uid: string
   - name: reduced-sensitivity
-    description: Displays relative colors but a larger difference from freeflow is required for segments to change the color.
+    description: Displays relative colors but a larger difference from freeflow is required for segments to change the color. This mode only valid when format is png.
     types:
     - uid: string
 - name: ErrorResponse

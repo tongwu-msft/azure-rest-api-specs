@@ -26,7 +26,7 @@ TSM makes it easy to find and analyze IoT data by enabling curation, maintenance
 
 ## Common headers and parameters
 
-For authentication and authorization, a valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/#create-the-request). The token must be issued to `https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/` resource (also known as "audience" in the token).
+For authentication and authorization, a valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/#create-the-request). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
 
 Optional request headers:
 - `x-ms-client-request-id` - a client request ID. Service records this value. Allows the service to trace operation across services.
@@ -44,7 +44,7 @@ The Model Settings API enable CRUD on auto created model in the environment for 
 
 The Get Model Setting API returns the auto created model in the environment for TimeSeriesIds.
 
-`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/modelsettings?api-version=2018-11-01-preview`
+`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/modelsettings?api-version=2018-11-01-preview`
 
 Request Body: None
 
@@ -65,7 +65,7 @@ Response Body:
 
 The Patch Model Settings API updates the model in the environment for TimeSeriesIds with the new values provided in the request.
 
-`PATCH https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/modelsettings?api-version=2018-11-01-preview`
+`PATCH https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/modelsettings?api-version=2018-11-01-preview`
 
 Request Body:
 ```json
@@ -99,7 +99,7 @@ The Types API enable CRUD on Time Series Types and their associated Variables.
 
 The Get Types API returns all the Time Series Types and their associated Variables.
 
-`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/types?api-version=2018-11-01-preview`
+`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/types?api-version=2018-11-01-preview`
 
 Request Body: None
 
@@ -146,7 +146,7 @@ Response Body:
 
 The Post Types API enables batch operations on Types. All operations against this API are HTTP POST operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported operations are put, update and delete.
 
-`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/types/$batch?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/types/$batch?api-version=2018-11-01-preview`
 
 #### Get Types
 Request Body:
@@ -351,7 +351,7 @@ The Hierarchies API enable CRUD on Time Series Hierarchies.
 
 The Get Hierarchies API returns all the Time Series Hierarchies matching the request.
 
-`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/hierarchies?api-version=2018-11-01-preview`
+`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/hierarchies?api-version=2018-11-01-preview`
 
 Request Body: None
 
@@ -386,7 +386,7 @@ Response Body:
 
 The Manage Hierarchies APIs enables batch operations on Hierarchies. All operations against this API are HTTP POST operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported operations are put, update and delete.
 
-`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/hierarchies/$batch?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/hierarchies/$batch?api-version=2018-11-01-preview`
 
 #### Get Hierarchies
 
@@ -587,7 +587,7 @@ The Instances API enable CRUD on Time Series Instances.
 
 The Get Instances API returns all the Time Series Instances matching the request.
 
-`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/instances?api-version=2018-11-01-preview`
+`GET https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/instances?api-version=2018-11-01-preview`
 
 Request Body: None
 
@@ -600,7 +600,7 @@ Response Body:
             "timeSeriesId": [
                 "Id1One",
                 "Id2One",
-                1.0
+                "Id3One"
             ],
             "description": "floor 100",
             "hierarchyIds": [
@@ -624,7 +624,7 @@ These APIs enable discovery of time series instances.
 
 Suggest will enable autocomplete scenarios while searching for an instance.
 
-`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/instances/suggest?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/instances/suggest?api-version=2018-11-01-preview`
 
 Request:
 ```json
@@ -663,7 +663,7 @@ Search helps in identifying the instances based on the keywords provided, these 
 - instanceFieldValues
 - description
 
-`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/instances/suggest?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/instances/suggest?api-version=2018-11-01-preview`
 
 Request Body:
 ```json
@@ -677,9 +677,9 @@ Response Body:
 {
   "instances": [
         {
-            "timeSeriesId": ["Id1One", "Id2One", 1.0],
+            "timeSeriesId": ["Id1One", "Id2One", "Id3One"],
             "highlights": {
-                "timeSeriesIds": ["Id1One", "Id2One", 1.0],
+                "timeSeriesIds": ["Id1One", "Id2One", "Id3One"],
                 "type": "DefaultType",
                 "description": "<hit>floor</hit> <hit>100</hit>",
                 "hierarchyIds": [
@@ -703,7 +703,7 @@ Response Body:
 
 The Manage Instances API enables batch operations on Instances. All operations against this API are HTTP POST operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported operations are put, update and delete.
 
-`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.api.timeseries.azure.com/timeseries/instances/$batch?api-version=2018-11-01-preview`
+`POST https://123f394f-a3c6-4cc2-b13a-55e2fcf57823.env.timeseries.azure.com/timeseries/instances/$batch?api-version=2018-11-01-preview`
 
 #### Get Instances
 
@@ -713,7 +713,7 @@ Request Body:
 ```json
 {
   "get": [
-    ["Id1One", "Id2One", 1.0]
+    ["Id1One", "Id2One", "Id3One"]
   ]
 }
 ```
@@ -721,22 +721,26 @@ Request Body:
 Response Body:
 ```json
 {
-  "get": {
-    "instance": {
-        "timeSeriesId": ["Id1One", "Id2One", 1.0],
-        "highlights": {
-            "timeSeriesIds": ["Id1One", "Id2One", 1.0],
-            "type": "DefaultType",
-            "description": "<hit>floor</hit> <hit>100</hit>",
-            "hierarchyIds": [
-                "1643004c-0a84-48a5-80e5-7688c5ae9295"
-            ],
-            "instanceFieldNames": null,
-            "instanceFieldValues": null
+  "get": [
+    {
+      "instance": {
+        "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+        "timeSeriesId": [
+          "Id1One",
+          "Id2One",
+          "Id3One"
+        ],
+        "description": "This is the temperature sensor 123134.",
+        "hierarchyIds": [
+          "1643004c-0a84-48a5-80e5-7688c5ae9295"
+        ],
+        "instanceFields": {
+          "state": "California",
+          "city": "Los Angeles"
         }
-    },
-    "error": null
-  }
+      },
+      "error": null
+    }]
 }
 ```
 #### Create Instances
@@ -747,24 +751,23 @@ Request Body:
 ```json
 {
   "put": [
-        {
-            "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
-            "timeSeriesId": [
-                "Id1One",
-                "Id2One",
-                1.0
-            ],
-            "description": "This is the temperature sensor 123134.",
-            "instanceFieldNames": [
-                "state",
-                "city"
-            ],
-            "instanceFieldValues": [
-                "California",
-                "Los Angeles"
-            ]
-        }
-    ]
+    {
+      "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+      "timeSeriesId": [
+        "Id1One",
+        "Id2One",
+        "Id3One"
+      ],
+      "description": "This is the temperature sensor 123134.",
+      "hierarchyIds": [
+        "1643004c-0a84-48a5-80e5-7688c5ae9295"
+      ],
+      "instanceFields": {
+        "state": "California",
+        "city": "Los Angeles"
+      }
+    }
+  ]
 }
 ```
 
@@ -782,30 +785,29 @@ Response Body:
 
 #### Update instances
 
-This API enables update of instances by timeSeriesId. This API only updates existing instances, but will throw an error if the instances already exists.
+This API enables update of instances by timeSeriesId. This API only updates existing instances, but will throw an error if the instance does not already exist.
 
 Request Body:
 ```json
 {
   "update": [
-        {
-            "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
-            "timeSeriesId": [
-                "Id1One",
-                "Id2One",
-                1.0
-            ],
-            "description": "This is the temperature sensor 123134.",
-            "instanceFieldNames": [
-                "state",
-                "city"
-            ],
-            "instanceFieldValues": [
-                "California",
-                "Los Angeles"
-            ]
-        }
-    ]
+    {
+      "typeId": "1be09af9-f089-4d6b-9f0b-48018b5f7393",
+      "timeSeriesId": [
+        "Id1One",
+        "Id2One",
+        "Id3One"
+      ],
+      "description": "This is the updated temperature sensor 123134.",
+      "hierarchyIds": [
+        "1643004c-0a84-48a5-80e5-7688c5ae9295"
+      ],
+      "instanceFields": {
+        "state": "California",
+        "city": "Los Angeles"
+      }
+    }
+  ]
 }
 ```
 
@@ -833,12 +835,12 @@ Request Body:
         [
             "Id1One",
             "Id2One",
-            1.0
+            "Id3One"
         ],
         [
             "Id1Two",
             "Id2Two",
-            2.0
+            "Id3Two"
         ]
     ]
 }

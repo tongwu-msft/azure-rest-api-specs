@@ -1,6 +1,6 @@
 ---
 title: "VolumeProperties"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,12 +29,14 @@ translation.priority.mt:
 ---
 # VolumeProperties
 
-This type describes properties of a volume resource.
+Describes properties of a volume resource.
 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
 | [`description`](#description) | string | No |
+| [`status`](#status) | string (enum) | No |
+| [`statusDetails`](#statusdetails) | string | No |
 | [`provider`](#provider) | string | Yes |
 | [`azureFileParameters`](#azurefileparameters) | [VolumeProviderParametersAzureFile](sfclient-model-volumeproviderparametersazurefile.md) | No |
 
@@ -44,6 +46,33 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 User readable description of the volume.
+
+____
+### `status`
+__Type__: string (enum) <br/>
+__Required__: No<br/>
+<br/>
+Status of the volume.
+
+Status of the resource.
+
+Possible values are: 
+
+  - `Unknown` - Indicates the resource status is unknown. The value is zero.
+  - `Ready` - Indicates the resource is ready. The value is 1.
+  - `Upgrading` - Indicates the resource is upgrading. The value is 2.
+  - `Creating` - Indicates the resource is being created. The value is 3.
+  - `Deleting` - Indicates the resource is being deletd. The value is 4.
+  - `Failed` - Indicates the resource is not functional due to persistent failures. See statusDetails property for more details. The value is 5.
+
+
+
+____
+### `statusDetails`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+Gives additional information about the current status of the volume.
 
 ____
 ### `provider`

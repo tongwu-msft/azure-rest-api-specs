@@ -4,22 +4,30 @@ name: Get Traffic Incident Tile
 service: Maps
 groupName: Traffic
 apiVersion: "1.0"
-summary: __Traffic Incident Tile__ <br/><br/>This API provides information on traffic incidents inside a given bounding box, based on the current Traffic Model ID. The Traffic Model ID is available to grant synchronization of data between calls and API's. The Traffic Model ID is a key value for determining the currency of traffic incidents. It is updated every minute, and is valid for two minutes before it times out. It is used in rendering [traffic tiles](../traffic/gettrafficincidenttile). It can be obtained from the [Viewport API](../traffic/gettrafficincidentviewport).
+summary: >-
+  __Traffic Incident Tile__
+
+
+
+  **Applies to**: S0 and S1 pricing tiers.
+
+
+  This API provides information on traffic incidents inside a given bounding box, based on the current Traffic Model ID. The Traffic Model ID is available to grant synchronization of data between calls and API's.  The Traffic Model ID is a key value for determining the currency of traffic incidents. It is updated every  minute, and is valid for two minutes before it times out. It is used in rendering  [traffictiles](https://docs.microsoft.com/en-us/rest/api/maps/traffic/gettrafficincidenttile). It can be  obtained from the [Viewport API](https://docs.microsoft.com/en-us/rest/api/maps/traffic/gettrafficincidentviewport).
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/traffic/incident/tile/png?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}
-- content: GET https://atlas.microsoft.com/traffic/incident/tile/png?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}&t={t}
+- content: GET https://atlas.microsoft.com/traffic/incident/tile/{format}?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}
+- content: GET https://atlas.microsoft.com/traffic/incident/tile/{format}?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}&t={t}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: 'Desired format of the response. Possible value: png.'
+  description: Desired format of the response. Possible values are png & pbf.
   types:
-  - uid: RasterTileFormat
+  - uid: TileFormat
 - name: subscription-key
   in: query
   isRequired: true
@@ -35,14 +43,14 @@ uriParameters:
 - name: style
   in: query
   isRequired: true
-  description: The style to be used to render the tile.
+  description: The style to be used to render the tile. This parameter is not valid when format is pbf.
   types:
   - uid: TrafficIncidentTileStyle
 - name: zoom
   in: query
   isRequired: true
   description: >-
-    Zoom level for the desired tile. Zoom value must be in the range: 0-18 (inclusive).
+    Zoom level for the desired tile. For _raster_ tiles, value must be in the range: 0-18 (inclusive). For _vector_ tiles, value must be in the range: 0-20 (inclusive).
 
 
     Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
@@ -100,16 +108,20 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: RasterTileFormat
-  description: 'Desired format of the response. Possible value: png.'
+- name: TileFormat
+  description: Desired format of the response. Possible values are png & pbf.
   kind: enum
   properties:
   - name: png
     description: An image in the png format. Supports zoom levels 0 through 18.
     types:
     - uid: string
+  - name: pbf
+    description: Vector graphic in the pbf format. Supports zoom levels 0 through 20.
+    types:
+    - uid: string
 - name: TrafficIncidentTileStyle
-  description: The style to be used to render the tile.
+  description: The style to be used to render the tile. This parameter is not valid when format is pbf.
   kind: enum
   properties:
   - name: s1

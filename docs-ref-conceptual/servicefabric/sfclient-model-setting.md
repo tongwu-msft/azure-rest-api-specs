@@ -1,6 +1,6 @@
 ---
 title: "Setting"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # Setting
 
-Describes a setting for the container.
+Describes a setting for the container. The setting file path can be fetched from environment variable "Fabric_SettingPath". The path for Windows container is "C:\\secrets". The path for Linux container is "/var/secrets".
 
 ## Properties
 | Name | Type | Required |

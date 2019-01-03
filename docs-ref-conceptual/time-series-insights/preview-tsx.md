@@ -19,7 +19,7 @@ ms.author:
 ---
 # Time Series Expression (TSX)
 
-Time Series Expression (tsx) is a string based expression language with strong typing. TSX is used to represent the following entities in a [Time Series Query](preview-query.md).
+Time Series Expression (tsx) is a string-based expression language with strong typing. TSX is used to represent the following entities in a [Time Series Query](preview-query.md).
 
 - Filter
 - Value
@@ -50,14 +50,35 @@ For example:
 **Aggregate expressions** are used to depict the aggregation operation to be used on the query. It results in a single value for each interval. Aggregate expression can be applied on Numeric and Aggregate variable kinds.
 
 ### Numeric
-For numeric variables, we have the following aggregate types: `min`, `max`, `avg` and `sum`.
 
-For example: `min($value)`
+Numeric variables should refer to `$value`.
+
+Here are the supported aggregate functions.
+
+| Aggregate Function | Example | Description |
+|--|--|--|
+| `min`  | `min($value)` | Calculates the minimum of the `$value` per interval. Avoids `null` values. |
+| `max`  | `max($value)` | Calculates the maximum of the `$value` per interval. Avoids `null` values. |
+| `sum`  | `sum($value)` | Calculates the sum of `$value` over all the events in the interval. Avoids `null` values. |
+| `avg`  | `avg($value)` | Calculates the average of `$value` over all the events in the interval. Avoids `null` values. |
+| `first`  | `first($value)` | Returns `$value` of the first occurring event in the interval by event timestamp, this function does not avoid null values. |
+| `last`  | `last($value)` | Returns `$value` of the last occurring event in the interval by event timestamp, this function does not avoid null values. |
 
 ### Aggregate
-For aggregate variables, we currently support `count`.
 
-For example: `count()`
+Aggregate variables should only refer to `$event.<PropertyName>.<Type>`.
+
+Here are the supported aggregate functions.
+
+| Aggregate Function | Example | Description |
+|--|--|--|
+| `count`  | `count()` | Returns the number of events per interval. |
+| `min`  | `min($event.Temperature.Double)` | Calculates the minimum of the `double` property `Temperature` per interval. Avoids `null` values. |
+| `max`  | `max($event.Temperature.Double)` | Calculates the maximum of the `double` property `Temperature` per interval. Avoids `null` values.  |
+| `sum`  | `sum($event.Temperature.Double)` | Calculates the sum of the `double` property `Temperature` over all the events in the interval. Avoids `null` values. |
+| `avg`  | `avg($event.Temperature.Double)` | Calculates the average of the `double` property `Temperature` over all the events in the interval. Avoids `null` values. |
+| `first`  | `first($event.Temperature.Double)` | Returns the value of the `double` property `Temperature` from the first occurring event in the interval by event timestamp, this function does not avoid null values. |
+| `last`  | `last($event.Temperature.Double)` | Returns the value of the `double` property `Temperature` from the last occurring event in the interval by event timestamp, this function does not avoid null values. |
 
 ## Syntax
 

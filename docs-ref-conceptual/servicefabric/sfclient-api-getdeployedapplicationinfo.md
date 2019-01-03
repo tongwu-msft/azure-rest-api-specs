@@ -1,6 +1,7 @@
 ---
 title: "Get Deployed Application Info"
-ms.date: "2018-07-20"
+ms.date: "2018-11-26"
+ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -115,7 +116,7 @@ This example shows how to get information about an application deployed on a spe
 
 #### Request
 ```
-GET http://localhost:19080/Nodes/_Node_0/$/GetApplications/samples~CalculatorApp?api-version=6.1&IncludeHealthState=true
+GET http://localhost:19080/Nodes/_Node_0/$/GetApplications/samples~CalculatorApp?api-version=6.1&IncludeHealthState=True
 ```
 
 #### 200 Response
