@@ -4296,7 +4296,6 @@
 ### [List](netapp/Accounts/List.yml)
 ### [Update](netapp/Accounts/Update.yml)
 ## [Mount Targets](netapp/MountTargets.yml)
-### [Get](netapp/MountTargets/Get.yml)
 ### [List](netapp/MountTargets/List.yml)
 ## [Operations](netapp/Operations.yml)
 ### [List](netapp/Operations/List.yml)
