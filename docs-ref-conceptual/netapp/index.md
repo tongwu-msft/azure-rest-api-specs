@@ -1,7 +1,7 @@
 ---
 title: "Azure NetApp Files REST API"
 ms.custom: na
-ms.date: 2018-12-13
+ms.date: 01/03/2019
 ms.prod: azure-netapp-files
 ms.reviewer: na
 ms.service: storage
