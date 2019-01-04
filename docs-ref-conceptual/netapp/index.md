@@ -18,26 +18,25 @@ The REST API for the Azure NetApp Files service defines HTTP operations against 
 
 |Operation|Resource Type|Description|  
 |---------------|-------------------|-----------------|  
-|List Operations |N/A |Lists all of the available Microsoft.NetApp Rest API operations |
-|List NetApp Accounts |NetApp Account |Lists all NetApp accounts in the resource group |
-|Get NetApp Account |NetApp Account |Get the NetApp account |
-|Create or Update NetApp Account |NetApp Account |Create or update a NetApp account |
-|Delete NetApp Account |NetApp Account |Delete a NetApp account |
-|Update NetApp Account |NetApp Account |Update a NetApp account |
-|List Capacity Pools |Capacity Pool |Lists all capacity pools in the NetApp Account |
-|Get Capacity Pool |Capacity Pool |Get a capacity pool |
-|Create or Update Capacity Pool |Capacity Pool |Create or update a capacity pool |
-|Delete Capacity Pool |Capacity Pool |Delete a capacity pool |
-|Update Capacity Pool  |Capacity Pool |Update a capacity pool |
-|List Volumes |Volume |Lists volumes |
-|Get Volume  |Volume |Get a volume |
-|Create or Update Volume  |Volume |Create or update a volume |
-|Delete Volume |Volume |Delete a volume |
-|Update Volume |Volume |Update a volume |
-|List Mount Targets |Mount Target |Lists mount targets |
-|Get Mount Target |Mount Target |Get a mount target |
-|List Snapshots |Snapshot |Lists snapshots |
-|Get Snapshot |Snapshot |Get a snapshot |
-|Create or Update Snapshot |Snapshot |Create or update a snapshot |
-|Delete Snapshot |Snapshot |Delete a snapshot |
-|Create or Update Snapshot |Snapshot |Create or update a snapshot |
+|[List Operations](https://docs.microsoft.com/rest/api/netapp/Operations/List) |N/A |Lists all of the available Microsoft.NetApp Rest API operations |
+|[List NetApp Accounts](https://docs.microsoft.com/rest/api/netapp/Accounts/List) |NetApp Account |Lists all NetApp accounts in the resource group |
+|[Get NetApp Account](https://docs.microsoft.com/rest/api/netapp/Accounts/Get) |NetApp Account |Gets the NetApp account |
+|[Create or Update NetApp Account](https://docs.microsoft.com/rest/api/netapp/Accounts/CreateOrUpdate) |NetApp Account |Creates or updates a NetApp account |
+|[Delete NetApp Account](https://docs.microsoft.com/rest/api/netapp/Accounts/Delete) |NetApp Account |Deletes a NetApp account |
+|[Update NetApp Account](https://docs.microsoft.com/rest/api/netapp/Accounts/Update) |NetApp Account |Updates a NetApp account |
+|[List Capacity Pools](https://docs.microsoft.com/rest/api/netapp/Pools/List) |Capacity Pool |Lists all capacity pools in the NetApp Account |
+|[Get Capacity Pool](https://docs.microsoft.com/rest/api/netapp/Pools/Get) |Capacity Pool |Gets a capacity pool |
+|[Create or Update Capacity Pool](https://docs.microsoft.com/rest/api/netapp/Pools/CreateOrUpdate) |Capacity Pool |Creates or updates a capacity pool |
+|[Delete Capacity Pool](https://docs.microsoft.com/rest/api/netapp/Pools/Delete) |Capacity Pool |Deletes a capacity pool |
+|[Update Capacity Pool](https://docs.microsoft.com/rest/api/netapp/Pools/Update) |Capacity Pool |Updates a capacity pool |
+|[List Volumes](https://docs.microsoft.com/rest/api/netapp/Volumes/List) |Volume |Lists volumes |
+|[Get Volume](https://docs.microsoft.com/rest/api/netapp/Volumes/Get) |Volume |Gets a volume |
+|[Create or Update Volume](https://docs.microsoft.com/rest/api/netapp/Volumes/CreateOrUpdate) |Volume |Creates or updates a volume |
+|[Delete Volume](https://docs.microsoft.com/rest/api/netapp/Volumes/Delete) |Volume |Deletes a volume |
+|[Update Volume](https://docs.microsoft.com/rest/api/netapp/Volumes/Update) |Volume |Updates a volume |
+|[List Mount Targets](https://docs.microsoft.com/rest/api/netapp/MountTargets/List) |Mount Target |Lists mount targets |
+|[List Snapshots](https://docs.microsoft.com/rest/api/netapp/Snapshots/List) |Snapshot |Lists snapshots |
+|[Get Snapshot](https://docs.microsoft.com/rest/api/netapp/Snapshots/Get) |Snapshot |Gets a snapshot |
+|[Create Snapshot](https://docs.microsoft.com/rest/api/netapp/Snapshots/Create) |Snapshot |Creates a snapshot |
+|[Delete Snapshot](https://docs.microsoft.com/rest/api/netapp/Snapshots/Delete) |Snapshot |Deletes a snapshot |
+|[Update Snapshot](https://docs.microsoft.com/rest/api/netapp/Snapshots/Update) |Snapshot |Updates a snapshot |
