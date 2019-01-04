@@ -12,7 +12,7 @@ author: b-juche
 manager: na
 ---
 # Azure NetApp Files REST API
-The Azure NetApp Files service is an enterprise-class, high-performant, metered file storage service. It offers the following resources: the NetApp accounts, capacity pools, volumes, mount targets and snapshots. For more information about these resources, see [Understand the storage hierarchy of Azure NetApp Files](https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-understand-storage-hierarchy).
+The Azure NetApp Files service is an enterprise-class, high-performant, metered file storage service. It offers the following resources: NetApp accounts, capacity pools, volumes, mount targets, and snapshots. For more information about these resources, see [Understand the storage hierarchy of Azure NetApp Files](https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-understand-storage-hierarchy).
 
 The REST API for the Azure NetApp Files service defines HTTP operations against the NetApp account, capacity pool, volume and snapshot resources. The API includes the operations listed in the following table. 
 
