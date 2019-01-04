@@ -32,32 +32,9 @@ ms.author: mamccrea
   
  Common request headers only.  
   
- **Request Body**  
-  
-```  
-{  
-  "bindingType": "Microsoft.MachineLearning/WebService",  
-  "bindingRetrievalProperties": {  
-    "executeEndpoint": "https://ussouthcentral.services.azureml.net/workspaces/f80d5d7a77fa4a46bf2a30c63c078dca/services/b7be5e40fd194258896fb602c1858eaf/execute",  
-    "udfype": "Scalar"  
-  }  
-}  
-```  
-  
-|Property|Description|  
-|--------------|-----------------|  
-|bindingType|Type of the function binding. Microsoft.MachineLearning/WebService is the only binding currently supported.|  
-|bindingRetrievalProperties|Properties that describe how the interface for the binding can be obtained. Properties are dependent on the type of the binding.|  
-  
- Azure Machine Learning RSS binding retrieval properties.  
-  
-|||  
-|-|-|  
-|bindingRetrievalProperties.udfType|Type of the UDF. Scalar is currently the only supported type.|  
-|bindingRetrievalProperties.executeEndpoint|Request-Response execute endpoint of the Azure Machine Learning Webservice. <br />This endpoint is available from the Request-Response endpoint documentation page in the Azure management portal.|  
-  
- **Response**  
-  
+### Response  
+  This asynchronous operation returns a status of 202 until the job has been successfully published. The location response header contains the URI used to get the status of the process. While the process is running, a call to the URI in the location header returns a status of 202. When the process finishes, the URI in the location header returns a status of 200.
+
  **Status Code:**  
   
 -   200 if default udf definition is created successfully.  
