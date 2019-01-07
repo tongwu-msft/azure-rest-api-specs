@@ -35,13 +35,13 @@ ms.author: mamccrea
 ### Response  
   This asynchronous operation returns a status of 202 until the job has been successfully published. The location response header contains the URI used to get the status of the process. While the process is running, a call to the URI in the location header returns a status of 202. When the process finishes, the URI in the location header returns a status of 200.
 
- **Status Code:**  
+**Status Code:**  
   
--   200 if default udf definition is created successfully.  
+   - 200 if default udf definition is created successfully.  
   
--   400 (Bad Reqeust) if binding retrieval properties are invalid or if the endpoint provided did not respond.  
+   - 400 (Bad Reqeust) if binding retrieval properties are invalid or if the endpoint provided did not respond.  
   
- **Response Headers**  
+**Response Headers**  
   
  Common response headers  
   
