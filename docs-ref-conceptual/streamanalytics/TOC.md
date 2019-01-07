@@ -5,3 +5,4 @@
 # [Job](stream-analytics-job.md)
 # [Output](stream-analytics-output.md)
 # [Transformation](stream-analytics-transformation.md)
+# [Publish Edge Package] (stream-analytics-publish-edge-package.md)
