@@ -9,7 +9,7 @@ ms.author: mamccrea
 # PublishEdgePackage
 
 ## Publish Edge Package
-  Azure IoT Edge and Azure Stream Analytics are integrated so that user can deploy an ASA job as an IoT Edge module by calling the publish API. 
+  Azure IoT Edge and Azure Stream Analytics are integrated so that users can deploy an ASA job as an IoT Edge module by calling the publish API. 
   
 ### Request  
  The **Publish Edge Package Function** request is specified as follows.  
