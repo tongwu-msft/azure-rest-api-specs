@@ -56,7 +56,9 @@ The syntax for structuring the request payload is as follows. A sample request i
     "name" : "Required for POST, optional for PUT. Friendly name of the skillset",  
     "description" : "Optional. Anything you want, or null",  
     "Skills" : "Required. An array of skills. Each skill has an odata.type, name, input and output parameters",
-    "cognitiveServices": "A billable Cognitive Services resource provisioned under the same Azure subscription and region as Azure Search. The resource has an odata.type of #Microsoft.Azure.Search.CognitiveServicesByKey (required), an optional description, and a key authorizing access to the specific resource",  
+    "cognitiveServices": "A billable Cognitive Services resource under the same subscription and region as Azure Search. 
+    The resource has an odata.type of #Microsoft.Azure.Search.CognitiveServicesByKey (required), 
+    an optional description, and a key authorizing access to the specific resource",
 }  
 ```
 
