@@ -11,7 +11,7 @@ ms.service: search
 ms.devlang: rest-api
 ms.workload: search
 ms.topic: language-reference
-ms.date: 06/21/2018
+ms.date: 01/08/2019
 ---
 # List Skillset (Azure Search Service REST API - Preview)
 
@@ -26,7 +26,7 @@ ms.date: 06/21/2018
 
  The **api-version** is required. It is case-sensitive. The current preview version for cognitive search is `api-version=2017-11-11-Preview`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
 
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+ Because this request returns schema information, the **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
 
 ## Response  
  For a successful request: 200 OK. 
