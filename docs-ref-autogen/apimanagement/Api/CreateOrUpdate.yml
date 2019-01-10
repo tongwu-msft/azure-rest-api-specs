@@ -10,6 +10,8 @@ consumes:
 - application/vnd.sun.wadl+xml
 - application/vnd.swagger.doc+json
 - application/wsdl+xml
+- application/vnd.oai.openapi
+- application/vnd.oai.openapi+json
 produces:
 - application/json
 paths:
@@ -517,6 +519,18 @@ definitions:
     description: The WSDL document is hosted on a publicly accessible internet address.
     types:
     - uid: string
+  - name: openapi
+    description: The contents are inline and Content Type is a OpenApi 3.0 Document in YAML format.
+    types:
+    - uid: string
+  - name: openapi+json
+    description: The contents are inline and Content Type is a OpenApi 3.0 Document in JSON format.
+    types:
+    - uid: string
+  - name: openapi-link
+    description: The Open Api 3.0 document is hosted on a publicly accessible internet address.
+    types:
+    - uid: string
 - name: SoapApiType
   description: "Type of Api to create. \n * `http` creates a SOAP to REST API \n * `soap` creates a SOAP pass-through API ."
   kind: enum
@@ -530,6 +544,60 @@ definitions:
     types:
     - uid: string
 examples:
+- name: ApiManagementCreateApiUsingOai3Import
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/petstore?api-version=2018-06-01-preview
+    body: >-
+      {
+        "properties": {
+          "contentFormat": "openapi-link",
+          "contentValue": "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml",
+          "path": "petstore"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/petstoreapi",
+        "type": "Microsoft.ApiManagement/service/apis",
+        "name": "petstoreapi",
+        "properties": {
+          "displayName": "Swagger Petstore",
+          "apiRevision": "1",
+          "serviceUrl": "http://petstore.swagger.io/v1",
+          "path": "petstore",
+          "protocols": [
+            "https"
+          ],
+          "subscriptionKeyParameterNames": {
+            "header": "Ocp-Apim-Subscription-Key",
+            "query": "subscription-key"
+          },
+          "isCurrent": true
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/petstoreapi",
+        "type": "Microsoft.ApiManagement/service/apis",
+        "name": "petstoreapi",
+        "properties": {
+          "displayName": "Swagger Petstore",
+          "apiRevision": "1",
+          "serviceUrl": "http://petstore.swagger.io/v1",
+          "path": "petstore",
+          "protocols": [
+            "https"
+          ],
+          "subscriptionKeyParameterNames": {
+            "header": "Ocp-Apim-Subscription-Key",
+            "query": "subscription-key"
+          },
+          "isCurrent": true
+        }
+      }
 - name: ApiManagementCreateApiUsingSwaggerImport
   request:
     uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/petstore?api-version=2018-06-01-preview
