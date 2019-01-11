@@ -10,6 +10,9 @@ ms.author: mamccrea
 
 ## Publish Edge Package
   Azure IoT Edge and Azure Stream Analytics are integrated so that users can deploy an ASA job as an IoT Edge module by calling the publish API. 
+
+> [!NOTE]
+> Set the `JobStorageAccount` property on the job level before using this API. For more information on setting and updating the Job property, see the [Job API reference](stream-analytics-job.md).
   
 ### Request  
  The **Publish Edge Package Function** request is specified as follows.  
