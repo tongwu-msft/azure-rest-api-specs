@@ -8663,7 +8663,7 @@
 ## [Job](../docs-ref-conceptual/streamanalytics/stream-analytics-job.md)
 ## [Output](../docs-ref-conceptual/streamanalytics/stream-analytics-output.md)
 ## [Transformation](../docs-ref-conceptual/streamanalytics/stream-analytics-transformation.md)
-## [Publish Edge Package] (stream-analytics-publish-edge-package.md)
+## [Publish Edge Package](../docs-ref-conceptual/streamanalytics/stream-analytics-publish-edge-package.md)
 # [Time Series Insights](../docs-ref-conceptual/time-series-insights/index.md)
 ## [Azure Time Series Insights (GA)](../docs-ref-conceptual/time-series-insights/ga.md)
 ### [Query](../docs-ref-conceptual/time-series-insights/ga-query.md)
