@@ -77,7 +77,7 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
 |`x-ms-blob-content-language`|Optional. Set the blob's content language.|  
 |`x-ms-blob-content-md5`|Optional. Set the blob’s MD5 hash.|  
 |`x-ms-blob-cache-control`|Optional. Sets the blob's cache control.|  
-|`x-ms-blob-type:<BlockBlob &#124; PageBlob &#124; AppendBlob>`|Required. Specifies the type of blob to create: block blob, page blob, or append blob.  Support for creating an append blob is available only in version 2015-02-21 and later.|  
+|<code>x-ms-blob-type: <BlockBlob &#124; PageBlob &#124; AppendBlob></code>|Required. Specifies the type of blob to create: block blob, page blob, or append blob.  Support for creating an append blob is available only in version 2015-02-21 and later.|  
 |`x-ms-meta-name:value`|Optional. Name-value pairs associated with the blob as metadata.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-blob-content-disposition`|Optional. Sets the blob’s `Content-Disposition` header. Available for versions 2013-08-15 and later.<br /><br /> The `Content-Disposition` response header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to `attachment`, it indicates that the user-agent should not display the response, but instead show a **Save As** dialog with a filename other than the blob name specified.<br /><br /> The response from the [Get Blob](Get-Blob.md) and [Get Blob Properties](Get-Blob-Properties.md) operations includes the `content-disposition` header.|  
@@ -183,7 +183,7 @@ Content-Length: 0
 |`Access-Control-Allow-Origin`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule. This header returns the value of the origin request header in case of a match.|  
 |`Access-Control-Expose-Headers`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule. Returns the list of response headers that are to be exposed to the client or issuer of the request.|  
 |`Access-Control-Allow-Credentials`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule that does not allow all origins. This header will be set to true.|  
-|`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
+|<code>x-ms-request-server-encrypted: <true &#124; false></code>|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
   
 ### Response Body  
  None.  
