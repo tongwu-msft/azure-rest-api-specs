@@ -3476,6 +3476,8 @@
 ### [Query Enrollment Groups](iot-dps/QueryEnrollmentGroups/QueryEnrollmentGroups.yml)
 ## [Query Individual Enrollments](iot-dps/QueryIndividualEnrollments.yml)
 ### [Query Individual Enrollments](iot-dps/QueryIndividualEnrollments/QueryIndividualEnrollments.yml)
+## [Run Bulk Enrollment Group Operation](iot-dps/RunBulkEnrollmentGroupOperation.yml)
+### [Run Bulk Enrollment Group Operation](iot-dps/RunBulkEnrollmentGroupOperation/RunBulkEnrollmentGroupOperation.yml)
 ## [Run Bulk Enrollment Operation](iot-dps/RunBulkEnrollmentOperation.yml)
 ### [Run Bulk Enrollment Operation](iot-dps/RunBulkEnrollmentOperation/RunBulkEnrollmentOperation.yml)
 ## [Runtime Registration](iot-dps/RuntimeRegistration.yml)

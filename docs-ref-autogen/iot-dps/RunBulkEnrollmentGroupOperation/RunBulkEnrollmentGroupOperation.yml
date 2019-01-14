@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: your-dps.azure-devices-provisioning.net.iot-dps.queryenrollmentgroups.queryenrollmentgroups
-name: Query Enrollment Groups
+uid: your-dps.azure-devices-provisioning.net.iot-dps.runbulkenrollmentgroupoperation.runbulkenrollmentgroupoperation
+name: Run Bulk Enrollment Group Operation
 service: IoT Hub Device Provisioning Service
-groupName: Query Enrollment Groups
+groupName: Run Bulk Enrollment Group Operation
 apiVersion: 2018-11-01
-summary: Query the device enrollment groups.
+summary: Bulk device enrollment group operation with maximum of 10 groups.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://your-dps.azure-devices-provisioning.net/enrollmentGroups/query?api-version=2018-11-01
+- content: POST https://your-dps.azure-devices-provisioning.net/enrollmentGroups?api-version=2018-11-01
 uriParameters:
 - name: api-version
   in: query
@@ -20,17 +20,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  headers:
-  - name: x-ms-continuation
-    value: string
-  - name: x-ms-max-item-count
-    value: integer
-  - name: x-ms-item-type
-    value: string
   description: Success
   types:
-  - uid: EnrollmentGroup
-    isArray: true
+  - uid: BulkEnrollmentGroupOperationResult
 - name: Other Status Codes
   description: Error response
   types:
@@ -38,24 +30,24 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: query
+  - name: enrollmentGroups
     in: body
     isRequired: true
-    description: The query.
+    description: Enrollment items
     types:
-    - uid: string
-requestHeader:
-- name: x-ms-max-item-count
-  in: header
-  description: pageSize
-  types:
-  - uid: integer
-  format: int32
-- name: x-ms-continuation
-  in: header
-  description: continuation token
-  types:
-  - uid: string
+    - uid: EnrollmentGroup
+      isArray: true
+  - name: mode
+    in: body
+    isRequired: true
+    description: Operation mode
+    types:
+    - uid: create
+    - uid: update
+    - uid: updateIfMatchETag
+    - uid: delete
+    typesTitle: enum
+requestHeader: []
 definitions:
 - name: EnrollmentGroup
   description: Enrollment group record.
@@ -118,6 +110,19 @@ definitions:
     description: Custom allocation definition.
     types:
     - uid: CustomAllocationDefinition
+- name: BulkEnrollmentGroupOperationResult
+  description: Results of a bulk enrollment group operation
+  kind: object
+  properties:
+  - name: errors
+    description: Registration errors
+    types:
+    - uid: BulkEnrollmentGroupOperationError
+      isArray: true
+  - name: isSuccessful
+    description: Indicates if the operation was successful in its entirety
+    types:
+    - uid: boolean
 - name: ProvisioningServiceErrorDetails
   description: Contains the properties of an error returned by the Azure IoT Hub Provisioning Service
   kind: object
@@ -146,14 +151,23 @@ definitions:
     description: ''
     types:
     - uid: string
-- name: QuerySpecification
-  description: A Json query request
+- name: BulkEnrollmentGroupOperation
+  description: Bulk enrollment operation.
   kind: object
   properties:
-  - name: query
-    description: The query.
+  - name: enrollmentGroups
+    description: Enrollment items
     types:
-    - uid: string
+    - uid: EnrollmentGroup
+      isArray: true
+  - name: mode
+    description: Operation mode
+    types:
+    - uid: create
+    - uid: update
+    - uid: updateIfMatchETag
+    - uid: delete
+    typesTitle: enum
 - name: AttestationMechanism
   description: Attestation mechanism for individualEnrollment as well as enrollmentGroup
   kind: object
@@ -212,6 +226,22 @@ definitions:
     - uid: string
   - name: apiVersion
     description: 'The API version of the provisioning service types (such as IndividualEnrollment) sent in the custom allocation request. Supported versions include: "2018-09-01-preview"'
+    types:
+    - uid: string
+- name: BulkEnrollmentGroupOperationError
+  description: Bulk enrollment operation error
+  kind: object
+  properties:
+  - name: enrollmentGroupId
+    description: Enrollment group id.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code
+    types:
+    - uid: integer
+  - name: errorStatus
+    description: Error status
     types:
     - uid: string
 - name: TpmAttestation
