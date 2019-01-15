@@ -3971,7 +3971,7 @@
 ### [Get](MariaDB/VirtualNetworkRules/Get.yml)
 ### [List By Server](MariaDB/VirtualNetworkRules/ListByServer.yml)
 # [Media Services](../docs-ref-conceptual/media/index.md)
-## [Media Services REST API v2](../docs-ref-conceptual/media/operations/azure-media-services-rest-api-reference.md)
+## [REST API v2 (legacy)](../docs-ref-conceptual/media/operations/azure-media-services-rest-api-reference.md)
 ### [Identify Azure Media Services Entities](../docs-ref-conceptual/media/operations/identify-azure-media-services-entities.md)
 ### [AccessPolicy](../docs-ref-conceptual/media/operations/accesspolicy.md)
 ### [Asset](../docs-ref-conceptual/media/operations/asset.md)

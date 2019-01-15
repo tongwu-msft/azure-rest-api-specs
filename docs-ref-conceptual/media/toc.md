@@ -1,4 +1,4 @@
-# [Media Services REST API v2](operations/azure-media-services-rest-api-reference.md)
+# [REST API v2 (legacy)](operations/azure-media-services-rest-api-reference.md)
 ## [Identify Azure Media Services Entities](operations/identify-azure-media-services-entities.md)
 ## [AccessPolicy](operations/accesspolicy.md)
 ## [Asset](operations/asset.md)
