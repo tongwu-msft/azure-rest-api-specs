@@ -4624,6 +4624,7 @@
 ### [List](backup/BackupProtectionIntent/List.yml)
 ## [Backup Resource Storage Configs](backup/BackupResourceStorageConfigs.yml)
 ### [Get](backup/BackupResourceStorageConfigs/Get.yml)
+### [Patch](backup/BackupResourceStorageConfigs/Patch.yml)
 ### [Update](backup/BackupResourceStorageConfigs/Update.yml)
 ## [Backup Resource Vault Configs](backup/BackupResourceVaultConfigs.yml)
 ### [Get](backup/BackupResourceVaultConfigs/Get.yml)
