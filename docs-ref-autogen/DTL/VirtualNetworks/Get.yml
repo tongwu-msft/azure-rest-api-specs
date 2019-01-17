@@ -3,15 +3,15 @@ uid: management.azure.com.dtl.virtualnetworks.get
 name: Get
 service: Dev Test Labs
 groupName: Virtual Networks
-apiVersion: 2016-05-15
+apiVersion: 2018-09-15
 summary: Get virtual network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{name}?api-version=2016-05-15
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{name}?$expand={$expand}&api-version=2016-05-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{name}?api-version=2018-09-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{name}?$expand={$expand}&api-version=2018-09-15
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -78,6 +78,7 @@ definitions:
     types:
     - uid: string
   - name: properties.externalSubnets
+    isReadyOnly: true
     description: The external subnet properties.
     types:
     - uid: ExternalSubnet
@@ -93,10 +94,12 @@ definitions:
     types:
     - uid: string
   - name: properties.provisioningState
+    isReadyOnly: true
     description: The provisioning status of the resource.
     types:
     - uid: string
   - name: properties.uniqueIdentifier
+    isReadyOnly: true
     description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
@@ -132,7 +135,7 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: Body of an error from a REST request.
+    description: The cloud error that occurred
     types:
     - uid: CloudErrorBody
 - name: Subnet
@@ -196,15 +199,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: ''
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: The error target.
     types:
     - uid: string
   - name: details
@@ -256,7 +259,54 @@ definitions:
   - name: Udp
     types:
     - uid: string
-examples: []
+examples:
+- name: VirtualNetworks_Get
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.DevTestLab/labs/{devtestlab-name}/virtualnetworks/{virtualnetwork-name}?api-version=2018-09-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "allowedSubnets": [
+            {
+              "resourceId": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{virtualnetwork-name}/subnets/{virtualnetwork-name}Subnet",
+              "labSubnetName": "{virtualnetwork-name}Subnet",
+              "allowPublicIp": "Allow"
+            }
+          ],
+          "externalProviderResourceId": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{virtualnetwork-name}",
+          "subnetOverrides": [
+            {
+              "resourceId": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{virtualnetwork-name}/subnets/{virtualnetwork-name}Subnet",
+              "labSubnetName": "{virtualnetwork-name}Subnet",
+              "useInVmCreationPermission": "Allow",
+              "usePublicIpAddressPermission": "Allow",
+              "sharedPublicIpAddressConfiguration": {
+                "allowedPorts": [
+                  {
+                    "transportProtocol": "Tcp",
+                    "backendPort": 3389
+                  },
+                  {
+                    "transportProtocol": "Tcp",
+                    "backendPort": 22
+                  }
+                ]
+              }
+            }
+          ],
+          "createdDate": "2018-10-01T20:01:44.6005134+00:00",
+          "provisioningState": "Succeeded",
+          "uniqueIdentifier": "{unique-identifier}"
+        },
+        "id": "/subscriptions/{subscription-id}/resourcegroups/myResourceGroup/providers/microsoft.devtestlab/labs/{devtestlab-name}/virtualnetworks/{virtualnetwork-name}",
+        "name": "{virtualnetwork-name}",
+        "type": "Microsoft.DevTestLab/labs/virtualNetworks",
+        "tags": {
+          "MyTag": "MyValue"
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
