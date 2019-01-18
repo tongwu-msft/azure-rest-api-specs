@@ -111,14 +111,14 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
-|`IP`|[IPAccessControl](#IPAccessControl)|IP addresses that are allowed to connect to channel input endpoints.|  
+|`IP`|[IPAccessControl](#IPAccessControl)|IP addresses that are allowed to connect to channel input endpoints.<br/>IP addresses have to be in one of the following formats: IpV4 address with 4 numbers, CIDR address range.|  
   
 ###  <a name="ChannelPreviewAccessControl"></a> ChannelPreviewAccessControl ComplexType  
  For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
-|`IP`|[IPAccessControl](#IPAccessControl)|IP addresses that are allowed to connect to channel input endpoints.|  
+|`IP`|[IPAccessControl](#IPAccessControl)|IP addresses that are allowed to connect to channel input endpoints.<br/>IP addresses have to be in one of the following formats: IpV4 address with 4 numbers, CIDR address range|  
   
 ###  <a name="IPAccessControl"></a> IPAccessControl  
  For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  

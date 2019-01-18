@@ -3,15 +3,15 @@ uid: management.azure.com.dtl.globalschedules.listbyresourcegroup
 name: List By Resource Group
 service: Dev Test Labs
 groupName: Global Schedules
-apiVersion: 2016-05-15
+apiVersion: 2018-09-15
 summary: List schedules in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules?api-version=2016-05-15
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules?$expand={$expand}&$filter={$filter}&$top={$top}&$orderby={$orderby}&api-version=2016-05-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules?api-version=2018-09-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules?$expand={$expand}&$filter={$filter}&$top={$top}&$orderby={$orderby}&api-version=2018-09-15
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -33,18 +33,18 @@ uriParameters:
   - uid: string
 - name: $filter
   in: query
-  description: The filter to apply to the operation.
+  description: "The filter to apply to the operation. Example: '$filter=contains(name,'myName')"
   types:
   - uid: string
 - name: $top
   in: query
-  description: The maximum number of resources to return from the operation.
+  description: "The maximum number of resources to return from the operation. Example: '$top=10'"
   types:
   - uid: integer
   format: int32
 - name: $orderby
   in: query
-  description: The ordering expression for the results, using OData notation.
+  description: "The ordering expression for the results, using OData notation. Example: '$orderby=name desc'"
   types:
   - uid: string
 - name: api-version
@@ -57,14 +57,14 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: ResponseWithContinuation[Schedule]
+  - uid: ScheduleList
 - name: Other Status Codes
   description: BadRequest
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: ResponseWithContinuation[Schedule]
+- name: ScheduleList
   description: The response of a list operation.
   kind: object
   properties:
@@ -82,7 +82,7 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: Body of an error from a REST request.
+    description: The cloud error that occurred
     types:
     - uid: CloudErrorBody
 - name: Schedule
@@ -127,10 +127,12 @@ definitions:
     types:
     - uid: string
   - name: properties.provisioningState
+    isReadyOnly: true
     description: The provisioning status of the resource.
     types:
     - uid: string
   - name: properties.uniqueIdentifier
+    isReadyOnly: true
     description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
@@ -166,15 +168,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: ''
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: The error target.
     types:
     - uid: string
   - name: details
@@ -228,7 +230,7 @@ definitions:
   - name: status
     description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
     types:
-    - uid: NotificationStatus
+    - uid: EnableStatus
   - name: timeInMinutes
     description: Time in minutes before event at which notification will be sent.
     types:
@@ -237,14 +239,12 @@ definitions:
     description: The webhook URL to which the notification will be sent.
     types:
     - uid: string
-- name: NotificationStatus
-  description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
-  kind: enum
-  properties:
-  - name: Disabled
+  - name: emailRecipient
+    description: The email recipient to send notifications to (can be a list of semi-colon separated email addresses).
     types:
     - uid: string
-  - name: Enabled
+  - name: notificationLocale
+    description: The locale to use when sending a notification (fallback for unsupported languages is EN).
     types:
     - uid: string
 examples: []
