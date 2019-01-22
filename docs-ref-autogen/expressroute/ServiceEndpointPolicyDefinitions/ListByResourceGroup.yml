@@ -1,0 +1,126 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.expressroute.serviceendpointpolicydefinitions.listbyresourcegroup
+name: List By Resource Group
+service: ExpressRoute
+groupName: Service Endpoint Policy Definitions
+apiVersion: 2018-11-01
+summary: Gets all service endpoint policy definitions in a service end point policy.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions?api-version=2018-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceEndpointPolicyName
+  in: path
+  isRequired: true
+  description: The name of the service endpoint policy name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns a list of ServiceEndpointPolicyDefinition resources.
+  types:
+  - uid: ServiceEndpointPolicyDefinitionListResult
+requestHeader: []
+definitions:
+- name: ServiceEndpointPolicyDefinitionListResult
+  description: Response for ListServiceEndpointPolicyDefinition API service call. Retrieves all service endpoint policy definition that belongs to a service endpoint policy.
+  kind: object
+  properties:
+  - name: value
+    description: The service endpoint policy definition in a service endpoint policy.
+    types:
+    - uid: ServiceEndpointPolicyDefinition
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: ServiceEndpointPolicyDefinition
+  description: Service Endpoint policy definitions.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.description
+    description: A description for this rule. Restricted to 140 chars.
+    types:
+    - uid: string
+  - name: properties.service
+    description: service endpoint name.
+    types:
+    - uid: string
+  - name: properties.serviceResources
+    description: A list of service resources.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "The provisioning state of the service end point policy definition. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+examples:
+- name: List service endpoint definitions in service end point policy
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/serviceEndpointPolicies/testPolicy/serviceEndpointPolicyDefinitions?api-version=2018-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "testDef",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/serviceEndpointPolicies/testPolicy/serviceEndpointPolicyDefinitions/testDef",
+            "properties": {
+              "description": "Storage Service EndpointPolicy Definition",
+              "service": "Microsoft.Storage",
+              "serviceResources": [
+                "/subscriptions/subid1",
+                "/subscriptions/subid1/resourceGroups/storageRg",
+                "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount"
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

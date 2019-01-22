@@ -3,14 +3,14 @@ uid: management.azure.com.load-balancer.loadbalancerfrontendipconfigurations.lis
 name: List
 service: Load balancer
 groupName: Load Balancer Frontend IP Configurations
-apiVersion: 2018-08-01
+apiVersion: 2018-11-01
 summary: Gets all the load balancer frontend IP configurations.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/frontendIPConfigurations?api-version=2018-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/frontendIPConfigurations?api-version=2018-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -263,6 +263,10 @@ definitions:
     description: The FQDN of the DNS record associated with the public IP address.
     types:
     - uid: PublicIPAddressDnsSettings
+  - name: properties.ddosSettings
+    description: The DDoS protection custom policy associated with the public IP address.
+    types:
+    - uid: DdosSettings
   - name: properties.ipTags
     description: The list of tags associated with the public IP address.
     types:
@@ -755,6 +759,20 @@ definitions:
     description: 'Gets or Sets the Reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN. '
     types:
     - uid: string
+- name: DdosSettings
+  description: Contains the DDoS protection settings of the public IP.
+  kind: object
+  properties:
+  - name: ddosCustomPolicy
+    description: The DDoS custom policy associated with the public IP.
+    types:
+    - uid: SubResource
+  - name: protectionCoverage
+    description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
+    types:
+    - uid: Basic
+    - uid: Standard
+    typesTitle: enum
 - name: IpTag
   description: Contains the IpTag associated with the object
   kind: object
@@ -788,15 +806,15 @@ definitions:
     types:
     - uid: SecurityRuleProtocol
   - name: properties.sourcePortRange
-    description: The source port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match all ports.
+    description: The source port or range. Integer or range between 0 and 65535. Asterisks '*' can also be used to match all ports.
     types:
     - uid: string
   - name: properties.destinationPortRange
-    description: The destination port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match all ports.
+    description: The destination port or range. Integer or range between 0 and 65535. Asterisks '*' can also be used to match all ports.
     types:
     - uid: string
   - name: properties.sourceAddressPrefix
-    description: "The CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. "
+    description: "The CIDR or source IP range. Asterisks '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. "
     types:
     - uid: string
   - name: properties.sourceAddressPrefixes
@@ -810,7 +828,7 @@ definitions:
     - uid: ApplicationSecurityGroup
       isArray: true
   - name: properties.destinationAddressPrefix
-    description: The destination address prefix. CIDR or destination IP range. Asterisk '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
+    description: The destination address prefix. CIDR or destination IP range. Asterisks '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
     types:
     - uid: string
   - name: properties.destinationAddressPrefixes
@@ -1465,7 +1483,7 @@ definitions:
 examples:
 - name: LoadBalancerFrontendIPConfigurationList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations?api-version=2018-08-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations?api-version=2018-11-01
   responses:
   - statusCode: "200"
     body: >-
