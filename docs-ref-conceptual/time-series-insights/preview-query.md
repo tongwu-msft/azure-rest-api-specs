@@ -96,8 +96,8 @@ Request Body:
   "getEvents": {
     "timeSeriesId": ["PU.123","W00158","ABN.9890"],
     "searchSpan": {
-        "from": {"dateTime": "2016-08-01T00:00:00Z"},
-        "to": {"dateTime": "2016-08-01T00:16:50Z"}
+        "from": "2016-08-01T00:00:00Z",
+        "to": "2016-08-01T00:16:50Z"
     },
     "filter": { "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
     },
@@ -181,8 +181,8 @@ Request Body:
   "getSeries": {
     "timeSeriesId": ["Millenium","Kitchen","Cooker"],
     "searchSpan": {
-        "from": { "dateTime": "2016-08-01T00:00:00Z" },
-        "to": { "dateTime": "2016-08-01T00:16:50Z" }
+        "from": "2016-08-01T00:00:00Z",
+        "to": "2016-08-01T00:16:50Z"
     },
     "filter": null,
     "inlineVariables": {
@@ -260,8 +260,8 @@ Request Body:
   "aggregateSeries": {
     "timeSeriesId": ["Millenium","Kitchen","Cooker"],
     "searchSpan": {
-        "from": { "dateTime": "2016-08-01T00:00:00Z" },
-        "to": { "dateTime": "2016-08-01T00:16:50Z" }
+        "from": "2016-08-01T00:00:00Z",
+        "to": "2016-08-01T00:16:50Z"
     },
     "filter": null,
     "interval": "PT1M",
