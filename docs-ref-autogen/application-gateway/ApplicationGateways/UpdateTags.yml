@@ -3,14 +3,14 @@ uid: management.azure.com.application-gateway.applicationgateways.updatetags
 name: Update Tags
 service: Application Gateway
 groupName: Application Gateways
-apiVersion: 2018-08-01
+apiVersion: 2018-11-01
 summary: Updates the specified application gateway tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}?api-version=2018-08-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}?api-version=2018-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -68,6 +68,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: identity
+    description: The identity of the application gateway, if configured.
+    types:
+    - uid: ManagedServiceIdentity
   - name: properties.sku
     description: SKU of the application gateway resource.
     types:
@@ -141,6 +145,11 @@ definitions:
     types:
     - uid: ApplicationGatewayRequestRoutingRule
       isArray: true
+  - name: properties.rewriteRuleSets
+    description: Rewrite rules for the application gateway resource.
+    types:
+    - uid: ApplicationGatewayRewriteRuleSet
+      isArray: true
   - name: properties.redirectConfigurations
     description: Redirect configurations of the application gateway resource.
     types:
@@ -213,6 +222,28 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ManagedServiceIdentity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+    types:
+    - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
 - name: ApplicationGatewaySku
   description: SKU of an application gateway
   kind: object
@@ -347,8 +378,8 @@ definitions:
     description: Certificate public data.
     types:
     - uid: string
-  - name: properties.keyvaultSecretId
-    description: KeyVault Secret Id for certificate.
+  - name: properties.keyVaultSecretId
+    description: Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
     types:
     - uid: string
   - name: properties.provisioningState
@@ -385,6 +416,10 @@ definitions:
     - uid: string
   - name: properties.publicCertData
     description: Base-64 encoded Public cert data corresponding to pfx specified in data. Only applicable in GET request.
+    types:
+    - uid: string
+  - name: properties.keyVaultSecretId
+    description: Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
     types:
     - uid: string
   - name: properties.provisioningState
@@ -712,6 +747,10 @@ definitions:
     description: Default backend http settings resource of URL path map.
     types:
     - uid: SubResource
+  - name: properties.defaultRewriteRuleSet
+    description: Default Rewrite rule set resource of URL path map.
+    types:
+    - uid: SubResource
   - name: properties.defaultRedirectConfiguration
     description: Default redirect configuration resource of URL path map.
     types:
@@ -765,12 +804,43 @@ definitions:
     description: URL path map resource of the application gateway.
     types:
     - uid: SubResource
+  - name: properties.rewriteRuleSet
+    description: Rewrite Rule Set resource in Basic rule of the application gateway.
+    types:
+    - uid: SubResource
   - name: properties.redirectConfiguration
     description: Redirect configuration resource of the application gateway.
     types:
     - uid: SubResource
   - name: properties.provisioningState
     description: "Provisioning state of the request routing rule resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ApplicationGatewayRewriteRuleSet
+  description: Rewrite rule set of an application gateway.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the rewrite rule set that is unique within an Application Gateway.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.rewriteRules
+    description: Rewrite rules in the rewrite rule set.
+    types:
+    - uid: ApplicationGatewayRewriteRule
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "Provisioning state of the rewrite rule set resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
   - name: id
@@ -898,6 +968,30 @@ definitions:
     description: Error page URL of the application gateway customer error.
     types:
     - uid: string
+- name: ResourceIdentityType
+  description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: ApplicationGatewaySkuName
   description: Name of an application gateway SKU.
   kind: enum
@@ -1152,6 +1246,10 @@ definitions:
     description: Redirect configuration resource of URL path map path rule.
     types:
     - uid: SubResource
+  - name: properties.rewriteRuleSet
+    description: Rewrite rule set resource of URL path map path rule.
+    types:
+    - uid: SubResource
   - name: properties.provisioningState
     description: "Path rule of URL path map resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
@@ -1170,6 +1268,18 @@ definitions:
   - name: PathBasedRouting
     types:
     - uid: string
+- name: ApplicationGatewayRewriteRule
+  description: Rewrite rule of an application gateway.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the rewrite rule that is unique within an Application Gateway.
+    types:
+    - uid: string
+  - name: actionSet
+    description: Set of actions to be done as part of the rewrite Rule.
+    types:
+    - uid: ApplicationGatewayRewriteRuleActionSet
 - name: ApplicationGatewayRedirectType
   description: Supported http redirection types - Permanent, Temporary, Found, SeeOther.
   kind: enum
@@ -1516,6 +1626,10 @@ definitions:
     description: The FQDN of the DNS record associated with the public IP address.
     types:
     - uid: PublicIPAddressDnsSettings
+  - name: properties.ddosSettings
+    description: The DDoS protection custom policy associated with the public IP address.
+    types:
+    - uid: DdosSettings
   - name: properties.ipTags
     description: The list of tags associated with the public IP address.
     types:
@@ -1612,6 +1726,20 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ApplicationGatewayRewriteRuleActionSet
+  description: Set of actions in the Rewrite Rule in Application Gateway.
+  kind: object
+  properties:
+  - name: requestHeaderConfigurations
+    description: Request Header Actions in the Action Set
+    types:
+    - uid: ApplicationGatewayHeaderConfiguration
+      isArray: true
+  - name: responseHeaderConfigurations
+    description: Response Header Actions in the Action Set
+    types:
+    - uid: ApplicationGatewayHeaderConfiguration
+      isArray: true
 - name: NetworkInterfaceTapConfiguration
   description: Tap configuration in a Network Interface
   kind: object
@@ -2155,6 +2283,20 @@ definitions:
     description: 'Gets or Sets the Reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN. '
     types:
     - uid: string
+- name: DdosSettings
+  description: Contains the DDoS protection settings of the public IP.
+  kind: object
+  properties:
+  - name: ddosCustomPolicy
+    description: The DDoS custom policy associated with the public IP.
+    types:
+    - uid: SubResource
+  - name: protectionCoverage
+    description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
+    types:
+    - uid: Basic
+    - uid: Standard
+    typesTitle: enum
 - name: IpTag
   description: Contains the IpTag associated with the object
   kind: object
@@ -2165,6 +2307,18 @@ definitions:
     - uid: string
   - name: tag
     description: Gets or sets value of the IpTag associated with the public IP. Example SQL, Storage etc
+    types:
+    - uid: string
+- name: ApplicationGatewayHeaderConfiguration
+  description: Header configuration of the Actions set in Application Gateway.
+  kind: object
+  properties:
+  - name: headerName
+    description: Header name of the header configuration
+    types:
+    - uid: string
+  - name: headerValue
+    description: Header value of the header configuration
     types:
     - uid: string
 - name: SecurityRule
@@ -2188,15 +2342,15 @@ definitions:
     types:
     - uid: SecurityRuleProtocol
   - name: properties.sourcePortRange
-    description: The source port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match all ports.
+    description: The source port or range. Integer or range between 0 and 65535. Asterisks '*' can also be used to match all ports.
     types:
     - uid: string
   - name: properties.destinationPortRange
-    description: The destination port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match all ports.
+    description: The destination port or range. Integer or range between 0 and 65535. Asterisks '*' can also be used to match all ports.
     types:
     - uid: string
   - name: properties.sourceAddressPrefix
-    description: "The CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. "
+    description: "The CIDR or source IP range. Asterisks '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. "
     types:
     - uid: string
   - name: properties.sourceAddressPrefixes
@@ -2210,7 +2364,7 @@ definitions:
     - uid: ApplicationSecurityGroup
       isArray: true
   - name: properties.destinationAddressPrefix
-    description: The destination address prefix. CIDR or destination IP range. Asterisk '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
+    description: The destination address prefix. CIDR or destination IP range. Asterisks '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
     types:
     - uid: string
   - name: properties.destinationAddressPrefixes
@@ -2510,7 +2664,7 @@ definitions:
 examples:
 - name: Update Application Gateway tags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/AppGw?api-version=2018-08-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/AppGw?api-version=2018-11-01
     body: >-
       {
         "tags": {
