@@ -84,7 +84,7 @@ The `Create Database` operation creates a new database in the database account.
   
 ```  
   
-## Example  
+## Example1
   
 ```  
 POST https://contosomarketing.documents.azure.com/dbs HTTP/1.1  
@@ -136,6 +136,28 @@ Content-Length: 169
 }  
   
 ```  
+
+## Example2
+
+The following example creates a database with a throughput of 400. x-ms-offer-throughput header is used to set the throughput value and it accepts a number that increments by units of 100.
+
+```  
+POST https://contosomarketing.documents.azure.com/dbs HTTP/1.1  
+x-ms-date: Tue, 08 Dec 2015 19:29:22 GMT  
+authorization: type%3dmaster%26ver%3d1.0%26sig%3dsc0%2fu25RB8wSqbY1%2bUZqTGD0yCQC5KkGOAP%2bgnHFceQ%3d  
+Cache-Control: no-cache  
+User-Agent: contoso/1.0  
+x-ms-version: 2015-08-06  
+Accept: application/json  
+Host: contosomarketing.documents.azure.com  
+Content-Length: 19  
+Expect: 100-continue  
+  
+{"id":"volcanodb2",
+x-ms-offer-throughput = 400}  
+  
+```  
+
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
