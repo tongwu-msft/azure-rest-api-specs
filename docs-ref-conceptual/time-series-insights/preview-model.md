@@ -680,7 +680,7 @@ Response Body:
   "instances": [
         {
             "timeSeriesId": ["Id1One", "Id2One", "Id3One"],
-            "name" : "timeSeries1"
+            "name" : "timeSeries1",
             "highlights": {
                 "timeSeriesIds": ["Id1One", "Id2One", "Id3One"],
                 "type": "DefaultType",
