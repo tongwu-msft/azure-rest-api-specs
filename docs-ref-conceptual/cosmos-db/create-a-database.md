@@ -139,7 +139,7 @@ Content-Length: 169
 
 ## Example2
 
-The following example creates a database with a throughput of 400. x-ms-offer-throughput header is used to set the throughput value and it accepts a number that increments by units of 100.
+The following example creates a database with a throughput of 400. `x-ms-offer-throughput` header is used to set the throughput value and it accepts a number that increments by units of 100.
 
 ```  
 POST https://contosomarketing.documents.azure.com/dbs HTTP/1.1  
