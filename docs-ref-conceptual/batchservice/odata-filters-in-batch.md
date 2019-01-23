@@ -29,7 +29,7 @@ OData filters are used to limit the amount of data returned from a query issued 
 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
-|state|eq|String|
+|state|eq, ne|String|
 |stateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
 
 
@@ -38,7 +38,7 @@ OData filters are used to limit the amount of data returned from a query issued 
 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
-|state|eq|String|
+|state|eq, ne|String|
 |stateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
 |lastBootTime|eq, ne, ge, gt, le, lt|DateTime|
 |allocationTime|eq, ne, ge, gt, le, lt|DateTime|
@@ -74,7 +74,7 @@ OData filters are used to limit the amount of data returned from a query issued 
 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
-|state|eq|String|
+|state|eq, ne|String|
 |stateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
 |creationTime|eq, ne, ge, gt, le, lt|DateTime|
 |lastModified|eq, ne, ge, gt, le, lt|DateTime|
@@ -88,7 +88,7 @@ OData filters are used to limit the amount of data returned from a query issued 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
 |id|startswith, eq, ne, ge, gt, le, lt|String|
-|state|eq|String|
+|state|eq, ne|String|
 |stateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
 |creationTime|eq, ne, ge, gt, le, lt|DateTime|
 |lastModified|eq, ne, ge, gt, le, lt|DateTime|
@@ -102,7 +102,7 @@ OData filters are used to limit the amount of data returned from a query issued 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
 |id|startswith, eq, ne, ge, gt, le, lt|String|
-|state|eq|String|
+|state|eq, ne|String|
 |stateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
 |creationTime|eq, ne, ge, gt, le, lt|DateTime|
 |lastModified|eq, ne, ge, gt, le, lt|DateTime|
@@ -117,7 +117,7 @@ OData filters are used to limit the amount of data returned from a query issued 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
 |id|startswith, eq, ne, ge, gt, le, lt|String|
-|state|eq|String|
+|state|eq, ne|String|
 |stateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
 |allocationState|eq|String|
 |allocationStateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
@@ -134,12 +134,12 @@ OData filters are used to limit the amount of data returned from a query issued 
 |--------------|------------------------|----------|
 |poolId|eq, ne|String|
 |nodeId|eq, ne|String|
-|jobPreparationTaskExecutionInfo/state|eq|String|
+|jobPreparationTaskExecutionInfo/state|eq, ne|String|
 |jobPreparationTaskExecutionInfo/startTime|eq, ne, ge, gt, le, lt|DateTime|
 |jobPreparationTaskExecutionInfo/endTime|eq, ne, ge, gt, le, lt|DateTime|
 |jobPreparationTaskExecutionInfo/exitCode|eq, ne, ge, gt, le, lt|Int|
 |jobPreparationTaskExecutionInfo/result|eq, ne|String|
-|jobReleaseTaskExecutionInfo/state|eq|String|
+|jobReleaseTaskExecutionInfo/state|eq, ne|String|
 |jobReleaseTaskExecutionInfo/startTime|eq, ne, ge, gt, le, lt|DateTime|
 |jobReleaseTaskExecutionInfo/endTime|eq, ne, ge, gt, le, lt|DateTime|
 |jobReleaseTaskExecutionInfo/exitCode|eq, ne, ge, gt, le, lt|Int|
@@ -151,7 +151,7 @@ OData filters are used to limit the amount of data returned from a query issued 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
 |id|startswith, eq, ge, gt, le, lt, ne|String|
-|state|eq|String|
+|state|eq, ne|String|
 |stateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
 |creationTime|eq, ne, ge, gt, le, lt|DateTime|
 |lastModifiedTime|eq, ne, ge, gt, le, lt|DateTime|
