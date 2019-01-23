@@ -36,7 +36,7 @@ The `Create Database` operation creates a new database in the database account.
   
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
-|id|Required|String|The user generated unique name for the database. It is a string that must not be more than 255 characters.|  
+|id|Required|String|The user-generated unique name for the database. It is a string that must not be more than 255 characters.|  
   
 ```  
 {  
@@ -63,13 +63,13 @@ The `Create Database` operation creates a new database in the database account.
   
 |Property|Description|  
 |--------------|-----------------|  
-|**id**|The user generated unique name for the database.|  
+|**id**|The user-generated unique name for the database.|  
 |**_rid**|It is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/sql-api-resources#system-vs-user-defined-resources). The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement of and navigation to the database resource.|  
-|**_ts**|It is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
-|**_self**|It is a system generated property. It is the unique addressable URI for the resource.|  
-|**_etag**|It is a system generated property that specifies the resource **etag** required for optimistic concurrency control.|  
-|**_colls**|It is a system generated property that specifies the addressable path of the collections resource.|  
-|**_users**|It is a system generated property that specifies the addressable path of the users resource.|  
+|**_ts**|It is a system-generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
+|**_self**|It is a system-generated property. It is the unique addressable URI for the resource.|  
+|**_etag**|It is a system-generated property that specifies the resource **etag** required for optimistic concurrency control.|  
+|**_colls**|It is a system-generated property that specifies the addressable path of the collections resource.|  
+|**_users**|It is a system-generated property that specifies the addressable path of the users resource.|  
   
 ```  
 {  
@@ -84,7 +84,7 @@ The `Create Database` operation creates a new database in the database account.
   
 ```  
   
-## Example  
+## Example1
   
 ```  
 POST https://contosomarketing.documents.azure.com/dbs HTTP/1.1  
@@ -136,6 +136,28 @@ Content-Length: 169
 }  
   
 ```  
+
+## Example2
+
+The following example creates a database with a throughput of 400. `x-ms-offer-throughput` header is used to set the throughput value and it accepts a number that increments by units of 100.
+
+```  
+POST https://contosomarketing.documents.azure.com/dbs HTTP/1.1  
+x-ms-date: Tue, 08 Dec 2015 19:29:22 GMT  
+authorization: type%3dmaster%26ver%3d1.0%26sig%3dsc0%2fu25RB8wSqbY1%2bUZqTGD0yCQC5KkGOAP%2bgnHFceQ%3d  
+Cache-Control: no-cache  
+User-Agent: contoso/1.0  
+x-ms-version: 2015-08-06  
+Accept: application/json  
+Host: contosomarketing.documents.azure.com  
+Content-Length: 19  
+Expect: 100-continue  
+  
+{"id":"volcanodb2",
+x-ms-offer-throughput = 400}  
+  
+```  
+
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
