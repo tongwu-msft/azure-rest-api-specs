@@ -3,19 +3,19 @@ uid: management.azure.com.blueprints.assignments.createorupdate
 name: Create Or Update
 service: Blueprints
 groupName: Assignments
-apiVersion: 2017-11-11-preview
+apiVersion: 2018-11-01-preview
 summary: Create or update a Blueprint assignment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Blueprint/blueprintAssignments/{assignmentName}?api-version=2017-11-11-preview
+- content: PUT https://management.azure.com/{scope}/providers/Microsoft.Blueprint/blueprintAssignments/{assignmentName}?api-version=2018-11-01-preview
 uriParameters:
-- name: subscriptionId
+- name: scope
   in: path
   isRequired: true
-  description: azure subscriptionId, which we assign the blueprint to.
+  description: "The scope of the resource. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}')."
   types:
   - uid: string
 - name: assignmentName
@@ -100,6 +100,14 @@ definitions:
     description: ID of the Azure Active Directory.
     types:
     - uid: string
+  - name: userAssignedIdentities
+    description: The list of user identities associated with the resource, key will be Azure resource Id of the ManagedIdentity.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
 - name: ParameterValueCollection
   description: A dictionary for parameters and their corresponding values.
   kind: object
@@ -204,6 +212,18 @@ definitions:
   - name: UserAssigned
     types:
     - uid: string
+- name: UserAssignedIdentity
+  description: User assigned Identity
+  kind: object
+  properties:
+  - name: principalId
+    description: Azure Active Directory principal ID associated with this Identity.
+    types:
+    - uid: string
+  - name: clientId
+    description: Client App Id associated with this identity.
+    types:
+    - uid: string
 - name: AssignmentLockMode
   description: Lock mode.
   kind: enum
@@ -251,7 +271,7 @@ definitions:
 examples:
 - name: Assignment
   request:
-    uri: PUT https://management.azure.com/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint?api-version=2017-11-11-preview
+    uri: PUT https://management.azure.com/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint?api-version=2018-11-01-preview
     body: >-
       {
         "identity": {
