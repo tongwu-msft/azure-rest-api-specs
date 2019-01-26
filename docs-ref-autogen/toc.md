@@ -1928,7 +1928,8 @@
 #### [List](cognitiveservices/face/Snapshot/List.yml)
 #### [Take](cognitiveservices/face/Snapshot/Take.yml)
 #### [Update](cognitiveservices/face/Snapshot/Update.yml)
-## Luis-Programmatic
+## LUIS
+### LUIS Authoring
 ### [Apps](cognitiveservices/luis-programmatic/Apps.yml)
 #### [Add](cognitiveservices/luis-programmatic/Apps/Add.yml)
 #### [Add Custom Prebuilt Domain](cognitiveservices/luis-programmatic/Apps/AddCustomPrebuiltDomain.yml)
@@ -2110,7 +2111,7 @@
 #### [Import](cognitiveservices/luis-programmatic/Versions/Import.yml)
 #### [List](cognitiveservices/luis-programmatic/Versions/List.yml)
 #### [Update](cognitiveservices/luis-programmatic/Versions/Update.yml)
-## Luis-Runtime
+### LUIS Prediction Runtime
 ### [Prediction](cognitiveservices/luis-runtime/Prediction.yml)
 #### [Resolve](cognitiveservices/luis-runtime/Prediction/Resolve.yml)
 #### [Resolve2](cognitiveservices/luis-runtime/Prediction/Resolve2.yml)
