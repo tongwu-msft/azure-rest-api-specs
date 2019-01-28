@@ -1929,7 +1929,7 @@
 #### [Take](cognitiveservices/face/Snapshot/Take.yml)
 #### [Update](cognitiveservices/face/Snapshot/Update.yml)
 ## LUIS
-### LUIS-Programmatic
+### LUIS Authoring
 #### [Apps](cognitiveservices/luis-programmatic/Apps.yml)
 ##### [Add](cognitiveservices/luis-programmatic/Apps/Add.yml)
 ##### [Add Custom Prebuilt Domain](cognitiveservices/luis-programmatic/Apps/AddCustomPrebuiltDomain.yml)
@@ -2111,10 +2111,10 @@
 ##### [Import](cognitiveservices/luis-programmatic/Versions/Import.yml)
 ##### [List](cognitiveservices/luis-programmatic/Versions/List.yml)
 ##### [Update](cognitiveservices/luis-programmatic/Versions/Update.yml)
-### Luis-Runtime
+### Luis Runtime
 #### [Prediction](cognitiveservices/luis-runtime/Prediction.yml)
-##### [Resolve with Post](cognitiveservices/luis-runtime/Prediction/Resolve.yml)
-##### [Resolve with Get](cognitiveservices/luis-runtime/Prediction/Resolve2.yml)
+##### [Resolve with POST](cognitiveservices/luis-runtime/Prediction/Resolve.yml)
+##### [Resolve with GET](cognitiveservices/luis-runtime/Prediction/Resolve2.yml)
 ## QnA Maker
 ### [Alterations](cognitiveservices/qnamaker/Alterations.yml)
 #### [Get](cognitiveservices/qnamaker/Alterations/Get.yml)
