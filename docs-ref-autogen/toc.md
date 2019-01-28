@@ -2113,8 +2113,8 @@
 ##### [Update](cognitiveservices/luis-programmatic/Versions/Update.yml)
 ### Luis-Runtime
 #### [Prediction](cognitiveservices/luis-runtime/Prediction.yml)
-##### [Resolve](cognitiveservices/luis-runtime/Prediction/Resolve.yml)
-##### [Resolve2](cognitiveservices/luis-runtime/Prediction/Resolve2.yml)
+##### [Resolve (Post)](cognitiveservices/luis-runtime/Prediction/Resolve.yml)
+##### [Resolve (Get)](cognitiveservices/luis-runtime/Prediction/Resolve2.yml)
 ## QnA Maker
 ### [Alterations](cognitiveservices/qnamaker/Alterations.yml)
 #### [Get](cognitiveservices/qnamaker/Alterations/Get.yml)
