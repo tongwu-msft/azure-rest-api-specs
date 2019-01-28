@@ -2115,7 +2115,7 @@
 #### [Prediction](cognitiveservices/luis-runtime/Prediction.yml)
 ##### [Resolve (POST)](cognitiveservices/luis-runtime/Prediction/Resolve.yml)
 ##### [Resolve (GET)](cognitiveservices/luis-runtime/Prediction/Resolve2.yml)
-## QnA Maker
+## QnA Maker 
 ### [Alterations](cognitiveservices/qnamaker/Alterations.yml)
 #### [Get](cognitiveservices/qnamaker/Alterations/Get.yml)
 #### [Replace](cognitiveservices/qnamaker/Alterations/Replace.yml)
