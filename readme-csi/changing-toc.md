@@ -19,7 +19,3 @@ Main correlation between files and service/product. File your doc set in this fi
           ]
         },
 ```
-
-## Changing the toc.md
-
-Once you locate your toc.md, realize this is a shared file with all other services. If you are changing child node names or moving items up and down the TOC, be careful to use the appropriate heading, `##`. After you change the heading indentation (H3 -> H4 or H4 -> H3), test view the built page. If the nodes you touched are gone or in the wrong place, make sure you added the correct number of `#` for the indentation you need. 
