@@ -12,7 +12,7 @@ produces:
 - application/json
 paths:
 - content: PATCH http://{accountName}.{dnsSuffix}/{filesystem}/{path}?action={action}
-- content: PATCH http://{accountName}.{dnsSuffix}/{filesystem}/{path}?action={action}&position={position}&retainUncommittedData={retainUncommittedData}&timeout={timeout}
+- content: PATCH http://{accountName}.{dnsSuffix}/{filesystem}/{path}?action={action}&position={position}&retainUncommittedData={retainUncommittedData}&close={close}&timeout={timeout}
   isOptional: true
 uriParameters:
 - name: accountName
@@ -33,7 +33,7 @@ uriParameters:
   description: The filesystem identifier.
   types:
   - uid: string
-  pattern: ^[a-z0-9](?!.*--)[-a-z0-9]{1,61}[a-z0-9]$
+  pattern: ^[$a-z0-9](?!.*--)[-a-z0-9]{1,61}[a-z0-9]$
 - name: path
   in: path
   isRequired: true
@@ -55,6 +55,11 @@ uriParameters:
 - name: retainUncommittedData
   in: query
   description: Valid only for flush operations.  If "true", uncommitted data is retained after the flush operation completes; otherwise, the uncommitted data is deleted after the flush operation.  The default is false.  Data at offsets less than the specified position are written to the file when flush succeeds, but this optional parameter allows data after the flush position to be retained for a future flush operation.
+  types:
+  - uid: boolean
+- name: close
+  in: query
+  description: Azure Storage Events allow applications to receive notifications when files change. When Azure Storage Events are enabled, a file changed event is raised. This event has a property indicating whether this is the final change to distinguish the difference between an intermediate flush to a file stream and the final close of a file stream. The close query parameter is valid only when the action is "flush" and change notifications are enabled. If the value of close is "true" and the flush operation completes successfully, the service raises a file change notification with a property indicating that this is the final update (the file stream has been closed). If "false" a change notification is raised indicating the file has changed. The default is false. This query parameter is set to true by the Hadoop ABFS driver to indicate that the file stream has been closed."
   types:
   - uid: boolean
 - name: timeout
@@ -285,7 +290,7 @@ requestHeader:
   - uid: string
 - name: x-ms-properties
   in: header
-  description: Optional.  User-defined properties to be stored with the file or directory, in the format of a comma-separated list of name and value pairs "n1=v1, n2=v2, ...", where each value is base64 encoded.  Valid only for the setProperties operation.  If the file or directory exists, any properties not included in the list will be removed.  All properties are removed if the header is omitted.  To merge new and existing properties, first get all existing properties and the current E-Tag, then make a conditional request with the E-Tag and include values for all properties.
+  description: Optional.  User-defined properties to be stored with the file or directory, in the format of a comma-separated list of name and value pairs "n1=v1, n2=v2, ...", where each value is a base64 encoded string. Note that the string may only contain ASCII characters in the ISO-8859-1 character set. Valid only for the setProperties operation. If the file or directory exists, any properties not included in the list will be removed.  All properties are removed if the header is omitted.  To merge new and existing properties, first get all existing properties and the current E-Tag, then make a conditional request with the E-Tag and include values for all properties.
   types:
   - uid: string
 - name: x-ms-owner
