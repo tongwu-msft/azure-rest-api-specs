@@ -104,7 +104,7 @@ Using `timeSeriesId`
     },
     "filter": { "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
     },
-    "projectedProperties": [{"name": "Building", "type": "String"}, {"name": "Temperature", "type": "Double"}]
+    "projectedProperties": [{"name":"Building","type":"String"}, {"name":"Temperature","type":"Double"}]
   }
  }
 ```
@@ -122,7 +122,7 @@ Using `name`
     },
     "filter": { "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
     },
-    "projectedProperties": [{"name": "Building", "type": "String"}, {"name": "Temperature", "type": "Double"}]
+    "projectedProperties": [{"name":"Building","type":"String"}, {"name":"Temperature","type":"Double"}]
   }
  }
 ```
