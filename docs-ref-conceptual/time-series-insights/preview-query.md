@@ -87,7 +87,7 @@ Input payload structure:
 * `name` (mandatory if `timeSeriesId` is not provided. Both `timeSeriesId` and `name` can be set.)
 * `searchSpan` clause (mandatory).
 * `filter` clause (optional – For filtering the rows using a predicate. Ex: `$event.Status.String = 'Good'`).
-* `projectedProperties` (optional – Only the list of properties to be retrieved using the query, if not specified all properties will be retrieved. It is mandatory to set both "name" and "type").
+* `projectedProperties` (optional – List of properties to be retrieved by the query. If not specified, all the properties will be retrieved. To specify the properties, both 'name' and 'type' of each property should be set.).
 
 Payload examples:
 
