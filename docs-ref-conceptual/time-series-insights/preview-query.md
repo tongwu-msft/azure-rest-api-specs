@@ -87,7 +87,7 @@ Input payload structure:
 * `name` (mandatory if `timeSeriesId` is not provided. Both `timeSeriesId` and `name` can be set.)
 * `searchSpan` clause (mandatory).
 * `filter` clause (optional – For filtering the rows using a predicate. Ex: `$event.Status.String = 'Good'`).
-* `projectedProperties` (optional – Only the list of properties to be retrieved using the query, if not specified all properties will be retrieved.).
+* `projectedProperties` (optional – List of properties to be retrieved by the query. If not specified, all the properties will be retrieved. To specify the properties, both 'name' and 'type' of each property should be set.).
 
 Payload examples:
 
@@ -104,7 +104,7 @@ Using `timeSeriesId`
     },
     "filter": { "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
     },
-    "projectedProperties": ["Building","Temperature"]
+    "projectedProperties": [{"name":"Building","type":"String"}, {"name":"Temperature","type":"Double"}]
   }
  }
 ```
@@ -122,7 +122,7 @@ Using `name`
     },
     "filter": { "tsx": "($event.Value.Double != null) OR ($event.Status.String = 'Good')"
     },
-    "projectedProperties": ["Building","Temperature"]
+    "projectedProperties": [{"name":"Building","type":"String"}, {"name":"Temperature","type":"Double"}]
   }
  }
 ```
