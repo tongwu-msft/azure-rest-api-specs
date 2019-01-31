@@ -477,6 +477,7 @@ The following limits are applied during query execution to fairly utilize resour
 | Get Availability, Get EventSchema, Get Events, Get Series, Aggregate Series | Max number of concurrent requests per environment | 10 | L1 |
 | Get Events, Get Series, Aggregate Series | Max response size | 16 MB | L1 |
 | Get Events, Get Series, Aggregate Series | Max number of projected properties or variables | 50 | L1 |
+| Aggregate Series | Max number of intervals in the response | 200,000 | L1 |
 
 
 ## Error Responses
