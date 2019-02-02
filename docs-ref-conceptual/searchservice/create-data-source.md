@@ -141,7 +141,7 @@ When using Azure Blob data sources, Azure Search automatically uses a high water
 ```  
 
 > [!NOTE]  
-> When using [TRUNCATE TABLE](https://docs.microsoft.com/en-us/sql/t-sql/statements/truncate-table-transact-sql?view=sql-server-2017) to remove a large number of rows from a SQL table, the indexer will not be able to pick up the deleted rows due to the nature of not being able to identify individual row deletions. The indexer to which the data source is attached needs to be [reset](reset-indexer.md) to reset the change tracking state and pick up these deletions.
+> When using [TRUNCATE TABLE](https://docs.microsoft.com/sql/t-sql/statements/truncate-table-transact-sql) to remove a large number of rows from a SQL table, the change tracking state needs to be reset via an [indexer reset](reset-indexer.md) to pick up row deletions.
 
 ### Data Deletion Detection Policies  
  The purpose of a data deletion detection policy is to efficiently identify deleted data items. Currently, the only supported policy is the **Soft Delete** policy, which allows identifying deleted items based on the value of a 'soft delete' column or property in the data source. This policy can be specified as follows:  
