@@ -83,8 +83,8 @@ Response headers:
 The Get Events API returns a list of raw events matching the search span and predicate.
 
 Input payload structure:
-* `timeSeriesId` (mandatory if `name` is not provided. Both `timeSeriesId` and `name` can be set.)
-* `name` (mandatory if `timeSeriesId` is not provided. Both `timeSeriesId` and `name` can be set.)
+* `timeSeriesId` (mandatory if `timeSeriesName` is not provided. Both `timeSeriesId` and `timeSeriesName` cannot be set.)
+* `timeSeriesName` (mandatory if `timeSeriesId` is not provided. Both `timeSeriesId` and `timeSeriesName` cannot be set.)
 * `searchSpan` clause (mandatory).
 * `filter` clause (optional – For filtering the rows using a predicate. Ex: `$event.Status.String = 'Good'`).
 * `projectedProperties` (optional – List of properties to be retrieved by the query. If not specified, all the properties will be retrieved. To specify the properties, both 'name' and 'type' of each property should be set.).
@@ -97,7 +97,7 @@ Using `timeSeriesId`
 {
   "getEvents": {
     "timeSeriesId": ["PU.123","W00158","ABN.9890"],
-    "name" : null,
+    "timeSeriesName" : null,
     "searchSpan": {
         "from":  "2016-08-01T00:00:00Z",
         "to":  "2016-08-01T00:16:50Z"
@@ -110,12 +110,12 @@ Using `timeSeriesId`
 ```
 
 OR  
-Using `name`
+Using `timeSeriesName`
 ```json
 {
   "getEvents": {
     "timeSeriesId": null,
-    "name" : "timeSeries1",
+    "timeSeriesName" : "timeSeries1",
     "searchSpan": {
         "from": "2016-08-01T00:00:00Z",
         "to": "2016-08-01T00:16:50Z"
@@ -188,8 +188,8 @@ Events can not be sorted at this time.
 The Get Series API enables query and retrieval of Time Series Insights data from captured events by leveraging data recorded on the wire using the variables define in model or provided inline. Please note if interpolation and aggregation clause is provided in variable, or interval is specified, it will be ignored.
 
 Input payload structure:
-* `timeSeriesId` (mandatory if `name` is not provided. Both `timeSeriesId` and `name` can be set.)
-* `name` (mandatory if `timeSeriesId` is not provided. Both `timeSeriesId` and `name` can be set.)
+* `timeSeriesId` (mandatory if `timeSeriesName` is not provided. Both `timeSeriesId` and `timeSeriesName` cannot be set.)
+* `timeSeriesName` (mandatory if `timeSeriesId` is not provided. Both `timeSeriesId` and `timeSeriesName` cannot be set.)
 * `filter` clause (optional – For filtering the rows using a predicate. Ex: `$event.Status.String = 'Good'`).
 * `inlineVariables` (optional – If specified the variable definition stored in the model part of types is overwritten by this definition, only if the name matches).
 * `projectedVariables` (optional – If specified only the mentioned variables are retrieved part of the result, else all variables from model are considered for querying).
@@ -202,7 +202,7 @@ Using `timeSeriesId`
 {
   "getSeries": {
     "timeSeriesId": ["Millenium","Kitchen","Cooker"],
-    "name" : null,
+    "timeSeriesName" : null,
     "searchSpan": {
         "from":  "2016-08-01T00:00:00Z",
         "to":  "2016-08-01T00:16:50Z"
@@ -221,13 +221,13 @@ Using `timeSeriesId`
 }
 ```
 OR  
-Using `name`
+Using `timeSeriesName`
 
 ```json
 {
   "getSeries": {
     "timeSeriesId": null,
-    "name" : "timeSeries1",
+    "timeSeriesName" : "timeSeries1",
     "searchSpan": {
         "from": "2016-08-01T00:00:00Z",
         "to": "2016-08-01T00:16:50Z"
@@ -293,8 +293,8 @@ Inline variables can override variable definition stored in model part of types.
 The Aggregate Series API enables query and retrieval of Time Series Insights data from captured events by aggregating recorded data using the aggregate or sample functions. 
 
 Input payload structure:
-* `timeSeriesId` (mandatory if `name` is not provided. Both `timeSeriesId` and `name` can be set.)
-* `name` (mandatory if `timeSeriesId` is not provided. Both `timeSeriesId` and `name` can be set.)
+* `timeSeriesId` (mandatory if `timeSeriesName` is not provided. Both `timeSeriesId` and `timeSeriesName` cannot be set.)
+* `timeSeriesName` (mandatory if `timeSeriesId` is not provided. Both `timeSeriesId` and `timeSeriesName` cannot be set.)
 * `interval` (mandatory).
 * `filter` clause (optional – For filtering the rows using a predicate. Ex: `$event.Status.String = 'Good'`)
 * `inlineVariables` (optional – This enables creation of variables by specifying aggregate functions such as sum, max, etc. If the name of variable matches with variable definition stored in the model part of types, the definition is overwritten).
@@ -308,7 +308,7 @@ Using `timeSeriesId`
 {
   "aggregateSeries": {
     "timeSeriesId": ["Millenium","Kitchen","Cooker"],
-    "name" : null,
+    "timeSeriesName" : null,
     "searchSpan": {
         "from":  "2016-08-01T00:00:00Z",
         "to":  "2016-08-01T00:16:50Z"
@@ -340,12 +340,12 @@ Using `timeSeriesId`
 }
 ```
 OR  
-Using `name`
+Using `timeSeriesName`
 ```json
 {
   "aggregateSeries": {
     "timeSeriesId": null,
-    "name" : "timeSeries1",
+    "timeSeriesName" : "timeSeries1",
     "searchSpan": {
         "from": "2016-08-01T00:00:00Z",
         "to": "2016-08-01T00:16:50Z"
