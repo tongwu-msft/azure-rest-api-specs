@@ -716,18 +716,22 @@ Request Body:
 Using `timeSeriesId`
 ```json
 {
-  "get": [
-    ["Id1One", "Id2One", "Id3One"]
-  ]
+  "get": 
+    {
+      "timeSeriesIds":[
+          ["Id1One", "Id2One", "Id3One"]
+        ]
+    }
 }
 ```
 OR   
 Using `name`
 ```json
 {
-  "get": [
-    "timeSeries1"
-  ]
+  "get": 
+    {
+      "names": ["timeSeries1"]
+    }
 }
 ```
 Response Body:
@@ -799,7 +803,7 @@ Response Body:
 
 #### Update instances
 
-This API enables update of instances by timeSeriesId. This API only updates existing instances, but will throw an error if the instances do not already exists. The API also updates the name of the time series instance. The name of time series has to be unique in an environment.
+This API enables update of instances by timeSeriesId. This API only updates existing instances, and will throw an error if the instances do not already exists. The API also updates the name of the time series instance, the name has to be unique in the environment. For updating the instance, timeSeriesId is required. Note, while updating the instance the input is taken as it is and overwritten, if any existing elements which has data and not provided in the payload they will be removed. So it is suggested always do a getInstance before updating the instance and change only the required field which needs to be updated and use that payload for update.
 
 Request Body:
 ```json
@@ -847,18 +851,20 @@ Request Body:
 Using `timeSeries1d`
 ```json
 {
-    "delete": [
-        [
+    "delete": {
+      "timeSeriesIds":[
+          [
             "Id1One",
             "Id2One",
             "Id3One"
-        ],
-        [
+          ],
+          [
             "Id1Two",
             "Id2Two",
             "Id3Two"
-        ]
-    ]
+          ]
+       ]
+    }
 }
 ```
 
@@ -867,10 +873,9 @@ Using `name`
 
 ```json
 {
-    "delete": [
-        "timeSeries1",
-        "timeSeries2"
-    ]
+    "delete": {
+      "names" :["timeSeries1", "timeSeries2"] 
+    }
 }
 ```
 
