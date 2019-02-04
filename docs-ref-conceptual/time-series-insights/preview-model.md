@@ -803,7 +803,7 @@ Response Body:
 
 #### Update instances
 
-This API enables update of instances by timeSeriesId. This API only updates existing instances, and will throw an error if the instances do not already exists. The API also updates the name of the time series instance, the name has to be unique in the environment. For updating the instance, timeSeriesId is required. Note, while updating the instance the input is taken as it is and overwritten, if any existing elements which has data and not provided in the payload they will be removed. So it is suggested always do a getInstance before updating the instance and change only the required field which needs to be updated and use that payload for update.
+This API enables update of instances by timeSeriesId. This API only updates existing instances, and will throw an error if the instances do not already exist. The API also updates the name of the time series instance, the name has to be unique per environment. For updating the instance, timeSeriesId is required. Note, while updating the instance the input is assumed as it is and overwritten. If the value of any field is not intended to change, then existing value should be provided, else it will be set to null. So it is suggested always to do a getInstance before updating the instance and change only the required field which needs to be modified and use the entire modfied instance for update.
 
 Request Body:
 ```json
