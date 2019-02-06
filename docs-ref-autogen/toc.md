@@ -883,6 +883,8 @@
 ## Reference
 ### [Classic Administrators](authorization/ClassicAdministrators.yml)
 #### [List](authorization/ClassicAdministrators/List.yml)
+### [Elevate Access](authorization/ElevateAccess.yml)
+#### [Post](authorization/ElevateAccess/Post.yml)
 ### [Permissions](authorization/Permissions.yml)
 #### [List For Resource](authorization/Permissions/ListForResource.yml)
 #### [List For Resource Group](authorization/Permissions/ListForResourceGroup.yml)
@@ -8230,7 +8232,6 @@
 #### [Create Or Update](sql/SensitivityLabels/CreateOrUpdate.yml)
 #### [Delete](sql/SensitivityLabels/Delete.yml)
 #### [Get](sql/SensitivityLabels/Get.yml)
-#### [List By Database](sql/SensitivityLabels/ListByDatabase.yml)
 #### [List Current By Database](sql/SensitivityLabels/ListCurrentByDatabase.yml)
 #### [List Recommended By Database](sql/SensitivityLabels/ListRecommendedByDatabase.yml)
 ### [Server Advisors](sql/ServerAdvisors.yml)
