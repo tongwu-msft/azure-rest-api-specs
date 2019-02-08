@@ -1,35 +1,24 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.search.getsearchaddressreversecrossstreet
-name: Get Search Address Reverse Cross Street
+uid: atlas.microsoft.com.maps.spatial.getclosestpointpreview
+name: Get Closest Point Preview
 service: Maps
-groupName: Search
+groupName: Spatial
 apiVersion: "1.0"
-summary: >-
-  **Reverse Geocode to a Cross Street**
-
-
-  **Applies to**: S0 and S1 pricing tiers.
-
-
-
-  There may be times when you need to translate a  coordinate (example: 37.786505, -122.3862) into a human understandable cross street. Most often this  is needed in tracking applications where you  receive a GPS feed from the device or asset and wish to know what address where the coordinate is  located.
-
-  This endpoint will return cross street information  for a given coordinate.
+summary: "**Applies to**: S1 pricing tier.\n\nThis API returns the closest point between a base point and a given set of points in the user uploaded data set identified by udid. The set of target points is provided by a GeoJSON file which is uploaded via [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/upload) and referenced by a unique udid. The GeoJSON file may only contain a collection of Point geometry. MulitPoint or other geometries will be ignored if provided. The maximum number of points accepted is 100,000. The algorithm does not take into account routing or traffic. Information returned includes closest point latitude, longitude, and distance in meters from the closest point.\n\nTo test this API, you can upload the sample data from [Post Closest Point API](https://docs.microsoft.com/en-us/rest/api/maps/spatial/postclosestpoint#examples) examples(Request Body) via [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/upload) and replace the [udid] from the [sample request below](https://docs.microsoft.com/en-us/rest/api/maps/spatial/getclosestpoint#examples) with the udid returned by Data Upload API. "
 consumes: []
 produces:
 - application/json
-- application/xml
 paths:
-- content: GET https://atlas.microsoft.com/search/address/reverse/crossStreet/{format}?api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/search/address/reverse/crossStreet/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&heading={heading}&radius={radius}&language={language}
+- content: GET https://atlas.microsoft.com/spatial/closestPoint/json?api-version=1.0&udid={udid}&lat={lat}&lon={lon}
+- content: GET https://atlas.microsoft.com/spatial/closestPoint/json?subscription-key={subscription-key}&api-version=1.0&udid={udid}&lat={lat}&lon={lon}&numberOfClosestPoints={numberOfClosestPoints}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Value can be either _json_ or _xml_.
+  description: Desired format of the response. Only `json` format is supported.
   types:
-  - uid: TextFormat
+  - uid: JsonFormat
 - name: subscription-key
   in: query
   description: One of the Azure Maps keys provided from an Azure Map Account. Refer to the subscription-key security definition.
@@ -41,36 +30,34 @@ uriParameters:
   description: Version number of Azure Maps API. Current version is 1.0
   types:
   - uid: string
-- name: query
+- name: udid
   in: query
   isRequired: true
-  description: The applicable query specified as a comma separated string composed by latitude followed by longitude e.g. "47.641268,-122.125679".
+  description: The unique id returned from [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/upload) after uploading a valid GeoJSON FeatureCollection object.  Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
   types:
   - uid: string
-- name: heading
+- name: lat
   in: query
-  description: The directional heading of the vehicle in degrees, for travel along a segment of roadway. 0 is North, 90 is East and so on, values range from -360 to 360. The precision can include upto one decimal place
+  isRequired: true
+  description: 'The base point latitude of the location being passed.  Example: 47.622942.'
   types:
   - uid: number
-- name: radius
+- name: lon
   in: query
-  description: The radius in meters to for the results to be constrained to the defined area
+  isRequired: true
+  description: 'The base point longitude of the location being passed.  Example: -122.316456.'
   types:
   - uid: number
-- name: language
+- name: numberOfClosestPoints
   in: query
-  description: >-
-    Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used.
-
-
-    Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages) for details.
+  description: 'The number of closest points expected from response. Default: 1, minimum: 1 and maximum: 50'
   types:
-  - uid: string
+  - uid: integer
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SearchAddressReverseCrossStreetResponse
+  - uid: GetClosestPointResponse
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -101,32 +88,27 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: TextFormat
-  description: Desired format of the response. Value can be either _json_ or _xml_.
+- name: JsonFormat
+  description: Desired format of the response. Only `json` format is supported.
   kind: enum
   properties:
   - name: json
     description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
-  - name: xml
-    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
-    types:
-    - uid: string
-- name: SearchAddressReverseCrossStreetResponse
-  description: This object is returned from a successful Search Address Reverse CrossStreet call
+- name: GetClosestPointResponse
+  description: This object is returned from a successful Get Spatial Closest Point call
   kind: object
   properties:
   - name: summary
     isReadyOnly: true
-    description: Summary object for a Search Address Reverse Cross Street response
+    description: Get Closest Point Summary object
     types:
-    - uid: SearchAddressReverseCrossStreetSummary
-  - name: addresses
-    isReadyOnly: true
-    description: Addresses array
+    - uid: GetClosestPointSummary
+  - name: result
+    description: Closest Point Result Array
     types:
-    - uid: SearchAddressReverseCrossStreetResult
+    - uid: ClosestPointResultEntry
       isArray: true
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
@@ -136,30 +118,40 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
-- name: SearchAddressReverseCrossStreetSummary
-  description: Summary object for a Search Address Reverse Cross Street response
+- name: GetClosestPointSummary
+  description: Get Closest Point Summary object
   kind: object
   properties:
-  - name: queryTime
-    isReadyOnly: true
-    description: QueryTime property
+  - name: sourcePoint
+    description: A location represented as a latitude and longitude
     types:
-    - uid: integer
-  - name: numResults
+    - uid: Coordinate
+  - name: udid
     isReadyOnly: true
-    description: NumResults property
+    description: A unique data id (udid) for the uploaded content
     types:
-    - uid: integer
-- name: SearchAddressReverseCrossStreetResult
+    - uid: string
+  - name: information
+    isReadyOnly: true
+    description: Processing information
+    types:
+    - uid: string
+- name: ClosestPointResultEntry
+  description: Closest Point Result Entry Object
   kind: object
   properties:
-  - name: address
-    description: The address of the result
+  - name: distanceInMeters
+    isReadyOnly: true
+    description: The distance in meters from the source point to the closest point
     types:
-    - uid: SearchResultAddress
+    - uid: number
   - name: position
+    description: A location represented as a latitude and longitude
+    types:
+    - uid: Coordinate
+  - name: geometryId
     isReadyOnly: true
-    description: Position property in the form of "{latitude},{longitude}"
+    description: The unique id identifies a geometry
     types:
     - uid: string
 - name: Error
@@ -176,139 +168,44 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
-- name: SearchResultAddress
-  description: The address of the result
+- name: Coordinate
+  description: A location represented as a latitude and longitude
   kind: object
   properties:
-  - name: buildingNumber
+  - name: lat
     isReadyOnly: true
-    description: Building Number property
+    description: Latitude property
     types:
-    - uid: string
-  - name: street
+    - uid: number
+  - name: lon
     isReadyOnly: true
-    description: Street property
+    description: Longitude property
     types:
-    - uid: string
-  - name: crossStreet
-    isReadyOnly: true
-    description: Cross Street property
-    types:
-    - uid: string
-  - name: streetNumber
-    isReadyOnly: true
-    description: Street Number property
-    types:
-    - uid: string
-  - name: routeNumbers
-    isReadyOnly: true
-    description: number of routes
-    types:
-    - uid: integer
-      isArray: true
-  - name: streetName
-    isReadyOnly: true
-    description: Street Name property
-    types:
-    - uid: string
-  - name: streetNameAndNumber
-    isReadyOnly: true
-    description: Street Name and Number property
-    types:
-    - uid: string
-  - name: municipality
-    isReadyOnly: true
-    description: Municipality property
-    types:
-    - uid: string
-  - name: municipalitySubdivision
-    isReadyOnly: true
-    description: Municipality Subdivision property
-    types:
-    - uid: string
-  - name: countryTertiarySubdivision
-    isReadyOnly: true
-    description: Country Tertiary Subdivision property
-    types:
-    - uid: string
-  - name: countrySecondarySubdivision
-    isReadyOnly: true
-    description: Country Secondary Subdivision property
-    types:
-    - uid: string
-  - name: countrySubdivision
-    isReadyOnly: true
-    description: Country Subdivision property
-    types:
-    - uid: string
-  - name: postalCode
-    isReadyOnly: true
-    description: Postal Code property
-    types:
-    - uid: string
-  - name: extendedPostalCode
-    isReadyOnly: true
-    description: Extended Postal Code property
-    types:
-    - uid: string
-  - name: countryCode
-    isReadyOnly: true
-    description: Country Code property
-    types:
-    - uid: string
-  - name: country
-    isReadyOnly: true
-    description: Country property
-    types:
-    - uid: string
-  - name: countryCodeISO3
-    isReadyOnly: true
-    description: Country Code ISO3 property
-    types:
-    - uid: string
-  - name: freeformAddress
-    isReadyOnly: true
-    description: Free form Address property
-    types:
-    - uid: string
-  - name: countrySubdivisionName
-    isReadyOnly: true
-    description: Country Subdividion Name property
-    types:
-    - uid: string
+    - uid: number
 examples:
-- name: GetSearchAddressReverseCrossStreet
+- name: GetClosestPoint
   request:
-    uri: GET https://atlas.microsoft.com/search/address/reverse/crossStreet/json?subscription-key=[subscription-key]&api-version=1.0&query=37.337,-121.89
+    uri: GET https://atlas.microsoft.com/spatial/closestPoint/json?subscription-key=[subscription-key]&api-version=1.0&udid=[udid]&lat=47.622942&lon=-122.316456
   responses:
   - statusCode: "200"
     body: >-
       {
         "summary": {
-          "queryTime": 1,
-          "numResults": 1
+          "sourcePoint": {
+            "lat": 47.622942,
+            "lon": -122.316456
+          },
+          "udid": "[udid from request]",
+          "information": "10 points processed in user data"
         },
-        "addresses": [
+        "result": [
           {
-            "address": {
-              "buildingNumber": "31",
-              "streetNumber": "31",
-              "routeNumbers": [],
-              "street": "N 2nd St",
-              "streetName": "N 2nd St",
-              "streetNameAndNumber": "31 N 2nd St",
-              "countryCode": "US",
-              "countrySubdivision": "CA",
-              "countrySubdivisionName": "California",
-              "municipality": "San Jose",
-              "postalCode": "95113",
-              "municipalitySubdivision": "Downtown",
-              "country": "United States of America",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "31 N 2nd St, San Jose CA 95113",
-              "extendedPostalCode": "951131217"
+            "distanceInMeters": 1587492.66,
+            "position": {
+              "lat": 40.516153406773952,
+              "lon": -105.02860293715861
             },
-            "position": "37.337090,-121.889830"
+            "geometryId": "1001"
           }
         ]
       }
@@ -316,8 +213,12 @@ examples:
     body: >-
       {
         "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+          "code": "ClientParams",
+          "message": "One or more parameters are missing.",
+          "innererror": {
+            "code": "MissingQueryParameter",
+            "message": "Input parameter lon is missing."
+          }
         }
       }
   - statusCode: "401"

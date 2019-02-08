@@ -1,25 +1,34 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.geolocation.getiptolocationpreview
-name: Get IP To Location Preview
+uid: atlas.microsoft.com.maps.render.getmapimagerytile
+name: Get Map Imagery Tile
 service: Maps
-groupName: Geolocation
+groupName: Render
 apiVersion: "1.0"
-summary: "\n**Applies to**: S0 and S1 pricing tiers.\n\n\nThis service will return the ISO country code for the provided IP address. Developers can use this information  to block or alter certain content based on geographical locations where the application is being viewed from. \n\n\n__Note:__ This service returns results from IANA and does not necessarily reflect the views of Microsoft  Corporation. __After May 1st 2019__ service will return camelCased properties in the JSON response. Ensure that your  application can parse and process responses with camelCased properties."
+summary: >-
+  **Applies to:** S1 pricing tier.
+
+
+
+  This service returns a map image tile with size 256x256, given the x and y coordinates and zoom
+
+  level. Zoom level ranges from 0 to 18. The current available style value is 'satellite' which provides satellite
+
+  imagery alone.
 consumes: []
 produces:
+- image/png
 - application/json
-- application/xml
 paths:
-- content: GET https://atlas.microsoft.com/geolocation/ip/{format}?api-version=1.0&ip={ip}
-- content: GET https://atlas.microsoft.com/geolocation/ip/{format}?subscription-key={subscription-key}&api-version=1.0&ip={ip}
+- content: GET https://atlas.microsoft.com/map/imagery/png?api-version=1.0&style=satellite&zoom={zoom}&x={x}&y={y}
+- content: GET https://atlas.microsoft.com/map/imagery/png?subscription-key={subscription-key}&api-version=1.0&style=satellite&zoom={zoom}&x={x}&y={y}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Value can be either _json_ or _xml_.
+  description: 'Desired format of the response. Possible value: png.'
   types:
-  - uid: TextFormat
+  - uid: RasterTileFormat
 - name: subscription-key
   in: query
   description: One of the Azure Maps keys provided from an Azure Map Account. Refer to the subscription-key security definition.
@@ -31,17 +40,47 @@ uriParameters:
   description: Version number of Azure Maps API. Current version is 1.0
   types:
   - uid: string
-- name: ip
+- name: style
   in: query
   isRequired: true
-  description: The IP address. Both IPv4 and IPv6 are allowed.
+  description: Map style to be returned. __Possible values:__ satellite.
   types:
-  - uid: string
+  - uid: MapImageryStyle
+- name: zoom
+  in: query
+  isRequired: true
+  description: >-
+    Zoom level for the desired tile. Zoom value must be in the range: 0-18 (inclusive).
+
+
+    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+  types:
+  - uid: integer
+- name: x
+  in: query
+  isRequired: true
+  description: >-
+    X coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
+
+
+    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+  types:
+  - uid: integer
+- name: y
+  in: query
+  isRequired: true
+  description: >-
+    Y coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
+
+
+    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+  types:
+  - uid: integer
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: IpAddressToLocationResult
+  - uid: string
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -72,30 +111,20 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: TextFormat
-  description: Desired format of the response. Value can be either _json_ or _xml_.
+- name: RasterTileFormat
+  description: 'Desired format of the response. Possible value: png.'
   kind: enum
   properties:
-  - name: json
-    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+  - name: png
+    description: An image in the png format. Supports zoom levels 0 through 18.
     types:
     - uid: string
-  - name: xml
-    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
-    types:
-    - uid: string
-- name: IpAddressToLocationResult
-  description: This object is returned from a successful call to IP Address to country/region API
-  kind: object
+- name: MapImageryStyle
+  description: Map style to be returned. __Possible values:__ satellite.
+  kind: enum
   properties:
-  - name: CountryRegion
-    isReadyOnly: true
-    description: The object containing the country/region information.
-    types:
-    - uid: CountryRegion
-  - name: IPAddress
-    isReadyOnly: true
-    description: The IP Address of the request.
+  - name: satellite
+    description: Satellite imagery
     types:
     - uid: string
 - name: ErrorResponse
@@ -106,15 +135,6 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
-- name: CountryRegion
-  description: The object containing the country/region information.
-  kind: object
-  properties:
-  - name: IsoCode
-    isReadyOnly: true
-    description: "The IP Address's 2-character code [(ISO 3166-1)](https://www.iso.org/iso-3166-country-codes.html) of the country or region as assigned by IANA and regional internet authorities. Please note, IP address in ranges reserved for special purpose will return Null for country/region. "
-    types:
-    - uid: string
 - name: Error
   description: This object is returned when an error occurs in the Maps API
   kind: object
@@ -130,57 +150,41 @@ definitions:
     types:
     - uid: string
 examples:
-- name: GetLocationByIpAddress
+- name: GetMapImagery
   request:
-    uri: GET https://atlas.microsoft.com/geolocation/ip/json?subscription-key=[subscription-key]&api-version=1.0&ip=2001:4898:80e8:b::189
+    uri: GET https://atlas.microsoft.com/map/imagery/png?subscription-key=[subscription-key]&api-version=1.0&style=satellite&zoom=6&x=10&y=22
   responses:
   - statusCode: "200"
-    body: >-
-      {
-        "CountryRegion": {
-          "IsoCode": "US"
-        },
-        "IPAddress": "2001:4898:80e8:b::189"
-      }
+    body: "\"binary string image\""
   - statusCode: "400"
     body: >-
       {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
+        "statuscode": "400",
+        "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
       }
   - statusCode: "401"
     body: >-
       {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
+        "statuscode": "401",
+        "message": "Unauthorized: Access is denied due to invalid credentials."
       }
   - statusCode: "403"
     body: >-
       {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
+        "statuscode": "403",
+        "message": "Permission, capacity, or authentication issues."
       }
   - statusCode: "404"
     body: >-
       {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
+        "statuscode": "404",
+        "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
       }
   - statusCode: "500"
     body: >-
       {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
+        "statuscode": "500",
+        "message": "An error occurred while processing the request. Please try again later."
       }
 security:
 - name: azure_auth

@@ -1,25 +1,28 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.geolocation.getiptolocationpreview
-name: Get IP To Location Preview
+uid: atlas.microsoft.com.maps.spatial.getgreatcircledistancepreview
+name: Get Great Circle Distance Preview
 service: Maps
-groupName: Geolocation
+groupName: Spatial
 apiVersion: "1.0"
-summary: "\n**Applies to**: S0 and S1 pricing tiers.\n\n\nThis service will return the ISO country code for the provided IP address. Developers can use this information  to block or alter certain content based on geographical locations where the application is being viewed from. \n\n\n__Note:__ This service returns results from IANA and does not necessarily reflect the views of Microsoft  Corporation. __After May 1st 2019__ service will return camelCased properties in the JSON response. Ensure that your  application can parse and process responses with camelCased properties."
+summary: >-
+  **Applies to**: S1 pricing tier.
+
+
+  This API will return the great-circle or shortest distance between two points on the surface of a sphere, measured along the surface of the sphere.  This differs from calculating a straight line through the sphere's interior. This method is helpful for estimating travel distances for airplanes by calculating the shortest distance between airports.
 consumes: []
 produces:
 - application/json
-- application/xml
 paths:
-- content: GET https://atlas.microsoft.com/geolocation/ip/{format}?api-version=1.0&ip={ip}
-- content: GET https://atlas.microsoft.com/geolocation/ip/{format}?subscription-key={subscription-key}&api-version=1.0&ip={ip}
+- content: GET https://atlas.microsoft.com/spatial/greatCircleDistance/json?api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/spatial/greatCircleDistance/json?subscription-key={subscription-key}&api-version=1.0&query={query}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Value can be either _json_ or _xml_.
+  description: Desired format of the response. Only `json` format is supported.
   types:
-  - uid: TextFormat
+  - uid: JsonFormat
 - name: subscription-key
   in: query
   description: One of the Azure Maps keys provided from an Azure Map Account. Refer to the subscription-key security definition.
@@ -31,17 +34,17 @@ uriParameters:
   description: Version number of Azure Maps API. Current version is 1.0
   types:
   - uid: string
-- name: ip
+- name: query
   in: query
   isRequired: true
-  description: The IP address. Both IPv4 and IPv6 are allowed.
+  description: The Coordinates through which the distance is calculated, delimited by a colon. Two coordinates are required.  The first one is the source point coordinate and the last is the target point coordinate. For example, 47.622942,122.316456:57.673988,127.121513
   types:
   - uid: string
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: IpAddressToLocationResult
+  - uid: GreatCircleDistanceResponse
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -72,32 +75,28 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: TextFormat
-  description: Desired format of the response. Value can be either _json_ or _xml_.
+- name: JsonFormat
+  description: Desired format of the response. Only `json` format is supported.
   kind: enum
   properties:
   - name: json
     description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
-  - name: xml
-    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
-    types:
-    - uid: string
-- name: IpAddressToLocationResult
-  description: This object is returned from a successful call to IP Address to country/region API
+- name: GreatCircleDistanceResponse
+  description: This object is returned from a successful Great Circle Distance call
   kind: object
   properties:
-  - name: CountryRegion
+  - name: summary
     isReadyOnly: true
-    description: The object containing the country/region information.
+    description: Summary object
     types:
-    - uid: CountryRegion
-  - name: IPAddress
+    - uid: Summary
+  - name: result
     isReadyOnly: true
-    description: The IP Address of the request.
+    description: Result Object
     types:
-    - uid: string
+    - uid: Result
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
   kind: object
@@ -106,15 +105,29 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
-- name: CountryRegion
-  description: The object containing the country/region information.
+- name: Summary
+  description: Summary of the call.
   kind: object
   properties:
-  - name: IsoCode
+  - name: udid
     isReadyOnly: true
-    description: "The IP Address's 2-character code [(ISO 3166-1)](https://www.iso.org/iso-3166-country-codes.html) of the country or region as assigned by IANA and regional internet authorities. Please note, IP address in ranges reserved for special purpose will return Null for country/region. "
+    description: The udid for the user data if one exists
     types:
     - uid: string
+  - name: information
+    isReadyOnly: true
+    description: The information about what happened during the call.
+    types:
+    - uid: string
+- name: Result
+  description: Result Object
+  kind: object
+  properties:
+  - name: distanceInMeters
+    isReadyOnly: true
+    description: The great circle distance in meters from the source point to the target point
+    types:
+    - uid: number
 - name: Error
   description: This object is returned when an error occurs in the Maps API
   kind: object
@@ -130,24 +143,37 @@ definitions:
     types:
     - uid: string
 examples:
-- name: GetLocationByIpAddress
+- name: GetGreatCircleDistance
   request:
-    uri: GET https://atlas.microsoft.com/geolocation/ip/json?subscription-key=[subscription-key]&api-version=1.0&ip=2001:4898:80e8:b::189
+    uri: GET https://atlas.microsoft.com/spatial/greatCircleDistance/json?subscription-key=[subscription-key]&api-version=1.0&query=47.622942,-122.316456:47.610378,-122.200676
   responses:
   - statusCode: "200"
     body: >-
       {
-        "CountryRegion": {
-          "IsoCode": "US"
+        "summary": {
+          "sourcePoint": {
+            "lat": 47.622942,
+            "lon": -122.316456
+          },
+          "targetPoint": {
+            "lat": 47.610378,
+            "lon": -122.200676
+          }
         },
-        "IPAddress": "2001:4898:80e8:b::189"
+        "result": {
+          "distanceInMeters": 8797.62
+        }
       }
   - statusCode: "400"
     body: >-
       {
         "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+          "code": "ClientParams",
+          "message": "Lat and/or lon parameters are invalid.",
+          "innererror": {
+            "code": "InvalidLatLon",
+            "message": "The provided coordinates '-122.316456,47.622942:47.610378,-122.200676' in query paramter are invalid, out of range, or not in the expected format"
+          }
         }
       }
   - statusCode: "401"
