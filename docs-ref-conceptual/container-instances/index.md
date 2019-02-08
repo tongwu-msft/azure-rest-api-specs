@@ -22,7 +22,7 @@ The Container Instances REST API provides operations for working with the follow
 |[Container Group Usage](xref:management.azure.com.container-instances.containergroupusage)| Get usage information for the container groups in a subscription. |
 |[Container Groups](xref:management.azure.com.container-instances.containergroups)| Create, read, update, and delete [container groups](/azure/container-instances/container-instances-container-groups), the top-level resource in Azure Container Instances. |
 |[List Cached Images](xref:management.azure.com.container-instances.listcachedimages) | List the cached images of a specific OS type for a subscription in a region.|
-|[List Capabilities](xref:management.azure.com.container-instances.listcapabilities)| List the CPU, memory, GPU capabilities of a region.|
+|[List Capabilities](xref:management.azure.com.container-instances.listcapabilities)| List the CPU, memory, and GPU capabilities of container instances in a region.|
 |[Operations](xref:management.azure.com.container-instances.operations)| Get information about the available REST API operations in Azure Container Instances. |
 |[Service Association Link](xref:management.azure.com.container-instances.serviceassociationlink)| Manage the service association link for a linked subnet. |
 
