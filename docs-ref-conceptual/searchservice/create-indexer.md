@@ -5,7 +5,7 @@ services: search
 manager: pablocas
 author: luiscabrer
 ms.author: luisca
-ms.date: 05/01/2018
+ms.date: 02/09/2019
 ms.service: search
 ms.devlang: rest-api
 ms.workload: search
@@ -26,7 +26,7 @@ POST https://[service name].search.windows.net/indexers?api-version=2017-11-11-P
 ```  
 The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Security in Azure Search](https://docs.microsoft.com/azure/search/search-security-overview) to learn more about keys. [Create an Azure Search service in the portal](https://docs.microsoft.com/azure/search/search-create-service-portal) explains how to get the service URL and key properties used in the request.
 
-Alternatively, you can use PUT and specify the data source name on the URI. If the data source does not exist, it will be created.  
+Alternatively, you can use PUT and specify the indexer name on the URI. If the indexer does not exist, it will be created.  
 
 ```http
 PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
