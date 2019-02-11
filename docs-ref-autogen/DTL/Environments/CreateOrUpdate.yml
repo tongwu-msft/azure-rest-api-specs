@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
 uid: management.azure.com.dtl.environments.createorupdate
 name: Create Or Update
-service: Dev Test Labs
+service: Lab Services
 groupName: Environments
-apiVersion: 2018-09-15
-summary: Create or replace an existing environment. This operation can take a while to complete.
+apiVersion: 2018-10-15
+summary: Create or replace an existing Environment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/environments/{name}?api-version=2018-09-15
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}/environments/{environmentName}?api-version=2018-10-15
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,19 +24,25 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
+- name: labAccountName
+  in: path
+  isRequired: true
+  description: The name of the lab Account.
+  types:
+  - uid: string
 - name: labName
   in: path
   isRequired: true
   description: The name of the lab.
   types:
   - uid: string
-- name: userName
+- name: environmentSettingName
   in: path
   isRequired: true
-  description: The name of the user profile.
+  description: The name of the environment Setting.
   types:
   - uid: string
-- name: name
+- name: environmentName
   in: path
   isRequired: true
   description: The name of the environment.
@@ -52,11 +58,11 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: DtlEnvironment
+  - uid: Environment
 - name: 201 Created
   description: Created
   types:
-  - uid: DtlEnvironment
+  - uid: Environment
 - name: Other Status Codes
   description: BadRequest
   types:
@@ -64,14 +70,19 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.deploymentProperties
+  - name: properties.resourceSets
     in: body
-    description: The deployment properties of the environment.
+    description: The set of a VM and the setting id it was created for
     types:
-    - uid: EnvironmentDeploymentProperties
-  - name: properties.armTemplateDisplayName
+    - uid: ResourceSet
+  - name: properties.provisioningState
     in: body
-    description: The display name of the Azure Resource Manager template that produced the environment.
+    description: The provisioning status of the resource.
+    types:
+    - uid: string
+  - name: properties.uniqueIdentifier
+    in: body
+    description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
   - name: location
@@ -90,51 +101,137 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: EnvironmentDeploymentProperties
-  description: Properties of an environment deployment.
+- name: ResourceSet
+  description: Represents a VM and the setting Id it was created for.
   kind: object
   properties:
-  - name: armTemplateId
-    description: The Azure Resource Manager template's identifier.
+  - name: vmResourceId
+    description: VM resource Id for the environment
     types:
     - uid: string
-  - name: parameters
-    description: The parameters of the Azure Resource Manager template.
+  - name: resourceSettingId
+    description: resourceSettingId for the environment
     types:
-    - uid: ArmTemplateParameterProperties
-      isArray: true
-- name: DtlEnvironment
-  description: An environment, which is essentially an ARM template deployment.
+    - uid: string
+- name: NetworkInterface
+  description: Network details of the environment
   kind: object
   properties:
-  - name: properties.deploymentProperties
-    description: The deployment properties of the environment.
-    types:
-    - uid: EnvironmentDeploymentProperties
-  - name: properties.armTemplateDisplayName
-    description: The display name of the Azure Resource Manager template that produced the environment.
+  - name: privateIpAddress
+    isReadyOnly: true
+    description: PrivateIp address of the Compute VM
     types:
     - uid: string
-  - name: properties.resourceGroupId
+  - name: sshAuthority
     isReadyOnly: true
-    description: The identifier of the resource group containing the environment's resources.
+    description: Connection information for Linux
     types:
     - uid: string
-  - name: properties.createdByUser
+  - name: rdpAuthority
     isReadyOnly: true
-    description: The creator of the environment.
+    description: Connection information for Windows
+    types:
+    - uid: string
+  - name: username
+    isReadyOnly: true
+    description: Username of the VM
+    types:
+    - uid: string
+- name: LatestOperationResult
+  description: Details of the status of an operation.
+  kind: object
+  properties:
+  - name: status
+    isReadyOnly: true
+    description: The current status of the operation.
+    types:
+    - uid: string
+  - name: errorCode
+    isReadyOnly: true
+    description: Error code on failure.
+    types:
+    - uid: string
+  - name: errorMessage
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: requestUri
+    isReadyOnly: true
+    description: Request URI of the operation.
+    types:
+    - uid: string
+  - name: httpMethod
+    isReadyOnly: true
+    description: The HttpMethod - PUT/POST/DELETE for the operation.
+    types:
+    - uid: string
+  - name: operationUrl
+    isReadyOnly: true
+    description: The URL to use to check long-running operation status
+    types:
+    - uid: string
+- name: Environment
+  description: Represents an environment instance
+  kind: object
+  properties:
+  - name: properties.resourceSets
+    description: The set of a VM and the setting id it was created for
+    types:
+    - uid: ResourceSet
+  - name: properties.claimedByUserObjectId
+    isReadyOnly: true
+    description: The AAD object Id of the user who has claimed the environment
+    types:
+    - uid: string
+  - name: properties.claimedByUserPrincipalId
+    isReadyOnly: true
+    description: The user principal Id of the user who has claimed the environment
+    types:
+    - uid: string
+  - name: properties.claimedByUserName
+    isReadyOnly: true
+    description: The name or email address of the user who has claimed the environment
+    types:
+    - uid: string
+  - name: properties.isClaimed
+    isReadyOnly: true
+    description: Is the environment claimed or not
+    types:
+    - uid: boolean
+  - name: properties.lastKnownPowerState
+    isReadyOnly: true
+    description: Last known power state of the environment
+    types:
+    - uid: string
+  - name: properties.networkInterface
+    isReadyOnly: true
+    description: Network details of the environment
+    types:
+    - uid: NetworkInterface
+  - name: properties.totalUsage
+    isReadyOnly: true
+    description: How long the environment has been used by a lab user
+    types:
+    - uid: string
+  - name: properties.passwordLastReset
+    isReadyOnly: true
+    description: When the password was last reset on the environment.
     types:
     - uid: string
   - name: properties.provisioningState
-    isReadyOnly: true
     description: The provisioning status of the resource.
     types:
     - uid: string
   - name: properties.uniqueIdentifier
-    isReadyOnly: true
     description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
+  - name: properties.latestOperationResult
+    isReadyOnly: true
+    description: 'The details of the latest operation. ex: status, error'
+    types:
+    - uid: LatestOperationResult
   - name: id
     isReadyOnly: true
     description: The identifier of the resource.
@@ -167,35 +264,23 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: The cloud error that occurred
+    description: Body of an error from a REST request.
     types:
     - uid: CloudErrorBody
-- name: ArmTemplateParameterProperties
-  description: Properties of an Azure Resource Manager template parameter.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the template parameter.
-    types:
-    - uid: string
-  - name: value
-    description: The value of the template parameter.
-    types:
-    - uid: string
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
   properties:
   - name: code
-    description: The error code.
+    description: ''
     types:
     - uid: string
   - name: message
-    description: The error message.
+    description: ''
     types:
     - uid: string
   - name: target
-    description: The error target.
+    description: ''
     types:
     - uid: string
   - name: details
