@@ -22,7 +22,7 @@ translation.priority.mt:
 ---
 # Suggestions (Azure Search Service REST API)
 
-A **Suggestions** request is a "search-as-you-type" query consisting of a partial string input (three character minimum). It returns matching text found in suggester-aware fields. Azure Search looks for matching values in fields that are predefined in a [**Suggester**](suggesters.md). For example, if you enable suggestions on a *city* field, typing "sea" produces documents containing "Seattle", "Sea Tac", and "Seaside" (all actual city names) for that field.
+A **Suggestions** request is a "search-as-you-type" query consisting of a partial string input (three character minimum). It returns matching text found in suggester-aware fields. Azure Search looks for matching values in fields that are predefined in a [**Suggester**](https://docs.microsoft.com/azure/search/index-add-suggesters). For example, if you enable suggestions on a *city* field, typing "sea" produces documents containing "Seattle", "Sea Tac", and "Seaside" (all actual city names) for that field.
 
 The results of this operation return a list of suggested text from matching documents, plus the document key.
 If matching text is identical across documents, the suggested text is repeated. To improve the structure of results, consider using the `$select` filter to return additional fields that provide more differentiation and context.  
@@ -47,7 +47,7 @@ api-key: [admin or query key]
  When you use HTTP GET to call **Suggestions**, the length of the request URL cannot exceed 8 KB. This length is usually enough for most applications. However, some applications produce very large queries, specifically when OData filter expressions are used. For these applications, HTTP POST is a better choice because it allows larger filters than GET. With POST, the number of clauses in a filter is the limiting factor, not the size of the raw filter string since the request size limit for POST is approximately 16 MB.  
 
 > [!NOTE]  
->  Even though the POST request size limit is very large, filter expressions cannot be arbitrarily complex. For more information about filter complexity limitations, see [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md).  
+>  Even though the POST request size limit is very large, filter expressions cannot be arbitrarily complex. For more information about filter complexity limitations, see [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax).  
 
 ## Request  
  HTTPS is required for service requests. The **Suggestions** request can be constructed  using the GET or POST methods.  
@@ -76,7 +76,7 @@ api-key: [admin or query key]
 |`search=[string]`|The search text to use to suggest queries. Must be at least 1 character, and no more than 100 characters.|  
 |`highlightPreTag=[string] (optional, defaults to an empty string)`|A string tag that prepends to search hits. Must be set with `highlightPostTag`. **Note:**  When calling **Suggestions** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
 |`highlightPostTag=[string] (optional, defaults to an empty string)`|A string tag that appends to search hits. Must be set with `highlightPreTag`. **Note:**  When calling **Suggestions** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
-|`suggesterName=[string]`|The name of the **suggester** as specified in the **suggesters** collection that's part of the index definition. A **suggester** determines which fields are scanned for suggested query terms. See [Suggesters](suggesters.md) for more information.|  
+|`suggesterName=[string]`|The name of the **suggester** as specified in the **suggesters** collection that's part of the index definition. A **suggester** determines which fields are scanned for suggested query terms. See [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) for more information.|  
 |`fuzzy=[boolean] (optional, default = false)`|When set to true, this API finds suggestions even if there is a substituted or missing character in the search text. While this provides a better experience in some scenarios, it comes at a performance cost as fuzzy suggestion searches are slower and consume more resources.|  
 |`searchFields=[string] (optional)`|The list of comma-separated field names to search for the specified search text. Target fields must be enabled for suggestions.|  
 |`$top=# (optional, default = 5)`|The number of suggestions to retrieve. The value must be a number between 1 and 100. **Note:**  When calling **Suggestions** using POST, this parameter is named `top` instead of `$top`.|  
@@ -168,5 +168,5 @@ POST /indexes/hotels/docs/suggest?api-version=2017-11-11
 ## See also  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [Suggesters](suggesters.md)   
+ [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters)   
  [Azure Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  

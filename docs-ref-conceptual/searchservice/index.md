@@ -94,7 +94,7 @@ For the full list of preview features, see [Preview APIs](https://docs.microsoft
  For its own search-centric operations, Azure Search does not provide an authorization model. However, if you have the ability to load an index with document and user associations, you can filter search results based on user identity. For more information, see [Security filters for trimming results in Azure Search](https://docs.microsoft.com/azure/search/search-security-trimming-for-azure-search).
 
 ## Azure Search Operations  
- Azure Search service API supports two URL syntaxes for API operations: [Simple query syntax in Azure Search](simple-query-syntax-in-azure-search.md) and OData syntax (see [Support for OData &#40;Azure Search&#41;](support-for-odata.md) for details). The following list shows the simple syntax  
+ Azure Search service API supports two URL syntaxes for API operations: [Simple query syntax in Azure Search](https://docs.microsoft.com/azure/search/query-simple-syntax) and OData syntax (see [Support for OData &#40;Azure Search&#41;](support-for-odata.md) for details). The following list shows the simple syntax  
 
 -   [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  
 

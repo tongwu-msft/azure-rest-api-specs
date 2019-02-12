@@ -28,7 +28,7 @@ translation.priority.mt:
 
  Another header you can set is `OData-MaxVersion`. The Azure Search Service API supports OData V4 so you should set `OData-MaxVersion` to "4.0". This tells the API to expect the OData V4 format in the request body, and to send responses in the OData V4 format. In the future as we add support for newer versions of the OData protocol, you may set this header to a different value. The Azure Search service API does not support versions of OData older than V4.  
 
- See [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md) for details about using OData syntax when querying an index. See [Simple query syntax in Azure Search](simple-query-syntax-in-azure-search.md) for alternative syntax.  
+ See [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for details about using OData syntax when querying an index. See [Simple query syntax in Azure Search](https://docs.microsoft.com/azure/search/query-simple-syntax) for alternative syntax.  
 
 ## Search service API with Alternate OData syntax  
  The Search service API supports OData syntax for entity lookup. This applies both to both documents in an index, as well as to indexes themselves (where the index name is the entity key). Here is a summary of all APIs that have alternate OData syntax:  
@@ -88,7 +88,7 @@ GET /indexes('[index name]')/docs/suggest?[query parameters]
 ```  
 
 ## See also  
- [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
+ [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
