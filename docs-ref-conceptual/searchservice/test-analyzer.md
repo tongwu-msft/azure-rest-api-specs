@@ -122,7 +122,7 @@ The response body is in the following format:
  
 ## See also  
  [Azure Search Service REST](index.md)  
- [Custom analyzers in Azure Search](custom-analyzers-in-azure-search.md)  
- [Language support](language-support.md)  
+ [Custom analyzers in Azure Search](https://docs.microsoft.com/azure/search/index-add-custom-analyzers)  
+ [Language support](https://docs.microsoft.com/azure/search/index-add-language-analyzers)  
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md) 
  [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)

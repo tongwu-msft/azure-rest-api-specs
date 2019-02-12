@@ -45,6 +45,6 @@ translation.priority.mt:
 + [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md)   
 + [Create Data Source &#40;Azure Search Service REST API&#41;](create-data-source.md)   
 + [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)   
-+ [Add scoring profiles to a search index](add-scoring-profiles-to-a-search-index.md)   
++ [Add scoring profiles to a search index](https://docs.microsoft.com/azure/search/index-add-scoring-profiles)   
 + [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
 + [Azure Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  

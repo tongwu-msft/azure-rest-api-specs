@@ -87,5 +87,5 @@ GET /indexes/hotels/docs('3')?api-version=2017-11-11
 ## See also  
  [Azure Search Service REST](index.md)   
  [Document operations &#40;Azure Search Service REST API&#41;](document-operations.md)   
- [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
+ [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
  [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)
