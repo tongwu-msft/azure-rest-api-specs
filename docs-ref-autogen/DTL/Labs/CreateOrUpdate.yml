@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
 uid: management.azure.com.dtl.labs.createorupdate
 name: Create Or Update
-service: Dev Test Labs
+service: Lab Services
 groupName: Labs
-apiVersion: 2018-09-15
-summary: Create or replace an existing lab. This operation can take a while to complete.
+apiVersion: 2018-10-15
+summary: Create or replace an existing Lab.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}?api-version=2018-09-15
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}?api-version=2018-10-15
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,7 +24,13 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
-- name: name
+- name: labAccountName
+  in: path
+  isRequired: true
+  description: The name of the lab Account.
+  types:
+  - uid: string
+- name: labName
   in: path
   isRequired: true
   description: The name of the lab.
@@ -52,57 +58,31 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.labStorageType
+  - name: properties.maxUsersInLab
     in: body
-    description: Type of storage used by the lab. It can be either Premium or Standard. Default is Premium.
+    description: Maximum number of users allowed in the lab.
     types:
-    - uid: StorageType
-  - name: properties.mandatoryArtifactsResourceIdsLinux
+    - uid: integer
+  - name: properties.usageQuota
     in: body
-    description: The ordered list of artifact resource IDs that should be applied on all Linux VM creations by default, prior to the artifacts specified by the user.
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.mandatoryArtifactsResourceIdsWindows
-    in: body
-    description: The ordered list of artifact resource IDs that should be applied on all Windows VM creations by default, prior to the artifacts specified by the user.
+    description: Maximum duration a user can use an environment for in the lab.
     types:
     - uid: string
-      isArray: true
-  - name: properties.premiumDataDisks
+  - name: properties.userAccessMode
     in: body
-    description: >-
-      The setting to enable usage of premium data disks.
-
-      When its value is 'Enabled', creation of standard or premium data disks is allowed.
-
-      When its value is 'Disabled', only creation of standard data disks is allowed.
+    description: Lab user access mode (open to all vs. restricted to those listed on the lab).
     types:
-    - uid: PremiumDataDisk
-  - name: properties.environmentPermission
+    - uid: LabUserAccessMode
+  - name: properties.provisioningState
     in: body
-    description: The access rights to be granted to the user when provisioning an environment
+    description: The provisioning status of the resource.
     types:
-    - uid: EnvironmentPermission
-  - name: properties.announcement
+    - uid: string
+  - name: properties.uniqueIdentifier
     in: body
-    description: The properties of any lab announcement associated with this lab
+    description: The unique immutable identifier of a resource (Guid).
     types:
-    - uid: LabAnnouncementProperties
-  - name: properties.support
-    in: body
-    description: The properties of any lab support message associated with this lab
-    types:
-    - uid: LabSupportProperties
-  - name: properties.extendedProperties
-    in: body
-    description: Extended properties of the lab used for experimental features
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
+    - uid: string
   - name: location
     in: body
     description: The location of the resource.
@@ -119,159 +99,94 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: LabAnnouncementProperties
-  description: Properties of a lab's announcement banner
+- name: LatestOperationResult
+  description: Details of the status of an operation.
   kind: object
   properties:
-  - name: title
-    description: The plain text title for the lab announcement
-    types:
-    - uid: string
-  - name: markdown
-    description: The markdown text (if any) that this lab displays in the UI. If left empty/null, nothing will be shown.
-    types:
-    - uid: string
-  - name: enabled
-    description: Is the lab announcement active/enabled at this time?
-    types:
-    - uid: EnableStatus
-  - name: expirationDate
-    description: The time at which the announcement expires (null for never)
-    types:
-    - uid: string
-  - name: expired
-    description: Has this announcement expired?
-    types:
-    - uid: boolean
-  - name: provisioningState
+  - name: status
     isReadyOnly: true
-    description: The provisioning status of the resource.
+    description: The current status of the operation.
     types:
     - uid: string
-  - name: uniqueIdentifier
+  - name: errorCode
     isReadyOnly: true
-    description: The unique immutable identifier of a resource (Guid).
+    description: Error code on failure.
     types:
     - uid: string
-- name: LabSupportProperties
-  description: Properties of a lab's support banner
-  kind: object
-  properties:
-  - name: enabled
-    description: Is the lab support banner active/enabled at this time?
+  - name: errorMessage
+    isReadyOnly: true
+    description: The error message.
     types:
-    - uid: EnableStatus
-  - name: markdown
-    description: The markdown text (if any) that this lab displays in the UI. If left empty/null, nothing will be shown.
+    - uid: string
+  - name: requestUri
+    isReadyOnly: true
+    description: Request URI of the operation.
+    types:
+    - uid: string
+  - name: httpMethod
+    isReadyOnly: true
+    description: The HttpMethod - PUT/POST/DELETE for the operation.
+    types:
+    - uid: string
+  - name: operationUrl
+    isReadyOnly: true
+    description: The URL to use to check long-running operation status
     types:
     - uid: string
 - name: Lab
-  description: A lab.
+  description: Represents a lab.
   kind: object
   properties:
-  - name: properties.defaultStorageAccount
+  - name: properties.maxUsersInLab
+    description: Maximum number of users allowed in the lab.
+    types:
+    - uid: integer
+  - name: properties.userQuota
     isReadyOnly: true
-    description: The lab's default storage account.
+    description: Maximum value MaxUsersInLab can be set to, as specified by the service
     types:
-    - uid: string
-  - name: properties.defaultPremiumStorageAccount
+    - uid: integer
+  - name: properties.invitationCode
     isReadyOnly: true
-    description: The lab's default premium storage account.
+    description: Invitation code that users can use to join a lab.
     types:
     - uid: string
-  - name: properties.artifactsStorageAccount
+  - name: properties.createdByObjectId
     isReadyOnly: true
-    description: The lab's artifact storage account.
+    description: Object id of the user that created the lab.
     types:
     - uid: string
-  - name: properties.premiumDataDiskStorageAccount
+  - name: properties.usageQuota
+    description: Maximum duration a user can use an environment for in the lab.
+    types:
+    - uid: string
+  - name: properties.userAccessMode
+    description: Lab user access mode (open to all vs. restricted to those listed on the lab).
+    types:
+    - uid: LabUserAccessMode
+  - name: properties.createdByUserPrincipalName
     isReadyOnly: true
-    description: The lab's premium data disk storage account.
+    description: Lab creator name
     types:
     - uid: string
-  - name: properties.vaultName
-    isReadyOnly: true
-    description: The lab's Key vault.
-    types:
-    - uid: string
-  - name: properties.labStorageType
-    description: Type of storage used by the lab. It can be either Premium or Standard. Default is Premium.
-    types:
-    - uid: StorageType
-  - name: properties.mandatoryArtifactsResourceIdsLinux
-    description: The ordered list of artifact resource IDs that should be applied on all Linux VM creations by default, prior to the artifacts specified by the user.
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.mandatoryArtifactsResourceIdsWindows
-    description: The ordered list of artifact resource IDs that should be applied on all Windows VM creations by default, prior to the artifacts specified by the user.
-    types:
-    - uid: string
-      isArray: true
   - name: properties.createdDate
     isReadyOnly: true
-    description: The creation date of the lab.
+    description: Creation date for the lab
     types:
     - uid: string
-  - name: properties.premiumDataDisks
-    description: >-
-      The setting to enable usage of premium data disks.
-
-      When its value is 'Enabled', creation of standard or premium data disks is allowed.
-
-      When its value is 'Disabled', only creation of standard data disks is allowed.
-    types:
-    - uid: PremiumDataDisk
-  - name: properties.environmentPermission
-    description: The access rights to be granted to the user when provisioning an environment
-    types:
-    - uid: EnvironmentPermission
-  - name: properties.announcement
-    description: The properties of any lab announcement associated with this lab
-    types:
-    - uid: LabAnnouncementProperties
-  - name: properties.support
-    description: The properties of any lab support message associated with this lab
-    types:
-    - uid: LabSupportProperties
-  - name: properties.vmCreationResourceGroup
-    isReadyOnly: true
-    description: The resource group in which lab virtual machines will be created in.
-    types:
-    - uid: string
-  - name: properties.publicIpId
-    isReadyOnly: true
-    description: The public IP address for the lab's load balancer.
-    types:
-    - uid: string
-  - name: properties.loadBalancerId
-    isReadyOnly: true
-    description: The load balancer used to for lab VMs that use shared IP address.
-    types:
-    - uid: string
-  - name: properties.networkSecurityGroupId
-    isReadyOnly: true
-    description: The Network Security Group attached to the lab VMs Network interfaces to restrict open ports.
-    types:
-    - uid: string
-  - name: properties.extendedProperties
-    description: Extended properties of the lab used for experimental features
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
   - name: properties.provisioningState
-    isReadyOnly: true
     description: The provisioning status of the resource.
     types:
     - uid: string
   - name: properties.uniqueIdentifier
-    isReadyOnly: true
     description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
+  - name: properties.latestOperationResult
+    isReadyOnly: true
+    description: 'The details of the latest operation. ex: status, error'
+    types:
+    - uid: LatestOperationResult
   - name: id
     isReadyOnly: true
     description: The identifier of the resource.
@@ -304,52 +219,19 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: The cloud error that occurred
+    description: Body of an error from a REST request.
     types:
     - uid: CloudErrorBody
-- name: EnableStatus
-  description: The status of the schedule (i.e. Enabled, Disabled)
+- name: LabUserAccessMode
+  description: Lab user access mode (open to all vs. restricted to those listed on the lab).
   kind: enum
   properties:
-  - name: Enabled
+  - name: Restricted
+    description: Only users registered with the lab can access VMs.
     types:
     - uid: string
-  - name: Disabled
-    types:
-    - uid: string
-- name: StorageType
-  description: The storage type for the disk (i.e. Standard, Premium).
-  kind: enum
-  properties:
-  - name: Standard
-    types:
-    - uid: string
-  - name: Premium
-    types:
-    - uid: string
-- name: PremiumDataDisk
-  description: >-
-    The setting to enable usage of premium data disks.
-
-    When its value is 'Enabled', creation of standard or premium data disks is allowed.
-
-    When its value is 'Disabled', only creation of standard data disks is allowed.
-  kind: enum
-  properties:
-  - name: Disabled
-    types:
-    - uid: string
-  - name: Enabled
-    types:
-    - uid: string
-- name: EnvironmentPermission
-  description: The access rights to be granted to the user when provisioning an environment
-  kind: enum
-  properties:
-  - name: Reader
-    types:
-    - uid: string
-  - name: Contributor
+  - name: Open
+    description: Any user can register with the lab and access its VMs.
     types:
     - uid: string
 - name: CloudErrorBody
@@ -357,15 +239,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: The error code.
+    description: ''
     types:
     - uid: string
   - name: message
-    description: The error message.
+    description: ''
     types:
     - uid: string
   - name: target
-    description: The error target.
+    description: ''
     types:
     - uid: string
   - name: details
@@ -373,83 +255,7 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-examples:
-- name: Labs_CreateOrUpdate
-  request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.DevTestLab/labs/{devtestlab-name}?api-version=2018-09-15
-    body: >-
-      {
-        "properties": {
-          "labStorageType": "{Standard|Premium}"
-        },
-        "location": "{azure-location}",
-        "tags": {
-          "MyTag": "MyValue"
-        }
-      }
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "properties": {
-          "labStorageType": "Standard",
-          "mandatoryArtifactsResourceIdsLinux": [],
-          "mandatoryArtifactsResourceIdsWindows": [],
-          "createdDate": "2018-10-02T01:40:48.1739018+00:00",
-          "premiumDataDisks": "Disabled",
-          "environmentPermission": "Reader",
-          "announcement": {
-            "title": "",
-            "markdown": "",
-            "enabled": "Disabled",
-            "expired": false
-          },
-          "support": {
-            "enabled": "Disabled",
-            "markdown": ""
-          },
-          "provisioningState": "Creating",
-          "uniqueIdentifier": "{unique-identifier}"
-        },
-        "id": "/subscriptions/{subscription-id}/resourcegroups/myResourceGroup/providers/microsoft.devtestlab/labs/{devtestlab-name}",
-        "name": "{devtestlab-name}",
-        "type": "Microsoft.DevTestLab/labs",
-        "location": "{azure-location}",
-        "tags": {
-          "MyTag": "MyValue"
-        }
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "properties": {
-          "labStorageType": "Standard",
-          "mandatoryArtifactsResourceIdsLinux": [],
-          "mandatoryArtifactsResourceIdsWindows": [],
-          "createdDate": "2018-10-02T01:40:48.1739018+00:00",
-          "premiumDataDisks": "Disabled",
-          "environmentPermission": "Reader",
-          "announcement": {
-            "title": "",
-            "markdown": "",
-            "enabled": "Disabled",
-            "expired": false
-          },
-          "support": {
-            "enabled": "Disabled",
-            "markdown": ""
-          },
-          "provisioningState": "Creating",
-          "uniqueIdentifier": "{unique-identifier}"
-        },
-        "id": "/subscriptions/{subscription-id}/resourcegroups/myResourceGroup/providers/microsoft.devtestlab/labs/{devtestlab-name}",
-        "name": "{devtestlab-name}",
-        "type": "Microsoft.DevTestLab/labs",
-        "location": "{azure-location}",
-        "tags": {
-          "MyTag": "MyValue"
-        }
-      }
+examples: []
 security:
 - name: azure_auth
   type: oauth2
