@@ -65,5 +65,5 @@ GET /datasources?api-version=2017-11-11&$select=name
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
  [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
- [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)   
+ [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
  [Support for OData &#40;Azure Search&#41;](support-for-odata.md)  

@@ -31,7 +31,7 @@ translation.priority.mt:
 Modifying an existing Azure Search index typically requires an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex), with the exception of the following schema changes:
 
 +  Add new fields
-+  [Add or change scoring profiles](add-scoring-profiles-to-a-search-index.md) 
++  [Add or change scoring profiles](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) 
 +  Change CORS options
 +  Change existing fields with any of the following three modifications: 
   1. Show or hide fields (`retrievable`: true | false)
@@ -51,7 +51,7 @@ api-key: [admin key]
 >  Field attributes that can be changed without the need to re-create the index include: `retrievable`, `searchAnalyzer`, `synonymMaps`.
 >  
 
-Although existing fields cannot be deleted and most attributes cannot be changed, new fields can be added to an existing index at any time. The same applies to a [`suggester`](suggesters.md). New fields may be added to a `suggester` at the same time fields are added, but existing fields cannot be removed from nor added to `suggesters` without an index rebuild.
+Although existing fields cannot be deleted and most attributes cannot be changed, new fields can be added to an existing index at any time. The same applies to a [`suggester`](https://docs.microsoft.com/azure/search/index-add-suggesters). New fields may be added to a `suggester` at the same time fields are added, but existing fields cannot be removed from nor added to `suggesters` without an index rebuild.
 
 When a new field is added, all existing documents in the index automatically have a null value for that field. No additional storage space is consumed until one of two things occur: a value is provided for the new field ([using merge](addupdate-or-delete-documents.md)), or new documents are added.
 

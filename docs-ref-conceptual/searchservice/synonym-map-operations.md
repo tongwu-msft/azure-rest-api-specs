@@ -108,5 +108,5 @@ api-key: [admin key]
 
 ## See also  
  [Azure Search Service REST](index.md)   
- [Language support &#40;Azure Search Service REST API&#41;](language-support.md)
- [Custom Analyzers in Azure Search &#40;Azure Search Service REST API&#41;](custom-analyzers-in-azure-search.md)
+ [Language support &#40;Azure Search Service REST API&#41;](https://docs.microsoft.com/azure/search/index-add-language-analyzers)
+ [Custom Analyzers in Azure Search &#40;Azure Search Service REST API&#41;](https://docs.microsoft.com/azure/search/index-add-custom-analyzers)
