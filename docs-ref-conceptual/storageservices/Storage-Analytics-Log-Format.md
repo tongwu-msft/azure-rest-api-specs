@@ -18,13 +18,12 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Storage Analytics Log Format
 
 Storage Analytics logging records details for both successful and failed requests for your storage account. Storage Analytics logs enable you to review details of read, write, and delete operations against your Azure tables, queues, and blobs. They also enable you to investigate the reasons for failed requests such as timeouts, throttling, and authorization errors.
 
-Each log entry conforms to a standard log format that is governed by the version of Storage Analytics logging in use. Version 1.0 includes all of the fields described in [Log Entry Format 1.0](#log-entry-format-1.0). Version 2.0 adds fields for logging information about requests to the Blob and Queue services that are authorized with an OAuth token. 
-
-Authentication and authorization with Azure AD for the Blob and Queue services is currently in preview. For more information, see [Authenticate with Azure Active Directory (Preview)](Authenticate-with-Azure-Active-Directory.md).
+Each log entry conforms to a standard log format that is governed by the version of Storage Analytics logging in use. Version 1.0 includes all of the fields described in [Log Entry Format 1.0](#log-entry-format-1.0). Version 2.0 adds fields for logging information about requests to the Blob and Queue services that are authorized with an OAuth 2.0 token. Authentication with Azure AD for the Blob and Queue services is currently in preview. 
 
 The first field in a log entry always specifies the version number. Consumers of logging data can take a dependency on this field as well as the following aspects of a log entry:  
 
@@ -130,13 +129,15 @@ To set the logging version, call the appropriate operation for the service:
 
 ## Log entry format 2.0 
 
+Storage Analytics log format version 2.0 adds fields to support logging information about requests authorized with an OAuth 2.0 token provided by Azure Active Directory(Azure AD). Authentication and authorization with Azure AD for the Blob and Queue services is currently in preview. For more information, see [Authenticate with Azure Active Directory (Preview)](Authenticate-with-Azure-Active-Directory.md).
+
  Each version 2.0 log entry adheres to the following format:  
 
  `<version-number>;<request-start-time>;<operation-type>;<request-status>;<http-status-code>;<end-to-end-latency-in-ms>;<server-latency-in-ms>;<authentication-type>;<requester-account-name>;<owner-account-name>;<service-type>;<request-url>;<requested-object-key>;<request-id-header>;<operation-count>;<requester-ip-address>;<request-version-header>;<request-header-size>;<request-packet-size>;<response-header-size>;<response-packet-size>;<request-content-length>;<request-md5>;<server-md5>;<etag-identifier>;<last-modified-time>;<conditions-used>;<user-agent-header>;<referrer-header>;<client-request-id>;<user-object-id>;<tenant-id>;<application-id>;<audience>;<issuer>;<user-principal-name>;<claims>;<authorization-detail>`  
 
 ### Log entry fields for version 2.0 
 
-The following table lists and defines the additional fields written to a version 2.0 log entry. All version 1.0 fields are included as well.
+The following table lists and defines the additional fields written to a version 2.0 log entry. All version 1.0 fields are included in version 2.0 log entries.
 
 | Properties | Description | Sample value |
 |---------------------------|------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
