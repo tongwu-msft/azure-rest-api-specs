@@ -147,7 +147,7 @@ The following table lists and defines the additional fields written to a version
 | Issuer | Issuer used in bearer authorization. | `https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/` |
 | UserPrincipalName | User principal name used in bearer authorization. | `testuser@azure.onmicrosoft.com` |
 | Claims | Reserved for future use. Value is an empty string. | N/A |
-| AuthorizationDetail | Detailed policy information used to authorize the request. | `[{"action":"Microsoft.Storage/storageAccounts/blobServices/containers/read",   "roleAssignmentId":"/subscriptions/5451a164-d870-4626-a64c-c38d62da20da/providers/Microsoft.Authorization/roleAssignments/6632a082-9b6a-486c-b296-f9d785d32800",   "roleDefinitionId":"/subscriptions/5451a164-d870-4626-a64c-c38d62da20da/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe",   "principalId":"03124200-da00-4aa6-aa09-be77923d7870",   "principalType":"ServicePrincipal"}]` |
+| AuthorizationDetail | Detailed policy information used to authorize the request. | `[{"action":"Microsoft.Storage/storageAccounts/blobServices/containers/read",   "roleAssignmentId":"/subscriptions/5451a164-d870-4626-a64c-c38d62da20da/providers/Microsoft.Authorization/roleAssignments/6632a082-9b6a-486c-b296-f9d785d32800",   "roleDefinitionId":"/subscriptions/5451a164-d870-4626-a64c-c38d62da20da/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe", "principalId":"03124200-da00-4aa6-aa09-be77923d7870",   "principalType":"ServicePrincipal"}]` |
 
 ## See Also  
  [About Storage Analytics logging](About-Storage-Analytics-Logging.md)   
