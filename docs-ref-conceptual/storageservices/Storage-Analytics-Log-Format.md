@@ -23,7 +23,7 @@ translation.priority.mt:
 
 Storage Analytics logging records details for both successful and failed requests for your storage account. Storage Analytics logs enable you to review details of read, write, and delete operations against your Azure tables, queues, and blobs. They also enable you to investigate the reasons for failed requests such as timeouts, throttling, and authorization errors.
 
-Each log entry conforms to a standard log format that is governed by the version of Storage Analytics logging in use. Version 1.0 includes all of the fields described in [Log entry format 1.0](#log-entry-format-1-0). Version 2.0 adds fields for logging information about requests to the Blob and Queue services that are authorized with an OAuth 2.0 token. These additional fields are described in [Log entry format 2.0](#log-entry-format-2-0). Authentication with Azure AD for the Blob and Queue services is currently in preview. 
+Each log entry conforms to a standard log format that is governed by the version of Storage Analytics logging in use. Version 1.0 includes all of the fields described in [Log entry format 1.0](#log-entry-format-10). Version 2.0 adds fields for logging information about requests to the Blob and Queue services that are authorized with an OAuth 2.0 token. These additional fields are described in [Log entry format 2.0](#log-entry-format-20). Authentication with Azure AD for the Blob and Queue services is currently in preview. 
 
 The first field in a log entry always specifies the version number. Consumers of logging data can take a dependency on this field as well as the following aspects of a log entry:  
 
@@ -133,7 +133,7 @@ Storage Analytics log format version 2.0 adds fields to support logging informat
 
  Each version 2.0 log entry adheres to the following format:  
 
- `<version-number>;<request-start-time>;<operation-type>;<request-status>;<http-status-code>;<end-to-end-latency-in-ms>;<server-latency-in-ms>;<authentication-type>;<requester-account-name>;<owner-account-name>;<service-type>;<request-url>;<requested-object-key>;<request-id-header>;<operation-count>;<requester-ip-address>;<request-version-header>;<request-header-size>;<request-packet-size>;<response-header-size>;<response-packet-size>;<request-content-length>;<request-md5>;<server-md5>;<etag-identifier>;<last-modified-time>;<conditions-used>;<user-agent-header>;<referrer-header>;<client-request-id>;<user-object-id>;<tenant-id>;<application-id>;<audience>;<issuer>;<user-principal-name>;<claims>;<authorization-detail>`  
+ `<version-number>;<request-start-time>;<operation-type>;<request-status>;<http-status-code>;<end-to-end-latency-in-ms>;<server-latency-in-ms>;<authentication-type>;<requester-account-name>;<owner-account-name>;<service-type>;<request-url>;<requested-object-key>;<request-id-header>;<operation-count>;<requester-ip-address>;<request-version-header>;<request-header-size>;<request-packet-size>;<response-header-size>;<response-packet-size>;<request-content-length>;<request-md5>;<server-md5>;<etag-identifier>;<last-modified-time>;<conditions-used>;<user-agent-header>;<referrer-header>;<client-request-id>;<user-object-id>;<tenant-id>;<application-id>;<audience>;<issuer>;<user-principal-name>;<reserved-field>;<authorization-detail>`  
 
 ### Log entry fields for version 2.0 
 
@@ -141,13 +141,13 @@ The following table lists and defines the additional fields written to a version
 
 | Properties | Description | Sample value |
 |---------------------------|------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| UserObjectId | User's object ID used for authentication. | 03124200-da00-4aa6-aa09-be77923d7870 |
+| UserObjectId | The object ID used for authentication. May be any security principal, including a user, managed identity, or service principal. | 03124200-da00-4aa6-aa09-be77923d7870 |
 | TenantId | Tenant ID used in bearer authorization. | 72f988bf-86f1-41af-91ab-2d7cd011db47 |
 | ApplicationId | Application ID used in bearer authorization. | 2cd20493-fe97-42ef-9ace-ab95b63d82c4 |
-| Audience | Application ID used in bearer authorization. | `https://storage.azure.com` <br /> `https://jasonoauth2.blob.core.windows.net` |
+| Audience | Resource ID used in bearer authorization. | `https://storage.azure.com` |
 | Issuer | Issuer used in bearer authorization. | `https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/` |
 | UserPrincipalName | User principal name used in bearer authorization. | `testuser@azure.onmicrosoft.com` |
-| Claims | Reserved for future use. Value is an empty string. | N/A |
+| Reserved | Reserved for future use. Value is an empty string. | N/A |
 | AuthorizationDetail | Detailed policy information used to authorize the request. | `[{"action":"Microsoft.Storage/storageAccounts/blobServices/containers/read",   "roleAssignmentId":"/subscriptions/5451a164-d870-4626-a64c-c38d62da20da/providers/Microsoft.Authorization/roleAssignments/6632a082-9b6a-486c-b296-f9d785d32800",   "roleDefinitionId":"/subscriptions/5451a164-d870-4626-a64c-c38d62da20da/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe", "principalId":"03124200-da00-4aa6-aa09-be77923d7870",   "principalType":"ServicePrincipal"}]` |
 
 ## See also  
