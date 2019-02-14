@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
 uid: management.azure.com.dtl.users.list
 name: List
-service: Lab Services
+service: Dev Test Labs
 groupName: Users
-apiVersion: 2018-10-15
-summary: List users in a given lab.
+apiVersion: 2018-09-15
+summary: List user profiles in a given lab.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/users?api-version=2018-10-15
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/users?$expand={$expand}&$filter={$filter}&$top={$top}&$orderby={$orderby}&api-version=2018-10-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users?api-version=2018-09-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users?$expand={$expand}&$filter={$filter}&$top={$top}&$orderby={$orderby}&api-version=2018-09-15
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -26,12 +26,6 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
-- name: labAccountName
-  in: path
-  isRequired: true
-  description: The name of the lab Account.
-  types:
-  - uid: string
 - name: labName
   in: path
   isRequired: true
@@ -40,23 +34,23 @@ uriParameters:
   - uid: string
 - name: $expand
   in: query
-  description: "Specify the $expand query. Example: 'properties($select=email)'"
+  description: "Specify the $expand query. Example: 'properties($select=identity)'"
   types:
   - uid: string
 - name: $filter
   in: query
-  description: The filter to apply to the operation.
+  description: "The filter to apply to the operation. Example: '$filter=contains(name,'myName')"
   types:
   - uid: string
 - name: $top
   in: query
-  description: The maximum number of resources to return from the operation.
+  description: "The maximum number of resources to return from the operation. Example: '$top=10'"
   types:
   - uid: integer
   format: int32
 - name: $orderby
   in: query
-  description: The ordering expression for the results, using OData notation.
+  description: "The ordering expression for the results, using OData notation. Example: '$orderby=name desc'"
   types:
   - uid: string
 - name: api-version
@@ -69,14 +63,14 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: ResponseWithContinuation[User]
+  - uid: UserList
 - name: Other Status Codes
   description: BadRequest
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: ResponseWithContinuation[User]
+- name: UserList
   description: The response of a list operation.
   kind: object
   properties:
@@ -94,51 +88,36 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: Body of an error from a REST request.
+    description: The cloud error that occurred
     types:
     - uid: CloudErrorBody
 - name: User
-  description: The User registered to a lab
+  description: Profile of a lab user.
   kind: object
   properties:
-  - name: properties.email
-    isReadyOnly: true
-    description: The user email address, as it was specified during registration.
+  - name: properties.identity
+    description: The identity of the user.
     types:
-    - uid: string
-  - name: properties.familyName
-    isReadyOnly: true
-    description: The user family name, as it was specified during registration.
+    - uid: UserIdentity
+  - name: properties.secretStore
+    description: The secret store of the user.
     types:
-    - uid: string
-  - name: properties.givenName
+    - uid: UserSecretStore
+  - name: properties.createdDate
     isReadyOnly: true
-    description: The user given name, as it was specified during registration.
-    types:
-    - uid: string
-  - name: properties.tenantId
-    isReadyOnly: true
-    description: The user tenant ID, as it was specified during registration.
-    types:
-    - uid: string
-  - name: properties.totalUsage
-    isReadyOnly: true
-    description: How long the user has used his VMs in this lab
+    description: The creation date of the user profile.
     types:
     - uid: string
   - name: properties.provisioningState
+    isReadyOnly: true
     description: The provisioning status of the resource.
     types:
     - uid: string
   - name: properties.uniqueIdentifier
+    isReadyOnly: true
     description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-  - name: properties.latestOperationResult
-    isReadyOnly: true
-    description: 'The details of the latest operation. ex: status, error'
-    types:
-    - uid: LatestOperationResult
   - name: id
     isReadyOnly: true
     description: The identifier of the resource.
@@ -171,15 +150,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: ''
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: The error target.
     types:
     - uid: string
   - name: details
@@ -187,38 +166,40 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: LatestOperationResult
-  description: Details of the status of an operation.
+- name: UserIdentity
+  description: Identity attributes of a lab user.
   kind: object
   properties:
-  - name: status
-    isReadyOnly: true
-    description: The current status of the operation.
+  - name: principalName
+    description: Set to the principal name / UPN of the client JWT making the request.
     types:
     - uid: string
-  - name: errorCode
-    isReadyOnly: true
-    description: Error code on failure.
+  - name: principalId
+    description: Set to the principal Id of the client JWT making the request. Service principal will not have the principal Id.
     types:
     - uid: string
-  - name: errorMessage
-    isReadyOnly: true
-    description: The error message.
+  - name: tenantId
+    description: Set to the tenant ID of the client JWT making the request.
     types:
     - uid: string
-  - name: requestUri
-    isReadyOnly: true
-    description: Request URI of the operation.
+  - name: objectId
+    description: Set to the object Id of the client JWT making the request. Not all users have object Id. For CSP (reseller) scenarios for example, object Id is not available.
     types:
     - uid: string
-  - name: httpMethod
-    isReadyOnly: true
-    description: The HttpMethod - PUT/POST/DELETE for the operation.
+  - name: appId
+    description: Set to the app Id of the client JWT making the request.
     types:
     - uid: string
-  - name: operationUrl
-    isReadyOnly: true
-    description: The URL to use to check long-running operation status
+- name: UserSecretStore
+  description: Properties of a user's secret store.
+  kind: object
+  properties:
+  - name: keyVaultUri
+    description: The URI of the user's Key vault.
+    types:
+    - uid: string
+  - name: keyVaultId
+    description: The ID of the user's Key vault.
     types:
     - uid: string
 examples: []

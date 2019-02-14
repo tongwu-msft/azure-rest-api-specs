@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
 uid: management.azure.com.dtl.galleryimages.list
 name: List
-service: Lab Services
+service: Dev Test Labs
 groupName: Gallery Images
-apiVersion: 2018-10-15
-summary: List gallery images in a given lab account.
+apiVersion: 2018-09-15
+summary: List gallery images in a given lab.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/galleryimages?api-version=2018-10-15
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/galleryimages?$expand={$expand}&$filter={$filter}&$top={$top}&$orderby={$orderby}&api-version=2018-10-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/galleryimages?api-version=2018-09-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/galleryimages?$expand={$expand}&$filter={$filter}&$top={$top}&$orderby={$orderby}&api-version=2018-09-15
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -26,10 +26,10 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
-- name: labAccountName
+- name: labName
   in: path
   isRequired: true
-  description: The name of the lab Account.
+  description: The name of the lab.
   types:
   - uid: string
 - name: $expand
@@ -39,18 +39,18 @@ uriParameters:
   - uid: string
 - name: $filter
   in: query
-  description: The filter to apply to the operation.
+  description: "The filter to apply to the operation. Example: '$filter=contains(name,'myName')"
   types:
   - uid: string
 - name: $top
   in: query
-  description: The maximum number of resources to return from the operation.
+  description: "The maximum number of resources to return from the operation. Example: '$top=10'"
   types:
   - uid: integer
   format: int32
 - name: $orderby
   in: query
-  description: The ordering expression for the results, using OData notation.
+  description: "The ordering expression for the results, using OData notation. Example: '$orderby=name desc'"
   types:
   - uid: string
 - name: api-version
@@ -63,14 +63,14 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: ResponseWithContinuation[GalleryImage]
+  - uid: GalleryImageList
 - name: Other Status Codes
   description: BadRequest
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: ResponseWithContinuation[GalleryImage]
+- name: GalleryImageList
   description: The response of a list operation.
   kind: object
   properties:
@@ -88,15 +88,14 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: Body of an error from a REST request.
+    description: The cloud error that occurred
     types:
     - uid: CloudErrorBody
 - name: GalleryImage
-  description: Represents an image from the Azure Marketplace
+  description: A gallery image.
   kind: object
   properties:
   - name: properties.author
-    isReadyOnly: true
     description: The author of the gallery image.
     types:
     - uid: string
@@ -106,30 +105,22 @@ definitions:
     types:
     - uid: string
   - name: properties.description
-    isReadyOnly: true
     description: The description of the gallery image.
     types:
     - uid: string
   - name: properties.imageReference
-    isReadyOnly: true
     description: The image reference of the gallery image.
     types:
     - uid: GalleryImageReference
   - name: properties.icon
-    isReadyOnly: true
     description: The icon of the gallery image.
     types:
     - uid: string
-  - name: properties.isEnabled
+  - name: properties.enabled
     description: Indicates whether this gallery image is enabled.
     types:
     - uid: boolean
-  - name: properties.isOverride
-    description: Indicates whether this gallery has been overridden for this lab account
-    types:
-    - uid: boolean
   - name: properties.planId
-    isReadyOnly: true
     description: The third party plan that applies to this image
     types:
     - uid: string
@@ -137,19 +128,6 @@ definitions:
     description: Indicates if the plan has been authorized for programmatic deployment.
     types:
     - uid: boolean
-  - name: properties.provisioningState
-    description: The provisioning status of the resource.
-    types:
-    - uid: string
-  - name: properties.uniqueIdentifier
-    description: The unique immutable identifier of a resource (Guid).
-    types:
-    - uid: string
-  - name: properties.latestOperationResult
-    isReadyOnly: true
-    description: 'The details of the latest operation. ex: status, error'
-    types:
-    - uid: LatestOperationResult
   - name: id
     isReadyOnly: true
     description: The identifier of the resource.
@@ -182,15 +160,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: ''
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: The error target.
     types:
     - uid: string
   - name: details
@@ -220,40 +198,6 @@ definitions:
     - uid: string
   - name: version
     description: The version of the gallery image.
-    types:
-    - uid: string
-- name: LatestOperationResult
-  description: Details of the status of an operation.
-  kind: object
-  properties:
-  - name: status
-    isReadyOnly: true
-    description: The current status of the operation.
-    types:
-    - uid: string
-  - name: errorCode
-    isReadyOnly: true
-    description: Error code on failure.
-    types:
-    - uid: string
-  - name: errorMessage
-    isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-  - name: requestUri
-    isReadyOnly: true
-    description: Request URI of the operation.
-    types:
-    - uid: string
-  - name: httpMethod
-    isReadyOnly: true
-    description: The HttpMethod - PUT/POST/DELETE for the operation.
-    types:
-    - uid: string
-  - name: operationUrl
-    isReadyOnly: true
-    description: The URL to use to check long-running operation status
     types:
     - uid: string
 examples: []
