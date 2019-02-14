@@ -22,9 +22,9 @@ Azure DevTest Labs is a service that helps developers and testers quickly create
 | [Gallery Images](./GalleryImages)                 | Provides operations for creating and managing gallery images in a lab account.                                                                   |
 | [Global Users](./GlobalUsers)                                      | Provides operations for managing global users of labs. |
 | [Lab Accounts](./LabAccounts)                       | Provides operations for creating and managing lab accounts.                                                         |
-| [Labs](./Labs)                                      | Provides operations for managing a lab's storage disks.                                                              |
-| [Operations](./Operations)                        | Provides operations for managing a lab's environments (ARM template deployments).                                    |
-| [Provider Operations](./ProviderOperations)                                | Provides operations for managing formulas.                                                                           |
+| [Labs](./Labs)                                      | Provides operations for creating and managing labs.                                                              |
+| [Operations](./Operations)                        | Provides methods for getting details about an operation.                                    |
+| [Provider Operations](./ProviderOperations)                                | Provides method for listing REST API operations provided by the Microsoft.LabServices provider.                                                                           |
 | [Users](./Users)                     | Provides operations for creating and managing users in a lab.                                                            |
 
 
