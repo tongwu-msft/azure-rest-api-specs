@@ -17,15 +17,15 @@ Azure DevTest Labs is a service that helps developers and testers quickly create
  
 | Resource Groups                                       | Description                                                                                                          |
 |-------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| [Environment Settings](./EnvironmentSettings)                       | Provides operations for creating and managing environment settings for a lab.                                                    |
-| [Environments](./Environments)                              | Provides operations for creating and managing environments for a lab. |
-| [Gallery Images](./GalleryImages)                 | Provides operations for creating and managing gallery images in a lab account.                                                                   |
-| [Global Users](./GlobalUsers)                                      | Provides operations for managing global users of labs. |
-| [Lab Accounts](./LabAccounts)                       | Provides operations for creating and managing lab accounts.                                                         |
-| [Labs](./Labs)                                      | Provides operations for creating and managing labs.                                                              |
-| [Operations](./Operations)                        | Provides methods for getting details about an operation.                                    |
-| [Provider Operations](./ProviderOperations)                                | Provides method for listing REST API operations provided by the Microsoft.LabServices provider.                                                                           |
-| [Users](./Users)                     | Provides operations for creating and managing users in a lab.                                                            |
+| [Environment Settings](xref:management.azure.com.dtl.environmentsettings)                       | Provides operations for creating and managing environment settings for a lab.                                                    |
+| [Environments](xref:management.azure.com.dtl.environments)                              | Provides operations for creating and managing environments for a lab. |
+| [Gallery Images](xref:management.azure.com.dtl.galleryimages)                 | Provides operations for creating and managing gallery images in a lab account.                                                                   |
+| [Global Users](xref:management.azure.com.dtl.globalusers)                                      | Provides operations for managing global users of labs. |
+| [Lab Accounts](xref:management.azure.com.dtl.labaccounts)                       | Provides operations for creating and managing lab accounts.                                                         |
+| [Labs](xref:management.azure.com.dtl.labs)                                      | Provides operations for creating and managing labs.                                                              |
+| [Operations](xref:management.azure.com.dtl.operations)                        | Provides methods for getting details about an operation.                                    |
+| [Provider Operations](xref:management.azure.com.dtl.provideroperations)                                | Provides method for listing REST API operations provided by the Microsoft.LabServices provider.                                                                           |
+| [Users](xref:management.azure.com.dtl.users)                     | Provides operations for creating and managing users in a lab.                                                            |
 
 
 ## See Also
