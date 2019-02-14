@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
 uid: management.azure.com.dtl.users.createorupdate
 name: Create Or Update
-service: Lab Services
+service: Dev Test Labs
 groupName: Users
-apiVersion: 2018-10-15
-summary: Create or replace an existing User.
+apiVersion: 2018-09-15
+summary: Create or replace an existing user profile. This operation can take a while to complete.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/users/{userName}?api-version=2018-10-15
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{name}?api-version=2018-09-15
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,22 +24,16 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
-- name: labAccountName
-  in: path
-  isRequired: true
-  description: The name of the lab Account.
-  types:
-  - uid: string
 - name: labName
   in: path
   isRequired: true
   description: The name of the lab.
   types:
   - uid: string
-- name: userName
+- name: name
   in: path
   isRequired: true
-  description: The name of the user.
+  description: The name of the user profile.
   types:
   - uid: string
 - name: api-version
@@ -64,16 +58,16 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.provisioningState
+  - name: properties.identity
     in: body
-    description: The provisioning status of the resource.
+    description: The identity of the user.
     types:
-    - uid: string
-  - name: properties.uniqueIdentifier
+    - uid: UserIdentity
+  - name: properties.secretStore
     in: body
-    description: The unique immutable identifier of a resource (Guid).
+    description: The secret store of the user.
     types:
-    - uid: string
+    - uid: UserSecretStore
   - name: location
     in: body
     description: The location of the resource.
@@ -90,82 +84,69 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: LatestOperationResult
-  description: Details of the status of an operation.
+- name: UserIdentity
+  description: Identity attributes of a lab user.
   kind: object
   properties:
-  - name: status
-    isReadyOnly: true
-    description: The current status of the operation.
+  - name: principalName
+    description: Set to the principal name / UPN of the client JWT making the request.
     types:
     - uid: string
-  - name: errorCode
-    isReadyOnly: true
-    description: Error code on failure.
+  - name: principalId
+    description: Set to the principal Id of the client JWT making the request. Service principal will not have the principal Id.
     types:
     - uid: string
-  - name: errorMessage
-    isReadyOnly: true
-    description: The error message.
+  - name: tenantId
+    description: Set to the tenant ID of the client JWT making the request.
     types:
     - uid: string
-  - name: requestUri
-    isReadyOnly: true
-    description: Request URI of the operation.
+  - name: objectId
+    description: Set to the object Id of the client JWT making the request. Not all users have object Id. For CSP (reseller) scenarios for example, object Id is not available.
     types:
     - uid: string
-  - name: httpMethod
-    isReadyOnly: true
-    description: The HttpMethod - PUT/POST/DELETE for the operation.
+  - name: appId
+    description: Set to the app Id of the client JWT making the request.
     types:
     - uid: string
-  - name: operationUrl
-    isReadyOnly: true
-    description: The URL to use to check long-running operation status
+- name: UserSecretStore
+  description: Properties of a user's secret store.
+  kind: object
+  properties:
+  - name: keyVaultUri
+    description: The URI of the user's Key vault.
+    types:
+    - uid: string
+  - name: keyVaultId
+    description: The ID of the user's Key vault.
     types:
     - uid: string
 - name: User
-  description: The User registered to a lab
+  description: Profile of a lab user.
   kind: object
   properties:
-  - name: properties.email
-    isReadyOnly: true
-    description: The user email address, as it was specified during registration.
+  - name: properties.identity
+    description: The identity of the user.
     types:
-    - uid: string
-  - name: properties.familyName
-    isReadyOnly: true
-    description: The user family name, as it was specified during registration.
+    - uid: UserIdentity
+  - name: properties.secretStore
+    description: The secret store of the user.
     types:
-    - uid: string
-  - name: properties.givenName
+    - uid: UserSecretStore
+  - name: properties.createdDate
     isReadyOnly: true
-    description: The user given name, as it was specified during registration.
-    types:
-    - uid: string
-  - name: properties.tenantId
-    isReadyOnly: true
-    description: The user tenant ID, as it was specified during registration.
-    types:
-    - uid: string
-  - name: properties.totalUsage
-    isReadyOnly: true
-    description: How long the user has used his VMs in this lab
+    description: The creation date of the user profile.
     types:
     - uid: string
   - name: properties.provisioningState
+    isReadyOnly: true
     description: The provisioning status of the resource.
     types:
     - uid: string
   - name: properties.uniqueIdentifier
+    isReadyOnly: true
     description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
-  - name: properties.latestOperationResult
-    isReadyOnly: true
-    description: 'The details of the latest operation. ex: status, error'
-    types:
-    - uid: LatestOperationResult
   - name: id
     isReadyOnly: true
     description: The identifier of the resource.
@@ -198,7 +179,7 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: Body of an error from a REST request.
+    description: The cloud error that occurred
     types:
     - uid: CloudErrorBody
 - name: CloudErrorBody
@@ -206,15 +187,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: ''
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: The error target.
     types:
     - uid: string
   - name: details
