@@ -29,7 +29,7 @@ The Azure Search Service REST APIs support a set of common HTTP request/response
 |Accept|Content type|The requested content type for the response. Default is application/json;odata.metadata=minimal. Other allowable values are application/json, application/json;odata.metata=full, application/json;odata.metadata=none, and text/plain (for $count only).|  
 |api-key|String|Set to your query or admin key, depending on the API.|  
 |Content-Type|Content-Type|Content type of request body (PUT/POST). Default is `application/json`.|  
-|client-request-id|GUID|Optional caller-specified request ID, in the form of a GUID with no decoration such as curly braces (e.g. client-request-id: 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0). A caller-defined value that identifies the given request. If specified, this will be included in response information as a way to map the request.|  
+|client-request-id|GUID|Optional caller-specified request ID, in the form of a GUID with no decoration such as curly braces (for example, client-request-id: 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0). A caller-defined value that identifies the given request. If specified, this will be included in response information as a way to map the request.|  
 |OData-MaxVersion|"4.0"|Specifies the maximum version of the OData protocol supported by the client. Default is "4.0"|  
 |Prefer|"return=representation" or "return=minimal"|Used to control the response payload from PUT and POST /indexes requests. Default is "return=representation" when creating a new index via POST or PUT, and "return=minimal" for updating an existing index via PUT..|  
 |return-client-request-id|True or False|If specified when client-request-id is specified, instructs the server to include the client-request-id header in the response. Default is False.|  
@@ -40,7 +40,7 @@ The Azure Search Service REST APIs support a set of common HTTP request/response
 |---------------------|----------|-----------------|  
 |client-request-id|GUID|An identifier specified by the caller in the original request, if present.|  
 |Content-Type|Content-Type|The content type of the response body.|  
-|Location|URL|The URL of the newly-created index definition for POST and PUT /indexes requests.|  
+|Location|URL|The URL of the newly created index definition for POST and PUT /indexes requests.|  
 |OData-Version|"4.0"|OData protocol version of the response.|  
 |request-id|GUID|A unique identifier for the current operation. Equal to client-request-id if specified; otherwise the value is generated on the server.|  
 |elapsed-time|Number|Time, in milliseconds, that the service spent processing the request. This only includes the time spent on processing the request, and does not include network transfer time.|  

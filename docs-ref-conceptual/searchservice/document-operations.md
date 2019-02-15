@@ -55,7 +55,7 @@ Allowable operations on Azure Search documents include the following:
 
 -   [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)  
 
-     Suggestions are type-ahead, auto-complete queries that are displayed as the user enters a search term. For example, while typing "mountain bikes", a list of potential queries that include "mountain bikes" drop down below the search box. Suggestions are a document operation because potential queries are built from the fields in your documents.  
+     Suggestions are type-ahead, autocomplete queries that are displayed as the user enters a search term. For example, while typing "mountain bikes", a list of potential queries that include "mountain bikes" drop-down below the search box. Suggestions are a document operation because potential queries are built from the fields in your documents.  
 
 -   [Count Documents &#40;Azure Search Service REST API&#41;](count-documents.md)  
 
