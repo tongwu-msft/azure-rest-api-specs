@@ -76,10 +76,6 @@ Language-specific fields are also illustrated in this index. Description fields 
 
 -   [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  
 
--   [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md)  
-
--   [Language support &#40;Azure Search Service REST API&#41;](language-support.md)  
-
 -   [Update Index &#40;Azure Search Service REST API&#41;](update-index.md)  
 
 -   [Get Index &#40;Azure Search Service REST API&#41;](get-index.md)  

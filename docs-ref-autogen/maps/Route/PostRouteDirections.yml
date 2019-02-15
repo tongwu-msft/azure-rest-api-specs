@@ -15,14 +15,14 @@ summary: >-
   Information returned includes the distance, estimated travel time, and a representation of the route geometry. Additional routing information such as optimized waypoint order or turn by turn instructions is also available, depending on the options selected.
 
 
-  Routing service provides a set of parameters for a detailed description of a vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/en-us/rest/api/maps/consumption-model) for detailed explanation of the concepts and parameters involved.
+  Routing service provides a set of parameters for a detailed description of a vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/en-us/azure/azure-maps/consumption-model) for detailed explanation of the concepts and parameters involved.
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: POST https://atlas.microsoft.com/route/directions/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}
-- content: POST https://atlas.microsoft.com/route/directions/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&maxAlternatives={maxAlternatives}&alternativeType={alternativeType}&minDeviationDistance={minDeviationDistance}&minDeviationTime={minDeviationTime}&instructionsType={instructionsType}&language={language}&computeBestOrder={computeBestOrder}&routeRepresentation={routeRepresentation}&computeTravelTimeFor={computeTravelTimeFor}&vehicleHeading={vehicleHeading}&report={report}&sectionType={sectionType}&arriveAt={arriveAt}&departAt={departAt}&vehicleAxleWeight={vehicleAxleWeight}&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleMaxSpeed={vehicleMaxSpeed}&vehicleWeight={vehicleWeight}&windingness={windingness}&hilliness={hilliness}&travelMode={travelMode}&avoid={avoid}&traffic={traffic}&routeType={routeType}&vehicleLoadType={vehicleLoadType}&vehicleEngineType={vehicleEngineType}&constantSpeedConsumptionInLitersPerHundredkm={constantSpeedConsumptionInLitersPerHundredkm}&currentFuelInLiters={currentFuelInLiters}&auxiliaryPowerInLitersPerHour={auxiliaryPowerInLitersPerHour}&fuelEnergyDensityInMJoulesPerLiter={fuelEnergyDensityInMJoulesPerLiter}&accelerationEfficiency={accelerationEfficiency}&decelerationEfficiency={decelerationEfficiency}&uphillEfficiency={uphillEfficiency}&downhillEfficiency={downhillEfficiency}&constantSpeedConsumptionInkWhPerHundredkm={constantSpeedConsumptionInkWhPerHundredkm}&currentChargeInkWh={currentChargeInkWh}&maxChargeInkWh={maxChargeInkWh}&auxiliaryPowerInkW={auxiliaryPowerInkW}
+- content: POST https://atlas.microsoft.com/route/directions/{format}?api-version=1.0&query={query}
+- content: POST https://atlas.microsoft.com/route/directions/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&maxAlternatives={maxAlternatives}&alternativeType={alternativeType}&minDeviationDistance={minDeviationDistance}&minDeviationTime={minDeviationTime}&instructionsType={instructionsType}&language={language}&computeBestOrder={computeBestOrder}&routeRepresentation={routeRepresentation}&computeTravelTimeFor={computeTravelTimeFor}&vehicleHeading={vehicleHeading}&report={report}&sectionType={sectionType}&arriveAt={arriveAt}&departAt={departAt}&vehicleAxleWeight={vehicleAxleWeight}&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleMaxSpeed={vehicleMaxSpeed}&vehicleWeight={vehicleWeight}&vehicleCommercial={vehicleCommercial}&windingness={windingness}&hilliness={hilliness}&travelMode={travelMode}&avoid={avoid}&traffic={traffic}&routeType={routeType}&vehicleLoadType={vehicleLoadType}&vehicleEngineType={vehicleEngineType}&constantSpeedConsumptionInLitersPerHundredkm={constantSpeedConsumptionInLitersPerHundredkm}&currentFuelInLiters={currentFuelInLiters}&auxiliaryPowerInLitersPerHour={auxiliaryPowerInLitersPerHour}&fuelEnergyDensityInMJoulesPerLiter={fuelEnergyDensityInMJoulesPerLiter}&accelerationEfficiency={accelerationEfficiency}&decelerationEfficiency={decelerationEfficiency}&uphillEfficiency={uphillEfficiency}&downhillEfficiency={downhillEfficiency}&constantSpeedConsumptionInkWhPerHundredkm={constantSpeedConsumptionInkWhPerHundredkm}&currentChargeInkWh={currentChargeInkWh}&maxChargeInkWh={maxChargeInkWh}&auxiliaryPowerInkW={auxiliaryPowerInkW}
   isOptional: true
 uriParameters:
 - name: format
@@ -33,8 +33,7 @@ uriParameters:
   - uid: TextFormat
 - name: subscription-key
   in: query
-  isRequired: true
-  description: Azure Maps subscription key
+  description: One of the Azure Maps keys provided from an Azure Map Account. Refer to the subscription-key security definition.
   types:
   - uid: string
 - name: api-version
@@ -172,6 +171,11 @@ uriParameters:
     Sensible Values : for **Combustion Model** : 1600, for **Electric Model** : 1900
   types:
   - uid: integer
+- name: vehicleCommercial
+  in: query
+  description: Vehicle is used for commercial purposes and thus may not be allowed to drive  on some roads.
+  types:
+  - uid: boolean
 - name: windingness
   in: query
   description: Level of turns for thrilling route. This parameter can only be used in conjunction with routeType=thrilling.
@@ -184,7 +188,7 @@ uriParameters:
   - uid: Hilliness
 - name: travelMode
   in: query
-  description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In calculateReachableRange requests, the values bicycle and pedestrian must not be used
+  description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used
   types:
   - uid: TravelMode
 - name: avoid
@@ -305,7 +309,7 @@ uriParameters:
 - name: downhillEfficiency
   in: query
   description: >-
-    Specifies the efficiency of converting potential energy to saved (not consumed) fuel when the vehicle loses elevation _(i.e. ChemicalEnergySaved/PotentialEnergyLost).ChemicalEnergySaved_ is obtained by converting saved (not consumed) fuel to energy using **fuelEnergyDensityInMJoulesPerLiter**.
+    Specifies the efficiency of converting potential energy to saved (not consumed) fuel when the vehicle loses elevation _(i.e. ChemicalEnergySaved/PotentialEnergyLost). ChemicalEnergySaved_ is obtained by converting saved (not consumed) fuel to energy using **fuelEnergyDensityInMJoulesPerLiter**.
 
 
     Must be paired with **uphillEfficiency**.
@@ -350,8 +354,7 @@ uriParameters:
 
     This parameter is required for **Electric consumption model**.
   types:
-  - uid: number
-  format: float
+  - uid: string
 - name: currentChargeInkWh
   in: query
   description: >-
@@ -404,7 +407,10 @@ responses:
   types:
   - uid: ErrorResponse
 - name: 401 Unauthorized
-  description: Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription.
+  headers:
+  - name: WWW-Authenticate
+    value: string
+  description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
   types:
   - uid: ErrorResponse
 - name: 403 Forbidden
@@ -419,7 +425,21 @@ responses:
   description: An error occurred while processing the request. Please try again later.
   types:
   - uid: ErrorResponse
-requestHeader: []
+requestBody:
+- name: default
+  parameters:
+  - name: coordinateList
+    in: body
+    description: An array of GeoJSON points representing coordinates
+    types:
+    - uid: GeoJSONPoint
+      isArray: true
+requestHeader:
+- name: x-ms-client-id
+  in: header
+  description: 'Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.    '
+  types:
+  - uid: string
 definitions:
 - name: TextFormat
   description: Desired format of the response. Value can be either _json_ or _xml_.
@@ -467,6 +487,10 @@ definitions:
   properties:
   - name: polyline
     description: Includes route geometry in the response.
+    types:
+    - uid: string
+  - name: summaryOnly
+    description: Summary as per polyline but excluding the point geometry elements for the routes in the response.
     types:
     - uid: string
   - name: none
@@ -562,7 +586,7 @@ definitions:
     types:
     - uid: string
 - name: TravelMode
-  description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In calculateReachableRange requests, the values bicycle and pedestrian must not be used
+  description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used
   kind: enum
   properties:
   - name: car
@@ -709,14 +733,18 @@ definitions:
     description: Electric engine.
     types:
     - uid: string
-- name: GeoJSONFeatureCollection
-  description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details.
+- name: GeoJSONPoint
+  description: A valid `GeoJSON Point` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.2) for details.
   kind: object
   properties:
-  - name: features
-    description: Contains a list of valid `GeoJSON Feature` objects.
+  - name: type
+    description: Specifies the `type` for the geometry. Value should always be equal to "Point".
     types:
-    - uid: Features
+    - uid: string
+  - name: coordinates
+    description: A valid `GeoJSON Position` geometry type. A `Position` is an array of numbers with two or more elements. The first two elements are _longitude_ and _latitude_, precisely in that order. _Altitude/Elevation_ is an optional third element. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.1) for details.
+    types:
+    - uid: number
       isArray: true
 - name: RouteDirectionsResponse
   description: This object is returned from a successful Route Directions call
@@ -766,27 +794,10 @@ definitions:
   kind: object
   properties:
   - name: coordinateList
-    isReadyOnly: true
-    description: An array of GeoJSON features representing coordinates
+    description: An array of GeoJSON points representing coordinates
     types:
-    - uid: GeoJSONFeatureCollection
+    - uid: GeoJSONPoint
       isArray: true
-- name: Features
-  description: Contains a list of valid `GeoJSON Feature` objects.
-  kind: object
-  properties:
-  - name: type
-    description: Specifies the `type` for the object. Value should always be equal to "Feature".
-    types:
-    - uid: string
-  - name: geometry
-    description: A valid `GeoJSON` geometry object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
-    types:
-    - uid: Geometry
-  - name: properties
-    description: Properties can contain any additional metadata about the `Feature`. Value can be any JSON object or a JSON null value
-    types:
-    - uid: object
 - name: RouteDirectionsResult
   kind: object
   properties:
@@ -850,19 +861,6 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
-- name: Geometry
-  description: A valid `GeoJSON` geometry object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
-  kind: object
-  properties:
-  - name: type
-    description: Specifies the `GeoJSON` geometry type. Must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
-    types:
-    - uid: GeoJSONGeometryType
-  - name: coordinates
-    description: Coordinates for the geometry type. Depending on the geometry type, this might be a 1D, 2D or a 3D array.
-    types:
-    - uid: array
-      isArray: true
 - name: RouteDirectionsSummary
   description: Summary object
   kind: object
@@ -874,12 +872,12 @@ definitions:
     - uid: integer
   - name: travelTimeInSeconds
     isReadyOnly: true
-    description: Travel Time In Seconds property
+    description: Estimated travel time in seconds property that includes the delay due to real-time traffic. Note that even when traffic=false travelTimeInSeconds still includes the delay due to traffic. If DepartAt is in the future, travel time is calculated using time-dependent historic traffic data.
     types:
     - uid: integer
   - name: trafficDelayInSeconds
     isReadyOnly: true
-    description: Traffic Delay In Seconds property
+    description: Estimated delay in seconds caused by the real-time incident(s) according to traffic information. For routes planned with departure time in the future, delays is always 0. To return additional travel times using different types of traffic information, parameter computeTravelTimeFor=all needs to be added.
     types:
     - uid: integer
   - name: departureTime
@@ -983,38 +981,6 @@ definitions:
     description: Value of the parameter used.
     types:
     - uid: string
-- name: GeoJSONGeometryType
-  description: Specifies the `GeoJSON` geometry type. Must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
-  kind: enum
-  properties:
-  - name: Point
-    description: '`GeoJSON Point` geometry.'
-    types:
-    - uid: string
-  - name: MultiPoint
-    description: '`GeoJSON MultiPoint` geometry.'
-    types:
-    - uid: string
-  - name: LineString
-    description: '`GeoJSON LineString` geometry.'
-    types:
-    - uid: string
-  - name: MultiLineString
-    description: '`GeoJSON MultiLineString` geometry.'
-    types:
-    - uid: string
-  - name: Polygon
-    description: '`GeoJSON Polygon` geometry.'
-    types:
-    - uid: string
-  - name: MultiPolygon
-    description: '`GeoJSON MultiPolygon` geometry.'
-    types:
-    - uid: string
-  - name: GeometryCollection
-    description: '`GeoJSON GeometryCollection` geometry.'
-    types:
-    - uid: string
 - name: RouteResultLegSummary
   description: Summary object for route section.
   kind: object
@@ -1026,12 +992,12 @@ definitions:
     - uid: integer
   - name: travelTimeInSeconds
     isReadyOnly: true
-    description: Estimated travel Time In Seconds property
+    description: Estimated travel time in seconds property that includes the delay due to real-time traffic. Note that even when traffic=false travelTimeInSeconds still includes the delay due to traffic. If DepartAt is in the future, travel time is calculated using time-dependent historic traffic data.
     types:
     - uid: integer
   - name: trafficDelayInSeconds
     isReadyOnly: true
-    description: Traffic Delay In Seconds property
+    description: Estimated delay in seconds caused by the real-time incident(s) according to traffic information. For routes planned with departure time in the future, delays is always 0. To return additional travel times using different types of traffic information, parameter computeTravelTimeFor=all needs to be added.
     types:
     - uid: integer
   - name: departureTime
@@ -1567,10 +1533,14 @@ examples:
         }
       }
 security:
-- name: Ocp-Apim-Subscription-Key
-  type: apiKey
-  in: header
+- name: azure_auth
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-overview)  Flows. When paired with [Azure Role Based Access](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview)  control it can be used to control access to Azure Maps REST APIs. Azure Role based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution  for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Note\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to.  This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* The `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* The Azure role based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs.\n* Usage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently Azure Active Directory [v1.0](https://docs.microsoft.com/en-us/azure/active-directory/develop/azure-ad-endpoint-comparison) tokens are supported."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes: []
 - name: subscription-key
   type: apiKey
+  description: This is a shared key which is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, Powershell, CLI, Azure SDKs, or REST APIs. With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.  For publicly exposed applications our recommendation is to use server to server access of Azure Maps REST APIs where this key can be  securely stored.
   in: query
 errorCodes: []

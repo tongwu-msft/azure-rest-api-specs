@@ -83,4 +83,4 @@ The following table describes the required and optional request headers.
  [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
  [Naming rules &#40;Azure Search&#41;](naming-rules.md)   
  [Support for OData &#40;Azure Search&#41;](support-for-odata.md)   
- [OData Expression Syntax for Azure Search](odata-expression-syntax-for-azure-search.md)  
+ [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)  

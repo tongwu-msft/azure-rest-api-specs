@@ -3,42 +3,42 @@ uid: management.azure.com.blueprints.artifacts.get
 name: Get
 service: Blueprints
 groupName: Artifacts
-apiVersion: 2017-11-11-preview
-summary: Get a Blueprint artifact.
+apiVersion: 2018-11-01-preview
+summary: Get a blueprint artifact.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Blueprint/blueprints/{blueprintName}/artifacts/{artifactName}?api-version=2017-11-11-preview
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Blueprint/blueprints/{blueprintName}/artifacts/{artifactName}?api-version=2018-11-01-preview
 uriParameters:
-- name: managementGroupName
+- name: scope
   in: path
   isRequired: true
-  description: ManagementGroup where blueprint stores.
+  description: "The scope of the resource. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}')."
   types:
   - uid: string
 - name: blueprintName
   in: path
   isRequired: true
-  description: name of the blueprint.
+  description: Name of the blueprint definition.
   types:
   - uid: string
 - name: artifactName
   in: path
   isRequired: true
-  description: name of the artifact.
+  description: Name of the blueprint artifact.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: Client API Version.
   types:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK -- Blueprint artifact retrieved.
+  description: OK -- blueprint artifact retrieved.
   types:
   - uid: TemplateArtifact
   - uid: RoleAssignmentArtifact
@@ -47,23 +47,23 @@ responses:
 requestHeader: []
 definitions:
 - name: TemplateArtifact
-  description: Blueprint artifact deploys Azure resource manager template.
+  description: Blueprint artifact that deploys a Resource Manager template.
   kind: object
   properties:
   - name: properties.template
-    description: The Azure Resource Manager template body.
+    description: The Resource Manager template blueprint artifact body.
     types:
     - uid: object
   - name: properties.resourceGroup
-    description: If applicable, the name of the resource group placeholder to which the template will be deployed.
+    description: If applicable, the name of the resource group placeholder to which the Resource Manager template blueprint artifact will be deployed.
     types:
     - uid: string
   - name: properties.parameters
-    description: Template parameter values.
+    description: Resource Manager template blueprint artifact parameter values.
     types:
     - uid: ParameterValueCollection
   - name: kind
-    description: Specifies the kind of Blueprint artifact.
+    description: Specifies the kind of blueprint artifact.
     types:
     - uid: template
     typesTitle: string
@@ -96,7 +96,7 @@ definitions:
     - uid: string
       isArray: true
 - name: RoleAssignmentArtifact
-  description: Blueprint artifact applies Azure role assignment.
+  description: Blueprint artifact that applies a Role assignment.
   kind: object
   properties:
   - name: properties.roleDefinitionId
@@ -104,15 +104,15 @@ definitions:
     types:
     - uid: string
   - name: properties.principalIds
-    description: Array of user or group identities in Azure Active Directory. The roleDefinition will apply to these identity.
+    description: Array of user or group identities in Azure Active Directory. The roleDefinition will apply to each identity.
     types:
     - {}
   - name: properties.resourceGroup
-    description: RoleAssignment will be scope to this resourceGroup, if left empty, it would scope to the subscription.
+    description: RoleAssignment will be scope to this resourceGroup. If empty, it scopes to the subscription.
     types:
     - uid: string
   - name: kind
-    description: Specifies the kind of Blueprint artifact.
+    description: Specifies the kind of blueprint artifact.
     types:
     - uid: roleAssignment
     typesTitle: string
@@ -145,7 +145,7 @@ definitions:
     - uid: string
       isArray: true
 - name: PolicyAssignmentArtifact
-  description: Blueprint artifact applies Policy assignments.
+  description: Blueprint artifact that applies a Policy assignment.
   kind: object
   properties:
   - name: properties.policyDefinitionId
@@ -161,7 +161,7 @@ definitions:
     types:
     - uid: string
   - name: kind
-    description: Specifies the kind of Blueprint artifact.
+    description: Specifies the kind of blueprint artifact.
     types:
     - uid: policyAssignment
     typesTitle: string
@@ -198,9 +198,110 @@ definitions:
   kind: object
   properties: []
 examples:
-- name: ARMTemplateArtifact
+- name: Sub-ARMTemplateArtifact
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/storageTemplate?api-version=2017-11-11-preview
+    uri: GET https://management.azure.com/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/storageTemplate?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "template": {
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "storageAccountType": {
+                "type": "string",
+                "defaultValue": "Standard_LRS",
+                "allowedValues": [
+                  "Standard_LRS",
+                  "Standard_GRS",
+                  "Standard_ZRS",
+                  "Premium_LRS"
+                ],
+                "metadata": {
+                  "description": "Storage Account type"
+                }
+              }
+            },
+            "variables": {
+              "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'standardsa')]"
+            },
+            "resources": [
+              {
+                "type": "Microsoft.Storage/storageAccounts",
+                "name": "[variables('storageAccountName')]",
+                "apiVersion": "2016-01-01",
+                "location": "[resourceGroup().location]",
+                "sku": {
+                  "name": "[parameters('storageAccountType')]"
+                },
+                "kind": "Storage",
+                "properties": {}
+              }
+            ],
+            "outputs": {
+              "storageAccountName": {
+                "type": "string",
+                "value": "[variables('storageAccountName')]"
+              }
+            }
+          },
+          "resourceGroup": "storageRG",
+          "parameters": {
+            "storageAccountType": {
+              "value": "[parameters('storageAccountType')]"
+            }
+          }
+        },
+        "kind": "template",
+        "id": "/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/storageTemplate",
+        "type": "Microsoft.Blueprint/blueprints/artifacts",
+        "name": "storageTemplate"
+      }
+- name: Sub-PolicyAssignmentArtifact
+  request:
+    uri: GET https://management.azure.com/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/costCenterPolicy?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "displayName": "force costCenter tag on all resources",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1e30110a-5ceb-460c-a204-c1c3969c6d62",
+          "parameters": {
+            "tagName": {
+              "value": "costCenter"
+            },
+            "tagValue": {
+              "value": "[parameter('costCenter')]"
+            }
+          }
+        },
+        "kind": "policyAssignment",
+        "id": "/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/costCenterPolicy",
+        "type": "Microsoft.Blueprint/blueprints/artifacts",
+        "name": "costCenterPolicy"
+      }
+- name: Sub-RoleAssignmentArtifact
+  request:
+    uri: GET https://management.azure.com/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/ownerAssignment?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "displayName": "enforce owners of given subscription",
+          "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7",
+          "principalIds": "[parameters('owners')]"
+        },
+        "kind": "roleAssignment",
+        "id": "/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/ownerAssignment",
+        "type": "Microsoft.Blueprint/blueprints/artifacts",
+        "name": "ownerAssignment"
+      }
+- name: MG-ARMTemplateArtifact
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/storageTemplate?api-version=2018-11-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -258,9 +359,9 @@ examples:
         "type": "Microsoft.Blueprint/blueprints/artifacts",
         "name": "storageTemplate"
       }
-- name: PolicyAssignmentArtifact
+- name: MG-PolicyAssignmentArtifact
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/costCenterPolicy?api-version=2017-11-11-preview
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/costCenterPolicy?api-version=2018-11-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -282,9 +383,9 @@ examples:
         "type": "Microsoft.Blueprint/blueprints/artifacts",
         "name": "costCenterPolicy"
       }
-- name: RoleAssignmentArtifact
+- name: MG-RoleAssignmentArtifact
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/ownerAssignment?api-version=2017-11-11-preview
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/ownerAssignment?api-version=2018-11-01-preview
   responses:
   - statusCode: "200"
     body: >-

@@ -5,7 +5,7 @@ services: search
 manager: pablocas
 author: luiscabrer
 ms.author: luisca
-ms.date: 05/01/2018
+ms.date: 02/09/2019
 ms.service: search
 ms.devlang: rest-api
 ms.workload: search
@@ -26,7 +26,7 @@ POST https://[service name].search.windows.net/indexers?api-version=2017-11-11-P
 ```  
 The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Security in Azure Search](https://docs.microsoft.com/azure/search/search-security-overview) to learn more about keys. [Create an Azure Search service in the portal](https://docs.microsoft.com/azure/search/search-create-service-portal) explains how to get the service URL and key properties used in the request.
 
-Alternatively, you can use PUT and specify the data source name on the URI. If the data source does not exist, it will be created.  
+Alternatively, you can use PUT and specify the indexer name on the URI. If the indexer does not exist, it will be created.  
 
 ```http
 PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
@@ -125,7 +125,7 @@ Several parameters are exclusive to a particular indexer, such as [Azure blob in
 
 | Parameter                     | Type and allowed values	| Usage                |
 |-------------------------------|---------------------------|----------------------|
-| `"parsingMode"` | String<br/> `"text"`<br/>`"delimitedText"`<br/> `"json"`<br/> `"jsonArray"`  | For [Azure blobs](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-blob-storage), set to `text` to improve indexing performance on plain text files in blob storage. <br/>For [CSV blobs](https://docs.microsoft.com/azure/search/search-howto-index-csv-blobs), set to `delimitedText` when blobs are plain CSV files. <br/>For [JSON blobs](https://docs.microsoft.com/azure/search/search-howto-index-json-blobs), set to `json` to extract structured content or to `jsonArray` (preview) to extract individual elements of an array as separate documents in Azure Search. |
+| `"parsingMode"` | String<br/> `"text"`<br/>`"delimitedText"`<br/> `"json"`<br/> `"jsonArray"` <br /> `"jsonLines"`  | For [Azure blobs](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-blob-storage), set to `text` to improve indexing performance on plain text files in blob storage. <br/>For [CSV blobs](https://docs.microsoft.com/azure/search/search-howto-index-csv-blobs), set to `delimitedText` when blobs are plain CSV files. <br/>For [JSON blobs](https://docs.microsoft.com/azure/search/search-howto-index-json-blobs), set to `json` to extract structured content or to `jsonArray` (preview) to extract individual elements of an array as separate documents in Azure Search. Use `jsonLines` (preview) to extract individual JSON entities, separated by a new line, as separate documents in Azure Search. |
 | `"excludedFileNameExtensions"` | String<br/>comma-delimited list<br/>user-defined | For [Azure blobs](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-blob-storage), ignore any file types in the list. For example, you could exclude ".png, .png, .mp4" to skip over those files during indexing. | 
 | `"indexedFileNameExtensions"` | String<br/>comma-delimited list<br/>user-defined | For [Azure blobs](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-blob-storage), selects blobs if the file extension is in the list. For example, you could focus indexing on specific application files ".docx, .pptx, .msg" to specifically include those file types. | 
 | `"failOnUnsupportedContentType"` | Boolean<br/> true <br/>false (default) | For [Azure blobs](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-blob-storage), set to `false` if you want to continue indexing when an unsupported content type is encountered, and you don't know all the content types (file extensions) in advance. |
