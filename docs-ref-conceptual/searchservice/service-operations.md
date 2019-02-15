@@ -1,7 +1,7 @@
 ---
-title: "Service operations (Azure Search Service REST API) | Microsoft Docs"
+title: Service operations using Azure Search Service REST API - Azure Search
 description: Learn which REST APIs are used to obtain information about your Azure Search service.
-ms.date: "04/20/2018"
+ms.date: 02/14/2019
 services: search
 ms.service: search
 ms.topic: conceptual
@@ -22,11 +22,11 @@ translation.priority.mt:
 ---
 # Service operations (Azure Search Service REST API)
 
-While most of the Azure Search Service REST APIs apply to a particular resource in your Search service such as an index, data source, and so on, some APIs are global to the Search service itself. Currently, the only service operation returns information about resource consumption and service limits.
+While most of the Azure Search Service REST APIs apply to a particular resource in your Search service such as an index, data source, and so on, some APIs are global to the Search service itself. Currently, the only service-level operation returns information about resource consumption and service limits.
 
 ## Operations on services
 
--   [Get Service Statistics &#40;Azure Search Service REST API&#41;](get-service-statistics.md)  
+- [Get Service Statistics &#40;Azure Search Service REST API&#41;](get-service-statistics.md)  
 
 ## See also  
  [Azure Search Service REST](index.md)   
