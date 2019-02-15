@@ -1,7 +1,7 @@
 ---
-title: "Support for OData (Azure Search) | Microsoft Docs"
+title: Support for OData protocol - Azure Search
 description: OData protocol is used for filter expressions and orderby expressions in Azure Search queries.
-ms.date: "2016-11-09"
+ms.date: 02/14/2019
 services: search
 ms.service: search
 ms.topic: conceptual
@@ -21,14 +21,15 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Support for OData (Azure Search)
-  Azure Search service API uses Open Data Protocol (OData) for index queries. Azure Search supports OData version 4.  
+
+Azure Search service API uses Open Data Protocol (OData) for index queries. Azure Search supports OData version 4.  
 
 ## OData syntax in HTTP request headers  
  OData defines a few HTTP request headers that you can optionally set. You can use OData-specific values for the Accept header like `application/json;odata.metadata=none` to control the amount of metadata included in the response. The default is `odata.metadata=minimal`. For brevity, all examples in this document assume `odata.metadata=none`.  
 
  Another header you can set is `OData-MaxVersion`. The Azure Search Service API supports OData V4 so you should set `OData-MaxVersion` to "4.0". This tells the API to expect the OData V4 format in the request body, and to send responses in the OData V4 format. In the future as we add support for newer versions of the OData protocol, you may set this header to a different value. The Azure Search service API does not support versions of OData older than V4.  
 
- See [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for details about using OData syntax when querying an index. See [Simple query syntax in Azure Search](https://docs.microsoft.com/azure/search/query-simple-syntax) for alternative syntax.  
+ See [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for details about using OData in filters and sort expressions. See [Simple query syntax in Azure Search](https://docs.microsoft.com/azure/search/query-simple-syntax) for alternative syntax.  
 
 ## Search service API with Alternate OData syntax  
  The Search service API supports OData syntax for entity lookup. This applies both to both documents in an index, as well as to indexes themselves (where the index name is the entity key). Here is a summary of all APIs that have alternate OData syntax:  

@@ -1,10 +1,10 @@
 ---
-title: "Indexer operations (Azure Search Service REST API) | Microsoft docs"
+title: Indexer operations using Azure Search Service REST APIs - Azure Search
 description: Learn REST API calls used to create, delete, or update an Azure Search indexer used for crawling external data sources for searchable content.
-ms.date: "04/20/2018"
+ms.date: 02/14/2019
 services: search
 ms.service: search
-ms.topic: "language-reference"
+ms.topic: conceptual
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: cgronlun

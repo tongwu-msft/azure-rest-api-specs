@@ -1,7 +1,7 @@
 ---
-title: "Data type map for indexers in Azure Search | Microsoft Docs"
+title: Data type map for indexers - Azure Search
 description: Source and destination field data type map combinations, used when crawling external data sources for data ingestion in an Azure Search index.
-ms.date: "2016-11-09"
+ms.date: 02/14/2019
 services: search
 ms.service: search
 ms.topic: conceptual
@@ -21,15 +21,16 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Data type map for indexers in Azure Search
-  When building a schema for an indexer, the data types used in the data source must map to an allowed data type for the fields in the target index.  
 
- This article provides data type comparisons between SQL Data Types, JSON data types, and Azure Search. It contains the following:  
+When building a schema for an indexer, the data types used in the data source must map to an allowed data type for the fields in the target index.  
 
--   [SQL Server Data Types to Azure Search Data Types](#bkmk_sql_search)  
+This article provides data type comparisons between SQL Data Types, JSON data types, and Azure Search. It contains the following:  
 
--   [JSON Data Types to Azure Search Data Types](#bkmk_json_search)  
+- [SQL Server Data Types to Azure Search Data Types](#bkmk_sql_search)  
 
- See [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md) for links to topics about **indexers** and **data sources**.  
+- [JSON Data Types to Azure Search Data Types](#bkmk_json_search)  
+
+For more information, see [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md) for links to topics about **indexers** and **data sources**.  
 
 ##  <a name="bkmk_sql_search"></a> SQL Server Data Types to Azure Search Data Types  
 
