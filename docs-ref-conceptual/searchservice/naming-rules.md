@@ -1,7 +1,7 @@
 ---
-title: "Naming rules (Azure Search) | Microsoft Docs"
-description: Name coventions for Azure Search services, indexes, indexers, and other resources.
-ms.date: "2018-06-13"
+title: Naming rules for objects created in Azure Search - Azure Search
+description: Name coventions for Azure Search services, indexes, indexers, data sources, and other resources.
+ms.date: 02/14/2019
 services: search
 ms.service: search
 ms.topic: conceptual
@@ -21,10 +21,12 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Naming rules (Azure Search)
-  This section explains the naming rules for Azure Search services, indexes, fields, document keys, scoring profiles, suggesters, synonym maps, indexers, data sources, and skillsets.  
+
+This section explains the naming rules for Azure Search services, indexes, fields, document keys, scoring profiles, suggesters, synonym maps, indexers, data sources, and skillsets.  
 
 ## Chart of naming rules  
- You'll notice that the conventions in the following table are not consistent down the line for all objects. This is because objects are used in different contexts, where the naming rules of other standards are imposed on specific Azure Search objects. URLs, JSON, and DNS all have different conventions in terms of case-sensitivity, special characters, and character placement. By necessity, objects referenced in a URL (host name, path, or query string) or JSON request body have to follow the naming conventions of the applicable standard, thus accounting for the variation you see below.  
+
+You'll notice that the conventions in the following table are not consistent down the line for all objects. This is because objects are used in different contexts, where the naming rules of other standards are imposed on specific Azure Search objects. URLs, JSON, and DNS all have different conventions in terms of case-sensitivity, special characters, and character placement. By necessity, objects referenced in a URL (host name, path, or query string) or JSON request body have to follow the naming conventions of the applicable standard, thus accounting for the variation you see below.  
 
 |Name|Length|Case|Allowable characters|Character placement|Example|  
 |----------|------------|----------|--------------------------|-------------------------|-------------|  

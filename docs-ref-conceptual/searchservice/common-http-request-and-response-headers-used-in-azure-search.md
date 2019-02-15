@@ -1,7 +1,7 @@
 ---
-title: "Common HTTP request and response headers used in Azure Search | Microsoft Docs"
+title: Common HTTP request and response headers - Azure Search
 description: HTTP codes returned by Azure Search when making REST API calls.
-ms.date: "2016-08-10"
+ms.date: 02/14/2019
 services: search
 ms.service: search
 ms.topic: conceptual
@@ -21,7 +21,8 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Common HTTP request and response headers used in Azure Search
-  The Azure Search Service APIs support a set of common HTTP request/response headers, summarized here for reference:  
+
+The Azure Search Service REST APIs support a set of common HTTP request/response headers, summarized here for reference:  
 
 |Request Header|Type|Description|  
 |--------------------|----------|-----------------|  
