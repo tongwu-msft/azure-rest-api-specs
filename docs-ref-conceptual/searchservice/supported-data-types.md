@@ -1,5 +1,5 @@
 ---
-title: Supported EDM data types - Azure Search
+title: Supported data types - Azure Search
 description: Allowed data types for fields in an Azure Search index. 
 ms.date: 02/14/2019
 services: search
