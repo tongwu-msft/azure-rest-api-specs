@@ -1,7 +1,7 @@
 ---
-title: "Supported data types (Azure Search) | Microsoft Docs"
-description: Allowed data types for fields in an Azure Search index.
-ms.date: "2017-01-13"
+title: Supported data types - Azure Search
+description: Allowed data types for fields in an Azure Search index. 
+ms.date: 02/14/2019
 services: search
 ms.service: search
 ms.topic: conceptual
@@ -21,10 +21,11 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Supported data types (Azure Search)
-  Document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model (MSDN)](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model) for details). Azure Search uses the following data types.  
+
+In Azure Search, document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model (MSDN)](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model) for details).
 
 > [!NOTE]  
->  If you're using indexers to pull data into Azure Search, indexers have different data type mappings for JSON and SQL Server data sources. See [Data type map for indexers in Azure Search](data-type-map-for-indexers-in-azure-search.md) for details.  
+>  If you're using indexers to pull data into Azure Search, indexers have different data type mappings for JSON and SQL Server data sources. For more information, see [Data type map for indexers in Azure Search](data-type-map-for-indexers-in-azure-search.md).  
 
 ## EDM data types used in Azure Search indexes and documents  
 
