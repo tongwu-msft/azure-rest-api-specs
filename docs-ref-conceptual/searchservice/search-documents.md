@@ -1,7 +1,7 @@
 ---
 title: "Search Documents (Azure Search Service REST API)  | Microsoft Docs"
 description: Query an Azure Search index and return search results.
-ms.date: "04/20/2018"
+ms.date: "02/20/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -155,7 +155,7 @@ The name of a scoring profile to evaluate match scores for matching documents in
 
 #### `scoringParameter=[string] (zero or more)`
 
-Indicates the values for each parameter defined in a scoring function (such as `referencePointParameter`) using the format `name-value1,value2,...` When calling via POST, this parameter is named `scoringParameters` instead of `scoringParameter`. Also, you specify it as a JSON array of strings where each string is a separate name:values pair.
+Indicates the values for each parameter defined in a scoring function (such as `referencePointParameter`) using the format `name-value1,value2,...` When calling via POST, this parameter is named `scoringParameters` instead of `scoringParameter`. Also, you specify it as a JSON array of strings where each string is a separate name-values pair.
 
 - For scoring profiles that include a function, separate the function from its input list with a - character. For example, a function called "mylocation" would be `&scoringParameter=mylocation--122.2,44.8`. The first dash separates the function name from the value list, while the second dash is part of the first value (longitude in this example).
 
