@@ -4009,6 +4009,8 @@
 ### [List In Resource Group](machineLearning/CommitmentPlans/ListInResourceGroup.yml)
 ### [Patch](machineLearning/CommitmentPlans/Patch.yml)
 ### [Remove](machineLearning/CommitmentPlans/Remove.yml)
+## [Operations](machineLearning/Operations.yml)
+### [List](machineLearning/Operations/List.yml)
 ## [Skus](machineLearning/Skus.yml)
 ### [List](machineLearning/Skus/List.yml)
 ## [Usage History](machineLearning/UsageHistory.yml)
