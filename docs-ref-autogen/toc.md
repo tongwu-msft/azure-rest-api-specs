@@ -2387,6 +2387,8 @@
 ### [List By Reservation Order And Reservation](consumption/ReservationsSummaries/ListByReservationOrderAndReservation.yml)
 ## [Tags](consumption/Tags.yml)
 ### [Get](consumption/Tags/Get.yml)
+## [Tenants](consumption/Tenants.yml)
+### [Get](consumption/Tenants/Get.yml)
 ## [Usage Details](consumption/UsageDetails.yml)
 ### [List](consumption/UsageDetails/List.yml)
 ### [List By Billing Account](consumption/UsageDetails/ListByBillingAccount.yml)
