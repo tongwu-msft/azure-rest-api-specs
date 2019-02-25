@@ -1,0 +1,160 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.consumption.tenants.get
+name: Get
+service: Consumption
+groupName: Tenants
+apiVersion: 2018-10-01
+summary: Gets a Tenant Properties.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/tenants?api-version=2018-10-01
+uriParameters:
+- name: billingAccountId
+  in: path
+  isRequired: true
+  description: Billing Account Id.
+  types:
+  - uid: string
+- name: billingProfileId
+  in: path
+  isRequired: true
+  description: Billing Profile Id.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2018-10-01.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: TenantListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: TenantListResult
+  description: A Tenant properties Resource
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of tenant details.
+    types:
+    - uid: Tenant
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: Tenant
+  description: An tenant detail resource.
+  kind: object
+  properties:
+  - name: properties.billingProfileName
+    isReadyOnly: true
+    description: The Billing Profile name.
+    types:
+    - uid: string
+  - name: properties.billingAccountId
+    isReadyOnly: true
+    description: The Billing AccountId.
+    types:
+    - uid: string
+  - name: properties.tenantId
+    isReadyOnly: true
+    description: The TenantId.
+    types:
+    - uid: string
+  - name: properties.billingAccountName
+    isReadyOnly: true
+    description: The Billing Account Name.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: TenantPropertiesGet
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/0d49b9e9-dfe7-536e-ede4-bae1d63adbb7/billingProfiles/dd21e577-ec81-45ec-b08a-622213737978/providers/Microsoft.Consumption/tenants?api-version=2018-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/billingAccounts/0d49b9e9-dfe7-536e-ede4-bae1d63adbb7/billingProfiles/dd21e577-ec81-45ec-b08a-622213737978/providers/Microsoft.Consumption/tenants/tenant1",
+            "name": "tenant1",
+            "type": "Microsoft.Consumption/tenants",
+            "properties": {
+              "billingProfileName": "PayByCheck01",
+              "billingAccountName": "Create Customer",
+              "tenantId": "251d3d06-c6e0-487b-bd5e-5c2e4c23d51a",
+              "BillingAccountId": "0d49b9e9-dfe7-536e-ede4-bae1d63adbb7"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
