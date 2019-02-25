@@ -139,16 +139,16 @@ Storage Analytics log format version 2.0 adds fields to support logging informat
 
 The following table lists and defines the additional fields written to a version 2.0 log entry. All version 1.0 fields are included in version 2.0 log entries.
 
-| Properties | Description | Sample value |
-|---------------------------|------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| UserObjectId | The object ID used for authentication. May be any security principal, including a user, managed identity, or service principal. | 03124200-da00-4aa6-aa09-be77923d7870 |
-| TenantId | Tenant ID used in bearer authorization. | 72f988bf-86f1-41af-91ab-2d7cd011db47 |
-| ApplicationId | Application ID used in bearer authorization. | 2cd20493-fe97-42ef-9ace-ab95b63d82c4 |
-| Audience | Resource ID used in bearer authorization. | `https://storage.azure.com` |
-| Issuer | Issuer used in bearer authorization. | `https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/` |
-| UserPrincipalName | User principal name used in bearer authorization. | `testuser@azure.onmicrosoft.com` |
-| Reserved | Reserved for future use. Value is an empty string. | N/A |
-| AuthorizationDetail | Detailed policy information used to authorize the request. | `[{"action":"Microsoft.Storage/storageAccounts/blobServices/containers/read",   "roleAssignmentId":"/subscriptions/5451a164-d870-4626-a64c-c38d62da20da/providers/Microsoft.Authorization/roleAssignments/6632a082-9b6a-486c-b296-f9d785d32800",   "roleDefinitionId":"/subscriptions/5451a164-d870-4626-a64c-c38d62da20da/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe", "principalId":"03124200-da00-4aa6-aa09-be77923d7870",   "principalType":"ServicePrincipal"}]` |
+| Field Name | Field Type | Definition | Example |
+|---------------------------|---------------------------|------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| UserObjectId | string | The object ID used for authentication. May be any security principal, including a user, managed identity, or service principal. | 03124200-da00-4aa6-aa09-be77923d7870 |
+| TenantId | string | Tenant ID used in bearer authorization. | 72f988bf-86f1-41af-91ab-2d7cd011db47 |
+| ApplicationId | string | Application ID used in bearer authorization. | 2cd20493-fe97-42ef-9ace-ab95b63d82c4 |
+| Resource ID | string | Resource ID used in bearer authorization. | `https://storage.azure.com` |
+| Issuer | string | Issuer used in bearer authorization. | `https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/` |
+| UserPrincipalName | string | User principal name used in bearer authorization. | `testuser@azure.onmicrosoft.com` |
+| Reserved | string | Reserved for future use. Value is an empty string. | N/A |
+| AuthorizationDetail | string | Detailed policy information used to authorize the request. | `[{"action":"Microsoft.Storage/storageAccounts/blobServices/containers/read",   "roleAssignmentId":"/subscriptions/5451a164-d870-4626-a64c-c38d62da20da/providers/Microsoft.Authorization/roleAssignments/6632a082-9b6a-486c-b296-f9d785d32800",   "roleDefinitionId":"/subscriptions/5451a164-d870-4626-a64c-c38d62da20da/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe", "principalId":"03124200-da00-4aa6-aa09-be77923d7870",   "principalType":"ServicePrincipal"}]` |
 
 ### Sample log entries for version 2.0
 
