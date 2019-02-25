@@ -1,6 +1,6 @@
 ---
 title: "Storage Analytics Log Format"
-ms.date: 02/12/2019
+ms.date: 02/25/2019
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -150,6 +150,16 @@ The following table lists and defines the additional fields written to a version
 | Reserved | Reserved for future use. Value is an empty string. | N/A |
 | AuthorizationDetail | Detailed policy information used to authorize the request. | `[{"action":"Microsoft.Storage/storageAccounts/blobServices/containers/read",   "roleAssignmentId":"/subscriptions/5451a164-d870-4626-a64c-c38d62da20da/providers/Microsoft.Authorization/roleAssignments/6632a082-9b6a-486c-b296-f9d785d32800",   "roleDefinitionId":"/subscriptions/5451a164-d870-4626-a64c-c38d62da20da/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe", "principalId":"03124200-da00-4aa6-aa09-be77923d7870",   "principalType":"ServicePrincipal"}]` |
 
+### Sample log entries for version 2.0
+
+### List Blobs
+
+`2.0;2019-02-25T20:06:55.9794046Z;ListBlobs;OAuthSuccess;200;250;46;bearer;storagesamples;storagesamples;blob;"https://storagesamples.blob.core.windows.net/sample-container?restype=container&amp;comp=list&amp;prefix=&amp;delimiter=/&amp;marker=&amp;maxresults=30&amp;include=metadata&amp;_=1551125215793";"/storagesamples/sample-container";470b9e55-201e-0137-5c45-cdd293000000;0;200.59.21.176:52659;2018-03-28;2682;0;295;5184;0;;;;;;"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/18.17763";"blob:https://ms.portal.azure.com/cf576432-66ab-4ae6-9cb3-4852b1137a21";;"e5981635-dcf0-4279-ab7b-ca1cbdf4a5c7";"72f988bf-86f1-41af-91ab-2d7cd011db47";"691458b9-1327-4635-9f55-ed83a7f1b41c";"https://storage.azure.com/";"https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/";;;"[{&quot;action&quot;:&quot;Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read&quot;, &quot;roleAssignmentId&quot;:&quot;ca8af92a-6708-4cdf-a678-bb55d0ff7b80&quot;, &quot;roleDefinitionId&quot;:&quot;ba92f5b4-2d11-453d-a403-e96b0029c9fe&quot;, &quot;principalId&quot;:&quot;e5981635-dcf0-4279-ab7b-ca1cbdf4a5c7&quot;, &quot;principalType&quot;:&quot;User&quot;}]"`
+
+#### Put Block
+
+`2.0;2019-02-25T20:06:55.9089848Z;PutBlock;OAuthSuccess;201;95;95;bearer;storagesamples;storagesamples;blob;"https://storagesamples.blob.core.windows.net/sample-container/blob1.txt?comp=block&amp;blockid=YmxvY2stMDAwMDAwMDA=";"/storagesamples/sample-container/blob1.txt";5569fa10-e01e-00c0-2745-cdb22d000000;0;200.59.21.176:52665;2017-11-09;2581;9;365;0;9;;"tdzGO9AaJte/e2HJZLtXig==";;;;"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/18.17763";"https://ms.portal.azure.com/";"c808142e-0393-4942-9001-af4833061026";"e5981635-dcf0-4279-ab7b-ca1cbdf4a5c7";"72f988bf-86f1-41af-91ab-2d7cd011db47";"691458b9-1327-4635-9f55-ed83a7f1b41c";"https://storage.azure.com/";"https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/";;;"[{&quot;action&quot;:&quot;Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write&quot;, &quot;roleAssignmentId&quot;:&quot;ca8af92a-6708-4cdf-a678-bb55d0ff7b80&quot;, &quot;roleDefinitionId&quot;:&quot;ba92f5b4-2d11-453d-a403-e96b0029c9fe&quot;, &quot;principalId&quot;:&quot;e5981635-dcf0-4279-ab7b-ca1cbdf4a5c7&quot;, &quot;principalType&quot;:&quot;User&quot;}]"`
+ 
 ## See also  
  [About Storage Analytics logging](About-Storage-Analytics-Logging.md)   
  [Storage Analytics Logged Operations and Status Messages](Storage-Analytics-Logged-Operations-and-Status-Messages.md)
