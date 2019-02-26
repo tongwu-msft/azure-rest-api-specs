@@ -5266,6 +5266,7 @@
 #### [Delete](searchmanagement/Services/Delete.yml)
 #### [Get](searchmanagement/Services/Get.yml)
 #### [List By Resource Group](searchmanagement/Services/ListByResourceGroup.yml)
+#### [List By Subscription](searchmanagement/Services/ListBySubscription.yml)
 #### [Update](searchmanagement/Services/Update.yml)
 # [Search Service](../docs-ref-conceptual/searchservice/index.md)
 ## [Naming rules](../docs-ref-conceptual/searchservice/naming-rules.md)
