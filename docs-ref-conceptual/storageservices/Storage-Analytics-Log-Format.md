@@ -144,7 +144,7 @@ The following table lists and defines the additional fields written to a version
 | UserObjectId | string | The object ID used for authentication. May be any security principal, including a user, managed identity, or service principal. | 03124200-da00-4aa6-aa09-be77923d7870 |
 | TenantId | string | Tenant ID used in bearer authorization. | 72f988bf-86f1-41af-91ab-2d7cd011db47 |
 | ApplicationId | string | Application ID used in bearer authorization. | 2cd20493-fe97-42ef-9ace-ab95b63d82c4 |
-| Resource ID | string | Resource ID used in bearer authorization. | `https://storage.azure.com` |
+| Resource ID | string | Resource ID used in bearer authorization. | `https://storage.azure.com`<br /><br />`https://storagesamples.blob.core.windows.net ` |
 | Issuer | string | Issuer used in bearer authorization. | `https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/` |
 | UserPrincipalName | string | User principal name used in bearer authorization. | `testuser@azure.onmicrosoft.com` |
 | Reserved | string | Reserved for future use. Value is an empty string. | N/A |
