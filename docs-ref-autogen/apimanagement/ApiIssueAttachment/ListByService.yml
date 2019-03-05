@@ -4,14 +4,14 @@ name: List By Service
 service: API Management
 groupName: Api Issue Attachment
 apiVersion: 2018-06-01-preview
-summary: Lists all comments for the Issue associated with the specified API.
+summary: Lists all attachments for the Issue associated with the specified API.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments?api-version=2018-06-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments?api-version=2018-06-01-preview&$filter={$filter}&$top={$top}&$skip={$skip}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-06-01-preview
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -39,7 +39,7 @@ uriParameters:
   description: API identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: issueId
   in: path
   isRequired: true
@@ -47,22 +47,18 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
-- name: api-version
-  in: query
-  isRequired: true
-  description: Version of the API to be used with the client request.
-  types:
-  - uid: string
 - name: $filter
   in: query
-  description: >-
+  description: >
     | Field       | Supported operators    | Supported functions               |
 
     |-------------|------------------------|-----------------------------------|
 
-    | id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |
 
-    | userId          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith |
+
+    |name | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
+
+    |userId | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
   types:
   - uid: string
 - name: $top
@@ -77,9 +73,15 @@ uriParameters:
   types:
   - uid: integer
   format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
-  description: Paged Result response of issue comments for the API.
+  description: Paged Result response of issue attachments for the API.
   types:
   - uid: IssueAttachmentCollection
 - name: Other Status Codes
