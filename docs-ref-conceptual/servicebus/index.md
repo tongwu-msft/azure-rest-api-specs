@@ -51,6 +51,11 @@ These [management APIs](/rest/api/servicebus/resource-provider-apis) provide pro
 
 Service Bus also has a set of [RDFE APIs](https://msdn.microsoft.com/library/dn249730.aspx) that enable you to manage Service Bus [entity metrics](/rest/api/servicebus/service-bus-entity-metrics-rest-apis).
 
+
+> [!IMPORTANT]
+> RDFE APIs will be [**obsolete and retired**](https://blogs.msdn.microsoft.com/servicebus/2018/11/01/deprecating-service-management-support-for-azure-service-bus-relay-and-event-hubs/) on November 1, 2019 and should no longer be used.
+
+
 ## See also
 
 - [Azure Service Bus documentation](https://docs.microsoft.com/azure/service-bus)
