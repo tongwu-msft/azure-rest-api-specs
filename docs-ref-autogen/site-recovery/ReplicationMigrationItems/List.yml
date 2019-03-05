@@ -1,0 +1,620 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.site-recovery.replicationmigrationitems.list
+name: List
+service: Recovery Services - Site Recovery
+groupName: Replication Migration Items
+apiVersion: 2018-07-10
+summary: Gets the list of migration items in the vault.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationMigrationItems?api-version=2018-07-10
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationMigrationItems?api-version=2018-07-10&skipToken={skipToken}&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+- name: skipToken
+  in: query
+  description: The pagination token.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter options.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: MigrationItemCollection
+requestHeader: []
+definitions:
+- name: MigrationItemCollection
+  description: Migration item collection.
+  kind: object
+  properties:
+  - name: value
+    description: The list of migration items.
+    types:
+    - uid: MigrationItem
+      isArray: true
+  - name: nextLink
+    description: The value of next link.
+    types:
+    - uid: string
+- name: MigrationItem
+  description: Migration item.
+  kind: object
+  properties:
+  - name: properties
+    description: The migration item properties.
+    types:
+    - uid: MigrationItemProperties
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource Type
+    types:
+    - uid: string
+  - name: location
+    description: Resource Location
+    types:
+    - uid: string
+- name: MigrationItemProperties
+  description: Migration item properties.
+  kind: object
+  properties:
+  - name: machineName
+    isReadyOnly: true
+    description: The on-premise virtual machine name.
+    types:
+    - uid: string
+  - name: policyId
+    isReadyOnly: true
+    description: The ARM Id of policy governing this item.
+    types:
+    - uid: string
+  - name: policyFriendlyName
+    isReadyOnly: true
+    description: The name of policy governing this item.
+    types:
+    - uid: string
+  - name: recoveryServicesProviderId
+    isReadyOnly: true
+    description: The recovery services provider ARM Id.
+    types:
+    - uid: string
+  - name: migrationState
+    isReadyOnly: true
+    description: The migration status.
+    types:
+    - uid: MigrationState
+  - name: migrationStateDescription
+    isReadyOnly: true
+    description: The migration state description.
+    types:
+    - uid: string
+  - name: testMigrateState
+    isReadyOnly: true
+    description: The test migrate state.
+    types:
+    - uid: TestMigrationState
+  - name: testMigrateStateDescription
+    isReadyOnly: true
+    description: The test migrate state description.
+    types:
+    - uid: string
+  - name: health
+    isReadyOnly: true
+    description: The consolidated health.
+    types:
+    - uid: string
+  - name: healthErrors
+    isReadyOnly: true
+    description: The list of health errors.
+    types:
+    - uid: HealthError
+      isArray: true
+  - name: allowedOperations
+    isReadyOnly: true
+    description: The allowed operations on the migration item, based on the current migration state of the item.
+    types:
+    - uid: string
+      isArray: true
+  - name: currentJob
+    isReadyOnly: true
+    description: The current job details.
+    types:
+    - uid: CurrentJobDetails
+  - name: providerSpecificDetails
+    description: The migration provider custom settings.
+    types:
+    - uid: VMwareCbtMigrationDetails
+    typesTitle: MigrationProviderSpecificSettings
+- name: MigrationState
+  description: The migration status.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: EnableMigrationInProgress
+    types:
+    - uid: string
+  - name: EnableMigrationFailed
+    types:
+    - uid: string
+  - name: DisableMigrationInProgress
+    types:
+    - uid: string
+  - name: DisableMigrationFailed
+    types:
+    - uid: string
+  - name: InitialSeedingInProgress
+    types:
+    - uid: string
+  - name: InitialSeedingFailed
+    types:
+    - uid: string
+  - name: Replicating
+    types:
+    - uid: string
+  - name: MigrationInProgress
+    types:
+    - uid: string
+  - name: MigrationSucceeded
+    types:
+    - uid: string
+  - name: MigrationFailed
+    types:
+    - uid: string
+- name: TestMigrationState
+  description: The test migrate state.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: TestMigrationInProgress
+    types:
+    - uid: string
+  - name: TestMigrationSucceeded
+    types:
+    - uid: string
+  - name: TestMigrationFailed
+    types:
+    - uid: string
+  - name: TestMigrationCleanupInProgress
+    types:
+    - uid: string
+- name: HealthError
+  description: Health Error
+  kind: object
+  properties:
+  - name: innerHealthErrors
+    description: The inner health errors. HealthError having a list of HealthError as child errors is problematic. InnerHealthError is used because this will prevent an infinite loop of structures when Hydra tries to auto-generate the contract. We are exposing the related health errors as inner health errors and all API consumers can utilize this in the same fashion as Exception -&gt; InnerException.
+    types:
+    - uid: InnerHealthError
+      isArray: true
+  - name: errorSource
+    description: Source of error.
+    types:
+    - uid: string
+  - name: errorType
+    description: Type of error.
+    types:
+    - uid: string
+  - name: errorLevel
+    description: Level of error.
+    types:
+    - uid: string
+  - name: errorCategory
+    description: Category of error.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: summaryMessage
+    description: Summary message of the entity.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message.
+    types:
+    - uid: string
+  - name: possibleCauses
+    description: Possible causes of error.
+    types:
+    - uid: string
+  - name: recommendedAction
+    description: Recommended action to resolve error.
+    types:
+    - uid: string
+  - name: creationTimeUtc
+    description: Error creation time (UTC)
+    types:
+    - uid: string
+  - name: recoveryProviderErrorMessage
+    description: DRA error message.
+    types:
+    - uid: string
+  - name: entityId
+    description: ID of the entity.
+    types:
+    - uid: string
+  - name: errorId
+    description: The health error unique id.
+    types:
+    - uid: string
+  - name: customerResolvability
+    description: Value indicating whether the health error is customer resolvable.
+    types:
+    - uid: HealthErrorCustomerResolvability
+- name: CurrentJobDetails
+  description: Current job details of the migration item.
+  kind: object
+  properties:
+  - name: jobName
+    description: The job name.
+    types:
+    - uid: string
+  - name: jobId
+    description: The ARM Id of the job being executed.
+    types:
+    - uid: string
+  - name: startTime
+    description: The start time of the job.
+    types:
+    - uid: string
+- name: InnerHealthError
+  description: Implements InnerHealthError class. HealthError object has a list of InnerHealthErrors as child errors. InnerHealthError is used because this will prevent an infinite loop of structures when Hydra tries to auto-generate the contract. We are exposing the related health errors as inner health errors and all API consumers can utilize this in the same fashion as Exception -&gt; InnerException.
+  kind: object
+  properties:
+  - name: errorSource
+    description: Source of error.
+    types:
+    - uid: string
+  - name: errorType
+    description: Type of error.
+    types:
+    - uid: string
+  - name: errorLevel
+    description: Level of error.
+    types:
+    - uid: string
+  - name: errorCategory
+    description: Category of error.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: summaryMessage
+    description: Summary message of the entity.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message.
+    types:
+    - uid: string
+  - name: possibleCauses
+    description: Possible causes of error.
+    types:
+    - uid: string
+  - name: recommendedAction
+    description: Recommended action to resolve error.
+    types:
+    - uid: string
+  - name: creationTimeUtc
+    description: Error creation time (UTC)
+    types:
+    - uid: string
+  - name: recoveryProviderErrorMessage
+    description: DRA error message.
+    types:
+    - uid: string
+  - name: entityId
+    description: ID of the entity.
+    types:
+    - uid: string
+- name: HealthErrorCustomerResolvability
+  description: Value indicating whether the health error is customer resolvable.
+  kind: enum
+  properties:
+  - name: Allowed
+    types:
+    - uid: string
+  - name: NotAllowed
+    types:
+    - uid: string
+- name: VMwareCbtMigrationDetails
+  description: VMwareCbt provider specific settings
+  kind: object
+  properties:
+  - name: vmwareMachineId
+    isReadyOnly: true
+    description: The ARM Id of the VM discovered in VMware.
+    types:
+    - uid: string
+  - name: osType
+    isReadyOnly: true
+    description: The type of the OS on the VM.
+    types:
+    - uid: string
+  - name: licenseType
+    description: License Type of the VM to be used.
+    types:
+    - uid: string
+  - name: dataMoverRunAsAccountId
+    isReadyOnly: true
+    description: The data mover RunAs account Id.
+    types:
+    - uid: string
+  - name: snapshotRunAsAccountId
+    isReadyOnly: true
+    description: The snapshot RunAs account Id.
+    types:
+    - uid: string
+  - name: targetVmName
+    description: Target VM name.
+    types:
+    - uid: string
+  - name: targetVmSize
+    description: The target VM size.
+    types:
+    - uid: string
+  - name: targetLocation
+    isReadyOnly: true
+    description: The target location.
+    types:
+    - uid: string
+  - name: targetResourceGroupId
+    description: The target resource group Id.
+    types:
+    - uid: string
+  - name: targetAvailabilitySetId
+    description: The target availability set Id.
+    types:
+    - uid: string
+  - name: targetBootDiagnosticsStorageAccountId
+    description: The target boot diagnostics storage account ARM Id.
+    types:
+    - uid: string
+  - name: protectedDisks
+    description: The list of protected disks.
+    types:
+    - uid: VMwareCbtProtectedDiskDetails
+      isArray: true
+  - name: targetNetworkId
+    description: The target network Id.
+    types:
+    - uid: string
+  - name: vmNics
+    description: The network details.
+    types:
+    - uid: VMwareCbtNicDetails
+      isArray: true
+  - name: migrationRecoveryPointId
+    isReadyOnly: true
+    description: The recovery point Id to which the VM was migrated.
+    types:
+    - uid: string
+  - name: lastRecoveryPointReceived
+    isReadyOnly: true
+    description: The last recovery point received time.
+    types:
+    - uid: string
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the instance type.
+    types:
+    - uid: VMwareCbt
+    typesTitle: string
+- name: VMwareCbtProtectedDiskDetails
+  description: VMwareCbt protected disk details.
+  kind: object
+  properties:
+  - name: diskId
+    isReadyOnly: true
+    description: The disk id.
+    types:
+    - uid: string
+  - name: diskName
+    isReadyOnly: true
+    description: The disk name.
+    types:
+    - uid: string
+  - name: diskPath
+    isReadyOnly: true
+    description: The disk path.
+    types:
+    - uid: string
+  - name: isOSDisk
+    isReadyOnly: true
+    description: A value indicating whether the disk is the OS disk.
+    types:
+    - uid: string
+  - name: capacityInBytes
+    isReadyOnly: true
+    description: The disk capacity in bytes.
+    types:
+    - uid: integer
+  - name: logStorageAccountId
+    isReadyOnly: true
+    description: The log storage account ARM Id.
+    types:
+    - uid: string
+  - name: logStorageAccountSasSecretName
+    isReadyOnly: true
+    description: The key vault secret name of the log storage account.
+    types:
+    - uid: string
+  - name: seedManagedDiskId
+    isReadyOnly: true
+    description: The ARM Id of the seed managed disk.
+    types:
+    - uid: string
+  - name: targetManagedDiskId
+    isReadyOnly: true
+    description: The ARM Id of the target managed disk.
+    types:
+    - uid: string
+  - name: diskType
+    description: The disk type.
+    types:
+    - uid: DiskType
+- name: VMwareCbtNicDetails
+  description: VMwareCbt NIC details.
+  kind: object
+  properties:
+  - name: nicId
+    isReadyOnly: true
+    description: The NIC Id.
+    types:
+    - uid: string
+  - name: isPrimaryNic
+    description: A value indicating whether this is the primary NIC.
+    types:
+    - uid: string
+  - name: sourceIPAddress
+    isReadyOnly: true
+    description: The source IP address.
+    types:
+    - uid: string
+  - name: sourceIPAddressType
+    isReadyOnly: true
+    description: The source IP address type.
+    types:
+    - uid: EthernetAddressType
+  - name: sourceNetworkId
+    isReadyOnly: true
+    description: Source network Id.
+    types:
+    - uid: string
+  - name: targetIPAddress
+    description: The target IP address.
+    types:
+    - uid: string
+  - name: targetIPAddressType
+    description: The target IP address type.
+    types:
+    - uid: EthernetAddressType
+  - name: targetSubnetName
+    description: Target subnet name.
+    types:
+    - uid: string
+  - name: isSelectedForMigration
+    description: A value indicating whether this NIC is selected for migration.
+    types:
+    - uid: string
+- name: DiskType
+  description: The disk type.
+  kind: enum
+  properties:
+  - name: Standard_LRS
+    types:
+    - uid: string
+  - name: Premium_LRS
+    types:
+    - uid: string
+  - name: StandardSSD_LRS
+    types:
+    - uid: string
+- name: EthernetAddressType
+  description: The source IP address type.
+  kind: enum
+  properties:
+  - name: Dynamic
+    types:
+    - uid: string
+  - name: Static
+    types:
+    - uid: string
+examples:
+- name: Gets the list of migration items in the vault.
+  request:
+    uri: GET https://management.azure.com/Subscriptions/cb53d0c3-bd59-4721-89bc-06916a9147ef/resourceGroups/resourcegroup1/providers/Microsoft.RecoveryServices/vaults/migrationvault/replicationMigrationItems?api-version=2018-07-10
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/Subscriptions/cb53d0c3-bd59-4721-89bc-06916a9147ef/resourceGroups/resourcegroup1/providers/Microsoft.RecoveryServices/vaults/migrationvault/replicationFabrics/vmwarefabric1/replicationProtectionContainers/vmwareContainer1/replicationMigrationItems/virtualmachine1",
+            "name": "virtualmachine1",
+            "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationMigrationItems",
+            "properties": {
+              "machineName": "vm-0520-2",
+              "migrationState": "Replicating",
+              "migrationStateDescription": "Ready to migrate",
+              "testMigrateState": "None",
+              "testMigrateStateDescription": "None",
+              "policyFriendlyName": "vmwarepolicy1",
+              "policyId": "/Subscriptions/cb53d0c3-bd59-4721-89bc-06916a9147ef/resourceGroups/resourcegroup1/providers/Microsoft.RecoveryServices/vaults/migrationvault/replicationPolicies/vmwarepolicy1",
+              "allowedOperations": [
+                "Migrate",
+                "DisableMigration",
+                "TestMigrate",
+                "TestMigrateCleanup"
+              ],
+              "currentJob": {
+                "jobName": "None",
+                "jobId": "/Subscriptions/cb53d0c3-bd59-4721-89bc-06916a9147ef/resourceGroups/resourcegroup1/providers/Microsoft.RecoveryServices/vaults/migrationvault/replicationJobs/None",
+                "startTime": "2017-04-26T06:37:50.8082715Z"
+              },
+              "providerSpecificDetails": {
+                "instanceType": "VMwareCbt"
+              },
+              "recoveryServicesProviderId": "/Subscriptions/cb53d0c3-bd59-4721-89bc-06916a9147ef/resourceGroups/resourcegroup1/providers/Microsoft.RecoveryServices/vaults/migrationvault/replicationFabrics/vmwarefabric1/replicationRecoveryServicesProviders/45b55118-f42d-505f-8bde-f3745258171f"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+errorCodes: []
