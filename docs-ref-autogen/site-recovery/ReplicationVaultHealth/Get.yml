@@ -3,14 +3,14 @@ uid: management.azure.com.site-recovery.replicationvaulthealth.get
 name: Get
 service: Recovery Services - Site Recovery
 groupName: Replication Vault Health
-apiVersion: 2016-08-10
+apiVersion: 2018-07-10
 summary: "Gets the health summary for the vault.  \nGets the health details of the vault."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth?api-version=2016-08-10
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth?api-version=2018-07-10
 uriParameters:
 - name: subscriptionId
   in: path
@@ -87,10 +87,19 @@ definitions:
     description: The list of the health detail of the fabrics in the vault.
     types:
     - uid: ResourceHealthSummary
+  - name: containersHealth
+    description: The list of the health detail of the containers in the vault.
+    types:
+    - uid: ResourceHealthSummary
 - name: HealthError
   description: Health Error
   kind: object
   properties:
+  - name: innerHealthErrors
+    description: The inner health errors. HealthError having a list of HealthError as child errors is problematic. InnerHealthError is used because this will prevent an infinite loop of structures when Hydra tries to auto-generate the contract. We are exposing the related health errors as inner health errors and all API consumers can utilize this in the same fashion as Exception -&gt; InnerException.
+    types:
+    - uid: InnerHealthError
+      isArray: true
   - name: errorSource
     description: Source of error.
     types:
@@ -103,8 +112,16 @@ definitions:
     description: Level of error.
     types:
     - uid: string
+  - name: errorCategory
+    description: Category of error.
+    types:
+    - uid: string
   - name: errorCode
     description: Error code.
+    types:
+    - uid: string
+  - name: summaryMessage
+    description: Summary message of the entity.
     types:
     - uid: string
   - name: errorMessage
@@ -131,11 +148,14 @@ definitions:
     description: ID of the entity.
     types:
     - uid: string
-  - name: childErrors
-    description: The child health errors.
+  - name: errorId
+    description: The health error unique id.
     types:
-    - uid: HealthError
-      isArray: true
+    - uid: string
+  - name: customerResolvability
+    description: Value indicating whether the health error is customer resolvable.
+    types:
+    - uid: HealthErrorCustomerResolvability
 - name: ResourceHealthSummary
   description: Base class to define the health summary of the resources contained under an Arm resource.
   kind: object
@@ -149,6 +169,68 @@ definitions:
     types:
     - uid: HealthErrorSummary
       isArray: true
+- name: InnerHealthError
+  description: Implements InnerHealthError class. HealthError object has a list of InnerHealthErrors as child errors. InnerHealthError is used because this will prevent an infinite loop of structures when Hydra tries to auto-generate the contract. We are exposing the related health errors as inner health errors and all API consumers can utilize this in the same fashion as Exception -&gt; InnerException.
+  kind: object
+  properties:
+  - name: errorSource
+    description: Source of error.
+    types:
+    - uid: string
+  - name: errorType
+    description: Type of error.
+    types:
+    - uid: string
+  - name: errorLevel
+    description: Level of error.
+    types:
+    - uid: string
+  - name: errorCategory
+    description: Category of error.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: summaryMessage
+    description: Summary message of the entity.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message.
+    types:
+    - uid: string
+  - name: possibleCauses
+    description: Possible causes of error.
+    types:
+    - uid: string
+  - name: recommendedAction
+    description: Recommended action to resolve error.
+    types:
+    - uid: string
+  - name: creationTimeUtc
+    description: Error creation time (UTC)
+    types:
+    - uid: string
+  - name: recoveryProviderErrorMessage
+    description: DRA error message.
+    types:
+    - uid: string
+  - name: entityId
+    description: ID of the entity.
+    types:
+    - uid: string
+- name: HealthErrorCustomerResolvability
+  description: Value indicating whether the health error is customer resolvable.
+  kind: enum
+  properties:
+  - name: Allowed
+    types:
+    - uid: string
+  - name: NotAllowed
+    types:
+    - uid: string
 - name: HealthErrorSummary
   description: class to define the summary of the health error details.
   kind: object
@@ -186,6 +268,9 @@ definitions:
   description: The category of the health error.
   kind: enum
   properties:
+  - name: None
+    types:
+    - uid: string
   - name: Replication
     types:
     - uid: string
@@ -193,6 +278,15 @@ definitions:
     types:
     - uid: string
   - name: Configuration
+    types:
+    - uid: string
+  - name: FabricInfrastructure
+    types:
+    - uid: string
+  - name: VersionExpiry
+    types:
+    - uid: string
+  - name: AgentAutoUpdate
     types:
     - uid: string
 - name: Severity
@@ -214,7 +308,7 @@ definitions:
 examples:
 - name: Gets the health summary for the vault.
   request:
-    uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationVaultHealth?api-version=2016-08-10
+    uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationVaultHealth?api-version=2018-07-10
   responses:
   - statusCode: "200"
     body: >-

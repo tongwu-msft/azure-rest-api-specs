@@ -3,14 +3,14 @@ uid: management.azure.com.site-recovery.replicationrecoveryservicesproviders.lis
 name: List
 service: Recovery Services - Site Recovery
 groupName: Replication Recovery Services Providers
-apiVersion: 2016-08-10
+apiVersion: 2018-07-10
 summary: "Gets the list of registered recovery services providers in the vault. This is a view only api.  \nLists the registered recovery services providers in the vault"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryServicesProviders?api-version=2016-08-10
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryServicesProviders?api-version=2018-07-10
 uriParameters:
 - name: subscriptionId
   in: path
@@ -108,7 +108,7 @@ definitions:
     types:
     - uid: string
   - name: providerVersionExpiryDate
-    description: Expiry date if the version is deprecated.
+    description: Expiry date of the version.
     types:
     - uid: string
   - name: fabricFriendlyName
@@ -141,14 +141,27 @@ definitions:
     description: The DRA Id.
     types:
     - uid: string
-  - name: identityDetails
-    description: The identity details.
+  - name: authenticationIdentityDetails
+    description: The authentication identity details.
     types:
-    - uid: IdentityInformation
+    - uid: IdentityProviderDetails
+  - name: resourceAccessIdentityDetails
+    description: The resource access identity details.
+    types:
+    - uid: IdentityProviderDetails
+  - name: providerVersionDetails
+    description: The provider version details.
+    types:
+    - uid: VersionDetails
 - name: HealthError
   description: Health Error
   kind: object
   properties:
+  - name: innerHealthErrors
+    description: The inner health errors. HealthError having a list of HealthError as child errors is problematic. InnerHealthError is used because this will prevent an infinite loop of structures when Hydra tries to auto-generate the contract. We are exposing the related health errors as inner health errors and all API consumers can utilize this in the same fashion as Exception -&gt; InnerException.
+    types:
+    - uid: InnerHealthError
+      isArray: true
   - name: errorSource
     description: Source of error.
     types:
@@ -161,8 +174,16 @@ definitions:
     description: Level of error.
     types:
     - uid: string
+  - name: errorCategory
+    description: Category of error.
+    types:
+    - uid: string
   - name: errorCode
     description: Error code.
+    types:
+    - uid: string
+  - name: summaryMessage
+    description: Summary message of the entity.
     types:
     - uid: string
   - name: errorMessage
@@ -189,19 +210,18 @@ definitions:
     description: ID of the entity.
     types:
     - uid: string
-  - name: childErrors
-    description: The child health errors.
+  - name: errorId
+    description: The health error unique id.
     types:
-    - uid: HealthError
-      isArray: true
-- name: IdentityInformation
-  description: Identity details.
+    - uid: string
+  - name: customerResolvability
+    description: Value indicating whether the health error is customer resolvable.
+    types:
+    - uid: HealthErrorCustomerResolvability
+- name: IdentityProviderDetails
+  description: Identity provider details.
   kind: object
   properties:
-  - name: identityProviderType
-    description: The identity provider type. Value is the ToString() of a IdentityProviderType value.
-    types:
-    - uid: IdentityProviderType
   - name: tenantId
     description: The tenant Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services.
     types:
@@ -222,24 +242,107 @@ definitions:
     description: The base authority for Azure Active Directory authentication.
     types:
     - uid: string
-  - name: certificateThumbprint
-    description: The certificate thumbprint. Applicable only if IdentityProviderType is RecoveryServicesActiveDirectory.
+- name: VersionDetails
+  description: Version related details.
+  kind: object
+  properties:
+  - name: version
+    description: The agent version.
     types:
     - uid: string
-- name: IdentityProviderType
-  description: The identity provider type. Value is the ToString() of a IdentityProviderType value.
+  - name: expiryDate
+    description: Version expiry date.
+    types:
+    - uid: string
+  - name: status
+    description: A value indicating whether security update required.
+    types:
+    - uid: AgentVersionStatus
+- name: InnerHealthError
+  description: Implements InnerHealthError class. HealthError object has a list of InnerHealthErrors as child errors. InnerHealthError is used because this will prevent an infinite loop of structures when Hydra tries to auto-generate the contract. We are exposing the related health errors as inner health errors and all API consumers can utilize this in the same fashion as Exception -&gt; InnerException.
+  kind: object
+  properties:
+  - name: errorSource
+    description: Source of error.
+    types:
+    - uid: string
+  - name: errorType
+    description: Type of error.
+    types:
+    - uid: string
+  - name: errorLevel
+    description: Level of error.
+    types:
+    - uid: string
+  - name: errorCategory
+    description: Category of error.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: summaryMessage
+    description: Summary message of the entity.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message.
+    types:
+    - uid: string
+  - name: possibleCauses
+    description: Possible causes of error.
+    types:
+    - uid: string
+  - name: recommendedAction
+    description: Recommended action to resolve error.
+    types:
+    - uid: string
+  - name: creationTimeUtc
+    description: Error creation time (UTC)
+    types:
+    - uid: string
+  - name: recoveryProviderErrorMessage
+    description: DRA error message.
+    types:
+    - uid: string
+  - name: entityId
+    description: ID of the entity.
+    types:
+    - uid: string
+- name: HealthErrorCustomerResolvability
+  description: Value indicating whether the health error is customer resolvable.
   kind: enum
   properties:
-  - name: RecoveryServicesActiveDirectory
+  - name: Allowed
     types:
     - uid: string
-  - name: CustomerActiveDirectory
+  - name: NotAllowed
+    types:
+    - uid: string
+- name: AgentVersionStatus
+  description: A value indicating whether security update required.
+  kind: enum
+  properties:
+  - name: Supported
+    types:
+    - uid: string
+  - name: NotSupported
+    types:
+    - uid: string
+  - name: Deprecated
+    types:
+    - uid: string
+  - name: UpdateRequired
+    types:
+    - uid: string
+  - name: SecurityUpdateRequired
     types:
     - uid: string
 examples:
 - name: Gets the list of registered recovery services providers in the vault. This is a view only api.
   request:
-    uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationRecoveryServicesProviders?api-version=2016-08-10
+    uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationRecoveryServicesProviders?api-version=2018-07-10
   responses:
   - statusCode: "200"
     body: >-

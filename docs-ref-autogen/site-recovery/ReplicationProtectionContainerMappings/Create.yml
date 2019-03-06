@@ -3,14 +3,14 @@ uid: management.azure.com.site-recovery.replicationprotectioncontainermappings.c
 name: Create
 service: Recovery Services - Site Recovery
 groupName: Replication Protection Container Mappings
-apiVersion: 2016-08-10
+apiVersion: 2018-07-10
 summary: "Create protection container mapping.  \nThe operation to create a protection container mapping."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}?api-version=2016-08-10
+- content: PUT https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}?api-version=2018-07-10
 uriParameters:
 - name: subscriptionId
   in: path
@@ -79,14 +79,16 @@ definitions:
     description: The target unique protection container name.
     types:
     - uid: string
-  - name: PolicyId
+  - name: policyId
     description: Applicable policy.
     types:
     - uid: string
   - name: providerSpecificInput
     description: Provider specific input for pairing.
     types:
-    - uid: ReplicationProviderSpecificContainerMappingInput
+    - uid: A2AContainerMappingInput
+    - uid: VMwareCbtContainerMappingInput
+    typesTitle: ReplicationProviderSpecificContainerMappingInput
 - name: ProtectionContainerMapping
   description: Protection container mapping object.
   kind: object
@@ -122,14 +124,6 @@ definitions:
     description: Configure protection input properties.
     types:
     - uid: CreateProtectionContainerMappingInputProperties
-- name: ReplicationProviderSpecificContainerMappingInput
-  description: Provider specific input for pairing operations.
-  kind: object
-  properties:
-  - name: instanceType
-    description: The class type.
-    types:
-    - uid: string
 - name: ProtectionContainerMappingProperties
   description: Protection container mapping properties.
   kind: object
@@ -145,7 +139,9 @@ definitions:
   - name: providerSpecificDetails
     description: Provider specific provider details.
     types:
-    - uid: ProtectionContainerMappingProviderSpecificDetails
+    - uid: A2AProtectionContainerMappingDetails
+    - uid: VMwareCbtProtectionContainerMappingDetails
+    typesTitle: ProtectionContainerMappingProviderSpecificDetails
   - name: health
     description: Health of pairing.
     types:
@@ -179,19 +175,65 @@ definitions:
     description: Friendly name of replication policy.
     types:
     - uid: string
-- name: ProtectionContainerMappingProviderSpecificDetails
-  description: Container mapping provider specific details.
+- name: A2AContainerMappingInput
+  description: A2A container mapping input.
   kind: object
   properties:
-  - name: instanceType
-    isReadyOnly: true
-    description: Gets the class type. Overridden in derived classes.
+  - name: agentAutoUpdateStatus
+    description: A value indicating whether the auto update is enabled.
+    types:
+    - uid: AgentAutoUpdateStatus
+  - name: automationAccountArmId
+    description: The automation account arm id.
     types:
     - uid: string
+  - name: instanceType
+    description: The class type.
+    types:
+    - uid: A2A
+    typesTitle: string
+- name: VMwareCbtContainerMappingInput
+  description: VMwareCbt container mapping input.
+  kind: object
+  properties:
+  - name: keyVaultId
+    description: The target key vault ARM Id.
+    types:
+    - uid: string
+  - name: keyVaultUri
+    description: The target key vault URL.
+    types:
+    - uid: string
+  - name: storageAccountId
+    description: The storage account ARM Id.
+    types:
+    - uid: string
+  - name: storageAccountSasSecretName
+    description: The secret name of the storage account.
+    types:
+    - uid: string
+  - name: serviceBusConnectionStringSecretName
+    description: The secret name of the service bus connection string.
+    types:
+    - uid: string
+  - name: targetLocation
+    description: The target location.
+    types:
+    - uid: string
+  - name: instanceType
+    description: The class type.
+    types:
+    - uid: VMwareCbt
+    typesTitle: string
 - name: HealthError
   description: Health Error
   kind: object
   properties:
+  - name: innerHealthErrors
+    description: The inner health errors. HealthError having a list of HealthError as child errors is problematic. InnerHealthError is used because this will prevent an infinite loop of structures when Hydra tries to auto-generate the contract. We are exposing the related health errors as inner health errors and all API consumers can utilize this in the same fashion as Exception -&gt; InnerException.
+    types:
+    - uid: InnerHealthError
+      isArray: true
   - name: errorSource
     description: Source of error.
     types:
@@ -204,8 +246,16 @@ definitions:
     description: Level of error.
     types:
     - uid: string
+  - name: errorCategory
+    description: Category of error.
+    types:
+    - uid: string
   - name: errorCode
     description: Error code.
+    types:
+    - uid: string
+  - name: summaryMessage
+    description: Summary message of the entity.
     types:
     - uid: string
   - name: errorMessage
@@ -232,15 +282,156 @@ definitions:
     description: ID of the entity.
     types:
     - uid: string
-  - name: childErrors
-    description: The child health errors.
+  - name: errorId
+    description: The health error unique id.
     types:
-    - uid: HealthError
-      isArray: true
+    - uid: string
+  - name: customerResolvability
+    description: Value indicating whether the health error is customer resolvable.
+    types:
+    - uid: HealthErrorCustomerResolvability
+- name: AgentAutoUpdateStatus
+  description: A value indicating whether the auto update is enabled.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+- name: A2AProtectionContainerMappingDetails
+  description: A2A provider specific settings.
+  kind: object
+  properties:
+  - name: agentAutoUpdateStatus
+    description: A value indicating whether the auto update is enabled.
+    types:
+    - uid: AgentAutoUpdateStatus
+  - name: automationAccountArmId
+    description: The automation account arm id.
+    types:
+    - uid: string
+  - name: scheduleName
+    description: The schedule arm name.
+    types:
+    - uid: string
+  - name: jobScheduleName
+    description: The job schedule arm name.
+    types:
+    - uid: string
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the class type. Overridden in derived classes.
+    types:
+    - uid: A2A
+    typesTitle: string
+- name: VMwareCbtProtectionContainerMappingDetails
+  description: VMwareCbt provider specific container mapping details.
+  kind: object
+  properties:
+  - name: keyVaultId
+    isReadyOnly: true
+    description: The target key vault ARM Id.
+    types:
+    - uid: string
+  - name: keyVaultUri
+    isReadyOnly: true
+    description: The target key vault URI.
+    types:
+    - uid: string
+  - name: storageAccountId
+    isReadyOnly: true
+    description: The storage account ARM Id.
+    types:
+    - uid: string
+  - name: storageAccountSasSecretName
+    isReadyOnly: true
+    description: The secret name of the storage account.
+    types:
+    - uid: string
+  - name: serviceBusConnectionStringSecretName
+    isReadyOnly: true
+    description: The secret name of the service bus connection string.
+    types:
+    - uid: string
+  - name: targetLocation
+    isReadyOnly: true
+    description: The target location.
+    types:
+    - uid: string
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the class type. Overridden in derived classes.
+    types:
+    - uid: VMwareCbt
+    typesTitle: string
+- name: InnerHealthError
+  description: Implements InnerHealthError class. HealthError object has a list of InnerHealthErrors as child errors. InnerHealthError is used because this will prevent an infinite loop of structures when Hydra tries to auto-generate the contract. We are exposing the related health errors as inner health errors and all API consumers can utilize this in the same fashion as Exception -&gt; InnerException.
+  kind: object
+  properties:
+  - name: errorSource
+    description: Source of error.
+    types:
+    - uid: string
+  - name: errorType
+    description: Type of error.
+    types:
+    - uid: string
+  - name: errorLevel
+    description: Level of error.
+    types:
+    - uid: string
+  - name: errorCategory
+    description: Category of error.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: summaryMessage
+    description: Summary message of the entity.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message.
+    types:
+    - uid: string
+  - name: possibleCauses
+    description: Possible causes of error.
+    types:
+    - uid: string
+  - name: recommendedAction
+    description: Recommended action to resolve error.
+    types:
+    - uid: string
+  - name: creationTimeUtc
+    description: Error creation time (UTC)
+    types:
+    - uid: string
+  - name: recoveryProviderErrorMessage
+    description: DRA error message.
+    types:
+    - uid: string
+  - name: entityId
+    description: ID of the entity.
+    types:
+    - uid: string
+- name: HealthErrorCustomerResolvability
+  description: Value indicating whether the health error is customer resolvable.
+  kind: enum
+  properties:
+  - name: Allowed
+    types:
+    - uid: string
+  - name: NotAllowed
+    types:
+    - uid: string
 examples:
 - name: Create protection container mapping.
   request:
-    uri: PUT https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectionContainerMappings/cloud1protectionprofile1?api-version=2016-08-10
+    uri: PUT https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectionContainerMappings/cloud1protectionprofile1?api-version=2018-07-10
     body: >-
       {
         "properties": {

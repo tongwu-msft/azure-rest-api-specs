@@ -3,14 +3,14 @@ uid: management.azure.com.site-recovery.replicationpolicies.create
 name: Create
 service: Recovery Services - Site Recovery
 groupName: Replication Policies
-apiVersion: 2016-08-10
+apiVersion: 2018-07-10
 summary: "Creates the policy.  \nThe operation to create a replication policy"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}?api-version=2016-08-10
+- content: PUT https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}?api-version=2018-07-10
 uriParameters:
 - name: subscriptionId
   in: path
@@ -66,12 +66,12 @@ definitions:
   - name: providerSpecificInput
     description: The ReplicationProviderSettings.
     types:
+    - uid: A2APolicyCreationInput
     - uid: HyperVReplicaAzurePolicyInput
-    - uid: HyperVReplicaPolicyInput
     - uid: HyperVReplicaBluePolicyInput
+    - uid: HyperVReplicaPolicyInput
     - uid: InMageAzureV2PolicyInput
     - uid: InMagePolicyInput
-    - uid: A2APolicyCreationInput
     - uid: VMwareCbtPolicyCreationInput
     typesTitle: PolicyProviderSpecificInput
 - name: Policy
@@ -102,7 +102,7 @@ definitions:
     types:
     - uid: string
 - name: CreatePolicyInput
-  description: Protection profile input.
+  description: Protection Policy input.
   kind: object
   properties:
   - name: properties
@@ -120,17 +120,42 @@ definitions:
   - name: providerSpecificDetails
     description: The ReplicationChannelSetting.
     types:
+    - uid: A2APolicyDetails
     - uid: HyperVReplicaAzurePolicyDetails
     - uid: HyperVReplicaBasePolicyDetails
-    - uid: HyperVReplicaPolicyDetails
     - uid: HyperVReplicaBluePolicyDetails
-    - uid: InMageBasePolicyDetails
+    - uid: HyperVReplicaPolicyDetails
     - uid: InMageAzureV2PolicyDetails
+    - uid: InMageBasePolicyDetails
     - uid: InMagePolicyDetails
-    - uid: A2APolicyDetails
     - uid: RcmAzureMigrationPolicyDetails
     - uid: VmwareCbtPolicyDetails
     typesTitle: PolicyProviderSpecificDetails
+- name: A2APolicyCreationInput
+  description: A2A Policy creation input.
+  kind: object
+  properties:
+  - name: recoveryPointHistory
+    description: The duration in minutes until which the recovery points need to be stored.
+    types:
+    - uid: integer
+  - name: crashConsistentFrequencyInMinutes
+    description: The crash consistent snapshot frequency (in minutes).
+    types:
+    - uid: integer
+  - name: appConsistentFrequencyInMinutes
+    description: The app consistent snapshot frequency (in minutes).
+    types:
+    - uid: integer
+  - name: multiVmSyncStatus
+    description: A value indicating whether multi-VM sync has to be enabled. Value should be 'Enabled' or 'Disabled'.
+    types:
+    - uid: SetMultiVmSyncStatus
+  - name: instanceType
+    description: The class type.
+    types:
+    - uid: A2A
+    typesTitle: string
 - name: HyperVReplicaAzurePolicyInput
   description: Hyper-V Replica Azure specific input for creating a protection profile.
   kind: object
@@ -151,10 +176,6 @@ definitions:
     description: The scheduled start time for the initial replication. If this parameter is Null, the initial replication starts immediately.
     types:
     - uid: string
-  - name: encryption
-    description: A value indicating whether encryption needs to be enabled for Vms in this cloud.
-    types:
-    - uid: string
   - name: storageAccounts
     description: The list of storage accounts to which the VMs in the primary cloud can replicate to.
     types:
@@ -164,55 +185,6 @@ definitions:
     description: The class type.
     types:
     - uid: HyperVReplicaAzure
-    typesTitle: string
-- name: HyperVReplicaPolicyInput
-  description: Hyper-V Replica specific protection profile Input.
-  kind: object
-  properties:
-  - name: recoveryPoints
-    description: A value indicating the number of recovery points.
-    types:
-    - uid: integer
-  - name: applicationConsistentSnapshotFrequencyInHours
-    description: A value indicating the application consistent frequency.
-    types:
-    - uid: integer
-  - name: compression
-    description: A value indicating whether compression has to be enabled.
-    types:
-    - uid: string
-  - name: initialReplicationMethod
-    description: A value indicating whether IR is online.
-    types:
-    - uid: string
-  - name: onlineReplicationStartTime
-    description: A value indicating the online IR start time.
-    types:
-    - uid: string
-  - name: offlineReplicationImportPath
-    description: A value indicating the offline IR import path.
-    types:
-    - uid: string
-  - name: offlineReplicationExportPath
-    description: A value indicating the offline IR export path.
-    types:
-    - uid: string
-  - name: replicationPort
-    description: A value indicating the recovery HTTPS port.
-    types:
-    - uid: integer
-  - name: allowedAuthenticationType
-    description: A value indicating the authentication type.
-    types:
-    - uid: integer
-  - name: replicaDeletion
-    description: A value indicating whether the VM has to be auto deleted.
-    types:
-    - uid: string
-  - name: instanceType
-    description: The class type.
-    types:
-    - uid: HyperVReplica2012
     typesTitle: string
 - name: HyperVReplicaBluePolicyInput
   description: HyperV Replica Blue policy input.
@@ -267,8 +239,57 @@ definitions:
     types:
     - uid: HyperVReplica2012R2
     typesTitle: string
+- name: HyperVReplicaPolicyInput
+  description: Hyper-V Replica specific policy Input.
+  kind: object
+  properties:
+  - name: recoveryPoints
+    description: A value indicating the number of recovery points.
+    types:
+    - uid: integer
+  - name: applicationConsistentSnapshotFrequencyInHours
+    description: A value indicating the application consistent frequency.
+    types:
+    - uid: integer
+  - name: compression
+    description: A value indicating whether compression has to be enabled.
+    types:
+    - uid: string
+  - name: initialReplicationMethod
+    description: A value indicating whether IR is online.
+    types:
+    - uid: string
+  - name: onlineReplicationStartTime
+    description: A value indicating the online IR start time.
+    types:
+    - uid: string
+  - name: offlineReplicationImportPath
+    description: A value indicating the offline IR import path.
+    types:
+    - uid: string
+  - name: offlineReplicationExportPath
+    description: A value indicating the offline IR export path.
+    types:
+    - uid: string
+  - name: replicationPort
+    description: A value indicating the recovery HTTPS port.
+    types:
+    - uid: integer
+  - name: allowedAuthenticationType
+    description: A value indicating the authentication type.
+    types:
+    - uid: integer
+  - name: replicaDeletion
+    description: A value indicating whether the VM has to be auto deleted.
+    types:
+    - uid: string
+  - name: instanceType
+    description: The class type.
+    types:
+    - uid: HyperVReplica2012
+    typesTitle: string
 - name: InMageAzureV2PolicyInput
-  description: VMWare Azure specific protection profile Input.
+  description: VMWare Azure specific policy Input.
   kind: object
   properties:
   - name: recoveryPointThresholdInMinutes
@@ -321,36 +342,11 @@ definitions:
     types:
     - uid: InMage
     typesTitle: string
-- name: A2APolicyCreationInput
-  description: A2A Policy creation input.
-  kind: object
-  properties:
-  - name: recoveryPointHistory
-    description: The duration in minutes until which the recovery points need to be stored.
-    types:
-    - uid: integer
-  - name: crashConsistentFrequencyInMinutes
-    description: The crash consistent snapshot frequency (in minutes).
-    types:
-    - uid: integer
-  - name: appConsistentFrequencyInMinutes
-    description: The app consistent snapshot frequency (in minutes).
-    types:
-    - uid: integer
-  - name: multiVmSyncStatus
-    description: A value indicating whether multi-VM sync has to be enabled. Value should be 'Enabled' or 'Disabled'.
-    types:
-    - uid: SetMultiVmSyncStatus
-  - name: instanceType
-    description: The class type.
-    types:
-    - uid: A2A
-    typesTitle: string
 - name: VMwareCbtPolicyCreationInput
-  description: VMware Cbt Policy creation input.
+  description: VMware Cbt policy creation input.
   kind: object
   properties:
-  - name: recoveryPointHistory
+  - name: recoveryPointHistoryInMinutes
     description: The duration in minutes until which the recovery points need to be stored.
     types:
     - uid: integer
@@ -377,6 +373,36 @@ definitions:
   - name: Disable
     types:
     - uid: string
+- name: A2APolicyDetails
+  description: A2A specific policy details.
+  kind: object
+  properties:
+  - name: recoveryPointThresholdInMinutes
+    description: The recovery point threshold in minutes.
+    types:
+    - uid: integer
+  - name: recoveryPointHistory
+    description: The duration in minutes until which the recovery points need to be stored.
+    types:
+    - uid: integer
+  - name: appConsistentFrequencyInMinutes
+    description: The app consistent snapshot frequency in minutes.
+    types:
+    - uid: integer
+  - name: multiVmSyncStatus
+    description: A value indicating whether multi-VM sync has to be enabled.
+    types:
+    - uid: string
+  - name: crashConsistentFrequencyInMinutes
+    description: The crash consistent snapshot frequency in minutes.
+    types:
+    - uid: integer
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the class type. Overridden in derived classes.
+    types:
+    - uid: A2A
+    typesTitle: string
 - name: HyperVReplicaAzurePolicyDetails
   description: Hyper-V Replica Azure specific protection profile details.
   kind: object
@@ -461,56 +487,6 @@ definitions:
     types:
     - uid: HyperVReplicaBasePolicyDetails
     typesTitle: string
-- name: HyperVReplicaPolicyDetails
-  description: Hyper-V Replica Blue specific protection profile details.
-  kind: object
-  properties:
-  - name: recoveryPoints
-    description: A value indicating the number of recovery points.
-    types:
-    - uid: integer
-  - name: applicationConsistentSnapshotFrequencyInHours
-    description: A value indicating the application consistent frequency.
-    types:
-    - uid: integer
-  - name: compression
-    description: A value indicating whether compression has to be enabled.
-    types:
-    - uid: string
-  - name: initialReplicationMethod
-    description: A value indicating whether IR is online.
-    types:
-    - uid: string
-  - name: onlineReplicationStartTime
-    description: A value indicating the online IR start time.
-    types:
-    - uid: string
-  - name: offlineReplicationImportPath
-    description: A value indicating the offline IR import path.
-    types:
-    - uid: string
-  - name: offlineReplicationExportPath
-    description: A value indicating the offline IR export path.
-    types:
-    - uid: string
-  - name: replicationPort
-    description: A value indicating the recovery HTTPS port.
-    types:
-    - uid: integer
-  - name: allowedAuthenticationType
-    description: A value indicating the authentication type.
-    types:
-    - uid: integer
-  - name: replicaDeletionOption
-    description: 'A value indicating whether the VM has to be auto deleted. Supported Values: String.Empty, None, OnRecoveryCloud'
-    types:
-    - uid: string
-  - name: instanceType
-    isReadyOnly: true
-    description: Gets the class type. Overridden in derived classes.
-    types:
-    - uid: HyperVReplica2012
-    typesTitle: string
 - name: HyperVReplicaBluePolicyDetails
   description: Hyper-V Replica Blue specific protection profile details.
   kind: object
@@ -565,31 +541,55 @@ definitions:
     types:
     - uid: HyperVReplica2012R2
     typesTitle: string
-- name: InMageBasePolicyDetails
-  description: Base class for the policies of providers using InMage replication.
+- name: HyperVReplicaPolicyDetails
+  description: Hyper-V Replica Blue specific protection profile details.
   kind: object
   properties:
-  - name: recoveryPointThresholdInMinutes
-    description: The recovery point threshold in minutes.
+  - name: recoveryPoints
+    description: A value indicating the number of recovery points.
     types:
     - uid: integer
-  - name: recoveryPointHistory
-    description: The duration in minutes until which the recovery points need to be stored.
+  - name: applicationConsistentSnapshotFrequencyInHours
+    description: A value indicating the application consistent frequency.
     types:
     - uid: integer
-  - name: appConsistentFrequencyInMinutes
-    description: The app consistent snapshot frequency in minutes.
+  - name: compression
+    description: A value indicating whether compression has to be enabled.
+    types:
+    - uid: string
+  - name: initialReplicationMethod
+    description: A value indicating whether IR is online.
+    types:
+    - uid: string
+  - name: onlineReplicationStartTime
+    description: A value indicating the online IR start time.
+    types:
+    - uid: string
+  - name: offlineReplicationImportPath
+    description: A value indicating the offline IR import path.
+    types:
+    - uid: string
+  - name: offlineReplicationExportPath
+    description: A value indicating the offline IR export path.
+    types:
+    - uid: string
+  - name: replicationPort
+    description: A value indicating the recovery HTTPS port.
     types:
     - uid: integer
-  - name: multiVmSyncStatus
-    description: A value indicating whether multi-VM sync has to be enabled.
+  - name: allowedAuthenticationType
+    description: A value indicating the authentication type.
+    types:
+    - uid: integer
+  - name: replicaDeletionOption
+    description: 'A value indicating whether the VM has to be auto deleted. Supported Values: String.Empty, None, OnRecoveryCloud'
     types:
     - uid: string
   - name: instanceType
     isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
-    - uid: InMageBasePolicyDetails
+    - uid: HyperVReplica2012
     typesTitle: string
 - name: InMageAzureV2PolicyDetails
   description: InMage Azure v2 specific protection profile details.
@@ -621,6 +621,32 @@ definitions:
     types:
     - uid: InMageAzureV2
     typesTitle: string
+- name: InMageBasePolicyDetails
+  description: Base class for the policies of providers using InMage replication.
+  kind: object
+  properties:
+  - name: recoveryPointThresholdInMinutes
+    description: The recovery point threshold in minutes.
+    types:
+    - uid: integer
+  - name: recoveryPointHistory
+    description: The duration in minutes until which the recovery points need to be stored.
+    types:
+    - uid: integer
+  - name: appConsistentFrequencyInMinutes
+    description: The app consistent snapshot frequency in minutes.
+    types:
+    - uid: integer
+  - name: multiVmSyncStatus
+    description: A value indicating whether multi-VM sync has to be enabled.
+    types:
+    - uid: string
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the class type. Overridden in derived classes.
+    types:
+    - uid: InMageBasePolicyDetails
+    typesTitle: string
 - name: InMagePolicyDetails
   description: InMage specific protection profile details.
   kind: object
@@ -646,36 +672,6 @@ definitions:
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: InMage
-    typesTitle: string
-- name: A2APolicyDetails
-  description: A2A specific policy details.
-  kind: object
-  properties:
-  - name: recoveryPointThresholdInMinutes
-    description: The recovery point threshold in minutes.
-    types:
-    - uid: integer
-  - name: recoveryPointHistory
-    description: The duration in minutes until which the recovery points need to be stored.
-    types:
-    - uid: integer
-  - name: appConsistentFrequencyInMinutes
-    description: The app consistent snapshot frequency in minutes.
-    types:
-    - uid: integer
-  - name: multiVmSyncStatus
-    description: A value indicating whether multi-VM sync has to be enabled.
-    types:
-    - uid: string
-  - name: crashConsistentFrequencyInMinutes
-    description: The crash consistent snapshot frequency in minutes.
-    types:
-    - uid: integer
-  - name: instanceType
-    isReadyOnly: true
-    description: Gets the class type. Overridden in derived classes.
-    types:
-    - uid: A2A
     typesTitle: string
 - name: RcmAzureMigrationPolicyDetails
   description: RCM based Azure migration specific policy details.
@@ -711,11 +707,7 @@ definitions:
   description: VMware Cbt specific policy details.
   kind: object
   properties:
-  - name: recoveryPointThresholdInMinutes
-    description: The recovery point threshold in minutes.
-    types:
-    - uid: integer
-  - name: recoveryPointHistory
+  - name: recoveryPointHistoryInMinutes
     description: The duration in minutes until which the recovery points need to be stored.
     types:
     - uid: integer
@@ -746,7 +738,7 @@ definitions:
 examples:
 - name: Creates the policy.
   request:
-    uri: PUT https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationPolicies/protectionprofile1?api-version=2016-08-10
+    uri: PUT https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationPolicies/protectionprofile1?api-version=2018-07-10
     body: >-
       {
         "properties": {
