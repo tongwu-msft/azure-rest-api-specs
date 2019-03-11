@@ -4,7 +4,7 @@ description: Learn REST API calls used to create, delete, or update an Azure Sea
 ms.date: 02/14/2019
 services: search
 ms.service: search
-ms.topic: conceptual
+ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: cgronlun

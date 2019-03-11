@@ -4,7 +4,7 @@ description: REST API reference for Azure Search, used for non-managed code such
 ms.date: "01/16/2019"
 services: search
 ms.service: search
-ms.topic: overview
+ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: cgronlun

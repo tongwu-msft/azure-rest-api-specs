@@ -3,9 +3,9 @@ title: How to use search management REST APIs in Azure Search | Microsoft Docs
 description: Script or automate Azure Search service provisioning, key management, or resource configuration using REST APIs and Resource Manager APIs.
 ms.prod: azure
 ms.service: search
-ms.topic: conceptual
+ms.topic: "language-reference"
 
-ms.date: 04/13/2018
+ms.date: 03/11/2019
 author: HeidiSteen
 ms.author: heidist
 ms.manager: cgronlun
@@ -19,7 +19,7 @@ The Management REST API of Azure Search provides programmatic access to much of 
 -  Create, regenerate, or retrieve `api-keys` for routine changes to the administrative keys used for authenticating data operations
 -  Adjust the scale of an Azure Search service in response to changes in query volume or storage requirements
 
-To fully administer your service programmatically, you will need two APIs: the Management REST API of Azure Search, plus the common [Azure Resource Manager REST API](http://msdn.microsoft.com/library/azure/dn790568.aspx).
+To fully administer your service programmatically, you will need two APIs: the Management REST API of Azure Search, plus the common [Azure Resource Manager REST API](https://docs.microsoft.com/rest/api/searchmanagement/).
 
 The Resource Manager API is used for general-purpose operations that are not service specific, such as querying subscription data, listing geo-locations, and so forth. To create and manage Azure Search services in your subscription, make sure your HTTP request includes the Resource Manager endpoint, subscription ID, provider (in this case, Azure Search), and the Search service-specific operation.
 
@@ -41,17 +41,18 @@ Note that if your application code handles *service administration operations* a
 
 -   Service and key administration, due to the dependency on Resource Manager, relies on Active Directory for authentication.
 
--   Data requests against the Azure Search service endpoint, such as [Create Index &#40;Azure Search Service REST API&#41;](https://msdn.microsoft.com/library/azure/dn798941.aspx) or [Search Documents &#40;Azure Search Service REST API&#41;](https://msdn.microsoft.com/library/azure/dn798927.aspx), use an `api-key` in the request header. See [Azure Search Service REST](https://msdn.microsoft.com/library/azure/dn798935.aspx) for information about authenticating a data request.
+-   Data requests against the Azure Search service endpoint, such as [Create Index &#40;Azure Search Service REST API&#41;](https://docs.microsoft.com/rest/api/searchservice/create-index) or [Search Documents &#40;Azure Search Service REST API&#41;](https://docs.microsoft.com/rest/api/searchservice/search-documents), use an `api-key` in the request header. See [Azure Search Service REST](https://docs.microsoft.com/rest/api/searchservice/) for information about authenticating a data request.
 
 Authentication documentation for Resource Manager can be found at [Use Resource Manager authentication API to access subscriptions](https://docs.microsoft.com/azure/azure-resource-manager/resource-manager-api-authentication).
 
-Access control for Azure Resource Manager uses the built-in Owner, Contributor, and Reader roles. By default, all service administrators are members of the Owner role. For details, see [Role-based access control in the Azure portal](https://azure.microsoft.com/documentation/articles/role-based-access-control-configure/).
+Access control for Azure Resource Manager uses the built-in Owner, Contributor, and Reader roles. By default, all service administrators are members of the Owner role. For details, see [Role-based access control in the Azure portal](https://docs.microsoft.com/azure/search/search-security-rbac).
 
 ## Next steps
 
 Visit these links for more information about service and index administration:
 
-- [Service administration in Azure Search](https://azure.microsoft.com/documentation/articles/search-manage/)
-- [Enable and use traffic analytics](https://azure.microsoft.com/documentation/articles/search-traffic-analytics/)
-- [Performance optimization](https://azure.microsoft.com/documentation/articles/search-performance-optimization/)
-- [Scale capacity in Azure Search](https://azure.microsoft.com/documentation/articles/search-capacity-planning/)
+- [Service administration using the portal](https://docs.microsoft.com/azure/search/search-manage)
+- [PowerShell administration](https://docs.microsoft.com/azure/search/search-manage-powershell)
+- [Monitoring Azure Search](https://docs.microsoft.com/azure/search/search-monitor-usage)
+- [Deployment strategies and best practices](https://docs.microsoft.com/azure/search/search-performance-optimization)
+- [Scale an Azure Search service](https://docs.microsoft.com/azure/search/search-capacity-planning)

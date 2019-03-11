@@ -10,7 +10,7 @@ services: search
 ms.service: search
 ms.devlang: rest-api
 ms.workload: search
-ms.topic: conceptual
+ms.topic: "language-reference"
 ms.date: 02/14/2019
 
 ---
