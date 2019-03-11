@@ -3,9 +3,9 @@ title: Search Management REST APIs in Azure Search | Microsoft Docs
 description: Script or automate Azure Search service provisioning, key management, or resource configuration using REST APIs and Resource Manager APIs.
 ms.prod: azure
 ms.service: search
-ms.topic: overview
+ms.topic: "language-reference"
 
-ms.date: 04/13/2018
+ms.date: 03/11/2019
 author: HeidiSteen
 ms.author: heidist
 ms.manager: cgronlun
@@ -20,7 +20,7 @@ Azure Search provides a REST API used with [Azure Resource Manager](http://msdn.
 GET  https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2015-08-19
 ~~~~
 
-You can use [.NET](https://aka.ms/search-mgmt-sdk) or [PowerShell](https://azure.microsoft.com/documentation/articles/search-manage-powershell/) for search management, or write code that includes an HTTP client.
+You can use [.NET](https://aka.ms/search-mgmt-sdk) or [PowerShell](https://docs.microsoft.com/azure/search/search-manage-powershell) for search management, or write code that includes an HTTP client.
 
 ## REST Operation Groups
 
