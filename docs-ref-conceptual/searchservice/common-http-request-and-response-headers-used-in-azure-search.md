@@ -4,7 +4,7 @@ description: HTTP codes returned by Azure Search when making REST API calls.
 ms.date: 02/14/2019
 services: search
 ms.service: search
-ms.topic: conceptual
+ms.topic: "language-reference"
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: cgronlun

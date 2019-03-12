@@ -10,7 +10,7 @@ services: search
 ms.service: search
 ms.devlang: rest-api
 ms.workload: search
-ms.topic: language-reference
+ms.topic: "language-reference"
 ms.date: 01/08/2019
 ---
 # Update Skillset (Azure Search Service REST API - Preview)

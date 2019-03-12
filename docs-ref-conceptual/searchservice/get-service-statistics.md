@@ -4,7 +4,7 @@ description: Get statistics about the usage of service-level resources in your A
 ms.date: "04/20/2018"
 services: search
 ms.service: search
-ms.topic: conceptual
+ms.topic: "language-reference"
 author: "ashmaka"
 ms.author: "ashmaka"
 ms.manager: eladz

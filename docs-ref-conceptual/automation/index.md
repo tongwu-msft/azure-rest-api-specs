@@ -14,6 +14,7 @@ service_description: Provides a highly reliable and scalable workflow execution 
 The Azure Automation service provides a highly reliable and scalable workflow execution engine to automate frequently repeated management tasks. The processes are automated through runbooks, which are Windows PowerShell Workflows run in the Azure Automation execution engine. You can use this API to create, update, read, and delete automation resources, including runbooks and runbook jobs. In addition you can manage assets such as variables, schedules, Windows PowerShell modules, credentials, and certificates. 
 ## Rest Operation Groups
 The Automation REST API provides operations for working with the following resources.
+
 |Operation Group | Description |
 |----------------|-------------|
 | [Activity](xref:management.azure.com.automation.activity) | Manage activities available from a module imported in an Automation account.| 
@@ -56,5 +57,6 @@ The Automation REST API provides operations for working with the following resou
 | [Variable](xref:management.azure.com.automation.variable) | Manage data that you want to store in an Automation account.| 
 | [Watcher](xref:management.azure.com.automation.watcher) | Manage and provide information about Watcher Tasks.|
 | [Webhook](xref:management.azure.com.automation.webhook) | Utilize APIs to manage webhooks in an Automation account.| 
+
 ## See Also
 * [Azure Automation documentation](https://docs.microsoft.com/azure/automation)
