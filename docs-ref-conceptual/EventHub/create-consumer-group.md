@@ -18,9 +18,9 @@ manager: "timlt"
 
 # Create consumer group
 
-Creates a new consumer group. When creating a consumer group, you can specify the following properties in **ConsumerGroupDescription**. If a property is not specified, Service Bus uses the default value for that property.  See [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription#properties_).  
+Creates a new consumer group. When creating a consumer group, you can specify the following properties in **ConsumerGroupDescription**. If a property is not specified, Service Bus uses the default value for that property.  See [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription).  
   
- Default value of [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription#properties_):  
+ Default value of [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription):  
   
 |Property Name|Default|  
 |-------------------|-------------|  

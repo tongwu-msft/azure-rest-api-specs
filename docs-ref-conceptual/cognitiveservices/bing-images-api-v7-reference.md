@@ -66,7 +66,7 @@ The following are the headers that a request and response may include.
    
 ## Query parameters 
 
-The following are the query parameters that a request may include. See the Required column for required parameters. You must URL encode the query parameter values. For information about query parameters that you use to filter the images that Bing returns, see [Filter Query Parameters](#filter).  
+The following are the query parameters that a request may include. See the Required column for required parameters. You must URL encode the query parameter values. For information about query parameters that you use to filter the images that Bing returns, see Filter Query Parameters.  
   
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
@@ -131,7 +131,7 @@ The following are the JSON objects that the response may include. If the request
 |[InsightsMetadata](#insightsmetadata)|Defines a count of the number of websites where you can shop or perform other actions related to the image.|  
 |[MediaSize](#mediasize)|Defines the size of the media content.|  
 |[NormalizedRectangle](#normalizedrectangle)|Defines a region of an image.|  
-|[Instrumentation](#instrumentation)|Defines the Bing instrumentation URLs.|  
+|Instrumentation|Defines the Bing instrumentation URLs.|  
 |[Offer](#offer)|Defines a merchant's offer.|  
 |[Organization](#organization)|Defines information about a merchant.|  
 |[Person](#person)|Defines a person.|  

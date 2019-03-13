@@ -59,7 +59,7 @@ The following are the headers that a request and response may include.
    
 ## Query parameters 
 
-The following are the query parameters that a request may include. See the Required column for required parameters. You must URL encode the query parameter values. For information about query parameters that you use to filter the images that Bing returns, see [Filter Query Parameters](#filter).  
+The following are the query parameters that a request may include. See the Required column for required parameters. You must URL encode the query parameter values. For information about query parameters that you use to filter the images that Bing returns, see Filter Query Parameters.  
   
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
@@ -105,7 +105,7 @@ The following are the JSON objects that the response may include. If the request
 |[Image](#image)|Defines an image that is relevant to the query.|  
 |[Images](#images)|The top-level object that the response includes when an image request succeeds.|  
 |[MediaSize](#mediasize)|Defines the size of the media content.|  
-|[Instrumentation](#instrumentation)|Defines the Bing instrumentation URLs.|  
+|Instrumentation|Defines the Bing instrumentation URLs.|  
 |[Pivot](#pivot)|Defines the pivot segment.|  
 |[Query](#query_obj)|Defines a search query string.|  
 |[Thumbnail](#thumbnail)|Defines a thumbnail image.|  
@@ -117,7 +117,7 @@ Defines the error that occurred.
   
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
-|<a name="error-code" />code|The error code that identifies the category of error. For a list of possible codes, see [Error Codes](#errorcodes).|String|  
+|<a name="error-code" />code|The error code that identifies the category of error. For a list of possible codes, see Error Codes.|String|  
 |<a name="error-message" />message|A description of the error.|String|  
 |<a name="error-moredetails" />moreDetails|A description that provides additional information about the error.|String|  
 |<a name="error-parameter" />parameter|The query parameter in the request that caused the error.|String|  
@@ -152,7 +152,7 @@ Defines an image that is relevant to the query.
 |<a name="image-height" />height|The height of the source image, in pixels.|Unsigned Short|  
 |<a name="image-hostpagedisplayurl" />hostPageDisplayUrl|The display URL of the webpage that hosts the image.<br /><br /> Use this URL in your user interface to identify the host webpage that contains the image. The URL is not a well-formed and should not be used to access the host webpage. To access the host webpage, use the `hostPageUrl` URL.|String|  
 |<a name="image-hostpageurl" />hostPageUrl|The URL of the webpage that includes the image.<br /><br /> This URL and `contentUrl` may be the same URL.|String|  
-|<a name="image-imageid" />imageId|An ID that uniquely identifies this image. If you want the image to be the first image in the response, set the [id](#id) query parameter to this ID in your request.|String|  
+|<a name="image-imageid" />imageId|An ID that uniquely identifies this image. If you want the image to be the first image in the response, set the id query parameter to this ID in your request.|String|  
 |<a name="image-name" />name|A title of the image.|String|  
 |<a name="image-thumbnail" />thumbnail|The width and height of the thumbnail image (see `thumbnailUrl`).|[MediaSize](#mediasize)|  
 |<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resizing Thumbnails](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/resize-and-crop-thumbnails).|String|  

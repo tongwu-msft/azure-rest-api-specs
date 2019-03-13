@@ -54,7 +54,7 @@ The `Copy File` operation copies a blob or file to a destination file within the
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](#_Setting_Timeouts_for).|  
+|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see Setting Timeouts for File Service Operations.|  
   
 ### Request Headers  
  The following table describes required and optional request headers.  

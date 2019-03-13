@@ -18,7 +18,7 @@ manager: "timlt"
 
 # List partition runtime metadata
 
-Returns the metadata for all partitions on an Event Hub. See [PartitionDescription Properties](/dotnet/api/microsoft.servicebus.messaging.partitiondescription#properties_).  
+Returns the metadata for all partitions on an Event Hub. See [PartitionDescription Properties](/dotnet/api/microsoft.servicebus.messaging.partitiondescription).  
   
 ## Request  
   

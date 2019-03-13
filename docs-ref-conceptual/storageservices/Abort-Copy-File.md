@@ -52,7 +52,7 @@ The **Abort Copy File** operation aborts a pending **Copy File** operation, and 
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|Timeout|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](#_Setting_Timeouts_for).|  
+|Timeout|Optional. The timeout parameter is expressed in seconds. For more information, see Setting Timeouts for File Service Operations.|  
   
 ### Request Headers  
  The following table describes required and optional request headers.  

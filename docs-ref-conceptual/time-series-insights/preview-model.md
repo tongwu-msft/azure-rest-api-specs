@@ -26,7 +26,7 @@ TSM makes it easy to find and analyze IoT data by enabling curation, maintenance
 
 ## Common headers and parameters
 
-For authentication and authorization, a valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/#create-the-request). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
+For authentication and authorization, a valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
 
 Optional request headers:
 - `x-ms-client-request-id` - a client request ID. Service records this value. Allows the service to trace operation across services.

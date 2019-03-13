@@ -69,7 +69,7 @@ The following are the JSON objects that the response may include. If the request
 |------------|-----------------|  
 |[Error](#error)|Defines the error that occurred.|  
 |[ErrorResponse](#errorresponse)|The top-level object that the response includes when the request fails.|  
-|[QueryContext](#querycontext)|Defines the query term that Bing used for the request.|  
+|QueryContext|Defines the query term that Bing used for the request.|  
 |[SearchAction](#searchaction)|Defines the suggested search query.|  
 |[SuggestionGroup](#suggestgroup)|Defines a group of suggestions of the same type.|  
 |[Suggestions](#suggestions)|The top-level object that the response includes when the request succeeds.|  
@@ -80,7 +80,7 @@ Defines the error that occurred.
   
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
-|<a name="error-code" />code|The error code that identifies the category of error. For a list of possible codes, see [Error Codes](#errorcodes).|String|  
+|<a name="error-code" />code|The error code that identifies the category of error. For a list of possible codes, see Error Codes.|String|  
 |<a name="error-message" />message|A description of the error.|String|  
 |<a name="error-moredetails" />moreDetails|A description that provides additional information about the error.|String|  
 |<a name="error-parameter" />parameter|The query parameter in the request that caused the error.|String|  
@@ -124,7 +124,7 @@ If the service suspects a denial of service attack, the request succeeds (HTTP s
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|The type hint, which is set to Suggestions.|String|  
-|queryContext|The user's query string.|[QueryContext](#querycontext)|  
+|queryContext|The user's query string.|QueryContext|  
 |<a name="suggestions-suggestiongroups" />suggestionGroups|A list of suggested query strings grouped by type. For example, web search suggestions.|[SuggestionGroup](#suggestgroup)[]|  
   
 ## Error codes 

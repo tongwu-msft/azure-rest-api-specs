@@ -37,7 +37,7 @@ Storage Analytics metrics are enabled by default for new storage accounts. You c
  The following example enables Storage Analytics for the Table service of a fictional account named *myaccount*.  
 
 > [!IMPORTANT]
-> Although hourly metrics are enabled by default for new storage accounts, minute metrics must be enabled programmatically. You can also use [PowerShell](/powershell/storage/azure.storage/v2.5.0/set-azurestorageservicemetricsproperty) and the [Azure CLI 2.0](/cli/azure/storage/metrics#update) to enable minute metrics.
+> Although hourly metrics are enabled by default for new storage accounts, minute metrics must be enabled programmatically. You can also use [PowerShell](/powershell/storage/azure.storage/v2.5.0/set-azurestorageservicemetricsproperty) and the [Azure CLI 2.0](/cli/azure/storage/metrics) to enable minute metrics.
 >
 
 1.  Configure your request URI and headers to match the following examples. The HTTP method is PUT, and you must apply an authentication scheme to sign the request. For more information about signing your request, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).  

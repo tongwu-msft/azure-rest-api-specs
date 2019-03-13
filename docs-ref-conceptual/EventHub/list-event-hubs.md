@@ -18,7 +18,7 @@ manager: "timlt"
 
 # List Event Hubs
 
-Retrieves all metadata associated with all Event Hubs within a specified Service Bus namespace. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription#properties_).  
+Retrieves all metadata associated with all Event Hubs within a specified Service Bus namespace. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription).  
   
 ## Request  
   

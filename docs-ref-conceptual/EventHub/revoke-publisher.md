@@ -17,7 +17,7 @@ manager: "timlt"
 # Revoke publisher
 Revokes a publisher. A revoked publisher will encounter errors when sending an event to the specified Event Hub. See [RevokedPublisherDescription Properties](/dotnet/api/microsoft.servicebus.messaging.revokedpublisherdescription).  
   
- When revoking a publisher, you must specify the following properties in the [RevokedPublisherDescription](/dotnet/api/microsoft.servicebus.messaging.revokedpublisherdescription#properties_summary).  
+ When revoking a publisher, you must specify the following properties in the [RevokedPublisherDescription](/dotnet/api/microsoft.servicebus.messaging.revokedpublisherdescription).  
   
 |Property name|Description|  
 |-------------------|-----------------|  
