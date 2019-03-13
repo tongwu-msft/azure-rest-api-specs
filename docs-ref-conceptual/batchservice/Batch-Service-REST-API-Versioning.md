@@ -36,8 +36,11 @@ manager: "jeconnoc"
   - URLs provided to `ResourceFile` via the `httpUrl` method can now be any HTTP URL. Previously, these had to be an Azure Blob Storage URL.
   - `blobPrefix` can be used to filter downloads from a storage container to only those matching the prefix.
 - **[Breaking]** Removed `osDisk` property from [`VirtualMachineConfiguration`][1]. This property is no longer supported.
-- Pools which set the `dynamicVNetAssignmentScope` on [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration) to be [`job`](/rest/api/batchservice/pool/add#dynamicvnetassignmentscope) can now dynamically assign a Virtual Network to each node the job's tasks run on. The specific Virtual Network to join the nodes to is specified in the new [`JobNetworkConfiguration`](/rest/api/batchservice/job/get#jobnetworkconfiguration) property on [`CloudJob`](/rest/api/batchservice/job/get#cloudjob) and [`JobSpecification`](/rest/api/batchservice/jobschedule/get#jobspecification). 
-> [!NOTE] This feature is in public preview. It is disabled for all Batch accounts except for those which have contacted us and requested to be in the pilot.
+- Pools which set the `dynamicVNetAssignmentScope` on [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration) to be [`job`](/rest/api/batchservice/pool/add#dynamicvnetassignmentscope) can now dynamically assign a Virtual Network to each node the job's tasks run on. The specific Virtual Network to join the nodes to is specified in the new [`JobNetworkConfiguration`](/rest/api/batchservice/job/get#jobnetworkconfiguration) property on [`CloudJob`](/rest/api/batchservice/job/get#cloudjob) and [`JobSpecification`](/rest/api/batchservice/jobschedule/get#jobspecification).
+
+  > [!NOTE]
+  > This feature is in public preview. It is disabled for all Batch accounts except for those which have contacted us and requested to be in the pilot.
+
 - The maximum lifetime of a task is now 180 days (previously it was 7).
 - Added support on Windows pools for creating users with a specific login mode (either `batch` or `interactive`) via [`LoginMode`](/rest/api/batchservice/job/add#loginmode). 
 - The default task retention time for all tasks is now 7 days, previously it was infinite.
@@ -46,16 +49,16 @@ manager: "jeconnoc"
  
  Previous versions include:
 
-- [2018-08-01.7.0](#version-2018080170)
-- [2018-03-01.6.1](#version-2018030161)
-- [2017-09-01.6.0](#version-2017090160)
-- [2017-06-01.5.1](#version-2017060151)
-- [2017-05-01.5.0](#version-2017050150)
-- [2017-01-01.4.0](#version-2017010140)
-- [2016-07-01.3.1](#version-2016070131)
-- [2016-02-01.3.0](#version-2016020130)
-- [2015-12-01.2.1](#version-2015120122)
-- [2015-11-01.2.1](#version-2015110121)
+- [2018-08-01.7.0](#version-2018-08-0170)
+- [2018-03-01.6.1](#version-2018-03-0161)
+- [2017-09-01.6.0](#version-2017-09-0160)
+- [2017-06-01.5.1](#version-2017-06-0151)
+- [2017-05-01.5.0](#version-2017-05-0150)
+- [2017-01-01.4.0](#version-2017-01-0140)
+- [2016-07-01.3.1](#version-2016-07-0131)
+- [2016-02-01.3.0](#version-2016-02-0130)
+- [2015-12-01.2.1](#version-2015-12-0121)
+- [2015-11-01.2.1](#version-2015-11-0121)
 - 2015-06-01.2.0
 - 2015-03-01.1.1
 - 2014-10-01.1.0
@@ -68,7 +71,7 @@ New features in version 2018-08-01.7.0 include:
 - Added the ability to specify a `Filter` on the `Result` of a task. See [here](/rest/api/batchservice/odata-filters-in-batch) for more details.
   - This enables the often requested scenario of performing a server-side query to find all tasks which failed.
 - **[Breaking]** Removed the `ValidationStatus` property from [TaskCounts](/rest/api/batchservice/job/gettaskcounts).
-- **[Breaking]** The default caching type for [DataDisk](/rest/api/batchservice/pool/add#datadisk) and [OSDisk](/rest/api/batchservice/pool/add#osdisk) is now `ReadWrite` instead of `None`.
+- **[Breaking]** The default caching type for [DataDisk](/rest/api/batchservice/pool/add#datadisk) and [OSDisk](/rest/api/batchservice/pool/add) is now `ReadWrite` instead of `None`.
 - **[Breaking]** Renamed the only value of [ContainerType](/rest/api/batchservice/pool/add#containertype) from `docker` to `dockerCompatible`.
 
 

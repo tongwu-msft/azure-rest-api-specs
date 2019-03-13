@@ -84,15 +84,15 @@ http://65.52.117.43:{connection-port}
 
 Following is a list of Service Fabric Client APIs that allows deploying and managing [Service Fabric Mesh](http://aka.ms/sfmesh) applications in a Service Fabric cluster.
 
-* [Service Fabric Secret Resource APIs](#meshsecrets-apissfclient-index-meshsecretsmd)
-    - [Secret Value APIs](#meshsecretvalues-apissfclient-index-meshsecretvaluesmd)
-* [Service Fabric Volume Resource APIs](#meshvolumes-apissfclient-index-meshvolumesmd)
-* [Service Fabric Network Resource APIs](#meshnetworks-apissfclient-index-meshnetworksmd)    
-* [Service Fabric Application Resource APIs](#meshapplications-apissfclient-index-meshapplicationsmd)
-    - [Service APIs](#meshservices-apissfclient-index-meshservicessmd)
-    - [Service Replica APIs](#meshservicereplicas-apissfclient-index-meshservicereplicasmd)
-    - [Code Package APIs](#meshcodepackages-apissfclient-index-meshcodepackagesmd)
-* [Service Fabric Gateway Resource APIs](#meshgateways-apissfclient-index-meshgatewaysmd)    
+* Service Fabric Secret Resource APIs
+    - Secret Value APIs
+* Service Fabric Volume Resource APIs
+* Service Fabric Network Resource APIs    
+* Service Fabric Application Resource APIs
+    - Service APIs
+    - Service Replica APIs
+    - Code Package APIs
+* Service Fabric Gateway Resource APIs    
 
 ## Client API Reference
 Following is a list of Service Fabric Client REST APIs.
