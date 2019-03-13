@@ -64,4 +64,3 @@ For concepts and detailed information about data plane objects, see [About keys,
    - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
    - [Key Vault Developer's Guide](/azure/key-vault/key-vault-developers-guide)
    - [Key Vault versions](key-vault-versions.md)
-
