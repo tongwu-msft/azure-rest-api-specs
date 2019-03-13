@@ -18,7 +18,7 @@ manager: "timlt"
 
 # List consumer groups
 
-Retrieves all consumer groups associated with the specified Event Hub. See [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription#properties_).  
+Retrieves all consumer groups associated with the specified Event Hub. See [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription).  
   
 ## Request  
   

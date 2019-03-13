@@ -8358,6 +8358,7 @@
 ### [Server Security Alert Policies](sql/ServerSecurityAlertPolicies.yml)
 #### [Create Or Update](sql/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
 #### [Get](sql/ServerSecurityAlertPolicies/Get.yml)
+#### [List By Server](sql/ServerSecurityAlertPolicies/ListByServer.yml)
 ### [Server Vulnerability Assessments](sql/ServerVulnerabilityAssessments.yml)
 #### [Create Or Update](sql/ServerVulnerabilityAssessments/CreateOrUpdate.yml)
 #### [Delete](sql/ServerVulnerabilityAssessments/Delete.yml)
