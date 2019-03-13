@@ -25,7 +25,7 @@ To better understand the API calls described in this document, see [Azure Time S
 
 ## Get Environments API
 
-`GET https://api.timeseries.azure.com/timeseries/environments?api-version=2016-12-12`
+`GET https://api.timeseries.azure.com/environments?api-version=2016-12-12`
 
 The Get Environments API returns the list of environments that the caller is authorized to access.
 
@@ -52,7 +52,7 @@ Response Body:
 }
 ```
 
-Here, `environmentFqdn` is unique fully qualified domain name for environment used in per-environment query API requests.
+Here, `environmentFqdn` is unique fully qualified domain name for environment used in per-environment query API requests. The environmentFqdn can also be found under 'Data Access FQDN' in the overview section of the Time Series Insights environment in Azure Portal.
 
 ## Get Environment Availability API
 
