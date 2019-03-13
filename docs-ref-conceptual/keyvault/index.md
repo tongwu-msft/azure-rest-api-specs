@@ -14,7 +14,7 @@ Managing your Key Vault and the contents of your Key Vault can be accomplished t
 
 ## Key Vaults
 
-Manage your Key Vault using the following set of operations, which are also known as [management plane](\azure\key-vault\key-vault-secure-your-key-vault) operations. The management plane interface is used to manage a Key Vault itself. For instance, creating, deleting, or updating Key Vault attributes, and setting access policies for the data plane. 
+Manage your Key Vault using the following set of operations, which are also known as [management plane](/azure/key-vault/key-vault-secure-your-key-vault) operations. The management plane interface is used to manage a Key Vault itself. For instance, creating, deleting, or updating Key Vault attributes, and setting access policies for the data plane. 
 
 - [Manage a Key Vault](/rest/api/keyvault/vaults)
 - [Create or update a Key Vault](/rest/api/keyvault/vaults/createorupdate)
