@@ -23,7 +23,7 @@ Manage your Key Vault using the following set of operations, which are also know
 
 ## Keys, secrets, certificates, and storage accounts
 
-Managing data within a Key Vault, such as keys, secrets, certificates, and storage keys, is accomplished by [data plane](\azure\key-vault\key-vault-secure-your-key-vault) operations. The data plane interface is used to add, delete, modify, and use the keys, secrets, and certificates stored in a Key Vault. 
+Managing data within a Key Vault, such as keys, secrets, certificates, and storage keys, is accomplished by [data plane](/azure/key-vault/key-vault-secure-your-key-vault) operations. The data plane interface is used to add, delete, modify, and use the keys, secrets, and certificates stored in a Key Vault. 
 
 ### Keys
 
