@@ -3,42 +3,42 @@ uid: management.azure.com.blueprints.publishedblueprints.delete
 name: Delete
 service: Blueprints
 groupName: Published Blueprints
-apiVersion: 2017-11-11-preview
-summary: Delete a published Blueprint.
+apiVersion: 2018-11-01-preview
+summary: Delete a published version of a blueprint definition.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Blueprint/blueprints/{blueprintName}/versions/{versionId}?api-version=2017-11-11-preview
+- content: DELETE https://management.azure.com/{scope}/providers/Microsoft.Blueprint/blueprints/{blueprintName}/versions/{versionId}?api-version=2018-11-01-preview
 uriParameters:
-- name: managementGroupName
+- name: scope
   in: path
   isRequired: true
-  description: ManagementGroup where blueprint stores.
+  description: "The scope of the resource. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}')."
   types:
   - uid: string
 - name: blueprintName
   in: path
   isRequired: true
-  description: name of the blueprint.
+  description: Name of the blueprint definition.
   types:
   - uid: string
 - name: versionId
   in: path
   isRequired: true
-  description: version of the published blueprint.
+  description: Version of the published blueprint definition.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: Client API Version.
   types:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK -- published Blueprint deleted.
+  description: OK -- published version of blueprint definition deleted.
   types:
   - uid: PublishedBlueprint
 - name: 204 No Content
@@ -46,15 +46,15 @@ responses:
 requestHeader: []
 definitions:
 - name: PublishedBlueprint
-  description: Represents a published Blueprint.
+  description: Represents a published blueprint.
   kind: object
   properties:
   - name: properties.blueprintName
-    description: Name of the Blueprint definition.
+    description: Name of the published blueprint definition.
     types:
     - uid: string
   - name: properties.changeNotes
-    description: Version-specific change notes
+    description: Version-specific change notes.
     types:
     - uid: string
   - name: id
@@ -74,19 +74,19 @@ definitions:
     - uid: string
   - name: properties.status
     isReadyOnly: true
-    description: Status of the Blueprint. This field is readonly.
+    description: Status of the blueprint. This field is readonly.
     types:
     - uid: BlueprintStatus
   - name: properties.targetScope
-    description: The scope where this Blueprint can be applied.
+    description: The scope where this blueprint definition can be assigned.
     types:
     - uid: BlueprintTargetScope
   - name: properties.parameters
-    description: Parameters required by this Blueprint definition.
+    description: Parameters required by this blueprint definition.
     types:
     - uid: ParameterDefinitionCollection
   - name: properties.resourceGroups
-    description: Resource group placeholders defined by this Blueprint definition.
+    description: Resource group placeholders defined by this blueprint definition.
     types:
     - uid: ResourceGroupDefinitionCollection
   - name: displayName
@@ -103,16 +103,16 @@ definitions:
   properties:
   - name: timeCreated
     isReadyOnly: true
-    description: Creation time of this blueprint.
+    description: Creation time of this blueprint definition.
     types:
     - uid: string
   - name: lastModified
     isReadyOnly: true
-    description: Last modified time of this blueprint.
+    description: Last modified time of this blueprint definition.
     types:
     - uid: string
 - name: BlueprintTargetScope
-  description: The scope where this Blueprint can be applied.
+  description: The scope where this blueprint definition can be assigned.
   kind: enum
   properties:
   - name: subscription
@@ -122,7 +122,7 @@ definitions:
     types:
     - uid: string
 - name: ParameterDefinitionCollection
-  description: A dictionary hold parameter name and it's metadata.
+  description: A dictionary hold parameter name and its metadata.
   kind: object
   properties: []
 - name: ResourceGroupDefinitionCollection
@@ -130,9 +130,57 @@ definitions:
   kind: object
   properties: []
 examples:
-- name: PublishedBlueprint_Delete
+- name: PublishedSubscriptionBlueprint
   request:
-    uri: DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/versions/v2?api-version=2017-11-11-preview
+    uri: DELETE https://management.azure.com/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/versions/v2?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "description": "blueprint contains all artifact kinds {'template', 'rbac', 'policy'}",
+          "blueprintName": "simpleBlueprint",
+          "parameters": {
+            "storageAccountType": {
+              "type": "string",
+              "metadata": {
+                "displayName": "storage account type.",
+                "description": null
+              }
+            },
+            "costCenter": {
+              "type": "string",
+              "metadata": {
+                "displayName": "force cost center tag for all resources under given subscription.",
+                "description": null
+              }
+            },
+            "owners": {
+              "type": "array",
+              "metadata": {
+                "displayName": "assign owners to subscription along with blueprint assignment.",
+                "description": null
+              }
+            }
+          },
+          "resourceGroups": {
+            "storageRG": {
+              "metadata": {
+                "displayName": "storage resource group",
+                "description": "Contains storageAccounts that collect all shoebox logs."
+              }
+            }
+          },
+          "targetScope": "subscription"
+        },
+        "id": "/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+        "type": "Microsoft.Blueprint/blueprints/versions",
+        "name": "v2"
+      }
+  - statusCode: "204"
+- name: PublishedManagementGroupBlueprint
+  request:
+    uri: DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/versions/v2?api-version=2018-11-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -179,10 +227,12 @@ examples:
       }
   - statusCode: "204"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

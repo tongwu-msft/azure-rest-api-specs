@@ -28,7 +28,7 @@ uriParameters:
   - uid: string
 - name: visualFeatures
   in: query
-  description: 'A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Categories - categorizes image content according to a taxonomy defined in documentation. Tags - tags the image with a detailed list of words related to the image content. Description - describes the image content with a complete English sentence. Faces - detects if faces are present. If present, generate coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color - determines the accent color, dominant color, and whether an image is black&white. Adult - detects if the image is pornographic in nature (depicts nudity or a sex act).  Sexually suggestive content is also detected. Objects - detects various objects within an image, including the approximate location. The Objects argument is only available in English.'
+  description: 'A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Categories - categorizes image content according to a taxonomy defined in documentation. Tags - tags the image with a detailed list of words related to the image content. Description - describes the image content with a complete English sentence. Faces - detects if faces are present. If present, generate coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color - determines the accent color, dominant color, and whether an image is black&white. Adult - detects if the image is pornographic in nature (depicts nudity or a sex act).  Sexually suggestive content is also detected. Objects - detects various objects within an image, including the approximate location. The Objects argument is only available in English. Brands - detects various brands within an image, including the approximate location. The Brands argument is only available in English.'
   types:
   - uid: array
 - name: details
@@ -103,6 +103,11 @@ definitions:
     description: Array of objects describing what was detected in the image.
     types:
     - uid: DetectedObject
+      isArray: true
+  - name: brands
+    description: Array of brands detected in the image.
+    types:
+    - uid: DetectedBrand
       isArray: true
   - name: requestId
     description: Id of the REST API request.
@@ -271,6 +276,25 @@ definitions:
       The parent object is a more generic form of this object.  For example, a 'bulldog' would have a parent of 'dog'.
     types:
     - uid: ObjectHierarchy
+- name: DetectedBrand
+  description: A brand detected in an image.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Label for the brand.
+    types:
+    - uid: string
+  - name: confidence
+    isReadyOnly: true
+    description: Confidence score of having observed the brand in the image, as a value ranging from 0 to 1.
+    types:
+    - uid: number
+  - name: rectangle
+    isReadyOnly: true
+    description: Approximate location of the detected brand.
+    types:
+    - uid: BoundingRect
 - name: ImageMetadata
   description: Image metadata.
   kind: object
@@ -491,7 +515,9 @@ examples:
 
         "ImageType",
 
-        "Objects"
+        "Objects",
+
+        "Brands"
 
       ]&details=[
 
@@ -626,9 +652,32 @@ examples:
               "confidence": 0.95
             }
           }
+        ],
+        "brands": [
+          {
+            "name": "Pepsi",
+            "confidence": 0.857,
+            "rectangle": {
+              "x": 489,
+              "y": 79,
+              "w": 161,
+              "h": 177
+            }
+          },
+          {
+            "name": "Coca-Cola",
+            "confidence": 0.893,
+            "rectangle": {
+              "x": 216,
+              "y": 55,
+              "w": 171,
+              "h": 372
+            }
+          }
         ]
       }
 security:
 - name: Ocp-Apim-Subscription-Key
   type: apiKey
   in: header
+errorCodes: []

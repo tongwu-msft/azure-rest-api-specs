@@ -102,10 +102,7 @@ The `List Shares` operation returns a list of the shares and share snapshots und
       <Properties>  
         <Last-Modified>date/time-value</Last-Modified>  
         <Etag>etag</Etag>  
-        <Quota>max-share-size</Quota>  
-        <NextAllowedQuotaDowngradeTime>date/time-value</NextAllowedQuotaDowngradeTime>
-        <ProvisionedIops>provisioned-iops</ProvisionedIops>
-        <ProvisionedBandwidth>provisioned-bandwidth</ProvisionedBandwidth>
+        <Quota>max-share-size</Quota>
       </Properties>  
       <Metadata>  
         <metadata-name>value</metadata-name>  
@@ -118,17 +115,11 @@ The `List Shares` operation returns a list of the shares and share snapshots und
   
  The `Quota` element appears in the response body only in versions 2015-02-21 and later.  
 
- The `NextAllowedQuotaDowngradeTime` element appears in the response body only in versions 2018-11-09 and later and only for premium file shares. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md).
-
  The `Prefix`, `Marker`, and `MaxResults` elements are only present if they were specified on the URI. The `NextMarker` element has a value only if the list results are not complete.  
   
  The `Metadata` element is present only if the `include=metadata` parameter was specified on the URI. Within the `Metadata` element, the value of each name-value pair is listed within an element corresponding to the pair's name.  
 
  The `Snapshots` are included in the response only if the`include=snapshots` parameter was specified with the include parameter on the request URI.
-
- The `ProvisionedIops` element appears in the response body only in versions 2018-11-09 and later and only for premium file shares. Provisioned IOs per second.
-
- The `ProvisionedBandwidth` element appears in the response body only in versions 2018-11-09 and later and only for premium file shares. Provisioned network bandwidth in bytes per second.
 
 ### Sample Response  
  See the [Sample Request and Response](#samplerequestandresponse) section later in this topic.  

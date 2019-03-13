@@ -7,7 +7,7 @@ apiVersion: 2017-07-01
 summary: >-
   Lists of backup policies associated with Recovery Services Vault. API provides pagination parameters to fetch
 
-              scoped results.
+  scoped results.
 consumes:
 - application/json
 produces:
@@ -123,6 +123,7 @@ definitions:
     description: Backup schedule specified as part of backup policy.
     types:
     - uid: LogSchedulePolicy
+    - uid: LongTermSchedulePolicy
     - uid: SimpleSchedulePolicy
     typesTitle: SchedulePolicy
   - name: retentionPolicy
@@ -152,6 +153,7 @@ definitions:
     description: Backup schedule specified as part of backup policy.
     types:
     - uid: LogSchedulePolicy
+    - uid: LongTermSchedulePolicy
     - uid: SimpleSchedulePolicy
     typesTitle: SchedulePolicy
   - name: retentionPolicy
@@ -256,6 +258,7 @@ definitions:
     description: Backup schedule of backup policy.
     types:
     - uid: LogSchedulePolicy
+    - uid: LongTermSchedulePolicy
     - uid: SimpleSchedulePolicy
     typesTitle: SchedulePolicy
   - name: retentionPolicy
@@ -319,6 +322,9 @@ definitions:
   - name: SAPHanaDatabase
     types:
     - uid: string
+  - name: SAPAseDatabase
+    types:
+    - uid: string
 - name: Settings
   description: Common settings field for backup management
   kind: object
@@ -334,7 +340,8 @@ definitions:
   - name: isCompression
     description: >-
       Workload compression flag. This has been added so that 'isSqlCompression'
-                  will be deprecated once clients upgrade to consider this flag.
+
+      will be deprecated once clients upgrade to consider this flag.
     types:
     - uid: boolean
 - name: SubProtectionPolicy
@@ -349,6 +356,7 @@ definitions:
     description: Backup schedule specified as part of backup policy.
     types:
     - uid: LogSchedulePolicy
+    - uid: LongTermSchedulePolicy
     - uid: SimpleSchedulePolicy
     typesTitle: SchedulePolicy
   - name: retentionPolicy
@@ -369,6 +377,15 @@ definitions:
     description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: LogSchedulePolicy
+    typesTitle: string
+- name: LongTermSchedulePolicy
+  description: Long term policy schedule.
+  kind: object
+  properties:
+  - name: schedulePolicyType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: LongTermSchedulePolicy
     typesTitle: string
 - name: SimpleSchedulePolicy
   description: Simple policy schedule.
@@ -560,7 +577,8 @@ definitions:
   - name: count
     description: >-
       Count of duration types. Retention duration is obtained by the counting the duration type Count times.
-                  For example, when Count = 3 and DurationType = Weeks, retention duration will be three weeks.
+
+      For example, when Count = 3 and DurationType = Weeks, retention duration will be three weeks.
     types:
     - uid: integer
   - name: durationType
@@ -768,10 +786,12 @@ examples:
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account.
+errorCodes: []

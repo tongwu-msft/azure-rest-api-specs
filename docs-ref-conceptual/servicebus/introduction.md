@@ -53,17 +53,17 @@ This section describes the Service Bus REST run-time APIs. Runtime operations ca
   
 |Property Name|Default|Property Description|  
 |-------------------|-------------|--------------------------|  
-|CorrelationId|(empty)|[CorrelationId](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_CorrelationId)|  
-|ForcePersistence|false|[ForcePersistence](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_ForcePersistence)|  
-|Label|(empty)|[Label](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_Label)|  
-|MessageId|(empty)|[MessageId](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_MessageId)|  
-|PartitionKey|(empty)|[PartitionKey](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_PartitionKey)|  
-|ReplyTo|(empty)|[ReplyTo](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_ReplyTo)|  
-|ReplyToSessionId|(empty)|[ReplyToSessionId](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_ReplyToSessionId)|  
-|ScheduledEnqueueTimeUtc|(empty)|[ScheduledEnqueueTimeUtc](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_ScheduledEnqueueTimeUtc)|  
-|SessionId|(empty)|[SessionId](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_SessionId)|  
-|TimeToLive|(empty)|[TimeToLive](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_TimeToLive)|  
-|To|(empty)|[To](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_To)|  
-|ViaPartitionKey|(empty)|[ViaPartitionKey](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage#Microsoft_ServiceBus_Messaging_BrokeredMessage_ViaPartitionKey)|  
+|CorrelationId|(empty)|[CorrelationId](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage)|  
+|ForcePersistence|false|[ForcePersistence](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage)|  
+|Label|(empty)|[Label](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage)|  
+|MessageId|(empty)|[MessageId](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage)|  
+|PartitionKey|(empty)|[PartitionKey](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage)|  
+|ReplyTo|(empty)|[ReplyTo](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage)|  
+|ReplyToSessionId|(empty)|[ReplyToSessionId](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage)|  
+|ScheduledEnqueueTimeUtc|(empty)|[ScheduledEnqueueTimeUtc](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage)|  
+|SessionId|(empty)|[SessionId](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage)|  
+|TimeToLive|(empty)|[TimeToLive](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage)|  
+|To|(empty)|[To](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage)|  
+|ViaPartitionKey|(empty)|[ViaPartitionKey](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage)|  
   
  In addition to these properties, you can specify custom properties. If a single message is sent or received, each custom property is placed in its own HTTP header. If a batch of messages is sent, custom properties are part of the JSON-encoded HTTP body. For more information, see [Send Message](send-message.md) and [Send Message Batch](send-message-batch.md).

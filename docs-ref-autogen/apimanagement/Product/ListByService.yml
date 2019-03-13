@@ -11,7 +11,7 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products?api-version=2018-06-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products?$filter={$filter}&$top={$top}&$skip={$skip}&expandGroups={expandGroups}&api-version=2018-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products?$filter={$filter}&$top={$top}&$skip={$skip}&expandGroups={expandGroups}&tags={tags}&api-version=2018-06-01-preview
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -35,20 +35,24 @@ uriParameters:
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
 - name: $filter
   in: query
-  description: >-
-    | Field       | Supported operators    | Supported functions                         |
+  description: >
+    | Field       | Supported operators    | Supported functions               |
 
-    |-------------|------------------------|---------------------------------------------|
+    |-------------|------------------------|-----------------------------------|
 
-    | id          | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
 
-    | name        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
 
-    | description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+    |name | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
 
-    | terms       | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+    |displayName | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
 
-    | state       | eq                     |                                             |
+    |description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
+
+    |terms | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
+
+    |state | eq |    |
+
+    |groups |     |    |
   types:
   - uid: string
 - name: $top
@@ -68,6 +72,11 @@ uriParameters:
   description: When set to true, the response contains an array of groups that have visibility to the product. The default is false.
   types:
   - uid: boolean
+- name: tags
+  in: query
+  description: Products which are part of a specific tag.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -239,10 +248,12 @@ examples:
         "nextLink": ""
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

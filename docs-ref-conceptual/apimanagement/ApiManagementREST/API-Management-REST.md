@@ -29,13 +29,13 @@ translation.priority.mt:
 Azure API Management provides a REST API for performing operations on selected entities, such as users, groups, products, and subscriptions. This reference provides a guide for working with the API Management REST API, as well as specific reference information for each available operation, grouped by entity.  
 
 >[!IMPORTANT]
->This section describes how to access the API Management REST API using a different authentication mechanism than Azure Resource provider. For more information, see the following [Prerequisites](#Prerequisites) section.
+>This section describes how to access the API Management REST API using a different authentication mechanism than Azure Resource provider. For more information, see the following Prerequisites section.
   
  For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
   
 ## In this topic  
   
--   [Prerequisites](../ApiManagementREST/API-Management-REST.md#Prerequisites)  
+-   [Prerequisites](../ApiManagementREST/API-Management-REST.md)  
   
     -   [Enable access to the REST API](../ApiManagementREST/API-Management-REST.md#EnableRESTAPI)  
   
@@ -90,7 +90,7 @@ Authorization: SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T
 > [!NOTE]
 >  During the preview period for API Management, `-preview` is appended to the version query parameter, for example `2014-02-14-preview`.  
   
- If this query parameter is not passed in the query string of a request, the server will return a status code of `400 Bad Request`. For a list of supported versions, see the following [API Management REST API version history](../ApiManagementREST/API-Management-REST.md#VersionHistory) section.  
+ If this query parameter is not passed in the query string of a request, the server will return a status code of `400 Bad Request`. For a list of supported versions, see the following [API Management REST API version history](../ApiManagementREST/API-Management-REST.md) section.  
   
 ## Next steps
 

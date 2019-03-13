@@ -94,6 +94,10 @@ definitions:
     description: The properties that describe all triggers for the task.
     types:
     - uid: TriggerProperties
+  - name: properties.credentials
+    description: The properties that describes a set of credentials that will be used when this run is invoked.
+    types:
+    - uid: Credentials
   - name: id
     isReadyOnly: true
     description: The resource ID.
@@ -190,6 +194,27 @@ definitions:
     description: The trigger based on base image dependencies.
     types:
     - uid: BaseImageTrigger
+- name: Credentials
+  description: The parameters that describes a set of credentials that will be used when a run is invoked.
+  kind: object
+  properties:
+  - name: sourceRegistry
+    description: Describes the credential parameters for accessing the source registry.
+    types:
+    - uid: SourceRegistryCredentials
+  - name: customRegistries
+    description: >-
+      Describes the credential parameters for accessing other custom registries. The key
+
+      for the dictionary item will be the registry login server (myregistry.azurecr.io) and
+
+      the value of the item will be the registry credentials for accessing the registry.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: CustomRegistryCredentials
 - name: OS
   description: The operating system type required for the run.
   kind: enum
@@ -245,6 +270,10 @@ definitions:
     - uid: boolean
   - name: dockerFilePath
     description: The Docker file path relative to the source context.
+    types:
+    - uid: string
+  - name: target
+    description: The name of the target build stage for the docker build.
     types:
     - uid: string
   - name: arguments
@@ -383,6 +412,31 @@ definitions:
     description: The name of the trigger.
     types:
     - uid: string
+- name: SourceRegistryCredentials
+  description: Describes the credential parameters for accessing the source registry.
+  kind: object
+  properties:
+  - name: loginMode
+    description: >-
+      The authentication mode which determines the source registry login scope. The credentials for the source registry
+
+      will be generated using the given scope. These credentials will be used to login to
+
+      the source registry during the run.
+    types:
+    - uid: SourceRegistryLoginMode
+- name: CustomRegistryCredentials
+  description: Describes the credentials that will be used to access a custom registry during a run.
+  kind: object
+  properties:
+  - name: userName
+    description: The username for logging into the custom registry.
+    types:
+    - uid: SecretObject
+  - name: password
+    description: "The password for logging into the custom registry. The password is a secret \nobject that allows multiple ways of providing the value for it."
+    types:
+    - uid: SecretObject
 - name: Argument
   description: The properties of a run argument.
   kind: object
@@ -482,6 +536,41 @@ definitions:
   - name: Runtime
     types:
     - uid: string
+- name: SourceRegistryLoginMode
+  description: >-
+    The authentication mode which determines the source registry login scope. The credentials for the source registry
+
+    will be generated using the given scope. These credentials will be used to login to
+
+    the source registry during the run.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Default
+    types:
+    - uid: string
+- name: SecretObject
+  description: Describes the properties of a secret object value.
+  kind: object
+  properties:
+  - name: value
+    description: >-
+      The value of the secret. The format of this value will be determined
+
+      based on the type of the secret object. If the type is Opaque, the value will be
+
+      used as is without any modification.
+    types:
+    - uid: string
+  - name: type
+    description: >-
+      The type of the secret object which determines how the value of the secret object has to be
+
+      interpreted.
+    types:
+    - uid: SecretObjectType
 - name: BaseImageDependencyType
   description: The type of the base image dependency.
   kind: enum
@@ -526,6 +615,16 @@ definitions:
     description: Time in seconds that the token remains valid
     types:
     - uid: integer
+- name: SecretObjectType
+  description: >-
+    The type of the secret object which determines how the value of the secret object has to be
+
+    interpreted.
+  kind: enum
+  properties:
+  - name: Opaque
+    types:
+    - uid: string
 - name: TokenType
   description: The type of Auth token.
   kind: enum
@@ -601,10 +700,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

@@ -3,30 +3,30 @@ uid: management.azure.com.blueprints.blueprints.list
 name: List
 service: Blueprints
 groupName: Blueprints
-apiVersion: 2017-11-11-preview
-summary: List Blueprint definitions within a Management Group.
+apiVersion: 2018-11-01-preview
+summary: List blueprint definitions.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Blueprint/blueprints?api-version=2017-11-11-preview
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Blueprint/blueprints?api-version=2018-11-01-preview
 uriParameters:
-- name: managementGroupName
+- name: scope
   in: path
   isRequired: true
-  description: ManagementGroup where blueprint stores.
+  description: "The scope of the resource. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}')."
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: Client API Version.
   types:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK -- retrieved Blueprints in this ManagementGroup.
+  description: OK -- retrieved list of blueprint definitions.
   types:
   - uid: BlueprintList
 requestHeader: []
@@ -36,7 +36,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: List of Blueprint definitions.
+    description: List of blueprint definitions.
     types:
     - uid: Blueprint
       isArray: true
@@ -50,11 +50,11 @@ definitions:
   kind: object
   properties:
   - name: properties.versions
-    description: Published versions of this blueprint.
+    description: Published versions of this blueprint definition.
     types:
     - uid: object
   - name: properties.layout
-    description: Layout view of the blueprint, for UI reference.
+    description: Layout view of the blueprint definition for UI reference.
     types:
     - uid: object
   - name: id
@@ -74,19 +74,19 @@ definitions:
     - uid: string
   - name: properties.status
     isReadyOnly: true
-    description: Status of the Blueprint. This field is readonly.
+    description: Status of the blueprint. This field is readonly.
     types:
     - uid: BlueprintStatus
   - name: properties.targetScope
-    description: The scope where this Blueprint can be applied.
+    description: The scope where this blueprint definition can be assigned.
     types:
     - uid: BlueprintTargetScope
   - name: properties.parameters
-    description: Parameters required by this Blueprint definition.
+    description: Parameters required by this blueprint definition.
     types:
     - uid: ParameterDefinitionCollection
   - name: properties.resourceGroups
-    description: Resource group placeholders defined by this Blueprint definition.
+    description: Resource group placeholders defined by this blueprint definition.
     types:
     - uid: ResourceGroupDefinitionCollection
   - name: displayName
@@ -103,16 +103,16 @@ definitions:
   properties:
   - name: timeCreated
     isReadyOnly: true
-    description: Creation time of this blueprint.
+    description: Creation time of this blueprint definition.
     types:
     - uid: string
   - name: lastModified
     isReadyOnly: true
-    description: Last modified time of this blueprint.
+    description: Last modified time of this blueprint definition.
     types:
     - uid: string
 - name: BlueprintTargetScope
-  description: The scope where this Blueprint can be applied.
+  description: The scope where this blueprint definition can be assigned.
   kind: enum
   properties:
   - name: subscription
@@ -122,7 +122,7 @@ definitions:
     types:
     - uid: string
 - name: ParameterDefinitionCollection
-  description: A dictionary hold parameter name and it's metadata.
+  description: A dictionary hold parameter name and its metadata.
   kind: object
   properties: []
 - name: ResourceGroupDefinitionCollection
@@ -130,9 +130,57 @@ definitions:
   kind: object
   properties: []
 examples:
-- name: Blueprint
+- name: SubscriptionBlueprint
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints?api-version=2017-11-11-preview
+    uri: GET https://management.azure.com/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprints?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "description": "blueprint contains all artifact kinds {'template', 'rbac', 'policy'}",
+              "parameters": {
+                "storageAccountType": {
+                  "type": "string",
+                  "metadata": {
+                    "displayName": "storage account type."
+                  }
+                },
+                "costCenter": {
+                  "type": "string",
+                  "metadata": {
+                    "displayName": "force cost center tag for all resources under given subscription."
+                  }
+                },
+                "owners": {
+                  "type": "array",
+                  "metadata": {
+                    "displayName": "assign owners to subscription along with blueprint assignment."
+                  }
+                }
+              },
+              "resourceGroups": {
+                "storageRG": {
+                  "metadata": {
+                    "displayName": "storage resource group",
+                    "description": "Contains storageAccounts that collect all shoebox logs."
+                  }
+                }
+              },
+              "targetScope": "subscription",
+              "status": null
+            },
+            "id": "/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+            "type": "Microsoft.Blueprint/blueprints",
+            "name": "simpleBlueprint"
+          }
+        ]
+      }
+- name: ManagementGroupBlueprint
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints?api-version=2018-11-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -179,10 +227,12 @@ examples:
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

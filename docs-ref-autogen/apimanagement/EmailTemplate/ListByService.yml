@@ -11,7 +11,7 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates?api-version=2018-06-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates?$top={$top}&$skip={$skip}&api-version=2018-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-06-01-preview
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -33,6 +33,18 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: $filter
+  in: query
+  description: >
+    | Field       | Supported operators    | Supported functions               |
+
+    |-------------|------------------------|-----------------------------------|
+
+
+
+    |name | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
+  types:
+  - uid: string
 - name: $top
   in: query
   description: Number of records to return.
@@ -56,6 +68,10 @@ responses:
   description: A Collection of the Email Template for the specified API Management service instance.
   types:
   - uid: EmailTemplateCollection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: EmailTemplateCollection
@@ -71,6 +87,23 @@ definitions:
     description: Next page link if any.
     types:
     - uid: string
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: error.message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
 - name: EmailTemplateContract
   description: Email Template details.
   kind: object
@@ -114,6 +147,22 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Resource type for API Management resource.
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
     types:
     - uid: string
 - name: EmailTemplateParametersContractProperties
@@ -183,10 +232,12 @@ examples:
         "nextLink": ""
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

@@ -37,14 +37,14 @@ uriParameters:
   description: API identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: releaseId
   in: path
   isRequired: true
   description: Release identifier within an API. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: api-version
   in: query
   isRequired: true
@@ -53,15 +53,21 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
+  headers:
+  - name: ETag
+    value: string
   description: Release was successfully created.
   types:
   - uid: ApiReleaseContract
 - name: 200 OK
+  headers:
+  - name: ETag
+    value: string
   description: Release was successfully updated.
   types:
   - uid: ApiReleaseContract
 - name: Other Status Codes
-  description: Error response describing why the release failed.
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestBody:
@@ -77,7 +83,12 @@ requestBody:
     description: Release Notes
     types:
     - uid: string
-requestHeader: []
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the Entity. Not required when creating an entity, but required when updating an entity.
+  types:
+  - uid: string
 definitions:
 - name: ApiReleaseContract
   description: Api Release details.
@@ -188,10 +199,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

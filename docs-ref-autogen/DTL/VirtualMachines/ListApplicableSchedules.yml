@@ -3,14 +3,14 @@ uid: management.azure.com.dtl.virtualmachines.listapplicableschedules
 name: List Applicable Schedules
 service: Dev Test Labs
 groupName: Virtual Machines
-apiVersion: 2016-05-15
-summary: Lists all applicable schedules
+apiVersion: 2018-09-15
+summary: Lists the applicable start/stop schedules, if any.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/listApplicableSchedules?api-version=2016-05-15
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/listApplicableSchedules?api-version=2018-09-15
 uriParameters:
 - name: subscriptionId
   in: path
@@ -97,7 +97,7 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: Body of an error from a REST request.
+    description: The cloud error that occurred
     types:
     - uid: CloudErrorBody
 - name: Schedule
@@ -142,10 +142,12 @@ definitions:
     types:
     - uid: string
   - name: properties.provisioningState
+    isReadyOnly: true
     description: The provisioning status of the resource.
     types:
     - uid: string
   - name: properties.uniqueIdentifier
+    isReadyOnly: true
     description: The unique immutable identifier of a resource (Guid).
     types:
     - uid: string
@@ -181,15 +183,15 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: ''
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    description: The error target.
     types:
     - uid: string
   - name: details
@@ -243,7 +245,7 @@ definitions:
   - name: status
     description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
     types:
-    - uid: NotificationStatus
+    - uid: EnableStatus
   - name: timeInMinutes
     description: Time in minutes before event at which notification will be sent.
     types:
@@ -252,22 +254,22 @@ definitions:
     description: The webhook URL to which the notification will be sent.
     types:
     - uid: string
-- name: NotificationStatus
-  description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
-  kind: enum
-  properties:
-  - name: Disabled
+  - name: emailRecipient
+    description: The email recipient to send notifications to (can be a list of semi-colon separated email addresses).
     types:
     - uid: string
-  - name: Enabled
+  - name: notificationLocale
+    description: The locale to use when sending a notification (fallback for unsupported languages is EN).
     types:
     - uid: string
 examples: []
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: OAuth2 Implicit Grant
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: Access Microsoft Azure
+errorCodes: []

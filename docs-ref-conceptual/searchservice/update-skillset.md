@@ -10,8 +10,8 @@ services: search
 ms.service: search
 ms.devlang: rest-api
 ms.workload: search
-ms.topic: language-reference
-ms.date: 06/25/2018
+ms.topic: "language-reference"
+ms.date: 01/08/2019
 ---
 # Update Skillset (Azure Search Service REST API - Preview)
 
@@ -20,7 +20,7 @@ ms.date: 06/25/2018
 You can update an existing [skillset](create-skillset.md) using an HTTP PUT, specifying the name of the skillset to update on the request URI.
 
 > [!NOTE]
-> Skillsets are used in [cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro). Currently, this feature is in public preview and skillset execution is currently offered for free. Pricing for this capability will be announced at a later time.
+> Skillsets are used in [cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro). Currently, this feature is in public preview. A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
 
 ```http  
 PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2017-11-11-Preview
@@ -55,7 +55,10 @@ The syntax for structuring the request payload is as follows. A sample request i
 {   
     "name" : "Required for POST, optional for PUT. Friendly name of the skillset",  
     "description" : "Optional. Anything you want, or null",  
-    "Skills" : "Required. An array of skills. Each skill has an odata.type, name, input and output parameters",  
+    "Skills" : "Required. An array of skills. Each skill has an odata.type, name, input and output parameters",
+    "cognitiveServices": "A billable Cognitive Services resource under the same subscription and region as Azure Search. 
+    The resource has an odata.type of #Microsoft.Azure.Search.CognitiveServicesByKey (required), 
+    an optional description, and a key authorizing access to the specific resource",
 }  
 ```
 
@@ -109,7 +112,13 @@ The body of request is a JSON document. This particular skillset uses two skills
         }
       ]
     },
-  ]
+  ],
+  "cognitiveServices": 
+  {
+  "@odata.type": "#Microsoft.Azure.Search.CognitiveServicesByKey",
+  "description": "mycogsvcs resource in West US 2",
+  "key": "<your key goes here>"
+  }
 }
 ```
 

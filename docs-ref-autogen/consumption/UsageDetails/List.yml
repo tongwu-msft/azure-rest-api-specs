@@ -3,21 +3,21 @@ uid: management.azure.com.consumption.usagedetails.list
 name: List
 service: Consumption
 groupName: Usage Details
-apiVersion: 2018-10-01
-summary: Lists the usage details for a scope by current billing period. Usage details are available via this API only for May 1, 2014 or later.
+apiVersion: 2019-01-01
+summary: Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/usageDetails?api-version=2018-10-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&$apply={$apply}&api-version=2018-10-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&$apply={$apply}&api-version=2019-01-01
   isOptional: true
 uriParameters:
-- name: subscriptionId
+- name: scope
   in: path
   isRequired: true
-  description: Azure Subscription ID.
+  description: The scope associated with usage details operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, '/providers/Microsoft.Billing/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope and '/providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management Group scope. For subscription, billing account, department, enrollment account and management group, you can also add billing period to the scope using '/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}'. For e.g. to specify billing period at department scope use '/providers/Microsoft.Billing/departments/{departmentId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}'
   types:
   - uid: string
 - name: $expand
@@ -48,7 +48,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2018-10-01.
+  description: Version of the API to be used with the client request. The current version is 2019-01-01.
   types:
   - uid: string
 responses:
@@ -314,7 +314,7 @@ definitions:
 examples:
 - name: UsageDetailsList
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2018-10-01
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -353,7 +353,7 @@ examples:
       }
 - name: UsageDetailsListFilterByTag
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?$filter=tags eq 'dev:tools'&api-version=2018-10-01
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?$filter=tags eq 'dev:tools'&api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -391,7 +391,7 @@ examples:
       }
 - name: UsageDetailsListGroupByTagDate
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?$apply=groupby((tags,properties/usageStart))&api-version=2018-10-01
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?$apply=groupby((tags,properties/usageStart))&api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -431,11 +431,513 @@ examples:
           }
         ]
       }
+- name: UsageDetailsListForBillingPeriod
+  request:
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702",
+              "invoiceId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/invoices/201703-123456789",
+              "usageStart": "2017-02-13T00:00:00Z",
+              "usageEnd": "2017-02-13T23:59:59Z",
+              "instanceName": "shared1",
+              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceLocation": "eastasia",
+              "currency": "USD",
+              "usageQuantity": 0.00328,
+              "billableQuantity": 0.00328,
+              "pretaxCost": 0.67,
+              "isEstimated": false,
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West"
+            }
+          }
+        ]
+      }
+- name: UsageDetailsExpand
+  request:
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?$expand=meterDetails,additionalProperties&$filter=properties/usageEnd ge '2018-01-14' AND properties/usageEnd le '2018-02-14' AND tags eq 'dev:tools'&$top=1&api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201702",
+              "invoiceId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/invoices/201703-123456789",
+              "usageStart": "2017-02-13T00:00:00Z",
+              "usageEnd": "2017-02-13T23:59:59Z",
+              "instanceName": "shared1",
+              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceLocation": "eastasia",
+              "currency": "USD",
+              "usageQuantity": 0.00328,
+              "billableQuantity": 0.00328,
+              "pretaxCost": 0.67,
+              "isEstimated": false,
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "meterDetails": {
+                "meterName": "Data Transfer Out (GB)",
+                "meterCategory": "Networking",
+                "unit": "GB",
+                "meterLocation": "Zone 2",
+                "totalIncludedQuantity": 0,
+                "pretaxStandardRate": 0.138,
+                "serviceName": "Bandwidth",
+                "serviceTier": "Bandwidth - Outbound Data Transfer"
+              },
+              "subscriptionGuid": "00000000-0000-0000-0000-000000000000",
+              "subscriptionName": "Dummy subscription",
+              "accountName": "My account name",
+              "departmentName": "My department name",
+              "product": "My product name",
+              "consumedService": "My consumed service",
+              "costCenter": "Cost center 1",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West",
+              "additionalProperties": "{\"MyType\":\"\",\"ServiceType\":\"\",\"VMName\":\"\",\"UsageType\":\"MyUsage\"}"
+            }
+          }
+        ]
+      }
+- name: UsageDetailsListForBillingPeriodGroupByTag
+  request:
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?$apply=groupby((tags))&api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "description": "Azure VCAP STA - RDS Server"
+            },
+            "properties": {
+              "billingPeriodId": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301",
+              "usageQuantity": 11.11111,
+              "pretaxCost": 0,
+              "currency": "USD"
+            }
+          },
+          {
+            "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "description": "Domain controller - STA"
+            },
+            "properties": {
+              "billingPeriodId": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180301",
+              "usageQuantity": 111.11111111111,
+              "pretaxCost": 0,
+              "currency": "USD"
+            }
+          }
+        ]
+      }
+- name: BillingAccountUsageDetailsList
+  request:
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "billingPeriodId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702",
+              "invoiceId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/invoices/201703-123456789",
+              "usageStart": "2017-02-13T00:00:00Z",
+              "usageEnd": "2017-02-13T23:59:59Z",
+              "instanceName": "shared1",
+              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceLocation": "eastasia",
+              "currency": "USD",
+              "usageQuantity": 0.00328,
+              "billableQuantity": 0.00328,
+              "pretaxCost": 0.67,
+              "isEstimated": false,
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West"
+            }
+          }
+        ]
+      }
+- name: BillingAccountUsageDetailsListForBillingPeriod
+  request:
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "billingPeriodId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702",
+              "invoiceId": "/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Billing/invoices/201703-123456789",
+              "usageStart": "2017-02-13T00:00:00Z",
+              "usageEnd": "2017-02-13T23:59:59Z",
+              "instanceName": "shared1",
+              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceLocation": "eastasia",
+              "currency": "USD",
+              "usageQuantity": 0.00328,
+              "billableQuantity": 0.00328,
+              "pretaxCost": 0.67,
+              "isEstimated": false,
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West"
+            }
+          }
+        ]
+      }
+- name: DepartmentUsageDetailsList
+  request:
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "billingPeriodId": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/billingPeriods/201702",
+              "invoiceId": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/invoices/201703-123456789",
+              "usageStart": "2017-02-13T00:00:00Z",
+              "usageEnd": "2017-02-13T23:59:59Z",
+              "instanceName": "shared1",
+              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceLocation": "eastasia",
+              "currency": "USD",
+              "usageQuantity": 0.00328,
+              "billableQuantity": 0.00328,
+              "pretaxCost": 0.67,
+              "isEstimated": false,
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West"
+            }
+          }
+        ]
+      }
+- name: DepartmentUsageDetailsListForBillingPeriod
+  request:
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "billingPeriodId": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/billingPeriods/201702",
+              "invoiceId": "/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Billing/invoices/201703-123456789",
+              "usageStart": "2017-02-13T00:00:00Z",
+              "usageEnd": "2017-02-13T23:59:59Z",
+              "instanceName": "shared1",
+              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceLocation": "eastasia",
+              "currency": "USD",
+              "usageQuantity": 0.00328,
+              "billableQuantity": 0.00328,
+              "pretaxCost": 0.67,
+              "isEstimated": false,
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West"
+            }
+          }
+        ]
+      }
+- name: EnrollmentAccountUsageDetailsList
+  request:
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "billingPeriodId": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702",
+              "invoiceId": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/invoices/201703-123456789",
+              "usageStart": "2017-02-13T00:00:00Z",
+              "usageEnd": "2017-02-13T23:59:59Z",
+              "instanceName": "shared1",
+              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceLocation": "eastasia",
+              "currency": "USD",
+              "usageQuantity": 0.00328,
+              "billableQuantity": 0.00328,
+              "pretaxCost": 0.67,
+              "isEstimated": false,
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West"
+            }
+          }
+        ]
+      }
+- name: EnrollmentAccountUsageDetailsListForBillingPeriod
+  request:
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "billingPeriodId": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/billingPeriods/201702",
+              "invoiceId": "/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Billing/invoices/201703-123456789",
+              "usageStart": "2017-02-13T00:00:00Z",
+              "usageEnd": "2017-02-13T23:59:59Z",
+              "instanceName": "shared1",
+              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceLocation": "eastasia",
+              "currency": "USD",
+              "usageQuantity": 0.00328,
+              "billableQuantity": 0.00328,
+              "pretaxCost": 0.67,
+              "isEstimated": false,
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West"
+            }
+          }
+        ]
+      }
+- name: ManagementGroupUsageDetailsList
+  request:
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180801/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201808",
+              "usageStart": "2018-08-13T00:00:00Z",
+              "usageEnd": "2018-08-13T23:59:59Z",
+              "instanceName": "shared1",
+              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceLocation": "eastasia",
+              "currency": "USD",
+              "usageQuantity": 0.00328,
+              "billableQuantity": 0.00328,
+              "pretaxCost": 0.67,
+              "isEstimated": false,
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West"
+            }
+          },
+          {
+            "id": "/subscriptions/11111111-1111-1111-1111-111111111111/providers/Microsoft.Billing/billingPeriods/20180801/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "billingPeriodId": "/subscriptions/11111111-1111-1111-1111-111111111111/providers/Microsoft.Billing/billingPeriods/201808",
+              "usageStart": "2018-08-13T00:00:00Z",
+              "usageEnd": "2018-08-13T23:59:59Z",
+              "instanceName": "shared1",
+              "instanceId": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceLocation": "eastasia",
+              "currency": "USD",
+              "usageQuantity": 0.0012,
+              "billableQuantity": 0.00128,
+              "pretaxCost": 0.26,
+              "isEstimated": false,
+              "meterId": "11111111-1111-1111-1111-111111111111",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "11111111-1111-1111-1111-111111111111",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West"
+            }
+          }
+        ]
+      }
+- name: ManagementGroupUsageDetailsListForBillingPeriod
+  request:
+    uri: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/20180701/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "billingPeriodId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Billing/billingPeriods/201807",
+              "usageStart": "2018-07-13T00:00:00Z",
+              "usageEnd": "2018-07-13T23:59:59Z",
+              "instanceName": "shared1",
+              "instanceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceLocation": "eastasia",
+              "currency": "USD",
+              "usageQuantity": 0.00328,
+              "billableQuantity": 0.00328,
+              "pretaxCost": 0.67,
+              "isEstimated": false,
+              "meterId": "00000000-0000-0000-0000-000000000000",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "00000000-0000-0000-0000-000000000000",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West"
+            }
+          },
+          {
+            "id": "/subscriptions/11111111-1111-1111-1111-111111111111/providers/Microsoft.Billing/billingPeriods/20180701/providers/Microsoft.Consumption/usageDetails/usageDetailsId1",
+            "name": "usageDetailsId1",
+            "type": "Microsoft.Consumption/usageDetails",
+            "tags": {
+              "env": "newcrp",
+              "dev": "tools"
+            },
+            "properties": {
+              "billingPeriodId": "/subscriptions/11111111-1111-1111-1111-111111111111/providers/Microsoft.Billing/billingPeriods/201807",
+              "usageStart": "2018-07-13T00:00:00Z",
+              "usageEnd": "2018-07-13T23:59:59Z",
+              "instanceName": "shared1",
+              "instanceId": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/Default-Web-eastasia/providers/Microsoft.Web/sites/shared1",
+              "instanceLocation": "eastasia",
+              "currency": "USD",
+              "usageQuantity": 0.0012,
+              "billableQuantity": 0.00128,
+              "pretaxCost": 0.26,
+              "isEstimated": false,
+              "meterId": "11111111-1111-1111-1111-111111111111",
+              "partNumber": "Part Number 1",
+              "resourceGuid": "11111111-1111-1111-1111-111111111111",
+              "offerId": "Offer Id 1",
+              "chargesBilledSeparately": true,
+              "location": "EU West"
+            }
+          }
+        ]
+      }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

@@ -37,7 +37,7 @@ uriParameters:
   description: API identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: issueId
   in: path
   isRequired: true
@@ -53,7 +53,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 204 No Content
-  description: The Issue was successfully updated.
+  description: Api issue updated successfully
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -94,7 +94,8 @@ requestBody:
 requestHeader:
 - name: If-Match
   in: header
-  description: ETag of the Issue Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
+  isRequired: true
+  description: ETag of the Entity. ETag should match the current entity state from the header response of the GET request or it should be * for unconditional update.
   types:
   - uid: string
 definitions:
@@ -193,13 +194,18 @@ examples:
           "state": "closed"
         }
       }
+    headers:
+    - name: If-Match
+      value: '*'
   responses:
   - statusCode: "204"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

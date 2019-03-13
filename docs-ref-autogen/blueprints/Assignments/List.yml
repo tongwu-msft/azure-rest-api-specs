@@ -3,40 +3,40 @@ uid: management.azure.com.blueprints.assignments.list
 name: List
 service: Blueprints
 groupName: Assignments
-apiVersion: 2017-11-11-preview
-summary: List Blueprint assignments within a subscription.
+apiVersion: 2018-11-01-preview
+summary: List blueprint assignments within a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Blueprint/blueprintAssignments?api-version=2017-11-11-preview
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Blueprint/blueprintAssignments?api-version=2018-11-01-preview
 uriParameters:
-- name: subscriptionId
+- name: scope
   in: path
   isRequired: true
-  description: azure subscriptionId, which we assign the blueprint to.
+  description: "The scope of the resource. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}')."
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: Client API Version.
   types:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - all Blueprint assignment retrieved.
+  description: OK -- all blueprint assignments retrieved.
   types:
   - uid: AssignmentList
 requestHeader: []
 definitions:
 - name: AssignmentList
-  description: List of Blueprint assignments
+  description: List of blueprint assignments
   kind: object
   properties:
   - name: value
-    description: List of Blueprint assignments.
+    description: List of blueprint assignments.
     types:
     - uid: Assignment
       isArray: true
@@ -46,19 +46,19 @@ definitions:
     types:
     - uid: string
 - name: Assignment
-  description: Represents a Blueprint assignment.
+  description: Represents a blueprint assignment.
   kind: object
   properties:
   - name: identity
-    description: Managed Service Identity for this Blueprint assignment
+    description: Managed identity for this blueprint assignment.
     types:
     - uid: ManagedServiceIdentity
   - name: properties.blueprintId
-    description: ID of the Blueprint definition resource.
+    description: ID of the published version of a blueprint definition.
     types:
     - uid: string
   - name: properties.parameters
-    description: Blueprint parameter values.
+    description: Blueprint assignment parameter values.
     types:
     - uid: ParameterValueCollection
   - name: properties.resourceGroups
@@ -67,20 +67,20 @@ definitions:
     - uid: ResourceGroupValueCollection
   - name: properties.status
     isReadyOnly: true
-    description: Status of Blueprint assignment. This field is readonly.
+    description: Status of blueprint assignment. This field is readonly.
     types:
     - uid: AssignmentStatus
   - name: properties.locks
-    description: Defines how Blueprint-managed resources will be locked.
+    description: Defines how resources deployed by a blueprint assignment are locked.
     types:
     - uid: AssignmentLockSettings
   - name: properties.provisioningState
     isReadyOnly: true
-    description: State of the assignment.
+    description: State of the blueprint assignment.
     types:
     - uid: AssignmentProvisioningState
   - name: location
-    description: The location of this Blueprint assignment.
+    description: The location of this blueprint assignment.
     types:
     - uid: string
   - name: id
@@ -107,11 +107,11 @@ definitions:
     types:
     - uid: string
 - name: ManagedServiceIdentity
-  description: Managed Service Identity
+  description: Managed identity generic object.
   kind: object
   properties:
   - name: type
-    description: Type of the Managed Service Identity.
+    description: Type of the managed identity.
     types:
     - uid: ManagedServiceIdentityType
   - name: principalId
@@ -122,6 +122,14 @@ definitions:
     description: ID of the Azure Active Directory.
     types:
     - uid: string
+  - name: userAssignedIdentities
+    description: The list of user-assigned managed identities associated with the resource. Key is the Azure resource Id of the managed identity.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
 - name: ParameterValueCollection
   description: A dictionary for parameters and their corresponding values.
   kind: object
@@ -131,21 +139,21 @@ definitions:
   kind: object
   properties: []
 - name: AssignmentStatus
-  description: The status of Blueprint assignment. This field is readonly.
+  description: The status of a blueprint assignment. This field is readonly.
   kind: object
   properties:
   - name: timeCreated
     isReadyOnly: true
-    description: Creation time of this blueprint.
+    description: Creation time of this blueprint definition.
     types:
     - uid: string
   - name: lastModified
     isReadyOnly: true
-    description: Last modified time of this blueprint.
+    description: Last modified time of this blueprint definition.
     types:
     - uid: string
 - name: AssignmentLockSettings
-  description: Defines how Blueprint-managed resources will be locked.
+  description: Defines how resources deployed by a blueprint assignment are locked.
   kind: object
   properties:
   - name: mode
@@ -153,7 +161,7 @@ definitions:
     types:
     - uid: AssignmentLockMode
 - name: AssignmentProvisioningState
-  description: State of the assignment.
+  description: State of the blueprint assignment.
   kind: enum
   properties:
   - name: creating
@@ -187,7 +195,7 @@ definitions:
     types:
     - uid: string
 - name: ManagedServiceIdentityType
-  description: Type of the Managed Service Identity.
+  description: Type of the managed identity.
   kind: enum
   properties:
   - name: None
@@ -199,6 +207,18 @@ definitions:
   - name: UserAssigned
     types:
     - uid: string
+- name: UserAssignedIdentity
+  description: User-assigned managed identity.
+  kind: object
+  properties:
+  - name: principalId
+    description: Azure Active Directory principal ID associated with this Identity.
+    types:
+    - uid: string
+  - name: clientId
+    description: Client App Id associated with this identity.
+    types:
+    - uid: string
 - name: AssignmentLockMode
   description: Lock mode.
   kind: enum
@@ -206,13 +226,16 @@ definitions:
   - name: None
     types:
     - uid: string
-  - name: AllResources
+  - name: AllResourcesReadOnly
+    types:
+    - uid: string
+  - name: AllResourcesDoNotDelete
     types:
     - uid: string
 examples:
 - name: Assignment
   request:
-    uri: GET https://management.azure.com/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprintAssignments?api-version=2017-11-11-preview
+    uri: GET https://management.azure.com/subscriptions/f8df94f2-2f5a-4f4a-bcaf-1bb992fb564b/providers/Microsoft.Blueprint/blueprintAssignments?api-version=2018-11-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -257,10 +280,12 @@ examples:
         ]
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

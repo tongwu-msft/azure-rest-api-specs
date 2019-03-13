@@ -218,6 +218,9 @@ definitions:
   description: The identity type.
   kind: enum
   properties:
+  - name: None
+    types:
+    - uid: string
   - name: SystemAssigned
     types:
     - uid: string
@@ -324,11 +327,49 @@ examples:
           "provisioningState": "provisioning"
         }
       }
+- name: SearchUpdateServiceToRemoveIdentity
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2015-08-19
+    body: >-
+      {
+        "sku": {
+          "name": "standard"
+        },
+        "identity": {
+          "type": "None"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice",
+        "name": "mysearchservice",
+        "location": "westus",
+        "type": "Microsoft.Search/searchServices",
+        "tags": {},
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 3,
+          "partitionCount": 1,
+          "status": "running",
+          "statusDetails": "",
+          "hostingMode": "default",
+          "provisioningState": "succeeded"
+        },
+        "identity": {
+          "type": "None"
+        }
+      }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

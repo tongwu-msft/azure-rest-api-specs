@@ -1,7 +1,7 @@
 ---
 title: "Authenticate with Azure Active Directory (Preview)"
 ms.custom: na
-ms.date: 05/21/2018
+ms.date: 03/13/2019
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -12,7 +12,6 @@ ms.author: tamram
 ms.assetid: 96cec7bc-63cc-4227-920a-dddd850433c9
 caps.latest.revision: 63
 author: tamram
-manager: jeconnoc
 translation.priority.mt: 
   - de-de
   - es-es
@@ -25,9 +24,10 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Authenticate with Azure Active Directory (Preview)
 
-Azure Storage provides integration with [Azure Active Directory (Azure AD)](https://docs.microsoft.com/azure/active-directory/active-directory-whatis) for identity-based authentication of requests to the Blob and Queue services. With Azure AD, you can use role-based access control (RBAC) to grant access to your Azure Storage resources to users, groups, or applications. You can grant permissions that are scoped to the level of an individual container or queue. 
+Azure Storage provides integration with [Azure Active Directory (Azure AD)](https://docs.microsoft.com/azure/active-directory/fundamentals/active-directory-whatis) for identity-based authentication of requests to the Blob and Queue services. With Azure AD, you can use role-based access control (RBAC) to grant access to your Azure Storage resources to users, groups, or applications. You can grant permissions that are scoped to the level of an individual container or queue. 
 
 To learn more about Azure AD integration in Azure Storage and about the preview, see [Authenticating requests to Azure Storage using Azure Active Directory (Preview)](https://docs.microsoft.com/azure/storage/common/storage-auth-aad).
 
@@ -48,7 +48,7 @@ To request tokens for Azure Storage, specify the value `https://storage.azure.co
 
 For more information on requesting access tokens from Azure AD for users and service principals, see [Authentication scenarios for Azure AD](https://docs.microsoft.com/azure/active-directory/develop/active-directory-authentication-scenarios).
 
-For more information about requesting access tokens for resources configured with a manage service Identity, see [How to use an Azure VM Managed Service Identity (MSI) for token acquisition](https://docs.microsoft.com/azure/active-directory/managed-service-identity/how-to-use-vm-token).
+For more information about requesting access tokens for resources configured with managed identities, see [How to use managed identities for Azure resources on an Azure VM to acquire an access token](https://docs.microsoft.com/azure/active-directory/managed-service-identity/how-to-use-vm-token).
 
 ## Call storage operations with OAuth tokens
 

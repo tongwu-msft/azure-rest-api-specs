@@ -3,14 +3,14 @@ uid: management.azure.com.application-gateway.applicationgateways.get
 name: Get
 service: Application Gateway
 groupName: Application Gateways
-apiVersion: 2018-08-01
+apiVersion: 2018-11-01
 summary: Gets the specified application gateway.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}?api-version=2018-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}?api-version=2018-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -56,6 +56,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: identity
+    description: The identity of the application gateway, if configured.
+    types:
+    - uid: ManagedServiceIdentity
   - name: properties.sku
     description: SKU of the application gateway resource.
     types:
@@ -129,6 +133,11 @@ definitions:
     types:
     - uid: ApplicationGatewayRequestRoutingRule
       isArray: true
+  - name: properties.rewriteRuleSets
+    description: Rewrite rules for the application gateway resource.
+    types:
+    - uid: ApplicationGatewayRewriteRuleSet
+      isArray: true
   - name: properties.redirectConfigurations
     description: Redirect configurations of the application gateway resource.
     types:
@@ -189,6 +198,28 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ManagedServiceIdentity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+    types:
+    - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
 - name: ApplicationGatewaySku
   description: SKU of an application gateway
   kind: object
@@ -323,8 +354,8 @@ definitions:
     description: Certificate public data.
     types:
     - uid: string
-  - name: properties.keyvaultSecretId
-    description: KeyVault Secret Id for certificate.
+  - name: properties.keyVaultSecretId
+    description: Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
     types:
     - uid: string
   - name: properties.provisioningState
@@ -361,6 +392,10 @@ definitions:
     - uid: string
   - name: properties.publicCertData
     description: Base-64 encoded Public cert data corresponding to pfx specified in data. Only applicable in GET request.
+    types:
+    - uid: string
+  - name: properties.keyVaultSecretId
+    description: Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
     types:
     - uid: string
   - name: properties.provisioningState
@@ -688,6 +723,10 @@ definitions:
     description: Default backend http settings resource of URL path map.
     types:
     - uid: SubResource
+  - name: properties.defaultRewriteRuleSet
+    description: Default Rewrite rule set resource of URL path map.
+    types:
+    - uid: SubResource
   - name: properties.defaultRedirectConfiguration
     description: Default redirect configuration resource of URL path map.
     types:
@@ -741,12 +780,43 @@ definitions:
     description: URL path map resource of the application gateway.
     types:
     - uid: SubResource
+  - name: properties.rewriteRuleSet
+    description: Rewrite Rule Set resource in Basic rule of the application gateway.
+    types:
+    - uid: SubResource
   - name: properties.redirectConfiguration
     description: Redirect configuration resource of the application gateway.
     types:
     - uid: SubResource
   - name: properties.provisioningState
     description: "Provisioning state of the request routing rule resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ApplicationGatewayRewriteRuleSet
+  description: Rewrite rule set of an application gateway.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the rewrite rule set that is unique within an Application Gateway.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.rewriteRules
+    description: Rewrite rules in the rewrite rule set.
+    types:
+    - uid: ApplicationGatewayRewriteRule
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: "Provisioning state of the rewrite rule set resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
     - uid: string
   - name: id
@@ -838,15 +908,15 @@ definitions:
     types:
     - uid: boolean
   - name: maxRequestBodySize
-    description: Maxium request body size for WAF.
+    description: Maximum request body size for WAF.
     types:
     - uid: integer
   - name: maxRequestBodySizeInKb
-    description: Maxium request body size in Kb for WAF.
+    description: Maximum request body size in Kb for WAF.
     types:
     - uid: integer
   - name: fileUploadLimitInMb
-    description: Maxium file upload size in Mb for WAF.
+    description: Maximum file upload size in Mb for WAF.
     types:
     - uid: integer
   - name: exclusions
@@ -859,7 +929,11 @@ definitions:
   kind: object
   properties:
   - name: minCapacity
-    description: Lower bound on number of Application Gateway instances
+    description: Lower bound on number of Application Gateway capacity
+    types:
+    - uid: integer
+  - name: maxCapacity
+    description: Upper bound on number of Application Gateway capacity
     types:
     - uid: integer
 - name: ApplicationGatewayCustomError
@@ -874,6 +948,30 @@ definitions:
     description: Error page URL of the application gateway customer error.
     types:
     - uid: string
+- name: ResourceIdentityType
+  description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: ApplicationGatewaySkuName
   description: Name of an application gateway SKU.
   kind: enum
@@ -1128,6 +1226,10 @@ definitions:
     description: Redirect configuration resource of URL path map path rule.
     types:
     - uid: SubResource
+  - name: properties.rewriteRuleSet
+    description: Rewrite rule set resource of URL path map path rule.
+    types:
+    - uid: SubResource
   - name: properties.provisioningState
     description: "Path rule of URL path map resource. Possible values are: 'Updating', 'Deleting', and 'Failed'."
     types:
@@ -1146,6 +1248,18 @@ definitions:
   - name: PathBasedRouting
     types:
     - uid: string
+- name: ApplicationGatewayRewriteRule
+  description: Rewrite rule of an application gateway.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the rewrite rule that is unique within an Application Gateway.
+    types:
+    - uid: string
+  - name: actionSet
+    description: Set of actions to be done as part of the rewrite Rule.
+    types:
+    - uid: ApplicationGatewayRewriteRuleActionSet
 - name: ApplicationGatewayRedirectType
   description: Supported http redirection types - Permanent, Temporary, Found, SeeOther.
   kind: enum
@@ -1492,6 +1606,10 @@ definitions:
     description: The FQDN of the DNS record associated with the public IP address.
     types:
     - uid: PublicIPAddressDnsSettings
+  - name: properties.ddosSettings
+    description: The DDoS protection custom policy associated with the public IP address.
+    types:
+    - uid: DdosSettings
   - name: properties.ipTags
     description: The list of tags associated with the public IP address.
     types:
@@ -1588,6 +1706,20 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ApplicationGatewayRewriteRuleActionSet
+  description: Set of actions in the Rewrite Rule in Application Gateway.
+  kind: object
+  properties:
+  - name: requestHeaderConfigurations
+    description: Request Header Actions in the Action Set
+    types:
+    - uid: ApplicationGatewayHeaderConfiguration
+      isArray: true
+  - name: responseHeaderConfigurations
+    description: Response Header Actions in the Action Set
+    types:
+    - uid: ApplicationGatewayHeaderConfiguration
+      isArray: true
 - name: NetworkInterfaceTapConfiguration
   description: Tap configuration in a Network Interface
   kind: object
@@ -2005,7 +2137,7 @@ definitions:
     types:
     - uid: string
   - name: properties.subnet
-    description: The reference of the subnet resource to create a contatainer network interface ip configruation.
+    description: The reference of the subnet resource to create a container network interface ip configuration.
     types:
     - uid: Subnet
   - name: properties.provisioningState
@@ -2131,6 +2263,20 @@ definitions:
     description: 'Gets or Sets the Reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN. '
     types:
     - uid: string
+- name: DdosSettings
+  description: Contains the DDoS protection settings of the public IP.
+  kind: object
+  properties:
+  - name: ddosCustomPolicy
+    description: The DDoS custom policy associated with the public IP.
+    types:
+    - uid: SubResource
+  - name: protectionCoverage
+    description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
+    types:
+    - uid: Basic
+    - uid: Standard
+    typesTitle: enum
 - name: IpTag
   description: Contains the IpTag associated with the object
   kind: object
@@ -2141,6 +2287,18 @@ definitions:
     - uid: string
   - name: tag
     description: Gets or sets value of the IpTag associated with the public IP. Example SQL, Storage etc
+    types:
+    - uid: string
+- name: ApplicationGatewayHeaderConfiguration
+  description: Header configuration of the Actions set in Application Gateway.
+  kind: object
+  properties:
+  - name: headerName
+    description: Header name of the header configuration
+    types:
+    - uid: string
+  - name: headerValue
+    description: Header value of the header configuration
     types:
     - uid: string
 - name: SecurityRule
@@ -2164,15 +2322,15 @@ definitions:
     types:
     - uid: SecurityRuleProtocol
   - name: properties.sourcePortRange
-    description: The source port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports.
+    description: The source port or range. Integer or range between 0 and 65535. Asterisks '*' can also be used to match all ports.
     types:
     - uid: string
   - name: properties.destinationPortRange
-    description: The destination port or range. Integer or range between 0 and 65535. Asterix '*' can also be used to match all ports.
+    description: The destination port or range. Integer or range between 0 and 65535. Asterisks '*' can also be used to match all ports.
     types:
     - uid: string
   - name: properties.sourceAddressPrefix
-    description: "The CIDR or source IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. "
+    description: "The CIDR or source IP range. Asterisks '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. "
     types:
     - uid: string
   - name: properties.sourceAddressPrefixes
@@ -2186,7 +2344,7 @@ definitions:
     - uid: ApplicationSecurityGroup
       isArray: true
   - name: properties.destinationAddressPrefix
-    description: The destination address prefix. CIDR or destination IP range. Asterix '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
+    description: The destination address prefix. CIDR or destination IP range. Asterisks '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
     types:
     - uid: string
   - name: properties.destinationAddressPrefixes
@@ -2218,7 +2376,7 @@ definitions:
     types:
     - uid: integer
   - name: properties.direction
-    description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outcoming traffic. Possible values are: 'Inbound' and 'Outbound'."
+    description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic. Possible values are: 'Inbound' and 'Outbound'."
     types:
     - uid: SecurityRuleDirection
   - name: properties.provisioningState
@@ -2429,7 +2587,7 @@ definitions:
     types:
     - uid: string
 - name: SecurityRuleDirection
-  description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outcoming traffic. Possible values are: 'Inbound' and 'Outbound'."
+  description: "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic. Possible values are: 'Inbound' and 'Outbound'."
   kind: enum
   properties:
   - name: Inbound
@@ -2486,7 +2644,7 @@ definitions:
 examples:
 - name: Get ApplicationGateway
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw?api-version=2018-08-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw?api-version=2018-11-01
   responses:
   - statusCode: "200"
     body: >-
@@ -2547,6 +2705,14 @@ examples:
                 "provisioningState": "Succeeded",
                 "port": 443
               }
+            },
+            {
+              "name": "appgwfp80",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendPorts/appgwfp80",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "port": 80
+              }
             }
           ],
           "backendAddressPools": [
@@ -2590,9 +2756,62 @@ examples:
                 },
                 "requireServerNameIndication": false
               }
+            },
+            {
+              "name": "appgwhttplistener",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/httpListeners/appgwhttplistener",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendIPConfigurations/appgwfip"
+                },
+                "frontendPort": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendPorts/appgwfp80"
+                },
+                "protocol": "Http"
+              }
             }
           ],
-          "urlPathMaps": [],
+          "urlPathMaps": [
+            {
+              "name": "pathMap1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/urlPathMaps/pathMap1",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "defaultBackendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool"
+                },
+                "defaultBackendHttpSettings": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs"
+                },
+                "defaultRewriteRuleSet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1"
+                },
+                "pathRules": [
+                  {
+                    "name": "apiPaths",
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/urlPathMaps/pathMap1/pathRules/apiPaths",
+                    "properties": {
+                      "provisioningState": "Succeeded",
+                      "paths": [
+                        "/api",
+                        "/v1/api"
+                      ],
+                      "backendAddressPool": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool"
+                      },
+                      "backendHttpSettings": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs"
+                      },
+                      "rewriteRuleSet": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ],
           "requestRoutingRules": [
             {
               "name": "appgwrule",
@@ -2608,7 +2827,52 @@ examples:
                 },
                 "backendHttpSettings": {
                   "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs"
+                },
+                "rewriteRuleSet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1"
                 }
+              }
+            },
+            {
+              "name": "appgwPathBasedRule",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/requestRoutingRules/appgwPathBasedRule",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "ruleType": "PathBasedRouting",
+                "httpListener": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/httpListeners/appgwhttplistener"
+                },
+                "urlPathMap": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/urlPathMaps/pathMap1"
+                }
+              }
+            }
+          ],
+          "rewriteRuleSets": [
+            {
+              "name": "rewriteRuleSet1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "rewriteRules": [
+                  {
+                    "name": "Set X-Forwarded-For",
+                    "actionSet": {
+                      "requestHeaderConfigurations": [
+                        {
+                          "headerName": "X-Forwarded-For",
+                          "headerValue": "{var_remote-addr}"
+                        }
+                      ],
+                      "responseHeaderConfigurations": [
+                        {
+                          "headerName": "Strict-Transport-Security",
+                          "headerValue": "max-age=31536000"
+                        }
+                      ]
+                    }
+                  }
+                ]
               }
             }
           ],
@@ -2616,10 +2880,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

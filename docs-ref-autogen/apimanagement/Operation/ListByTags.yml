@@ -11,7 +11,7 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operationsByTags?api-version=2018-06-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operationsByTags?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-06-01-preview&includeNotTaggedOperations={includeNotTaggedOperations}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operationsByTags?$filter={$filter}&$top={$top}&$skip={$skip}&includeNotTaggedOperations={includeNotTaggedOperations}&api-version=2018-06-01-preview
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -42,22 +42,24 @@ uriParameters:
   pattern: ^[^*#&+:<>?]+$
 - name: $filter
   in: query
-  description: >-
-    | Field       | Supported operators    | Supported functions                         |
+  description: >
+    | Field       | Supported operators    | Supported functions               |
 
-    |-------------|------------------------|---------------------------------------------|
+    |-------------|------------------------|-----------------------------------|
 
-    | id          | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
 
-    | name        | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
 
-    | apiName     | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+    |name | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
 
-    | description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+    |displayName | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
 
-    | method      | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+    |apiName | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
 
-    | urlTemplate | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+    |description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
+
+    |method | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
+
+    |urlTemplate | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
   types:
   - uid: string
 - name: $top
@@ -72,17 +74,17 @@ uriParameters:
   types:
   - uid: integer
   format: int32
+- name: includeNotTaggedOperations
+  in: query
+  description: Include not tagged Operations.
+  types:
+  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
   description: Version of the API to be used with the client request.
   types:
   - uid: string
-- name: includeNotTaggedOperations
-  in: query
-  description: Include not tagged operations in response
-  types:
-  - uid: boolean
 responses:
 - name: 200 OK
   description: Lists a collection of TagResource entities.
@@ -367,7 +369,7 @@ definitions:
     - uid: string
       isArray: true
 examples:
-- name: ApiManagementListOperationsByTags
+- name: ApiManagementListApiOperationsByTags
   request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/a1/operationsByTags?api-version=2018-06-01-preview
   responses:
@@ -394,10 +396,12 @@ examples:
         "count": 1
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

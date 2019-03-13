@@ -7,7 +7,7 @@ apiVersion: 2016-12-01
 summary: >-
   Provides the information of the backed up data identified using RecoveryPointID. This is an asynchronous operation.
 
-              To know the status of the operation, call the GetProtectedItemOperationResult API.
+  To know the status of the operation, call the GetProtectedItemOperationResult API.
 consumes:
 - application/json
 produces:
@@ -77,8 +77,8 @@ definitions:
   - name: properties
     description: RecoveryPointResource properties
     types:
+    - uid: AzureFileShareRecoveryPoint
     - uid: AzureWorkloadRecoveryPoint
-    - uid: AzureWorkloadSAPHanaRecoveryPoint
     - uid: GenericRecoveryPoint
     - uid: IaasVMRecoveryPoint
     typesTitle: RecoveryPoint
@@ -113,6 +113,27 @@ definitions:
     description: Optional ETag.
     types:
     - uid: string
+- name: AzureFileShareRecoveryPoint
+  description: Azure File Share workload specific backup copy.
+  kind: object
+  properties:
+  - name: recoveryPointType
+    description: Type of the backup copy. Specifies whether it is a crash consistent backup or app consistent.
+    types:
+    - uid: string
+  - name: recoveryPointTime
+    description: Time at which this backup copy was created.
+    types:
+    - uid: string
+  - name: fileShareSnapshotUri
+    description: Contains Url to the snapshot of fileshare, if applicable
+    types:
+    - uid: string
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: AzureFileShareRecoveryPoint
+    typesTitle: string
 - name: GenericRecoveryPoint
   description: Generic backup copy.
   kind: object
@@ -196,15 +217,10 @@ definitions:
     types:
     - uid: IaasVMRecoveryPoint
     typesTitle: string
-- name: AzureWorkloadSAPHanaPointInTimeRecoveryPoint
-  description: Recovery point specific to PointInTime in SAPHana
+- name: AzureWorkloadSAPHanaRecoveryPoint
+  description: SAPHana specific recovery point, specifically encapsulates full/diff recovery points
   kind: object
   properties:
-  - name: timeRanges
-    description: List of log ranges
-    types:
-    - uid: PointInTimeRange
-      isArray: true
   - name: recoveryPointTimeInUTC
     description: UTC time at which recovery point was created
     types:
@@ -222,17 +238,17 @@ definitions:
   description: >-
     BEK is bitlocker key.
 
-                KEK is encryption key for BEK
+    KEK is encryption key for BEK
 
-                If the VM was encrypted then we will store following details :
+    If the VM was encrypted then we will store following details :
 
-                1. Secret(BEK) - Url + Backup Data + vaultId.
+    1. Secret(BEK) - Url + Backup Data + vaultId.
 
-                2. Key(KEK) - Url + Backup Data + vaultId.
+    2. Key(KEK) - Url + Backup Data + vaultId.
 
-                3. EncryptionMechanism
+    3. EncryptionMechanism
 
-                BEK and KEK can potentially have different vault ids.
+    BEK and KEK can potentially have different vault ids.
   kind: object
   properties:
   - name: kekDetails
@@ -259,8 +275,8 @@ definitions:
     description: Recovery point tier status.
     types:
     - uid: RecoveryPointTierStatus
-- name: AzureWorkloadSQLPointInTimeRecoveryPoint
-  description: Recovery point specific to PointInTime
+- name: AzureWorkloadSAPHanaPointInTimeRecoveryPoint
+  description: Recovery point specific to PointInTime in SAPHana
   kind: object
   properties:
   - name: timeRanges
@@ -268,13 +284,6 @@ definitions:
     types:
     - uid: PointInTimeRange
       isArray: true
-  - name: extendedInfo
-    description: >-
-      Extended Info that provides data directory details. Will be populated in two cases:
-                  When a specific recovery point is accessed using GetRecoveryPoint
-                  Or when ListRecoveryPoints is called for Log RP only with ExtendedInfo query filter
-    types:
-    - uid: AzureWorkloadSQLRecoveryPointExtendedInfo
   - name: recoveryPointTimeInUTC
     description: UTC time at which recovery point was created
     types:
@@ -286,20 +295,8 @@ definitions:
   - name: objectType
     description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
-    - uid: AzureWorkloadRecoveryPoint
+    - uid: AzureWorkloadSAPHanaPointInTimeRecoveryPoint
     typesTitle: string
-- name: PointInTimeRange
-  description: Provides details for log ranges
-  kind: object
-  properties:
-  - name: startTime
-    description: Start time of the time range for log recovery.
-    types:
-    - uid: string
-  - name: endTime
-    description: End time of the time range for log recovery.
-    types:
-    - uid: string
 - name: RestorePointType
   description: Type of restore point
   kind: enum
@@ -316,6 +313,37 @@ definitions:
   - name: Differential
     types:
     - uid: string
+- name: AzureWorkloadSQLPointInTimeRecoveryPoint
+  description: Recovery point specific to PointInTime
+  kind: object
+  properties:
+  - name: timeRanges
+    description: List of log ranges
+    types:
+    - uid: PointInTimeRange
+      isArray: true
+  - name: extendedInfo
+    description: >-
+      Extended Info that provides data directory details. Will be populated in two cases:
+
+      When a specific recovery point is accessed using GetRecoveryPoint
+
+      Or when ListRecoveryPoints is called for Log RP only with ExtendedInfo query filter
+    types:
+    - uid: AzureWorkloadSQLRecoveryPointExtendedInfo
+  - name: recoveryPointTimeInUTC
+    description: UTC time at which recovery point was created
+    types:
+    - uid: string
+  - name: type
+    description: Type of restore point
+    types:
+    - uid: RestorePointType
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: AzureWorkloadSQLPointInTimeRecoveryPoint
+    typesTitle: string
 - name: KEKDetails
   description: KEK is encryption key for BEK.
   kind: object
@@ -375,6 +403,18 @@ definitions:
     types:
     - uid: string
   - name: Deleted
+    types:
+    - uid: string
+- name: PointInTimeRange
+  description: Provides details for log ranges
+  kind: object
+  properties:
+  - name: startTime
+    description: Start time of the time range for log recovery.
+    types:
+    - uid: string
+  - name: endTime
+    description: End time of the time range for log recovery.
     types:
     - uid: string
 - name: AzureWorkloadSQLRecoveryPointExtendedInfo
@@ -450,10 +490,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account.
+errorCodes: []

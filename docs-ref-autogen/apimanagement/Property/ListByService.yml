@@ -35,14 +35,16 @@ uriParameters:
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
 - name: $filter
   in: query
-  description: >-
-    | Field | Supported operators    | Supported functions                                   |
+  description: >
+    | Field       | Supported operators    | Supported functions               |
 
-    |-------|------------------------|-------------------------------------------------------|
+    |-------------|------------------------|-----------------------------------|
 
-    | tags  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith, any, all |
 
-    | name  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith           |
+
+    |tags | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith, any, all|
+
+    |displayName | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
   types:
   - uid: string
 - name: $top
@@ -68,6 +70,10 @@ responses:
   description: A Collection of the Property entities for the specified API Management service instance.
   types:
   - uid: PropertyCollection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: PropertyCollection
@@ -83,6 +89,23 @@ definitions:
     description: Next page link if any.
     types:
     - uid: string
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: error.message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
 - name: PropertyContract
   description: Property details.
   kind: object
@@ -119,6 +142,22 @@ definitions:
     description: Determines whether the value is a secret and should be encrypted or not. Default value is false.
     types:
     - uid: boolean
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
 examples:
 - name: ApiManagementListProperties
   request:
@@ -156,10 +195,12 @@ examples:
         "nextLink": ""
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

@@ -4,7 +4,7 @@ name: Update
 service: API Management
 groupName: Product
 apiVersion: 2018-06-01-preview
-summary: Update product.
+summary: Update existing product details.
 consumes:
 - application/json
 produces:
@@ -37,7 +37,7 @@ uriParameters:
   description: Product identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: api-version
   in: query
   isRequired: true
@@ -46,7 +46,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 204 No Content
-  description: No Content in case of Update Successful.
+  description: Product details was successfully updated.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -173,7 +173,7 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ApiManagementUpdateProductBasic
+- name: ApiManagementUpdateProduct
   request:
     uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/testproduct?api-version=2018-06-01-preview
     body: >-
@@ -188,10 +188,12 @@ examples:
   responses:
   - statusCode: "204"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

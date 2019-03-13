@@ -4,7 +4,7 @@ name: List By Service
 service: API Management
 groupName: OpenId Connect Provider
 apiVersion: 2018-06-01-preview
-summary: Lists all OpenID Connect Providers.
+summary: Lists of all the OpenId Connect Providers.
 consumes:
 - application/json
 produces:
@@ -35,14 +35,16 @@ uriParameters:
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
 - name: $filter
   in: query
-  description: >-
-    | Field | Supported operators    | Supported functions                         |
+  description: >
+    | Field       | Supported operators    | Supported functions               |
 
-    |-------|------------------------|---------------------------------------------|
+    |-------------|------------------------|-----------------------------------|
 
-    | id    | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
 
-    | name  | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+
+    |name | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
+
+    |displayName | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
   types:
   - uid: string
 - name: $top
@@ -68,6 +70,10 @@ responses:
   description: Lists of all the OpenId Connect Providers.
   types:
   - uid: OpenIdConnectProviderCollection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: OpenIdConnectProviderCollection
@@ -83,6 +89,23 @@ definitions:
     description: Next page link if any.
     types:
     - uid: string
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: error.message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
 - name: OpenidConnectProviderContract
   description: OpenId Connect Provider details.
   kind: object
@@ -122,6 +145,22 @@ definitions:
     description: Resource type for API Management resource.
     types:
     - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
 examples:
 - name: ApiManagementListOpenIdConnectProviders
   request:
@@ -147,10 +186,12 @@ examples:
         "nextLink": ""
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

@@ -11,6 +11,8 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}?api-version=2018-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}?expandCommentsAttachments={expandCommentsAttachments}&api-version=2018-06-01-preview
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +39,7 @@ uriParameters:
   description: API identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
-  pattern: (^[\w]+$)|(^[\w][\w\-]+[\w]$)
+  pattern: ^[^*#&+:<>?]+$
 - name: issueId
   in: path
   isRequired: true
@@ -45,6 +47,11 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
+- name: expandCommentsAttachments
+  in: query
+  description: 'Expand the comment attachments. '
+  types:
+  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
@@ -186,10 +193,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow.
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

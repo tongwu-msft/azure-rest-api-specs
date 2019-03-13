@@ -3,14 +3,14 @@ uid: management.azure.com.site-recovery.replicationprotectableitems.get
 name: Get
 service: Recovery Services - Site Recovery
 groupName: Replication Protectable Items
-apiVersion: 2016-08-10
+apiVersion: 2018-07-10
 summary: "Gets the details of a protectable item.  \nThe operation to get the details of a protectable item."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectableItems/{protectableItemName}?api-version=2016-08-10
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectableItems/{protectableItemName}?api-version=2018-07-10
 uriParameters:
 - name: subscriptionId
   in: path
@@ -122,11 +122,12 @@ definitions:
     description: The Replication provider custom settings.
     types:
     - uid: HyperVVirtualMachineDetails
-    - uid: VMwareVirtualMachineDetails
     - uid: ReplicationGroupDetails
+    - uid: VmmVirtualMachineDetails
+    - uid: VMwareVirtualMachineDetails
     typesTitle: ConfigurationSettings
 - name: HyperVVirtualMachineDetails
-  description: Hyper V replica provider specific settings
+  description: Single Host fabric provider specific VM settings.
   kind: object
   properties:
   - name: sourceItemId
@@ -146,11 +147,72 @@ definitions:
     types:
     - uid: DiskDetails
       isArray: true
+  - name: hasPhysicalDisk
+    description: A value indicating whether the VM has a physical disk attached. String value of {SrsDataContract.PresenceStatus} enum.
+    types:
+    - uid: PresenceStatus
+  - name: hasFibreChannelAdapter
+    description: A value indicating whether the VM has a fibre channel adapter attached. String value of {SrsDataContract.PresenceStatus} enum.
+    types:
+    - uid: PresenceStatus
+  - name: hasSharedVhd
+    description: A value indicating whether the VM has a shared VHD attached. String value of {SrsDataContract.PresenceStatus} enum.
+    types:
+    - uid: PresenceStatus
   - name: instanceType
     isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: HyperVVirtualMachine
+    typesTitle: string
+- name: ReplicationGroupDetails
+  description: Replication group details. This will be used in case of San and Wvr.
+  kind: object
+  properties:
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the class type. Overridden in derived classes.
+    types:
+    - uid: ReplicationGroupDetails
+    typesTitle: string
+- name: VmmVirtualMachineDetails
+  description: VMM fabric provider specific VM settings.
+  kind: object
+  properties:
+  - name: sourceItemId
+    description: The source id of the object.
+    types:
+    - uid: string
+  - name: generation
+    description: The id of the object in fabric.
+    types:
+    - uid: string
+  - name: osDetails
+    description: The Last replication time.
+    types:
+    - uid: OSDetails
+  - name: diskDetails
+    description: The Last successful failover time.
+    types:
+    - uid: DiskDetails
+      isArray: true
+  - name: hasPhysicalDisk
+    description: A value indicating whether the VM has a physical disk attached. String value of {SrsDataContract.PresenceStatus} enum.
+    types:
+    - uid: PresenceStatus
+  - name: hasFibreChannelAdapter
+    description: A value indicating whether the VM has a fibre channel adapter attached. String value of {SrsDataContract.PresenceStatus} enum.
+    types:
+    - uid: PresenceStatus
+  - name: hasSharedVhd
+    description: A value indicating whether the VM has a shared VHD attached. String value of {SrsDataContract.PresenceStatus} enum.
+    types:
+    - uid: PresenceStatus
+  - name: instanceType
+    isReadyOnly: true
+    description: Gets the class type. Overridden in derived classes.
+    types:
+    - uid: VmmVirtualMachine
     typesTitle: string
 - name: VMwareVirtualMachineDetails
   description: VMware provider specific settings
@@ -204,16 +266,6 @@ definitions:
     types:
     - uid: VMwareVirtualMachine
     typesTitle: string
-- name: ReplicationGroupDetails
-  description: Replication group details. This will be used in case of San and Wvr.
-  kind: object
-  properties:
-  - name: instanceType
-    isReadyOnly: true
-    description: Gets the class type. Overridden in derived classes.
-    types:
-    - uid: ReplicationGroupDetails
-    typesTitle: string
 - name: OSDetails
   description: Disk Details.
   kind: object
@@ -262,6 +314,19 @@ definitions:
     description: The VHD name.
     types:
     - uid: string
+- name: PresenceStatus
+  description: A value indicating whether the VM has a physical disk attached. String value of {SrsDataContract.PresenceStatus} enum.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Present
+    types:
+    - uid: string
+  - name: NotPresent
+    types:
+    - uid: string
 - name: InMageDiskDetails
   description: VMware/Physical specific Disk Details
   kind: object
@@ -295,6 +360,11 @@ definitions:
   description: Health Error
   kind: object
   properties:
+  - name: innerHealthErrors
+    description: The inner health errors. HealthError having a list of HealthError as child errors is problematic. InnerHealthError is used because this will prevent an infinite loop of structures when Hydra tries to auto-generate the contract. We are exposing the related health errors as inner health errors and all API consumers can utilize this in the same fashion as Exception -&gt; InnerException.
+    types:
+    - uid: InnerHealthError
+      isArray: true
   - name: errorSource
     description: Source of error.
     types:
@@ -307,8 +377,16 @@ definitions:
     description: Level of error.
     types:
     - uid: string
+  - name: errorCategory
+    description: Category of error.
+    types:
+    - uid: string
   - name: errorCode
     description: Error code.
+    types:
+    - uid: string
+  - name: summaryMessage
+    description: Summary message of the entity.
     types:
     - uid: string
   - name: errorMessage
@@ -335,11 +413,14 @@ definitions:
     description: ID of the entity.
     types:
     - uid: string
-  - name: childErrors
-    description: The child health errors.
+  - name: errorId
+    description: The health error unique id.
     types:
-    - uid: HealthError
-      isArray: true
+    - uid: string
+  - name: customerResolvability
+    description: Value indicating whether the health error is customer resolvable.
+    types:
+    - uid: HealthErrorCustomerResolvability
 - name: DiskVolumeDetails
   description: Volume details.
   kind: object
@@ -352,10 +433,72 @@ definitions:
     description: The volume name.
     types:
     - uid: string
+- name: InnerHealthError
+  description: Implements InnerHealthError class. HealthError object has a list of InnerHealthErrors as child errors. InnerHealthError is used because this will prevent an infinite loop of structures when Hydra tries to auto-generate the contract. We are exposing the related health errors as inner health errors and all API consumers can utilize this in the same fashion as Exception -&gt; InnerException.
+  kind: object
+  properties:
+  - name: errorSource
+    description: Source of error.
+    types:
+    - uid: string
+  - name: errorType
+    description: Type of error.
+    types:
+    - uid: string
+  - name: errorLevel
+    description: Level of error.
+    types:
+    - uid: string
+  - name: errorCategory
+    description: Category of error.
+    types:
+    - uid: string
+  - name: errorCode
+    description: Error code.
+    types:
+    - uid: string
+  - name: summaryMessage
+    description: Summary message of the entity.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: Error message.
+    types:
+    - uid: string
+  - name: possibleCauses
+    description: Possible causes of error.
+    types:
+    - uid: string
+  - name: recommendedAction
+    description: Recommended action to resolve error.
+    types:
+    - uid: string
+  - name: creationTimeUtc
+    description: Error creation time (UTC)
+    types:
+    - uid: string
+  - name: recoveryProviderErrorMessage
+    description: DRA error message.
+    types:
+    - uid: string
+  - name: entityId
+    description: ID of the entity.
+    types:
+    - uid: string
+- name: HealthErrorCustomerResolvability
+  description: Value indicating whether the health error is customer resolvable.
+  kind: enum
+  properties:
+  - name: Allowed
+    types:
+    - uid: string
+  - name: NotAllowed
+    types:
+    - uid: string
 examples:
 - name: Gets the details of a protectable item.
   request:
-    uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectableItems/c0c14913-3d7a-48ea-9531-cc99e0e686e6?api-version=2016-08-10
+    uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectableItems/c0c14913-3d7a-48ea-9531-cc99e0e686e6?api-version=2018-07-10
   responses:
   - statusCode: "200"
     body: >-
@@ -377,10 +520,12 @@ examples:
         }
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account.
+errorCodes: []

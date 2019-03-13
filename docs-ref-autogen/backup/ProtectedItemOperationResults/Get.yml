@@ -81,7 +81,7 @@ definitions:
     - uid: AzureFileshareProtectedItem
     - uid: AzureIaaSVMProtectedItem
     - uid: AzureSqlProtectedItem
-    - uid: AzureVmWorkloadSQLDatabaseProtectedItem
+    - uid: AzureVmWorkloadProtectedItem
     - uid: DPMProtectedItem
     - uid: GenericProtectedItem
     - uid: MabFileFolderProtectedItem
@@ -206,95 +206,6 @@ definitions:
     description: backup item type.
     types:
     - uid: Microsoft.Sql/servers/databases
-    typesTitle: string
-  - name: backupManagementType
-    description: Type of backup management for the backed up item.
-    types:
-    - uid: BackupManagementType
-  - name: workloadType
-    description: Type of workload this item represents.
-    types:
-    - uid: DataSourceType
-  - name: containerName
-    description: Unique name of container
-    types:
-    - uid: string
-  - name: sourceResourceId
-    description: ARM ID of the resource to be backed up.
-    types:
-    - uid: string
-  - name: policyId
-    description: ID of the backup policy with which this item is backed up.
-    types:
-    - uid: string
-  - name: lastRecoveryPoint
-    description: Timestamp when the last (latest) backup copy was created for this backup item.
-    types:
-    - uid: string
-  - name: backupSetName
-    description: Name of the backup set the backup item belongs to
-    types:
-    - uid: string
-  - name: createMode
-    description: Create mode to indicate recovery of existing soft deleted data source or creation of new data source.
-    types:
-    - uid: CreateMode
-- name: AzureVmWorkloadSQLDatabaseProtectedItem
-  description: Azure VM workload-specific protected item representing SQL Database.
-  kind: object
-  properties:
-  - name: friendlyName
-    description: Friendly name of the DB represented by this backup item.
-    types:
-    - uid: string
-  - name: serverName
-    description: Host/Cluster Name for instance or AG
-    types:
-    - uid: string
-  - name: parentName
-    description: Parent name of the DB such as Instance or Availability Group.
-    types:
-    - uid: string
-  - name: parentType
-    description: Parent type of DB, SQLAG or StandAlone
-    types:
-    - uid: string
-  - name: protectionStatus
-    description: Backup status of this backup item.
-    types:
-    - uid: string
-  - name: protectionState
-    description: Backup state of this backup item.
-    types:
-    - uid: ProtectionState
-  - name: lastBackupStatus
-    description: 'Last backup operation status. Possible values: Healthy, Unhealthy.'
-    types:
-    - uid: LastBackupStatus
-  - name: lastBackupTime
-    description: Timestamp of the last backup operation on this backup item.
-    types:
-    - uid: string
-  - name: lastBackupErrorDetail
-    description: Error details in last backup
-    types:
-    - uid: ErrorDetail
-  - name: protectedItemDataSourceId
-    description: Data ID of the protected item.
-    types:
-    - uid: string
-  - name: protectedItemHealthStatus
-    description: Health status of the backup item, evaluated based on last heartbeat received
-    types:
-    - uid: ProtectedItemHealthStatus
-  - name: extendedInfo
-    description: Additional information for this backup item.
-    types:
-    - uid: AzureVmWorkloadProtectedItemExtendedInfo
-  - name: protectedItemType
-    description: backup item type.
-    types:
-    - uid: AzureVmWorkloadSQLDatabase
     typesTitle: string
   - name: backupManagementType
     description: Type of backup management for the backed up item.
@@ -658,6 +569,9 @@ definitions:
   - name: SAPHanaDatabase
     types:
     - uid: string
+  - name: SAPAseDatabase
+    types:
+    - uid: string
 - name: CreateMode
   description: Create mode to indicate recovery of existing soft deleted data source or creation of new data source.
   kind: enum
@@ -719,7 +633,7 @@ definitions:
   - name: protectedItemType
     description: backup item type.
     types:
-    - uid: AzureIaaSVMProtectedItem
+    - uid: Microsoft.ClassicCompute/virtualMachines
     typesTitle: string
   - name: backupManagementType
     description: Type of backup management for the backed up item.
@@ -801,7 +715,7 @@ definitions:
   - name: protectedItemType
     description: backup item type.
     types:
-    - uid: AzureIaaSVMProtectedItem
+    - uid: Microsoft.Compute/virtualMachines
     typesTitle: string
   - name: backupManagementType
     description: Type of backup management for the backed up item.
@@ -873,74 +787,273 @@ definitions:
     description: State of the backup policy associated with this backup item.
     types:
     - uid: string
-- name: LastBackupStatus
-  description: 'Last backup operation status. Possible values: Healthy, Unhealthy.'
-  kind: enum
-  properties:
-  - name: Invalid
-    types:
-    - uid: string
-  - name: Healthy
-    types:
-    - uid: string
-  - name: Unhealthy
-    types:
-    - uid: string
-  - name: IRPending
-    types:
-    - uid: string
-- name: ErrorDetail
-  description: Error Detail class which encapsulates Code, Message and Recommendations.
+- name: AzureVmWorkloadSAPAseDatabaseProtectedItem
+  description: Azure VM workload-specific protected item representing SAP ASE Database.
   kind: object
   properties:
-  - name: code
-    description: Error code.
+  - name: friendlyName
+    description: Friendly name of the DB represented by this backup item.
     types:
     - uid: string
-  - name: message
-    description: Error Message related to the Code.
+  - name: serverName
+    description: Host/Cluster Name for instance or AG
     types:
     - uid: string
-  - name: recommendations
-    description: List of recommendation strings.
+  - name: parentName
+    description: Parent name of the DB such as Instance or Availability Group.
     types:
     - uid: string
-      isArray: true
-- name: ProtectedItemHealthStatus
-  description: Health status of the backup item, evaluated based on last heartbeat received
-  kind: enum
-  properties:
-  - name: Invalid
+  - name: parentType
+    description: 'Parent type of protected item, example: for a DB, standalone server or distributed'
     types:
     - uid: string
-  - name: Healthy
+  - name: protectionStatus
+    description: Backup status of this backup item.
     types:
     - uid: string
-  - name: Unhealthy
+  - name: protectionState
+    description: Backup state of this backup item.
+    types:
+    - uid: ProtectionState
+  - name: lastBackupStatus
+    description: 'Last backup operation status. Possible values: Healthy, Unhealthy.'
+    types:
+    - uid: LastBackupStatus
+  - name: lastBackupTime
+    description: Timestamp of the last backup operation on this backup item.
     types:
     - uid: string
-  - name: NotReachable
+  - name: lastBackupErrorDetail
+    description: Error details in last backup
+    types:
+    - uid: ErrorDetail
+  - name: protectedItemDataSourceId
+    description: Data ID of the protected item.
     types:
     - uid: string
-  - name: IRPending
+  - name: protectedItemHealthStatus
+    description: Health status of the backup item, evaluated based on last heartbeat received
+    types:
+    - uid: ProtectedItemHealthStatus
+  - name: extendedInfo
+    description: Additional information for this backup item.
+    types:
+    - uid: AzureVmWorkloadProtectedItemExtendedInfo
+  - name: protectedItemType
+    description: backup item type.
+    types:
+    - uid: AzureVmWorkloadSAPAseDatabase
+    typesTitle: string
+  - name: backupManagementType
+    description: Type of backup management for the backed up item.
+    types:
+    - uid: BackupManagementType
+  - name: workloadType
+    description: Type of workload this item represents.
+    types:
+    - uid: DataSourceType
+  - name: containerName
+    description: Unique name of container
     types:
     - uid: string
-- name: AzureVmWorkloadProtectedItemExtendedInfo
-  description: Additional information on Azure Workload for SQL specific backup item.
+  - name: sourceResourceId
+    description: ARM ID of the resource to be backed up.
+    types:
+    - uid: string
+  - name: policyId
+    description: ID of the backup policy with which this item is backed up.
+    types:
+    - uid: string
+  - name: lastRecoveryPoint
+    description: Timestamp when the last (latest) backup copy was created for this backup item.
+    types:
+    - uid: string
+  - name: backupSetName
+    description: Name of the backup set the backup item belongs to
+    types:
+    - uid: string
+  - name: createMode
+    description: Create mode to indicate recovery of existing soft deleted data source or creation of new data source.
+    types:
+    - uid: CreateMode
+- name: AzureVmWorkloadSAPHanaDatabaseProtectedItem
+  description: Azure VM workload-specific protected item representing SAP HANA Database.
   kind: object
   properties:
-  - name: oldestRecoveryPoint
-    description: The oldest backup copy available for this backup item.
+  - name: friendlyName
+    description: Friendly name of the DB represented by this backup item.
     types:
     - uid: string
-  - name: recoveryPointCount
-    description: Number of backup copies available for this backup item.
-    types:
-    - uid: integer
-  - name: policyState
-    description: Indicates consistency of policy object and policy applied to this backup item.
+  - name: serverName
+    description: Host/Cluster Name for instance or AG
     types:
     - uid: string
+  - name: parentName
+    description: Parent name of the DB such as Instance or Availability Group.
+    types:
+    - uid: string
+  - name: parentType
+    description: 'Parent type of protected item, example: for a DB, standalone server or distributed'
+    types:
+    - uid: string
+  - name: protectionStatus
+    description: Backup status of this backup item.
+    types:
+    - uid: string
+  - name: protectionState
+    description: Backup state of this backup item.
+    types:
+    - uid: ProtectionState
+  - name: lastBackupStatus
+    description: 'Last backup operation status. Possible values: Healthy, Unhealthy.'
+    types:
+    - uid: LastBackupStatus
+  - name: lastBackupTime
+    description: Timestamp of the last backup operation on this backup item.
+    types:
+    - uid: string
+  - name: lastBackupErrorDetail
+    description: Error details in last backup
+    types:
+    - uid: ErrorDetail
+  - name: protectedItemDataSourceId
+    description: Data ID of the protected item.
+    types:
+    - uid: string
+  - name: protectedItemHealthStatus
+    description: Health status of the backup item, evaluated based on last heartbeat received
+    types:
+    - uid: ProtectedItemHealthStatus
+  - name: extendedInfo
+    description: Additional information for this backup item.
+    types:
+    - uid: AzureVmWorkloadProtectedItemExtendedInfo
+  - name: protectedItemType
+    description: backup item type.
+    types:
+    - uid: AzureVmWorkloadSAPHanaDatabase
+    typesTitle: string
+  - name: backupManagementType
+    description: Type of backup management for the backed up item.
+    types:
+    - uid: BackupManagementType
+  - name: workloadType
+    description: Type of workload this item represents.
+    types:
+    - uid: DataSourceType
+  - name: containerName
+    description: Unique name of container
+    types:
+    - uid: string
+  - name: sourceResourceId
+    description: ARM ID of the resource to be backed up.
+    types:
+    - uid: string
+  - name: policyId
+    description: ID of the backup policy with which this item is backed up.
+    types:
+    - uid: string
+  - name: lastRecoveryPoint
+    description: Timestamp when the last (latest) backup copy was created for this backup item.
+    types:
+    - uid: string
+  - name: backupSetName
+    description: Name of the backup set the backup item belongs to
+    types:
+    - uid: string
+  - name: createMode
+    description: Create mode to indicate recovery of existing soft deleted data source or creation of new data source.
+    types:
+    - uid: CreateMode
+- name: AzureVmWorkloadSQLDatabaseProtectedItem
+  description: Azure VM workload-specific protected item representing SQL Database.
+  kind: object
+  properties:
+  - name: friendlyName
+    description: Friendly name of the DB represented by this backup item.
+    types:
+    - uid: string
+  - name: serverName
+    description: Host/Cluster Name for instance or AG
+    types:
+    - uid: string
+  - name: parentName
+    description: Parent name of the DB such as Instance or Availability Group.
+    types:
+    - uid: string
+  - name: parentType
+    description: 'Parent type of protected item, example: for a DB, standalone server or distributed'
+    types:
+    - uid: string
+  - name: protectionStatus
+    description: Backup status of this backup item.
+    types:
+    - uid: string
+  - name: protectionState
+    description: Backup state of this backup item.
+    types:
+    - uid: ProtectionState
+  - name: lastBackupStatus
+    description: 'Last backup operation status. Possible values: Healthy, Unhealthy.'
+    types:
+    - uid: LastBackupStatus
+  - name: lastBackupTime
+    description: Timestamp of the last backup operation on this backup item.
+    types:
+    - uid: string
+  - name: lastBackupErrorDetail
+    description: Error details in last backup
+    types:
+    - uid: ErrorDetail
+  - name: protectedItemDataSourceId
+    description: Data ID of the protected item.
+    types:
+    - uid: string
+  - name: protectedItemHealthStatus
+    description: Health status of the backup item, evaluated based on last heartbeat received
+    types:
+    - uid: ProtectedItemHealthStatus
+  - name: extendedInfo
+    description: Additional information for this backup item.
+    types:
+    - uid: AzureVmWorkloadProtectedItemExtendedInfo
+  - name: protectedItemType
+    description: backup item type.
+    types:
+    - uid: AzureVmWorkloadSQLDatabase
+    typesTitle: string
+  - name: backupManagementType
+    description: Type of backup management for the backed up item.
+    types:
+    - uid: BackupManagementType
+  - name: workloadType
+    description: Type of workload this item represents.
+    types:
+    - uid: DataSourceType
+  - name: containerName
+    description: Unique name of container
+    types:
+    - uid: string
+  - name: sourceResourceId
+    description: ARM ID of the resource to be backed up.
+    types:
+    - uid: string
+  - name: policyId
+    description: ID of the backup policy with which this item is backed up.
+    types:
+    - uid: string
+  - name: lastRecoveryPoint
+    description: Timestamp when the last (latest) backup copy was created for this backup item.
+    types:
+    - uid: string
+  - name: backupSetName
+    description: Name of the backup set the backup item belongs to
+    types:
+    - uid: string
+  - name: createMode
+    description: Create mode to indicate recovery of existing soft deleted data source or creation of new data source.
+    types:
+    - uid: CreateMode
 - name: DPMProtectedItemExtendedInfo
   description: Additional information of DPM Protected item.
   kind: object
@@ -1058,6 +1171,74 @@ definitions:
     description: Specifies if backup policy associated with the backup item is inconsistent.
     types:
     - uid: boolean
+- name: LastBackupStatus
+  description: 'Last backup operation status. Possible values: Healthy, Unhealthy.'
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Healthy
+    types:
+    - uid: string
+  - name: Unhealthy
+    types:
+    - uid: string
+  - name: IRPending
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: Error Detail class which encapsulates Code, Message and Recommendations.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error Message related to the Code.
+    types:
+    - uid: string
+  - name: recommendations
+    description: List of recommendation strings.
+    types:
+    - uid: string
+      isArray: true
+- name: ProtectedItemHealthStatus
+  description: Health status of the backup item, evaluated based on last heartbeat received
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Healthy
+    types:
+    - uid: string
+  - name: Unhealthy
+    types:
+    - uid: string
+  - name: NotReachable
+    types:
+    - uid: string
+  - name: IRPending
+    types:
+    - uid: string
+- name: AzureVmWorkloadProtectedItemExtendedInfo
+  description: Additional information on Azure Workload for SQL specific backup item.
+  kind: object
+  properties:
+  - name: oldestRecoveryPoint
+    description: The oldest backup copy available for this backup item.
+    types:
+    - uid: string
+  - name: recoveryPointCount
+    description: Number of backup copies available for this backup item.
+    types:
+    - uid: integer
+  - name: policyState
+    description: Indicates consistency of policy object and policy applied to this backup item.
+    types:
+    - uid: string
 examples:
 - name: Get Operation Results of Protected Vm
   request:
@@ -1073,10 +1254,12 @@ examples:
       value: "60"
     body: '{}'
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account.
+errorCodes: []

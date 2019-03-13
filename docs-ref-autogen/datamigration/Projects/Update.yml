@@ -70,12 +70,18 @@ requestBody:
     in: body
     description: Information for connecting to source
     types:
+    - uid: MiSqlConnectionInfo
+    - uid: PostgreSqlConnectionInfo
+    - uid: MySqlConnectionInfo
     - uid: SqlConnectionInfo
     typesTitle: ConnectionInfo
   - name: properties.targetConnectionInfo
     in: body
     description: Information for connecting to target
     types:
+    - uid: MiSqlConnectionInfo
+    - uid: PostgreSqlConnectionInfo
+    - uid: MySqlConnectionInfo
     - uid: SqlConnectionInfo
     typesTitle: ConnectionInfo
   - name: properties.databasesInfo
@@ -129,11 +135,17 @@ definitions:
   - name: properties.sourceConnectionInfo
     description: Information for connecting to source
     types:
+    - uid: MiSqlConnectionInfo
+    - uid: PostgreSqlConnectionInfo
+    - uid: MySqlConnectionInfo
     - uid: SqlConnectionInfo
     typesTitle: ConnectionInfo
   - name: properties.targetConnectionInfo
     description: Information for connecting to target
     types:
+    - uid: MiSqlConnectionInfo
+    - uid: PostgreSqlConnectionInfo
+    - uid: MySqlConnectionInfo
     - uid: SqlConnectionInfo
     typesTitle: ConnectionInfo
   - name: properties.databasesInfo
@@ -181,6 +193,81 @@ definitions:
     description: Error information in OData format
     types:
     - uid: ODataError
+- name: MiSqlConnectionInfo
+  description: Properties required to create a connection to Azure SQL database Managed instance
+  kind: object
+  properties:
+  - name: managedInstanceResourceId
+    description: Resource id for Azure SQL database Managed instance
+    types:
+    - uid: string
+  - name: type
+    description: Type of connection info
+    types:
+    - uid: MiSqlConnectionInfo
+    typesTitle: string
+  - name: userName
+    description: User name
+    types:
+    - uid: string
+  - name: password
+    description: Password credential.
+    types:
+    - uid: string
+- name: PostgreSqlConnectionInfo
+  description: Information for connecting to PostgreSQL server
+  kind: object
+  properties:
+  - name: serverName
+    description: Name of the server
+    types:
+    - uid: string
+  - name: databaseName
+    description: Name of the database
+    types:
+    - uid: string
+  - name: port
+    description: Port for Server
+    types:
+    - uid: integer
+  - name: type
+    description: Type of connection info
+    types:
+    - uid: PostgreSqlConnectionInfo
+    typesTitle: string
+  - name: userName
+    description: User name
+    types:
+    - uid: string
+  - name: password
+    description: Password credential.
+    types:
+    - uid: string
+- name: MySqlConnectionInfo
+  description: Information for connecting to MySQL server
+  kind: object
+  properties:
+  - name: serverName
+    description: Name of the server
+    types:
+    - uid: string
+  - name: port
+    description: Port for Server
+    types:
+    - uid: integer
+  - name: type
+    description: Type of connection info
+    types:
+    - uid: MySqlConnectionInfo
+    typesTitle: string
+  - name: userName
+    description: User name
+    types:
+    - uid: string
+  - name: password
+    description: Password credential.
+    types:
+    - uid: string
 - name: SqlConnectionInfo
   description: Information for connecting to SQL database server
   kind: object
@@ -205,10 +292,14 @@ definitions:
     description: Whether to trust the server certificate
     types:
     - uid: boolean
+  - name: platform
+    description: Server platform type for connection
+    types:
+    - uid: SqlSourcePlatform
   - name: type
     description: Type of connection info
     types:
-    - uid: Unknown
+    - uid: SqlConnectionInfo
     typesTitle: string
   - name: userName
     description: User name
@@ -287,6 +378,13 @@ definitions:
   - name: ActiveDirectoryPassword
     types:
     - uid: string
+- name: SqlSourcePlatform
+  description: Server platform type for connection
+  kind: enum
+  properties:
+  - name: SqlOnPrem
+    types:
+    - uid: string
 examples:
 - name: Projects_Update
   request:
@@ -314,10 +412,12 @@ examples:
         "type": "Microsoft.DataMigration/services/projects"
       }
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+errorCodes: []

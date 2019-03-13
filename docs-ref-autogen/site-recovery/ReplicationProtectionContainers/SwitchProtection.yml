@@ -3,14 +3,14 @@ uid: management.azure.com.site-recovery.replicationprotectioncontainers.switchpr
 name: Switch Protection
 service: Recovery Services - Site Recovery
 groupName: Replication Protection Containers
-apiVersion: 2016-08-10
+apiVersion: 2018-07-10
 summary: "Switches protection from one container to another or one replication provider to another.  \nOperation to switch protection from one container to another or one replication provider to another."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/switchprotection?api-version=2016-08-10
+- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/switchprotection?api-version=2018-07-10
 uriParameters:
 - name: subscriptionId
   in: path
@@ -179,6 +179,14 @@ definitions:
     description: The Policy Id.
     types:
     - uid: string
+  - name: recoveryBootDiagStorageAccountId
+    description: The boot diagnostic storage account.
+    types:
+    - uid: string
+  - name: diskEncryptionInfo
+    description: The recovery disk encryption information.
+    types:
+    - uid: DiskEncryptionInfo
   - name: instanceType
     isReadyOnly: true
     description: Gets the Instance type.
@@ -226,10 +234,54 @@ definitions:
     description: The target resource group Arm Id.
     types:
     - uid: string
+  - name: recoveryReplicaDiskAccountType
+    description: The replica disk type. Its an optional value and will be same as source disk type if not user provided.
+    types:
+    - uid: string
+  - name: recoveryTargetDiskAccountType
+    description: The target disk type after failover. Its an optional value and will be same as source disk type if not user provided.
+    types:
+    - uid: string
+- name: DiskEncryptionInfo
+  description: Recovery disk encryption info (BEK and KEK).
+  kind: object
+  properties:
+  - name: diskEncryptionKeyInfo
+    description: The recovery KeyVault reference for secret.
+    types:
+    - uid: DiskEncryptionKeyInfo
+  - name: keyEncryptionKeyInfo
+    description: The recovery KeyVault reference for key.
+    types:
+    - uid: KeyEncryptionKeyInfo
+- name: DiskEncryptionKeyInfo
+  description: Disk Encryption Key Information (BitLocker Encryption Key (BEK) on Windows).
+  kind: object
+  properties:
+  - name: secretIdentifier
+    description: The secret url / identifier.
+    types:
+    - uid: string
+  - name: keyVaultResourceArmId
+    description: The KeyVault resource ARM id for secret.
+    types:
+    - uid: string
+- name: KeyEncryptionKeyInfo
+  description: Key Encryption Key (KEK) information.
+  kind: object
+  properties:
+  - name: keyIdentifier
+    description: The key url / identifier.
+    types:
+    - uid: string
+  - name: keyVaultResourceArmId
+    description: The KeyVault resource ARM id for key.
+    types:
+    - uid: string
 examples:
 - name: Switches protection from one container to another or one replication provider to another.
   request:
-    uri: POST https://management.azure.com/Subscriptions/42195872-7e70-4f8a-837f-84b28ecbb78b/resourceGroups/priyanprg/providers/Microsoft.RecoveryServices/vaults/priyanponeboxvault/replicationFabrics/CentralUSCanSite/replicationProtectionContainers/CentralUSCancloud/switchprotection?api-version=2016-08-10
+    uri: POST https://management.azure.com/Subscriptions/42195872-7e70-4f8a-837f-84b28ecbb78b/resourceGroups/priyanprg/providers/Microsoft.RecoveryServices/vaults/priyanponeboxvault/replicationFabrics/CentralUSCanSite/replicationProtectionContainers/CentralUSCancloud/switchprotection?api-version=2018-07-10
     body: >-
       {
         "properties": {
@@ -257,10 +309,12 @@ examples:
       }
   - statusCode: "202"
 security:
-- type: oauth2
+- name: azure_auth
+  type: oauth2
   description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
     description: impersonate your user account.
+errorCodes: []
