@@ -470,7 +470,7 @@ Errors occur when types of left and right sides do not agree, or operation is no
     Here are examples given properties "p1" and "p2" of type String and Double:
 
     | Predicate string | Equivalent strong-typed predicate string | Notes |
-    |--|--|--|--|
+    |--|--|--|
     | p1 = 'abc' | p1.String = 'abc' |  |
     | p1 = true | - | No p1 property of type Bool, so missing property error is emitted. |
     | p1 = NULL | p1.String = NULL AND p1.Double = NULL | For NULL right-hand side it is assumed that all matching properties should be NULL. |
@@ -489,7 +489,7 @@ All properties matching the right-hand side type are taken, and resulting expres
 Here are examples given properties "p1" of type String and Double and properties "p2" of type String and DateTime:
 
     | Predicate string | Equivalent strong-typed predicate string | Notes |
-    |--|--|--|--|
+    |--|--|--|
     | = 'abc' | p1.String = 'abc' OR p2.String = 'abc' |  |
     | != 'abc' | p1.String != 'abc' AND p2.String != 'abc' | Inversion of the preceding expression |
     | = 1.0 | p1.Double = 1.0 | |
