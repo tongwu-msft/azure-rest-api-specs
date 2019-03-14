@@ -411,6 +411,7 @@ The same set of Time Series Insights types is supported for predicate string.
 Unlike the JSON property reference expressions, a type for property can be omitted in which case a type is auto-resolved as it is explained below.
 
 Supported literals:
+
 | Primitive Type | Literals |
 |--|--|
 | Bool  | TRUE, FALSE |
@@ -421,15 +422,17 @@ Supported literals:
 |  | NULL |
 
 Supported operand types:
+
 | Operation | Supported Types | Notes |
-|--|--|--|--|
+|--|--|--|
 | <, >, <=, >= | Double, DateTime, TimeSpan | |
 | =, !=, <> | String, Bool, Double, DateTime, TimeSpan, NULL | <> is equivalent for != |
-| +, -, *, / | Double, DateTime, TimeSpan | |
+| +, -, \*, / | Double, DateTime, TimeSpan | |
 | IN | String, Bool, Double, DateTime, TimeSpan, NULL | All operands should be of the same type or be NULL constant. Multiple NULLs are equivalent to a single NULL. |
 | HAS | String | Only constant string literals are allowed at right-hand side. Empty string and NULL are not allowed. |
 
 Supported scalar functions:
+
 | Function name | Return value | Arguments | Example | Notes |
 |--|--|--|--|--|
 | utcNow | DateTime | None | utcNow() | Returns current time in UTC format. Function name is case-sensitive. |
