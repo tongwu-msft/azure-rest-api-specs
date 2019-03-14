@@ -1,21 +1,33 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.postgresql.servers.list
-name: List
+uid: management.azure.com.postgresql.replicas.listbyserver
+name: List By Server
 service: PostgreSQL
-groupName: Servers
+groupName: Replicas
 apiVersion: 2017-12-01
-summary: List all the servers in a given subscription.
+summary: List all the replicas for a given server.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/servers?api-version=2017-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}/Replicas?api-version=2017-12-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
   types:
   - uid: string
 - name: api-version
@@ -221,9 +233,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ServerList
+- name: ReplicasListByServer
   request:
-    uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/providers/Microsoft.DBforPostgreSQL/servers?api-version=2017-12-01
+    uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-master/Replicas?api-version=2017-12-01
   responses:
   - statusCode: "200"
     body: >-
@@ -231,105 +243,142 @@ examples:
         "value": [
           {
             "sku": {
-              "name": "B_Gen4_1",
-              "tier": "Basic",
-              "family": "Gen4",
-              "capacity": 1
-            },
-            "properties": {
-              "administratorLogin": "testuser",
-              "storageProfile": {
-                "storageMB": 5120,
-                "backupRetentionDays": 10,
-                "geoRedundantBackup": "Disabled"
-              },
-              "version": "9.5",
-              "sslEnforcement": "Enabled",
-              "userVisibleState": "Ready",
-              "fullyQualifiedDomainName": "pgtestsvc1.postgres.database.azure.com",
-              "earliestRestoreDate": "2018-03-04T21:01:55.1498475+00:00"
-            },
-            "location": "westus",
-            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforPostgreSQL/servers/pgtestsvc1",
-            "name": "pgtestsvc1",
-            "type": "Microsoft.DBforPostgreSQL/servers"
-          },
-          {
-            "sku": {
-              "name": "GP_Gen4_2",
+              "name": "GP_Gen4_16",
               "tier": "GeneralPurpose",
               "family": "Gen4",
-              "capacity": 2
+              "capacity": 16
             },
             "properties": {
-              "administratorLogin": "testuser",
+              "administratorLogin": "postgres",
               "storageProfile": {
-                "storageMB": 5120,
+                "storageMB": 2048000,
                 "backupRetentionDays": 7,
                 "geoRedundantBackup": "Disabled"
               },
               "version": "9.6",
-              "sslEnforcement": "Enabled",
+              "sslEnforcement": "Disabled",
               "userVisibleState": "Ready",
-              "fullyQualifiedDomainName": "pgtestsvc2.postgres.database.azure.com",
-              "earliestRestoreDate": "2018-03-07T21:01:55.1498475+00:00"
+              "fullyQualifiedDomainName": "testserver-replica1.postgres.database.azure.com",
+              "earliestRestoreDate": "2018-06-12T00:05:03.2695756+00:00",
+              "replicationRole": "Replica",
+              "masterServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-master",
+              "replicaCapacity": 0
             },
-            "location": "westus",
-            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforPostgreSQL/servers/pgtestsvc2",
-            "name": "pgtestsvc2",
+            "location": "westcentralus",
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-replica1",
+            "name": "testserver-replica1",
             "type": "Microsoft.DBforPostgreSQL/servers"
           },
           {
             "sku": {
-              "name": "GP_Gen4_4",
+              "name": "GP_Gen4_16",
               "tier": "GeneralPurpose",
               "family": "Gen4",
-              "capacity": 4
+              "capacity": 16
             },
             "properties": {
-              "administratorLogin": "testuser",
+              "administratorLogin": "postgres",
               "storageProfile": {
-                "storageMB": 204800,
-                "backupRetentionDays": 35,
-                "geoRedundantBackup": "Enabled"
-              },
-              "version": "9.6",
-              "sslEnforcement": "Enabled",
-              "userVisibleState": "Ready",
-              "fullyQualifiedDomainName": "pgtestsvc3.postgres.database.azure.com",
-              "earliestRestoreDate": "2018-03-01T00:11:08.55+00:00"
-            },
-            "location": "westus",
-            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg1/providers/Microsoft.DBforPostgreSQL/servers/pgtestsvc3",
-            "name": "pgtestsvc3",
-            "type": "Microsoft.DBforPostgreSQL/servers"
-          },
-          {
-            "sku": {
-              "name": "B_Gen4_2",
-              "tier": "Basic",
-              "family": "Gen4",
-              "capacity": 2
-            },
-            "properties": {
-              "administratorLogin": "cloudsa",
-              "storageProfile": {
-                "storageMB": 128000,
+                "storageMB": 2048000,
                 "backupRetentionDays": 7,
                 "geoRedundantBackup": "Disabled"
               },
               "version": "9.6",
-              "sslEnforcement": "Enabled",
+              "sslEnforcement": "Disabled",
               "userVisibleState": "Ready",
-              "fullyQualifiedDomainName": "pgtestsvc4.postgres.database.azure.com",
-              "earliestRestoreDate": "2018-03-14T21:08:24.637+00:00"
+              "fullyQualifiedDomainName": "testserver-replica2.postgres.database.azure.com",
+              "earliestRestoreDate": "2018-06-12T00:05:03.2695756+00:00",
+              "replicationRole": "Replica",
+              "masterServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-master",
+              "replicaCapacity": 0
             },
-            "location": "westus",
-            "tags": {
-              "ElasticServer": "1"
+            "location": "westcentralus",
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-replica2",
+            "name": "testserver-replica2",
+            "type": "Microsoft.DBforPostgreSQL/servers"
+          },
+          {
+            "sku": {
+              "name": "GP_Gen4_16",
+              "tier": "GeneralPurpose",
+              "family": "Gen4",
+              "capacity": 16
             },
-            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforPostgreSQL/servers/pgtestsvc4",
-            "name": "pgtestsvc4",
+            "properties": {
+              "administratorLogin": "postgres",
+              "storageProfile": {
+                "storageMB": 2048000,
+                "backupRetentionDays": 7,
+                "geoRedundantBackup": "Disabled"
+              },
+              "version": "9.6",
+              "sslEnforcement": "Disabled",
+              "userVisibleState": "Ready",
+              "fullyQualifiedDomainName": "testserver-replica3.postgres.database.azure.com",
+              "earliestRestoreDate": "2018-06-12T00:05:03.2695756+00:00",
+              "replicationRole": "Replica",
+              "masterServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-master",
+              "replicaCapacity": 0
+            },
+            "location": "westcentralus",
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-replica3",
+            "name": "testserver-replica3",
+            "type": "Microsoft.DBforPostgreSQL/servers"
+          },
+          {
+            "sku": {
+              "name": "GP_Gen4_16",
+              "tier": "GeneralPurpose",
+              "family": "Gen4",
+              "capacity": 16
+            },
+            "properties": {
+              "administratorLogin": "postgres",
+              "storageProfile": {
+                "storageMB": 2048000,
+                "backupRetentionDays": 7,
+                "geoRedundantBackup": "Disabled"
+              },
+              "version": "9.6",
+              "sslEnforcement": "Disabled",
+              "userVisibleState": "Ready",
+              "fullyQualifiedDomainName": "testserver-replica4.postgres.database.azure.com",
+              "earliestRestoreDate": "2018-06-12T00:05:03.2695756+00:00",
+              "replicationRole": "Replica",
+              "masterServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-master",
+              "replicaCapacity": 0
+            },
+            "location": "westcentralus",
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-replica4",
+            "name": "testserver-replica4",
+            "type": "Microsoft.DBforPostgreSQL/servers"
+          },
+          {
+            "sku": {
+              "name": "GP_Gen4_16",
+              "tier": "GeneralPurpose",
+              "family": "Gen4",
+              "capacity": 16
+            },
+            "properties": {
+              "administratorLogin": "postgres",
+              "storageProfile": {
+                "storageMB": 2048000,
+                "backupRetentionDays": 7,
+                "geoRedundantBackup": "Disabled"
+              },
+              "version": "9.6",
+              "sslEnforcement": "Disabled",
+              "userVisibleState": "Ready",
+              "fullyQualifiedDomainName": "testserver-replica5.postgres.database.azure.com",
+              "earliestRestoreDate": "2018-06-12T00:05:03.2695756+00:00",
+              "replicationRole": "Replica",
+              "masterServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-master",
+              "replicaCapacity": 0
+            },
+            "location": "westcentralus",
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-replica5",
+            "name": "testserver-replica5",
             "type": "Microsoft.DBforPostgreSQL/servers"
           }
         ]

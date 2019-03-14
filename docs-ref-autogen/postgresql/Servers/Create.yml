@@ -63,6 +63,7 @@ requestBody:
     - uid: ServerPropertiesForDefaultCreate
     - uid: ServerPropertiesForRestore
     - uid: ServerPropertiesForGeoRestore
+    - uid: ServerPropertiesForReplica
     typesTitle: ServerPropertiesForCreate
   - name: location
     in: body
@@ -141,6 +142,18 @@ definitions:
     description: Storage profile of a server.
     types:
     - uid: StorageProfile
+  - name: properties.replicationRole
+    description: The replication role of the server.
+    types:
+    - uid: string
+  - name: properties.masterServerId
+    description: The master server id of a replica server.
+    types:
+    - uid: string
+  - name: properties.replicaCapacity
+    description: The maximum number of replicas that a master server can have.
+    types:
+    - uid: integer
   - name: location
     description: The location the resource resides in.
     types:
@@ -182,6 +195,7 @@ definitions:
     - uid: ServerPropertiesForDefaultCreate
     - uid: ServerPropertiesForRestore
     - uid: ServerPropertiesForGeoRestore
+    - uid: ServerPropertiesForReplica
     typesTitle: ServerPropertiesForCreate
   - name: location
     description: The location the resource resides in.
@@ -290,6 +304,31 @@ definitions:
     description: The mode to create a new server.
     types:
     - uid: GeoRestore
+    typesTitle: string
+- name: ServerPropertiesForReplica
+  description: The properties to create a new replica.
+  kind: object
+  properties:
+  - name: sourceServerId
+    description: The master server id to create replica from.
+    types:
+    - uid: string
+  - name: version
+    description: Server version.
+    types:
+    - uid: ServerVersion
+  - name: sslEnforcement
+    description: Enable ssl enforcement or not when connect to server.
+    types:
+    - uid: SslEnforcementEnum
+  - name: storageProfile
+    description: Storage profile of a server.
+    types:
+    - uid: StorageProfile
+  - name: createMode
+    description: The mode to create a new server.
+    types:
+    - uid: Replica
     typesTitle: string
 - name: ServerVersion
   description: The version of a server.
@@ -611,6 +650,85 @@ examples:
         },
         "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforPostgreSQL/servers/targetserver",
         "name": "targetserver",
+        "type": "Microsoft.DBforPostgreSQL/servers"
+      }
+  - statusCode: "202"
+- name: Create a replica server
+  request:
+    uri: PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-replica1?api-version=2017-12-01
+    body: >-
+      {
+        "location": "westcentralus",
+        "properties": {
+          "createMode": "Replica",
+          "sourceServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-master"
+        },
+        "sku": {
+          "name": "GP_Gen5_2",
+          "tier": "GeneralPurpose",
+          "family": "Gen5",
+          "capacity": 2
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "name": "GP_Gen5_2",
+          "tier": "GeneralPurpose",
+          "family": "Gen5",
+          "capacity": 2
+        },
+        "properties": {
+          "administratorLogin": "postgres",
+          "storageProfile": {
+            "storageMB": 2048000,
+            "backupRetentionDays": 7,
+            "geoRedundantBackup": "Disabled"
+          },
+          "version": "9.6",
+          "sslEnforcement": "Disabled",
+          "userVisibleState": "Ready",
+          "fullyQualifiedDomainName": "testserver-replica1.postgres.database.azure.com",
+          "earliestRestoreDate": "2018-06-20T00:17:56.677+00:00",
+          "replicationRole": "Replica",
+          "masterServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-master",
+          "replicaCapacity": 0
+        },
+        "location": "westcentralus",
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-replica1",
+        "name": "testserver-replica1",
+        "type": "Microsoft.DBforPostgreSQL/servers"
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "name": "GP_Gen5_2",
+          "tier": "GeneralPurpose",
+          "family": "Gen4",
+          "capacity": 2
+        },
+        "properties": {
+          "administratorLogin": "postgres",
+          "storageProfile": {
+            "storageMB": 2048000,
+            "backupRetentionDays": 7,
+            "geoRedundantBackup": "Disabled"
+          },
+          "version": "9.6",
+          "sslEnforcement": "Disabled",
+          "userVisibleState": "Ready",
+          "fullyQualifiedDomainName": "testserver-replica1.postgres.database.azure.com",
+          "earliestRestoreDate": "2018-06-20T00:17:56.677+00:00",
+          "replicationRole": "Replica",
+          "masterServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-master",
+          "replicaCapacity": 0
+        },
+        "location": "westcentralus",
+        "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup_WestCentralUS/providers/Microsoft.DBforPostgreSQL/servers/testserver-replica1",
+        "name": "testserver-replica1",
         "type": "Microsoft.DBforPostgreSQL/servers"
       }
   - statusCode: "202"

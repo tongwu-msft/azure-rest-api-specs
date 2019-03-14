@@ -4665,6 +4665,8 @@
 ### [List By Server](postgresql/LogFiles/ListByServer.yml)
 ## [Operations](postgresql/Operations.yml)
 ### [List](postgresql/Operations/List.yml)
+## [Replicas](postgresql/Replicas.yml)
+### [List By Server](postgresql/Replicas/ListByServer.yml)
 ## [Server Security Alert Policies](postgresql/ServerSecurityAlertPolicies.yml)
 ### [Create Or Update](postgresql/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
 ### [Get](postgresql/ServerSecurityAlertPolicies/Get.yml)
