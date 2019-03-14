@@ -1,7 +1,7 @@
 ---
 title: "Understanding Block Blobs, Append Blobs, and Page Blobs"
 ms.custom: na
-ms.date: 06/04/2018
+ms.date: 03/14/2019
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -54,7 +54,7 @@ The storage service offers three types of blobs, *block blobs*, *append blobs*, 
 ## About Page Blobs  
  Page blobs are a collection of 512-byte pages optimized for random read and write operations. To create a page blob, you initialize the page blob and specify the maximum size the page blob will grow. To add or update the contents of a page blob, you write a page or pages by specifying an offset and a range that align to 512-byte page boundaries. A write to a page blob can overwrite just one page, some pages, or up to 4 MB of the page blob. Writes to page blobs happen in-place and are immediately committed to the blob. The maximum size for a page blob is 8 TB.  
   
- With the introduction of new Premium Storage, Microsoft Azure now offers two types of durable storage: **Premium Storage** and **Standard Storage**. Premium Storage is specifically designed for Azure Virtual Machine workloads requiring consistent high performance and low latency. Premium Storage is currently available only for storing data on disks used by Azure Virtual Machines. These disks are backed by page blobs in Azure Storage. For detailed information, see [Premium Storage: High-Performance Storage for Azure Virtual Machine Workloads](http://go.microsoft.com/fwlink/?LinkId=521898). For information on the scalability targets for Premium Storage, see [Azure Storage Scalability and Performance Targets](/azure/storage/storage-scalability-targets).  
+Azure virtual machine disks are backed by page blobs. Azure offers two types of durable disk storage: premium and standard. Premium storage for page blobs is designed for Azure virtual machine workloads that require consistent high performance and low latency. For detailed information, see the **Premium solid-state drives (SSD)** section of the article [Select a disk type for IaaS VMs](https://docs.microsoft.com/azure/virtual-machines/windows/disks-types#premium-ssd). For information about the scalability targets for premium storage for page blobs, see [Azure Storage Scalability and Performance Targets](/azure/storage/storage-scalability-targets).
   
 ## About Append Blobs  
  An append blob is comprised of blocks and is optimized for append operations. When you modify an append blob, blocks are added to the end of the blob only, via the [Append Block](Append-Block.md) operation. Updating or deleting of existing blocks is not supported. Unlike a block blob, an append blob does not expose its block IDs.  
