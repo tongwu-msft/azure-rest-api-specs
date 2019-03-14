@@ -519,6 +519,7 @@ JSON example:
 **Dimension expressions** are used inside *aggregates clause* to partition a set of events and assign a scalar key to each partition.
 
 Dimension expression types:
+
 | Property name in JSON | Description | Example |
 |-|-|-|
 | `"uniqueValues"` | Dimension values in the result are exact values of a given property. |  |
@@ -741,8 +742,9 @@ One more example is to use **First** to find a device reporting the lowest press
 
 
 Supported dimension and measure expressions depending on property type:
+
 | Property Type | Supported Dimension Expressions | Supported Measure Expressions |
-|-|-|-|-|
+|-|-|-|
 | Bool | `"uniqueValues"` | `"first"` (input), `"last"` (input) |
 | DateTime | `"uniqueValues"`, `"dateHistogram"` | `"min"`, `"max"`, `"first"` (orderBy, input), `"last”` (orderBy, input)|
 | Double | `"uniqueValues"`, `"numericHistogram"` | `"sum"`, `"avg"`, `"min"`, `"max"`,`"first"` (orderBy, input), `"last”` (orderBy, input) |
