@@ -330,6 +330,7 @@ JSON example:
 ```
 
 The following table shows supported types of arguments for each of the comparison expressions:
+
 | Operation | Left type | Right type | Result type |
 |-|-|-|-|
 | `add` | Double | Double | Double |
