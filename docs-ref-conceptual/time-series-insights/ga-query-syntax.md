@@ -330,6 +330,7 @@ JSON example:
 ```
 
 The following table shows supported types of arguments for each of the comparison expressions:
+
 | Operation | Left type | Right type | Result type |
 |-|-|-|-|
 | `add` | Double | Double | Double |
@@ -410,6 +411,7 @@ The same set of Time Series Insights types is supported for predicate string.
 Unlike the JSON property reference expressions, a type for property can be omitted in which case a type is auto-resolved as it is explained below.
 
 Supported literals:
+
 | Primitive Type | Literals |
 |--|--|
 | Bool  | TRUE, FALSE |
@@ -420,15 +422,17 @@ Supported literals:
 |  | NULL |
 
 Supported operand types:
+
 | Operation | Supported Types | Notes |
-|--|--|--|--|
+|--|--|--|
 | <, >, <=, >= | Double, DateTime, TimeSpan | |
 | =, !=, <> | String, Bool, Double, DateTime, TimeSpan, NULL | <> is equivalent for != |
-| +, -, *, / | Double, DateTime, TimeSpan | |
+| +, -, \*, / | Double, DateTime, TimeSpan | |
 | IN | String, Bool, Double, DateTime, TimeSpan, NULL | All operands should be of the same type or be NULL constant. Multiple NULLs are equivalent to a single NULL. |
 | HAS | String | Only constant string literals are allowed at right-hand side. Empty string and NULL are not allowed. |
 
 Supported scalar functions:
+
 | Function name | Return value | Arguments | Example | Notes |
 |--|--|--|--|--|
 | utcNow | DateTime | None | utcNow() | Returns current time in UTC format. Function name is case-sensitive. |
@@ -466,7 +470,7 @@ Errors occur when types of left and right sides do not agree, or operation is no
     Here are examples given properties "p1" and "p2" of type String and Double:
 
     | Predicate string | Equivalent strong-typed predicate string | Notes |
-    |--|--|--|--|
+    |--|--|--|
     | p1 = 'abc' | p1.String = 'abc' |  |
     | p1 = true | - | No p1 property of type Bool, so missing property error is emitted. |
     | p1 = NULL | p1.String = NULL AND p1.Double = NULL | For NULL right-hand side it is assumed that all matching properties should be NULL. |
@@ -485,7 +489,7 @@ All properties matching the right-hand side type are taken, and resulting expres
 Here are examples given properties "p1" of type String and Double and properties "p2" of type String and DateTime:
 
     | Predicate string | Equivalent strong-typed predicate string | Notes |
-    |--|--|--|--|
+    |--|--|--|
     | = 'abc' | p1.String = 'abc' OR p2.String = 'abc' |  |
     | != 'abc' | p1.String != 'abc' AND p2.String != 'abc' | Inversion of the preceding expression |
     | = 1.0 | p1.Double = 1.0 | |
@@ -515,6 +519,7 @@ JSON example:
 **Dimension expressions** are used inside *aggregates clause* to partition a set of events and assign a scalar key to each partition.
 
 Dimension expression types:
+
 | Property name in JSON | Description | Example |
 |-|-|-|
 | `"uniqueValues"` | Dimension values in the result are exact values of a given property. |  |
@@ -737,8 +742,9 @@ One more example is to use **First** to find a device reporting the lowest press
 
 
 Supported dimension and measure expressions depending on property type:
+
 | Property Type | Supported Dimension Expressions | Supported Measure Expressions |
-|-|-|-|-|
+|-|-|-|
 | Bool | `"uniqueValues"` | `"first"` (input), `"last"` (input) |
 | DateTime | `"uniqueValues"`, `"dateHistogram"` | `"min"`, `"max"`, `"first"` (orderBy, input), `"last”` (orderBy, input)|
 | Double | `"uniqueValues"`, `"numericHistogram"` | `"sum"`, `"avg"`, `"min"`, `"max"`,`"first"` (orderBy, input), `"last”` (orderBy, input) |
