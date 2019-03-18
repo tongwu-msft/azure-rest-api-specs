@@ -1,7 +1,7 @@
 ---
 title: "Create Index (Azure Search Service REST API) | Microsoft Docs"
 description: Define an index schema for fields and other constructs in an Azure Search index.
-ms.date: "01/03/2019"
+ms.date: "03/18/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -21,7 +21,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Index (Azure Search Service REST API)
-  An index is the primary means of organizing and searching documents in Azure Search, similar to how a table organizes records in a database. Each index has a collection of documents that all conform to the index schema (field names, data types, and properties), but indexes also specify additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.  
+  An [index](https://docs.microsoft.com/azure/search/search-what-is-an-index) is the primary means of organizing and searching documents in Azure Search, similar to how a table organizes records in a database. Each index has a collection of documents that all conform to the index schema (field names, data types, and properties), but indexes also specify additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.  
 
  You can create a new index within an Azure Search service using an HTTP POST or PUT request. The body of the request is a JSON schema that specifies the index and configuration information.  
 

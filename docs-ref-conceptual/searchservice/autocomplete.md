@@ -1,7 +1,7 @@
 ---
 title: "Autocomplete (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "2018-12-14"
+ms.date: "03/18/2019"
 services: search
 ms.service: search
 ms.suite: ""
@@ -84,7 +84,7 @@ api-key: [admin or query key]
  Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Autocomplete** using POST, or when using the [Azure Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet) handles URL encoding for you.  
 
 ### Query Parameters  
- **Autocomplete** accepts several parameters that provide query criteria and specify search behavior. You provide these parameters in the URL query string when calling **Autocomplete** via GET, and as JSON properties in the request body when calling **Autocomplete** via POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted in the following table.  
+ **Autocomplete** accepts several [query parameters](https://docs.microsoft.com/azure/search/search-query-overview) that provide criteria and specify search behavior. You provide these parameters in the URL query string when calling **Autocomplete** via GET, and as JSON properties in the request body when calling **Autocomplete** via POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted in the following table.  
 
 |Parameter|Description|  
 |---------------|-----------------|  
@@ -221,6 +221,8 @@ api-key: [admin or query key]
  Notice that **suggesterName** is required in an Autocomplete operation.  
 
 ## See also  
+ [Examples showing simple query syntax](https://docs.microsoft.com/azure/search/search-query-simple-examples)
+ [Examples showing full Lucene query syntax](https://docs.microsoft.com/azure/search/search-query-lucene-examples)
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters)   

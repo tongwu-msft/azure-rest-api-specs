@@ -59,3 +59,4 @@ api-key: [admin key]
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [OData Expression Syntax for Azure Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
  [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)  
+ [Search results page](https://docs.microsoft.com/azure/search/search-pagination-page-layout)
