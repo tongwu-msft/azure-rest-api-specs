@@ -1,7 +1,7 @@
 ---
 title: "Add, Update or Delete Documents (Azure Search Service REST API) | Microsoft Docs"
 description: Refresh an Azure Search with incremental indexing to replace, remove, or create new index entries.
-ms.date: "06/04/2018"
+ms.date: "03/18/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -21,7 +21,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Add, Update or Delete Documents (Azure Search Service REST API)
-You can upload, merge or delete documents from a specified index using HTTP POST. For large numbers of updates, batching of documents (up to 1000 documents per batch, or about 16 MB per batch) is recommended.  
+You can [upload, merge or delete documents](https://docs.microsoft.com/azure/search/search-what-is-data-import) from a specified index using HTTP POST. For large numbers of updates, batching of documents (up to 1000 documents per batch, or about 16 MB per batch) is recommended.  
 
 ```  
 POST https://[service name].search.windows.net/indexes/[index name]/docs/index?api-version=[api-version]   
@@ -30,7 +30,7 @@ api-key: [admin key]
 ```  
 
 > [!NOTE]  
->  For supported data sources, indexers offer an alternative methodology for loading and refreshing rowsets to Azure Search on an ad hoc or scheduled basis. See [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md) for details.  
+>  For supported data sources, [indexers](https://docs.microsoft.com/azure/search/search-indexer-overview) offer an alternative methodology for loading and refreshing rowsets to Azure Search on an ad hoc or scheduled basis. See [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md) for details.  
 
 ## Request  
 HTTPS is required for all service requests. You can upload, merge, merge-or-upload, or delete documents from a specified index using HTTP POST.  
@@ -143,7 +143,7 @@ Status code: 207 is returned when at least one item was not successfully indexed
 
 The errorMessage property will indicate the reason for the indexing error if possible.  
 
-The following table explains the various per-document status codes that can be returned in the response. Some status codes indicate problems with the request itself, while others indicate temporary error conditions. The latter you should retry after a delay.
+The following table explains the various per-document [status codes](http-status-codes.md) that can be returned in the response. Some status codes indicate problems with the request itself, while others indicate temporary error conditions. The latter you should retry after a delay.
 
 |Status code|Meaning|Retryable|Notes|
 |-----------|-------|---------|-----| 
