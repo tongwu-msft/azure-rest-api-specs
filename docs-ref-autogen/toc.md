@@ -3084,7 +3084,7 @@
 ### [List](dns/Zones/List.yml)
 ### [List By Resource Group](dns/Zones/ListByResourceGroup.yml)
 ### [Update](dns/Zones/Update.yml)
-# [Edge Gate Way](../docs-ref-conceptual/databoxedge/index.md)
+# [Edge Gate Way](../docs-ref-conceptual/edgegateway/index.md)
 ## [Alerts](edgegateway/Alerts.yml)
 ### [Get](edgegateway/Alerts/Get.yml)
 ### [List By Data Box Edge Device](edgegateway/Alerts/ListByDataBoxEdgeDevice.yml)
