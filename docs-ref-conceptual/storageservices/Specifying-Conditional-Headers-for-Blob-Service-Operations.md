@@ -177,8 +177,6 @@ Several Blob service operations support the use of conditional headers. You can 
   
 -   [Create Container](Create-Container.md)  
   
--   [Get Block List](Get-Block-List.md)  
-  
 -   [Get Container ACL](Get-Container-ACL.md)  
   
 -   [Get Container Metadata](Get-Container-Metadata.md)  
