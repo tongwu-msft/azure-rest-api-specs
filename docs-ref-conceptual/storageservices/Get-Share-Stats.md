@@ -78,7 +78,7 @@ The `Get Share Stats` request retrieves statistics related to the share.
 ```  
 <?xml version="1.0" encoding="utf-8"?>  
 <ShareStats>  
-   <ShareUsageBytes>15</ShareUsageBytes>  
+   <ShareUsageBytes>8189134192</ShareUsageBytes>  
 </ShareStats>  
 ```  
   
