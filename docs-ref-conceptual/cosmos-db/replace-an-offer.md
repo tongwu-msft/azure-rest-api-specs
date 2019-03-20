@@ -176,7 +176,7 @@ Date: Tue, 29 Mar 2016 17:50:20 GMT
 
  To learn more about the maximum and minimum provisioned throughput that can be set on a container or a database, see the [Provision throughput on containers and databases](https://docs.microsoft.com/azure/cosmos-db/set-throughput) article.    
  
-Perform GET on the offer resource to retrieve the minimum throughput that could be set for a given container or a database.  The response header x-ms-cosmos-min-throughput denotes the system determined minimum throughput.  
+Perform GET on the offer resource to retrieve the minimum throughput that could be set for a given container or a database. The response header `x-ms-cosmos-min-throughput` denotes the system determined minimum throughput.
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
