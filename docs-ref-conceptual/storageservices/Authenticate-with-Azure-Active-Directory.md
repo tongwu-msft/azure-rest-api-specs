@@ -1,16 +1,12 @@
 ---
-title: "Authenticate with Azure Active Directory (Preview)"
+title: "Authenticate with Azure Active Directory"
 ms.custom: na
 ms.date: 03/13/2019
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
 ms.author: tamram
-ms.assetid: 96cec7bc-63cc-4227-920a-dddd850433c9
-caps.latest.revision: 63
 author: tamram
 translation.priority.mt: 
   - de-de
@@ -25,11 +21,11 @@ translation.priority.mt:
   - zh-tw
 ---
 
-# Authenticate with Azure Active Directory (Preview)
+# Authenticate with Azure Active Directory
 
 Azure Storage provides integration with [Azure Active Directory (Azure AD)](https://docs.microsoft.com/azure/active-directory/fundamentals/active-directory-whatis) for identity-based authentication of requests to the Blob and Queue services. With Azure AD, you can use role-based access control (RBAC) to grant access to your Azure Storage resources to users, groups, or applications. You can grant permissions that are scoped to the level of an individual container or queue. 
 
-To learn more about Azure AD integration in Azure Storage and about the preview, see [Authenticating requests to Azure Storage using Azure Active Directory (Preview)](https://docs.microsoft.com/azure/storage/common/storage-auth-aad).
+To learn more about Azure AD integration in Azure Storage, see [Authenticating requests to Azure Storage using Azure Active Directory](https://docs.microsoft.com/azure/storage/common/storage-auth-aad).
 
 For more information on the advantages of using Azure AD in your application, see [Integrating with Azure Active Directory](https://docs.microsoft.com/azure/active-directory/develop/active-directory-how-to-integrate). 
 
@@ -67,20 +63,19 @@ Azure AD handles the authorization of access to secured resources through RBAC. 
 
 For Azure Storage, you can grant access to data in a container or queue in the storage account. Azure Storage offers these built-in RBAC roles for use with Azure AD:
 
-- [Storage Blob Data Contributor (Preview)](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor-preview)
-- [Storage Blob Data Reader (Preview)](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-reader-preview)
-- [Storage Queue Data Contributor (Preview)](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-queue-data-contributor-preview)
-- [Storage Queue Data Reader (Preview)](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-queue-data-reader-preview)
+- [Storage Blob Data Owner](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-owner-preview)
+- [Storage Blob Data Contributor](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor-preview)
+- [Storage Blob Data Reader](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-reader-preview)
+- [Storage Queue Data Contributor](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-queue-data-contributor-preview)
+- [Storage Queue Data Reader](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-queue-data-reader-preview)
 
-For more information about how built-in roles are defined for Azure Storage, see [Understand role definitions](https://docs.microsoft.com/azure/role-based-access-control/role-definitions#management-and-data-operations-preview).
+For more information about how built-in roles are defined for Azure Storage, see [Understand role definitions for Azure resources](https://docs.microsoft.com/azure/role-based-access-control/role-definitions).
 
 You can also define custom roles for use with Blob storage and Azure Queues. For more information, see [Create custom roles for Azure Role-Based Access Control](https://docs.microsoft.com/azure/role-based-access-control/custom-roles.md). 
 
 ## Permissions for calling REST operations
 
 The following tables describe the permissions necessary for an Azure AD user, group, or service principal to call specific Azure Storage operations. To enable a client to call a particular operation, ensure that the client's assigned RBAC role offers sufficient permissions for that operation.
-
-For more details about the RBAC actions shown below, see [Management and data operations (Preview)](https://docs.microsoft.com/azure/role-based-access-control/role-definitions#management-and-data-operations-preview).
 
 ### Permissions for Blob service operations
 
@@ -142,6 +137,4 @@ For more details about the RBAC actions shown below, see [Management and data op
 | [Update Message](https://docs.microsoft.com/rest/api/storageservices/fileservices/update-message)                             | Microsoft.Storage/storageAccounts/queueServices/queues/messages/write                                                                                                                                                             |
 ## See also
 
-- [Announcing the Preview of Azure AD Authentication for Azure Storage](https://azure.microsoft.com/blog/announcing-the-preview-of-aad-authentication-for-storage/).
 - [Authorization for the Azure Storage Services](authorization-for-the-azure-storage-services.md)
-
