@@ -103,7 +103,7 @@ api-key: [admin or query key]
 ```  
 {  
       "filter": "odata_filter_expression",  
-         "fuzzy": true | false (default),  
+      "fuzzy": true | false (default),  
       "highlightPreTag": "pre_tag",  
       "highlightPostTag": "post_tag",  
       "minimumCoverage": # (% of index that must be covered to declare query successful; default 80),  
@@ -111,7 +111,7 @@ api-key: [admin or query key]
       "search": "partial_search_input",  
       "searchFields": "field_name_1, field_name_2, ...",  
       "select": "field_name_1, field_name_2, ...",  
-         "suggesterName": "suggester_name",  
+      "suggesterName": "suggester_name",  
       "top": # (default 5)  
     }  
 ```  
