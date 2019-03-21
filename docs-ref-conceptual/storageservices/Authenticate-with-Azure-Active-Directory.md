@@ -35,7 +35,7 @@ Azure Storage accepts OAuth 2.0 access tokens from the Azure AD tenant associate
 
 - Users
 - Service principals 
-- Managed service identities
+- Managed service identities for Azure resources
 - Applications using permissions delegated by users 
 
 Azure Storage exposes a single delegation scope named `user_impersonation` that permits applications to take any action allowed by the user.
@@ -51,10 +51,34 @@ For more information about requesting access tokens for resources configured wit
 To call Blob and Queue service operations using OAuth access tokens, pass the access token in the **Authorization** header using the **Bearer** scheme, and specify a service version of 2017-11-09 or higher, as shown in the following example:
 
 ```
-GET /container/file.txt HTTP/1.1
-Host: mystorageaccount.blob.core.windows.net
+Request:
+GET /container/file.txt
 x-ms-version: 2017-11-09
-Authorization: Bearer eyJ0eXAiOnJKV1...Xd6j
+Authorization: Bearer eyJ0eXAiO...V09ccgQ
+User-Agent: PostmanRuntime/7.6.0
+Accept: */*
+Host: sampleoautheast2.blob.core.windows.net
+accept-encoding: gzip, deflate
+
+Response:
+HTTP/1.1 200
+status: 200
+Content-Length: 28
+Content-Type: text/plain
+Content-MD5: dxG7IgOBzApXPcGHxGg5SA==
+Last-Modified: Wed, 30 Jan 2019 07:21:32 GMT
+Accept-Ranges: bytes
+ETag: "0x8D686838F9E8BA7"
+Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
+x-ms-request-id: 09f31964-e01e-00a3-8066-d4e6c2000000
+x-ms-version: 2017-11-09
+x-ms-creation-time: Wed, 29 Aug 2018 04:22:47 GMT
+x-ms-lease-status: unlocked
+x-ms-lease-state: available
+x-ms-blob-type: BlockBlob
+x-ms-server-encrypted: true
+Date: Wed, 06 Mar 2019 21:50:50 GMT
+Welcome to Azure Storage!!
 ```    
 
 ## Manage access rights with RBAC
