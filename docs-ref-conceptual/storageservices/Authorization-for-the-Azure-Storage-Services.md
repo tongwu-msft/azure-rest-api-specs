@@ -1,9 +1,7 @@
 ﻿---
 title: "Authorization for the Azure Storage Services"
-ms.custom: na
 ms.date: 05/21/2018
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
 ms.topic: reference
 ms.author: tamram
@@ -33,5 +31,8 @@ Options for authorizing requests to Azure Storage include:
 - **Anonymous access to containers and blobs:** You can optionally make blob resources public at the container or blob level. A public container or blob is accessible to any user for anonymous read access. Read requests to public containers and blobs do not require authorization. For more information, see [Enable public read access for containers and blobs in Azure Blob storage](https://docs.microsoft.com/azure/storage/blobs/storage-manage-access-to-resources).
 
 > [!TIP]
-> Authorizing applications that access Azure Storage using Azure AD provides superior security and ease of use over other authorization options. While you can continue to use Shared Key authorization with your applications, using Azure AD circumvents the need to store your account access key with your code. Similarly, you can continue to use shared access signatures (SAS) to grant fine-grained access to resources in your storage account, but Azure AD offers similar capabilities without the need to manage SAS tokens or worry about revoking a compromised SAS. For more information about Azure AD integration in Azure Storage, see [Authenticating requests to Azure Storage using Azure Active Directory](https://docs.microsoft.com/azure/storage/common/storage-auth-aad).
-  
+> Authenticating and authorizing access to blob and queue data with Azure AD provides superior security and ease of use over other authorization options. For example, by using Azure AD, you avoid having to store your account access key with your code, as you do with Shared Key authorization. While you can continue to use Shared Key authorization with your blob and queue applications, Microsoft recommends moving to Azure AD where possible.
+>
+> Similarly, you can continue to use shared access signatures (SAS) to grant fine-grained access to resources in your storage account, but Azure AD offers similar capabilities without the need to manage SAS tokens or worry about revoking a compromised SAS.
+>
+> For more information about Azure AD integration in Azure Storage, see [Authenticating requests to Azure Storage using Azure Active Directory](https://docs.microsoft.com/azure/storage/common/storage-auth-aad).

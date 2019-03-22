@@ -1,9 +1,7 @@
 ---
 title: "Authenticate with Azure Active Directory"
-ms.custom: na
 ms.date: 03/13/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
 ms.topic: reference
 ms.author: tamram
@@ -28,6 +26,13 @@ Azure Storage provides integration with [Azure Active Directory (Azure AD)](http
 To learn more about Azure AD integration in Azure Storage, see [Authenticating requests to Azure Storage using Azure Active Directory](https://docs.microsoft.com/azure/storage/common/storage-auth-aad).
 
 For more information on the advantages of using Azure AD in your application, see [Integrating with Azure Active Directory](https://docs.microsoft.com/azure/active-directory/develop/active-directory-how-to-integrate). 
+
+> [!TIP]
+> Authenticating and authorizing access to blob and queue data with Azure AD provides superior security and ease of use over other authorization options. For example, by using Azure AD, you avoid having to store your account access key with your code, as you do with Shared Key authorization. While you can continue to use Shared Key authorization with your blob and queue applications, Microsoft recommends moving to Azure AD where possible.
+>
+> Similarly, you can continue to use shared access signatures (SAS) to grant fine-grained access to resources in your storage account, but Azure AD offers similar capabilities without the need to manage SAS tokens or worry about revoking a compromised SAS.
+>
+> For more information about Azure AD integration in Azure Storage, see [Authenticating requests to Azure Storage using Azure Active Directory](https://docs.microsoft.com/azure/storage/common/storage-auth-aad).
 
 ## Use OAuth access tokens for authentication
 
