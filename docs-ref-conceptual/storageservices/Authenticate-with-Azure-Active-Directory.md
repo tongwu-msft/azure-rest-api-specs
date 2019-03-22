@@ -92,8 +92,8 @@ For Azure Storage, you can grant access to data in a container or queue in the s
 - [Storage Blob Data Reader](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-reader-preview)
 - [Storage Queue Data Contributor](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-queue-data-contributor-preview)
 - [Storage Queue Data Reader](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-queue-data-reader-preview)
-- [Storage Queue Data Message Processor](../articles/role-based-access-control/built-in-roles.md#storage-queue-data-message-processor-preview)
-- [Storage Queue Data Message Sender](../articles/role-based-access-control/built-in-roles.md#storage-queue-data-message-sender-preview)
+- [Storage Queue Data Message Processor](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-queue-data-message-processor-preview)
+- [Storage Queue Data Message Sender](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#storage-queue-data-message-sender-preview)
 
 For more information about how built-in roles are defined for Azure Storage, see [Understand role definitions for Azure resources](https://docs.microsoft.com/azure/role-based-access-control/role-definitions).
 
