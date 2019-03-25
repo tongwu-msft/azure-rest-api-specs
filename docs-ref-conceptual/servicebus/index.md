@@ -23,7 +23,7 @@ The REST APIs fall into the following categories:
 - **"Classic" or RDFE management**: APIs that provide programmatic access to much of the functionality available through the Azure portal. These APIs have `management.core.windows.net` in the URI.  
 
 > [!IMPORTANT]
-> RDFE APIs will be [**obsolete and retired**](https://blogs.msdn.microsoft.com/servicebus/2018/11/01/deprecating-service-management-support-for-azure-service-bus-relay-and-event-hubs/) on November 1, 2019 and should no longer be used.
+> RDFE APIs will be [**obsolete and retired**](https://techcommunity.microsoft.com/t5/Service-Bus-blog/Deprecating-Service-Management-support-for-Azure-Service-Bus/ba-p/370909/) on November 1, 2019 and should no longer be used.
 
 
 ## REST operation groups
@@ -53,7 +53,7 @@ Service Bus also has a set of [RDFE APIs](https://msdn.microsoft.com/library/dn2
 
 
 > [!IMPORTANT]
-> RDFE APIs will be [**obsolete and retired**](https://blogs.msdn.microsoft.com/servicebus/2018/11/01/deprecating-service-management-support-for-azure-service-bus-relay-and-event-hubs/) on November 1, 2019 and should no longer be used.
+> RDFE APIs will be [**obsolete and retired**](https://techcommunity.microsoft.com/t5/Service-Bus-blog/Deprecating-Service-Management-support-for-Azure-Service-Bus/ba-p/370909) on November 1, 2019 and should no longer be used.
 
 
 ## See also
