@@ -259,7 +259,7 @@ As with the request, most programming languages and frameworks make it easy to p
 
 The Create/Send/Process-Response pattern that's discussed in this article is synchronous and applies to all REST messages. However, some services also support an asynchronous pattern, which requires additional processing of response headers to monitor or complete the asynchronous request. For more information, see [Track asynchronous Azure operations][ARM-Async-Ops].
 
-Resource Manager applies a limit on the number of read and write requests per hour to prevent an application from sending too many requests. If your application exceeds those limits, requests are throttled. The response header includes the number of remaining requests for your scope. For more information, see [Throttling Resource Manager requests](resource-manager-request-limits.md).
+Resource Manager applies a limit on the number of read and write requests per hour to prevent an application from sending too many requests. If your application exceeds those limits, requests are throttled. The response header includes the number of remaining requests for your scope. For more information, see [Throttling Resource Manager requests](/azure/azure-resource-manager/resource-manager-request-limits).
 
 Some list operations return a property called `nextLink` in the response body. You see this property when the results are too large to return in one response. Typically, the response includes the nextLink property when the list operation returns more than 1,000 items. When nextLink isn't present in the results, the returned results are complete. When nextLink contains a URL, the returned results are just part of the total result set.
 
