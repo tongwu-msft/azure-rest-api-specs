@@ -5,7 +5,7 @@ keywords: Azure REST, Azure REST API Reference
 author: bryanla
 manager: douge
 ms.author: bryanla
-ms.date: 10/29/2018
+ms.date: 03/26/2019
 ms.topic: reference
 ms.prod: azure
 ms.technology: azure
@@ -258,6 +258,19 @@ And you should receive a response body that confirms the content of your newly a
 ```
 
 As with the request, most programming languages and frameworks make it easy to process the response message. They typically return this information to your application following the request, allowing you to process it in a typed/structured format. Mainly, you are interested in confirming the HTTP status code in the response header, and parsing the response body according to the API specification (or the `Content-Type` and `Content-Length` response header fields).
+
+Some list operations return a property called `nextLink` in the response body. You see this property when the results are too large to return in one response. Typically, the response includes the nextLink property when the list operation returns more than 1,000 items. When nextLink is null or not present in the results, the returned results are complete. When nextLink contains a URL, the returned results are just part of the total result set. Send a request to the URL to get the next page of the results. Continue sending requests to the nextLink URL until it no longer contains a URL in the returned results.
+
+The result is in the format:
+
+```json
+{
+  "value": [
+    <returned-items>
+  ],
+  "nextLink": "https://management.azure.com/{operation}?api-version={version}&%24skiptoken={token}"
+}
+```
 
 That's it. After you register your Azure AD application and have a modular technique for acquiring an access token and handling HTTP requests, it's fairly easy to replicate your code to take advantage of new REST APIs.
 
