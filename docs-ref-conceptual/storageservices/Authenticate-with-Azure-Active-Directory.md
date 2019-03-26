@@ -104,7 +104,7 @@ For more information about how built-in roles are defined for Azure Storage, see
 
 You can also define custom roles for use with Blob storage and Azure Queues. For more information, see [Create custom roles for Azure Role-Based Access Control](https://docs.microsoft.com/azure/role-based-access-control/custom-roles.md). 
 
-## Permissions for calling REST operations
+## Permissions for calling blob and queue data operations
 
 The following tables describe the permissions necessary for an Azure AD user, group, or service principal to call specific Azure Storage operations. To enable a client to call a particular operation, ensure that the client's assigned RBAC role offers sufficient permissions for that operation.
 
