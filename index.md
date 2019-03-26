@@ -70,10 +70,6 @@ A REST API request/response pair can be separated into five components:
 5. Optional HTTP **response message body** fields:
     * MIME-encoded response objects are returned in the HTTP response body, such as a response from a GET method that is returning data. Typically, these objects are returned in a structured format such as JSON or XML, as indicated by the `Content-type` response header. For example, when you request an access token from Azure AD, it is returned in the response body as the `access_token` element, one of several name/value paired objects in a data collection. In this example, a response header of `Content-Type: application/json` is also included.
 
-> [!NOTE] 
-> The Create/Send/Process-Response pattern that's discussed here is synchronous and applies to all REST messages. However, some services may also support an asynchronous pattern, which requires additional processing of response headers to monitor or complete the asynchronous request. For more information, see [Track asynchronous Azure operations][ARM-Async-Ops].
-> 
-
 ## Register your client application with Azure AD
 
 Most Azure services (such as [Azure Resource Manager providers][ARM-Provider-Summary] and the classic deployment model) require your client code to authenticate with valid credentials before you can call the service's API. Authentication is coordinated between the various actors by Azure AD, and provides your client with an [access token][AAD-Glossary-Access-Token] as proof of the authentication. The token is then sent to the Azure service in the HTTP Authorization header of subsequent REST API requests. The token's [claims][AAD-Glossary-Claim] also provide information to the service, allowing it to validate the client and perform any required authorization.
@@ -259,9 +255,13 @@ And you should receive a response body that confirms the content of your newly a
 
 As with the request, most programming languages and frameworks make it easy to process the response message. They typically return this information to your application following the request, allowing you to process it in a typed/structured format. Mainly, you are interested in confirming the HTTP status code in the response header, and parsing the response body according to the API specification (or the `Content-Type` and `Content-Length` response header fields).
 
-### Paged results
+## Async operations, throttling, and paging
 
-Some list operations return a property called `nextLink` in the response body. You see this property when the results are too large to return in one response. Typically, the response includes the nextLink property when the list operation returns more than 1,000 items. When nextLink is null or not present in the results, the returned results are complete. When nextLink contains a URL, the returned results are just part of the total result set.
+The Create/Send/Process-Response pattern that's discussed in this article is synchronous and applies to all REST messages. However, some services also support an asynchronous pattern, which requires additional processing of response headers to monitor or complete the asynchronous request. For more information, see [Track asynchronous Azure operations][ARM-Async-Ops].
+
+Resource Manager applies a limit on the number of read and write requests per hour to prevent an application from sending too many requests. If your application exceeds those limits, requests are throttled. The response header includes the number of remaining requests for your scope. For more information, see [Throttling Resource Manager requests](/azure/azure-resource-manager/resource-manager-request-limits).
+
+Some list operations return a property called `nextLink` in the response body. You see this property when the results are too large to return in one response. Typically, the response includes the nextLink property when the list operation returns more than 1,000 items. When nextLink isn't present in the results, the returned results are complete. When nextLink contains a URL, the returned results are just part of the total result set.
 
 The response is in the format:
 
@@ -274,7 +274,7 @@ The response is in the format:
 }
 ```
 
-To get the next page of the results, send a GET request to the URL in the nextLink property. Continue sending requests to the nextLink URL until it no longer contains a URL in the returned results.
+To get the next page of the results, send a GET request to the URL in the nextLink property. The URL includes a continuation token to indicate where you are in the results. Continue sending requests to the nextLink URL until it no longer contains a URL in the returned results.
 
 ## Related content
 
