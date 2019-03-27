@@ -27,7 +27,7 @@ translation.priority.mt:
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|PUT|`https://{databaseaccount}.documents.azure.com/offers/{_rid-offer}`|{databaseaccount} is the name of the Azure Cosmos DB account you created under your subscription. The {_rid-offer} value is the system generated resource ID of the offer.|  
+|PUT|`https://{databaseaccount}.documents.azure.com/offers/{_rid-offer}`|{databaseaccount} is the name of the Azure Cosmos DB account you created under your subscription. The {_rid-offer} value is the system-generated resource ID of the offer.|  
   
 ### Headers  
  See [Common Azure Cosmos DB REST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests  
@@ -41,8 +41,8 @@ translation.priority.mt:
 |**content**|Required|Contains information about the offer – for V2 offers, this value contains the throughput of the collection.|  
 |**resource**|Required|When creating a new collection, this property is set to the self-link of the collection for example, dbs/pLJdAA==/colls/pLJdAOlEdgA=/.|  
 |**offerResourceId**|Required|During creation of a collection, this property is automatically associated to the resource ID, that is, **_rid** of the collection. In the example above, the **_rid** for the collection is pLJdAOlEdgA=.|  
-|**id**|Required|It is a system generated property. The **ID** for the offer resource is automatically generated when it is created. It has the same value as the **_rid** for the offer.|  
-|**_rid**|Required|It is a system generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the offer.|  
+|**id**|Required|It is a system-generated property. The **ID** for the offer resource is automatically generated when it is created. It has the same value as the **_rid** for the offer.|  
+|**_rid**|Required|It is a system-generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the offer.|  
   
 ```  
 {   
@@ -85,11 +85,11 @@ translation.priority.mt:
 |**content**|  It contains information about the offer. For V2 offers, it contains the throughput of the collection.|  
 |**resource**|When creating a new collection, this property is set to the self-link of the collection for example, dbs/pLJdAA==/colls/pLJdAOlEdgA=/.|  
 |**offerResourceId**| During creation of a collection, this property is automatically associated to the resource ID, that is, **_rid** of the collection. In the example above, the **_rid** for the collection is  pLJdAOlEdgA=.|  
-|**id**|It is a system generated property. The **ID** for the offer resource is automatically generated when it is created. It has the same value as the **_rid** for the offer.|  
-|**_rid**|It is a system generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the offer.|  
-|**_ts**|It is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
-|**_self**|It is a system generated property. It is the unique addressable URI for the resource.|  
-|**_etag**|It is a system generated property that specifies the resource etag required for optimistic concurrency control.|  
+|**id**|It is a system-generated property. The **ID** for the offer resource is automatically generated when it is created. It has the same value as the **_rid** for the offer.|  
+|**_rid**|It is a system-generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the offer.|  
+|**_ts**|It is a system-generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
+|**_self**|It is a system-generated property. It is the unique addressable URI for the resource.|  
+|**_etag**|It is a system-generated property that specifies the resource etag required for optimistic concurrency control.|  
   
 ```  
 {  
