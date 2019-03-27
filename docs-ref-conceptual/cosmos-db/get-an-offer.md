@@ -1,6 +1,6 @@
 ---
 title: "Get an Offer - Azure Cosmos DB REST API"
-ms.date: "03/29/2016"
+ms.date: "03/19/2019"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 1cebdf68-24c9-4c2b-acc3-bc8caf80595f
@@ -27,7 +27,7 @@ translation.priority.mt:
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|GET|`https://{databaseaccount}.documents.azure.com/offers/{_rid-offer}`|Note that {databaseaccount} is the name of the Azure Cosmos DB account you created under your subscription. The {_rid-offer} value is the system generated resource ID of the offer.|  
+|GET|`https://{databaseaccount}.documents.azure.com/offers/{_rid-offer}`|Note that {databaseaccount} is the name of the Azure Cosmos DB account you created under your subscription. The {_rid-offer} value is the system-generated resource ID of the offer.|  
   
 ### Headers  
  See [Common Azure Cosmos DB REST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
@@ -55,23 +55,23 @@ translation.priority.mt:
   
 |Property|Description|  
 |--------------|-----------------|  
-|**offerVersion**|**Required**. This value can be V1 for pre-defined throughput levels and V2 for user-defined throughput levels.|  
-|**offerType**|**Required**. It is a user settable property, which must be set to **S1**, **S2**, or **S3** for pre-defined performance levels. It must be set to Invalid for user-defined performance levels.|  
-|**content**|**Optional**. It contains information about the offer. For V2 offers, it contains the throughput of the collection.|  
-|**resource**|**Required**. When creating a new collection, this property is set to the self-link of the collection, for example, dbs/pLJdAA==/colls/pLJdAOlEdgA=/.|  
-|**offerResourceId**|**Required**. During creation of a collection, this property is automatically associated to the resource ID, that is, **_rid** of the collection. In the example above, the **_rid** for the collection is pLJdAOlEdgA=.|  
-|**id**|It is a system generated property.  The **ID** for the offer resource is automatically generated when it is created.  It has the same value as the **_rid** for the offer.|  
-|**_rid**|It is a system generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the offer.|  
-|**_ts**|It is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
-|**_self**|It is a system generated property. It is the unique addressable URI for the resource.|  
-|**_etag**|It is a system generated property that specifies the resource etag required for optimistic concurrency control.|  
+|**offerVersion**| This value can be V1 for pre-defined throughput levels and V2 for user-defined throughput levels.|  
+|**offerType**|This value indicates the performance level for V1 offer version, allowed values for V1 offer are S1, S2, or S3. This property is set to Invalid for V2 offer version.|  
+|**content**| It contains information about the offer. For V2 offers, it contains the throughput of the collection.|  
+|**resource**| When creating a new collection, this property is set to the self-link of the collection, for example, dbs/pLJdAA==/colls/pLJdAOlEdgA=/.|  
+|**offerResourceId**| During creation of a collection, this property is automatically associated to the resource ID, that is, **_rid** of the collection. In the example above, the **_rid** for the collection is pLJdAOlEdgA=.|  
+|**id**|It is a system-generated property.  The **ID** for the offer resource is automatically generated when it is created.  It has the same value as the **_rid** for the offer.|  
+|**_rid**|It is a system-generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the offer.|  
+|**_ts**|It is a system-generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
+|**_self**|It is a system-generated property. It is the unique addressable URI for the resource.|  
+|**_etag**|It is a system-generated property that specifies the resource etag required for optimistic concurrency control.|  
   
 ```  
 {  
   "offerVersion": "V2",  
   "offerType": "Invalid",  
   "content": {  
-    "offerThroughput": 400  
+    "offerThroughput": 4000  
   },  
   "resource": "dbs/rgkVAA==/colls/rgkVAMHcJww=/",  
   "offerResourceId": "rgkVAMHcJww=",  
@@ -115,13 +115,14 @@ x-ms-serviceversion: version=1.6.52.5
 x-ms-activity-id: bfa5991d-46f5-4c40-b3f0-957fccd8df9e  
 x-ms-session-token: M:8110  
 x-ms-gatewayversion: version=1.6.52.5  
+x-ms-cosmos-min-throughput: 400 
 Date: Tue, 29 Mar 2016 17:50:18 GMT  
   
 {  
   "offerVersion": "V2",  
   "offerType": "Invalid",  
   "content": {  
-    "offerThroughput": 400  
+    "offerThroughput": 4000  
   },  
   "resource": "dbs/rgkVAA==/colls/rgkVAMHcJww=/",  
   "offerResourceId": "rgkVAMHcJww=",  
@@ -133,6 +134,11 @@ Date: Tue, 29 Mar 2016 17:50:18 GMT
 }  
   
 ```  
+## Remarks 
+
+To learn more about the maximum and minimum provisioned throughput that can be set on a container or a database, see the [Provision throughput on containers and databases](https://docs.microsoft.com/azure/cosmos-db/set-throughput) article.  
+ 
+Perform GET on the offer resource to retrieve the minimum throughput that could be set for a given container or a database. The response header `x-ms-cosmos-min-throughput` denotes the system determined minimum throughput.
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
