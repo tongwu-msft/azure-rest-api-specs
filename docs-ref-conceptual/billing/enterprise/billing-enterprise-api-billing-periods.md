@@ -20,11 +20,11 @@ ms.author: aedwin
 ---
 # Reporting APIs for Enterprise customers - Billing Periods
 
-The Billing Periods API returns a list of billing periods that have consumption data for the specified Enrollment in reverse chronological order. Each Period contains a property pointing to the API route for the four sets of data - BalanceSummary, UsageDetails, Marktplace Charges, and PriceSheet. If the period does not have data, the corresponding property is null. 
+The Billing Periods API returns a list of billing periods that have consumption data for the specified Enrollment in reverse chronological order. Each Period contains a property pointing to the API route for the four sets of data - BalanceSummary, UsageDetails, Marktplace Charges, and PriceSheet. If the period does not have data, the corresponding property is null.
 
 
-##Request 
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). 
+## Request
+Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api).
 
 |Method | Request URI|
 |-|-|
@@ -35,9 +35,9 @@ Common header properties that need to be added are specified [here](https://docs
 >
 
 ## Response
- 
-	
-	
+
+
+
   	  [
 		    {
     		  	"billingPeriodId": "201704",
@@ -50,11 +50,11 @@ Common header properties that need to be added are specified [here](https://docs
     		},    		
 			....
   	  ]
-	
+
 
 **Response property definitions**
 
-|Property Name| Type| Description
+|Property Name| Type| Description|
 |-|-|-|
 |billingPeriodId| string| The unique Id that represents a particular Billing period|
 |billingStart| datetime| ISO 8601 string representing the period start date|
@@ -65,12 +65,10 @@ Common header properties that need to be added are specified [here](https://docs
 |priceSheet| string| The URL path that routes to the PriceSheet data for this period|
 
 <br/>
+
 ## See also
 
 * [Balance and Summary API](billing-enterprise-api-balance-summary.md)
-
-* [Usage Detail API](billing-enterprise-api-usage-detail.md) 
-
-* [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md) 
-
+* [Usage Detail API](billing-enterprise-api-usage-detail.md)
+* [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md)
 * [Price Sheet API](billing-enterprise-api-pricesheet.md)

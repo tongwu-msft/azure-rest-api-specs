@@ -24,7 +24,7 @@ The Reserved Instance recommendations API looks at Customer's 7, 30 or 60 days v
 
 
 ## Request for shared reserved instance recommendations
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). 
+Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api).
 
 |Method | Request URI|
 |-|-|
@@ -48,7 +48,7 @@ Common header properties that need to be added are specified [here](https://docs
 ```
 **Response property definitions**
 
-|Property Name| Type| Description
+|Property Name| Type| Description|
 |-|-|-|
 |lookBackPeriod|string|String representing number of past usage days. It can either last7days, last30days or last60days|
 |meterId|string |The Meterid of the resource that should be purchased|
@@ -64,7 +64,7 @@ Common header properties that need to be added are specified [here](https://docs
 
 
 ## Request for single reserved instance recommendations
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). 
+Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api).
 
 |Method | Request URI|
 |-|-|
@@ -91,7 +91,7 @@ Common header properties that need to be added are specified [here](https://docs
 
 **Response property definitions**
 
-|Property Name| Type| Description
+|Property Name| Type| Description|
 |-|-|-|
 |subscriptionId|string|SubscriptionId for which Reserved Instance should be purchased|
 |lookBackPeriod|string|String representing number of past usage days. It can either last7days, last30days or last60days|
@@ -107,14 +107,11 @@ Common header properties that need to be added are specified [here](https://docs
 
 
 <br/>
+
 ## See also
 
 * [Purchase Reserved Instance](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/prepay-reserved-vm-instances)
-
 * [Billing Periods API](billing-enterprise-api-billing-periods.md)
-
-* [Usage Detail API](billing-enterprise-api-usage-detail.md) 
-
-* [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md) 
-
+* [Usage Detail API](billing-enterprise-api-usage-detail.md)
+* [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md)
 * [Price Sheet API](billing-enterprise-api-pricesheet.md)

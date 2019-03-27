@@ -22,8 +22,8 @@ ms.author: manshuk
 Reserved Instance charges API shows the billing transactions made on the Enterprise enrollment. If the reservation has been moved from the purchasing enrollment to a different enrollment, it will show the purchasing and the current enrollment of the reservation.
 
 
-## Request for Reserved Instance charges 
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). 
+## Request for Reserved Instance charges
+Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api).
 
 |Method | Request URI|
 |-|-|
@@ -61,7 +61,7 @@ Common header properties that need to be added are specified [here](https://docs
 ```
 **Response property definitions**
 
-|Property Name| Type| Description
+|Property Name| Type| Description|
 |-|-|-|
 |purchasingEnrollment|string|Enrollmentnumber that purchased the Reservation.|
 |armSkuName|string|String representing the purchased resource.|
@@ -88,15 +88,9 @@ Common header properties that need to be added are specified [here](https://docs
 ## See also
 
 * [Purchase Reserved Instance](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/prepay-reserved-vm-instances)
-
 * [Billing Periods API](billing-enterprise-api-billing-periods.md)
-
-* [Usage Detail API](billing-enterprise-api-usage-detail.md) 
-
-* [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md) 
-
+* [Usage Detail API](billing-enterprise-api-usage-detail.md)
+* [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md)
 * [Price Sheet API](billing-enterprise-api-pricesheet.md)
-
 * [Reserved Instance Recommendation API](billing-enterprise-api-reserved-instance-recommendation.md)
-
 * [Reserved Instance Usage API](billing-enterprise-api-reserved-instance-usage.md)

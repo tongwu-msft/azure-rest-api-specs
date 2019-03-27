@@ -20,7 +20,7 @@ ms.author: aedwin
 ---
 # Reporting APIs for Enterprise customers - Usage Details
 
-The Usage Detail API offers a daily breakdown of consumed quantities and estimated charges by an Enrollment. The result also includes information on instances, meters, and departments. The API can be queried by Billing period or by a specified start and end date. 
+The Usage Detail API offers a daily breakdown of consumed quantities and estimated charges by an Enrollment. The result also includes information on instances, meters, and departments. The API can be queried by Billing period or by a specified start and end date.
 
 Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd.  
 
@@ -59,7 +59,7 @@ This is a two-step process that requires you to submit your request first for a 
 
 ##### Asynchronous call Response property definitions
 
-|Property Name| Type| Description
+|Property Name| Type| Description|
 |-|-|-|
 |id| string| The unique Id for this request. |
 |enrollmentNumber| string| The Enrollment number the request was made for.|
@@ -70,14 +70,14 @@ This is a two-step process that requires you to submit your request first for a 
 |startDate| string| Corresponds to the beginning of the time range used while making the submit call. |
 |endDate| string| Corresponds to the end of the time range used while making the submit call.|
 
-The reportUrl is the URL that can be used for further polling calls (GET operation). When the status field in the response of polling request comes back as 3, the request is completed. We have the blobPath field in the response populated with a URL pointing to the csv data. The blob is available for 1 hour from the date time in requestedOn field of response. Status 4, 5 and 7 are failure status where the API call has hit an error condition. For all other status, the polling call should be repeated. 
+The reportUrl is the URL that can be used for further polling calls (GET operation). When the status field in the response of polling request comes back as 3, the request is completed. We have the blobPath field in the response populated with a URL pointing to the csv data. The blob is available for 1 hour from the date time in requestedOn field of response. Status 4, 5 and 7 are failure status where the API call has hit an error condition. For all other status, the polling call should be repeated.
 
-## JSON Format 
-The API listed below provide data in JSON format. If a billing period is not specified, then data for the current billing period is returned. The maximum supported time range is 36 months. 
+## JSON Format
+The API listed below provide data in JSON format. If a billing period is not specified, then data for the current billing period is returned. The maximum supported time range is 36 months.
 
 |Method | Request URI|
 |-|-|
-|GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/usagedetails 
+|GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/usagedetails
 |GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/billingPeriods/{billingPeriod}/usagedetails|
 |GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/usagedetailsbycustomdate?startTime=2017-01-01&endTime=2017-01-10|
 
@@ -87,7 +87,7 @@ The API listed below provide data in JSON format. If a billing period is not spe
 
 ### Response
 
-> Due to the potentially large volume of data the result set is paged. The nextLink property, if present, specifies the link for the next page of data. If the link is empty, it denotes that is the last page. 
+> Due to the potentially large volume of data the result set is paged. The nextLink property, if present, specifies the link for the next page of data. If the link is empty, it denotes that is the last page.
 
 	{
 		"id": "string",
@@ -141,7 +141,7 @@ The API listed below provide data in JSON format. If a billing period is not spe
 
 ## Usage details field definitions
 
-|Property Name| Type| Description
+|Property Name| Type| Description|
 |-|-|-|
 |id| string| The unique Id for the API call. |
 |data| JSON array| The Array of daily usage details for every instance\meter.|
@@ -191,9 +191,6 @@ The API listed below provide data in JSON format. If a billing period is not spe
 ## See also
 
 * [Billing Periods API](billing-enterprise-api-billing-periods.md)
-
 * [Balance and Summary API](billing-enterprise-api-balance-summary.md)
-
-* [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md) 
-
+* [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md)
 * [Price Sheet API](billing-enterprise-api-pricesheet.md)
