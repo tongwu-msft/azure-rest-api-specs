@@ -22,8 +22,8 @@ ms.author: aedwin
 
 The Price Sheet API provides the applicable rate for each Meter for the given Enrollment and Billing Period.
 
-##Request
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). If a billing period is not specified, then data for the current billing period is returned.
+## Request
+Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). If a billing period isn't specified, then data for the current billing period is returned.
 
 |Method | Request URI|
 |-|-|
@@ -36,7 +36,7 @@ Common header properties that need to be added are specified [here](https://docs
 
 ## Response
 
-	
+
   		[
     		{
     		  	"id": "enrollments/57354989/billingperiods/201601/products/343/pricesheets",
@@ -62,32 +62,31 @@ Common header properties that need to be added are specified [here](https://docs
     		},
 			...
 		]
-	
+
 
 > [!Note]
->If you are using the Preview API, meterId field is not available.
+>If you are using the Preview API, meterId field isn't available.
 >
 
 **Response property definitions**
 
-|Property Name| Type| Description
+|Property Name| Type| Description|
 |-|-|-|
-|id| string| The unique Id that represents a particular PriceSheet item (meter by billing period)|
-|billingPeriodId| string| The unique Id that represents a particular Billing period|
-|meterId| string| The identifier for the meter. It can be mapped to the usage meterId.|
+|id| string| The unique ID represents a PriceSheet item (meter by billing period)|
+|billingPeriodId| string| The unique ID that represents a particular Billing period|
+|meterId| string| The identifier for the meter. It can be mapped to the usage meterID.|
 |meterName| string| The meter name|
 |unitOfMeasure| string| The Unit of Measure for measuring the service|
-|includedQuantity| decimal| Quantity that is included |
-|partNumber| string| The part number associated with the Meter|
+|includedQuantity| decimal| Quantity that's included |
+|partNumber| string| The part number that's associated with the Meter|
 |unitPrice| decimal| The unit price for the meter|
 |currencyCode| string| The currency code for the unitPrice|
+
 <br/>
+
 ## See also
 
 * [Billing Periods API](billing-enterprise-api-billing-periods.md)
-
 * [Usage Detail API](billing-enterprise-api-usage-detail.md)
-
 * [Balance and Summary API](billing-enterprise-api-balance-summary.md)
-
 * [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md)
