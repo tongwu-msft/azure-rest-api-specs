@@ -8581,6 +8581,7 @@
 #### [List Keys](storagerp/StorageAccounts/ListKeys.yml)
 #### [List Service SAS](storagerp/StorageAccounts/ListServiceSAS.yml)
 #### [Regenerate Key](storagerp/StorageAccounts/RegenerateKey.yml)
+#### [Revoke User Delegation Keys](storagerp/StorageAccounts/RevokeUserDelegationKeys.yml)
 #### [Update](storagerp/StorageAccounts/Update.yml)
 ### [Usages](storagerp/Usages.yml)
 #### [List By Location](storagerp/Usages/ListByLocation.yml)
