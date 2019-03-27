@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.storagerp.storageaccounts.failover
-name: Failover
+uid: management.azure.com.storagerp.managementpolicyget.delete
+name: Delete
 service: Storage Resource Provider
-groupName: Storage Accounts
-apiVersion: 2018-11-01
-summary: Failover request can be triggered for a storage account in case of availability issues. The failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover.
+groupName: ManagementPolicyGet
+apiVersion: 2018-03-01-preview
+summary: Deletes the data policy rules associated with the specified storage account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover?api-version=2018-11-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/default?api-version=2018-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,6 +31,12 @@ uriParameters:
   description: The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
   types:
   - uid: string
+- name: managementPolicyName
+  in: path
+  isRequired: true
+  description: The name of the Storage Account Management Policy. It should always be 'default'
+  types:
+  - uid: ManagementPolicyName
 - name: api-version
   in: query
   isRequired: true
@@ -39,19 +45,26 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK -- Returned when the storage account failover is completed, and the secondary cluster has become primary.
-- name: 202 Accepted
-  description: Accepted -- Failover request accepted; operation will complete asynchronously.
+  description: OK -- Delete management policies successfully.
+- name: 204 No Content
+  description: No Content -- The management policies does not exist.
 requestHeader: []
-definitions: []
+definitions:
+- name: ManagementPolicyName
+  description: The name of the Storage Account Management Policy. It should always be 'default'
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
 examples:
-- name: StorageAccountCreate
+- name: StorageAccountDeleteManagementPolicies
   request:
-    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res4228/providers/Microsoft.Storage/storageAccounts/sto2434/failover?api-version=2018-11-01
+    uri: DELETE https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.Storage/storageAccounts/sto2527/managementPolicies/default?api-version=2018-03-01-preview
   responses:
   - statusCode: "200"
     body: "\"\""
-  - statusCode: "202"
+  - statusCode: "204"
     body: "\"\""
 security:
 - name: azure_auth
