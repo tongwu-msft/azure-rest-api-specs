@@ -72,13 +72,13 @@ Common header properties that need to be added are specified [here](https://docs
 
 |Property Name| Type| Description|
 |-|-|-|
-|id| string| The unique Id that represents a particular PriceSheet item (meter by billing period)|
-|billingPeriodId| string| The unique Id that represents a particular Billing period|
-|meterId| string| The identifier for the meter. It can be mapped to the usage meterId.|
+|id| string| The unique ID represents a PriceSheet item (meter by billing period)|
+|billingPeriodId| string| The unique ID that represents a particular Billing period|
+|meterId| string| The identifier for the meter. It can be mapped to the usage meterID.|
 |meterName| string| The meter name|
 |unitOfMeasure| string| The Unit of Measure for measuring the service|
-|includedQuantity| decimal| Quantity that is included |
-|partNumber| string| The part number associated with the Meter|
+|includedQuantity| decimal| Quantity that's included |
+|partNumber| string| The part number that's associated with the Meter|
 |unitPrice| decimal| The unit price for the meter|
 |currencyCode| string| The currency code for the unitPrice|
 
