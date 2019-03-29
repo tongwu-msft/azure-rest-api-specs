@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.aks.managedclusters.listbyresourcegroup
-name: List By Resource Group
+uid: management.azure.com.aks.agentpools.createorupdate
+name: Create Or Update
 service: AKS
-groupName: Managed Clusters
+groupName: Agent Pools
 apiVersion: 2019-02-01
-summary: "Lists managed clusters in the specified subscription and resource group.  \nLists managed clusters in the specified subscription and resource group. The operation returns properties of each managed cluster."
+summary: "Creates or updates an agent pool.  \nCreates or updates an agent pool in the specified managed cluster."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters?api-version=2019-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{managedClusterName}/agentPools/{agentPoolName}?api-version=2019-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,6 +24,18 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
+- name: managedClusterName
+  in: path
+  isRequired: true
+  description: The name of the managed cluster resource.
+  types:
+  - uid: string
+- name: agentPoolName
+  in: path
+  isRequired: true
+  description: The name of the agent pool.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -34,27 +46,156 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: ManagedClusterListResult
+  - uid: AgentPool
+- name: 201 Created
+  description: Created
+  types:
+  - uid: AgentPool
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-requestHeader: []
-definitions:
-- name: ManagedClusterListResult
-  description: The response from the List Managed Clusters operation.
-  kind: object
-  properties:
-  - name: value
-    description: The list of managed clusters.
+requestBody:
+- name: default
+  parameters:
+  - name: properties.count
+    in: body
+    isRequired: true
+    description: 'Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
     types:
-    - uid: ManagedCluster
-      isArray: true
-  - name: nextLink
-    isReadyOnly: true
-    description: The URL to get the next set of managed cluster results.
+    - uid: integer
+  - name: properties.vmSize
+    in: body
+    isRequired: true
+    description: Size of agent VMs.
+    types:
+    - uid: ContainerServiceVMSizeTypes
+  - name: properties.osDiskSizeGB
+    in: body
+    description: OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
+    types:
+    - uid: integer
+  - name: properties.vnetSubnetID
+    in: body
+    description: VNet SubnetID specifies the VNet's subnet identifier.
     types:
     - uid: string
+  - name: properties.maxPods
+    in: body
+    description: Maximum number of pods that can run on a node.
+    types:
+    - uid: integer
+  - name: properties.osType
+    in: body
+    description: OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
+    types:
+    - uid: OSType
+  - name: properties.maxCount
+    in: body
+    description: Maximum number of nodes for auto-scaling
+    types:
+    - uid: integer
+  - name: properties.minCount
+    in: body
+    description: Minimum number of nodes for auto-scaling
+    types:
+    - uid: integer
+  - name: properties.enableAutoScaling
+    in: body
+    description: Whether to enable auto-scaler
+    types:
+    - uid: boolean
+  - name: properties.type
+    in: body
+    description: AgentPoolType represents types of an agent pool
+    types:
+    - uid: AgentPoolType
+  - name: properties.orchestratorVersion
+    in: body
+    description: Version of orchestrator specified when creating the managed cluster.
+    types:
+    - uid: string
+  - name: properties.availabilityZones
+    in: body
+    description: (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: AgentPool
+  description: Agent Pool.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: properties.count
+    description: 'Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
+    types:
+    - uid: integer
+  - name: properties.vmSize
+    description: Size of agent VMs.
+    types:
+    - uid: ContainerServiceVMSizeTypes
+  - name: properties.osDiskSizeGB
+    description: OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
+    types:
+    - uid: integer
+  - name: properties.vnetSubnetID
+    description: VNet SubnetID specifies the VNet's subnet identifier.
+    types:
+    - uid: string
+  - name: properties.maxPods
+    description: Maximum number of pods that can run on a node.
+    types:
+    - uid: integer
+  - name: properties.osType
+    description: OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
+    types:
+    - uid: OSType
+  - name: properties.maxCount
+    description: Maximum number of nodes for auto-scaling
+    types:
+    - uid: integer
+  - name: properties.minCount
+    description: Minimum number of nodes for auto-scaling
+    types:
+    - uid: integer
+  - name: properties.enableAutoScaling
+    description: Whether to enable auto-scaler
+    types:
+    - uid: boolean
+  - name: properties.type
+    description: AgentPoolType represents types of an agent pool
+    types:
+    - uid: AgentPoolType
+  - name: properties.orchestratorVersion
+    description: Version of orchestrator specified when creating the managed cluster.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The current deployment or provisioning state, which only appears in the response.
+    types:
+    - uid: string
+  - name: properties.availabilityZones
+    description: (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+    types:
+    - uid: string
+      isArray: true
 - name: CloudError
   description: An error response from the Container service.
   kind: object
@@ -63,273 +204,6 @@ definitions:
     description: Details about the error.
     types:
     - uid: CloudErrorBody
-- name: ManagedCluster
-  description: Managed cluster.
-  kind: object
-  properties:
-  - name: id
-    isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The current deployment or provisioning state, which only appears in the response.
-    types:
-    - uid: string
-  - name: properties.kubernetesVersion
-    description: Version of Kubernetes specified when creating the managed cluster.
-    types:
-    - uid: string
-  - name: properties.dnsPrefix
-    description: DNS prefix specified when creating the managed cluster.
-    types:
-    - uid: string
-  - name: properties.fqdn
-    isReadyOnly: true
-    description: FQDN for the master pool.
-    types:
-    - uid: string
-  - name: properties.agentPoolProfiles
-    description: Properties of the agent pool.
-    types:
-    - uid: ManagedClusterAgentPoolProfile
-      isArray: true
-  - name: properties.linuxProfile
-    description: Profile for Linux VMs in the container service cluster.
-    types:
-    - uid: ContainerServiceLinuxProfile
-  - name: properties.servicePrincipalProfile
-    description: Information about a service principal identity for the cluster to use for manipulating Azure APIs.
-    types:
-    - uid: ManagedClusterServicePrincipalProfile
-  - name: properties.addonProfiles
-    description: Profile of managed cluster add-on.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: ManagedClusterAddonProfile
-  - name: properties.nodeResourceGroup
-    isReadyOnly: true
-    description: Name of the resource group containing agent pool nodes.
-    types:
-    - uid: string
-  - name: properties.enableRBAC
-    description: Whether to enable Kubernetes Role-Based Access Control.
-    types:
-    - uid: boolean
-  - name: properties.enablePodSecurityPolicy
-    description: (PREVIEW) Whether to enable Kubernetes Pod security policy.
-    types:
-    - uid: boolean
-  - name: properties.networkProfile
-    description: Profile of network configuration.
-    types:
-    - uid: ContainerServiceNetworkProfile
-  - name: properties.aadProfile
-    description: Profile of Azure Active Directory configuration.
-    types:
-    - uid: ManagedClusterAADProfile
-  - name: properties.apiServerAuthorizedIPRanges
-    description: (PREVIEW) Authorized IP Ranges to kubernetes API server.
-    types:
-    - uid: string
-      isArray: true
-- name: CloudErrorBody
-  description: An error response from the Container service.
-  kind: object
-  properties:
-  - name: code
-    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-  - name: message
-    description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error. For example, the name of the property in error.
-    types:
-    - uid: string
-  - name: details
-    description: A list of additional details about the error.
-    types:
-    - uid: CloudErrorBody
-      isArray: true
-- name: ManagedClusterAgentPoolProfile
-  description: Profile for the container service agent pool.
-  kind: object
-  properties:
-  - name: count
-    description: 'Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
-    types:
-    - uid: integer
-  - name: vmSize
-    description: Size of agent VMs.
-    types:
-    - uid: ContainerServiceVMSizeTypes
-  - name: osDiskSizeGB
-    description: OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
-    types:
-    - uid: integer
-  - name: vnetSubnetID
-    description: VNet SubnetID specifies the VNet's subnet identifier.
-    types:
-    - uid: string
-  - name: maxPods
-    description: Maximum number of pods that can run on a node.
-    types:
-    - uid: integer
-  - name: osType
-    description: OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
-    types:
-    - uid: OSType
-  - name: maxCount
-    description: Maximum number of nodes for auto-scaling
-    types:
-    - uid: integer
-  - name: minCount
-    description: Minimum number of nodes for auto-scaling
-    types:
-    - uid: integer
-  - name: enableAutoScaling
-    description: Whether to enable auto-scaler
-    types:
-    - uid: boolean
-  - name: type
-    description: AgentPoolType represents types of an agent pool
-    types:
-    - uid: AgentPoolType
-  - name: orchestratorVersion
-    description: Version of orchestrator specified when creating the managed cluster.
-    types:
-    - uid: string
-  - name: provisioningState
-    isReadyOnly: true
-    description: The current deployment or provisioning state, which only appears in the response.
-    types:
-    - uid: string
-  - name: availabilityZones
-    description: (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
-    types:
-    - uid: string
-      isArray: true
-  - name: name
-    description: Unique name of the agent pool profile in the context of the subscription and resource group.
-    types:
-    - uid: string
-- name: ContainerServiceLinuxProfile
-  description: Profile for Linux VMs in the container service cluster.
-  kind: object
-  properties:
-  - name: adminUsername
-    description: The administrator username to use for Linux VMs.
-    types:
-    - uid: string
-  - name: ssh
-    description: SSH configuration for Linux-based VMs running on Azure.
-    types:
-    - uid: ContainerServiceSshConfiguration
-- name: ManagedClusterServicePrincipalProfile
-  description: Information about a service principal identity for the cluster to use for manipulating Azure APIs.
-  kind: object
-  properties:
-  - name: clientId
-    description: The ID for the service principal.
-    types:
-    - uid: string
-  - name: secret
-    description: The secret password associated with the service principal in plain text.
-    types:
-    - uid: string
-- name: ManagedClusterAddonProfile
-  description: A Kubernetes add-on profile for a managed cluster.
-  kind: object
-  properties:
-  - name: enabled
-    description: Whether the add-on is enabled or not.
-    types:
-    - uid: boolean
-  - name: config
-    description: Key-value pairs for configuring an add-on.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: ContainerServiceNetworkProfile
-  description: Profile of network configuration.
-  kind: object
-  properties:
-  - name: networkPlugin
-    description: Network plugin used for building Kubernetes network.
-    types:
-    - uid: NetworkPlugin
-  - name: networkPolicy
-    description: Network policy used for building Kubernetes network.
-    types:
-    - uid: NetworkPolicy
-  - name: podCidr
-    description: A CIDR notation IP range from which to assign pod IPs when kubenet is used.
-    types:
-    - uid: string
-  - name: serviceCidr
-    description: A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges.
-    types:
-    - uid: string
-  - name: dnsServiceIP
-    description: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr.
-    types:
-    - uid: string
-  - name: dockerBridgeCidr
-    description: A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range.
-    types:
-    - uid: string
-- name: ManagedClusterAADProfile
-  description: AADProfile specifies attributes for Azure Active Directory integration.
-  kind: object
-  properties:
-  - name: clientAppID
-    description: The client AAD application ID.
-    types:
-    - uid: string
-  - name: serverAppID
-    description: The server AAD application ID.
-    types:
-    - uid: string
-  - name: serverAppSecret
-    description: The server AAD application secret.
-    types:
-    - uid: string
-  - name: tenantID
-    description: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription.
-    types:
-    - uid: string
 - name: ContainerServiceVMSizeTypes
   description: Size of agent VMs.
   kind: enum
@@ -876,102 +750,70 @@ definitions:
   - name: AvailabilitySet
     types:
     - uid: string
-- name: ContainerServiceSshConfiguration
-  description: SSH configuration for Linux-based VMs running on Azure.
+- name: CloudErrorBody
+  description: An error response from the Container service.
   kind: object
   properties:
-  - name: publicKeys
-    description: The list of SSH public keys used to authenticate with Linux-based VMs. Only expect one key specified.
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
-    - uid: ContainerServiceSshPublicKey
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
       isArray: true
-- name: NetworkPlugin
-  description: Network plugin used for building Kubernetes network.
-  kind: enum
-  properties:
-  - name: azure
-    types:
-    - uid: string
-  - name: kubenet
-    types:
-    - uid: string
-- name: NetworkPolicy
-  description: Network policy used for building Kubernetes network.
-  kind: enum
-  properties:
-  - name: calico
-    types:
-    - uid: string
-  - name: azure
-    types:
-    - uid: string
-- name: ContainerServiceSshPublicKey
-  description: Contains information about SSH certificate public key data.
-  kind: object
-  properties:
-  - name: keyData
-    description: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or without headers.
-    types:
-    - uid: string
 examples:
-- name: Get Managed Clusters by Resource Group
+- name: Create/Update Agent Pool
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters?api-version=2019-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2019-02-01
+    body: >-
+      {
+        "properties": {
+          "orchestratorVersion": "",
+          "count": 3,
+          "vmSize": "Standard_DS1_v2",
+          "osType": "Linux"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters",
-            "location": "location1",
-            "name": "clustername1",
-            "tags": {
-              "archv2": "",
-              "tier": "production"
-            },
-            "type": "Microsoft.ContainerService/ManagedClusters",
-            "properties": {
-              "provisioningState": "Succeeded",
-              "kubernetesVersion": "1.9.6",
-              "dnsPrefix": "dnsprefix1",
-              "fqdn": "dnsprefix1-abcd1234.hcp.eastus.azmk8s.io",
-              "agentPoolProfiles": [
-                {
-                  "name": "nodepool1",
-                  "count": 3,
-                  "vmSize": "Standard_DS1_v2",
-                  "maxPods": 110,
-                  "osType": "Linux",
-                  "provisioningState": "Succeeded",
-                  "orchestratorVersion": "1.9.6"
-                }
-              ],
-              "linuxProfile": {
-                "adminUsername": "azureuser",
-                "ssh": {
-                  "publicKeys": [
-                    {
-                      "keyData": "keydata"
-                    }
-                  ]
-                }
-              },
-              "servicePrincipalProfile": {
-                "clientId": "clientid"
-              },
-              "nodeResourceGroup": "MC_rg1_clustername1_location1",
-              "enableRBAC": false,
-              "networkProfile": {
-                "networkPlugin": "kubenet",
-                "podCidr": "10.244.0.0/16",
-                "serviceCidr": "10.0.0.0/16",
-                "dnsServiceIP": "10.0.0.10",
-                "dockerBridgeCidr": "172.17.0.1/16"
-              }
-            }
-          }
-        ]
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "orchestratorVersion": "1.9.6",
+          "count": 3,
+          "vmSize": "Standard_DS1_v2",
+          "maxPods": 110,
+          "osType": "Linux"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Creating",
+          "orchestratorVersion": "1.9.6",
+          "count": 3,
+          "vmSize": "Standard_DS1_v2",
+          "maxPods": 110,
+          "osType": "Linux"
+        }
       }
 security:
 - name: azure_auth
