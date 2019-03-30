@@ -8560,6 +8560,7 @@
 #### [Extend Immutability Policy](storagerp/BlobContainers/ExtendImmutabilityPolicy.yml)
 #### [Get](storagerp/BlobContainers/Get.yml)
 #### [Get Immutability Policy](storagerp/BlobContainers/GetImmutabilityPolicy.yml)
+#### [Lease](storagerp/BlobContainers/Lease.yml)
 #### [List](storagerp/BlobContainers/List.yml)
 #### [Lock Immutability Policy](storagerp/BlobContainers/LockImmutabilityPolicy.yml)
 #### [Set Legal Hold](storagerp/BlobContainers/SetLegalHold.yml)
