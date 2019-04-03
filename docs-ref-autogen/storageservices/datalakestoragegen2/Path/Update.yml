@@ -93,6 +93,8 @@ responses:
     value: string
   - name: Content-Type
     value: string
+  - name: Content-MD5
+    value: string
   - name: x-ms-properties
     value: string
   - name: x-ms-request-id
@@ -102,6 +104,8 @@ responses:
   description: The data was flushed (written) to the file or the properties were set successfully.
 - name: 202 Accepted
   headers:
+  - name: Content-MD5
+    value: string
   - name: Date
     value: string
   - name: x-ms-request-id
@@ -257,6 +261,11 @@ requestHeader:
   types:
   - uid: integer
   format: int64
+- name: Content-MD5
+  in: header
+  description: Optional. An MD5 hash of the request content. This header is valid on "Append" and "Flush" operations. This hash is used to verify the integrity of the request content during transport. When this header is specified, the storage service compares the hash of the content that has arrived with this header value. If the two hashes do not match, the operation will fail with error code 400 (Bad Request). Note that this MD5 hash is not stored with the file. This header is associated with the request content, and not with the stored content of the file itself.
+  types:
+  - uid: string
 - name: x-ms-lease-id
   in: header
   description: The lease ID must be specified if there is an active lease.
@@ -286,6 +295,11 @@ requestHeader:
 - name: x-ms-content-language
   in: header
   description: Optional and only valid for flush and set properties operations.  The service stores this value and includes it in the "Content-Language" response header for "Read File" operations.
+  types:
+  - uid: string
+- name: x-ms-content-md5
+  in: header
+  description: Optional and only valid for "Flush & Set Properties" operations.  The service stores this value and includes it in the "Content-Md5" response header for "Read & Get Properties" operations. If this property is not specified on the request, then the property will be cleared for the file. Subsequent calls to "Read & Get Properties" will not return this property unless it is explicitly set on that file again.
   types:
   - uid: string
 - name: x-ms-properties
