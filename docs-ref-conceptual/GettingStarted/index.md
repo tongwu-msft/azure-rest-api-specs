@@ -280,7 +280,6 @@ Please use the LiveFyre comments section that follows this article to provide fe
 [AAD-Integrating-Apps]: /azure/active-directory/develop/quickstart-v1-update-azure-ad-app
 [AAD-OAuth-Client-Creds]: /azure/active-directory/develop/v1-oauth2-client-creds-grant-flow#request-an-access-token
 [AAD-Oauth-Code-Authz]: /azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code
-active-directory-protocols-oauth-code.md#request-an-authorization-code
 [AAD-Oauth-Code-Token]: /azure/active-directory/develop/v1-protocols-oauth-code#use-the-authorization-code-to-request-an-access-token
 [ARM-Create-Sp-Portal]: /azure/active-directory/develop/howto-create-service-principal-portal
 [ARM-Provider-Summary]: /azure/azure-resource-manager/resource-manager-supported-services
