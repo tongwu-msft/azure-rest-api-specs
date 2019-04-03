@@ -4,7 +4,7 @@ description: This topic describes the Azure Time Series Insights Query API
 keywords:
 services: time-series-insights
 documentationcenter:
-author: venkatgct
+author: yeskarthik
 manager: almineev
 editor: cgronlun
 
@@ -15,7 +15,7 @@ ms.topic: data-acesss-api
 ms.tgt_pltfrm: na
 ms.workload: azure-iot
 ms.date: 11/03/2017
-ms.author: venkatja
+ms.author: karsubr
 ---
 # Azure Time Series Insights Query API
 
@@ -71,6 +71,7 @@ Optional request headers:
 - `x-ms-client-request-id` - a client request ID. Service records this value. Allows the service to trace operation across services.
 - `x-ms-client-session-id` - a client session ID. Service records this value. Allows the service to trace a group of related operations across services.
 - `x-ms-client-application-name` - name of the application that generated this request. Service records this value.
+- `x-ms-property-not-found-behavior` - Possible values are  `ThrowError` (default) or `UseNull`. See [here](#property-not-found-behavior).
 
 Response headers:
 - `Content-type` - only `application/json` is supported.
@@ -512,6 +513,19 @@ For numeric histogram, bucket boundaries are aligned to one of 10^n, 2x10^n or 5
 
 If no measure expressions are specified and the list of events is empty, the response will be empty.
 If measures are present, the response contains a single record with `null` dimension value, 0 value for count and `null` value for other kinds of measures.
+
+## Property Not Found Behavior
+
+When property is referenced in a query, either as part of predicates or part of aggregates (measures), by default the query might succeed or not depending on whether the property is found in the environment or not.
+
+The user can modify this behavior to treat the properties as existing but with `null` values.
+
+This can be done by setting the request header `x-ms-property-not-found-behavior` with value `UseNull`.
+
+Possible values for the request header are `UseNull` or `ThrowError`.
+
+When `UseNull` is set, the query succeeds despite the property not exisiting and the response will contain warnings which will contain the properties that are not found.
+
 
 ## Limits
 
