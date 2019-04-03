@@ -264,8 +264,8 @@ Please use the LiveFyre comments section that follows this article to provide fe
 -->
 <!--Reference style links: DOCS -->
 
-[AAD-Apps-And-Sps]: ../../Azure/active-directory/active-directory-application-objects.md
-[AAD-Auth-Libraries]: ../../Azure/active-directory/active-directory-authentication-libraries.md
+[AAD-Apps-And-Sps]: /azure/active-directory/develop/app-objects-and-service-principals
+[AAD-Auth-Libraries]: /azure/active-directory/develop/active-directory-authentication-libraries
 [AAD-Dev-Guide]: /azure/active-directory/develop/
 [AAD-Glossary-Access-Token]: /azure/active-directory/develop/developer-glossary#access-token
 [AAD-Glossary-Authorization-Grant]: /azure/active-directory/develop/developer-glossary#authorization-grant
@@ -276,13 +276,14 @@ Please use the LiveFyre comments section that follows this article to provide fe
 [AAD-Glossary-Native-Client]: /azure/active-directory/develop/developer-glossary#native-client
 [AAD-Glossary-Web-Client]: /azure/active-directory/develop/developer-glossary#web-client
 [AAD-Graph-Application]: https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity
-[AAD-Howto-Tenant]: ../../Azure/active-directory/active-directory-howto-tenant.md
-[AAD-Integrating-Apps]: ../../Azure/active-directory/active-directory-integrating-applications.md
+[AAD-Howto-Tenant]: /azure/active-directory/fundamentals/active-directory-access-create-new-tenant
+[AAD-Integrating-Apps]: /azure/active-directory/develop/quickstart-v1-update-azure-ad-app
 [AAD-OAuth-Client-Creds]: /azure/active-directory/develop/v1-oauth2-client-creds-grant-flow#request-an-access-token
-[AAD-Oauth-Code-Authz]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#request-an-authorization-code
+[AAD-Oauth-Code-Authz]: /azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code
+active-directory-protocols-oauth-code.md#request-an-authorization-code
 [AAD-Oauth-Code-Token]: /azure/active-directory/develop/v1-protocols-oauth-code#use-the-authorization-code-to-request-an-access-token
-[ARM-Create-Sp-Portal]: ../../Azure/resource-group-create-service-principal-portal.md
-[ARM-Provider-Summary]: ../../Azure/resource-manager-supported-services.md
+[ARM-Create-Sp-Portal]: /azure/active-directory/develop/howto-create-service-principal-portal
+[ARM-Provider-Summary]: /azure/azure-resource-manager/resource-manager-supported-services
 [SDK-NET]: /dotnet/azure/
 [SDK-JAVA]: /java/azure/
 [SDK-CLI]: /cli/azure/
