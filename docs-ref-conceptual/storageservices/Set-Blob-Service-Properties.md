@@ -1,17 +1,11 @@
 ---
 title: "Set Blob Service Properties"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 04/03/2019
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 65424a3c-ab49-4994-865c-827409598092
-caps.latest.revision: 21
 author: tamram
-manager: carolz
 translation.priority.mt: 
   - de-de
   - es-es
@@ -24,6 +18,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Set Blob Service Properties
 The `Set Blob Service Properties` operation sets properties for a storage account’s Blob service endpoint, including properties for [Storage Analytics](Storage-Analytics.md), CORS (Cross-Origin Resource Sharing) rules and soft delete settings. The Soft Delete feature is currently in preview.
 
@@ -281,7 +276,7 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
 |**ExposedHeaders**|Required if **CorsRule** element is present. A comma-separated list of response headers to expose to CORS clients. Limited to 64 defined headers and two prefixed headers. Each header can be up to 256 characters.|  
 |**MaxAgeInSeconds**|Required if **CorsRule** element is present. The number of seconds that the client/browser should cache a preflight response.|  
 |**AllowedHeaders**|Required if **CorsRule** element exists. A comma-separated list of headers allowed to be part of the cross-origin request. Limited to 64 defined headers and 2 prefixed headers. Each header can be up to 256 characters.|  
-|**AllowedMethods**|Required if **CorsRule** element exists. A comma-separated list of HTTP methods that are allowed to be executed by the origin. For Azure Storage, permitted methods are DELETE, GET, HEAD, MERGE, POST, OPTIONS or PUT.|
+|**AllowedMethods**|Required if **CorsRule** element exists. A comma-separated list of HTTP methods that are allowed to be executed by the origin. For Azure Storage, permitted methods are DELETE, GET, HEAD, MERGE, PATCH, POST, OPTIONS and PUT.|
 |**DeleteRetentionPolicy**|Optional. To set **DeleteRetentionPolicy**, you must call `Set Blob Service Properties` using version 2017-07-29  or later. Groups the Soft Delete settings. Applies only to the Blob service.|
 |**DeleteRetentionPolicy/Enabled**|Required. Indicates whether deleted blob or snapshot is retained or immediately removed by delete operation.| 
 |**DeleteRetentionPolicy/Days**|Required only if **DeleteRetentionPolicy/Enabled** is true. Indicates the number of days that deleted blob be retained. All data older than this value will be permanently deleted. The minimum value you can specify is `1`; the largest value is `365`.|
@@ -327,7 +322,7 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
   
     -   Prefixed headers, where a prefix of the header is provided, such as **x-ms-meta-data\***. Specifying a prefix in this manner allows or exposes any header that begins with the given prefix. A maximum of two prefixed headers may be specified on the request.  
   
--   The methods (or HTTP verbs) specified in the **AllowedMethods** element must conform to the methods supported by Azure storage service APIs. Supported methods are DELETE, GET, HEAD, MERGE, POST, OPTIONS and PUT.  
+-   The methods (or HTTP verbs) specified in the **AllowedMethods** element must conform to the methods supported by Azure storage service APIs. Supported methods are DELETE, GET, HEAD, MERGE, PATCH, POST, OPTIONS and PUT.  
   
  Specifying CORS rules on the request is optional. If you call `Set Blob Service Properties` without specifying the **Cors** element in the request body, any existing CORS rules are maintained.  
   
