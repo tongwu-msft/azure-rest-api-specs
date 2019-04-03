@@ -31,7 +31,7 @@ Azure Container Registry is a managed Docker registry service for storing and ma
 [Azure Container Service (AKS)](/azure/aks/) - Deploy and manage containerized applications in a hosted Kubernetes environment.
 
 <!-- LINKS - Internal -->
-[acr-tasks]: /azure/container-registry/container-registry/container-registry-tasks-overview
+[acr-tasks]: /azure/container-registry/container-registry-tasks-overview
 [geo-replication]: /azure/container-registry/container-registry-geo-replication
 [tasks-operations]: /rest/api/containerregistry/registries%20(tasks)
 [webhooks]: /azure/container-registry/container-registry-webhook

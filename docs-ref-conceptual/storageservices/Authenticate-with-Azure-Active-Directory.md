@@ -102,7 +102,7 @@ For Azure Storage, you can grant access to data in a container or queue in the s
 
 For more information about how built-in roles are defined for Azure Storage, see [Understand role definitions for Azure resources](https://docs.microsoft.com/azure/role-based-access-control/role-definitions).
 
-You can also define custom roles for use with Blob storage and Azure Queues. For more information, see [Create custom roles for Azure Role-Based Access Control](https://docs.microsoft.com/azure/role-based-access-control/custom-roles.md). 
+You can also define custom roles for use with Blob storage and Azure Queues. For more information, see [Create custom roles for Azure Role-Based Access Control](https://docs.microsoft.com/azure/role-based-access-control/custom-roles). 
 
 ## Permissions for calling blob and queue data operations
 
