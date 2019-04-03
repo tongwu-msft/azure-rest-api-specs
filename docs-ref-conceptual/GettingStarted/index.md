@@ -232,7 +232,7 @@ That's it! Once you have your Azure AD application registered, and a componentiz
 
 ## Related content
 
-- See the [Azure AD Developers Guide][AAD-Dev-Guide] for more information on application registration and the the Azure AD programming model, including a comprehensive index of HowTo and QuickStart articles, and sample code.
+- See [Microsoft identity platform (Azure Active Directory for developers)][AAD-Dev-Guide] for more information on application registration and the the Azure AD programming model, including a comprehensive index of HowTo and QuickStart articles, and sample code.
 - For testing HTTP requests/responses, check out
     - [Fiddler](http://www.telerik.com/fiddler). Fiddler is a free web debugging proxy that can intercept your REST requests, making it easy to diagnose the HTTP request and response messages.
     - [JWT Decoder](http://jwt.calebb.net/) and [JWT.io](https://jwt.io/), which make it quick and easy to dump the claims in your bearer token so you can validate their contents.
@@ -266,7 +266,7 @@ Please use the LiveFyre comments section that follows this article to provide fe
 
 [AAD-Apps-And-Sps]: ../../Azure/active-directory/active-directory-application-objects.md
 [AAD-Auth-Libraries]: ../../Azure/active-directory/active-directory-authentication-libraries.md
-[AAD-Dev-Guide]: ../../Azure/active-directory/active-directory-developers-guide.md
+[AAD-Dev-Guide]: /azure/active-directory/develop/
 [AAD-Glossary-Access-Token]: ../../Azure/active-directory/active-directory-dev-glossary.md#access-token
 [AAD-Glossary-Authorization-Grant]: ../../Azure/active-directory/active-directory-dev-glossary.md#authorization-grant
 [AAD-Glossary-Claim]: ../../Azure/active-directory/active-directory-dev-glossary.md#claim
@@ -283,6 +283,6 @@ Please use the LiveFyre comments section that follows this article to provide fe
 [AAD-Oauth-Code-Token]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#use-the-authorization-code-to-request-an-access-token
 [ARM-Create-Sp-Portal]: ../../Azure/resource-group-create-service-principal-portal.md
 [ARM-Provider-Summary]: ../../Azure/resource-manager-supported-services.md
-[SDK-NET]: ../../dotnet/api/index.md
-[SDK-JAVA]: ../../java/api/index.md
+[SDK-NET]: /dotnet/azure/
+[SDK-JAVA]: /java/azure/
 [SDK-CLI]: ../../cli/azure/index.md
