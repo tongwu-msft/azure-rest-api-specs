@@ -145,6 +145,23 @@ definitions:
     types:
     - uid: AzureFileShareRecoveryPoint
     typesTitle: string
+- name: AzureWorkloadRecoveryPoint
+  description: Workload specific recovery point, specifically encapsulates full/diff recovery point
+  kind: object
+  properties:
+  - name: recoveryPointTimeInUTC
+    description: UTC time at which recovery point was created
+    types:
+    - uid: string
+  - name: type
+    description: Type of restore point
+    types:
+    - uid: RestorePointType
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: AzureWorkloadRecoveryPoint
+    typesTitle: string
 - name: GenericRecoveryPoint
   description: Generic backup copy.
   kind: object
@@ -228,6 +245,28 @@ definitions:
     types:
     - uid: IaasVMRecoveryPoint
     typesTitle: string
+- name: AzureWorkloadPointInTimeRecoveryPoint
+  description: Recovery point specific to PointInTime
+  kind: object
+  properties:
+  - name: timeRanges
+    description: List of log ranges
+    types:
+    - uid: PointInTimeRange
+      isArray: true
+  - name: recoveryPointTimeInUTC
+    description: UTC time at which recovery point was created
+    types:
+    - uid: string
+  - name: type
+    description: Type of restore point
+    types:
+    - uid: RestorePointType
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: AzureWorkloadPointInTimeRecoveryPoint
+    typesTitle: string
 - name: AzureWorkloadSAPHanaRecoveryPoint
   description: SAPHana specific recovery point, specifically encapsulates full/diff recovery points
   kind: object
@@ -245,6 +284,48 @@ definitions:
     types:
     - uid: AzureWorkloadSAPHanaRecoveryPoint
     typesTitle: string
+- name: AzureWorkloadSQLRecoveryPoint
+  description: SQL specific recovery point, specifically encapsulates full/diff recovery point along with extended info
+  kind: object
+  properties:
+  - name: extendedInfo
+    description: >-
+      Extended Info that provides data directory details. Will be populated in two cases:
+
+      When a specific recovery point is accessed using GetRecoveryPoint
+
+      Or when ListRecoveryPoints is called for Log RP only with ExtendedInfo query filter
+    types:
+    - uid: AzureWorkloadSQLRecoveryPointExtendedInfo
+  - name: recoveryPointTimeInUTC
+    description: UTC time at which recovery point was created
+    types:
+    - uid: string
+  - name: type
+    description: Type of restore point
+    types:
+    - uid: RestorePointType
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: AzureWorkloadSQLRecoveryPoint
+    typesTitle: string
+- name: RestorePointType
+  description: Type of restore point
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Full
+    types:
+    - uid: string
+  - name: Log
+    types:
+    - uid: string
+  - name: Differential
+    types:
+    - uid: string
 - name: KeyAndSecretDetails
   description: >-
     BEK is bitlocker key.
@@ -308,20 +389,16 @@ definitions:
     types:
     - uid: AzureWorkloadSAPHanaPointInTimeRecoveryPoint
     typesTitle: string
-- name: RestorePointType
-  description: Type of restore point
-  kind: enum
+- name: PointInTimeRange
+  description: Provides details for log ranges
+  kind: object
   properties:
-  - name: Invalid
+  - name: startTime
+    description: Start time of the time range for log recovery.
     types:
     - uid: string
-  - name: Full
-    types:
-    - uid: string
-  - name: Log
-    types:
-    - uid: string
-  - name: Differential
+  - name: endTime
+    description: End time of the time range for log recovery.
     types:
     - uid: string
 - name: AzureWorkloadSQLPointInTimeRecoveryPoint
@@ -355,6 +432,19 @@ definitions:
     types:
     - uid: AzureWorkloadSQLPointInTimeRecoveryPoint
     typesTitle: string
+- name: AzureWorkloadSQLRecoveryPointExtendedInfo
+  description: Extended info class details
+  kind: object
+  properties:
+  - name: dataDirectoryTimeInUTC
+    description: UTC time at which data directory info was captured
+    types:
+    - uid: string
+  - name: dataDirectoryPaths
+    description: List of data directory paths during restore operation.
+    types:
+    - uid: SQLDataDirectory
+      isArray: true
 - name: KEKDetails
   description: KEK is encryption key for BEK.
   kind: object
@@ -416,31 +506,6 @@ definitions:
   - name: Deleted
     types:
     - uid: string
-- name: PointInTimeRange
-  description: Provides details for log ranges
-  kind: object
-  properties:
-  - name: startTime
-    description: Start time of the time range for log recovery.
-    types:
-    - uid: string
-  - name: endTime
-    description: End time of the time range for log recovery.
-    types:
-    - uid: string
-- name: AzureWorkloadSQLRecoveryPointExtendedInfo
-  description: Extended info class details
-  kind: object
-  properties:
-  - name: dataDirectoryTimeInUTC
-    description: UTC time at which data directory info was captured
-    types:
-    - uid: string
-  - name: dataDirectoryPaths
-    description: List of data directory paths during restore operation.
-    types:
-    - uid: SQLDataDirectory
-      isArray: true
 - name: SQLDataDirectory
   description: SQLDataDirectory info
   kind: object

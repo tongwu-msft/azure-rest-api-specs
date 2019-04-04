@@ -4798,6 +4798,8 @@
 # [Recovery Services](../docs-ref-conceptual/recoveryservices/index.md)
 ## [Operations Vaults](recoveryservices/Operations Vaults.yml)
 ### [List](recoveryservices/Operations Vaults/List.yml)
+## [Recovery Services](recoveryservices/RecoveryServices.yml)
+### [Check Name Availability](recoveryservices/RecoveryServices/CheckNameAvailability.yml)
 ## [Registered Identities](recoveryservices/RegisteredIdentities.yml)
 ### [Delete](recoveryservices/RegisteredIdentities/Delete.yml)
 ## [Replication Usages](recoveryservices/ReplicationUsages.yml)

@@ -85,7 +85,7 @@ The following is the list of query parameters that you may specify. See the Requ
 
 The following are the JSON response objects that the response may include. If the request is successful, the top-level object in the response is the [SearchResponse](#searchresponse) object; otherwise, it is the [ErrorResponse](#errorresponse) object.
 
-This list contains JSON objects that are specific to web answers. For details about the JSON objects for other answer types that the search results may include, see the API-specific reference documentation. For example, if the search result contains the images and news answers, see the [Image API](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/searching-the-web) and [News API](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/searching-the-web).
+This list contains JSON objects that are specific to web answers. For details about the JSON objects for other answer types that the search results may include, see the API-specific reference documentation. For example, if the search result contains the images and news answers, see the [Image API](/azure/cognitive-services/bing-image-search/) and [News API](/azure/cognitive-services/bing-news-search/search-the-web).
 
   
 |Object|Description|  
@@ -186,7 +186,7 @@ Defines a search results group, such as mainline.
   
 <a name="rankingitem"></a>   
 ### RankingItem  
-Defines a search result item to display. For more information about how to use the IDs, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/ranking-results).  
+Defines a search result item to display. For more information about how to use the IDs, see [Using Ranking to Display Results](/azure/cognitive-services/bing-web-search/rank-results).  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
@@ -210,7 +210,7 @@ Defines a list of related queries that were made by others.
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
-|id|An ID that uniquely identifies the related search answer.<br /><br /> The object includes this field only if the Ranking answer specifies that you display all related searches in a group. For more information about how to use the ID, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/ranking-results).|String|  
+|id|An ID that uniquely identifies the related search answer.<br /><br /> The object includes this field only if the Ranking answer specifies that you display all related searches in a group. For more information about how to use the ID, see [Using Ranking to Display Results](/azure/cognitive-services/bing-web-search/rank-results).|String|  
 |<a name="relatedsearch-value" />value|A list of related queries that were made by others.|[Query](#query_obj)[]|  
   
 <a name="searchresponse"></a>   
@@ -249,7 +249,7 @@ If Bing determines that the user may have intended to search for something diffe
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
-|id|An ID that uniquely identifies the spelling suggestion answer.<br /><br /> You use this field when you use the [ranking response](#rankingresponse) to display the spelling suggestions. For more information about how to use the ID, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/ranking-results).|String|  
+|id|An ID that uniquely identifies the spelling suggestion answer.<br /><br /> You use this field when you use the [ranking response](#rankingresponse) to display the spelling suggestions. For more information about how to use the ID, see [Using Ranking to Display Results](/azure/cognitive-services/bing-web-search/rank-results).|String|  
 |<a name="spell-value" />value|A list of suggested query strings that may represent the user's intention.<br /><br /> The array contains only one `Query` object.|[Query](#query_obj)[]|  
   
 <a name="timezone"></a>   
@@ -277,7 +277,7 @@ Defines a list of relevant webpage links.
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
-|id|An ID that uniquely identifies the web answer.<br /><br /> The object includes this field only if the Ranking answer suggests that you display all web results in a group. For more information about how to use the ID, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/ranking-results).|String|  
+|id|An ID that uniquely identifies the web answer.<br /><br /> The object includes this field only if the Ranking answer suggests that you display all web results in a group. For more information about how to use the ID, see [Using Ranking to Display Results](/azure/cognitive-services/bing-web-search/rank-results).|String|  
 |<a name="totalestimatedmatches" />totalEstimatedMatches|The estimated number of webpages that are relevant to the query. Use this number along with the [count](#count) and [offset](#offset) query parameters to page the results.|Long|  
 |<a name="webanswer-value" />value|A list of webpages that are relevant to the query.|[WebPage](#webpage)[]|  
 |<a name="webanswer-websearchurl" />webSearchUrl|The URL to the Bing search results for the requested webpages.|String|  
@@ -291,7 +291,7 @@ Defines a webpage that is relevant to the query.
 |<a name="datelastcrawled" />dateLastCrawled|The last time that Bing crawled the webpage. The date is in the form, YYYY-MM-DDTHH:MM:SS. For example, 2015-04-13T05:23:39.|String|  
 |<a name="deeplinks" />deepLinks|An array of [Webpage](#webpage) objects. Each object contains a link to related content within the website that contains this webpage.<br /><br /> The `Webpage` object in this context includes only the `name`, `url`, and `snippet` fields.|[Webpage](#webpage)[]|  
 |<a name="displayurl" />displayUrl|The display URL of the webpage. The URL is meant for display purposes only and is not well formed.|String|  
-|id|An ID that uniquely identifies this webpage in the list of web results.<br /><br /> The object includes this field only if the Ranking answer specifies that you mix the webpages with the other search results. Each webpage will contain an ID that matches an ID in the Ranking answer. For more information, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/ranking-results).|String|  
+|id|An ID that uniquely identifies this webpage in the list of web results.<br /><br /> The object includes this field only if the Ranking answer specifies that you mix the webpages with the other search results. Each webpage will contain an ID that matches an ID in the Ranking answer. For more information, see [Using Ranking to Display Results](/azure/cognitive-services/bing-web-search/rank-results).|String|  
 |<a name="name" />name|The name of the webpage.<br /><br /> Use this name along with `url` to create a hyperlink that when clicked takes the user to the webpage.|String|  
 |<a name="searchtags" />searchTags|A list of search tags that the webpage owner specified on the webpage. The API returns only indexed search tags.<br /><br /> The `name` field of the `MetaTag` object contains the indexed search tag. Search tags begin with search.* (for example, search.assetId). The `content` field contains the tag's value.|[MetaTag](#metatag)[]|  
 |snippet|A snippet of text from the webpage that describes its contents.|String|  
