@@ -516,7 +516,7 @@ If measures are present, the response contains a single record with `null` dimen
 
 ## Property Not Found Behavior
 
-For properties referenced in the query, either as part of predicates or part of aggregates (measures), by default, the query tries to resolve the property in the environment. If the property is found, then query succeeds else it fails. 
+For properties referenced in the query, either as part of predicates or part of aggregates (measures), by default, the query tries to resolve the property in the global search span of the environment. If the property is found, then query succeeds else it fails. 
 
 Users can however modify this behavior to treat properties as existing but with `null` values if they are not present in the environment. This can be done by setting the optional request header `x-ms-property-not-found-behavior with` value `UseNull`.
 
@@ -590,7 +590,7 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 ## Warnings
 
 A query API response may contain a list of warnings as `"warnings"` entry under the root of the HTTP response or WebSocket response message.
-Currently warnings are generated if property is not found for a given search span but is found in an environment for global time span.
+Currently warnings are generated if property is not found for a given search span but is found in an environment for global time span. It is also generated when the header `x-ms-property-not-found-behavior` is set to `UseNull` and a property that is refernced does not exist even in the global search span.
 
 Each warning object may contain the following fields:
 
