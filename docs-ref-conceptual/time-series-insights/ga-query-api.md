@@ -516,7 +516,7 @@ If measures are present, the response contains a single record with `null` dimen
 
 ## Property Not Found Behavior
 
-For properties referenced in the query, either as part of predicates or part of aggregates (measures), by default, the query looks whether the property exists in the environment. If the property is found, then query succeeds else it fails. 
+For properties referenced in the query, either as part of predicates or part of aggregates (measures), by default, the query tries to resolve the property in the environment. If the property is found, then query succeeds else it fails. 
 
 Users can however modify this behavior to treat properties as existing but with `null` values if they are not present in the environment. This can be done by setting the optional request header `x-ms-property-not-found-behavior with` value `UseNull`.
 
