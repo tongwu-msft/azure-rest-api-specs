@@ -536,7 +536,7 @@ The following limits are applied during query execution to fairly utilize resour
 | Get Events | Max number of events in response | 10,000 | S1, S2 |  |
 | Get Aggregates | Max number of dimensions | 5 | S1, S2 |  |
 | Get Aggregates | Max total cardinality across all dimensions | 150,000 | S1, S2 |  |
-| Get Aggregates | Max number of measures | 5 | S1, S2 |  |
+| Get Aggregates | Max number of measures | 20 | S1, S2 |  |
 
 ## Reporting Unresolved Properties
 
