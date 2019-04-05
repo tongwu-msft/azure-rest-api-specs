@@ -23,8 +23,7 @@ Microsoft already provides a .NET wrapper around the REST API in the [Microsoft.
 
 ## In this section
 
-[Common concepts](common-concepts.md)
-[Using REST APIs from a backend](use-rest-apis-backend.md)
-
-[Using REST APIs from a device](use-rest-apis-device.md)
+- [Common concepts](common-concepts.md)
+- [Using REST APIs from a backend](use-rest-api-backend.md)
+- [Using REST APIs from a device](use-rest-api-device.md)
 

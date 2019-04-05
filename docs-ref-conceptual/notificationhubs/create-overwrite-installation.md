@@ -19,235 +19,60 @@ This method creates or overwrites an installation.
 
 ## Request
 
-<table>
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Method</p></th>
-<th><p>Request URI</p></th>
-<th><p>HTTP version</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>PUT</p></td>
-<td><p>https://{namespace}.servicebus.windows.net/{NotificationHub}/installations/{id}?api-version=2015-01</p></td>
-<td><p>HTTP/1.1</p></td>
-</tr>
-</tbody>
-</table>
-
+| Method | Request URI | HTTP version | 
+| ------ | ----------- | ------------ | 
+| PUT | `https://{namespace}.servicebus.windows.net/{NotificationHub}/installations/{id}?api-version=2015-01` | HTTP/1.1 |
 
 ## Request Headers
 
 The following table describes required and optional request headers.
 
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Request Header</p></th>
-<th><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>Content-Type</p></td>
-<td><p>application/json</p></td>
-</tr>
-<tr class="even">
-<td><p>Authorization</p></td>
-<td><p>Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS).</p></td>
-</tr>
-<tr class="odd">
-<td><p>x-ms-version</p></td>
-<td><p><strong>2015-01</strong></p></td>
-</tr>
-</tbody>
-</table>
-
+| Request header | Description | 
+| -------------- | ----------- | 
+| Content-Type | application/json |
+| Authorization | Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). |
+| x-ms-version | 2015-01 |
 
 ## Request Body
 
 The following table describes the properties of the JSON request body for installations:
 
-<table>
-<colgroup>
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Name</p></th>
-<th><p>Type</p></th>
-<th><p>Required</p></th>
-<th><p>Read-Only</p></th>
-<th><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>installationId</p></td>
-<td><p>String</p></td>
-<td><p>Yes</p></td>
-<td><p>No</p></td>
-<td><p>Globally unique identifier string</p></td>
-</tr>
-<tr class="even">
-<td><p>lastActiveOn</p></td>
-<td><p>String</p></td>
-<td><p>No</p></td>
-<td><p>Yes</p></td>
-<td><p>The date when the installation was made inactivate by the PNS.</p></td>
-</tr>
-<tr class="odd">
-<td><p>expirationTime</p></td>
-<td><p>String</p></td>
-<td><p>No</p></td>
-<td><p>Yes</p></td>
-<td><p>A string containing the date and time in W3C DTF, YYYY-MM-DDThh:mmTZD (for example, 1997-07-16T19:20+01:00)) in which the registration will expire. The value can be set at the hub level on create or update, and will default to never expire (9999-12-31T23:59:59).</p></td>
-</tr>
-<tr class="even">
-<td><p>lastUpdate</p></td>
-<td><p>String</p></td>
-<td><p>Ignored when updating. Returned when reading.</p></td>
-<td><p>Yes</p></td>
-<td><p>Date in W3C format of last update to this installation.</p></td>
-</tr>
-<tr class="odd">
-<td><p>platform</p></td>
-<td><p>String</p></td>
-<td><p>Yes</p></td>
-<td><p>No</p></td>
-<td><p>Can be {APNS, WNS, MPNS, ADM, GCM}.</p></td>
-</tr>
-<tr class="even">
-<td><p>pushChannel</p></td>
-<td><p>String</p></td>
-<td><p>Yes</p></td>
-<td><p>No</p></td>
-<td><p>The PNS handle for this installation (in case of WNS the ChannelUri of the ApplicationTile).</p></td>
-</tr>
-<tr class="odd">
-<td><p>expiredPushChannel</p></td>
-<td><p>Boolean</p></td>
-<td><p>Ignored when updating. Returned when reading.</p></td>
-<td><p>Yes</p></td>
-<td><p>This is true if the PNS expired the channel.</p></td>
-</tr>
-<tr class="even">
-<td><p>tags</p></td>
-<td><p>Array of strings</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-<td><p>An array of tags. Tags are strings as defined in hub specs.</p></td>
-</tr>
-<tr class="odd">
-<td><p>templates</p></td>
-<td><p>JSON object</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-<td><p>A JSON object representing a dictionary of templateNames to template description.</p></td>
-</tr>
-<tr class="even">
-<td><p>templates.{name}</p></td>
-<td><p>String</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-<td><p>JSON object representing a template.</p></td>
-</tr>
-<tr class="odd">
-<td><p>templates.{name}.body</p></td>
-<td><p>String</p></td>
-<td><p>Yes, if template present</p></td>
-<td><p>No</p></td>
-<td><p>Template for the body of notification payload.</p></td>
-</tr>
-<tr class="even">
-<td><p>templates.{name}.headers</p></td>
-<td><p>JSON object</p></td>
-<td><p>No. Can be present only if platform is WNS or MPNS.</p></td>
-<td><p>No</p></td>
-<td><p>JSON object where each property is a header name and value is a template expression.</p></td>
-</tr>
-<tr class="odd">
-<td><p>templates.{name}.expiry</p></td>
-<td><p>String</p></td>
-<td><p>No. Can be present only if platform is apns</p></td>
-<td><p>No</p></td>
-<td><p>Template expression evaluating in W3D date format.</p></td>
-</tr>
-<tr class="even">
-<td><p>templates.{name}.tags</p></td>
-<td><p>Array of strings</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-<td><p>Array of tags for this template.</p></td>
-</tr>
-<tr class="odd">
-<td><p>secondaryTiles</p></td>
-<td><p>JSON object</p></td>
-<td><p>No. Can be present only if platform is wns.</p></td>
-<td><p>No</p></td>
-<td><p>JSON object containing a dictionary of tileId and secondaryTiles objects.</p></td>
-</tr>
-<tr class="even">
-<td><p>secondaryTile.{tileId}</p></td>
-<td><p>JSON object</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-<td><p>JSON object with push properties for secondary tiles.</p></td>
-</tr>
-<tr class="odd">
-<td><p>secondaryTile.{tileId}.pushChannel</p></td>
-<td><p>String</p></td>
-<td><p>Yes, if tileId is present</p></td>
-<td><p>No</p></td>
-<td><p>ChannelUri for secondary tile.</p></td>
-</tr>
-<tr class="even">
-<td><p>secondaryTile.{tileId}.tags</p></td>
-<td><p>Array of strings</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-<td><p>Tags for native notifications to secondary tile.</p></td>
-</tr>
-<tr class="odd">
-<td><p>secondaryTile.{tileId}.templates</p></td>
-<td><p>JSON object</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-<td><p>Same as templates property but for each secondary tile.</p></td>
-</tr>
-</tbody>
-</table>
+| Name | Type | Required | Read-only | Description | 
+| ---- | ---- | -------- | --------- | ----------- |
+| installationId | String | Yes | No | Globally unique identifier string |
+| lastActiveOn | String | No | Yes | The date when the installation was made inactivate by the PNS. | 
+| expirationTime | String | No | Yes | A string containing the date and time in W3C DTF, YYYY-MM-DDThh:mmTZD (for example, 1997-07-16T19:20+01:00)) in which the registration will expire. The value can be set at the hub level on create or update, and will default to never expire (9999-12-31T23:59:59). | 
+| lastUpdate | String | Ignored when updating. Returned when reading. | Yes | Date in W3C format of last update to this installation. | 
+| platform | String | Yes | No | Can be {APNS, WNS, MPNS, ADM, GCM}. |
+| pushChannel | String | Yes | No | The PNS handle for this installation (in case of WNS the ChannelUri of the ApplicationTile). | 
+ | expiredPushChannel | Boolean | Ignored when updating. Returned when reading. | Yes | This is true if the PNS expired the channel. | 
+ | tags | Array of strings | No | No | An array of tags. Tags are strings as defined in hub specs. |
+| templates | JSON object | No | No | A JSON object representing a dictionary of templateNames to template description. |
+ | templates.{name} | String | No  | No | JSON object representing a template. | 
+| templates.{name}.body | String | Yes, if template present | No | Template for the body of notification payload. | 
+ | templates.{name}.headers | JSON object | No. Can be present only if platform is WNS or MPNS. | No | JSON object where each property is a header name and value is a template expression. | 
+ | templates.{name}.expiry | String | No. Can be present only if platform is apns | No | Template expression evaluating in W3D date format. |
+ | templates.{name}.tags | Array of strings | No | No | Array of tags for this template. |
+| secondaryTiles | JSON object | No. Can be present only if platform is wns. | No | JSON object containing a dictionary of tileId and secondaryTiles objects. | 
+ | secondaryTile.{tileId} | JSON object | No | No | JSON object with push properties for secondary tiles. | 
+| secondaryTile.{tileId}.pushChannel | String | Yes, if tileId is present | No | ChannelUri for secondary tile. |
+ | secondaryTile.{tileId}.tags | Array of strings | No | No | Tags for native notifications to secondary tile. |
+| secondaryTile.{tileId}.templates | JSON object | No | No | Same as templates property but for each secondary tile. | 
 
+
+Note the following points: 
 
   - In JSON, the order of elements is not important.
-
   - Template body has to be JSON for APNS, GCM, ADM.
-
   - Template body must be XML for WNS and MPNS (except when raw).
-
   - Templates for WNS must include X-WNS-Type header.
-
-  - Templates for MPNS must have compatible headers as mentioned in [Sending push notifications for Windows Phone 8](http://msdn.microsoft.com/library/windowsphone/develop/hh202945.aspx).
+  - Templates for MPNS must have compatible headers as mentioned in [Sending push notifications for Windows Phone 8](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-windows-mobile-push-notifications-mpns).
 
 Some JSON examples follow.
 
 Example to register with APNS:
 
-``` xml
+``` json
 { 
     "installationId": "12234", 
     "tags": ["foo", "bar"], 
@@ -264,7 +89,7 @@ Example to register with APNS:
 
 Example to register natively with WNS including a template and no tags:
 
-``` xml
+``` json
 { 
     "installationId": "12234", 
     "platform": "wns", 
@@ -282,7 +107,7 @@ Example to register natively with WNS including a template and no tags:
 
 A skeleton listing of many possible elements
 
-``` xml
+``` json
 { 
     installationId: "", 
     expirationTime: "", 
@@ -325,71 +150,21 @@ A skeleton listing of many possible elements
 The response includes an HTTP status code and a set of response headers.
 
 ## Response Codes
-
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Code</p></th>
-<th><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>200</p></td>
-<td><p>The installation was created successfully.</p></td>
-</tr>
-<tr class="even">
-<td><p>400</p></td>
-<td><p>The installation could not be created/overwritten because the request was malformed.</p></td>
-</tr>
-<tr class="odd">
-<td><p>401</p></td>
-<td><p>Authorization failure. The access key was incorrect.</p></td>
-</tr>
-<tr class="even">
-<td><p>403</p></td>
-<td><p>Too many installations in this namespace - Installations not created.</p></td>
-</tr>
-<tr class="odd">
-<td><p>403</p></td>
-<td><p>Request rejected because API call rate is too high.</p></td>
-</tr>
-</tbody>
-</table>
-
+| Code | Description | 
+| ---- | ----------- |
+| 200 | The installation was created successfully. |
+| 400 | The installation could not be created/overwritten because the request was malformed. | 
+| 401 | Authorization failure. The access key was incorrect. | 
+| 403 | Too many installations in this namespace - Installations not created. |
 
 For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/windowsazure/dd179357.aspx).
 
 ## Response Headers
 
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Response Header</p></th>
-<th><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p><strong>Content-type</strong></p></td>
-<td><p>application/json</p></td>
-</tr>
-<tr class="even">
-<td><p><strong>Content-Location</strong></p></td>
-<td><p>The location of the installation in the format:</p>
-<p>https://{namespace}.servicebus.windows.net/{NotificationHub}/installations/&lt;installationId&gt;</p></td>
-</tr>
-</tbody>
-</table>
-
+| Response Header | Description | 
+| --------------- | ----------- | 
+| Content-type | application/json | 
+| Content-Location | The location of the installation in the format: `https://{namespace}.servicebus.windows.net/{NotificationHub}/installations/<installationId>` |
 
 ## Response Body
 

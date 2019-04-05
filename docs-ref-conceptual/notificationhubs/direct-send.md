@@ -195,7 +195,7 @@ None.
 ## See Also
 [Direct batch send](direct-batch-send.md)  
 [Send an APNS native notification](send-apns-native-notification.md)  
-[Send a GCM native notification](send-gcn-native-notification.md)  
+[Send a GCM native notification](send-gcm-native-notification.md)  
 [Send an MPNS native notification](send-mpns-native-notification.md)  
 [Send a WNS native notification](send-wns-native-notification.md)
 

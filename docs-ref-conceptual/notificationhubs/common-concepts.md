@@ -16,13 +16,11 @@ manager: "timlt"
 
 
 # Common concepts
-
- 
+This article provides common concepts when developing applications that use Azure Notification Hubs REST API.
 
 
 ## Parse Connection String
-
-In order to access a notification hub, you must have two pieces of information: the hub name (can be a path such as “a/b/c”), and a connection string. The connection string contains information about the endpoint of your hub, and the security credentials used to access it (For SAS, it contains a rule name and a key value).
+To access a notification hub, you must have two pieces of information: the **hub name**, and a **connection string**. The connection string contains information about the endpoint of your hub, and the security credentials used to access it (For SAS, it contains a rule name and a key value).
 
 The following code parses the connection string to extract the relevant information:
 
@@ -50,21 +48,6 @@ public partial class ConnectionStringUtility
     }
 }
 ```
-
-    String[] parts = connectionString.split(";");
-    if (parts.length != 3)
-    throw new RuntimeException("Error parsing connection string: "
-    + connectionString);
-    
-    for (int i = 0; i < parts.length; i++) {
-    if (parts[i].startsWith("Endpoint")) {
-    this.endpoint = "https" + parts[i].substring(11);
-    } else if (parts[i].startsWith("SharedAccessKeyName")) {
-    this.SasKeyName = parts[i].substring(20);
-    } else if (parts[i].startsWith("SharedAccessKey")) {
-    this.SasKeyValue = parts[i].substring(16);
-    }
-    }
 
 ``` javascript
 var parts = connectionString.split(';');
@@ -94,19 +77,25 @@ The token refers to a keyName (to send notifications, you usually use the **Defa
 
 The signature for the SAS token is computed using the HMAC-SHA256 of a string-to-sign value with the **PrimaryKey** property of an authorization rule. The string-to-sign value consists of a resource URI and an expiry, formatted as follows:
 
-    StringToSign = <resourceURI> + "\n" + expiry;
+```
+StringToSign = <resourceURI> + "\n" + expiry;
+```
 
 Use the unencoded resource URI for this operation. The resource URI is the full URI of the Service Bus resource to which access is claimed. The form is as follows:
 
-    http://<namespace>.servicebus.windows.net/<hubName>
+```
+http://<namespace>.servicebus.windows.net/<hubName>
+```
 
 For example:
 
-    http://contoso.servicebus.windows.net/myHub
+```
+http://contoso.servicebus.windows.net/myHub
+```
 
 The expiry is represented as the number of seconds since the epoch 00:00:00 UTC on 1 January 1970.
 
-The shared access authorization rule used for signing must be configured on the entity specified by this URI. In the previous example, URI is http://contoso.servicebus.windows.net/myHub or http://contoso.servicebus.windows.net.
+The shared access authorization rule used for signing must be configured on the entity specified by this URI. In the previous example, URI is `http://contoso.servicebus.windows.net/myHub` or `http://contoso.servicebus.windows.net`.
 
 The URL-encoded **resourceURI** must be the same as the URI used in the string-to-sign during the computation of the signature. It should be percent-encoded and lowercase.
 
@@ -139,42 +128,6 @@ public partial class ConnectionStringUtility
     }
 }
 ```
-
-    private String generateSasToken(URI uri) {
-    String targetUri;
-    try {
-    targetUri = URLEncoder
-    .encode(uri.toString().toLowerCase(), "UTF-8")
-    .toLowerCase();
-    
-    long expiresOnDate = System.currentTimeMillis();
-    int expiresInMins = 60; // 1 hour
-    expiresOnDate += expiresInMins * 60 * 1000;
-    long expires = expiresOnDate / 1000;
-    String toSign = targetUri + "\n" + expires;
-    
-    // Get an hmac_sha1 key from the raw key bytes
-    byte[] keyBytes = SasKeyValue.getBytes("UTF-8");
-    SecretKeySpec signingKey = new SecretKeySpec(keyBytes, "HmacSHA256");
-    
-    // Get an hmac_sha1 Mac instance and initialize with the signing key
-    Mac mac = Mac.getInstance("HmacSHA256");
-    mac.init(signingKey);
-    // Compute the hmac on input data bytes
-    byte[] rawHmac = mac.doFinal(toSign.getBytes("UTF-8"));
-    
-    // using Apache commons codec for base64
-    String signature = URLEncoder.encode(
-    Base64.encodeBase64String(rawHmac), "UTF-8");
-    
-    // construct authorization string
-    String token = "SharedAccessSignature sr=" + targetUri + "&sig="
-    + signature + "&se=" + expires + "&skn=" + SasKeyName;
-    return token;
-    } catch (Exception e) {
-    throw new RuntimeException(e);
-    }
-    }
 
 ``` javascript
 var getSelfSignedToken = function(targetUri, sharedKey, ruleId,

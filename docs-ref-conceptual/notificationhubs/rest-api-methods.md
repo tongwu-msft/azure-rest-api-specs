@@ -24,7 +24,7 @@ This section contains the Notification Hubs REST API method references.
 - [Update a notification hub](update-notification-hub.md)
 - [Read a notification hub](read-notification-hub.md)
 - [Delete a notification hub](read-notification-hub.md)
-- [Create or update namespace Platform Notification Services (PNS) credentials](create-update-pns-credentials.md)
+- [Create or update namespace Platform Notification Services (PNS) credentials](create-update-namespace-pns-credentials.md)
 - [Read a namespace PNS credentials](read-namespace-pns-credentials.md)
 - [Send an Apple Push Notification Services (APNS) native notification](send-apns-native-notification.md)
 - [Send a Google Cloud Messaging (GCM) native notification](send-gcm-native-notification.md)
