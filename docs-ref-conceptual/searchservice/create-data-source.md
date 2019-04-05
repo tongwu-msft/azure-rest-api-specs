@@ -130,7 +130,7 @@ When using Azure Blob data sources, Azure Search automatically uses a high water
 
  When using SQL Integrated Change Tracking policy, do not specify a separate data deletion detection policy - this policy has built-in support for identifying deleted rows.  
 
- This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](https://docs.microsoft.com/ql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions.  
+ This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](https://docs.microsoft.com/sql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions.  
 
  When structuring the **Create Data Source** request, SQL integrated change tracking policy can be specified as follows:  
 

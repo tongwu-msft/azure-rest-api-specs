@@ -52,7 +52,7 @@ The stored procedure resource has a fixed schema. The body property contains the
 |**_self**|It is a system generated property. It is the unique addressable URI for the resource.|  
 |**_etag**|It is a system generated property that specifies the resource etag required for optimistic concurrency control.|  
   
-Stored procedures can use the Cosmos DB JavaScript Server-side SDK to make database operations like create, read, update, delete and query documents, as well as read from the request body and write to the response body of the stored procedure. For more details, refer to the [Cosmos DB server side programming tutorial](/azure/cosmos-db/programming/).  
+Stored procedures can use the Cosmos DB JavaScript Server-side SDK to make database operations like create, read, update, delete and query documents, as well as read from the request body and write to the response body of the stored procedure. For more details, refer to the [Cosmos DB server side programming tutorial](/azure/cosmos-db/stored-procedures-triggers-udfs).  
 For example, here’s a stored procedure for “Hello World”:  
   
 ```  
@@ -163,7 +163,7 @@ You can do the following with stored procedures:
   
 -   [Execute a Stored Procedure](execute-a-stored-procedure.md)  
   
- For information on how stored procedures work, including execution of a stored procedure, see [Azure Cosmos DB programming: Stored procedures, triggers, and UDFs](/azure/cosmos-db/programming/).  
+ For information on how stored procedures work, including execution of a stored procedure, see [Azure Cosmos DB programming: Stored procedures, triggers, and UDFs](/azure/cosmos-db/stored-procedures-triggers-udfs).  
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
