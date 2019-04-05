@@ -52,7 +52,7 @@ The table below describes the required JSON properties for the request body. Use
 | Name | Type | Description |
 | :--- | :--- | :---------- |
 | location | string | Resource location. Get a current list of locations using the [List Locations](/rest/api/resources/subscriptions/listlocations) operation. |
-| kind | [Kind](/rest/api/storagerp/storageaccounts/create#kind) |  Specifies which [type of storage account](/storage/common/storage-account-options) to create. The general-purpose `StorageV2` choice is recommended and used in this sample.
+| kind | [Kind](/rest/api/storagerp/storageaccounts/create#kind) |  Specifies which [type of storage account](/azure/storage/common/storage-decide-blobs-files-disks) to create. The general-purpose `StorageV2` choice is recommended and used in this sample.
 | sku | [Sku](/rest/api/storagerp/storageaccounts/create#sku) | Defines the  capabilities of the Storage account, such as redundancy strategy and encryption. This sample uses [Geo-Redundant storage](/azure/storage/common/storage-redundancy).
 
 ## Example request body
