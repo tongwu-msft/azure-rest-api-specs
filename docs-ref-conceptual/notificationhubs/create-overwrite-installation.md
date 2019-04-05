@@ -110,14 +110,14 @@ The following table describes the properties of the JSON request body for instal
 <td><p>String</p></td>
 <td><p>No</p></td>
 <td><p>Yes</p></td>
-<td><p>This is the date when the installation was made inactivate by the PNS.</p></td>
+<td><p>The date when the installation was made inactivate by the PNS.</p></td>
 </tr>
 <tr class="odd">
 <td><p>expirationTime</p></td>
 <td><p>String</p></td>
 <td><p>No</p></td>
 <td><p>Yes</p></td>
-<td><p>This is a string containing the date and time in W3C DTF, YYYY-MM-DDThh:mmTZD (e.g. 1997-07-16T19:20+01:00)) in which the registration will expire. The value can be set at the hub level on create or update, and will default to never expire (9999-12-31T23:59:59).</p></td>
+<td><p>A string containing the date and time in W3C DTF, YYYY-MM-DDThh:mmTZD (for example, 1997-07-16T19:20+01:00)) in which the registration will expire. The value can be set at the hub level on create or update, and will default to never expire (9999-12-31T23:59:59).</p></td>
 </tr>
 <tr class="even">
 <td><p>lastUpdate</p></td>
@@ -131,7 +131,7 @@ The following table describes the properties of the JSON request body for instal
 <td><p>String</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
-<td><p>Can be {apns, wns, mpns, adm, gcm}.</p></td>
+<td><p>Can be {APNS, WNS, MPNS, ADM, GCM}.</p></td>
 </tr>
 <tr class="even">
 <td><p>pushChannel</p></td>
@@ -178,7 +178,7 @@ The following table describes the properties of the JSON request body for instal
 <tr class="even">
 <td><p>templates.{name}.headers</p></td>
 <td><p>JSON object</p></td>
-<td><p>No. Can be present only if platform is wns or mpns.</p></td>
+<td><p>No. Can be present only if platform is WNS or MPNS.</p></td>
 <td><p>No</p></td>
 <td><p>JSON object where each property is a header name and value is a template expression.</p></td>
 </tr>
@@ -354,7 +354,7 @@ The response includes an HTTP status code and a set of response headers.
 </tr>
 <tr class="even">
 <td><p>403</p></td>
-<td><p>Too many installations in this namespace - Installations not created .</p></td>
+<td><p>Too many installations in this namespace - Installations not created.</p></td>
 </tr>
 <tr class="odd">
 <td><p>403</p></td>

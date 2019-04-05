@@ -46,7 +46,7 @@ Retrieves all registrations for a channel (for example, ChannelUri, device token
 </table>
 
 
-Note the following:
+Note the following points:
 
   - This call supports the $top query string parameter as specified in OData.
 

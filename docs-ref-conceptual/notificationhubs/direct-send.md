@@ -64,9 +64,9 @@ The following table describes required and optional request headers.
 <td><p>Content-Type</p></td>
 <td><p>Set the Content-Type header based on the target platform notification service below:</p>
 <ul>
-<li><p>WNS : Set to <strong>application/json;charset=utf-8</strong> or <strong>application/xml</strong>. If the notification type (X-WNS-Type) is “wns/raw”, set to <strong>application/octet-stream</strong>.</p></li>
-<li><p>GCM and APNS : Set to <strong>application/json;charset=utf-8</strong>.</p></li>
-<li><p>MPNS : Set to <strong>application/xml;charset=utf-8</strong>.</p></li>
+<li><p>WNS: Set to <strong>application/json;charset=utf-8</strong> or <strong>application/xml</strong>. If the notification type (X-WNS-Type) is “wns/raw”, set to <strong>application/octet-stream</strong>.</p></li>
+<li><p>GCM and APNS: Set to <strong>application/json;charset=utf-8</strong>.</p></li>
+<li><p>MPNS: Set to <strong>application/xml;charset=utf-8</strong>.</p></li>
 </ul></td>
 </tr>
 <tr class="odd">
@@ -84,7 +84,7 @@ The following table describes required and optional request headers.
 <li><p>windows</p></li>
 <li><p>apple</p></li>
 <li><p>gcm</p></li>
-<li><p>windowsphone</p></li>
+<li><p>windows phone</p></li>
 <li><p>adm</p></li>
 <li><p>nokiax</p></li>
 <li><p>baidu</p></li>
@@ -150,7 +150,7 @@ The response includes an HTTP status code and a set of response headers. Respons
 </tr>
 <tr class="even">
 <td><p>413</p></td>
-<td><p>Requested entity too large. The message size cannot be over 64Kb.</p></td>
+<td><p>Requested entity too large. The message size cannot be over 64 Kb.</p></td>
 </tr>
 </tbody>
 </table>
@@ -179,7 +179,7 @@ For information about status codes, see [Status and Error Codes](http://msdn.mic
 <tr class="even">
 <td><p>Location</p></td>
 <td><p>This header is only available for <a href="https://azure.microsoft.com/pricing/details/notification-hubs/">Standard tier Notification Hubs</a>.</p>
-<p>This header will contain the Notification Message ID. This is used with <a href="mt608135(v=azure.100).md">Per Message Telemetry: Get Notification Message Telemetry</a> and correlating <a href="mt705560(v=azure.100).md">PNS Feedback</a>. The location header uses the following format:</p>
+<p>This header will contain the Notification Message ID. It is used with <a href="mt608135(v=azure.100).md">Per Message Telemetry: Get Notification Message Telemetry</a> and correlating <a href="mt705560(v=azure.100).md">PNS Feedback</a>. The location header uses the following format:</p>
 <pre><code>https://{your namespace}.servicebus.windows.net/{your hub name}/messages/{notification message id}?api-version=2015-04</code></pre></td>
 </tr>
 </tbody>

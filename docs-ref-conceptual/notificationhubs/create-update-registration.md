@@ -120,7 +120,7 @@ The response includes an HTTP status code and a set of response headers.
 </tr>
 <tr class="odd">
 <td><p>410</p></td>
-<td><p>Cannot use specified location. Please use a different <strong>registrationid</strong>.</p></td>
+<td><p>Cannot use specified location. Use a different <strong>registration ID</strong>.</p></td>
 </tr>
 </tbody>
 </table>

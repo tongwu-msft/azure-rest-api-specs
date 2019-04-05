@@ -37,7 +37,7 @@ This API is only available for [Standard tier notification hubs](https://azure.m
 <tbody>
 <tr class="odd">
 <td><p>GET</p></td>
-<td><p>https://{namespace}.servicebus.windows.net/{NotificationHub}/messages/{notification message id}?api-version=2016-07</p></td>
+<td><p>https://{namespace}.servicebus.windows.net/{NotificationHub}/messages/{notification message ID}?api-version=2016-07</p></td>
 <td><p>HTTP/1.1</p></td>
 </tr>
 </tbody>
@@ -112,7 +112,7 @@ The response includes an HTTP status code and a set of response headers. Respons
 </tr>
 <tr class="odd">
 <td><p>404</p></td>
-<td><p>Telemetry does not exist. This may be because the notification ID is invalid or because the message has not progressed far enough in processing. If you receive a 404 code, wait and try again after 10s. This state can continue for up to 30 minutes.</p></td>
+<td><p>Telemetry does not exist. This may be because the notification ID is invalid or because the message has not progressed far enough in processing. If you receive a 404 code, wait and try again after 10 seconds. This state can continue for up to 30 minutes.</p></td>
 </tr>
 </tbody>
 </table>
@@ -170,15 +170,15 @@ The response body will be a NotificationDetails document consisting of the follo
 <td><p>State</p></td>
 <td><p>Indicates message progress. State may be one of the following values:</p>
 <ul>
-<li><p> <strong>Abandoned</strong>: Message processing has been abandoned. This will happen when<br />
+<li><p> <strong>Abandoned</strong>: Message processing has been abandoned. It will happen when<br />
 the message could not be processed within the acceptable time window.<br />
-By default, this is 30 minutes.</p></li>
-<li><p><strong>Canceled</strong>: This scheduled message was cancelled by user.</p></li>
+By default, it's 30 minutes.</p></li>
+<li><p><strong>Canceled</strong>: This scheduled message was canceled by user.</p></li>
 <li><p><strong>Completed</strong>: Message processing has completed.</p></li>
 <li><p><strong>Enqueued</strong>: Message has been accepted but processing has not yet begun.</p></li>
 <li><p><strong>NoTargetFound</strong>: No devices were found to send this message.</p></li>
 <li><p><strong>Processing</strong>: Message processing has started.</p></li>
-<li><p><strong>Scheduled</strong> : Message is in queue and will be sent on the scheduled time.</p></li>
+<li><p><strong>Scheduled: Message is in queue and will be sent on the scheduled time.</p></li>
 <li><p><strong>Unknown</strong>: Message processing is in an unknown state.</p></li>
 </ul></td>
 </tr>
@@ -201,17 +201,17 @@ By default, this is 30 minutes.</p></li>
 <tr class="even">
 <td><p>TargetPlatforms</p></td>
 <td><p>Indicates which platforms are targeted by the notification. May contain<br />
-the following values as a comma delimited string:</p>
+the following values as a comma-delimited string:</p>
 <ul>
 <li><p>windows</p></li>
 <li><p>apple</p></li>
 <li><p>gcm</p></li>
-<li><p>windowsphone</p></li>
+<li><p>windows phone</p></li>
 <li><p>adm</p></li>
 <li><p>baidu</p></li>
 <li><p>template</p></li>
-<li><p>windowstemplate</p></li>
-<li><p>appletemplate</p></li>
+<li><p>windows template</p></li>
+<li><p>apple template</p></li>
 <li><p>gcmtemplate</p></li>
 <li><p>windowsphonetemplate</p></li>
 <li><p>admtemplate</p></li>
@@ -221,27 +221,27 @@ the following values as a comma delimited string:</p>
 <tr class="odd">
 <td><p>ApnsOutcomeCounts</p></td>
 <td><p>This element will be present for notifications sent to Apple Push Notification Service.<br />
-Contains an collection of Outcome instances.</p></td>
+Contains a collection of Outcome instances.</p></td>
 </tr>
 <tr class="even">
 <td><p>MpnsOutcomeCounts</p></td>
 <td><p>This element will be present for notifications sent to Microsoft Push Notification Service.<br />
-Contains an collection of Outcome instances.</p></td>
+Contains a collection of Outcome instances.</p></td>
 </tr>
 <tr class="odd">
 <td><p>WnsOutcomeCounts</p></td>
 <td><p>This element will be present for notifications sent to Windows Notification Service.<br />
-Contains an collection of Outcome instances.</p></td>
+Contains a collection of Outcome instances.</p></td>
 </tr>
 <tr class="even">
 <td><p>GcmOutcomeCounts</p></td>
 <td><p>This element will be present for notifications sent to Google Cloud Messaging.<br />
-Contains an collection of Outcome instances.</p></td>
+Contains a collection of Outcome instances.</p></td>
 </tr>
 <tr class="odd">
 <td><p>AdmOutcomeCounts</p></td>
 <td><p>This element will be present for notifications sent to Amazon Device Messaging.<br />
-Contains an collection of Outcome instances.</p></td>
+Contains a collection of Outcome instances.</p></td>
 </tr>
 <tr class="even">
 <td><p>Outcome</p></td>
@@ -344,7 +344,7 @@ Contains an collection of Outcome instances.</p></td>
 <td><p>PnsErrorDetailsUri</p></td>
 <td><p><em>Requires Api-Version 2016-07 and above used for this API and the API sending the notification message.</em></p>
 <p>PNS Error details are only fully available after the associated send operation is complete.</p>
-<p>Gets the URI to a blob containing errors returned by each PNS involved. If no errors were reported by a PNS, this member will not be included in the response. You can use the Azure Storage API to read the blob. For more information see, <a href="https://azure.microsoft.com/documentation/articles/storage-dotnet-how-to-use-blobs/">Get started with Azure Blob storage using .NET</a> or <a href="https://msdn.microsoft.com/library/azure/dd179355.aspx">Azure Storage Services REST API Reference</a> Possible PNS errors include:</p>
+<p>Gets the URI to a blob containing errors returned by each PNS involved. If no errors were reported by a PNS, this member will not be included in the response. You can use the Azure Storage API to read the blob. For more information, see, <a href="https://azure.microsoft.com/documentation/articles/storage-dotnet-how-to-use-blobs/">Get started with Azure Blob storage using .NET</a> or <a href="https://msdn.microsoft.com/library/azure/dd179355.aspx">Azure Storage Services REST API Reference</a> Possible PNS errors include:</p>
 <ul>
 <li><p>Invalid PNS Credentials</p></li>
 <li><p>PNS Unreachable</p></li>
@@ -361,7 +361,7 @@ Contains an collection of Outcome instances.</p></td>
 </table>
 
 
-The following is example telemetry from sending a notification to WNS.
+Here is an example telemetry from sending a notification to WNS:
 
     <NotificationDetails xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
       <NotificationId>{Your message id}</NotificationId>

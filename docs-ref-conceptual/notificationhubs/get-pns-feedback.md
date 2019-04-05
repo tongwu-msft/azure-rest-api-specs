@@ -126,7 +126,7 @@ For example:
 
 The returned URL can then be used to navigate the container and fetch the contents using the [Azure Storage Services REST API](https://msdn.microsoft.com/library/azure/dd179355.aspx)
 
-The following shows example PNS feedback which indicates WNS expired channels associated with two different notification message Ids:
+The following shows example PNS feedback, which indicates WNS expired channels associated with two different notification message Ids:
 
     <EnumerationResults ServiceEndpoint="---Removed---" ContainerName="00000000002001061088">
       <Blobs>

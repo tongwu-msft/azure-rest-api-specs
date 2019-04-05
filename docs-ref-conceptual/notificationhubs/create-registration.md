@@ -335,7 +335,7 @@ For information about status codes, see [Status and Error Codes](http://msdn.mic
 
 ## Response Body
 
-Upon success, a validated Atom entry is returned. This includes read-only elements such as ETag, RegistrationId, and ExpirationTime. For example:
+Upon success, a validated Atom entry is returned. It includes read-only elements such as ETag, RegistrationId, and ExpirationTime. For example:
 
 ``` xml
 <entry>

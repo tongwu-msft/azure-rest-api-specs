@@ -136,11 +136,11 @@ The request body contains an Atom entry with a NotificationHubDescription elemen
 </content></entry>
 ```
 
-Note that the endpoint property of ApnsCredential can be either “gateway.push.apple.com” (for production servers) or “gateway.sandbox.push.apple.com” (for sandbox servers).
+The endpoint property of ApnsCredential can be either “gateway.push.apple.com” (for production servers) or “gateway.sandbox.push.apple.com” (for sandbox servers).
 
 All child elements of NotificationHubDescription are optional.
 
-WNS, APNS, and GCM credentials must contain all properties shown above. MPNS credentials can also contain no properties, which enables unauthenticated push for MPNS.
+WNS, APNS, and GCM credentials must contain all properties shown above. MPNS credentials can also contain no properties, which enable unauthenticated push for MPNS.
 
 ## Response
 

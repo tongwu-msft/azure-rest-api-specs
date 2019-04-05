@@ -19,7 +19,7 @@ dev_langs:
 
 ## Parse Connection String
 
-In order to access a notification hub, you must have two pieces of information: the hub name (this can be a path such as “a/b/c”), and a connection string. The connection string contains information about the endpoint of your hub, and the security credentials used to access it (in the case of SAS, it contains a rule name and a key value).
+In order to access a notification hub, you must have two pieces of information: the hub name (can be a path such as “a/b/c”), and a connection string. The connection string contains information about the endpoint of your hub, and the security credentials used to access it (For SAS, it contains a rule name and a key value).
 
 The following code parses the connection string to extract the relevant information:
 
@@ -87,13 +87,13 @@ In order to authenticate using SAS, a client must specify a SAS token in the Aut
 SharedAccessSignature sig=<signature-string>&se=<expiry>&skn=<keyName>&sr=<URL-encoded-resourceURI>
 ```
 
-Note that the token refers to a keyName (to send notifications, you usually use the **DefaultFullSharedAccessSignature** property that is created automatically on all notification hubs).
+The token refers to a keyName (to send notifications, you usually use the **DefaultFullSharedAccessSignature** property that is created automatically on all notification hubs).
 
 The signature for the SAS token is computed using the HMAC-SHA256 of a string-to-sign value with the **PrimaryKey** property of an authorization rule. The string-to-sign value consists of a resource URI and an expiry, formatted as follows:
 
     StringToSign = <resourceURI> + "\n" + expiry;
 
-Note that you should use the un-encoded resource URI for this operation. The resource URI is the full URI of the Service Bus resource to which access is claimed. The form is as follows:
+Use the unencoded resource URI for this operation. The resource URI is the full URI of the Service Bus resource to which access is claimed. The form is as follows:
 
     http://<namespace>.servicebus.windows.net/<hubName>
 
@@ -103,7 +103,7 @@ For example:
 
 The expiry is represented as the number of seconds since the epoch 00:00:00 UTC on 1 January 1970.
 
-The shared access authorization rule used for signing must be configured on the entity specified by this URI. In the previous example, this is http://contoso.servicebus.windows.net/myHub or http://contoso.servicebus.windows.net.
+The shared access authorization rule used for signing must be configured on the entity specified by this URI. In the previous example, URI is http://contoso.servicebus.windows.net/myHub or http://contoso.servicebus.windows.net.
 
 The URL-encoded **resourceURI** must be the same as the URI used in the string-to-sign during the computation of the signature. It should be percent-encoded and lowercase.
 

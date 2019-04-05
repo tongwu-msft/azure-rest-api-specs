@@ -130,7 +130,7 @@ The response includes an HTTP status code and a set of response headers.
 </tr>
 <tr class="even">
 <td><p>413</p></td>
-<td><p>Requested entity too large. The message size cannot be over 64Kb.</p></td>
+<td><p>Requested entity too large. The message size cannot be over 64 Kb.</p></td>
 </tr>
 </tbody>
 </table>
@@ -155,7 +155,7 @@ For information about status codes, see [Status and Error Codes](http://msdn.mic
 <tr class="odd">
 <td><p>Location</p></td>
 <td><p>This header is only available for <a href="https://azure.microsoft.com/pricing/details/notification-hubs/">Standard tier Notification Hubs</a>.</p>
-<p>This header will contain the Notification Message ID. This is used with <a href="mt608135(v=azure.100).md">Per Message Telemetry: Get Notification Message Telemetry</a> and correlating <a href="mt705560(v=azure.100).md">PNS Feedback</a>. The location header uses the following format:</p>
+<p>This header will contain the Notification Message ID. It's used with <a href="mt608135(v=azure.100).md">Per Message Telemetry: Get Notification Message Telemetry</a> and correlating <a href="mt705560(v=azure.100).md">PNS Feedback</a>. The location header uses the following format:</p>
 <pre><code>https://{your namespace}.servicebus.windows.net/{your hub name}/messages/{notification message id}?api-version=2015-04</code></pre></td>
 </tr>
 </tbody>

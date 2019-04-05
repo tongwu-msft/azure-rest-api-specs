@@ -187,7 +187,7 @@ public static Registration parse(InputStream content) throws IOException,
 }
 ```
 
-Note that the **Create** call returns a **registrationId**, which is used to retrieve, update, or delete the registration.
+The **Create** call returns a **registrationId**, which is used to retrieve, update, or delete the registration.
 
 
 > [!NOTE]
@@ -233,7 +233,7 @@ When retrieving a registration, issue a GET call on the /registrations/{registra
 
   - [Read All Registrations](dn223270\(v=azure.100\).md)
 
-You then have the option to specify a **$top** parameter which limits the number of registrations returned. If more registrations are present for that query, then a **X-MS-ContinuationToken** header is returned, which you can pass to subsequent calls in order to continue retrieving the remaining registrations. Also note that the format of the body is now an XML Atom feed, as shown in the previously-mentioned API topics.
+You then have the option to specify a **$top** parameter, which limits the number of registrations returned. If more registrations are present for that query, then an **X-MS-ContinuationToken** header is returned, which you can pass to subsequent calls in order to continue retrieving the remaining registrations. Also note that the format of the body is now an XML Atom feed, as shown in the previously mentioned API topics.
 
 The following Java code from **minterastlib** retrieves all registrations with a tag;
 

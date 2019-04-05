@@ -42,7 +42,7 @@ Retrieves all registrations.
 </table>
 
 
-Note the following:
+Note the following points:
 
   - This call supports the $top query string parameter as specified in OData.
 

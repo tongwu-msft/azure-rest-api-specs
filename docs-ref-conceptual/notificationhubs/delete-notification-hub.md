@@ -96,7 +96,7 @@ The response includes an HTTP status code and a set of response headers.
 <tbody>
 <tr class="odd">
 <td><p>200</p></td>
-<td><p>Notification hub deleted successfully.</p></td>
+<td><p>The hub deleted successfully.</p></td>
 </tr>
 <tr class="even">
 <td><p>400</p></td>
