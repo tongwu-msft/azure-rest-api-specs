@@ -104,13 +104,13 @@ The following table describes required and optional request headers.
 
 Based on the platform type, the request body formats will change. Refer to the body formats for each individual platform in native Send REST APIs.
 
-  - [Send an APNS Native Notification](dn223266\(v=azure.100\).md)
+  - [Send an APNS native notification](send-apns-native-notification.md)
 
-  - [Send a GCM Native Notification](dn223273\(v=azure.100\).md)
+  - [Send a GCM native notification](send-gcm-native-notification.md)
 
-  - [Send a MPNS Native Notification](dn383737\(v=azure.100\).md)
+  - [Send a MPNS native notification](send-mpns-native-notification.md)
 
-  - [Send a WNS Native Notification](dn223272\(v=azure.100\).md)
+  - [Send a WNS native notification](send-wns-native-notification.md)
 
 ## Response
 
@@ -181,7 +181,7 @@ For information about status codes, see [Status and Error Codes](http://msdn.mic
 <tr class="even">
 <td><p>Location</p></td>
 <td><p>This header is only available for <a href="https://azure.microsoft.com/pricing/details/notification-hubs/">Standard tier Notification Hubs</a>.</p>
-<p>This header will contain the Notification Message ID. It is used with <a href="mt608135(v=azure.100).md">Per Message Telemetry: Get Notification Message Telemetry</a> and correlating <a href="mt705560(v=azure.100).md">PNS Feedback</a>. The location header uses the following format:</p>
+<p>This header will contain the Notification Message ID. It is used with <a href="get-notification-message-telemetry.md">Per Message Telemetry: Get Notification Message Telemetry</a> and correlating <a href="get-pns-feedback.md">PNS Feedback</a>. The location header uses the following format:</p>
 <pre><code>https://{your namespace}.servicebus.windows.net/{your hub name}/messages/{notification message id}?api-version=2015-04</code></pre></td>
 </tr>
 </tbody>
@@ -193,10 +193,10 @@ For information about status codes, see [Status and Error Codes](http://msdn.mic
 None.
 
 ## See Also
+[Direct batch send](direct-batch-send.md)  
+[Send an APNS native notification](send-apns-native-notification.md)  
+[Send a GCM native notification](send-gcn-native-notification.md)  
+[Send an MPNS native notification](send-mpns-native-notification.md)  
+[Send a WNS native notification](send-wns-native-notification.md)
 
-[Direct Batch Send](mt734910\(v=azure.100\).md)  
-[Send an APNS Native Notification](dn223266\(v=azure.100\).md)  
-[Send a GCM Native Notification](dn223266\(v=azure.100\).md)  
-[Send an MPNS Native Notification](dn383737\(v=azure.100\).md)  
-[Send a WNS Native Notification](dn223272\(v=azure.100\).md)
 

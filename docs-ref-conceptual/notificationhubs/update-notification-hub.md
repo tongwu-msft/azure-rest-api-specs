@@ -81,7 +81,7 @@ The following table describes required and optional request headers.
 
 ## Request Body
 
-A NotificationHubDescription element. For an example, see the request body for [Create Notification Hub](dn223269\(v=azure.100\).md).
+A NotificationHubDescription element. For an example, see the request body for [Create a notification hub](create-notification-hub.md).
 
 ## Response
 
@@ -129,5 +129,5 @@ None.
 
 ## Response Body
 
-A NotificationHubDescription element with all policies defined in the current node. For an example, see [Create Notification Hub](dn223269\(v=azure.100\).md).
+A NotificationHubDescription element with all policies defined in the current node. For an example, see [Create Notification Hub](create-notification-hub.md).
 

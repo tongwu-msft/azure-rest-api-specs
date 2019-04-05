@@ -81,7 +81,7 @@ The following table describes required and optional request headers.
 
 ## Request Body
 
-Atom entry with the description embedded in the content, as in [Create Registration](dn223265\(v=azure.100\).md).
+Atom entry with the description embedded in the content, as in [Create a registration](create-registration.md).
 
 ## Response
 
@@ -163,5 +163,5 @@ For information about status codes, see [Status and Error Codes](http://msdn.mic
 
 ## Response Body
 
-Upon success, a validated Atom entry is returned, as in [Create Registration](dn223265\(v=azure.100\).md).
+Upon success, a validated Atom entry is returned, as in [Create Registration](create-registration.md).
 

@@ -142,5 +142,5 @@ For information about status codes, see [Status and Error Codes](http://msdn.mic
 
 ## Response Body
 
-Upon success, a validated Atom entry is returned, as in [Create Registration](dn223265\(v=azure.100\).md).
+Upon success, a validated Atom entry is returned, as in [Create a registration](create-registration.md).
 

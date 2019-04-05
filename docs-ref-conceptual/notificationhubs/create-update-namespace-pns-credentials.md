@@ -193,6 +193,6 @@ None.
 
 ## See Also
 
-[Read Namespace PNS Credentials](mt238295\(v=azure.100\).md)  
-[REST API Methods](dn495827\(v=azure.100\).md)
+[Read Namespace PNS Credentials](read-namespace-pns-credentials.md)  
+[REST API Methods](rest-api-methods.md)
 

@@ -151,11 +151,11 @@ For information about status codes, see [Status and Error Codes](http://msdn.mic
 
 ## Response Body
 
-Upon success, a JSON document for the installation is returned. The format of the JSON follows the format shown in [Create or Overwrite an Installation](mt621153\(v=azure.100\).md).
+Upon success, a JSON document for the installation is returned. The format of the JSON follows the format shown in [Create or overwrite an installation](create-overwrite-installation.md).
 
 ## See Also
 
-[Create or Overwrite Installation](mt621153\(v=azure.100\).md)  
-[Update Installation by Installation ID](mt621169\(v=azure.100\).md)  
-[Delete Installation](mt621170\(v=azure.100\).md)
+[Create or overwrite installation](create-overwrite-installation.md)  
+[Update installation](update-installation.md)  
+[Delete installation](delete-installation.md)
 

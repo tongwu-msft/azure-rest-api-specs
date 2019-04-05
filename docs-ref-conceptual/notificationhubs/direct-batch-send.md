@@ -62,7 +62,7 @@ The following table describes required and optional request headers.
 <tbody>
 <tr class="odd">
 <td><p>Authorization</p></td>
-<td><p>Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). For more information, see <a href="dn495627(v=azure.100).md">Common Concepts</a>.</p></td>
+<td><p>Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). For more information, see <a href="common-concepts.md">Common Concepts</a>.</p></td>
 </tr>
 <tr class="even">
 <td><p>Content-Type</p></td>
@@ -96,13 +96,13 @@ The request body is multipart as defined in [RFC1341](https://www.w3.org/protoco
 
 Based on the target platform type, the body format of a notification part will change to be compliant with each individual platform as covered in the native Send APIs below.
 
-  - [Send an APNS Native Notification](dn223266\(v=azure.100\).md)
+  - [Send an APNS Native Notification](send-apns-native-notification.md)
 
-  - [Send a GCM Native Notification](dn223273\(v=azure.100\).md)
+  - [Send a GCM Native Notification](send-gcm-native-notification.md)
 
-  - [Send a MPNS Native Notification](dn383737\(v=azure.100\).md)
+  - [Send a MPNS Native Notification](send-mpns-native-notification.md)
 
-  - [Send a WNS Native Notification](dn223272\(v=azure.100\).md)
+  - [Send a WNS Native Notification](send-wns-native-notification.md)
 
 The devices part of the request body must be a JSON array of the device handles that will receive the notification.
 
@@ -252,7 +252,7 @@ For information about status codes, see [Status and Error Codes](http://msdn.mic
 <tr class="even">
 <td><p>Location</p></td>
 <td><p>This header is only available for <a href="https://azure.microsoft.com/pricing/details/notification-hubs/">Standard tier Notification Hubs</a>.</p>
-<p>This header will contain the Notification Message ID. It is used with <a href="mt608135(v=azure.100).md">Per Message Telemetry: Get Notification Message Telemetry</a> and correlating <a href="mt705560(v=azure.100).md">PNS Feedback</a>. The location header uses the following format:</p>
+<p>This header will contain the Notification Message ID. It is used with <a href="get-notification-message-telemetry.md">Per Message Telemetry: Get Notification Message Telemetry</a> and correlating <a href="get-notification-message-telemetry.md">PNS Feedback</a>. The location header uses the following format:</p>
 <pre><code>https://{your namespace}.servicebus.windows.net/{your hub name}/messages/{notification message id}?api-version=2015-04</code></pre></td>
 </tr>
 </tbody>
@@ -265,9 +265,9 @@ None
 
 ## See Also
 
-[Direct Send](mt608572\(v=azure.100\).md)  
-[Send an APNS Native Notification](dn223266\(v=azure.100\).md)  
-[Send a GCM Native Notification](dn223266\(v=azure.100\).md)  
-[Send an MPNS Native Notification](dn383737\(v=azure.100\).md)  
-[Send a WNS Native Notification](dn223272\(v=azure.100\).md)
+[Direct send](direct-send.md)  
+[Send an APNS native notification](send-apns-native-notification.md)  
+[Send a GCM native notification](send-gcn-native-notification.md)  
+[Send an MPNS native notification](send-mpns-native-notification.md)  
+[Send a WNS native notification](send-wns-native-notification.md)
 

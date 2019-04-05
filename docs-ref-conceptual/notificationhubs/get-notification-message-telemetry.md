@@ -388,10 +388,10 @@ Here is an example telemetry from sending a notification to WNS:
     </NotificationDetails>
 
 ## See Also
+[Send a template notification](send-template-notification.md)  
+[Send an APNS native notification](send-apns-native-notification.md)  
+[Send a GCM native notification](send-gcn-native-notification.md)  
+[Send an MPNS native notification](send-mpns-native-notification.md)  
+[Send a WNS native notification](send-wns-native-notification.md)
 
-[Send GCM Native Notification](dn223273\(v=azure.100\).md)  
-[Send a Template Notification](dn223267\(v=azure.100\).md)  
-[Send a WNS Native Notification](dn223272\(v=azure.100\).md)  
-[Send an APNS Native Notification](dn223266\(v=azure.100\).md)  
-[Send an MPNS Native Notification](dn383737\(v=azure.100\).md)
 

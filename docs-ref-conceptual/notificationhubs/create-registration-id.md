@@ -15,7 +15,7 @@ manager: "timlt"
 ---
 
 # Create a registration ID
-Returns a registration ID (without creating a registration). You can use the generated registration ID to create a registration using the [Create or Update Registration](dn495630\(v=azure.100\).md) method.
+Returns a registration ID (without creating a registration). You can use the generated registration ID to create a registration using the [Create or Update Registration](create-update-registration.md) method.
 
 ## Request
 

@@ -16,7 +16,7 @@ manager: "timlt"
 
 
 # Use REST APIs from a backend
-As explained in [Registration Management](https://msdn.microsoft.com/en-us/library/dn530747\(v=azure.100\)), usually the application back-end sends notifications and might perform registrations management. Because there is already a REST wrapper for Node.js in the Azure SDK for Node, this section shows examples in Java.
+As explained in [Registration management](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management), usually the application back-end sends notifications and might perform registrations management. Because there is already a REST wrapper for Node.js in the Azure SDK for Node, this section shows examples in Java.
 
 ## Sending Notifications
 
@@ -26,7 +26,7 @@ The REST API for sending notifications is a simple POST on /yourHub/messages, wi
 
   - **ServiceBusNotification-Tags** (optional): Specifies the tag (or tag expression) defining the targeted set of registrations. If this header is not present, the notification hub broadcasts to all registrations.
 
-Other headers are supported for platform-specific functionality, as specified in the [Notification Hubs REST APIs](dn223264\(v=azure.100\).md) documentation.
+Other headers are supported for platform-specific functionality, as specified in the [Notification Hubs REST APIs](notification-hubs-rest.md) documentation.
 
 The following Java code sends a native notification to Windows Store apps (using Apache HttpClient):
 
@@ -107,11 +107,11 @@ public Notification createTemplateNotification(Map<String, String> properties) {
 }
 ```
 
-For more information about sending notifications to other platforms, see [Notification Hubs REST APIs](dn223264\(v=azure.100\).md).
+For more information about sending notifications to other platforms, see [Notification Hubs REST APIs](notification-hubs-rest.md).
 
 ## Creating and Updating Registrations
 
-Creating and updating registrations requires the serialization and deserialization of the registration XML format. The [Create Registration](dn223265\(v=azure.100\).md) API topic shows the XML formats for creating different kinds of registrations (native and template for every platform).
+Creating and updating registrations requires the serialization and deserialization of the registration XML format. The [Create a registration](create-registration.md) API topic shows the XML formats for creating different kinds of registrations (native and template for every platform).
 
 
 > [!IMPORTANT]
@@ -158,7 +158,7 @@ public String getXml() {
 }
 ```
 
-You can easily derive the methods for other registration types from the examples in the [Create Registration](dn223265\(v=azure.100\).md) API topic.
+You can easily derive the methods for other registration types from the examples in the [Create a registration](create-registration.md) API topic.
 
 The response contains the result of the creation, including read-only properties such as **RegistrationId**, **ETag**, and **ExpirationTime**. The following code example parses the result using [Apache Digester](http://commons.apache.org/proper/commons-digester/):
 
@@ -221,17 +221,15 @@ public Registration updateRegistration(Registration registration) {
 }
 ```
 
-[Delete Registration](dn223268\(v=azure.100\).md) is a similar operation.
+[Delete a registration](delete-registration.md) is a similar operation.
 
 ## Retrieving Registrations
 
 When retrieving a registration, issue a GET call on the /registrations/{registrationId}. You retrieve a collection of registrations as specified in the following REST APIs:
 
-  - [Read All Registrations of a Channel](dn223271\(v=azure.100\).md)
-
-  - [Read All Registrations with a Tag](dn223274\(v=azure.100\).md)
-
-  - [Read All Registrations](dn223270\(v=azure.100\).md)
+  - [Read all registrations of a channel](read-all-registrations-channel.md)
+  - [Read all Registrations with a tag](read-all-registrations-tag.md)
+  - [Read all registrations](read-all-registrations.md)
 
 You then have the option to specify a **$top** parameter, which limits the number of registrations returned. If more registrations are present for that query, then an **X-MS-ContinuationToken** header is returned, which you can pass to subsequent calls in order to continue retrieving the remaining registrations. Also note that the format of the body is now an XML Atom feed, as shown in the previously mentioned API topics.
 

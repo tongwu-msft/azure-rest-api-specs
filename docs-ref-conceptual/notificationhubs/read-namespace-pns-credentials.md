@@ -184,6 +184,6 @@ A NotificationHubPnsCredentials element that defines the credentials for all hub
 
 ## See Also
 
-[Create or Update Namespace PNS Credentials](mt238294\(v=azure.100\).md)  
-[REST API Methods](dn495827\(v=azure.100\).md)
+[Create or update namespace PNS credentials](create-update-namespace-pns-credentials.md)  
+[REST API methods](rest-api-methods.md)
 

@@ -239,7 +239,7 @@ None.
 
 ## See Also
 
-[Create or Overwrite Installation](mt621153\(v=azure.100\).md)  
-[Read Installation](mt621172\(v=azure.100\).md)  
-[Delete Installation](mt621170\(v=azure.100\).md)
+[Create or overwrite an installation](create-overwrite-installation.md)  
+[Read an installation](read-installation.md)  
+[Delete an installation](delete-installation.md)
 

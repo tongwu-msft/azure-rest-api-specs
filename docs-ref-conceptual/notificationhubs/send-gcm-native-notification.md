@@ -161,7 +161,7 @@ For information about status codes, see [Status and Error Codes](http://msdn.mic
 <tr class="odd">
 <td><p>Location</p></td>
 <td><p>This header is only available for <a href="https://azure.microsoft.com/pricing/details/notification-hubs/">Standard tier Notification Hubs</a>.</p>
-<p>This header will contain the Notification Message ID. It's used with <a href="mt608135(v=azure.100).md">Per Message Telemetry: Get Notification Message Telemetry</a> and correlating <a href="mt705560(v=azure.100).md">PNS Feedback</a>. The location header uses the following format:</p>
+<p>This header will contain the Notification Message ID. It's used with <get-notification-message-telemetry.md">Per Message Telemetry: Get Notification Message Telemetry</a> and correlating <a href="get-pns-feedback.md">PNS Feedback</a>. The location header uses the following format:</p>
 <pre><code>https://{your namespace}.servicebus.windows.net/{your hub name}/messages/{notification message id}?api-version=2015-04</code></pre></td>
 </tr>
 </tbody>
@@ -173,10 +173,8 @@ For information about status codes, see [Status and Error Codes](http://msdn.mic
 None.
 
 ## See Also
-
-[Send an APNS Native Notification](dn223266\(v=azure.100\).md)  
-[Send an MPNS Native Notification](dn383737\(v=azure.100\).md)  
-[Send a WNS Native Notification](dn223272\(v=azure.100\).md)  
-[Send a Template Notification](dn223267\(v=azure.100\).md)  
-[Direct Send](mt608572\(v=azure.100\).md)
-
+- [Direct send](direct-send.md)  
+- [Send an APNS native notification](send-apns-native-notification.md)  
+- [Send an MPNS native notification](send-mpns-native-notification.md)  
+- [Send a WNS native notification](send-wns-native-notification.md)
+- [Send a template notification](send-template-notification.md)  

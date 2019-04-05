@@ -397,7 +397,7 @@ None.
 
 ## See Also
 
-[Read Installation](mt621172\(v=azure.100\).md)  
-[Update Installation by Installation ID](mt621169\(v=azure.100\).md)  
-[Delete Installation](mt621170\(v=azure.100\).md)
+[Read an installation](read-installation.md)  
+[Update an installation by Installation ID](update-installation.md)  
+[Delete an installation](delete-installation.md)
 

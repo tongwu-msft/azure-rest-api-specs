@@ -16,67 +16,36 @@ manager: "timlt"
 
 
 # REST API methods
-
- 
-
-
 This section contains the Notification Hubs REST API method references.
 
 ## In This Section
 
-[Create Notification Hub](dn223269\(v=azure.100\).md)
-
-[Update Notification Hub](dn223260\(v=azure.100\).md)
-
-[Read Notification Hub](dn223263\(v=azure.100\).md)
-
-[Delete Notification Hub](dn223276\(v=azure.100\).md)
-
-[Create or Update Namespace PNS Credentials](mt238294\(v=azure.100\).md)
-
-[Read Namespace PNS Credentials](mt238295\(v=azure.100\).md)
-
-[Send an APNS Native Notification](dn223266\(v=azure.100\).md)
-
-[Send a GCM Native Notification](dn223273\(v=azure.100\).md)
-
-[Send an MPNS Native Notification](dn383737\(v=azure.100\).md)
-
-[Send a WNS Native Notification](dn223272\(v=azure.100\).md)
-
-[Send a Template Notification](dn223267\(v=azure.100\).md)
-
-[Direct Send](mt608572\(v=azure.100\).md)
-
-[Direct Batch Send](mt734910\(v=azure.100\).md)
-
-[Per Message Telemetry: Get Notification Message Telemetry](mt608135\(v=azure.100\).md)
-
-[PNS Feedback](mt705560\(v=azure.100\).md)
-
-[Create or Overwrite an Installation](mt621153\(v=azure.100\).md)
-
-[Read Installation](mt621172\(v=azure.100\).md)
-
-[Update Installation by Installation ID](mt621169\(v=azure.100\).md)
-
-[Delete Installation](mt621170\(v=azure.100\).md)
-
-[Create Registration](dn223265\(v=azure.100\).md)
-
-[Update Registration](dn223262\(v=azure.100\).md)
-
-[Create or Update Registration](dn495630\(v=azure.100\).md)
-
-[Create Registration ID](dn495626\(v=azure.100\).md)
-
-[Delete Registration](dn223268\(v=azure.100\).md)
-
-[Read Registration](dn223261\(v=azure.100\).md)
-
-[Read All Registrations of a Channel](dn223271\(v=azure.100\).md)
-
-[Read All Registrations with a Tag](dn223274\(v=azure.100\).md)
-
-[Read All Registrations](dn223270\(v=azure.100\).md)
+- [Create a notification hub](create-notification-hub.md)
+- [Update a notification hub](update-notification-hub.md)
+- [Read a notification hub](read-notification-hub.md)
+- [Delete a notification hub](read-notification-hub.md)
+- [Create or update namespace Platform Notification Services (PNS) credentials](create-update-pns-credentials.md)
+- [Read a namespace PNS credentials](read-namespace-pns-credentials.md)
+- [Send an Apple Push Notification Services (APNS) native notification](send-apns-native-notification.md)
+- [Send a Google Cloud Messaging (GCM) native notification](send-gcm-native-notification.md)
+- [Send a Microsoft Push Notification Services (MPNS) native notification](send-mpns-native-notification.md)
+- [Send a Windows Push Notification Services (WNS) native notification](send-wns-native-notification.md)
+- [Send a template notification](send-template-notification.md)
+- [Direct send](direct-send.md)
+- [Direct batch send](direct-batch-send.md)
+- [Get notification message telemetry](get-notification-message-telemetry.md)
+- [Get PNS feedback](get-pns-feedback.md)
+- [Create or overwrite an installation](create-overwrite-installation.md)
+- [Read an installation](read-installation.md)
+- [Update an installation](update-installation.md)
+- [Delete an installation](delete-installation.md)
+- [Create a registration](create-registration.md)
+- [Update a registration](update-registration.md)
+- [Create or update a registration](create-update-registration.md)
+- [Create a registration ID](create-registration-id.md)
+- [Delete a registration](delete-registration.md)
+- [Read a registration](read-registration.md)
+- [Read all registrations of a channel](read-all-registrations-channel.md)
+- [Read all registrations with a tag](read-all-registrations-tag.md)
+- [Read all registrations](read-all-registrations.md)
 

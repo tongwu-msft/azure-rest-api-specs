@@ -124,5 +124,5 @@ None.
 
 ## Response Body
 
-A NotificationHubDescription element with all policies defined in the current node. For an example, see [Create Notification Hub](dn223269\(v=azure.100\).md).
+A NotificationHubDescription element with all policies defined in the current node. For an example, see [Create a notification hub](create-notification-hub.md).
 
