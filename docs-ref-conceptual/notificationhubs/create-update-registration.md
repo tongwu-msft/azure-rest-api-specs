@@ -1,14 +1,21 @@
 ﻿---
-title: Create or Update Registration
-TOCTitle: Create or Update Registration
-ms:assetid: ed84eb2a-39d5-43c7-b7db-4f395590ef4c
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn495630(v=Azure.100)
-ms:contentKeyID: 60572137
-ms.date: 08/18/2015
-mtps_version: v=Azure.100
+title: "Create or update a registration"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Create or Update Registration
+
+# Create or update a registration
 
  
 

@@ -1,16 +1,21 @@
 ﻿---
-title: Create Registration
-TOCTitle: Create Registration
-ms:assetid: 04e526d3-b252-4d34-a421-8d485ec19a34
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn223265(v=Azure.100)
-ms:contentKeyID: 54432110
-ms.date: 08/13/2015
-mtps_version: v=Azure.100
-dev_langs:
-- xml
+title: "Create a registration"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Create Registration
+
+# Create a registration
 
  
 

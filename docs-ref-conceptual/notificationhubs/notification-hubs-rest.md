@@ -1,18 +1,20 @@
 ﻿---
-title: Notification Hubs REST APIs
-TOCTitle: Notification Hubs REST
-ms:assetid: 3a03fc7d-53f3-46d4-be27-4066fee46a4d
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn223264(v=Azure.100)
-ms:contentKeyID: 54432106
-ms.date: 08/17/2015
-mtps_version: v=Azure.100
+title: "Notification Hubs REST APIs"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
 # Notification Hubs REST APIs
-
- 
-
-
 This section contains conceptual and REST API reference topics for performing operations on Azure Notification Hubs. For more information about Notification Hubs, see [Notification Hubs \[Push\_Notifications\]](https://msdn.microsoft.com/en-us/library/jj891130\(v=azure.100\)).
 
 ## In this section

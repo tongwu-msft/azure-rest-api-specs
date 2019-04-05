@@ -1,14 +1,21 @@
 ﻿---
-title: Create or Update Namespace PNS Credentials
-TOCTitle: Create or Update Namespace PNS Credentials
-ms:assetid: 4e88e79d-8df0-4cee-9977-e8c7607e90f2
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Mt238294(v=Azure.100)
-ms:contentKeyID: 65913460
-ms.date: 08/18/2015
-mtps_version: v=Azure.100
+title: "Create or update namespace PNS credentials"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Create or Update Namespace PNS Credentials
+
+# Create or or update namespace Platform Notification Services (PNS) credentials
 
  
 

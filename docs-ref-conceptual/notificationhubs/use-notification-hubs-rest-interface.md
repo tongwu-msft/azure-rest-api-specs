@@ -1,18 +1,20 @@
 ﻿---
-title: How to Use the Notification Hubs REST Interface
-TOCTitle: How to Use the Notification Hubs REST Interface
-ms:assetid: 11e63fc2-fbd6-4d0d-a80f-03d2cd75d53f
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn530746(v=Azure.100)
-ms:contentKeyID: 59682990
-ms.date: 04/22/2016
-mtps_version: v=Azure.100
+title: "How to use the Notification Hubs REST interface"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# How to Use the Notification Hubs REST Interface
-
- 
-
-
+# How to use the Notification Hubs REST Interface
 This section describes how to use the Azure Notification Hubs REST APIs to send notifications and manage registrations.
 
 Notification Hubs use the same security infrastructure as Microsoft Azure Service Bus, and thus supports Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). This section focuses on Shared Access Secret authentication (SAS) as the most common form of accessing Notification Hubs.

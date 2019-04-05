@@ -1,20 +1,20 @@
 ﻿---
-title: Create Notification Hub
-TOCTitle: Create Notification Hub
-ms:assetid: 8de9cbbb-9d8b-400f-a0b1-4644bbbcf13b
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn223269(v=Azure.100)
-ms:contentKeyID: 54432128
-ms.date: 08/18/2015
-mtps_version: v=Azure.100
-dev_langs:
-- xml
+title: "Create a notification hub"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Create Notification Hub
-
- 
-
-
+# Create a notification hub
 Creates a new notification hub, which contains credentials for the supported Platform Notification Services (WNS, APNS, GCM).
 
 ## Request

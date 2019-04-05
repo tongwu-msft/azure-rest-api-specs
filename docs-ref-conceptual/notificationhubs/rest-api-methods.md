@@ -1,14 +1,21 @@
 ﻿---
-title: REST API Methods
-TOCTitle: REST API Methods
-ms:assetid: 1915df81-3a87-4715-a766-3febb2917c98
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn495827(v=Azure.100)
-ms:contentKeyID: 60572380
-ms.date: 06/08/2016
-mtps_version: v=Azure.100
+title: "REST API methods"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# REST API Methods
+
+# REST API methods
 
  
 

@@ -1,14 +1,20 @@
 ﻿---
-title: Delete Installation
-TOCTitle: Delete Installation
-ms:assetid: f9374ed1-358b-4d2b-af38-c0cd2e12488c
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Mt621170(v=Azure.100)
-ms:contentKeyID: 71717572
-ms.date: 03/08/2016
-mtps_version: v=Azure.100
+title: "Delete an instalaltion"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Delete Installation
+# Delete an installation
 
  
 

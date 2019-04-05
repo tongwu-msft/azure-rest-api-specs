@@ -1,20 +1,20 @@
 ﻿---
-title: Read Installation
-TOCTitle: Read Installation
-ms:assetid: 68de92ac-1593-461a-93b0-8e10b812ccc4
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Mt621172(v=Azure.100)
-ms:contentKeyID: 71719432
-ms.date: 02/17/2016
-mtps_version: v=Azure.100
+title: "Read an installation"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Read Installation
-
- 
-
-
-Updated: October 27, 2015
-
+# Read an installation
 Retrieves installations based on Installation ID.
 
 ## Request

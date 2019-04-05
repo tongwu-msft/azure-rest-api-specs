@@ -1,18 +1,21 @@
 ﻿---
-title: Send an APNS Native Notification
-TOCTitle: Send an APNS Native Notification
-ms:assetid: 5b074df4-8c8c-4d59-a17b-84cf60336185
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn223266(v=Azure.100)
-ms:contentKeyID: 54432111
-ms.date: 07/28/2016
-mtps_version: v=Azure.100
+title: "Send an Apple Platform Notifcation Services (APNS) notification"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Send an APNS Native Notification
 
- 
-
-
+# Send an Apple Platform Notification Services (APNS) native notification
 Sends an APNS native notification through a notification hub.
 
 ## Request

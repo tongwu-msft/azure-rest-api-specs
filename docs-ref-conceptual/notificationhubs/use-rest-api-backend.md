@@ -1,21 +1,21 @@
 ﻿---
-title: Using REST APIs from a Backend
-TOCTitle: Using REST APIs from a Backend
-ms:assetid: 60c43425-d4ee-4fce-be81-cd580190acfa
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn495628(v=Azure.100)
-ms:contentKeyID: 60572134
-ms.date: 08/18/2015
-mtps_version: v=Azure.100
-dev_langs:
-- xml
-- csharp
+title: "Use REST APIs from a backend"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Using REST APIs from a Backend
 
- 
-
-
+# Use REST APIs from a backend
 As explained in [Registration Management](https://msdn.microsoft.com/en-us/library/dn530747\(v=azure.100\)), usually the application back-end sends notifications and might perform registrations management. Because there is already a REST wrapper for Node.js in the Azure SDK for Node, this section shows examples in Java.
 
 ## Sending Notifications

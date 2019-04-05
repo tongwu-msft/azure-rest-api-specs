@@ -1,14 +1,20 @@
 ﻿---
-title: Delete Notification Hub
-TOCTitle: Delete Notification Hub
-ms:assetid: c052e8e7-d1d6-4cd3-861d-c2362b1ed3a1
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn223276(v=Azure.100)
-ms:contentKeyID: 54432121
-ms.date: 04/12/2016
-mtps_version: v=Azure.100
+title: "Delete a notification hub"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Delete Notification Hub
+# Delete a notification hub
 
  
 

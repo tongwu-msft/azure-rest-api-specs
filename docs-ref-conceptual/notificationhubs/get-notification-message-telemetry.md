@@ -1,18 +1,20 @@
 ﻿---
-title: 'Per Message Telemetry: Get Notification Message Telemetry'
-TOCTitle: 'Per Message Telemetry: Get Notification Message Telemetry'
-ms:assetid: 38b427f5-7ce5-420b-a2eb-331532266b28
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Mt608135(v=Azure.100)
-ms:contentKeyID: 71759430
-ms.date: 08/18/2016
-mtps_version: v=Azure.100
+title: "Get notification message telemetry"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Per Message Telemetry: Get Notification Message Telemetry
-
- 
-
-
+# Get notification message telemetry
 This API provides additional telemetry on the finished states of outgoing push notifications. It is designed to help monitor push notifications sent from a hub. The Notification ID that this API uses can be retrieved from the HTTP Location header included in the response of the REST API used to send the notification.
 
 This Per Message Telemetry feature is also available for [scheduled notifications](https://azure.microsoft.com/en-us/documentation/articles/notification-hubs-send-scheduled-notifications/).

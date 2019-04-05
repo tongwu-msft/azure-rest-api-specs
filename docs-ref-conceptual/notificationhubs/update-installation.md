@@ -1,20 +1,21 @@
 ﻿---
-title: Update Installation by Installation ID
-TOCTitle: Update Installation by Installation ID
-ms:assetid: 0759bde6-0da2-4ae0-82f9-f1ee7e924f9e
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Mt621169(v=Azure.100)
-ms:contentKeyID: 71717567
-ms.date: 10/29/2015
-mtps_version: v=Azure.100
+title: "Update an installation"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Update Installation by Installation ID
 
- 
-
-
-Updated: October 27, 2015
-
+# Update an installation
 Azure Notification Hubs supports partial updates to an installation using the JSON-Patch standard in [RFC6902](https://tools.ietf.org/html/rfc6902).
 
 ## Request

@@ -1,18 +1,21 @@
 ﻿---
-title: Update Notification Hub
-TOCTitle: Update Notification Hub
-ms:assetid: 03634d2c-8fff-4dbd-8b64-bba998b7c2a2
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn223260(v=Azure.100)
-ms:contentKeyID: 54432105
-ms.date: 04/25/2016
-mtps_version: v=Azure.100
+title: "Update a notification hub"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Update Notification Hub
 
- 
-
-
+# Update a notification hub
 Updates notification hubs.
 
 ## Request

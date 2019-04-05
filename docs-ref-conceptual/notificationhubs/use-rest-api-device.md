@@ -1,20 +1,21 @@
 ﻿---
-title: Using REST APIs from the Device
-TOCTitle: Using REST APIs from the Device
-ms:assetid: dc28bdeb-67d0-4d33-9263-dee969898e1e
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn495631(v=Azure.100)
-ms:contentKeyID: 60572136
-ms.date: 08/18/2015
-mtps_version: v=Azure.100
-dev_langs:
-- javascript
+title: "Use REST APIs from a device"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Using REST APIs from the Device
 
- 
-
-
+# Use REST APIs from a Device
 When using the REST APIs from a mobile device, a common pattern is to store the **registrationId**s of the registrations associated with the device in local storage. It enables you to update tags and channel information with a single update call.
 
 Because mobile connections are not always reliable, it is best to avoid creating a new registration without being able to store the **registrationId** in local storage. It can result in the device registering multiple times, causing duplicate notifications. You can achieve it by using the [Create Registration ID](dn495626\(v=azure.100\).md) and [Create or Update Registration](dn495630\(v=azure.100\).md) REST APIs.

@@ -1,18 +1,20 @@
 ﻿---
-title: Direct Send
-TOCTitle: Direct Send
-ms:assetid: 7123b6a0-da8f-4720-bf80-052732798510
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Mt608572(v=Azure.100)
-ms:contentKeyID: 71786794
-ms.date: 07/28/2016
-mtps_version: v=Azure.100
+title: "Direct send"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Direct Send
-
- 
-
-
+# Direct send
 Sends a notification directly to a device handle (a valid token as expressed by the Notification type). Users of this API do not need to use Registrations or Installations. Instead, users of this API manage all devices on their own and use Azure Notification Hub solely as a pass through service to communicate with the various Push Notification Services.
 
 ## Request

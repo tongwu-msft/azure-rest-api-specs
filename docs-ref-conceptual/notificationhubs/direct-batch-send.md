@@ -1,20 +1,20 @@
 ﻿---
-title: Direct Batch Send
-TOCTitle: Direct Batch Send
-ms:assetid: bae540e6-c0dc-45a3-a5b5-93fc34a2c15a
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Mt734910(v=Azure.100)
-ms:contentKeyID: 73128895
-ms.date: 07/28/2016
-mtps_version: v=Azure.100
+title: "Direct batch send"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Direct Batch Send
-
- 
-
-
-Updated: July 27, 2016
-
+# Direct batch send
 Sends a batch of notifications directly to a collection of device handles (a valid token as expressed by the Notification type). This API is available for [Basic and Standard tier Notification Hub namespaces](https://azure.microsoft.com/pricing/details/notification-hubs/). Users of this API do not need to use Registrations or Installations. Instead, users of this API manage all devices on their own and use Azure Notification Hub solely as a pass through service to communicate with the various Push Notification Services.
 
 At this time, Direct Batch Send supports up to 1000 devices per request.

@@ -1,18 +1,20 @@
 ﻿---
-title: Read Namespace PNS Credentials
-TOCTitle: Read Namespace PNS Credentials
-ms:assetid: ca85e8e4-2afd-4585-9313-caba2405705e
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Mt238295(v=Azure.100)
-ms:contentKeyID: 65913461
-ms.date: 08/18/2015
-mtps_version: v=Azure.100
+title: "Read namespace Platform Notification Services (PNS) credentials"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Read Namespace PNS Credentials
-
- 
-
-
+# Read name Platform Notification Services (PNS) credentials
 The namespace level Push Notification Services (PNS) APIs are designed for large apps that span across multiple hubs. They enable developers to easily read and update unified PNS settings for multiple hubs under the same namespace at once. When PNS credentials have been set at namespace level using this endpoint, all hubs in the namespace will use the credentials provided with the namespace settings. Hub creations in the namespace with PNS credentials won’t be allowed. When PNS credentials are set at hub level first, this endpoint will no longer be available.
 
 This topic is a reference for getting the unified PNS credentials for a namespace. When PNS credentials are set at hub level first, this endpoint will no longer be available.

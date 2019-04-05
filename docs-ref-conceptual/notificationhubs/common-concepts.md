@@ -1,18 +1,21 @@
 ﻿---
-title: Common Concepts
-TOCTitle: Common Concepts
-ms:assetid: 17ba6b57-c2b3-44bd-a4b2-fbe5236b6c06
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn495627(v=Azure.100)
-ms:contentKeyID: 60572133
-ms.date: 11/30/2015
-mtps_version: v=Azure.100
-dev_langs:
-- csharp
-- javascript
-- xml
+title: "Common concepts"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Common Concepts
+
+# Common concepts
 
  
 

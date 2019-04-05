@@ -1,18 +1,20 @@
 ﻿---
-title: Create Registration ID
-TOCTitle: Create Registration ID
-ms:assetid: 0be809a0-a5d4-47b0-8121-b20715cfc356
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn495626(v=Azure.100)
-ms:contentKeyID: 60572132
-ms.date: 08/18/2015
-mtps_version: v=Azure.100
+title: "Create a registration ID"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Create Registration ID
-
- 
-
-
+# Create a registration ID
 Returns a registration ID (without creating a registration). You can use the generated registration ID to create a registration using the [Create or Update Registration](dn495630\(v=azure.100\).md) method.
 
 ## Request

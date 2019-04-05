@@ -1,18 +1,21 @@
 ﻿---
-title: Send a Template Notification
-TOCTitle: Send a Template Notification
-ms:assetid: 18a4ac25-842c-4632-b57c-dc0874797c04
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn223267(v=Azure.100)
-ms:contentKeyID: 54432112
-ms.date: 07/28/2016
-mtps_version: v=Azure.100
+title: "Send a template notification"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Send a Template Notification
 
- 
-
-
+# Send a template notification
 Sends a notification to a template registration on a notification hub.
 
 ## Request

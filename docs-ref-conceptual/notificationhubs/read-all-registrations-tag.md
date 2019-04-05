@@ -1,16 +1,21 @@
 ﻿---
-title: Read All Registrations with a Tag
-TOCTitle: Read All Registrations with a Tag
-ms:assetid: e5f7c0ce-c39d-48f6-be65-55eb41a1ef25
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn223274(v=Azure.100)
-ms:contentKeyID: 54432118
-ms.date: 08/18/2015
-mtps_version: v=Azure.100
-dev_langs:
-- xml
+title: "Read all registrations with a tag"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Read All Registrations with a Tag
+
+# Read all registrations with a tag
 
  
 

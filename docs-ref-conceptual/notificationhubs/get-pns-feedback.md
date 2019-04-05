@@ -1,14 +1,20 @@
 ﻿---
-title: PNS Feedback
-TOCTitle: PNS Feedback
-ms:assetid: 941bf4e1-644d-483e-ae5a-ebe776016184
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Mt705560(v=Azure.100)
-ms:contentKeyID: 72915511
-ms.date: 07/27/2016
-mtps_version: v=Azure.100
+title: "Get Platform Notification Services (PNS) feedback"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# PNS Feedback
+# Get Platform Notification Services (PNS) feedback
 
  
 

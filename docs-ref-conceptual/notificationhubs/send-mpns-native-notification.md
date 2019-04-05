@@ -1,20 +1,21 @@
 ﻿---
-title: Send an MPNS Native Notification
-TOCTitle: Send an MPNS Native Notification
-ms:assetid: aa220876-7623-4095-8d9e-eb055c637696
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn383737(v=Azure.100)
-ms:contentKeyID: 56471758
-ms.date: 07/28/2016
-mtps_version: v=Azure.100
-dev_langs:
-- xml
+title: "Send Microsoft Push Notification Services (MPNS) notification"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Send an MPNS Native Notification
 
- 
-
-
+# Send a Microsoft Push Notification Services (MPNS) native notification
 Sends an MPNS native notification through a notification hub.
 
 ## Request

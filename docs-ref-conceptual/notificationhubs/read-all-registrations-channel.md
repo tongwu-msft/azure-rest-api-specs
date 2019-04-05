@@ -1,16 +1,20 @@
 ﻿---
-title: Read All Registrations of a Channel
-TOCTitle: Read All Registrations of a Channel
-ms:assetid: bd762e72-4ef4-435d-9512-0e910f4ced9b
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn223271(v=Azure.100)
-ms:contentKeyID: 54432115
-ms.date: 08/18/2015
-mtps_version: v=Azure.100
-dev_langs:
-- xml
+title: "Read all registrations of a channel"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Read All Registrations of a Channel
+# Read all registrations of a channel
 
  
 

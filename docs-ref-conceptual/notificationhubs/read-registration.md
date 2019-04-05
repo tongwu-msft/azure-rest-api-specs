@@ -1,19 +1,21 @@
 ﻿---
-title: Read Registration
-TOCTitle: Read Registration
-ms:assetid: 00938280-1620-4eb4-990f-2109477801a2
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn223261(v=Azure.100)
-ms:contentKeyID: 54432107
-ms.date: 08/18/2015
-mtps_version: v=Azure.100
+title: "Read a registration"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Read Registration
-
- 
-
-
-Retrieves a registration.
+# Read a registration
+Retrieves information about a registration.
 
 ## Request
 

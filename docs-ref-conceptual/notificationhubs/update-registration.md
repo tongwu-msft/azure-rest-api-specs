@@ -1,18 +1,21 @@
 ﻿---
-title: Update Registration
-TOCTitle: Update Registration
-ms:assetid: 0c6286b3-4ee4-413d-ab94-7db0d1cb8de4
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn223262(v=Azure.100)
-ms:contentKeyID: 54432109
-ms.date: 08/18/2015
-mtps_version: v=Azure.100
+title: "Updates a registration"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Update Registration
 
- 
-
-
+# Update a registration
 Updates an existing registration.
 
 ## Request

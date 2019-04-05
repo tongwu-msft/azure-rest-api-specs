@@ -1,14 +1,20 @@
 ﻿---
-title: Delete Registration
-TOCTitle: Delete Registration
-ms:assetid: 29b7bdd1-b38a-4e68-bc55-005ac272194c
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn223268(v=Azure.100)
-ms:contentKeyID: 54432113
-ms.date: 08/18/2015
-mtps_version: v=Azure.100
+title: "Delete a registration"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Delete Registration
+# Delete a registration
 
  
 

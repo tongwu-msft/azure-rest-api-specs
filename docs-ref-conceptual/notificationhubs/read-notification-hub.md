@@ -1,19 +1,21 @@
 ﻿---
-title: Read Notification Hub
-TOCTitle: Read Notification Hub
-ms:assetid: 267cb9cf-5874-41fc-888b-a22377f84705
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn223263(v=Azure.100)
-ms:contentKeyID: 54432108
-ms.date: 04/12/2016
-mtps_version: v=Azure.100
+title: "Read a notification hub"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Read Notification Hub
-
- 
-
-
-Retrieves a notification hub.
+# Read a notification hub
+Retrieves information about a notification hub.
 
 ## Request
 

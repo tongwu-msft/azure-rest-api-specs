@@ -1,14 +1,21 @@
 ﻿---
-title: Send a GCM Native Notification
-TOCTitle: Send a GCM Native Notification
-ms:assetid: a153815e-3d36-405c-a620-f7253c8672ec
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn223273(v=Azure.100)
-ms:contentKeyID: 54432119
-ms.date: 07/28/2016
-mtps_version: v=Azure.100
+title: "Send a Google Cloud Messaging (GCM) native notification"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Send a GCM Native Notification
+
+# Send a Google Cloud Messaging (GCM) native notification
 
  
 

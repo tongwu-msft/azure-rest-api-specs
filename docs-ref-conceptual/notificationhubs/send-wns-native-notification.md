@@ -1,20 +1,21 @@
 ﻿---
-title: Send a WNS Native Notification
-TOCTitle: Send a WNS Native Notification
-ms:assetid: 7672297a-5a4b-4c67-a016-69315646b747
-ms:mtpsurl: https://msdn.microsoft.com/en-us/library/Dn223272(v=Azure.100)
-ms:contentKeyID: 54432117
-ms.date: 07/28/2016
-mtps_version: v=Azure.100
-dev_langs:
-- xml
+title: "Send a Windows Push Notification Services (WNS) native notification"
+ms.custom: ""
+ms.date: "2019-04-05"
+ms.prod: "azure"
+ms.reviewer: ""
+ms.service: "notification-hubs"
+ms.suite: ""
+ms.tgt_pltfrm: ""
+ms.topic: "reference"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "timlt"
+
 ---
 
-# Send a WNS Native Notification
 
- 
-
-
+# Send a Windows Push Notification Service (WNS) native notification
 Sends a WNS native notification through a notification hub.
 
 ## Request
