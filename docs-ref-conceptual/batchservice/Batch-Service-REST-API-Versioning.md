@@ -360,4 +360,4 @@ You can now request that application licenses be provisioned to your pool, via t
 
 <!--Reference links in article-->
 [1]: https://docs.microsoft.com/rest/api/batchservice/Pool/Add#definitions_virtualmachineconfiguration
-[2]: https://docs.microsoft.com/rest/api/batchservice/Pool/Add#definitions_imagereference
+[2]: https://docs.microsoft.com/rest/api/batchservice/Pool/Add#imagereference
