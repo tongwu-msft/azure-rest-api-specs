@@ -15,10 +15,6 @@ manager: "timlt"
 ---
 
 # Read all registrations
-
- 
-
-
 Retrieves all registrations.
 
 ## Request

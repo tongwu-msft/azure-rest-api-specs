@@ -19,148 +19,54 @@ Sends a notification directly to a device handle (a valid token as expressed by 
 
 ## Request
 
-<table>
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Method</p></th>
-<th><p>Request URI</p></th>
-<th><p>HTTP Version</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>POST</p></td>
-<td><p>https://{namespace}.servicebus.windows.net/{NotificationHub}/messages/?direct&amp;api-version=2015-04</p></td>
-<td><p>HTTP/1.1</p></td>
-</tr>
-</tbody>
-</table>
+| Method | Request URI | HTTP Version |
+| ------ | ----------- | ------------ |
+|  POST | `https://{namespace}.servicebus.windows.net/{NotificationHub}/messages/?direct&api-version=2015-04` | HTTP/1.1 |
 
-
-## Request Headers
+## Request headers
 
 The following table describes required and optional request headers.
 
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Request Header</p></th>
-<th><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>Authorization</p></td>
-<td><p>Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS).</p></td>
-</tr>
-<tr class="even">
-<td><p>Content-Type</p></td>
-<td><p>Set the Content-Type header based on the target platform notification service below:</p>
-<ul>
-<li><p>WNS: Set to <strong>application/json;charset=utf-8</strong> or <strong>application/xml</strong>. If the notification type (X-WNS-Type) is “wns/raw”, set to <strong>application/octet-stream</strong>.</p></li>
-<li><p>GCM and APNS: Set to <strong>application/json;charset=utf-8</strong>.</p></li>
-<li><p>MPNS: Set to <strong>application/xml;charset=utf-8</strong>.</p></li>
-</ul></td>
-</tr>
-<tr class="odd">
-<td><p>ServiceBusNotification-DeviceHandle</p></td>
-<td><p>The PNS device handle.</p></td>
-</tr>
-<tr class="even">
-<td><p>ServiceBusNotification-Tags</p></td>
-<td><p>{single tag identifier} (optional)</p></td>
-</tr>
-<tr class="odd">
-<td><p>ServiceBusNotification-Format</p></td>
-<td><p>Set to a valid PlatformType value</p>
-<ul>
-<li><p>windows</p></li>
-<li><p>apple</p></li>
-<li><p>gcm</p></li>
-<li><p>windows phone</p></li>
-<li><p>adm</p></li>
-<li><p>nokiax</p></li>
-<li><p>baidu</p></li>
-</ul></td>
-</tr>
-<tr class="even">
-<td><p>x-ms-version</p></td>
-<td><p><strong>2015-04</strong> (Supported by <strong>2015-01</strong> and later)</p></td>
-</tr>
-</tbody>
-</table>
+| Request header | Description |
+| -------------- | ----------- | 
+| Authorization | Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). |
+| Content-Type | Set the Content-Type header based on the target platform notification service below:<ul><li>WNS: Set to application/json;charset=utf-8 or application/xml. If the notification type (X-WNS-Type) is “wns/raw”, set to application/octet-stream.</li><li>GCM and APNS: Set to application/json;charset=utf-8.</li><li>MPNS: Set to application/xml;charset=utf-8.</li></ul> |
+| ServiceBusNotification-DeviceHandle | The PNS device handle. |
+| ServiceBusNotification-Tags | {single tag identifier} (optional) |
+| ServiceBusNotification-Format | Set to one of the following valid PlatformType values: `windows`, `apple`, `gcm`, `windowsphone`, `adm`, `nokiax`, `baidu`
+| x-ms-version | 2015-04 (Supported by 2015-01 and later) |
 
-
-## Request Body
+## Request body
 
 Based on the platform type, the request body formats will change. Refer to the body formats for each individual platform in native Send REST APIs.
 
   - [Send an APNS native notification](send-apns-native-notification.md)
-
   - [Send a GCM native notification](send-gcm-native-notification.md)
-
   - [Send a MPNS native notification](send-mpns-native-notification.md)
-
   - [Send a WNS native notification](send-wns-native-notification.md)
 
 ## Response
 
 The response includes an HTTP status code and a set of response headers. Response body is returned on success.
 
-## Response Codes
+## Response codes
+| Code | Description |
+| ---- | ----------- | 
+| 201 | Message successfully sent. |
+| 400 | The request is malformed (for example, not valid routing headers, not valid content-type, message exceeds size, bad message format). |
+| 401 | Authorization failure. The access key was incorrect. |
+| 403 | Quota exceeded or message too large; message was rejected. |
+| 404 | No message branch at the URI. |
+| 413 | Requested entity too large. The message size cannot be over 64 Kb. |
 
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Code</p></th>
-<th><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>201</p></td>
-<td><p>Message successfully sent.</p></td>
-</tr>
-<tr class="even">
-<td><p>400</p></td>
-<td><p>The request is malformed (for example, not valid routing headers, not valid content-type, message exceeds size, bad message format).</p></td>
-</tr>
-<tr class="odd">
-<td><p>401</p></td>
-<td><p>Authorization failure. The access key was incorrect.</p></td>
-</tr>
-<tr class="even">
-<td><p>403</p></td>
-<td><p>Quota exceeded or message too large; message was rejected.</p></td>
-</tr>
-<tr class="odd">
-<td><p>404</p></td>
-<td><p>No message branch at the URI.</p></td>
-</tr>
-<tr class="even">
-<td><p>413</p></td>
-<td><p>Requested entity too large. The message size cannot be over 64 Kb.</p></td>
-</tr>
-</tbody>
-</table>
-
-
-For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/windowsazure/dd179357.aspx).
+For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes).
 
 ## Response Headers
+| Response Header | Description |
+| --------------- | ----------- | 
+| Content-Type | `application/xml; charset=utf-8` | 
+| Location | This header is only available for [Standard tier Notification Hubs](https://azure.microsoft.com/pricing/details/notification-hubs/).<p>This header will contain the Notification Message ID. It is used with Per Message Telemetry: Get Notification Message Telemetry and correlating [PNS Feedback](get-pns-feedback.md). The location header uses the following format:</p>`https://{your namespace}.servicebus.windows.net/{your hub name}/messages/{notification message id}?api-version=2015-04`
+
 
 <table>
 <colgroup>

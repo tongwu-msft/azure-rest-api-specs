@@ -16,72 +16,29 @@ manager: "timlt"
 
 
 # Read all registrations with a tag
-
- 
-
-
 Retrieves all registrations with a specific tag.
 
 ## Request
 
-<table>
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Method</p></th>
-<th><p>Request URI</p></th>
-<th><p>HTTP version</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>GET</p></td>
-<td><p>https://{namespace}.servicebus.windows.net/{NotificationHub}/tags/{tag}/registrations?api-version=2015-01</p></td>
-<td><p>HTTP/1.1</p></td>
-</tr>
-</tbody>
-</table>
-
+| Method | Request URI | HTTP version |
+| ------ | ----------- | ------------ | 
+| GET | `https://{namespace}.servicebus.windows.net/{NotificationHub}/tags/{tag}/registrations?api-version=2015-01` | HTTP/1.1 |
 
 Note the following points:
 
   - This call supports the $top query string parameter as specified in OData.
-
   - This call supports a **ContinuationToken** query string parameter to continue the enumeration.
 
-## Request Headers
+## Request headers
 
 The following table describes required and optional request headers.
 
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Request Header</p></th>
-<th><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>Authorization</p></td>
-<td><p>Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS).</p></td>
-</tr>
-<tr class="even">
-<td><p>x-ms-version</p></td>
-<td><p><strong>2015-01</strong></p></td>
-</tr>
-</tbody>
-</table>
+| Request Header | Description |
+| -------------- | ----------- |
+| Authorization | Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). |
+| x-ms-version | 2015-01 |
 
-
-## Request Body
+## Request body
 
 None.
 
@@ -89,62 +46,22 @@ None.
 
 The response includes an HTTP status code and a set of response headers.
 
-## Response Codes
+## Response codes
 
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Code</p></th>
-<th><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>200</p></td>
-<td><p>Registrations retrieved successfully.</p></td>
-</tr>
-<tr class="even">
-<td><p>401</p></td>
-<td><p>Authorization failure. The access key was incorrect.</p></td>
-</tr>
-<tr class="odd">
-<td><p>404</p></td>
-<td><p>Not found. The channel hash does not exist.</p></td>
-</tr>
-<tr class="even">
-<td><p>403</p></td>
-<td><p>Quota exceeded. Request rejected because registration operations rate is too high.</p></td>
-</tr>
-</tbody>
-</table>
+| Code | Description |
+| ---- | ----------- | 
+| 200 | Registrations retrieved successfully. |
+| 401 | Authorization failure. The access key was incorrect. |
+| 404 | Not found. The channel hash does not exist. |
+| 403 | Quota exceeded. Request rejected because registration operations rate is too high. |
 
-
-For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/windowsazure/dd179357.aspx).
+For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes).
 
 ## Response Headers
 
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Response Header</p></th>
-<th><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p><strong>Content-type</strong></p></td>
-<td><p>application/atom+xml;type=entry;charset=utf-8</p></td>
-</tr>
-</tbody>
-</table>
+| Response header | Description |
+| --------------- | ----------- |
+| Content-type | `application/atom+xml;type=entry;charset=utf-8` |
 
 
 ## Response Body
