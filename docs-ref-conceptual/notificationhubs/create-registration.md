@@ -29,8 +29,8 @@ The following table describes required and optional request headers.
 
 | Request Header | Description | 
 | -------------- | ----------- | 
-| Content-Type | `application/atom+xml;type=entry;charset=utf-8` | Authorization|
-| Token | Generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). | 
+| Content-Type | `application/atom+xml;type=entry;charset=utf-8` | 
+| Authorization| Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). | 
 | x-ms-version | 2015-01 |
 
 
@@ -240,29 +240,10 @@ For information about status codes, see [Status and Error Codes](/rest/api/stora
 
 ## Response Headers
 
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Response Header</p></th>
-<th><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p><strong>Content-type</strong></p></td>
-<td><p>application/atom+xml;type=entry;charset=utf-8</p></td>
-</tr>
-<tr class="even">
-<td><p><strong>ETag</strong></p></td>
-<td><p>{weak ETag}</p></td>
-</tr>
-</tbody>
-</table>
-
+| Response header | Description | 
+| --------------- | ----------- | 
+| Content-type | `application/atom+xml;type=entry;charset=utf-8` |
+| ETag | {weak ETag} | 
 
 ## Response Body
 

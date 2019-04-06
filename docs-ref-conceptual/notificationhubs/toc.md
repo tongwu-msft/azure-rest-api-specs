@@ -1,9 +1,11 @@
 # [Notification Hubs REST](notification-hubs-rest.md)
+
 ## [How to use the Notification Hubs REST interface ](use-notification-hubs-rest-interface.md)
 ###[Common concepts](common-concepts.md)
 ###[Use REST APIs from a backend](use-rest-api-backend.md)
 ###[Use REST APIs from a device](use-rest-api-device.md)
-##[REST API methods]
+
+##[REST API methods](rest-api-methods.md)
 ###[Create a notification hub](create-notification-hub.md)
 ###[Update a notification hub](update-notification-hub.md)
 ###[Read a notification hub](read-notification-hub.md)
