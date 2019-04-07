@@ -23,7 +23,7 @@ This method creates or overwrites an installation.
 | ------ | ----------- | ------------ | 
 | PUT | `https://{namespace}.servicebus.windows.net/{NotificationHub}/installations/{id}?api-version=2015-01` | HTTP/1.1 |
 
-## Request Headers
+## Request headers
 
 The following table describes required and optional request headers.
 
@@ -33,7 +33,7 @@ The following table describes required and optional request headers.
 | Authorization | Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). |
 | x-ms-version | 2015-01 |
 
-## Request Body
+## Request body
 
 The following table describes the properties of the JSON request body for installations:
 
@@ -149,7 +149,7 @@ A skeleton listing of many possible elements
 
 The response includes an HTTP status code and a set of response headers.
 
-## Response Codes
+## Response codes
 | Code | Description | 
 | ---- | ----------- |
 | 200 | The installation was created successfully. |
@@ -159,14 +159,14 @@ The response includes an HTTP status code and a set of response headers.
 
 For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/windowsazure/dd179357.aspx).
 
-## Response Headers
+## Response headers
 
-| Response Header | Description | 
+| Response header | Description | 
 | --------------- | ----------- | 
 | Content-type | application/json | 
 | Content-Location | The location of the installation in the format: `https://{namespace}.servicebus.windows.net/{NotificationHub}/installations/<installationId>` |
 
-## Response Body
+## Response body
 
 None.
 

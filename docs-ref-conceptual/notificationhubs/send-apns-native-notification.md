@@ -24,11 +24,11 @@ Sends an APNS native notification through a notification hub.
 | ------ | ----------- | ------------ | 
 | POST | `https://{namespace}.servicebus.windows.net/{NotificationHub}/messages/?api-version=2015-01` | HTTP/1.1 |
 
-## Request Headers
+## Request headers
 
 The following table describes required and optional request headers.
 
-| Request Header | Description |
+| Request header | Description |
 | -------------- | ----------- | 
 | Authorization | Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). |
 | Content-Type | Set to `application/json;charset=utf-8`. |
@@ -37,7 +37,7 @@ The following table describes required and optional request headers.
 | ServiceBusNotification-Apns-Expiry | Apns expiry in W3C DTF, YYYY-MM-DDThh:mmTZD (for example, 1997-07-16T19:20+01:00). |
 
 
-## Request Body
+## Request body
 
 The request body is an XML document as [specified by Apple](http://developer.apple.com/library/ios/#documentation/networkinginternet/conceptual/remotenotificationspg/applepushservice/applepushservice.html). For example:
 
@@ -51,7 +51,7 @@ The request body is an XML document as [specified by Apple](http://developer.app
 
 The response includes an HTTP status code and a set of response headers.
 
-## Response Codes
+## Response codes
 
 | Code | Description |
 | ---- | ----------- | 
@@ -64,13 +64,13 @@ The response includes an HTTP status code and a set of response headers.
 
 For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes).
 
-## Response Headers
+## Response headers
 
-| Response Header | Description |
+| Response header | Description |
 | --------------- | ----------- | 
 | Location | his header is only available for Standard tier Notification Hubs. <p>This header will contain the Notification Message ID. It's used with Per Message Telemetry: Get Notification Message Telemetry and correlating PNS Feedback. The location header uses the following format:</p>`https://{your namespace}.servicebus.windows.net/{your hub name}/messages/{notification message id}?api-version=2015-04`
 
-## Response Body
+## Response body
 
 None.
 

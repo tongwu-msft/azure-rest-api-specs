@@ -27,16 +27,16 @@ This API is only available for [Standard tier notification hubs](https://azure.m
 | GET | `https://{namespace}.servicebus.windows.net/{NotificationHub}/messages/{notification message ID}?api-version=2016-07` | HTTP/1.1 | 
 
 
-## Request Headers
+## Request headers
 
 The following table describes required and optional request headers.
 
-| Request Header | Description |
+| Request header | Description |
 | -------------- | ----------- | 
 | Authorization | Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). |
 | x-ms-version | 2016-07 (Supported by 2015-01 or later) | 
 
-## Request Body
+## Request body
 
 None.
 
@@ -44,7 +44,7 @@ None.
 
 The response includes an HTTP status code and a set of response headers. Response body is returned on success.
 
-## Response Codes
+## Response codes
 | Code | Description |
 | ---- | ----------- | 
 | 200 | The message telemetry was retrieved successfully. Telemetry data may be a partial response, depending on the number of devices targeted by the notification message that was sent. |
@@ -55,14 +55,14 @@ The response includes an HTTP status code and a set of response headers. Respons
 
 For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes).
 
-## Response Headers
+## Response headers
 
-| Response Header | Description |
+| Response header | Description |
 | --------------- | ----------- |
 | Content-type | `application/xml; charset=utf-8` |
 
 
-## Response Body
+## Response body
 The response body will be a NotificationDetails document consisting of the following elements.
 
 | Element | Description |

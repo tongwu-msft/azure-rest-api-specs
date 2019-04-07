@@ -23,16 +23,16 @@ Retrieves an Azure Storage container URL. The container has feedback data for th
 | ------ | ----------- | ------------ | 
 | GET | `https://{namespace}.servicebus.windows.net/{Notification Hub}/feedbackcontainer?api-version=2015-01` | HTTP/1.1 |
 
-## Request Headers
+## Request headers
 The following table describes required and optional request headers.
 
-| Request Header | Description |
+| Request header | Description |
 | -------------- | ----------- | 
 | Content-Type | `application/xml;type=entry;charset=utf-8` |
 | Authorization | Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). |
 | x-ms-version | 2015-01 |
 
-## Request Body
+## Request body
 
 None.
 
@@ -40,7 +40,7 @@ None.
 
 The response includes an HTTP status code and a set of response headers.
 
-## Response Codes
+## Response codes
 
 | Code | Description |
 | ---- | ----------- | 
@@ -50,11 +50,11 @@ The response includes an HTTP status code and a set of response headers.
 
 For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes).
 
-## Response Headers
+## Response headers
 
 None.
 
-## Response Body
+## Response body
 
 Upon success, an Azure Storage Container URL is returned, complete with authentication token.
 
@@ -112,7 +112,7 @@ Get Blob named : 07272016
   <NotificationId>82d1e0626bd14221be7298341ae9a7b3-20160727205634-2001061088-1</NotificationId>
 </PnsFeedback>
 ```
-## Example Code
+## Example code
 
 Example code demonstrating this REST API is available in the [azure-notificationhubs-samples GitHub repository](https://github.com/Azure/azure-notificationhubs-dotnet/tree/master/Samples/SendRestExample).
 

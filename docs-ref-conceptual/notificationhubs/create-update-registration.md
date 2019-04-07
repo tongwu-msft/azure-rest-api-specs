@@ -25,7 +25,7 @@ Creates or updates a registration in the specified location.
 | PUT | `https://{namespace}.servicebus.windows.net/{NotificationHub}/registrations/&lt;registrationId&gt;?api-version=2015-01` | HTTP/1.1 |
 
 
-## Request Headers
+## Request headers
 
 The following table describes required and optional request headers.
 
@@ -36,7 +36,7 @@ The following table describes required and optional request headers.
 | x-ms-version | 2015-01 | 
 
 
-## Request Body
+## Request body
 
 Atom entry with the description embedded in the content, as in [Create a registration](create-registration.md).
 
@@ -44,7 +44,7 @@ Atom entry with the description embedded in the content, as in [Create a registr
 
 The response includes an HTTP status code and a set of response headers.
 
-## Response Codes
+## Response codes
 | Code | Description | 
 | ---- | ----------- | 
 | 201 | Registration updated successfully. | 
@@ -57,13 +57,13 @@ The response includes an HTTP status code and a set of response headers.
 
 For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes).
 
-## Response Headers
+## Response headers
 
-| Response Header | Description | 
+| Response header | Description | 
 | --------------- | ----------- | 
 | Content-type | `application/atom+xml;type=entry;charset=utf-8` |
 | ETag | {weak ETag} |
 
-## Response Body
+## Response body
 Upon success, a validated Atom entry is returned, as in [Create Registration](create-registration.md).
 

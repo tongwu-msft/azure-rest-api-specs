@@ -24,17 +24,17 @@ Creates a new registration. This method generates a registration ID, which you c
 | ------ | ----------- | ------------ | 
  | POST | `https://{namespace}.servicebus.windows.net/{NotificationHub}/registrations/?api-version=2015-01` | HTTP/1.1 |
 
-## Request Headers
+## Request headers
 The following table describes required and optional request headers.
 
-| Request Header | Description | 
+| Request header | Description | 
 | -------------- | ----------- | 
 | Content-Type | `application/atom+xml;type=entry;charset=utf-8` | 
 | Authorization| Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). | 
 | x-ms-version | 2015-01 |
 
 
-## Request Body
+## Request body
 
 Atom entry with the description embedded in the content. Some examples follow.
 
@@ -226,7 +226,7 @@ Template registration for Microsoft Push Notification Service:
 
 The response includes an HTTP status code and a set of response headers.
 
-## Response Codes
+## Response codes
 
 | Code | Description | 
 | ---- | ----------- |
@@ -238,14 +238,14 @@ The response includes an HTTP status code and a set of response headers.
 
 For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes).
 
-## Response Headers
+## Response headers
 
 | Response header | Description | 
 | --------------- | ----------- | 
 | Content-type | `application/atom+xml;type=entry;charset=utf-8` |
 | ETag | {weak ETag} | 
 
-## Response Body
+## Response body
 
 Upon success, a validated Atom entry is returned. It includes read-only elements such as ETag, RegistrationId, and ExpirationTime. For example:
 

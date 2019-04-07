@@ -19,7 +19,7 @@ manager: "timlt"
 This article provides common concepts when developing applications that use Azure Notification Hubs REST API.
 
 
-## Parse Connection String
+## Parse connection string
 To access a notification hub, you must have two pieces of information: the **hub name**, and a **connection string**. The connection string contains information about the endpoint of your hub, and the security credentials used to access it (For SAS, it contains a rule name and a key value).
 
 The following code parses the connection string to extract the relevant information:
@@ -65,7 +65,7 @@ sasKeyValue = part.substring(16);
 });
 ```
 
-## Create SAS Security Token
+## Create SAS security token
 
 In order to authenticate using SAS, a client must specify a SAS token in the Authorization header of their requests. The token is constructed from the information extracted from the connection string and the current request that has to be authenticated. The token has the following form:
 

@@ -28,17 +28,17 @@ Note the following points:
   - This call supports the $top query string parameter as specified in OData.
   - This call supports a **ContinuationToken** query string parameter to continue the enumeration.
 
-## Request Headers
+## Request headers
 
 The following table describes required and optional request headers.
 
-| Request Header | Description |
+| Request header | Description |
 | -------------- | ----------- | 
 | Authorization | Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). |
 | x-ms-version | 2015-01 |
 
 
-## Request Body
+## Request body
 
 None.
 
@@ -46,7 +46,7 @@ None.
 
 The response includes an HTTP status code and a set of response headers.
 
-## Response Codes
+## Response codes
 
 | Code | Description |
 | ---- | ----------- | 
@@ -57,14 +57,14 @@ The response includes an HTTP status code and a set of response headers.
 
 For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes).
 
-## Response Headers
+## Response headers
 
-| Response Header | Description |
+| Response header | Description |
 | --------------- | ----------- | 
 | Content-type | `application/atom+xml;type=entry;charset=utf-8` |
 | X-MS-ContinuationToken | Contains the token to continue the enumeration of registrations, in case there are more. |
 
-## Response Body
+## Response body
 
 Atom feed that wraps the list of registrations in the xml format specified in **Create Registration**. For example:
 

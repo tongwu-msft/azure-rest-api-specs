@@ -24,11 +24,11 @@ Sends a WNS native notification through a notification hub.
 | ------ | ----------- | ------------ |
 | POST | `https://{namespace}.servicebus.windows.net/{NotificationHub}/messages/?api-version=2015-01` | HTTP/1.1 |
 
-## Request Headers
+## Request headers
 
 The following table describes required and optional request headers.
 
-| Request Header | Description |
+| Request header | Description |
 | -------------- | ----------- |
 | Authorization | Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). |
 | Content-Type | Set to `application/json;charset=utf-8` or `application/xml`. If the notification type (`X-WNS-Type`) is `wns/raw`, set to `application/octet-stream`. |
@@ -36,7 +36,7 @@ The following table describes required and optional request headers.
 | ServiceBusNotification-Format | Set to `windows` |
 | X-WNS- | All headers starting with X-WNS will be forwarded to WNS. |
 
-## Request Body
+## Request body
 
 The request body is an XML document as [specified by WNS](http://msdn.microsoft.com/library/windows/apps/hh465460.aspx). If the notification is of type “wns/raw”, the body is any text up to 5 Kb. For example:
 
@@ -57,7 +57,7 @@ The request body is an XML document as [specified by WNS](http://msdn.microsoft.
 
 The response includes an HTTP status code and a set of response headers.
 
-## Response Codes
+## Response codes
 
 | Code | Description |
 | ---- | ----------- | 
@@ -70,14 +70,14 @@ The response includes an HTTP status code and a set of response headers.
 
 For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes).
 
-## Response Headers
+## Response headers
 
 | Response header | Description |
 | --------------- | ----------- | 
 | Location | This header is only available for [Standard tier Notification Hubs](https://azure.microsoft.com/pricing/details/notification-hubs/).<p>This header will contain the Notification Message ID. It's used with [per message telemetry](get-notification-message-telemetry.md) and correlating [PNS Feedback](get-pns-feedback.md). The location header uses the following format:</p>`https://{your namespace}.servicebus.windows.net/{your hub name}/messages/{notification message id}?api-version=2015-04` |
 
 
-## Response Body
+## Response body
 
 None.
 

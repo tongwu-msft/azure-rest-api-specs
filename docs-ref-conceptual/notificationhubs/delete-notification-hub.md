@@ -23,17 +23,17 @@ Deletes a notification hub.
 | ------ | ----------- | ------------ | 
 | DELETE | `https://{namespace}.servicebus.windows.net/{Notification Hub}?api-version=2015-01` | HTTP/1.1 |
 
-## Request Headers
+## Request headers
 
 The following table describes required and optional request headers.
 
-| Request Header | Description |  
+| Request header | Description |  
 | -------------- | ----------- | 
 | Content-Type | application/xml;type=entry;charset=utf-8 | 
 | Authorization | Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). |
 | x-ms-version | 2015-01 | 
 
-## Request Body
+## Request body
 
 None.
 
@@ -41,7 +41,7 @@ None.
 
 The response includes an HTTP status code and a set of response headers.
 
-## Response Codes
+## Response codes
 
 
 | Code | Description |
@@ -53,11 +53,11 @@ The response includes an HTTP status code and a set of response headers.
 
 For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes).
 
-## Response Headers
+## Response headers
 
 None.
 
-## Response Body
+## Response body
 
 None.
 

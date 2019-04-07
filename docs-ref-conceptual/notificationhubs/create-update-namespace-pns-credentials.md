@@ -26,7 +26,7 @@ This topic is a reference for setting the unified PNS credentials for a namespac
 | ------ | ----------- | ------------ |
 | PUT | `https://management.core.windows.net/{subscription ID}/services/ServiceBus/Namespaces/{namespace name}/NotificationHubPnsCredentials/?api-version=2015-01` | HTTP/1.1 |
 
-## Request Headers
+## Request headers
 
 The following table describes required and optional request headers.
 
@@ -36,7 +36,7 @@ The following table describes required and optional request headers.
 | x-ms-version | 2015-01 |
 
 
-## Request Body
+## Request body
 
 XML credentials to be used for all notification hubs in the namespace.
 
@@ -104,7 +104,7 @@ XML credentials to be used for all notification hubs in the namespace.
 
 The response includes an HTTP status code and a set of response headers.
 
-## Response Codes
+## Response codes
 
 | Code | Description | 
 | ---- | ----------- | 
@@ -117,11 +117,11 @@ The response includes an HTTP status code and a set of response headers.
 
 For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes).
 
-## Response Headers
+## Response headers
 
 None.
 
-## Response Body
+## Response body
 
 None.
 

@@ -23,7 +23,7 @@ Creates a new notification hub, which contains credentials for the supported Pla
 | ------ | ----------- | ------------ | 
 | PUT | `https://{namespace}.servicebus.windows.net/{Notification Hub}?api-version=2015-01` | HTTP/1.1 | 
 
-## Request Headers
+## Request headers
 
 The following table describes required and optional request headers.
 
@@ -33,7 +33,7 @@ The following table describes required and optional request headers.
 | Authorization | Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). |
 | x-ms-version | 2015-01 |
 
-## Request Body
+## Request body
 
 The request body contains an Atom entry with a NotificationHubDescription element. For example:
 
@@ -105,7 +105,7 @@ WNS, APNS, and GCM credentials must contain all properties shown above. MPNS cre
 
 The response includes an HTTP status code and a set of response headers.
 
-## Response Codes
+## Response codes
 
 | Code | Description |
 | ---- | ----------- |
@@ -117,11 +117,11 @@ The response includes an HTTP status code and a set of response headers.
 
 For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes?redirectedfrom=MSDN).
 
-## Response Headers
+## Response headers
 
 None.
 
-## Response Body
+## Response body
 
 A NotificationHubDescription element with all policies defined in the current node.
 

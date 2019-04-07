@@ -25,10 +25,10 @@ At this time, Direct Batch Send supports up to 1000 devices per request.
 | ------ | ----------- | 
 | POST | `https://{namespace}.servicebus.windows.net/{NotificationHub}/messages/$batch?direct&api-version=2015-08` | HTTP/1.1 |
 
-## Request Headers
+## Request headers
 The following table describes required and optional request headers.
 
-| Request Header | Description |
+| Request header | Description |
 | -------------- | ----------- | 
 | Authorization | Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). For more information, see [Common Concepts](common-concepts.md). |
 | Content-Type | `multipart/mixed; boundary="boundary-string"` <br/><br/> The boundary string is used to separate each part according to the multipart content type defined in [RFC1341](https://www.w3.org/protocols/rfc1341/7_2_multipart.html). Each part starts with an encapsulation boundary, and then contains a body part consisting of header area, a blank line, and a body area. |
@@ -36,7 +36,7 @@ The following table describes required and optional request headers.
 | x-ms-version | 2015-04 (Supported by 2015-01 and later) |
 
 
-## Request Body
+## Request body
 
 The request body is multipart as defined in [RFC1341](https://www.w3.org/protocols/rfc1341/7_2_multipart.html). Each part starts with an encapsulation boundary, and then contains a body part consisting of header area, a blank line, and a body area. The blank link must not contain any whitespace. See the request examples below.
 
@@ -49,7 +49,7 @@ Based on the target platform type, the body format of a notification part will c
 
 The devices part of the request body must be a JSON array of the device handles that will receive the notification.
 
-## Request Examples
+## Request examples
 
 Here is a **WNS** example:
 
@@ -134,7 +134,7 @@ Content-Disposition: inline; name=devices
 
 The response includes an HTTP status code and a set of response headers. No response body is returned on success.
 
-## Response Codes
+## Response codes
 
 | Code | Description |
 | ---- | ----------- | 
@@ -148,14 +148,14 @@ The response includes an HTTP status code and a set of response headers. No resp
 
 For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes).
 
-## Response Headers
+## Response headers
 
-| Response Header | Description |
+| Response header | Description |
 | --------------- | ----------- | 
  |Content-Type | application/xml; charset=utf-8 |
 | Location | This header is only available for Standard tier Notification Hubs. <p>This header will contain the Notification Message ID. It is used with Per Message Telemetry: Get Notification Message Telemetry and correlating PNS Feedback. The location header uses the following format:</p>`https://{your namespace}.servicebus.windows.net/{your hub name}/messages/{notification message id}?api-version=2015-04`
 
-## Response Body
+## Response body
 
 None
 

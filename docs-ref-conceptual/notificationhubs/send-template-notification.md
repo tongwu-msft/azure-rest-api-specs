@@ -25,18 +25,18 @@ Sends a notification to a template registration on a notification hub.
 | POST | `https://{namespace}.servicebus.windows.net/{NotificationHub}/messages/?api-version=2015-01` | HTTP/1.1 |
 
 
-## Request Headers
+## Request headers
 
 The following table describes required and optional request headers.
 
-| Request Header | Description |
+| Request header | Description |
 | -------------- | ----------- |
 | Authorization | Token generated as specified in Shared Access Signature Authentication with Service Bus, or Service Bus authentication and authorization with Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS). |
 | Content-Type | Set to `application/json;charset=utf-8`. |
 | ServiceBusNotification-Tags | `{single tag identifier}` (optional) |
 | ServiceBusNotification-Format | Set to `template` (optional) |
 
-## Request Body
+## Request body
 
 The request body is a JSON object, with only string properties. For example:
 
@@ -51,7 +51,7 @@ The request body is a JSON object, with only string properties. For example:
 
 The response includes an HTTP status code and a set of response headers.
 
-## Response Codes
+## Response codes
 
 | Code | Description |
 | ---- | ----------- | 
@@ -65,14 +65,14 @@ The response includes an HTTP status code and a set of response headers.
 
 For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes).
 
-## Response Headers
+## Response headers
 	
 | Response header | Description |
 | --------------- | ----------- | 
 | Location | This header is only available for Standard tier Notification Hubs.<p>This header will contain the Notification Message ID. It's used with [Per Message Telemetry](get-notification-message-telemetry.md)and correlating [PNS Feedback](get-pns-feedback.md). The location header uses the following format:</p>`https://{your namespace}.servicebus.windows.net/{your hub name}/messages/{notification message id}?api-version=2015-04` |
 
 
-## Response Body
+## Response body
 
 None.
 

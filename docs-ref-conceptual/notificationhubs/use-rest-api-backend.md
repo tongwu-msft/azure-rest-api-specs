@@ -18,7 +18,7 @@ manager: "timlt"
 # Use REST APIs from a backend
 As explained in [Registration management](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management), usually the application back-end sends notifications and might perform registrations management. Because there is already a REST wrapper for Node.js in the Azure SDK for Node, this section shows examples in Java.
 
-## Sending Notifications
+## Sending notifications
 
 The REST API for sending notifications is a simple POST on /yourHub/messages, with special headers. When sending notifications in a platform-native format, the body is the platform-specific body to be sent. The additional headers are:
 
@@ -109,7 +109,7 @@ public Notification createTemplateNotification(Map<String, String> properties) {
 
 For more information about sending notifications to other platforms, see [Notification Hubs REST APIs](notification-hubs-rest.md).
 
-## Creating and Updating Registrations
+## Creating and updating registrations
 
 Creating and updating registrations requires the serialization and deserialization of the registration XML format. The [Create a registration](create-registration.md) API topic shows the XML formats for creating different kinds of registrations (native and template for every platform).
 
@@ -223,7 +223,7 @@ public Registration updateRegistration(Registration registration) {
 
 [Delete a registration](delete-registration.md) is a similar operation.
 
-## Retrieving Registrations
+## Retrieving registrations
 
 When retrieving a registration, issue a GET call on the /registrations/{registrationId}. You retrieve a collection of registrations as specified in the following REST APIs:
 

@@ -61,13 +61,13 @@ The response includes an HTTP status code and a set of response headers. Respons
 
 For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes).
 
-## Response Headers
-| Response Header | Description |
+## Response headers
+| Response header | Description |
 | --------------- | ----------- | 
 | Content-Type | `application/xml; charset=utf-8` | 
 | Location | This header is only available for [Standard tier Notification Hubs](https://azure.microsoft.com/pricing/details/notification-hubs/).<p>This header will contain the Notification Message ID. It is used with Per Message Telemetry: Get Notification Message Telemetry and correlating [PNS Feedback](get-pns-feedback.md). The location header uses the following format:</p>`https://{your namespace}.servicebus.windows.net/{your hub name}/messages/{notification message id}?api-version=2015-04`
 
-## Response Body
+## Response body
 
 None.
 
