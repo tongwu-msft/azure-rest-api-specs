@@ -67,33 +67,6 @@ For information about status codes, see [Status and Error Codes](/rest/api/stora
 | Content-Type | `application/xml; charset=utf-8` | 
 | Location | This header is only available for [Standard tier Notification Hubs](https://azure.microsoft.com/pricing/details/notification-hubs/).<p>This header will contain the Notification Message ID. It is used with Per Message Telemetry: Get Notification Message Telemetry and correlating [PNS Feedback](get-pns-feedback.md). The location header uses the following format:</p>`https://{your namespace}.servicebus.windows.net/{your hub name}/messages/{notification message id}?api-version=2015-04`
 
-
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Response Header</p></th>
-<th><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><p>Content-Type</p></td>
-<td><p>application/xml; charset=utf-8</p></td>
-</tr>
-<tr class="even">
-<td><p>Location</p></td>
-<td><p>This header is only available for <a href="https://azure.microsoft.com/pricing/details/notification-hubs/">Standard tier Notification Hubs</a>.</p>
-<p>This header will contain the Notification Message ID. It is used with <a href="get-notification-message-telemetry.md">Per Message Telemetry: Get Notification Message Telemetry</a> and correlating <a href="get-pns-feedback.md">PNS Feedback</a>. The location header uses the following format:</p>
-<pre><code>https://{your namespace}.servicebus.windows.net/{your hub name}/messages/{notification message id}?api-version=2015-04</code></pre></td>
-</tr>
-</tbody>
-</table>
-
-
 ## Response Body
 
 None.

@@ -30,7 +30,7 @@ Other headers are supported for platform-specific functionality, as specified in
 
 The following Java code sends a native notification to Windows Store apps (using Apache HttpClient):
 
-``` xml
+``` java
 public Notification createWindowsNotification(String body) {
     Notification n = new Notification();
     n.body = body;
@@ -86,7 +86,7 @@ public void sendNotification(Notification notification, String tagExpression) {
 
 Similarly, the following code sends a template notification:
 
-``` xml
+``` java
 public Notification createTemplateNotification(Map<String, String> properties) {
     Notification n = new Notification();
     StringBuffer buf = new StringBuffer();
@@ -121,7 +121,7 @@ Creating and updating registrations requires the serialization and deserializati
 
 The following is an example of creating a registration in Java, using simple string concatenations to create the registration XML payload, and [Apache Digester](http://commons.apache.org/proper/commons-digester/) to parse the result. As previously noted, any XML serialization or deserialization approach works.
 
-``` xml
+``` java
 public Registration createRegistration(Registration registration) {
     HttpPost post = null;
     try {
@@ -148,7 +148,7 @@ public Registration createRegistration(Registration registration) {
 
 The getXml() method for native Windows registrations is as follows:
 
-``` csharp
+``` java
 private static final String WNS_NATIVE_REGISTRATION = "<?xml version=\"1.0\" encoding=\"utf-8\"?><entry xmlns=\"http://www.w3.org/2005/Atom\"><content type=\"application/xml\"><WindowsRegistrationDescription xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\">{0}<ChannelUri>{1}</ChannelUri></WindowsRegistrationDescription></content></entry>";
 
 public String getXml() {
@@ -162,7 +162,7 @@ You can easily derive the methods for other registration types from the examples
 
 The response contains the result of the creation, including read-only properties such as **RegistrationId**, **ETag**, and **ExpirationTime**. The following code example parses the result using [Apache Digester](http://commons.apache.org/proper/commons-digester/):
 
-``` xml
+``` java
 public static Registration parse(InputStream content) throws IOException,
             SAXException {
     Digester digester = new Digester();
@@ -197,7 +197,7 @@ The **Create** call returns a **registrationId**, which is used to retrieve, upd
 
 You can update a registration by issuing a **PUT** call on **/yourhub/registrations/{registrationId}**. The **If-Match** header is used to provide an **ETag** (supporting optimistic concurrency) or simply a “\*” to always overwrite. If the **If-Match** header is not present, the operation performs an “upsert” (always overwriting the current registration, or creating one on the provided **registrationId** if it is not present). For example:
 
-``` xml
+``` java
 public Registration updateRegistration(Registration registration) {
     HttpPut put = null;
     try {
@@ -267,7 +267,7 @@ In this code, a CollectionResult encapsulates a set of registrations along with 
 
 The following code uses [Apache Digester](http://commons.apache.org/proper/commons-digester/):
 
-``` xml
+``` java
 public static CollectionResult parseRegistrations(InputStream content)
             throws IOException, SAXException {
     Digester digester = new Digester();
