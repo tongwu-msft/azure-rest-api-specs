@@ -68,7 +68,7 @@ For information about status codes, see [Status and Error Codes](/rest/api/stora
 
 | Response header | Description |
 | --------------- | ----------- | 
-| Location | his header is only available for Standard tier Notification Hubs. <p>This header will contain the Notification Message ID. It's used with Per Message Telemetry: Get Notification Message Telemetry and correlating PNS Feedback. The location header uses the following format:</p>`https://{your namespace}.servicebus.windows.net/{your hub name}/messages/{notification message id}?api-version=2015-04`
+| Location | This header is only available for Standard tier Notification Hubs. <p>This header will contain the Notification Message ID. It's used with Per Message Telemetry: Get Notification Message Telemetry and correlating PNS Feedback. The location header uses the following format:</p>`https://{your namespace}.servicebus.windows.net/{your hub name}/messages/{notification message id}?api-version=2015-04`
 
 ## Response body
 
