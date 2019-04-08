@@ -1,17 +1,10 @@
 ---
 title: "Get Blob Service Stats"
-ms.custom: na
-ms.date: 2016-06-29
+ms.date: 04/05/19
 ms.prod: azure
-ms.reviewer: na
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: d620f436-a721-467f-aae4-0dab65be2174
-caps.latest.revision: 10
 author: tamram
-manager: carolz
 translation.priority.mt: 
   - de-de
   - es-es
@@ -24,6 +17,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
+
 # Get Blob Service Stats
 The `Get Blob Service Stats` operation retrieves statistics related to replication for the Blob service. It is only available on the secondary location endpoint when read-access geo-redundant replication is enabled for the storage account.  
   
@@ -101,7 +95,7 @@ The `Get Blob Service Stats` operation retrieves statistics related to replicati
 ## Remarks  
  With geo-redundant replication, Azure Storage maintains your data durable in two locations. In both locations, Azure Storage constantly maintains multiple healthy replicas of your data.  
   
- The location where you read, create, update, or delete data is the *primary* storage account location. The primary location exists in the region you choose at the time you create an account via the Azure Management Azure classic portal, for example, **North Central US**. The location to which your data is replicated is the *secondary* location. The secondary location is automatically determined based on the location of the primary; it is in a second data center that resides in the same region as the primary location. Read-only access is available from the secondary location, if *read-access geo-redundant replication* is enabled for your storage account. For more details about read-access geo-redundant replication, see the [Azure Storage Team Blog](http://blogs.msdn.com/b/windowsazurestorage/archive/2013/12/04/introducing-read-access-geo-replicated-storage-ra-grs-for-windows-azure-storage.aspx).  
+ The location where you read, create, update, or delete data is the *primary* storage account location. The primary location exists in the region you choose at the time you create an account via the Azure Management Azure classic portal, for example, **North Central US**. The location to which your data is replicated is the *secondary* location. The secondary location resides in a region that is automatically geographically paired with the primary region. Read-only access is available from the secondary location, if *read-access geo-redundant replication* is enabled for your storage account. For more details about read-access geo-redundant replication, see the [Azure Storage Team Blog](http://blogs.msdn.com/b/windowsazurestorage/archive/2013/12/04/introducing-read-access-geo-replicated-storage-ra-grs-for-windows-azure-storage.aspx).  
   
  To construct a request for a read operation against the secondary endpoint, append `-secondary` as a suffix to the account name in the URI that you use to read from Blob storage. For example, a secondary URI for the [Get Blob](Get-Blob.md) operation will be similar to `https://myaccount-secondary.blob.core.windows.net/mycontainer/myblob`.  
   
