@@ -53,6 +53,7 @@ The response includes an HTTP status code and a set of response headers.
 | 403 | Quota exceeded; too many registrations in this namespace. Registration not created. |
 | 404 | No registration exists at this location. |
 | 409 | Request rejected because registration operations rate is too high. |
+
 For information about status codes, see [Status and Error Codes](/rest/api/storageservices/Common-REST-API-Error-Codes).
 
 ## Response headers

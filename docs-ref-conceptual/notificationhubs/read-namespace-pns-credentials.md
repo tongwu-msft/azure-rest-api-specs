@@ -61,64 +61,65 @@ None.
 
 A NotificationHubPnsCredentials element that defines the credentials for all hubs in the namespace.
 
-    <NotificationHubPnsCredentials xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
-    
-    <ApnsCredential>
-       <Properties>
-          <Property>
-             <Name>Endpoint</Name>
-             <Value>gateway.push.apple.com</Value>
-          </Property>
-          <Property>
-             <Name>ApnsCertificate</Name>
-             <Value>{APNS certificate in Base64}</Value>
-          </Property>
-          <Property>
-             <Name>CertificateKey</Name>
-             <Value>{APNS certificate key}</Value>
-          </Property>
-       </Properties>
-    </ApnsCredential>
-    
-    <RegistrationTtl>P39D</RegistrationTtl>
-    
-    <WnsCredential>
-       <Properties>
-          <Property>
-             <Name>PackageSid</Name>
-             <Value>{PackageSid}</Value>
-          </Property>
-          <Property>
-             <Name>SecretKey</Name>
-             <Value>{SecretKey}</Value>
-          </Property>
-       </Properties>
-    </WnsCredential>
-    
-    <GcmCredential>
-       <Properties>
-          <Property>
-             <Name>GoogleApiKey</Name>
-             <Value>{ApiKey}</Value>
-          </Property>
-       </Properties>
-    </GcmCredential>
-    
-    <MpnsCredential>
-       <Properties>
-          <Property>
-             <Name>MpnsCertificate</Name>
-             <Value>{MPNS certificate in Base64}</Value>
-          </Property>
-          <Property>
-             <Name>CertificateKey</Name>
-             <Value>{MPNS certificate key}</Value>
-          </Property>
-       </Properties>
-    </MpnsCredential>
-    
-    </NotificationHubPnsCredentials>
+```xml
+<NotificationHubPnsCredentials xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
 
+<ApnsCredential>
+   <Properties>
+      <Property>
+         <Name>Endpoint</Name>
+         <Value>gateway.push.apple.com</Value>
+      </Property>
+      <Property>
+         <Name>ApnsCertificate</Name>
+         <Value>{APNS certificate in Base64}</Value>
+      </Property>
+      <Property>
+         <Name>CertificateKey</Name>
+         <Value>{APNS certificate key}</Value>
+      </Property>
+   </Properties>
+</ApnsCredential>
+
+<RegistrationTtl>P39D</RegistrationTtl>
+
+<WnsCredential>
+   <Properties>
+      <Property>
+         <Name>PackageSid</Name>
+         <Value>{PackageSid}</Value>
+      </Property>
+      <Property>
+         <Name>SecretKey</Name>
+         <Value>{SecretKey}</Value>
+      </Property>
+   </Properties>
+</WnsCredential>
+
+<GcmCredential>
+   <Properties>
+      <Property>
+         <Name>GoogleApiKey</Name>
+         <Value>{ApiKey}</Value>
+      </Property>
+   </Properties>
+</GcmCredential>
+
+<MpnsCredential>
+   <Properties>
+      <Property>
+         <Name>MpnsCertificate</Name>
+         <Value>{MPNS certificate in Base64}</Value>
+      </Property>
+      <Property>
+         <Name>CertificateKey</Name>
+         <Value>{MPNS certificate key}</Value>
+      </Property>
+   </Properties>
+</MpnsCredential>
+
+</NotificationHubPnsCredentials>
+```
 ## See Also
 
 [Create or update namespace PNS credentials](create-update-namespace-pns-credentials.md)  
