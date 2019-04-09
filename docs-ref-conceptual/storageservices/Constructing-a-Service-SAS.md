@@ -252,7 +252,7 @@ Beginning with version 2015-04-05, Azure Storage supports two types of shared ac
 
  **Version 2018-11-09 and later**  
   
- Version 2015-04-05 adds support for the signed resource and signed blob snapshot time fields. These must be included in the string-to-sign. To construct the string-to-sign for Blob service resources, use the following format:  
+ Version 2018-11-09 adds support for the signed resource and signed blob snapshot time fields. These must be included in the string-to-sign. To construct the string-to-sign for Blob service resources, use the following format:  
   
 ```  
   
