@@ -54,7 +54,7 @@ This section describes the Service Bus REST run-time APIs. Runtime operations ca
 |Property Name|Default|Property Description|  
 |-------------------|-------------|--------------------------|  
 |CorrelationId|(empty)|[CorrelationId](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage.correlationid)|  
-|ForcePersistence|false|[ForcePersistence](/api/microsoft.servicebus.messaging.brokeredmessage.forcepersistence)|  
+|ForcePersistence|false|[ForcePersistence](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage.forcepersistence)|  
 |Label|(empty)|[Label](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage.label)|  
 |MessageId|(empty)|[MessageId](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage.messageid)|  
 |PartitionKey|(empty)|[PartitionKey](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage.partitionkey)|  

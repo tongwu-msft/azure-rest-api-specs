@@ -71,6 +71,6 @@ You can do the following tasks with the REST APIs for Azure Machine Learning Stu
 
 ## See Also
 
-- [AzureRM.MachineLearning](/powershell/module/azurerm.machinelearning/)
+- [Manage a web service using PowerShell cmdlets](/powershell/resourcemanager/azurerm.machinelearning/v0.11.0/azurerm.machinelearning)
 - [Manage a web service using the Azure Machine Learning Studio Web Services portal](/azure/machine-learning/studio/manage-new-webservice)
 - [Overview of deploying and consuming Azure Machine Learning Studio web services](/azure/machine-learning/studio/deploy-consume-web-service-guide)
