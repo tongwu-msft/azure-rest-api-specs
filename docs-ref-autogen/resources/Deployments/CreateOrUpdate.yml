@@ -393,7 +393,102 @@ definitions:
     types:
     - uid: string
       isArray: true
-examples: []
+examples:
+- name: Create a deployment that will redeploy the last successful deployment on failure
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName?api-version=2018-05-01
+    body: >-
+      {
+        "properties": {
+          "templateLink": "{templateUri}",
+          "parameters": {},
+          "mode": "Complete",
+          "onErrorDeployment": {
+            "type": "LastSuccessful"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName",
+        "name": "exampleDeploymentName",
+        "properties": {
+          "provisioningState": "Accepted",
+          "correlationId": "{correlationId}",
+          "timestamp": "2018-05-01T00:00:00Z",
+          "mode": "Complete",
+          "onErrorDeployment": {
+            "type": "LastSuccessful",
+            "deploymentName": "{nameOfLastSuccesfulDeployment}"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName",
+        "name": "exampleDeploymentName",
+        "properties": {
+          "provisioningState": "Accepted",
+          "correlationId": "{correlationId}",
+          "timestamp": "2018-05-01T00:00:00Z",
+          "mode": "Complete",
+          "onErrorDeployment": {
+            "type": "LastSuccessful",
+            "deploymentName": "{nameOfLastSuccesfulDeployment}"
+          }
+        }
+      }
+- name: Create a deployment that will redeploy another deployment on failure
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName?api-version=2018-05-01
+    body: >-
+      {
+        "properties": {
+          "templateLink": "{templateUri}",
+          "parameters": {},
+          "mode": "Complete",
+          "onErrorDeployment": {
+            "type": "SpecificDeployment",
+            "deploymentName": "{nameOfDeploymentToUse}"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName",
+        "name": "exampleDeploymentName",
+        "properties": {
+          "provisioningState": "Accepted",
+          "correlationId": "{correlationId}",
+          "timestamp": "2018-05-01T00:00:00Z",
+          "mode": "Complete",
+          "onErrorDeployment": {
+            "type": "SpecificDeployment",
+            "deploymentName": "{nameOfDeploymentToUse}"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/{subscriptionId}/resourcegroups/myResourceGroup/providers/Microsoft.Resources/deployments/exampleDeploymentName",
+        "name": "exampleDeploymentName",
+        "properties": {
+          "provisioningState": "Accepted",
+          "correlationId": "{correlationId}",
+          "timestamp": "2018-05-01T00:00:00Z",
+          "mode": "Complete",
+          "onErrorDeployment": {
+            "type": "SpecificDeployment",
+            "deploymentName": "{nameOfDeploymentToUse}"
+          }
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
