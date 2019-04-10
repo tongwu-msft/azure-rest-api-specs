@@ -3199,6 +3199,8 @@
 ### [Update](dns/Zones/Update.yml)
 # [Event Grid](../docs-ref-conceptual/eventgrid/index.md)
 ## [Domain Topics](eventgrid/DomainTopics.yml)
+### [Create Or Update](eventgrid/DomainTopics/CreateOrUpdate.yml)
+### [Delete](eventgrid/DomainTopics/Delete.yml)
 ### [Get](eventgrid/DomainTopics/Get.yml)
 ### [List By Domain](eventgrid/DomainTopics/ListByDomain.yml)
 ## [Domains](eventgrid/Domains.yml)

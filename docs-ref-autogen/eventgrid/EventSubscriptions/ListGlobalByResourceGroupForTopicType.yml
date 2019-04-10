@@ -3,13 +3,15 @@ uid: management.azure.com.eventgrid.eventsubscriptions.listglobalbyresourcegroup
 name: List Global By Resource Group For Topic Type
 service: Event Grid
 groupName: Event Subscriptions
-apiVersion: 2018-09-15-preview
+apiVersion: 2019-02-01-preview
 summary: "List all global event subscriptions under a resource group for a topic type  \nList all global event subscriptions under a resource group for a specific topic type."
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topicTypes/{topicTypeName}/eventSubscriptions?api-version=2018-09-15-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topicTypes/{topicTypeName}/eventSubscriptions?api-version=2019-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topicTypes/{topicTypeName}/eventSubscriptions?api-version=2019-02-01-preview&$filter={$filter}&$top={$top}&label={label}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -35,6 +37,21 @@ uriParameters:
   description: Version of the API to be used with the client request.
   types:
   - uid: string
+- name: $filter
+  in: query
+  description: Filter the results using OData syntax.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The number of results to return.
+  types:
+  - uid: integer
+- name: label
+  in: query
+  description: The label used to filter the results for event subscriptions list.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
   description: OK
@@ -58,6 +75,10 @@ definitions:
     types:
     - uid: EventSubscription
       isArray: true
+  - name: nextLink
+    description: A link for the next page of event subscriptions
+    types:
+    - uid: string
 - name: EventSubscription
   description: Event Subscription
   kind: object
@@ -79,6 +100,7 @@ definitions:
     - uid: EventHubEventSubscriptionDestination
     - uid: StorageQueueEventSubscriptionDestination
     - uid: HybridConnectionEventSubscriptionDestination
+    - uid: ServiceBusQueueEventSubscriptionDestination
     typesTitle: EventSubscriptionDestination
   - name: properties.filter
     description: Information about the filter for the event subscription.
@@ -162,7 +184,7 @@ definitions:
     types:
     - uid: string
   - name: includedEventTypes
-    description: "A list of applicable event types that need to be part of the event subscription. \nIf it is desired to subscribe to all event types, the string \"all\" needs to be specified as an element in this list."
+    description: A list of applicable event types that need to be part of the event subscription. If it is desired to subscribe to all default event types, set the IncludedEventTypes to null.
     types:
     - uid: string
       isArray: true
@@ -171,7 +193,7 @@ definitions:
     types:
     - uid: boolean
   - name: advancedFilters
-    description: A list of advanced filters.
+    description: An array of advanced filters that are used for filtering event subscriptions.
     types:
     - uid: NumberInAdvancedFilter
       isArray: true
@@ -284,6 +306,19 @@ definitions:
     types:
     - uid: HybridConnection
     typesTitle: string
+- name: ServiceBusQueueEventSubscriptionDestination
+  description: Information about the service bus destination for an event subscription
+  kind: object
+  properties:
+  - name: properties.resourceId
+    description: The Azure Resource Id that represents the endpoint of the Service Bus destination of an event subscription.
+    types:
+    - uid: string
+  - name: endpointType
+    description: Type of the endpoint for the event subscription destination
+    types:
+    - uid: ServiceBusQueue
+    typesTitle: string
 - name: StorageBlobDeadLetterDestination
   description: Information about the storage blob based dead letter destination.
   kind: object
@@ -302,220 +337,220 @@ definitions:
     - uid: StorageBlob
     typesTitle: string
 - name: NumberInAdvancedFilter
-  description: NumberIn filter
+  description: NumberIn Advanced Filter.
   kind: object
   properties:
   - name: values
-    description: The set of filter values
+    description: The set of filter values.
     types:
     - uid: number
       isArray: true
   - name: operatorType
-    description: Represents the filter operator
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
     types:
     - uid: NumberIn
     typesTitle: string
   - name: key
-    description: The filter key. Represents an event property with up to two levels of nesting.
+    description: The field/property in the event based on which you want to filter.
     types:
     - uid: string
 - name: NumberNotInAdvancedFilter
-  description: NumberNotIn Filter
+  description: NumberNotIn Advanced Filter.
   kind: object
   properties:
   - name: values
-    description: The set of filter values
+    description: The set of filter values.
     types:
     - uid: number
       isArray: true
   - name: operatorType
-    description: Represents the filter operator
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
     types:
     - uid: NumberNotIn
     typesTitle: string
   - name: key
-    description: The filter key. Represents an event property with up to two levels of nesting.
+    description: The field/property in the event based on which you want to filter.
     types:
     - uid: string
 - name: NumberLessThanAdvancedFilter
-  description: NumberLessThan Filter
+  description: NumberLessThan Advanced Filter.
   kind: object
   properties:
   - name: value
-    description: The filter value
+    description: The filter value.
     types:
     - uid: number
   - name: operatorType
-    description: Represents the filter operator
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
     types:
     - uid: NumberLessThan
     typesTitle: string
   - name: key
-    description: The filter key. Represents an event property with up to two levels of nesting.
+    description: The field/property in the event based on which you want to filter.
     types:
     - uid: string
 - name: NumberGreaterThanAdvancedFilter
-  description: NumberGreaterThan Filter
+  description: NumberGreaterThan Advanced Filter.
   kind: object
   properties:
   - name: value
-    description: The filter value
+    description: The filter value.
     types:
     - uid: number
   - name: operatorType
-    description: Represents the filter operator
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
     types:
     - uid: NumberGreaterThan
     typesTitle: string
   - name: key
-    description: The filter key. Represents an event property with up to two levels of nesting.
+    description: The field/property in the event based on which you want to filter.
     types:
     - uid: string
 - name: NumberLessThanOrEqualsAdvancedFilter
-  description: NumberLessThanOrEquals Filter
+  description: NumberLessThanOrEquals Advanced Filter.
   kind: object
   properties:
   - name: value
-    description: The filter value
+    description: The filter value.
     types:
     - uid: number
   - name: operatorType
-    description: Represents the filter operator
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
     types:
     - uid: NumberLessThanOrEquals
     typesTitle: string
   - name: key
-    description: The filter key. Represents an event property with up to two levels of nesting.
+    description: The field/property in the event based on which you want to filter.
     types:
     - uid: string
 - name: NumberGreaterThanOrEqualsAdvancedFilter
-  description: NumberGreaterThanOrEquals Filter
+  description: NumberGreaterThanOrEquals Advanced Filter.
   kind: object
   properties:
   - name: value
-    description: The filter value
+    description: The filter value.
     types:
     - uid: number
   - name: operatorType
-    description: Represents the filter operator
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
     types:
     - uid: NumberGreaterThanOrEquals
     typesTitle: string
   - name: key
-    description: The filter key. Represents an event property with up to two levels of nesting.
+    description: The field/property in the event based on which you want to filter.
     types:
     - uid: string
 - name: BoolEqualsAdvancedFilter
-  description: BoolEquals Filter
+  description: BoolEquals Advanced Filter.
   kind: object
   properties:
   - name: value
-    description: The filter value
+    description: The boolean filter value.
     types:
     - uid: boolean
   - name: operatorType
-    description: Represents the filter operator
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
     types:
     - uid: BoolEquals
     typesTitle: string
   - name: key
-    description: The filter key. Represents an event property with up to two levels of nesting.
+    description: The field/property in the event based on which you want to filter.
     types:
     - uid: string
 - name: StringInAdvancedFilter
-  description: StringIn Filter
+  description: StringIn Advanced Filter.
   kind: object
   properties:
   - name: values
-    description: The set of filter values
+    description: The set of filter values.
     types:
     - uid: string
       isArray: true
   - name: operatorType
-    description: Represents the filter operator
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
     types:
     - uid: StringIn
     typesTitle: string
   - name: key
-    description: The filter key. Represents an event property with up to two levels of nesting.
+    description: The field/property in the event based on which you want to filter.
     types:
     - uid: string
 - name: StringNotInAdvancedFilter
-  description: StringNotIn Filter
+  description: StringNotIn Advanced Filter.
   kind: object
   properties:
   - name: values
-    description: The set of filter values
+    description: The set of filter values.
     types:
     - uid: string
       isArray: true
   - name: operatorType
-    description: Represents the filter operator
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
     types:
     - uid: StringNotIn
     typesTitle: string
   - name: key
-    description: The filter key. Represents an event property with up to two levels of nesting.
+    description: The field/property in the event based on which you want to filter.
     types:
     - uid: string
 - name: StringBeginsWithAdvancedFilter
-  description: StringBeginsWith Filter
+  description: StringBeginsWith Advanced Filter.
   kind: object
   properties:
   - name: values
-    description: The set of filter values
+    description: The set of filter values.
     types:
     - uid: string
       isArray: true
   - name: operatorType
-    description: Represents the filter operator
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
     types:
     - uid: StringBeginsWith
     typesTitle: string
   - name: key
-    description: The filter key. Represents an event property with up to two levels of nesting.
+    description: The field/property in the event based on which you want to filter.
     types:
     - uid: string
 - name: StringEndsWithAdvancedFilter
-  description: StringEndsWith Filter
+  description: StringEndsWith Advanced Filter.
   kind: object
   properties:
   - name: values
-    description: The set of filter values
+    description: The set of filter values.
     types:
     - uid: string
       isArray: true
   - name: operatorType
-    description: Represents the filter operator
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
     types:
     - uid: StringEndsWith
     typesTitle: string
   - name: key
-    description: The filter key. Represents an event property with up to two levels of nesting.
+    description: The field/property in the event based on which you want to filter.
     types:
     - uid: string
 - name: StringContainsAdvancedFilter
-  description: StringContains Filter
+  description: StringContains Advanced Filter.
   kind: object
   properties:
   - name: values
-    description: The set of filter values
+    description: The set of filter values.
     types:
     - uid: string
       isArray: true
   - name: operatorType
-    description: Represents the filter operator
+    description: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
     types:
     - uid: StringContains
     typesTitle: string
   - name: key
-    description: The filter key. Represents an event property with up to two levels of nesting.
+    description: The field/property in the event based on which you want to filter.
     types:
     - uid: string
 examples:
 - name: EventSubscriptions_ListGlobalByResourceGroupForTopicType
   request:
-    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topicTypes/Microsoft.Resources.ResourceGroups/eventSubscriptions?api-version=2018-09-15-preview
+    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topicTypes/Microsoft.Resources.ResourceGroups/eventSubscriptions?api-version=2019-02-01-preview
   responses:
   - statusCode: "200"
     body: >-
