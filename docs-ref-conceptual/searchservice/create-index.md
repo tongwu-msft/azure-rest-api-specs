@@ -82,9 +82,11 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 -   **corsOptions** to allow cross-origin queries against your index.  
 
+-   **encryptionKey** used to encrypted index data at rest with **customer managed keys** in Azure Key Vault. To learn more, see [Manage encryption keys in Azure Search](https://docs.microsoft.com/en-us/azure/search/search-security-manage-encryption-keys).
+
  The syntax for structuring the request payload is as follows. A sample request is provided further on in this topic.  
 
-```  
+```json
 {  
   "name": (optional on PUT; required on POST) "name_of_index",  
   "fields": [  
@@ -154,6 +156,15 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
   "corsOptions": (optional) {  
     "allowedOrigins": ["*"] | ["origin_1", "origin_2", ...],  
     "maxAgeInSeconds": (optional) max_age_in_seconds (non-negative integer)  
+  },
+  "encryptionKey":(optional){
+    "keyVaultUri": "azure_key_vault_uri",
+    "keyVaultKeyName": "name_of_azure_key_vault_key",
+    "keyVaultKeyVersion": "version_of_azure_key_vault_key",
+    "accessCredentials":(optional){
+      "applicationId": "azure_active_directory_application_id",
+      "applicationSecret": "azure_active_directory_application_authentication_key"
+    }
   }  
 }  
 ```  
@@ -193,6 +204,12 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 |-|-|  
 |**allowedOrigins** (required):|This is a list of origins that will be granted access to your index. This means that any JavaScript code served from those origins will be allowed to query your index (assuming it provides the correct `api-key`). Each origin is typically of the form protocol://\<fully-qualified-domain-name>:\<port> although the \<port> is often omitted. See [Cross-origin resource sharing (Wikipedia)](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) for more details.<br /><br /> If you want to allow access to all origins, include \* as a single item in the **allowedOrigins** array. Note that **this is not recommended practice for production search services**. However, it may be useful for development or debugging purposes.|  
 |**maxAgeInSeconds** (optional):|Browsers use this value to determine the duration (in seconds) to cache CORS preflight responses. This must be a non-negative integer. The larger this value is, the better performance will be, but the longer it will take for CORS policy changes to take effect. If it is not set, a default duration of 5 minutes will be used.|  
+
+###  <a name="bkmk_encryption"></a> Encryption Key  
+While all Azure search indexes are encrypted by default using Microsoft managed keys, indexes could also be configured to be encrypted with **customer managed keys** in Azure Key Vault. To learn more, see [Manage encryption keys in Azure Search](https://docs.microsoft.com/en-us/azure/search/search-security-manage-encryption-keys). 
+
+> [!NOTE]
+> Encryption with customer-managed keys is a **preview** feature that is not available for free services. For paid services, it is only available for search services created on or after 2019-01-01, using the latest preview api-version (api-version=2017-11-11-preview).
 
 <a name="CreateUpdateIndexExample"></a>
 ### Request Body Example  

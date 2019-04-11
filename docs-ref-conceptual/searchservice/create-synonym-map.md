@@ -75,7 +75,16 @@ api-key: [admin key]
 {   
     "name" : "Required for POST, optional for PUT. The name of the synonym map",  
     "format" : "Required. Only Apache Solr format ('solr') is currently supported.",
-    "synonyms" : "Required. Synonym rules separated by the new line ('\n') character."
+    "synonyms" : "Required. Synonym rules separated by the new line ('\n') character.",
+    "encryptionKey" : (Optional) {
+        "keyVaultUri" : "azure_key_vault_uri",
+        "keyVaultKeyName" : "name_of_azure_key_vault_key",
+        "keyVaultKeyVersion" : "version_of_azure_key_vault_key",
+        "accessCredentials" : (Optional) {
+            "applicationId" : "azure_active_directory_application_id",
+            "applicationSecret" : "azure_active_directory_application_authentication_key"
+        }
+    } 
 }  
 
 ```  
@@ -87,6 +96,10 @@ api-key: [admin key]
 |`name`|Required. The name of the synonym map. A synonym map name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
 |`format`|Required. Only Apache Solr format ('solr') is currently supported. If you have an existing synonym dictionary in a different format and want to use it directly, please let us know on [UserVoice](https://feedback.azure.com/forums/263029-azure-search).|  
 |`synonyms`|Required. Synonym rules separated by the new line ('\n') character.|
+|`encryptionKey`|Optional. While all Azure search synonym maps are encrypted by default using Microsoft managed keys, synonym maps could also be configured to be encrypted with **customer managed keys** in Azure Key Vault. To learn more, see [Manage encryption keys in Azure Search](https://docs.microsoft.com/en-us/azure/search/search-security-manage-encryption-keys).|
+
+> [!NOTE]
+> Encryption with customer-managed keys is a **preview** feature that is not available for free services. For paid services, it is only available for search services created on or after 2019-01-01, using the latest preview api-version (api-version=2017-11-11-preview).
 
 #### Apache Solr synonym format
 
