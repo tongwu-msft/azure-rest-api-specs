@@ -163,7 +163,7 @@ You can do the following with stored procedures:
   
 -   [Execute a Stored Procedure](execute-a-stored-procedure.md)  
   
- For information on how stored procedures work, including execution of a stored procedure, see [Azure Cosmos DB programming: Stored procedures, triggers, and UDFs](/azure/cosmos-db/programming/).  
+ For information on how stored procedures work, including execution of a stored procedure, see [Azure Cosmos DB programming: Stored procedures, triggers, and UDFs](/azure/cosmos-db/stored-procedures-triggers-udfs).  
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
