@@ -29,7 +29,7 @@ Reference data is data such as manufacturer or location data that changes less o
 
 ## Common headers and parameters
 
-For authentication and authorization, a valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
+For authentication and authorization, a valid OAuth2.0 Bearer token must be passed in [Authorization header](/rest/api/apimanagement/authorizationserver/createorupdate). The token must be issued to `https://api.timeseries.azure.com/` resource (also known as "audience" in the token).
 
 Optional request headers:
 - `x-ms-client-request-id` - a client request ID. Service records this value. Allows the service to trace operation across services.
@@ -167,7 +167,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### *Patch* operation request validations
 
-1. Same as [put-API](ga-reference-data-api.md).
+1. Same as [put-API](#put-reference-data-items).
 2. If the item does not exist, a new item is created.
 
 ## Delete properties in reference data items
@@ -206,7 +206,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### *Delete properties* operation validations
 
-- Same as [put-API](ga-reference-data-api.md).
+- Same as [put-API](#put-reference-data-items).
 - If a property specified in $.deleteProperties[i].properties does not exist, it is a no-op for that property.
 
 ## Delete reference data items
@@ -240,7 +240,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### *Delete* operation request validations
 
-- Values in delete.[i] follow same key properties restrictions mentioned in [put-API](ga-reference-data-api.md).
+- Values in delete.[i] follow same key properties restrictions mentioned in [put-API](#put-reference-data-items).
 - If item not found, a response code of 404 is returned.
 
 ## Get reference data items
@@ -288,7 +288,7 @@ Assume a reference data set that defines a single key with name *deviceId* and t
 
 ### *Get* operation validations
 
-- Values in get.[i] follow same key properties restrictions mentioned in [put-API](ga-reference-data-api.md).
+- Values in get.[i] follow same key properties restrictions mentioned in [put-API](#put-reference-data-items).
 - If item not found, return error response 404 against that item.
 
 ## Common error response example
