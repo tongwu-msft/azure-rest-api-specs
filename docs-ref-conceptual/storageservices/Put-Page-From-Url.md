@@ -1,4 +1,4 @@
----
+﻿---
 title: "Put Page From URL"
 ms.custom: na
 ms.date: 2016-06-29
@@ -25,7 +25,7 @@ translation.priority.mt:
   - zh-tw
 ---
 # Put Page From URL
-The `Put Page From URL` operation writes a range of pages to a page blob where the contents are read from a URL. This API is available starting in version `2018-11-09`.  
+The `Put Page From URL` operation writes a range of pages to a page blob where the contents are read from a URL. This API is available starting in version 2018-11-09.  
   
 ## Request  
  The `Put Page From URL` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  

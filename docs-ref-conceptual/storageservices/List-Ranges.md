@@ -34,7 +34,8 @@ The `List Ranges` operation returns the list of valid ranges for a file.
 |------------|-----------------|------------------|  
 |GET|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?comp=rangelist`|HTTP/1.1|  
 |GET|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sharesnapshot=<DateTime>&comp=rangelist`|HTTP/1.1|  
- Replace the path components shown in the request URI with your own, as follows:  
+
+Replace the path components shown in the request URI with your own, as follows:  
   
 |Path Component|Description|  
 |--------------------|-----------------|  
