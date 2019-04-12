@@ -10,7 +10,7 @@ ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: 8e95397a-64b9-491c-a7cf-1b27b9e30761
 caps.latest.revision: 9
-author: roygara
+ms.author: roygara
 manager: twooley
 translation.priority.mt: 
   - de-de
@@ -123,7 +123,7 @@ The following table describes fields of the response body:
 |`Path`     |File name including full path starting from share root, String.         |Used to identify the name of the object for which the handle is open.         |
 |`ClientIp`     |Client IP that opened the handle, String.         |Used to decide if handle may have been leaked. |
 |`OpenTime`     |Time handle was opened (UTC), DateTime as String.         |Used to decide if handle may have been leaked. Leaked handles have typically been open for a long time.          |
-|`LastReconnectTime`     |Time handle was opened (UTC), DateTime as String.         |Used to decide if handle was reopened after client/server disconnect due to networking or other faults. The field is included in the response body only if the disconnect event occured and handle was reopened.         |
+|`LastReconnectTime`     |Time handle was opened (UTC), DateTime as String.         |Used to decide if handle was reopened after client/server disconnect due to networking or other faults. The field is included in the response body only if the disconnect event occurred and handle was reopened.         |
 |`FileId`     |File ID, UINT64.         |`FileId` uniquely identifies the file. It is useful during renames as the `FileId` doesn't change.         |
 |`ParentId`     |Parent File ID, UINT64.         |`ParentId` uniquely identifies the directory. This is useful during renames as the ParentId doesn't change.         |
 |`SessionId`     |SMB session ID that specifies the context in which the file handle was opened, UINT64.         |`SessionId` is included in event viewer logs when sessions are forcibly disconnected. It allows you to associate a specific batch of leaked handles with a specific network incident.         |
