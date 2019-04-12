@@ -71,7 +71,7 @@ New features in version 2018-08-01.7.0 include:
 - Added the ability to specify a `Filter` on the `Result` of a task. See [here](/rest/api/batchservice/odata-filters-in-batch) for more details.
   - This enables the often requested scenario of performing a server-side query to find all tasks which failed.
 - **[Breaking]** Removed the `ValidationStatus` property from [TaskCounts](/rest/api/batchservice/job/gettaskcounts).
-- **[Breaking]** The default caching type for [DataDisk](/rest/api/batchservice/pool/add#datadisk) and [OSDisk](/rest/api/batchservice/pool/add) is now `ReadWrite` instead of `None`.
+- **[Breaking]** The default caching type for [DataDisk](/rest/api/batchservice/pool/add#datadisk) and OSDisk is now `ReadWrite` instead of `None`.
 - **[Breaking]** Renamed the only value of [ContainerType](/rest/api/batchservice/pool/add#containertype) from `docker` to `dockerCompatible`.
 
 
