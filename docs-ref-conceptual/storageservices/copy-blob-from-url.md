@@ -10,7 +10,7 @@ ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: de63a7ed-c489-4034-b21a-246854d7a745
 caps.latest.revision: 68
-author: uthkarshs
+ms.author: uthkarshs
 manager: pemari-msft
 translation.priority.mt: 
   - de-de
@@ -94,7 +94,7 @@ The size of the source blob can be a maximum length of up to 256 MB.
   
 |Response header|Description|  
 |---------------------|-----------------|  
-|`ETag`|If the copy is complete, contains the ETag of the destination blob. If the copy isn’t complete, contains the ETag of the empty blob created at the start of the copy.<br /><br /> The ETag value will be in quotes.|  
+|`ETag`|If the copy is complete, contains the ETag of the destination blob. If the copy isn't complete, contains the ETag of the empty blob created at the start of the copy.<br /><br /> The ETag value will be in quotes.|  
 |`Last-Modified`|Returns the date/time that the copy operation to the destination blob completed.|  
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Blob service used to execute the request.|  

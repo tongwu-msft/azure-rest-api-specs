@@ -1,4 +1,4 @@
----
+﻿---
 title: "Append Block From URL"
 ms.custom: na
 ms.date: 2016-06-29
@@ -10,7 +10,7 @@ ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: 08d3ac04-23b4-4d39-9c40-06a38bdc6df1
 caps.latest.revision: 7
-author: pemari-msft
+ms.author: pemari-msft
 manager: andred-msft
 translation.priority.mt: 
   - de-de
@@ -25,12 +25,11 @@ translation.priority.mt:
   - zh-tw
 ---
 # Append Block From URL
-## Append Block From URL  
- The **Append Block From URL** operation commits a new block of data to the end of an existing append blob.  
+The **Append Block From URL** operation commits a new block of data to the end of an existing append blob.  
   
- The `Append Block From URL` operation is permitted only if the blob was created with `x-ms-blob-type` set to `AppendBlob`. `Append Block From URL` is supported only on version 2018-11-09 version or later.  
-  
-### Request  
+The `Append Block From URL` operation is permitted only if the blob was created with `x-ms-blob-type` set to `AppendBlob`. `Append Block From URL` is supported only on version 2018-11-09 version or later.  
+   
+## Request  
  The **Append Block From URL** request may be constructed as follows. HTTPS is recommended. Replace myaccount with the name of your storage account:  
   
 |PUT Method Request URI|HTTP Version|  
@@ -43,15 +42,15 @@ translation.priority.mt:
 |----------------------------|------------------|  
 |`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=appendblock`|HTTP/1.1|  
   
- For more information, see [Using the Azure Storage Emulator for Development and Testing](http://msdn.microsoft.com/en-us/library/hh403989.aspx).  
+ For more information, see [Using the Azure Storage Emulator for Development and Testing](http://msdn.microsoft.com/library/hh403989.aspx).  
   
-#### URI Parameters  
+### URI Parameters  
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|timeout|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](http://msdn.microsoft.com/en-us/library/dd179431.aspx).|  
+|timeout|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](http://msdn.microsoft.com/library/dd179431.aspx).|  
   
-#### Request Headers  
+### Request Headers  
  The following table describes required and optional request headers.  
   
 |Request Header|Description|  
@@ -68,12 +67,12 @@ translation.priority.mt:
 |`x-ms-blob-condition-maxsize`|Optional conditional header. The max length in bytes permitted for the append blob. If the `Append Block From URL` operation would cause the blob to exceed that limit or if the blob size is already greater than the value specified in this header, the request will fail with MaxBlobSizeConditionNotMet error (HTTP status code 412 – Precondition Failed).|  
 |`x-ms-blob-condition-appendpos`|Optional conditional header, used only for the `Append Block from URL` operation. A number indicating the byte offset to compare. `Append Block from URL` will succeed only if the append position is equal to this number. If it is not, the request will fail with the AppendPositionConditionNotMet error (HTTP status code 412 – Precondition Failed).|  
   
- This operation supports the use of additional conditional headers to ensure that the API succeeds only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](http://msdn.microsoft.com/en-us/library/azure/dd179371.aspx).  
+ This operation supports the use of additional conditional headers to ensure that the API succeeds only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](http://msdn.microsoft.com/library/azure/dd179371.aspx).  
   
-#### Request Body  
+### Request Body  
  The request body contains the content of the block.  
   
-#### Sample Request  
+### Sample Request  
   
 ```  
 Request Syntax:  
@@ -92,15 +91,15 @@ If-Match: "0x8CB172A360EC34B"
   
 ```  
   
-### Response  
+## Response  
  The response includes an HTTP status code and a set of response headers.  
   
-#### Status Code  
+### Status Code  
  A successful operation returns status code 201 (Created).  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/en-us/library/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
   
-#### Response Headers  
+### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
@@ -115,7 +114,7 @@ If-Match: "0x8CB172A360EC34B"
 |*x-ms-blob-committed-block-count*|The number of committed blocks present in the blob. This can be used to control how many more appends can be done.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
   
-#### Sample Response  
+### Sample Response  
   
 ```  
 Response Status:  
@@ -131,10 +130,10 @@ x-ms-blob-committed–block-count: 1000
   
 ```  
   
-### Authorization  
+## Authorization  
  This operation can be called by the account owner and by anyone with a Shared Access Signature that has permission to write to this blob or its container.  
   
-### Remarks  
+## Remarks  
  **Append Block From URL** uploads a block to the end of an existing append blob. The block of data is immediately available once the call succeeds on the server. A block may be up to 4 MB in size.  
   
  `Append Block From URL` succeeds only if the blob already exists.  
@@ -155,7 +154,7 @@ x-ms-blob-committed–block-count: 1000
   
  Calling **Append Block From URL** on an existing block blob or page blob will return an InvalidBlobType error (HTTP status code 409 - Conflict). Calling **Append Block From URL** on a non-existent blob will return a BlobNotFound error (HTTP status code 404 – Not Found).  
   
-#### Avoiding duplicate or delayed appends  
+### Avoiding duplicate or delayed appends  
  In a single writer scenario, the client can avoid duplicate appends or delayed writes either by using the ***x-ms-blob-condition-appendpos*** conditional header to check the current offset, or by checking the ETag conditionally using `If-Match`.  
   
  In a multiple writer scenario, each client can use conditional headers, but this may not be an optimal approach in terms of performance. For the highest concurrent append throughput, applications should handle redundant appends and delayed appends in their application layer (*e.g.*, add epochs or sequence numbers in the data being appended).
