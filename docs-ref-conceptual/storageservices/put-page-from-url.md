@@ -10,7 +10,7 @@ ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: ba36957a-ffd0-4080-8325-0fbb85d56330
 caps.latest.revision: 29
-author: pemari-msft
+ms.author: pemari-msft
 manager: andred-msft
 translation.priority.mt: 
   - de-de
