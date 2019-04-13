@@ -15,7 +15,7 @@ uriParameters:
 - name: scope
   in: path
   isRequired: true
-  description: The scope associated with query and export operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope and '/providers/Microsoft.Management/managementGroups/{managementGroupId} for Management Group scope..
+  description: The scope associated with query operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope and '/providers/Microsoft.Management/managementGroups/{managementGroupId} for Management Group scope..
   types:
   - uid: string
 - name: api-version
@@ -377,7 +377,7 @@ definitions:
 examples:
 - name: SubscriptionQuery
   request:
-    uri: POST https://management.azure.com/{scope}/providers/Microsoft.CostManagement/query?api-version=2019-01-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/query?api-version=2019-01-01
     body: >-
       {
         "type": "Usage",
@@ -424,7 +424,7 @@ examples:
           "sorting": [
             {
               "name": "UsageDate",
-              "sortingDirection": "Ascending"
+              "querySortingDirection": "Ascending"
             }
           ]
         }
@@ -490,7 +490,7 @@ examples:
       }
 - name: ResourceGroupQuery
   request:
-    uri: POST https://management.azure.com/{scope}/providers/Microsoft.CostManagement/query?api-version=2019-01-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/{resourceGroupName}/providers/Microsoft.CostManagement/query?api-version=2019-01-01
     body: >-
       {
         "type": "Usage",
@@ -583,9 +583,85 @@ examples:
           }
         ]
       }
+- name: ResourceGroupQueryGrouping
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/{resourceGroupName}/providers/Microsoft.CostManagement/query?api-version=2019-01-01
+    body: >-
+      {
+        "type": "Usage",
+        "timeframe": "TheLastMonth",
+        "dataset": {
+          "granularity": "Daily",
+          "aggregation": {
+            "totalCost": {
+              "name": "PreTaxCost",
+              "function": "Sum"
+            }
+          },
+          "grouping": [
+            {
+              "type": "Dimension",
+              "name": "ResourceType"
+            }
+          ],
+          "sorting": [
+            {
+              "name": "ResourceType",
+              "querySortingDirection": "Descending"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/ScreenSharingTest-peer/providers/Microsoft.CostManagement/Query/9af9459d-441d-4055-9ed0-83d4c4a363fb",
+            "name": "9af9459d-441d-4055-9ed0-83d4c4a363fb",
+            "type": "microsoft.costmanagement/Query",
+            "properties": {
+              "nextLink": null,
+              "columns": [
+                {
+                  "name": "PreTaxCost",
+                  "type": "Number"
+                },
+                {
+                  "name": "ResourceType",
+                  "type": "String"
+                },
+                {
+                  "name": "UsageDate",
+                  "type": "Number"
+                },
+                {
+                  "name": "Currency",
+                  "type": "String"
+                }
+              ],
+              "rows": [
+                [
+                  2.10333307059661,
+                  "Microsoft.SqlServer",
+                  20180417,
+                  "USD"
+                ],
+                [
+                  20.103333070596609,
+                  "Microsoft.Compute",
+                  20180418,
+                  "USD"
+                ]
+              ]
+            }
+          }
+        ]
+      }
 - name: BillingAccountQuery
   request:
-    uri: POST https://management.azure.com/{scope}/providers/Microsoft.CostManagement/query?api-version=2019-01-01
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/70664866/providers/Microsoft.CostManagement/query?api-version=2019-01-01
     body: >-
       {
         "type": "Usage",
@@ -692,7 +768,7 @@ examples:
       }
 - name: BillingAccountQueryGrouping
   request:
-    uri: POST https://management.azure.com/{scope}/providers/Microsoft.CostManagement/query?api-version=2019-01-01
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/70664866/providers/Microsoft.CostManagement/query?api-version=2019-01-01
     body: >-
       {
         "type": "Usage",
@@ -761,7 +837,7 @@ examples:
       }
 - name: EnrollmentAccountQuery
   request:
-    uri: POST https://management.azure.com/{scope}/providers/Microsoft.CostManagement/query?api-version=2019-01-01
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456/providers/Microsoft.CostManagement/query?api-version=2019-01-01
     body: >-
       {
         "type": "Usage",
@@ -868,7 +944,7 @@ examples:
       }
 - name: EnrollmentAccountQueryGrouping
   request:
-    uri: POST https://management.azure.com/{scope}/providers/Microsoft.CostManagement/query?api-version=2019-01-01
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456/providers/Microsoft.CostManagement/query?api-version=2019-01-01
     body: >-
       {
         "type": "Usage",
@@ -949,7 +1025,7 @@ examples:
       }
 - name: DepartmentQuery
   request:
-    uri: POST https://management.azure.com/{scope}/providers/Microsoft.CostManagement/query?api-version=2019-01-01
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/100/departments/123/providers/Microsoft.CostManagement/query?api-version=2019-01-01
     body: >-
       {
         "type": "Usage",
@@ -1056,7 +1132,7 @@ examples:
       }
 - name: DepartmentQueryGrouping
   request:
-    uri: POST https://management.azure.com/{scope}/providers/Microsoft.CostManagement/query?api-version=2019-01-01
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/100/departments/123/providers/Microsoft.CostManagement/query?api-version=2019-01-01
     body: >-
       {
         "type": "Usage",
@@ -1125,7 +1201,7 @@ examples:
       }
 - name: ManagementGroupQuery
   request:
-    uri: POST https://management.azure.com/{scope}/providers/Microsoft.CostManagement/query?api-version=2019-01-01
+    uri: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/MyMgId/providers/Microsoft.CostManagement/query?api-version=2019-01-01
     body: >-
       {
         "type": "Usage",
@@ -1232,7 +1308,7 @@ examples:
       }
 - name: ManagementGroupQueryGrouping
   request:
-    uri: POST https://management.azure.com/{scope}/providers/Microsoft.CostManagement/query?api-version=2019-01-01
+    uri: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/MyMgId/providers/Microsoft.CostManagement/query?api-version=2019-01-01
     body: >-
       {
         "type": "Usage",
@@ -1254,7 +1330,7 @@ examples:
           "sorting": [
             {
               "name": "ResourceGroup",
-              "direction": "Descending"
+              "querySortingDirection": "Descending"
             }
           ]
         }
