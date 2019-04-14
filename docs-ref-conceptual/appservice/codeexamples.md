@@ -42,7 +42,7 @@ Note that `"isManualIntegration": true` turns off continuous integration, which 
 <a name="WebApps_UpdateApplicationSettings"></a>
 ## Update Application Settings example
 
-To update the app setting for your app, run the [Update Application Settings API](/rest/api/appservice/webapps/updateapplicationsettings) or [Update Application Settings Slot API](/rest/api/appservice/webapps/updateconnectionstringsslot) with a JSON like the following in the request body. 
+To update the app setting for your app, run the [Update Application Settings API](/rest/api/appservice/webapps/updateapplicationsettings) or [Update Application Settings Slot API](/rest/api/appservice/webapps/updateapplicationsettingsslot) with a JSON like the following in the request body. 
 Note that it should include all app settings, not just the ones you want to update.
 
     {
