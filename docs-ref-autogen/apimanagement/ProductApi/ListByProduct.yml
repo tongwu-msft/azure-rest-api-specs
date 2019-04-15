@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.productapi.listbyproduct
 name: List By Product
 service: API Management
 groupName: Product Api
-apiVersion: 2018-06-01-preview
+apiVersion: 2019-01-01
 summary: Lists a collection of the APIs associated with a product.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis?api-version=2018-06-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2018-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis?api-version=2019-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis?$filter={$filter}&$top={$top}&$skip={$skip}&api-version=2019-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -42,22 +42,7 @@ uriParameters:
   pattern: ^[^*#&+:<>?]+$
 - name: $filter
   in: query
-  description: >
-    | Field       | Supported operators    | Supported functions               |
-
-    |-------------|------------------------|-----------------------------------|
-
-
-
-    |name | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
-
-    |displayName | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
-
-    |description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
-
-    |serviceUrl | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
-
-    |path | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
+  description: '|   Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>'
   types:
   - uid: string
 - name: $top
@@ -122,15 +107,19 @@ definitions:
     - uid: ErrorFieldContract
       isArray: true
 - name: ApiContract
-  description: API details.
+  description: Api details.
   kind: object
   properties:
+  - name: properties.sourceApiId
+    description: API identifier of the source API.
+    types:
+    - uid: string
   - name: properties.displayName
-    description: API name.
+    description: API name. Must be 1 to 300 characters long.
     types:
     - uid: string
   - name: properties.serviceUrl
-    description: Absolute URL of the backend service implementing this API.
+    description: Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.
     types:
     - uid: string
   - name: properties.path
@@ -143,7 +132,7 @@ definitions:
     - uid: string
       isArray: true
   - name: properties.apiVersionSet
-    description: 'An API Version Set contains the common configuration for a set of API Versions relating '
+    description: Version set details
     types:
     - uid: ApiVersionSetContractDetails
   - name: id
@@ -186,7 +175,6 @@ definitions:
     types:
     - uid: string
   - name: properties.isCurrent
-    isReadyOnly: true
     description: Indicates if API revision is current api revision.
     types:
     - uid: boolean
@@ -233,6 +221,10 @@ definitions:
   properties:
   - name: id
     description: Identifier for existing API Version Set. Omit this value to create a new Version Set.
+    types:
+    - uid: string
+  - name: name
+    description: The display Name of the API Version Set.
     types:
     - uid: string
   - name: description
@@ -320,7 +312,7 @@ definitions:
 examples:
 - name: ApiManagementListProductApis
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5768181ea40f7eb6c49f6ac7/apis?api-version=2018-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5768181ea40f7eb6c49f6ac7/apis?api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
