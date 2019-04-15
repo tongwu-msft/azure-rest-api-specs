@@ -82,7 +82,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 -   **corsOptions** to allow cross-origin queries against your index.  
 
--   **encryptionKey** used to encrypted index data at rest with **customer managed keys** in Azure Key Vault. To learn more, see [Manage encryption keys in Azure Search](https://docs.microsoft.com/en-us/azure/search/search-security-manage-encryption-keys).
+-   **encryptionKey** used to encrypted index data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Manage encryption keys in Azure Search](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
 
  The syntax for structuring the request payload is as follows. A sample request is provided further on in this topic.  
 
@@ -157,13 +157,13 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
     "allowedOrigins": ["*"] | ["origin_1", "origin_2", ...],  
     "maxAgeInSeconds": (optional) max_age_in_seconds (non-negative integer)  
   },
-  "encryptionKey":(optional){
-    "keyVaultUri": "azure_key_vault_uri",
-    "keyVaultKeyName": "name_of_azure_key_vault_key",
-    "keyVaultKeyVersion": "version_of_azure_key_vault_key",
-    "accessCredentials":(optional){
-      "applicationId": "azure_active_directory_application_id",
-      "applicationSecret": "azure_active_directory_application_authentication_key"
+  "encryptionKey":(optional) {
+    "keyVaultKeyName": "name_of_azure_key_vault_key", (the name of your Azure Key Vault key to be used to encrypt your index data at rest),
+    "keyVaultKeyVersion": "version_of_azure_key_vault_key", (the version of your Azure Key Vault key to be used to encrypt your index data at rest),
+    "keyVaultUri": "azure_key_vault_uri", (the URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be used to encrypt your index data at rest. An example URI might be https://my-keyvault-name.vault.azure.net)
+    "accessCredentials": (optional, only if not using managed system identity) {
+      "applicationId": "azure_active_directory_application_id", (an AAD Application ID that was granted the required access permissions to your specified Azure Key Vault)
+      "applicationSecret": "azure_active_directory_application_authentication_key" (the authentication key of the specified AAD application)
     }
   }  
 }  
@@ -206,16 +206,16 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 |**maxAgeInSeconds** (optional):|Browsers use this value to determine the duration (in seconds) to cache CORS preflight responses. This must be a non-negative integer. The larger this value is, the better performance will be, but the longer it will take for CORS policy changes to take effect. If it is not set, a default duration of 5 minutes will be used.|  
 
 ###  <a name="bkmk_encryption"></a> Encryption Key  
-While all Azure search indexes are encrypted by default using Microsoft managed keys, indexes could also be configured to be encrypted with **customer managed keys** in Azure Key Vault. To learn more, see [Manage encryption keys in Azure Search](https://docs.microsoft.com/en-us/azure/search/search-security-manage-encryption-keys). 
+While all Azure search indexes are encrypted by default using Microsoft-managed keys, indexes could also be configured to be encrypted with your own keys, managed in your Azure Key Vault. To learn more, see [Manage encryption keys in Azure Search](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys). 
 
 > [!NOTE]
-> Encryption with customer-managed keys is a **preview** feature that is not available for free services. For paid services, it is only available for search services created on or after 2019-01-01, using the latest preview api-version (api-version=2017-11-11-preview).
+> Encryption with customer-managed keys is a **preview** feature that is not available for free services. For paid services, it is only available for search services created on or after 2019-01-01, using the latest preview api-version (api-version=2019-05-06-preview).
 
 <a name="CreateUpdateIndexExample"></a>
 ### Request Body Example  
  You can have up to 1000 fields in each index. See [Service limits for Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) and [Naming rules &#40;Azure Search&#41;](naming-rules.md) for information about maximum limits and allowable characters.  
 
-```  
+```json
 {
  "name": "hotels",  
  "fields": [
