@@ -1,16 +1,18 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.apimanagement.tagdescription.get
-name: Get
+uid: management.azure.com.apimanagement.policysnippet.listbyservice
+name: List By Service
 service: API Management
-groupName: Tag Description
-apiVersion: 2018-06-01-preview
-summary: Get Tag description in scope of API
+groupName: Policy Snippet
+apiVersion: 2019-01-01
+summary: Lists all policy snippets.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagId}?api-version=2018-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policySnippets?api-version=2019-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policySnippets?scope={scope}&api-version=2019-01-01
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,20 +33,11 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-- name: apiId
-  in: path
-  isRequired: true
-  description: API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+- name: scope
+  in: query
+  description: Policy scope.
   types:
-  - uid: string
-  pattern: ^[^*#&+:<>?]+$
-- name: tagId
-  in: path
-  isRequired: true
-  description: Tag identifier. Must be unique in the current API Management service instance.
-  types:
-  - uid: string
-  pattern: ^[^*#&+:<>?]+$
+  - uid: PolicyScopeContract
 - name: api-version
   in: query
   isRequired: true
@@ -53,53 +46,43 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  headers:
-  - name: ETag
-    value: string
-  description: Gets the description of the tag specified by its identifier in scope if the Api.
+  description: Returns an array of Policy Snippets.
   types:
-  - uid: TagDescriptionContract
+  - uid: PolicySnippetsCollection
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: TagDescriptionContract
-  description: Contract details.
+- name: PolicyScopeContract
+  description: Policy scope.
+  kind: enum
+  properties:
+  - name: Tenant
+    types:
+    - uid: string
+  - name: Product
+    types:
+    - uid: string
+  - name: Api
+    types:
+    - uid: string
+  - name: Operation
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
+- name: PolicySnippetsCollection
+  description: The response of the list policy snippets operation.
   kind: object
   properties:
-  - name: properties.displayName
-    description: Tag name.
+  - name: value
+    description: Policy snippet value.
     types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type for API Management resource.
-    types:
-    - uid: string
-  - name: properties.description
-    description: Description of the Tag.
-    types:
-    - uid: string
-  - name: properties.externalDocsUrl
-    description: Absolute URL of external resources describing the tag.
-    types:
-    - uid: string
-  - name: properties.externalDocsDescription
-    description: Description of the external resources describing the tag.
-    types:
-    - uid: string
+    - uid: PolicySnippetContract
+      isArray: true
 - name: ErrorResponse
   description: Error Response.
   kind: object
@@ -117,6 +100,30 @@ definitions:
     types:
     - uid: ErrorFieldContract
       isArray: true
+- name: PolicySnippetContract
+  description: Policy snippet.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Snippet name.
+    types:
+    - uid: string
+  - name: content
+    isReadyOnly: true
+    description: Snippet content.
+    types:
+    - uid: string
+  - name: toolTip
+    isReadyOnly: true
+    description: Snippet toolTip.
+    types:
+    - uid: string
+  - name: scope
+    isReadyOnly: true
+    description: Binary OR value of the Snippet scope.
+    types:
+    - uid: integer
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -134,23 +141,20 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ApiManagementGetApiTagDescription
+- name: ApiManagementListPolicySnippets
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/59d6bb8f1f7fab13dc67ec9b/tagDescriptions/59306a29e4bbd510dc24e5f9?api-version=2018-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/policySnippets?scope=Api&api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
-      {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/tags/59306a29e4bbd510dc24e5f9",
-        "type": "Microsoft.ApiManagement/service/tags",
-        "name": "59306a29e4bbd510dc24e5f9",
-        "properties": {
-          "displayName": "tag1",
-          "description": null,
-          "externalDocsDescription": "some additional info",
-          "externalDocsUrl": "http://some_url.com"
+      [
+        {
+          "name": "Authenticate with Basic",
+          "content": "<authentication-basic username=\"username\" password=\"password\" />",
+          "toolTip": "Authenticate with the backend service using Basic authentication. Use in the inbound section at API scope.",
+          "scope": 268435471
         }
-      }
+      ]
 security:
 - name: azure_auth
   type: oauth2

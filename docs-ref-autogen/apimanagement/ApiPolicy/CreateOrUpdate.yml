@@ -3,16 +3,14 @@ uid: management.azure.com.apimanagement.apipolicy.createorupdate
 name: Create Or Update
 service: API Management
 groupName: Api Policy
-apiVersion: 2018-06-01-preview
+apiVersion: 2019-01-01
 summary: Creates or updates policy configuration for the API.
 consumes:
 - application/json
-- application/vnd.ms-azure-apim.policy+xml
-- application/vnd.ms-azure-apim.policy.raw+xml
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies/policy?api-version=2018-06-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies/policy?api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -74,13 +72,13 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.policyContent
+  - name: properties.value
     in: body
     isRequired: true
-    description: Json escaped Xml Encoded contents of the Policy.
+    description: Contents of the Policy as defined by the format.
     types:
     - uid: string
-  - name: properties.contentFormat
+  - name: properties.format
     in: body
     description: Format of the policyContent.
     types:
@@ -103,11 +101,11 @@ definitions:
   description: Policy Contract details.
   kind: object
   properties:
-  - name: properties.policyContent
-    description: Json escaped Xml Encoded contents of the Policy.
+  - name: properties.value
+    description: Contents of the Policy as defined by the format.
     types:
     - uid: string
-  - name: properties.contentFormat
+  - name: properties.format
     description: Format of the policyContent.
     types:
     - uid: PolicyContentFormat
@@ -182,12 +180,12 @@ definitions:
 examples:
 - name: ApiManagementCreateApiPolicy
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5600b57e7e8880006a040001/policies/policy?api-version=2018-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5600b57e7e8880006a040001/policies/policy?api-version=2019-01-01
     body: >-
       {
         "properties": {
-          "contentFormat": "xml",
-          "policyContent": "<policies> <inbound /> <backend>    <forward-request />  </backend>  <outbound /></policies>"
+          "format": "xml",
+          "value": "<policies> <inbound /> <backend>    <forward-request />  </backend>  <outbound /></policies>"
         }
       }
     headers:
@@ -201,7 +199,7 @@ examples:
         "type": "Microsoft.ApiManagement/service/apis/policies",
         "name": "policy",
         "properties": {
-          "policyContent": "<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"
+          "value": "<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"
         }
       }
   - statusCode: "200"
@@ -211,17 +209,17 @@ examples:
         "type": "Microsoft.ApiManagement/service/apis/policies",
         "name": "policy",
         "properties": {
-          "policyContent": "<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"
+          "value": "<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"
         }
       }
 - name: ApiManagementCreateApiPolicyNonXmlEncoded
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5600b57e7e8880006a040001/policies/policy?api-version=2018-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/5600b57e7e8880006a040001/policies/policy?api-version=2019-01-01
     body: >-
       {
         "properties": {
-          "policyContent": "<policies>\r\n     <inbound>\r\n     <base />\r\n  <set-header name=\"newvalue\" exists-action=\"override\">\r\n   <value>\"@(context.Request.Headers.FirstOrDefault(h => h.Ke==\"Via\"))\" </value>\r\n    </set-header>\r\n  </inbound>\r\n      </policies>",
-          "contentFormat": "rawxml"
+          "value": "<policies>\r\n     <inbound>\r\n     <base />\r\n  <set-header name=\"newvalue\" exists-action=\"override\">\r\n   <value>\"@(context.Request.Headers.FirstOrDefault(h => h.Ke==\"Via\"))\" </value>\r\n    </set-header>\r\n  </inbound>\r\n      </policies>",
+          "format": "rawxml"
         }
       }
     headers:
@@ -235,7 +233,7 @@ examples:
         "type": "Microsoft.ApiManagement/service/apis/operations/policies",
         "name": "policy",
         "properties": {
-          "policyContent": "<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"newvalue\" exists-action=\"override\">\r\n      <value>\"@(context.Request.Headers.FirstOrDefault(h =&gt; h.Ke==\"Via\"))\" </value>\r\n    </set-header>\r\n  </inbound>\r\n</policies>"
+          "value": "<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"newvalue\" exists-action=\"override\">\r\n      <value>\"@(context.Request.Headers.FirstOrDefault(h =&gt; h.Ke==\"Via\"))\" </value>\r\n    </set-header>\r\n  </inbound>\r\n</policies>"
         }
       }
   - statusCode: "200"
@@ -245,7 +243,7 @@ examples:
         "type": "Microsoft.ApiManagement/service/apis/operations/policies",
         "name": "policy",
         "properties": {
-          "policyContent": "<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"newvalue\" exists-action=\"override\">\r\n      <value>\"@(context.Request.Headers.FirstOrDefault(h =&gt; h.Ke==\"Via\"))\" </value>\r\n    </set-header>\r\n  </inbound>\r\n</policies>"
+          "value": "<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-header name=\"newvalue\" exists-action=\"override\">\r\n      <value>\"@(context.Request.Headers.FirstOrDefault(h =&gt; h.Ke==\"Via\"))\" </value>\r\n    </set-header>\r\n  </inbound>\r\n</policies>"
         }
       }
 security:
