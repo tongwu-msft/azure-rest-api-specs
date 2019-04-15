@@ -51,6 +51,10 @@ The File Service REST API provides the following operations on files.
 -   [Copy File](Copy-File.md)  
   
 -   [Abort Copy File](Abort-Copy-File.md)  
+
+-   [List Handles](List-Handles.md)
+
+-   [Force Close Handles](Force-Close-Handles.md)
   
 ## See Also  
  [File Service REST API](File-Service-REST-API.md)

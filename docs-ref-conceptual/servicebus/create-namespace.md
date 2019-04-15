@@ -34,7 +34,7 @@ Creates a new service namespace. Once created, this namespace’s resource manif
   
 2.  The name matches regex ^[a-zA-Z][a-zA-Z0-9-]*$ (the namespace name can contain only Letters, numbers, hyphens “-“).  
   
-3.  The name does not end with “-“, “-sb“, “-mgmt“, “-cache“, or “-appfabric“.  
+3.  The name does not end with “-“, “-sb“ or “-mgmt“.  
   
 4.  The name is available via a call to provisioning i.e. the name must be unique across Azure to be successfully created.  
   
