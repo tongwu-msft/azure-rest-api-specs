@@ -10,6 +10,7 @@ ms.tgt_pltfrm: na
 ms.topic: reference
 ms.assetid: 8e95397a-64b9-491c-a7cf-1b27b9e30761
 caps.latest.revision: 9
+author: roygara
 ms.author: roygara
 manager: twooley
 translation.priority.mt: 
