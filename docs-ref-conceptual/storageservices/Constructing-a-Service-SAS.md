@@ -55,7 +55,7 @@ Beginning with version 2015-04-05, Azure Storage supports two types of shared ac
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedresource`|`sr`|Required.<br /><br /> Specify `b` if the shared resource is a blob. This grants access to the content and metadata of the blob.<br /><br /> Specify `c` if the shared resource is a container. This grants access to the content and metadata of any blob in the container, and to the list of blobs in the container.|  
+|`signedresource`|`sr`|Required.<br /><br /> Specify `b` if the shared resource is a blob. This grants access to the content and metadata of the blob.<br /><br /> Specify `c` if the shared resource is a container. This grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. Beginning in version 2018-11-09, specify `bs` if the shared resource is a blob snapshot. this grants access to the content and metadata of the specific snapshot, but not the corresponding root blob.|  
   
 ## Specifying the Signed Resource (File Service Only)  
  SAS is supported for the File service in version 2015-02-21 and later.  
@@ -249,7 +249,30 @@ Beginning with version 2015-04-05, Azure Storage supports two types of shared ac
   
 ### Constructing the Signature String  
  To construct the signature string of a shared access signature, first construct the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Note that fields included in the string-to-sign must be URL-decoded.  
+
+ **Version 2018-11-09 and later**  
   
+ Version 2018-11-09 adds support for the signed resource and signed blob snapshot time fields. These must be included in the string-to-sign. To construct the string-to-sign for Blob service resources, use the following format:  
+  
+```  
+  
+StringToSign = signedpermissions + "\n" +  
+               signedstart + "\n" +  
+               signedexpiry + "\n" +  
+               canonicalizedresource + "\n" +  
+               signedidentifier + "\n" +  
+               signedIP + "\n" +  
+               signedProtocol + "\n" +  
+               signedversion + "\n" +  
+               signedResource + "\n"
+               signedSnapshotTime + "\n" +
+               rscc + "\n" +  
+               rscd + "\n" +  
+               rsce + "\n" +  
+               rscl + "\n" +  
+               rsct  
+```  
+
  **Version 2015-04-05 and later**  
   
  Version 2015-04-05 adds support for the signed IP  and signed protocol fields. These must be included in the string-to-sign. To construct the string-to-sign for Blob or File service resources, use the following format:  
