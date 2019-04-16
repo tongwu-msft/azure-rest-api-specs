@@ -8465,6 +8465,8 @@
 ### [Sensitivity Labels](sql/SensitivityLabels.yml)
 #### [Create Or Update](sql/SensitivityLabels/CreateOrUpdate.yml)
 #### [Delete](sql/SensitivityLabels/Delete.yml)
+#### [Disable Recommendation](sql/SensitivityLabels/DisableRecommendation.yml)
+#### [Enable Recommendation](sql/SensitivityLabels/EnableRecommendation.yml)
 #### [Get](sql/SensitivityLabels/Get.yml)
 #### [List Current By Database](sql/SensitivityLabels/ListCurrentByDatabase.yml)
 #### [List Recommended By Database](sql/SensitivityLabels/ListRecommendedByDatabase.yml)
