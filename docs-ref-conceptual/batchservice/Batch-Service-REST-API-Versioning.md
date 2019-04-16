@@ -282,7 +282,7 @@ You can now request that application licenses be provisioned to your pool, via t
 
     -   [Stop changing the size of a pool](../batchservice/stop-changing-the-size-of-a-pool.md)
 
-    -   [Upgrade the operating system of compute nodes in a pool](../batchservice/upgrade-the-operating-system-of-compute-nodes-in-a-pool.md)
+    -   Upgrade the operating system of compute nodes in a pool
 
     -   [Remove compute nodes from a pool](../batchservice/remove-compute-nodes-from-a-pool.md)
 
