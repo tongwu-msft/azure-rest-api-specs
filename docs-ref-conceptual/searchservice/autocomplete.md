@@ -66,7 +66,7 @@ api-key: [admin or query key]
 
  **When to use POST instead of GET**  
 
- When you use HTTP GET to call **Autocomplete**, the length of the request URL cannot exceed 8 KB. Some applications can produce large queries. For these applications HTTP POST is a better choice. The request size limit for POST is approximately 16 MB.
+ With HTTP GET, the call to **Autocomplete** API is limited to request URLs of length 8 KB. Some applications can produce large queries. For these applications, HTTP POST is a better choice. The request size limit for POST is approximately 16 MB.
 
 ## Request  
  HTTPS is required for service requests. The **Autocomplete** request can be constructed using the GET or POST methods.  
@@ -75,6 +75,7 @@ api-key: [admin or query key]
 
  As a best practice when creating GET requests, remember to [URL-encode](https://docs.microsoft.com/uwp/api/windows.foundation.uri.escapecomponent) specific query parameters when calling the REST API directly. For **Autocomplete** operations, this includes:  
 
+-   **$filter**
 -   **highlightPreTag**
 -   **highlightPostTag**
 -   **search**
@@ -89,7 +90,8 @@ api-key: [admin or query key]
 |Parameter|Description|  
 |---------------|-----------------|  
 |`search=[string]`|The search text to complete. Must be at least 1 character, and no more than 100 characters.|  
-|<code>autocompleteMode=oneTerm &#124; twoTerms &#124; oneTermWithContext (optional, defaults to oneTerm)</code>|	Sets the autocomplete mode as described above.|
+|<code>autocompleteMode=oneTerm &#124; twoTerms &#124; oneTermWithContext (optional, defaults to oneTerm)</code>|Sets the autocomplete mode as described above.|
+|`$filter=[string] (optional)`|An expression that filters the documents considered for producing the completed term suggestions.<br>**Note:**  When calling **Autocomplete** using POST, this parameter is named `filter` instead of `$filter`.|
 |`highlightPreTag=[string] (optional, defaults to an empty string)`|A string tag that prepends to search hits. Must be set with `highlightPostTag`. **Note:**  When calling **Autocomplete** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
 |`highlightPostTag=[string] (optional, defaults to an empty string)`|A string tag that appends to search hits. Must be set with `highlightPreTag`. **Note:**  When calling **Autocomplete** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
 |`suggesterName=[string]`|The name of the **suggester** as specified in the **suggesters** collection that's part of the index definition. A **suggester** determines which fields are scanned for suggested query terms. For more information, see [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters).|  
@@ -116,6 +118,7 @@ api-key: [admin or query key]
 ```  
 {  
   "autocompleteMode": "oneTerm" (default) | "twoTerms" | "oneTermWithContext",
+  "filter": "odata_filter_expression",
   "fuzzy": true | false (default),  
   "highlightPreTag": "pre_tag",  
   "highlightPostTag": "post_tag",  
@@ -158,8 +161,9 @@ api-key: [admin or query key]
   ```  
   POST /indexes/insurance/docs/autocomplete?api-version=2017-11-11-Preview
   {  
-    "search": "washington medic",      
-    "top": 3,  
+    "search": "washington medic",
+    "filter": "search.in(state, 'washington')",
+    "top": 3,
     "suggesterName": "sg"  
   }  
   ```  
@@ -194,6 +198,7 @@ api-key: [admin or query key]
   {  
     "search": "washington medic",  
     "autocompleteMode": "twoTerms",
+    "filter": "planDuration ge 1",
     "top": 3,  
     "suggesterName": "sg"  
   }  
