@@ -3,15 +3,15 @@ uid: management.azure.com.apimanagement.reports.listbytime
 name: List By Time
 service: API Management
 groupName: Reports
-apiVersion: 2018-06-01-preview
+apiVersion: 2019-01-01
 summary: Lists report records by Time.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byTime?interval={interval}&api-version=2018-06-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byTime?$filter={$filter}&$top={$top}&$skip={$skip}&interval={interval}&api-version=2018-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byTime?$filter={$filter}&interval={interval}&api-version=2019-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byTime?$filter={$filter}&$top={$top}&$skip={$skip}&$orderby={$orderby}&interval={interval}&api-version=2019-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -35,7 +35,8 @@ uriParameters:
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
 - name: $filter
   in: query
-  description: The filter to apply on the operation.
+  isRequired: true
+  description: '|   Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter, select | ge, le |     | </br>| interval | select |     |     | </br>| apiRegion | filter | eq |     | </br>| userId | filter | eq |     | </br>| productId | filter | eq |     | </br>| subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |     | </br>| callCountSuccess | select |     |     | </br>| callCountBlocked | select |     |     | </br>| callCountFailed | select |     |     | </br>| callCountOther | select |     |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select |     |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>'
   types:
   - uid: string
 - name: $top
@@ -50,10 +51,15 @@ uriParameters:
   types:
   - uid: integer
   format: int32
+- name: $orderby
+  in: query
+  description: OData order by query option.
+  types:
+  - uid: string
 - name: interval
   in: query
   isRequired: true
-  description: 'By time interval. Interval must be multiple of 15 minutes and may not be zero. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds))'
+  description: 'By time interval. Interval must be multiple of 15 minutes and may not be zero. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds)).'
   types:
   - uid: string
   format: duration
@@ -200,7 +206,7 @@ definitions:
 examples:
 - name: ApiManagementGetReportsByTime
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/reports/byTime?$filter=timestamp ge datetime'2017-06-01T00:00:00' and timestamp le datetime'2017-06-04T00:00:00'&interval=PT15M&api-version=2018-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/reports/byTime?$filter=timestamp ge datetime'2017-06-01T00:00:00' and timestamp le datetime'2017-06-04T00:00:00'&interval=PT15M&api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-

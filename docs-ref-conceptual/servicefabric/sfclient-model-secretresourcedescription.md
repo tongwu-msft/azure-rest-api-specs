@@ -34,12 +34,12 @@ This type describes a secret resource.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [`properties`](#properties) | [SecretResourceProperties](sfclient-model-secretresourceproperties.md) | Yes |
+| [`properties`](#properties) | [SecretResourceProperties](sfclient-model-secretresourcepropertiesbase.md) | Yes |
 | [`name`](#name) | string | Yes |
 
 ____
 ### `properties`
-__Type__: [SecretResourceProperties](sfclient-model-secretresourceproperties.md) <br/>
+__Type__: [SecretResourceProperties](sfclient-model-secretresourcepropertiesbase.md) <br/>
 __Required__: Yes<br/>
 <br/>
 Describes the properties of a secret resource.

@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.apiexport.get
 name: Get
 service: API Management
 groupName: Api Export
-apiVersion: 2018-06-01-preview
+apiVersion: 2019-01-01
 summary: Gets the details of the API specified by its identifier in the format specified to the Storage Blob with SAS Key valid for 5 minutes.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?format={format}&export=true&api-version=2018-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}?format={format}&export=true&api-version=2019-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -95,13 +95,21 @@ definitions:
     types:
     - uid: string
 - name: ApiExportResult
-  description: API Export result Blob Uri.
+  description: API Export result.
   kind: object
   properties:
-  - name: link
-    description: Link to the Storage Blob containing the result of the export operation. The Blob Uri is only valid for 5 minutes.
+  - name: id
+    description: ResourceId of the API which was exported.
     types:
     - uid: string
+  - name: format
+    description: Format in which the Api Details are exported to the Storage Blob with Sas Key valid for 5 minutes.
+    types:
+    - uid: ExportResultFormat
+  - name: value
+    description: The object defining the schema of the exported Api Detail
+    types:
+    - uid: Value
 - name: ErrorResponse
   description: Error Response.
   kind: object
@@ -119,6 +127,34 @@ definitions:
     types:
     - uid: ErrorFieldContract
       isArray: true
+- name: ExportResultFormat
+  description: Format in which the Api Details are exported to the Storage Blob with Sas Key valid for 5 minutes.
+  kind: enum
+  properties:
+  - name: swagger-link-json
+    description: The Api Definition is exported in OpenApi Specification 2.0 format to the Storage Blob.
+    types:
+    - uid: string
+  - name: wadl-link-json
+    description: Export the Api Definition in WADL Schema to Storage Blob.
+    types:
+    - uid: string
+  - name: wsdl-link+xml
+    description: The Api Definition is exported in WSDL Schema to Storage Blob. This is only supported for APIs of Type `soap`
+    types:
+    - uid: string
+  - name: openapi-link
+    description: Export the Api Definition in OpenApi Specification 3.0 to Storage Blob.
+    types:
+    - uid: string
+- name: Value
+  description: The object defining the schema of the exported Api Detail
+  kind: object
+  properties:
+  - name: link
+    description: Link to the Storage Blob containing the result of the export operation. The Blob Uri is only valid for 5 minutes.
+    types:
+    - uid: string
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -138,12 +174,29 @@ definitions:
 examples:
 - name: ApiManagementGetApiExportInOpenApi2dot0
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api?format=swagger-link&export=true&api-version=2018-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api?format=swagger-link&export=true&api-version=2019-01-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "link": "https://apimgmtstaobxxxxxxx.blob.core.windows.net/api-export/Echo API.json?sv=2015-07-08&sr=b&sig=xxxxxxxxxx%3D&se=2017-09-08T21:54:08Z&sp=r"
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api",
+        "format": "swagger-link-json",
+        "value": {
+          "link": "https://apimgmtstkjpszxxxxxxx.blob.core.windows.net/api-export/Swagger Petstore Extensive.json?sv=2015-07-08&sr=b&sig=mxhLsFuOonu8EXIjyFPV%2FnDra0qTIoip7N7MuU%2BTFsA%3D&se=2019-04-10T22:41:31Z&sp=r"
+        }
+      }
+- name: ApiManagementGetApiExportInOpenApi3dot0
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/aid9676?format=openapi-link&export=true&api-version=2019-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/aid9676",
+        "format": "openapi-link",
+        "value": {
+          "link": "https: //apimgmtstkjpszxxxxxxx.blob.core.windows.net/api-export/Swagger Petstore.yaml?sv=2015-07-08&sr=b&sig=qqtR1y5iTbz5P7USBduqB5vriIU4gmiGqe0lKVV8j9k%3D&se=2019-04-10T22:40:57Z&sp=r"
+        }
       }
 security:
 - name: azure_auth
