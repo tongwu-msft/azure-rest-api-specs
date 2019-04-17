@@ -3,14 +3,16 @@ uid: management.azure.com.reserved-vm-instances.getcatalog.getcatalog
 name: Get Catalog
 service: Reserved VM Instances
 groupName: Get Catalog
-apiVersion: 2017-11-01
+apiVersion: 2019-04-01
 summary: Get the regions and skus that are available for RI purchase for the specified Azure subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/catalogs?api-version=2017-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/catalogs?api-version=2019-04-01&reservedResourceType={reservedResourceType}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/catalogs?api-version=2019-04-01&reservedResourceType={reservedResourceType}&location={location}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,7 +23,18 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Supported version.
+  description: Supported version for this document is 2019-04-01
+  types:
+  - uid: string
+- name: reservedResourceType
+  in: query
+  isRequired: true
+  description: The type of the resource for which the skus should be provided.
+  types:
+  - uid: string
+- name: location
+  in: query
+  description: Filters the skus based on the location specified in this parameter. This can be an azure region or global
   types:
   - uid: string
 responses:
@@ -49,16 +62,6 @@ definitions:
     description: The name of SKU
     types:
     - uid: string
-  - name: tier
-    isReadyOnly: true
-    description: The tier of this SKU
-    types:
-    - uid: string
-  - name: size
-    isReadyOnly: true
-    description: The size of this SKU
-    types:
-    - uid: string
   - name: terms
     isReadyOnly: true
     description: Available reservation terms for this resource
@@ -67,15 +70,15 @@ definitions:
       isArray: true
   - name: locations
     isReadyOnly: true
-    description: The set of locations that the SKU is available.
+    description: The set of locations that the SKU is available. If not specified, the SKU is available in all locations.
     types:
     - uid: string
       isArray: true
-  - name: capabilities
+  - name: skuProperties
     isReadyOnly: true
     description: ''
     types:
-    - uid: SkuCapability
+    - uid: SkuProperty
       isArray: true
   - name: restrictions
     isReadyOnly: true
@@ -90,7 +93,7 @@ definitions:
     description: ''
     types:
     - uid: ExtendedErrorInfo
-- name: SkuCapability
+- name: SkuProperty
   kind: object
   properties:
   - name: name
@@ -203,7 +206,7 @@ definitions:
   - name: AppliedScopesNotAssociatedWithCommerceAccount
     types:
     - uid: string
-  - name: AppliedScopesSameAsExisting
+  - name: PatchValuesSameAsExisting
     types:
     - uid: string
   - name: RoleAssignmentCreationFailed
@@ -299,16 +302,14 @@ definitions:
 examples:
 - name: Catalog
   request:
-    uri: GET https://management.azure.com/subscriptions/23bc208b-083f-4901-ae85-4f98c0c3b4b6 /providers/Microsoft.Capacity/catalogs?api-version=2017-11-01
+    uri: GET https://management.azure.com/subscriptions/23bc208b-083f-4901-ae85-4f98c0c3b4b6/providers/Microsoft.Capacity/catalogs?api-version=2019-04-01&reservedResourceType=VirtualMachines&location=eastus
   responses:
   - statusCode: "200"
     body: >-
       [
         {
-          "resourceType": "virtualMachines",
-          "name": "Standard_DS4_v2",
-          "tier": "Standard",
-          "size": "DS4_v2",
+          "resourceType": "VirtualMachines",
+          "name": "Standard_DS5_v2",
           "terms": [
             "P1Y",
             "P3Y"
@@ -316,19 +317,61 @@ examples:
           "locations": [
             "eastus"
           ],
+          "skuProperties": [
+            {
+              "name": "Cores",
+              "value": "16"
+            },
+            {
+              "name": "ProductTitle",
+              "value": "DSv2 Series, DS5"
+            },
+            {
+              "name": "ProductShortName",
+              "value": "DSv2 Series"
+            },
+            {
+              "name": "SKUName",
+              "value": "DS5 v2"
+            },
+            {
+              "name": "MeterId",
+              "value": "12bc208b-083f-4901-ae85-4f98c0c3b4b8"
+            }
+          ],
           "restrictions": []
         },
         {
-          "resourceType": "virtualMachines",
-          "name": "Standard_D14_v2_Promo",
-          "tier": "Standard",
-          "size": "D14_v2_Promo",
+          "resourceType": "VirtualMachines",
+          "name": "Standard_D1",
           "terms": [
             "P1Y",
             "P3Y"
           ],
           "locations": [
-            "CanadaCentral"
+            "eastus"
+          ],
+          "skuProperties": [
+            {
+              "name": "Cores",
+              "value": "1"
+            },
+            {
+              "name": "ProductTitle",
+              "value": "D Series, D1"
+            },
+            {
+              "name": "ProductShortName",
+              "value": "D Series"
+            },
+            {
+              "name": "SKUName",
+              "value": "D1"
+            },
+            {
+              "name": "MeterId",
+              "value": "12bc208b-083f-4901-ae85-4f98c0c3b4b8"
+            }
           ],
           "restrictions": [
             {
@@ -348,10 +391,8 @@ examples:
           ]
         },
         {
-          "resourceType": "virtualMachines",
-          "name": "Standard_DS2_v2",
-          "tier": "Standard",
-          "size": "DS2_v2",
+          "resourceType": "VirtualMachines",
+          "name": "Standard_F2",
           "terms": [
             "P1Y",
             "P3Y"
@@ -359,21 +400,37 @@ examples:
           "locations": [
             "eastus"
           ],
-          "restrictions": []
-        },
-        {
-          "resourceType": "virtualMachines",
-          "name": "Standard_DS1_v2",
-          "tier": "Standard",
-          "size": "DS1_v2",
-          "terms": [
-            "P1Y",
-            "P3Y"
+          "skuProperties": [
+            {
+              "name": "Cores",
+              "value": "2"
+            },
+            {
+              "name": "ProductTitle",
+              "value": "F Series, F2"
+            },
+            {
+              "name": "ProductShortName",
+              "value": "F Series"
+            },
+            {
+              "name": "SKUName",
+              "value": "F2"
+            },
+            {
+              "name": "MeterId",
+              "value": "12bc208b-083f-4901-ae85-4f98c0c3b4b8"
+            }
           ],
-          "locations": [
-            "eastus"
-          ],
-          "restrictions": []
+          "restrictions": [
+            {
+              "type": "Location",
+              "values": [
+                "eastus"
+              ],
+              "reasonCode": "NotAvailableForSubscription"
+            }
+          ]
         }
       ]
 security: []
