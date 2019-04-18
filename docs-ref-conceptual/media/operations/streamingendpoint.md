@@ -50,13 +50,12 @@ In most cases, you should keep CDN enabled. However, if you are anticipating max
 
 The table summarizes the behavior:  
 
-|Type|Version|ScaleUnits|Advanced features|CDN|Billing|SLA| 
-|--------------|----------|--------------|--------|--------|--------|--------|     
-|**Classic**|1.0|0|NA|NA|Free|NA|
-|**Standard Streaming Endpoint** (recommended)|2.0|0|Yes|Yes|Paid|Yes|
-|**Premium Streaming Endpoint**|1.0|>0|Yes|Yes|Paid|Yes|
-|**Premium Streaming Endpoint**|2.0|>0|Yes|Yes|Paid|Yes|
- 
+|Type|Version|ScaleUnits|Advanced features|CDN|Billing|
+|--------------|----------|--------------|--------|--------|--------|  
+|**Classic**|1.0|0|NA|NA|Free|
+|**Standard Streaming Endpoint** (recommended)|2.0|0|Yes|Yes|Paid|
+|**Premium Streaming Endpoint**|1.0|>0|Yes|Yes|Paid|
+|**Premium Streaming Endpoint**|2.0|>0|Yes|Yes|Paid|
 
 It is recommended to upgrade your **Classic** streaming endpoints to **Standard** streaming endpoints to get a better experience and advanced features.  **Standard** streaming also scales outbound bandwidth automatically. 
 
