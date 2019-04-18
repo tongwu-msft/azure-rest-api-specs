@@ -1,6 +1,6 @@
 ---
 title: "Querying Azure Cosmos DB resources using the REST API"
-ms.date: "03/29/2016"
+ms.date: "04/18/2019"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 62b49c14-9355-4469-b67a-2c1fbcdb18b4
@@ -23,18 +23,15 @@ translation.priority.mt:
 # Querying Azure Cosmos DB resources using the REST API
 Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article describes how to use REST to query resources using the SQL API. 
   
-## What resources can be queried by using REST?  
-All Azure Cosmos DB resources except account resources can be queried using Azure Cosmos DB SQL language.  For more information, see [Query with Azure Cosmos DB SQL](/azure/cosmos-db/sql-api-sql-query).  
-  
 ## How do I query a resource by using REST?  
 To perform a SQL query on a resource, do the following:  
   
-* Execute a POST method against a resource path using JSON with the "query" property set to the SQL query string, and the "parameters" property set to the array of optional parameter values.  
-* Set the x-ms-documentdb-isquery header to true.  
-* Set the Content-Type header to application/query+json.  
+* Execute a `POST` method against a resource path using JSON with the `query` property set to the SQL query string, and the "parameters" property set to the array of optional parameter values.  
+* Set the `x-ms-documentdb-isquery` header to `True`.  
+* Set the `Content-Type` header to `application/query+json`.  
   
 For a sample showing how to perform a SQL query on a resource using .NET, see [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net).  
-  
+
 ## Example  
 Below is an example REST query operation on document resources. In this example, we would like to find all documents that have "Don" as an author.  
   
@@ -44,15 +41,15 @@ x-ms-documentdb-isquery: True
 x-ms-date: Mon, 18 Apr 2015 13:05:49 GMT  
 authorization: type%3dmaster%26ver%3d1.0%26sig%3dkOU%2bBn2vkvIlHypfE8AA5fulpn8zKjLwdrxBqyg0YGQ%3d  
 x-ms-version: 2015-12-16  
-x-ms-query-enable-crosspartition: true  
+x-ms-query-enable-crosspartition: True  
 Accept: application/json  
 Content-Type: application/query+json  
 Host: contosomarketing.documents.azure.com  
 Content-Length: 50  
-  
+
 {  
-    query: "SELECT * FROM root WHERE (root.Author.id = 'Don')",  
-    parameters: []  
+    "query": "SELECT * FROM root WHERE (root.Author.id = 'Don')",  
+    "parameters": []  
 }  
   
 ```  
@@ -84,15 +81,20 @@ Content-Length: 50
 |**x-ms-session-token**|**Optional**. The session token for the request. Used for session consistency.|  
 |**x-ms-partition-key**|**Optional**. If specified, the query is executed only on documents that match the partition key value in the header.|  
 |**x-ms-documentdb-query-enablecrosspartition**|**Optional**. Must be set to true for any queries that do not filter against a single partition key. Queries that filter against a single partition key value will be executed against only a single partition even if this is set to true.|  
+|**x-ms-documentdb-populatequerymetrics**|**Optional**. Must be set to `True` in order to return query metrics|  
   
 ## Request Body  
-The request body should be a valid JSON document containing the SQL query and parameters. If the input is malformed or invalid SQL syntax, the operation with fails with a 400 Bad Request error.  
+The request body should be a valid JSON document containing the SQL query and parameters. If the input is malformed or invalid SQL syntax, the operation with fails with a 400 Bad Request error. 
+
+You will also get a 400 bad request if a [query cannot be served by the gateway](#Queries-that-cannot-be-served-by-gateway)
   
 |Property|Description|  
 |--------------|-----------------|  
 |query|**Required**. The SQL query string for the query. For more information see [Azure Cosmos DB SQL syntax reference](https://go.microsoft.com/fwlink/?linkid=834808).|  
 |parameters|**Required**. A JSON array of parameters specified as name value pairs. The parameter array can contain from zero to many parameters.Each parameter must have the following values:**name**: the name of the parameter. Parameter names must be valid string literals and begin with ‘@’.**value**: the value of the parameter. Can be any valid JSON value (string, number, object, array, Boolean or null).|  
-  
+
+
+
 ## Request Example  
  The following example makes a parameterized SQL request with a string parameter for @author.  
   
@@ -108,16 +110,18 @@ Host: contosomarketing.documents.azure.com
 Content-Length: 50  
   
 {  
-    query: "SELECT * FROM root WHERE (root.Author.id = @author)",  
-    parameters:   
+    "query": "SELECT * FROM root WHERE (root.Author.id = @author)",  
+    "parameters":   
     [  
-        { name: "@author", value: "Leo Tolstoy"}  
+        { "name": "@author", "value": "Leo Tolstoy"}  
     ]  
 }  
 ```  
   
 For more information on the SQL queries, see [SQL queries for Azure Cosmos DB](/azure/cosmos-db/sql-api-sql-query).  
-  
+ 
+
+
 ## Response Details  
 The following are common status codes returned by this operation. For information about error status codes, please see [HTTP Status Codes for Azure Cosmos DB](http-status-codes-for-cosmosdb.md).  
   
@@ -165,7 +169,7 @@ It is valid to specifiy only a subset of parameters specified in the **query** t
   
 Some examples of valid query requests are shown below. For example, the following query has a single parameter @id.  
   
-```c#  
+```
 {  
     "query": "select * from docs d where d.id = @id",   
     "parameters": [   
@@ -177,7 +181,7 @@ Some examples of valid query requests are shown below. For example, the followin
   
 The following example has two parameters, one with a string value and another with an integer value.  
   
-```c#  
+```
 {  
     "query": "select * from docs d where d.id = @id and d.prop = @prop",   
     "parameters": [   
@@ -189,7 +193,7 @@ The following example has two parameters, one with a string value and another wi
   
 The following example uses parameters within the SELECT clause, as well as a property accessed through the parameter name as a parameter.  
   
-```  
+```
 {  
     "query": "select @id, d[@propName] from docs d",   
     "parameters": [   
@@ -198,7 +202,29 @@ The following example uses parameters within the SELECT clause, as well as a pro
      ]  
 }  
 ```  
-  
+
+## Queries that cannot be served by gateway
+
+Any query that requires state across continuations cannot be served by the gateway. This includes:
+
+- TOP
+- ORDER BY
+- OFFSET LIMIT
+- Aggregates
+- DISTINCT
+- GROUP BY
+
+Queries that can be served by the gateway include:
+
+- simple projections
+- filters
+
+When a response is returned for a query that cannot be served by the gateway, it will contain the status code 400 (BadRequest) and the following message:
+
+```
+"message":"The provided cross partition query can not be directly served by the gateway. This is a first chance (internal) exception that all newer clients will know how to handle gracefully. This exception is traced, but unless you see it bubble up as an exception (which only happens on older SDK clients), then you can safely ignore this message..."
+```
+
 ## Pagination of query results  
 Query requests support pagination through the **x-ms-max-item-count** and **x-ms-continuation request** headers. The **x-ms-max-item-count** header specifies the maximum number of values that can be returned by the query execution. This can be between 1 and 1000, and is configured with a default of 100.  
   
