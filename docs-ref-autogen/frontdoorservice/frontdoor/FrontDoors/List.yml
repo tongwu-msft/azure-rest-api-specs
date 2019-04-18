@@ -3,14 +3,14 @@ uid: management.azure.com.frontdoorservice.frontdoors.list
 name: List
 service: Front Door Service
 groupName: Front Doors
-apiVersion: 2018-08-01
+apiVersion: 2019-04-01
 summary: Lists all of the Front Doors within an Azure subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/frontDoors?api-version=2018-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/frontDoors?api-version=2019-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -138,6 +138,10 @@ definitions:
     types:
     - uid: FrontendEndpoint
       isArray: true
+  - name: properties.backendPoolsSettings
+    description: Settings for all backendPools
+    types:
+    - uid: BackendPoolsSettings
   - name: properties.enabledState
     description: Operational status of the Front Door load balancer. Permitted values are 'Enabled' or 'Disabled'
     types:
@@ -201,26 +205,16 @@ definitions:
     types:
     - uid: string
       isArray: true
-  - name: properties.customForwardingPath
-    description: A custom path used to rewrite resource paths matched by this rule. Leave empty to use incoming path.
-    types:
-    - uid: string
-  - name: properties.forwardingProtocol
-    description: Protocol this rule will use when forwarding traffic to backends.
-    types:
-    - uid: FrontDoorForwardingProtocol
-  - name: properties.cacheConfiguration
-    description: The caching configuration associated with this rule.
-    types:
-    - uid: CacheConfiguration
-  - name: properties.backendPool
-    description: A reference to the BackendPool which this rule routes to.
-    types:
-    - uid: SubResource
   - name: properties.enabledState
     description: Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled'
     types:
-    - uid: FrontDoorEnabledState
+    - uid: routingRuleEnabledState
+  - name: properties.routeConfiguration
+    description: A reference to the routing configuration.
+    types:
+    - uid: ForwardingConfiguration
+    - uid: RedirectConfiguration
+    typesTitle: RouteConfiguration
 - name: LoadBalancingSettingsModel
   description: Load balancing settings for a backend pool
   kind: object
@@ -377,8 +371,16 @@ definitions:
     description: Defines the Web Application Firewall policy for each host (if applicable)
     types:
     - uid: WebApplicationFirewallPolicyLink
+- name: BackendPoolsSettings
+  description: Settings that apply to all backend pools.
+  kind: object
+  properties:
+  - name: enforceCertificateNameCheck
+    description: Whether to enforce certificate name check on HTTPS requests to all backend pools. No effect on non-HTTPS requests.
+    types:
+    - uid: enforceCertificateNameCheckEnabledState
 - name: FrontDoorEnabledState
-  description: Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled'
+  description: Operational status of the Front Door load balancer. Permitted values are 'Enabled' or 'Disabled'
   kind: enum
   properties:
   - name: Enabled
@@ -395,31 +397,16 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-- name: FrontDoorForwardingProtocol
-  description: Protocol this rule will use when forwarding traffic to backends.
+- name: routingRuleEnabledState
+  description: Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled'
   kind: enum
   properties:
-  - name: HttpOnly
+  - name: Enabled
     types:
     - uid: string
-  - name: HttpsOnly
+  - name: Disabled
     types:
     - uid: string
-  - name: MatchRequest
-    types:
-    - uid: string
-- name: CacheConfiguration
-  description: Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
-  kind: object
-  properties:
-  - name: queryParameterStripDirective
-    description: Treatment of URL query terms when forming the cache key.
-    types:
-    - uid: FrontDoorQuery
-  - name: dynamicCompression
-    description: Whether to use dynamic compression for cached content
-    types:
-    - uid: DynamicCompressionEnabled
 - name: FrontDoorProtocol
   description: Protocol scheme to use for this probe
   kind: enum
@@ -449,7 +436,7 @@ definitions:
   - name: enabledState
     description: Whether to enable use of this backend. Permitted values are 'Enabled' or 'Disabled'
     types:
-    - uid: FrontDoorEnabledState
+    - uid: backendEnabledState
   - name: priority
     description: Priority to use for load balancing. Higher priorities will not be used for load balancing if any lower priority backend is healthy.
     types:
@@ -561,18 +548,76 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-- name: FrontDoorQuery
-  description: Treatment of URL query terms when forming the cache key.
+- name: enforceCertificateNameCheckEnabledState
+  description: Whether to enforce certificate name check on HTTPS requests to all backend pools. No effect on non-HTTPS requests.
   kind: enum
   properties:
-  - name: StripNone
+  - name: Enabled
     types:
     - uid: string
-  - name: StripAll
+  - name: Disabled
     types:
     - uid: string
-- name: DynamicCompressionEnabled
-  description: Whether to use dynamic compression for cached content
+- name: ForwardingConfiguration
+  description: Describes Forwarding Route.
+  kind: object
+  properties:
+  - name: customForwardingPath
+    description: A custom path used to rewrite resource paths matched by this rule. Leave empty to use incoming path.
+    types:
+    - uid: string
+  - name: forwardingProtocol
+    description: Protocol this rule will use when forwarding traffic to backends.
+    types:
+    - uid: FrontDoorForwardingProtocol
+  - name: cacheConfiguration
+    description: The caching configuration associated with this rule.
+    types:
+    - uid: CacheConfiguration
+  - name: backendPool
+    description: A reference to the BackendPool which this rule routes to.
+    types:
+    - uid: SubResource
+  - name: '@odata.type'
+    description: ''
+    types:
+    - uid: '#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration'
+    typesTitle: string
+- name: RedirectConfiguration
+  description: Describes Redirect Route.
+  kind: object
+  properties:
+  - name: redirectType
+    description: The redirect type the rule will use when redirecting traffic.
+    types:
+    - uid: FrontDoorRedirectType
+  - name: redirectProtocol
+    description: The protocol of the destination to where the traffic is redirected
+    types:
+    - uid: FrontDoorRedirectProtocol
+  - name: customHost
+    description: Host to redirect. Leave empty to use the incoming host as the destination host.
+    types:
+    - uid: string
+  - name: customPath
+    description: The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the incoming path as destination path.
+    types:
+    - uid: string
+  - name: customFragment
+    description: 'Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include the #.'
+    types:
+    - uid: string
+  - name: customQueryString
+    description: The set of query strings to be placed in the redirect URL. Setting this value would replace any existing query string; leave empty to preserve the incoming query string. Query string must be in <key>=<value> format. The first ? and & will be added automatically so do not include them in the front, but do separate multiple query strings with &.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: ''
+    types:
+    - uid: '#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration'
+    typesTitle: string
+- name: backendEnabledState
+  description: Whether to enable use of this backend. Permitted values are 'Enabled' or 'Disabled'
   kind: enum
   properties:
   - name: Enabled
@@ -613,10 +658,84 @@ definitions:
   - name: Dedicated
     types:
     - uid: string
+- name: FrontDoorForwardingProtocol
+  description: Protocol this rule will use when forwarding traffic to backends.
+  kind: enum
+  properties:
+  - name: HttpOnly
+    types:
+    - uid: string
+  - name: HttpsOnly
+    types:
+    - uid: string
+  - name: MatchRequest
+    types:
+    - uid: string
+- name: CacheConfiguration
+  description: Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
+  kind: object
+  properties:
+  - name: queryParameterStripDirective
+    description: Treatment of URL query terms when forming the cache key.
+    types:
+    - uid: FrontDoorQuery
+  - name: dynamicCompression
+    description: Whether to use dynamic compression for cached content
+    types:
+    - uid: DynamicCompressionEnabled
+- name: FrontDoorRedirectType
+  description: The redirect type the rule will use when redirecting traffic.
+  kind: enum
+  properties:
+  - name: Moved
+    types:
+    - uid: string
+  - name: Found
+    types:
+    - uid: string
+  - name: TemporaryRedirect
+    types:
+    - uid: string
+  - name: PermanentRedirect
+    types:
+    - uid: string
+- name: FrontDoorRedirectProtocol
+  description: The protocol of the destination to where the traffic is redirected
+  kind: enum
+  properties:
+  - name: HttpOnly
+    types:
+    - uid: string
+  - name: HttpsOnly
+    types:
+    - uid: string
+  - name: MatchRequest
+    types:
+    - uid: string
+- name: FrontDoorQuery
+  description: Treatment of URL query terms when forming the cache key.
+  kind: enum
+  properties:
+  - name: StripNone
+    types:
+    - uid: string
+  - name: StripAll
+    types:
+    - uid: string
+- name: DynamicCompressionEnabled
+  description: Whether to use dynamic compression for cached content
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 examples:
 - name: List all Front Doors
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/frontDoors?api-version=2018-08-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/frontDoors?api-version=2019-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -651,10 +770,13 @@ examples:
                     "patternsToMatch": [
                       "/*"
                     ],
-                    "customForwardingPath": "",
-                    "forwardingProtocol": "MatchRequest",
-                    "backendPool": {
-                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/backendPools/backendPool1"
+                    "routeConfiguration": {
+                      "@odata.type": "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration",
+                      "customForwardingPath": "",
+                      "forwardingProtocol": "MatchRequest",
+                      "backendPool": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/backendPools/backendPool1"
+                      }
                     },
                     "enabledState": "Enabled"
                   }
@@ -740,6 +862,9 @@ examples:
                   }
                 }
               ],
+              "backendPoolsSettings": {
+                "enforceCertificateNameCheck": "Enabled"
+              },
               "enabledState": "Enabled",
               "resourceState": "Enabled",
               "provisioningState": "Succeeded",
