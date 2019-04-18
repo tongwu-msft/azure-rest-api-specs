@@ -3470,6 +3470,8 @@
 #### [Get](frontdoorservice/frontdoor/RoutingRules/Get.yml)
 #### [List By Front Door](frontdoorservice/frontdoor/RoutingRules/ListByFrontDoor.yml)
 ## Web Application Firewall
+### [Managed Rule Sets](frontdoorservice/webapplicationfirewall/ManagedRuleSets.yml)
+#### [List](frontdoorservice/webapplicationfirewall/ManagedRuleSets/List.yml)
 ### [Policies](frontdoorservice/webapplicationfirewall/Policies.yml)
 #### [Create Or Update](frontdoorservice/webapplicationfirewall/Policies/CreateOrUpdate.yml)
 #### [Delete](frontdoorservice/webapplicationfirewall/Policies/Delete.yml)
