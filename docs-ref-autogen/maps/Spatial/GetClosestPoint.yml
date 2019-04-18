@@ -1,20 +1,16 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.spatial.getgreatcircledistancepreview
-name: Get Great Circle Distance Preview
+uid: atlas.microsoft.com.maps.spatial.getclosestpoint
+name: Get Closest Point
 service: Maps
 groupName: Spatial
 apiVersion: "1.0"
-summary: >-
-  **Applies to**: S1 pricing tier.
-
-
-  This API will return the great-circle or shortest distance between two points on the surface of a sphere, measured along the surface of the sphere.  This differs from calculating a straight line through the sphere's interior. This method is helpful for estimating travel distances for airplanes by calculating the shortest distance between airports.
+summary: "**Applies to**: S1 pricing tier.\n\nThis API returns the closest point between a base point and a given set of points in the user uploaded data set identified by udid. The set of target points is provided by a GeoJSON file which is uploaded via [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) and referenced by a unique udid. The GeoJSON file may only contain a collection of Point geometry. MultiPoint or other geometries will be ignored if provided. The maximum number of points accepted is 100,000. The algorithm does not take into account routing or traffic. Information returned includes closest point latitude, longitude, and distance in meters from the closest point.\n\nTo test this API, you can upload the sample data from [Post Closest Point API](https://docs.microsoft.com/en-us/rest/api/maps/spatial/postclosestpoint#examples) examples(Request Body) via [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) and replace the [udid] from the [sample request below](https://docs.microsoft.com/en-us/rest/api/maps/spatial/getclosestpoint#examples) with the udid returned by Data Upload API. "
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://atlas.microsoft.com/spatial/greatCircleDistance/json?api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/spatial/greatCircleDistance/json?subscription-key={subscription-key}&api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/spatial/closestPoint/json?api-version=1.0&udid={udid}&lat={lat}&lon={lon}
+- content: GET https://atlas.microsoft.com/spatial/closestPoint/json?subscription-key={subscription-key}&api-version=1.0&udid={udid}&lat={lat}&lon={lon}&numberOfClosestPoints={numberOfClosestPoints}
   isOptional: true
 uriParameters:
 - name: format
@@ -34,17 +30,34 @@ uriParameters:
   description: Version number of Azure Maps API. Current version is 1.0
   types:
   - uid: string
-- name: query
+- name: udid
   in: query
   isRequired: true
-  description: The Coordinates through which the distance is calculated, delimited by a colon. Two coordinates are required.  The first one is the source point coordinate and the last is the target point coordinate. For example, 47.622942,122.316456:57.673988,127.121513
+  description: The unique id returned from [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) after uploading a valid GeoJSON FeatureCollection object.  Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
   types:
   - uid: string
+- name: lat
+  in: query
+  isRequired: true
+  description: 'The base point latitude of the location being passed.  Example: 47.622942.'
+  types:
+  - uid: number
+- name: lon
+  in: query
+  isRequired: true
+  description: 'The base point longitude of the location being passed.  Example: -122.316456.'
+  types:
+  - uid: number
+- name: numberOfClosestPoints
+  in: query
+  description: 'The number of closest points expected from response. Default: 1, minimum: 1 and maximum: 50'
+  types:
+  - uid: integer
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: GreatCircleDistanceResponse
+  - uid: GetClosestPointResponse
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -83,20 +96,20 @@ definitions:
     description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
-- name: GreatCircleDistanceResponse
-  description: This object is returned from a successful Great Circle Distance call
+- name: GetClosestPointResponse
+  description: This object is returned from a successful Get Spatial Closest Point call
   kind: object
   properties:
   - name: summary
     isReadyOnly: true
-    description: Summary object
+    description: Get Closest Point Summary object
     types:
-    - uid: Summary
+    - uid: GetClosestPointSummary
   - name: result
-    isReadyOnly: true
-    description: Result Object
+    description: Closest Point Result Array
     types:
-    - uid: Result
+    - uid: ClosestPointResultEntry
+      isArray: true
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
   kind: object
@@ -105,29 +118,42 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
-- name: Summary
-  description: Summary of the call.
+- name: GetClosestPointSummary
+  description: Get Closest Point Summary object
   kind: object
   properties:
+  - name: sourcePoint
+    description: A location represented as a latitude and longitude
+    types:
+    - uid: Coordinate
   - name: udid
     isReadyOnly: true
-    description: The udid for the user data if one exists
+    description: A unique data id (udid) for the uploaded content
     types:
     - uid: string
   - name: information
     isReadyOnly: true
-    description: The information about what happened during the call.
+    description: Processing information
     types:
     - uid: string
-- name: Result
-  description: Result Object
+- name: ClosestPointResultEntry
+  description: Closest Point Result Entry Object
   kind: object
   properties:
   - name: distanceInMeters
     isReadyOnly: true
-    description: The great circle distance in meters from the source point to the target point
+    description: The distance in meters from the source point to the closest point
     types:
     - uid: number
+  - name: position
+    description: A location represented as a latitude and longitude
+    types:
+    - uid: Coordinate
+  - name: geometryId
+    isReadyOnly: true
+    description: The unique id identifies a geometry
+    types:
+    - uid: string
 - name: Error
   description: This object is returned when an error occurs in the Maps API
   kind: object
@@ -142,10 +168,24 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
+- name: Coordinate
+  description: A location represented as a latitude and longitude
+  kind: object
+  properties:
+  - name: lat
+    isReadyOnly: true
+    description: Latitude property
+    types:
+    - uid: number
+  - name: lon
+    isReadyOnly: true
+    description: Longitude property
+    types:
+    - uid: number
 examples:
-- name: GetGreatCircleDistance
+- name: GetClosestPoint
   request:
-    uri: GET https://atlas.microsoft.com/spatial/greatCircleDistance/json?subscription-key=[subscription-key]&api-version=1.0&query=47.622942,-122.316456:47.610378,-122.200676
+    uri: GET https://atlas.microsoft.com/spatial/closestPoint/json?subscription-key=[subscription-key]&api-version=1.0&udid=[udid]&lat=47.622942&lon=-122.316456
   responses:
   - statusCode: "200"
     body: >-
@@ -155,24 +195,29 @@ examples:
             "lat": 47.622942,
             "lon": -122.316456
           },
-          "targetPoint": {
-            "lat": 47.610378,
-            "lon": -122.200676
-          }
+          "udid": "[udid from request]",
+          "information": "10 points processed in user data"
         },
-        "result": {
-          "distanceInMeters": 8797.62
-        }
+        "result": [
+          {
+            "distanceInMeters": 1587492.66,
+            "position": {
+              "lat": 40.516153406773952,
+              "lon": -105.02860293715861
+            },
+            "geometryId": "1001"
+          }
+        ]
       }
   - statusCode: "400"
     body: >-
       {
         "error": {
           "code": "ClientParams",
-          "message": "Lat and/or lon parameters are invalid.",
+          "message": "One or more parameters are missing.",
           "innererror": {
-            "code": "InvalidLatLon",
-            "message": "The provided coordinates '-122.316456,47.622942:47.610378,-122.200676' in query paramter are invalid, out of range, or not in the expected format"
+            "code": "MissingQueryParameter",
+            "message": "Input parameter lon is missing."
           }
         }
       }
