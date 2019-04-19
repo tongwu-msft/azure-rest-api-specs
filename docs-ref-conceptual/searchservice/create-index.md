@@ -82,7 +82,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 -   **corsOptions** to allow cross-origin queries against your index.  
 
--   **encryptionKey** used to encrypted index data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Manage encryption keys in Azure Search](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
+-   **encryptionKey** used to encrypted index data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
 
  The syntax for structuring the request payload is as follows. A sample request is provided further on in this topic.  
 
@@ -206,7 +206,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 |**maxAgeInSeconds** (optional):|Browsers use this value to determine the duration (in seconds) to cache CORS preflight responses. This must be a non-negative integer. The larger this value is, the better performance will be, but the longer it will take for CORS policy changes to take effect. If it is not set, a default duration of 5 minutes will be used.|  
 
 ###  <a name="bkmk_encryption"></a> Encryption Key  
-While all Azure search indexes are encrypted by default using Microsoft-managed keys, indexes could also be configured to be encrypted with your own keys, managed in your Azure Key Vault. To learn more, see [Manage encryption keys in Azure Search](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys). 
+While all Azure search indexes are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), indexes could also be configured to be encrypted with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys). 
 
 > [!NOTE]
 > Encryption with customer-managed keys is a **preview** feature that is not available for free services. For paid services, it is only available for search services created on or after 2019-01-01, using the latest preview api-version (api-version=2019-05-06-preview).

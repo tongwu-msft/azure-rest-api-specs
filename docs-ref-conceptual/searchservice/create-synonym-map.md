@@ -96,7 +96,7 @@ api-key: [admin key]
 |`name`|Required. The name of the synonym map. A synonym map name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
 |`format`|Required. Only Apache Solr format ('solr') is currently supported. If you have an existing synonym dictionary in a different format and want to use it directly, please let us know on [UserVoice](https://feedback.azure.com/forums/263029-azure-search).|  
 |`synonyms`|Required. Synonym rules separated by the new line ('\n') character.|
-|`encryptionKey`|Optional. While all Azure search synonym maps are encrypted by default using Microsoft-managed keys, synonym maps could also be configured to be encrypted with your own keys, managed in your Azure Key Vault. To learn more, see [Manage encryption keys in Azure Search](https://docs.microsoft.com/en-us/azure/search/search-security-manage-encryption-keys).|
+|`encryptionKey`|Optional. While all Azure search synonym maps are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), synonym maps could also be configured to be encrypted with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).|
 
 > [!NOTE]
 > Encryption with customer-managed keys is a **preview** feature that is not available for free services. For paid services, it is only available for search services created on or after 2019-01-01, using the latest preview api-version (api-version=2019-05-06-preview).
