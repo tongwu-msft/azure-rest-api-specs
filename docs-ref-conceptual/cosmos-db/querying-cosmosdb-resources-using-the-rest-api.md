@@ -221,7 +221,7 @@ Queries that can be served by the gateway include:
 
 When a response is returned for a query that cannot be served by the gateway, it will contain the status code 400 (BadRequest) and the following message:
 
-```JSON
+```
 {"code":"BadRequest","message":"The provided cross partition query can not be directly served by the gateway. 
 This is a first chance (internal) exception that all newer clients will know how to handle gracefully. 
 This exception is traced, but unless you see it bubble up as an exception (which only happens on older SDK clients), 
@@ -231,7 +231,6 @@ then you can safely ignore this message.\r\nActivityId: db660ee4-350a-40e9-bc2c-
 \"rewrittenQuery\":\"SELECT c._rid, [{\\\"item\\\": c._ts}] AS orderByItems, 
 c AS payload\\nFROM c\\nWHERE ({documentdb-formattableorderbyquery-filter})\\nORDER BY c._ts\"},
 \"queryRanges\":[{\"min\":\"\",\"max\":\"FF\",\"isMinInclusive\":true,\"isMaxInclusive\":false}]}"}
-
 ```
 
 ## Pagination of query results  
