@@ -158,14 +158,14 @@ The response body for the query operation consists of the _rid of the parent res
   
 |**Property**|**Description**|  
 |-|-|  
-|**_rid**|The resource id for the collection used within the query.|  
+|**_rid**|The resource ID for the collection used within the query.|  
 |**_count**|The number of items returned.|  
 |**Resource array**|The array containing the query results.|  
   
 ## Building the query request body  
 The query request must be a valid JSON document containing a **query** property that contains a valid SQL query string and a **parameters** property that contains an array of optional parameters. Each parameter should have a **name** and **value** property of parameters that are specified within the query. Parameter names must begin with the “@” character. Values can be any valid JSON values – strings, integers, Booleans and nulls.  
   
-It is valid to specifiy only a subset of parameters specified in the **query** text. Expressions that reference these unspecified parameters will evaluate to **undefined**. It is also valid to specify additional parameters that are not used within the **query** text.  
+It is valid to specify only a subset of parameters specified in the **query** text. Expressions that reference these unspecified parameters will evaluate to **undefined**. It is also valid to specify additional parameters that are not used within the **query** text.  
   
 Some examples of valid query requests are shown below. For example, the following query has a single parameter @id.  
   
