@@ -169,7 +169,7 @@ It is valid to specifiy only a subset of parameters specified in the **query** t
   
 Some examples of valid query requests are shown below. For example, the following query has a single parameter @id.  
   
-```
+```JSON
 {  
     "query": "select * from docs d where d.id = @id",   
     "parameters": [   
@@ -181,7 +181,7 @@ Some examples of valid query requests are shown below. For example, the followin
   
 The following example has two parameters, one with a string value and another with an integer value.  
   
-```
+```JSON
 {  
     "query": "select * from docs d where d.id = @id and d.prop = @prop",   
     "parameters": [   
@@ -193,7 +193,7 @@ The following example has two parameters, one with a string value and another wi
   
 The following example uses parameters within the SELECT clause, as well as a property accessed through the parameter name as a parameter.  
   
-```
+```JSON
 {  
     "query": "select @id, d[@propName] from docs d",   
     "parameters": [   
@@ -216,13 +216,14 @@ Any query that requires state across continuations cannot be served by the gatew
 
 Queries that can be served by the gateway include:
 
-- simple projections
-- filters
+- Simple projections
+- Filters
 
 When a response is returned for a query that cannot be served by the gateway, it will contain the status code 400 (BadRequest) and the following message:
 
-```
-"message":"The provided cross partition query can not be directly served by the gateway. This is a first chance (internal) exception that all newer clients will know how to handle gracefully. This exception is traced, but unless you see it bubble up as an exception (which only happens on older SDK clients), then you can safely ignore this message..."
+```JSON
+{"code":"BadRequest","message":"The provided cross partition query can not be directly served by the gateway. This is a first chance (internal) exception that all newer clients will know how to handle gracefully. This exception is traced, but unless you see it bubble up as an exception (which only happens on older SDK clients), then you can safely ignore this message.\r\nActivityId: db660ee4-350a-40e9-bc2c-99f92f2b445d, Microsoft.Azure.Documents.Common/2.2.0.0","additionalErrorInfo":"{\"partitionedQueryExecutionInfoVersion\":2,\"queryInfo\":{\"distinctType\":\"None\",\"top\":null,\"offset\":null,\"limit\":null,\"orderBy\":[\"Ascending\"],\"orderByExpressions\":[\"c._ts\"],\"aggregates\":[],\"rewrittenQuery\":\"SELECT c._rid, [{\\\"item\\\": c._ts}] AS orderByItems, c AS payload\\nFROM c\\nWHERE ({documentdb-formattableorderbyquery-filter})\\nORDER BY c._ts\"},\"queryRanges\":[{\"min\":\"\",\"max\":\"FF\",\"isMinInclusive\":true,\"isMaxInclusive\":false}]}"}
+
 ```
 
 ## Pagination of query results  
