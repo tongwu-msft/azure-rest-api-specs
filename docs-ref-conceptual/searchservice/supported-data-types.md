@@ -31,17 +31,25 @@ In Azure Search, document fields and values in expressions (for example, in filt
 
 |||  
 |-|-|  
-|Edm.String|Text that can optionally be tokenized for full-text search (word-breaking, stemming, etc.)|  
-|Collection(Edm.String)|A list of strings that can optionally be tokenized for full-text search. There is no theoretical upper limit on the number of items in a collection, but the 16 MB upper limit on payload size applies to collections.|  
+|Edm.String|Text data.|  
 |Edm.Boolean|Contains true/false values.|  
 |Edm.Int32|32-bit integer values.|  
 |Edm.Int64|64-bit integer values.|  
-|Edm.Double|Double-precision numeric data|  
+|Edm.Double|Double-precision numeric data.|  
 |Edm.DateTimeOffset|Date time values represented in the OData V4 format: `yyyy-MM-ddTHH:mm:ss.fffZ` or `yyyy-MM-ddTHH:mm:ss.fff[+&#124;-]HH:mm`. Precision of DateTime fields is limited to milliseconds. If you upload datetime values with sub-millisecond precision, the value returned will be rounded up to milliseconds (for example, 2015-04-15T10:30:09.7552052Z will be returned as 2015-04-15T10:30:09.7550000Z). When you upload `DateTimeOffset` values with time zone information to your index, Azure Search normalizes these values to UTC. For example, `2017-01-13T14:03:00-08:00` will be stored as `2017-01-13T22:03:00Z`. If you need to store time zone information, you will need to add an extra column to your index.|  
 |Edm.GeographyPoint|A point representing a geographic location on the globe. For request and response bodies the representation of values of this type follows the GeoJSON "Point" type format. For URLs OData uses a literal form based on the WKT standard. A point literal is constructed as geography'POINT(lon lat)'.|  
+|Edm.ComplexType| Fields of type `Edm.ComplexType` allow defining sub-fields for fields of type `Edm.ComplexType` or `Collection(Edm.ComplexType)`. It allows to model data with nested objects. The level of nesting is limited and the limits are described in [Service limits for Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/). |
+|Collection(Edm.String)|A list of strings. There is no theoretical upper limit on the number of items in a collection of primitive types, but the 16 MB upper limit on payload size applies to collections.|  
+|Collection(Edm.Boolean)|A list of boolean values.|
+|Collection(Edm.Int32)| A list of 32-bit integer values.|
+|Collection(Edm.Int64)| A list of 64-bit integer values.|
+|Collection(Edm.Double)| A list of double-precision numeric values.|
+|Collection(Edm.DateTimeOffset)| A list of date time values.|
+|Collection(Edm.GeographyPoint)| A list of points representing geographic locations. |
+|Collection(Edm.ComplexType)| A list of objects of of type `Edm.ComplexType`. The is a limit on the maximum number of elements across all collections of type `Edm.ComplexType` in a document. See [Service limits for Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for details.|
 
 > [!NOTE]  
->  All of the above types are nullable, except for Collection(Edm.String). Nullable fields can be explicitly set to null. They are automatically set to null when omitted from a document that is uploaded t an Azure Search index. `Collection(Edm.String)` fields are automatically set to empty ('[]' in JSON) when they are omitted from a document. Also, it is not possible to store a null value in a `Collection(Edm.String)` field.
+>  All of the above types are nullable, except for collections of primitive and complex types, for example, `Collection(Edm.String)`. Nullable fields can be explicitly set to null. They are automatically set to null when omitted from a document that is uploaded t an Azure Search index. `Collection(Edm.String)` fields are automatically set to empty ('[]' in JSON) when they are omitted from a document. Also, it is not possible to store a null value in a `Collection(Edm.String)` field.
 
 <a name="Anchor_1"></a>
 ## Other EDM structures used in Azure Search  

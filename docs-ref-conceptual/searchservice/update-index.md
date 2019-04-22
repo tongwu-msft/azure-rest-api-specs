@@ -89,7 +89,7 @@ Note that this operation takes your index offline for at least a few seconds, ca
   "fields": [  
     {  
       "name": "name_of_field",  
-      "type": "Edm.String | Collection(Edm.String) | Edm.Int32 | Edm.Int64 | Edm.Double | Edm.Boolean | Edm.DateTimeOffset | Edm.GeographyPoint",  
+      "type": "Edm.String | Edm.Int32 | Edm.Int64 | Edm.Double | Edm.Boolean | Edm.DateTimeOffset | Edm.GeographyPoint | Edm.ComplexType | Collection(Edm.String) | Collection(Edm.Int32) | Collection(Edm.Double) | Collection(Edm.Int64) | Collection(Edm.Boolean) | Collection(Edm.DateTimeOffset) | Collection(Edm.GeographyPoint) | Collection(Edm.ComplexType)",  
       "searchable": true (default where applicable) | false (only Edm.String and Collection(Edm.String) fields can be searchable),  
       "filterable": true (default) | false,  
       "sortable": true (default where applicable) | false (Collection(Edm.String) fields cannot be sortable),  
@@ -99,7 +99,8 @@ Note that this operation takes your index offline for at least a few seconds, ca
       "analyzer": "name_of_analyzer_for_search_and_indexing", (only if 'searchAnalyzer' and 'indexAnalyzer' are not set)
       "searchAnalyzer": "name_of_search_analyzer", (only if 'indexAnalyzer' is set and 'analyzer' is not set)
       "indexAnalyzer": "name_of_indexing_analyzer", (only if 'searchAnalyzer' is set and 'analyzer' is not set)
-      "synonymMaps": [ "name_of_synonym_map" ] (optional, only one synonym map per field is currently supported)
+      "synonymMaps": [ "name_of_synonym_map" ] (optional, only one synonym map per field is currently supported),
+      "fields" : [ ... ] (optional, a list of sub-fields if this is a field of type Edm.ComplexType or Collection(Edm.ComplexType). Must be null or empty for simple fields.)
     }  
   ],  
   "suggesters": [  
@@ -154,7 +155,7 @@ Note that this operation takes your index offline for at least a few seconds, ca
     "allowedOrigins": ["*"] | ["origin_1", "origin_2", ...],  
     "maxAgeInSeconds": (optional) max_age_in_seconds (non-negative integer)  
   }  
-}  
+} 
 ```  
 
 ## Response  

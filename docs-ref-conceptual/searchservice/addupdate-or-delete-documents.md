@@ -78,7 +78,7 @@ You can combine actions, such as an **upload** and a **delete**, in the same bat
 
 - **upload**: An upload action is similar to an "upsert" where the document will be inserted if it is new and updated/replaced if it exists. Note that all fields are replaced in the update case.  
 
-- **merge**: Merge updates an existing document with the specified fields. If the document doesn't exist, the merge will fail. Any field you specify in a merge will replace the existing field in the document. This includes fields of type `Collection(Edm.String)`. For example, if the document contains a field "tags" with value `["budget"]` and you execute a merge with value `["economy", "pool"]` for "tags", the final value of the "tags" field will be `["economy", "pool"]`. It will not be `["budget", "economy", "pool"]`.  
+- **merge**: Merge updates an existing document with the specified fields. If the document doesn't exist, the merge will fail. Any field you specify in a merge will replace the existing field in the document. This applies also to collections of primitive and complex types. For example, if the document contains a field "tags" of type `Collection(Edm.String)` with value `["budget"]`, and you execute a merge with value `["economy", "pool"]` for "tags", the final value of the "tags" field will be `["economy", "pool"]`. It will not be `["budget", "economy", "pool"]`.  
 
 - **mergeOrUpload**: This action behaves like **merge** if a document with the given key already exists in the index. If the document does not exist, it behaves like **upload** with a new document.  
 
@@ -163,44 +163,93 @@ Status code: 429 indicates that you have exceeded your quota on the number of do
 ## Example  
 
 ```  
-{  
-  "value": [  
+{
+  "value": [
+    {          
+      "@search.action": "upload",  
+      "HotelId": "1",
+      "HotelName": "Secret Point Motel",
+      "Description": "The hotel is ideally located on the main commercial artery of the city in the heart of New York.",
+      "Category": "Boutique",
+      "Tags": [ "pool", "air conditioning", "concierge" ],
+      "ParkingIncluded": false,
+      "LastRenovationDate": "1970-01-18T00:00:00Z",
+      "Rating": 3.60,
+      "Address": {
+        "StreetAddress": "677 5th Ave",
+        "City": "New York",
+        "StateProvince": "NY",
+        "PostalCode": "10022",
+        "Country": "USA"
+      },
+      "Location": {
+        "type": "Point",
+        "coordinates": [ -73.975403, 40.760586 ]
+      },
+      "Rooms": [
+        {
+          "Description": "Budget Room, 1 Queen Bed (Cityside)",
+          "Description_fr": "Chambre Économique, 1 grand lit (côté ville)",
+          "Type": "Budget Room",
+          "BaseRate": 96.99,
+          "BedOptions": "1 Queen Bed",
+          "SleepsCount": 2,
+          "SmokingAllowed": true,
+          "Tags": [ "vcr/dvd" ]
+        },
+        {
+          "Description": "Budget Room, 1 King Bed (Mountain View)",
+          "Description_fr": "Chambre Économique, 1 très grand lit (Mountain View)",
+          "Type": "Budget Room",
+          "BaseRate": 80.99,
+          "BedOptions": "1 King Bed",
+          "SleepsCount": 2,
+          "SmokingAllowed": true,
+          "Tags": [ "vcr/dvd", "jacuzzi tub" ]
+        }
+      ]  
+    },
     {  
       "@search.action": "upload",  
-      "hotelId": "1",  
-      "baseRate": 199.0,  
-      "description": "Best hotel in town",  
-      "description_fr": "Meilleur hôtel en ville",   
-      "hotelName": "Fancy Stay",  
-      "category": "Luxury",  
-      "tags": ["pool", "view", "wifi", "concierge"],  
-      "parkingIncluded": false,  
-      "smokingAllowed": false,  
-      "lastRenovationDate": "2010-06-27T00:00:00Z",  
-      "rating": 5,  
-      "location": { "type": "Point", "coordinates": [-122.131577, 47.678581] }  
-    },  
-    {  
-      "@search.action": "upload",  
-      "hotelId": "2",  
-      "baseRate": 79.99,  
-      "description": "Cheapest hotel in town",  
-      "description_fr": "Hôtel le moins cher en ville",  
-      "hotelName": "Roach Motel",  
-      "category": "Budget",  
-      "tags": ["motel", "budget"],  
-      "parkingIncluded": true,  
-      "smokingAllowed": true,  
-      "lastRenovationDate": "1982-04-28T00:00:00Z",  
-      "rating": 1,  
-      "location": { "type": "Point", "coordinates": [-122.131577, 49.678581] }  
-    },  
+      "HotelId": "2",
+      "HotelName": "Twin Dome Motel",
+      "Description": "The hotel is situated in a  nineteenth century plaza, which has been expanded and renovated to the highest architectural standards to create a modern, functional and first-class hotel in which art and unique historical elements coexist with the most modern comforts.",
+      "Description_fr": "L'hôtel est situé dans une place du XIXe siècle, qui a été agrandie et rénovée aux plus hautes normes architecturales pour créer un hôtel moderne, fonctionnel et de première classe dans lequel l'art et les éléments historiques uniques coexistent avec le confort le plus moderne.",
+      "Category": "Boutique",
+      "Tags": [ "pool", "free wifi", "concierge" ],
+      "ParkingIncluded": false,
+      "LastRenovationDate": "1979-02-18T00:00:00Z",
+      "Rating": 3.60,
+      "Address": {
+        "StreetAddress": "140 University Town Center Dr",
+        "City": "Sarasota",
+        "StateProvince": "FL",
+        "PostalCode": "34243",
+        "Country": "USA"
+      },
+      "Location": {
+        "type": "Point",
+        "coordinates": [ -82.452843, 27.384417 ]
+      },
+      "Rooms": [
+        {
+          "Description": "Suite, 2 Double Beds (Mountain View)",
+          "Description_fr": "Suite, 2 lits doubles (vue sur la montagne)",
+          "Type": "Suite",
+          "BaseRate": 250.99,
+          "BedOptions": "2 Double Beds",
+          "SleepsCount": 2,
+          "SmokingAllowed": false,
+          "Tags": [ "Room Tags" ]
+        }
+      ]
+    }, 
     {  
       "@search.action": "merge",  
-      "hotelId": "3",  
-      "baseRate": 279.99,  
-      "description": "Surprisingly expensive",  
-      "lastRenovationDate": null  
+      "HotelId": "3",  
+      "Rating": 2.39,  
+      "Description": "Surprisingly expensive",  
+      "LastRenovationDate": null  
     },  
     {  
       "@search.action": "delete",  

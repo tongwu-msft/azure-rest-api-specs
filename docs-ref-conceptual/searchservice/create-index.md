@@ -76,7 +76,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 -   **scoringProfiles** used for custom search score ranking. See [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles).  
 
--   **analyzers**, **charFilters**, **tokenizers**, **tokenFilters** used to define how your documents/queries are broken into indexable/searchable tokens. See [Analysis in Azure Search](https://aka.ms//azsanalysis) for details.
+-   **analyzers**, **charFilters**, **tokenizers**, **tokenFilters** used to define how your documents/queries are broken into indexable/searchable tokens. See [Lexical analysis in Azure Search](https://docs.microsoft.com/azure/search/search-analyzers) for details.
 
 -   **defaultScoringProfile** used to overwrite the default scoring behaviors.  
 
@@ -90,7 +90,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
   "fields": [  
     {  
       "name": "name_of_field",  
-      "type": "Edm.String | Collection(Edm.String) | Edm.Int32 | Edm.Int64 | Edm.Double | Edm.Boolean | Edm.DateTimeOffset | Edm.GeographyPoint",  
+      "type": "Edm.String | Edm.Int32 | Edm.Int64 | Edm.Double | Edm.Boolean | Edm.DateTimeOffset | Edm.GeographyPoint | Edm.ComplexType | Collection(Edm.String) | Collection(Edm.Int32) | Collection(Edm.Double) | Collection(Edm.Int64) | Collection(Edm.Boolean) | Collection(Edm.DateTimeOffset) | Collection(Edm.GeographyPoint) | Collection(Edm.ComplexType)",  
       "searchable": true (default where applicable) | false (only Edm.String and Collection(Edm.String) fields can be searchable),  
       "filterable": true (default) | false,  
       "sortable": true (default where applicable) | false (Collection(Edm.String) fields cannot be sortable),  
@@ -100,7 +100,8 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
       "analyzer": "name_of_analyzer_for_search_and_indexing", (only if 'searchAnalyzer' and 'indexAnalyzer' are not set)
       "searchAnalyzer": "name_of_search_analyzer", (only if 'indexAnalyzer' is set and 'analyzer' is not set)
       "indexAnalyzer": "name_of_indexing_analyzer", (only if 'searchAnalyzer' is set and 'analyzer' is not set)
-      "synonymMaps": [ "name_of_synonym_map" ] (optional, only one synonym map per field is currently supported)
+      "synonymMaps": [ "name_of_synonym_map" ] (optional, only one synonym map per field is currently supported),
+      "fields" : [ ... ] (optional, a list of sub-fields if this is a field of type Edm.ComplexType or Collection(Edm.ComplexType). Must be null or empty for simple fields.)
     }  
   ],  
   "suggesters": [  
@@ -163,21 +164,29 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 |Attribute|Description|  
 |---------------|-----------------|  
-|**name**|Required. Sets the name of the field.|  
+|**name**|Required. Sets the name of the field, which must be unique within the fields collection of the index or parent field.|  
 |**type**|Required. Sets the data type for the field. See [Supported data types &#40;Azure Search&#41;](supported-data-types.md) for a list of supported types.|  
-|**key**|Required. Marks the field as containing unique identifiers for documents within the index. Exactly one field must be chosen as the key field and it must be of type `Edm.String`. Key fields can be used to look up documents directly. See [Lookup Document &#40;Azure Search Service REST API&#41;](lookup-document.md) for details.|  
-|**retrievable**|Sets whether the field can be returned in a search result. This is useful when you want to use a field (e.g., margin) as a filter, sorting, or scoring mechanism but do not want the field to be visible to the end user. This attribute must be `true` for `key` fields. This attribute can be changed on existing fields. Currently, selecting this attribute does *not* cause a measurable increase in index storage requirements. |  
-|**searchable**|Marks the field as full-text search-able. This means it will undergo analysis such as word-breaking during indexing. If you set a searchable field to a value like "sunny day", internally it will be split into the individual tokens "sunny" and "day". This enables full-text searches for these terms. Fields of type `Edm.String` or `Collection(Edm.String)` are **searchable** by default. Fields of other types are not **searchable**. **Note:**  **searchable** fields consume extra space in your index since Azure Search will store an additional tokenized version of the field value for full-text searches. If you want to save space in your index and you don't need a field to be included in searches, set **searchable** to `false`.|  
-|**filterable**|Allows the field to be referenced in **$filter** queries. **filterable** differs from searchable in how strings are handled. Fields of type `Edm.String` or `Collection(Edm.String)` that are **filterable** do not undergo word-breaking, so comparisons are for exact matches only. For example, if you set such a field f to "sunny day", `$filter=f eq 'sunny'` will find no matches, but `$filter=f eq 'sunny day'` will. All fields are **filterable** by default.|  
-|**sortable**|By default the system sorts results by score, but in many experiences users will want to sort by fields in the documents. Fields of type `Collection(Edm.String)` cannot be **sortable**. All other fields are **sortable** by default.|  
-|**facetable**|Typically used in a presentation of search results that includes hit count by category (e.g. search for digital cameras and see hits by brand, by megapixels, by price, etc.). This option cannot be used with fields of type `Edm.GeographyPoint`. All other fields are **facetable** by default. **Note:**  Fields of type `Edm.String` that are **filterable**, **sortable**, or **facetable** can be at most 32 kilobytes in length. This is because such fields are treated as a single search term, and the maximum length of a term in Azure Search is 32K kilobytes. If you need to store more text than this in a single string field, you will need to explicitly set **filterable**, **sortable**, and **facetable** to `false` in your index definition. **Note:**  If a field has none of the above attributes set to `true` (searchable, filterable, sortable, facetable) the field is effectively excluded from the inverted index. This option is useful for fields that are not used in queries, but are needed in search results. Excluding such fields from the index improves performance.|  
-|**analyzer**|Sets the name of the language analyzer to use for the field. For the allowed set of values see [Language support &#40;Azure Search Service REST API&#41;](https://docs.microsoft.com/azure/search/index-add-language-analyzers). This option can be used only with **searchable** fields and it can't be set together with either `searchAnalyzer` or `indexAnalyzer`. Once the analyzer is chosen, it cannot be changed for the field.|  
-|**searchAnalyzer**|Sets the name of the analyzer used at search time for the field. For the allowed set of values see [Analyzers](https://docs.microsoft.com/azure/search/index-add-custom-analyzers). This option can be used only with `searchable` fields. It must be set together with `indexAnalyzer` and it cannot be set together with the `analyzer` option. The search analyzer can be updated on an existing field since it is only used at query-time.|
-|**indexAnalyzer**|Sets the name of the analyzer used at indexing time for the field. For the allowed set of values see [Analyzers](https://docs.microsoft.com/azure/search/index-add-custom-analyzers). This option can be used only with `searchable` fields. It must be set together with `searchAnalyzer` and it cannot be set together with the `analyzer` option. Once the index analyzer is chosen, it cannot be changed for the field.|
-|**synonymMaps**|Associates synonym maps with the field. Currently only one synonym map per field is supported. Assigning a synonym map to a field ensures that query terms targeting that field are expanded at query-time using the rules in the synonym map. This attribute can be changed on existing fields.|
+|**key**|Required. Indicates whether the field uniquely identifies documents in the index. Exactly one top-level field in each index must be chosen as the key field and it must be of type `Edm.String`. Default is false for simple fields and null for complex fields. Key fields can be used to look up documents directly and update or delete specific documents. See [Lookup Document &#40;Azure Search Service REST API&#41;](lookup-document.md) for details.|  
+|**retrievable**| Indicates whether the field can be returned in a search result. You can disable this option if you want to use a field (for example, margin) as a filter, sorting, or scoring mechanism but do not want the field to be visible to the end user. This property must be `true` for `key` fields, and it must be `null` for complex fields. This property can be changed on existing fields. Enabling this property does not cause any increase in index storage requirements. Default is `true` for simple fields and `null` for complex fields.|  
+|**searchable**| Indicates whether the field is full-text searchable. This means it will undergo lexical analysis such as word-breaking during indexing. If you set a searchable field to a value like "sunny day", internally it will be split into the individual tokens \"sunny\" and \"day\". This enables full-text searches for these terms. Fields of type `Edm.String` or `Collection(Edm.String)` are **searchable** by default. This property must be `false` for simple fields of other non-string data types, and it must be `null` for complex fields. **Note**: searchable fields consume extra space in your index since Azure Search will store an additional tokenized version of the field value for full-text searches. If you want to save space in your index and you don't need a field to be included in searches, set **searchable** to `false`. See [How full-text search works in Azure Search](https://aka.ms/azurefulltextsearch) for details. |  
+|**filterable**| Indicates whether to enable the field to be referenced in `$filter` queries. Attribute **filterable** differs from **searchable** in how strings are handled. Fields of type `Edm.String` or `Collection(Edm.String)` that are filterable do not undergo lexical analysis, so comparisons are for exact matches only. For example, if you set such a field f to "sunny day", `$filter=f eq 'sunny'` will find no matches, but `$filter=f eq 'sunny day'` will. This property must be `null` for complex fields. Default is `true` for simple fields and `null` for complex fields.|  
+|**sortable**| Indicates whether to enable the field to be referenced in `$orderby` expressions. By default Azure Search sorts results by score, but in many experiences users will want to sort by fields in the documents. A simple field can be **sortable** only if it is single-valued (it has a single value in the scope of the parent document). Simple collection fields cannot be **sortable**, since they are multi-valued. Simple sub-fields of complex collections are also multi-valued, and therefore cannot be sortable. This is true whether it's an immediate parent field, or an ancestor field, that's the complex collection. Complex fields cannot be **sortable** and the sortable property must be `null` for such fields. The default for **sortable** is `true` for single-valued simple fields, `false` for multi-valued simple fields, and `null` for complex fields.|  
+|**facetable**| Indicates whether to enable the field to be referenced in facet queries. Typically used in a presentation of search results that includes hit count by category (for example, search for digital cameras and see hits by brand, by megapixels, by price, and so on). This property must be `null` for complex fields. Fields of type `Edm.GeographyPoint` or `Collection(Edm.GeographyPoint)` cannot be **facetable**. Default is `true` for all other simple fields. This option cannot be used with fields of type `Edm.GeographyPoint`. All other fields are **facetable** by default. 
+|**analyzer**|The name of the lexical analyzer to use for the field. This option can be used only with **searchable** fields and it can't be set together with either **searchAnalyzer** or **indexAnalyzer**. Once the analyzer is chosen, it cannot be changed for the field. Must be `null` for complex fields. To learn more see [Lexical analyzers in Azure Search](https://docs.microsoft.com/azure/search/search-analyzers).|  
+|**searchAnalyzer**|Sets the name of the analyzer used at search time for the field. For the allowed set of values see [Analyzers](https://docs.microsoft.com/azure/search/search-analyzers). This option can be used only with `searchable` fields. It must be set together with `indexAnalyzer` and it cannot be set together with the `analyzer` option. The search analyzer can be updated on an existing field since it is only used at query-time. Must be `null` for complex fields.|
+|**indexAnalyzer**|Sets the name of the analyzer used at indexing time for the field. For the allowed set of values see [Analyzers](https://docs.microsoft.com/azure/search/search-analyzers). This option can be used only with `searchable` fields. It must be set together with `searchAnalyzer` and it cannot be set together with the `analyzer` option. Once the index analyzer is chosen, it cannot be changed for the field. Must be `null` for complex fields.|
+|**synonymMaps**|A list of the names of synonym maps to associate with this field. This option can be used only with **searchable** fields. Currently only one synonym map per field is supported. Assigning a synonym map to a field ensures that query terms targeting that field are expanded at query-time using the rules in the synonym map. This attribute can be changed on existing fields. Must be `null` or an empty collection for complex fields.|
+
+> [!NOTE]  
+ Fields of type `Edm.String` that are **filterable**, **sortable**, or **facetable** can be at most 32 kilobytes in length. This is because values of such fields are treated as a single search term, and the maximum length of a term in Azure Search is 32K kilobytes. If you need to store more text than this in a single string field, you will need to explicitly set **filterable**, **sortable**, and **facetable** to `false` in your index definition. 
+ 
+ > Setting a fields as **searchable**, **filterable**, **sortable**, **facetable**  has impact on index size and on query performance. Don't set those attributes on fields that are not meant to be refrerenced in query expressions.|
+
+> If a field is not set to be **searchable**, **filterable**, **sortable**, **facetable** the field can't be referenced in any query expression. This option is useful for fields that are not used in queries, but are needed in search results. 
+
 
 ###  <a name="bkmk_suggester"></a> Suggesters  
- A `suggester` is a section of the schema that defines which fields in an index are used to support auto-complete or type-ahead queries in searches. Typically partial search strings are sent to the [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md) while the user is typing a search query, and the API returns a set of suggested phrases. A **suggester** that you define in the index determines which fields are used to build the type-ahead search terms. See [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) for configuration details.  
+ A `suggester` is a section of the schema that defines which fields in an index are used to support **Suggestions** or **Autocomplete** queries to power search-as-you-type experiences. The [Suggestions API &#40;Azure Search Service REST API&#41;](suggestions.md) returns documents that matched partial query terms. The [Autocomplete API &#40;Azure Search Service REST API&#41;](autocomplete.md) returns completed terms based on partial query terms. A **suggester** that you define in the index determines which fields are used to provide the suggestions for either the **Autocomplete** or the **Suggestions** API. See [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) for configuration details and examples.  
 
 ###  <a name="bkmk_scoringprof"></a> Scoring Profiles  
  A scoring profile is a section of the schema that defines custom scoring behaviors that let you influence which items appear higher in the search results. Scoring profiles are made up of field weights and functions. To use them, you specify a profile by name on the query string.  
@@ -196,40 +205,47 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 <a name="CreateUpdateIndexExample"></a>
 ### Request Body Example  
- You can have up to 1000 fields in each index. See [Service limits for Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) and [Naming rules &#40;Azure Search&#41;](naming-rules.md) for information about maximum limits and allowable characters.  
+  See [Service limits for Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) and [Naming rules &#40;Azure Search&#41;](naming-rules.md) for information about index limits and allowable characters.  
 
 ```  
 {
  "name": "hotels",  
  "fields": [
-  {"name": "hotelId", "type": "Edm.String", "key": true, "searchable": false},
-  {"name": "baseRate", "type": "Edm.Double"},
-  {"name": "description", "type": "Edm.String", "filterable": false, "sortable": false, "facetable": false},
-  {"name": "description_fr", "type": "Edm.String", "filterable": false, "sortable": false, "facetable": false, "analyzer": "fr.lucene"},
-  {"name": "hotelName", "type": "Edm.String"},
-  {"name": "category", "type": "Edm.String"},
-  {"name": "tags", "type": "Collection(Edm.String)", "analyzer": "tagsAnalyzer"},
-  {"name": "parkingIncluded", "type": "Edm.Boolean"},
-  {"name": "smokingAllowed", "type": "Edm.Boolean"},
-  {"name": "lastRenovationDate", "type": "Edm.DateTimeOffset"},
-  {"name": "rating", "type": "Edm.Int32"},
-  {"name": "location", "type": "Edm.GeographyPoint"}
+  {"name": "HotelId", "type": "Edm.String", "key": true, "filterable": true},
+  {"name": "HotelName", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": true, "facetable": false},
+  {"name": "Description", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "en.microsoft"},
+  {"name": "Description_fr", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "fr.microsoft"},
+  {"name": "Category", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true},
+  {"name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "sortable": false, "facetable": true},
+  {"name": "ParkingIncluded", "type": "Edm.Boolean", "filterable": true, "sortable": true, "facetable": true},
+  {"name": "LastRenovationDate", "type": "Edm.DateTimeOffset", "filterable": true, "sortable": true, "facetable": true},
+  {"name": "Rating", "type": "Edm.Double", "filterable": true, "sortable": true, "facetable": true},
+  {"name": "Address", "type": "Edm.ComplexType", 
+  "fields": [
+	{"name": "StreetAddress", "type": "Edm.String", "filterable": false, "sortable": false, "facetable": false, "searchable": true},
+	{"name": "City", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true},
+	{"name": "StateProvince", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true},
+	{"name": "PostalCode", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true},
+	{"name": "Country", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true}
+	]
+  },
+  {"name": "Location", "type": "Edm.GeographyPoint", "filterable": true, "sortable": true},
+  {"name": "Rooms", "type": "Collection(Edm.ComplexType)", 
+  "fields": [
+	{"name": "Description", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "en.lucene"},
+	{"name": "Description_fr", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "fr.lucene"},
+	{"name": "Type", "type": "Edm.String", "searchable": true},
+	{"name": "BaseRate", "type": "Edm.Double", "filterable": true, "facetable": true},
+	{"name": "BedOptions", "type": "Edm.String", "searchable": true},
+	{"name": "SleepsCount", "type": "Edm.Int32", "filterable": true, "facetable": true},
+	{"name": "SmokingAllowed", "type": "Edm.Boolean", "filterable": true, "facetable": true},
+	{"name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "facetable": true}
+	]
+  }
  ],
  "suggesters": [
-  {
-   "name": "sg",
-   "searchMode": "analyzingInfixMatching",
-   "sourceFields": ["hotelName"]
-  }
- ],
- "analyzers": [
-  {
-   "name": "tagsAnalyzer",
-   "@odata.type": "#Microsoft.Azure.Search.CustomAnalyzer",
-   "charFilters": [ "html_strip" ],
-   "tokenizer": "standard_v2"
-  }
- ]
+ 	{"name": "sg", "searchMode": "analyzingInfixMatching", "sourceFields": ["HotelName"]}
+ 	]
 }
 ```  
 
@@ -246,6 +262,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
  + [Supported data types &#40;Azure Search&#41;](supported-data-types.md)   
  + [Update Index &#40;Azure Search Service REST API&#41;](update-index.md)   
  + [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   
+ + [Lexical analyzers](https://docs.microsoft.com/azure/search/search-analyzers)
  + [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)   
  + [Azure Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)   
  + [Create an Azure Search index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/)  
