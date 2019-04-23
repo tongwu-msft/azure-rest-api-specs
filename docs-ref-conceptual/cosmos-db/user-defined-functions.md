@@ -70,7 +70,7 @@ You can do the following with user-defined functions:
   
 -   [Delete a User Defined Function](delete-a-user-defined-function.md)  
   
-For information on how UDFs work, including executing an UDF in a query, see [Cosmos DB programming: Stored procedures, triggers, and UDFs](/azure/cosmos-db/programming/).  
+For information on how UDFs work, including executing an UDF in a query, see [Cosmos DB programming: Stored procedures, triggers, and UDFs](/azure/cosmos-db/stored-procedures-triggers-udfs).  
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 

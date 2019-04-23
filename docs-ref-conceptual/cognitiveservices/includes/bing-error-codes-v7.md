@@ -10,7 +10,7 @@
 |429|The caller exceeded their queries per second quota.|  
 |500|Unexpected server error.|
 
-If the request fails, the response contains an [ErrorResponse](#errorresponse) object, which contains a list of [Error](#error) objects that describe what caused of error. If the error is related to a parameter, the `parameter` field identifies the parameter that is the issue. And if the error is related to a parameter value, the `value` field identifies the value that is not valid.
+If the request fails, the response contains an ErrorResponse object, which contains a list of Error objects that describe what caused of error. If the error is related to a parameter, the `parameter` field identifies the parameter that is the issue. And if the error is related to a parameter value, the `value` field identifies the value that is not valid.
 
 ```json
 {
