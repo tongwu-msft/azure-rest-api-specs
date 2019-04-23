@@ -8599,6 +8599,7 @@
 #### [Delete](sql/ManagedInstances/Delete.yml)
 #### [Get](sql/ManagedInstances/Get.yml)
 #### [List](sql/ManagedInstances/List.yml)
+#### [List By Instance Pool](sql/ManagedInstances/ListByInstancePool.yml)
 #### [List By Resource Group](sql/ManagedInstances/ListByResourceGroup.yml)
 #### [Update](sql/ManagedInstances/Update.yml)
 ### [Operations](sql/Operations.yml)
