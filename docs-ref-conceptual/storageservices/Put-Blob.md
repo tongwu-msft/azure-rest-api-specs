@@ -93,7 +93,7 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
 |--------------------|-----------------|  
 |`x-ms-blob-content-length: bytes`|Required for page blobs. This header specifies the maximum size for the page blob, up to 8 TB. The page blob size must be aligned to a 512-byte boundary.<br /><br /> If this header is specified for a block blob or an append blob, the Blob service returns status code 400 (Bad Request).|  
 |`x-ms-blob-sequence-number: <num>`|Optional. Set for page blobs only. The sequence number is a user-controlled value that you can use to track requests. The value of the sequence number must be between 0 and 2<sup>^63</sup> - 1.The default value is 0.|  
-|`x-ms-access-tier`|Version 2017-04-17 and newer. For page blobs on a premium storage account only. Specifies the tier to be set on the blob. Check [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage) for a full list of supported tiers.|  
+|`x-ms-access-tier`|Version 2017-04-17 and newer. For page blobs on a premium storage account only. Specifies the tier to be set on the blob. Check [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd) for a full list of supported tiers.|  
   
 ### Request Body  
  For a block blob, the request body contains the content of the blob.  
