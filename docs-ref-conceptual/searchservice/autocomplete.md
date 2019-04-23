@@ -66,7 +66,7 @@ api-key: [admin or query key]
 
  **When to use POST instead of GET**  
 
- With HTTP GET, the call to **Autocomplete** API is limited to request URLs of length 8 KB. Some applications can produce large queries. For these applications, HTTP POST is a better choice. The request size limit for POST is approximately 16 MB.
+ With HTTP GET, the call to the **Autocomplete** API is limited to request URLs of length 8 KB. Some applications can produce large queries. For these applications, HTTP POST is a better choice. The request size limit for POST is approximately 16 MB.
 
 ## Request  
  HTTPS is required for service requests. The **Autocomplete** request can be constructed using the GET or POST methods.  
@@ -91,14 +91,14 @@ api-key: [admin or query key]
 |---------------|-----------------|  
 |`search=[string]`|The search text to complete. Must be at least 1 character, and no more than 100 characters.|  
 |<code>autocompleteMode=oneTerm &#124; twoTerms &#124; oneTermWithContext (optional, defaults to oneTerm)</code>|Sets the autocomplete mode as described above.|
-|`$filter=[string] (optional)`|An expression that filters the documents considered for producing the completed term suggestions.<br>**Note:**  When calling **Autocomplete** using POST, this parameter is named `filter` instead of `$filter`.|
-|`highlightPreTag=[string] (optional, defaults to an empty string)`|A string tag that prepends to search hits. Must be set with `highlightPostTag`. **Note:**  When calling **Autocomplete** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
-|`highlightPostTag=[string] (optional, defaults to an empty string)`|A string tag that appends to search hits. Must be set with `highlightPreTag`. **Note:**  When calling **Autocomplete** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
+|`$filter=[string] (optional)`|An expression that filters the documents considered for producing the completed term suggestions. When calling **Autocomplete** using POST, this parameter is named `filter` instead of `$filter`. For more information, see [OData expression syntax for filters](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax).|
+|`highlightPreTag=[string] (optional, defaults to an empty string)`|A string tag that prepends to search hits. Must be set with `highlightPostTag`.   When calling **Autocomplete** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
+|`highlightPostTag=[string] (optional, defaults to an empty string)`|A string tag that appends to search hits. Must be set with `highlightPreTag`.   When calling **Autocomplete** using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|  
 |`suggesterName=[string]`|The name of the **suggester** as specified in the **suggesters** collection that's part of the index definition. A **suggester** determines which fields are scanned for suggested query terms. For more information, see [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters).|  
 |`fuzzy=[boolean] (optional, default = false)`|When set to true, this API finds suggestions even if there is a substituted or missing character in the search text. This provides a better experience in some scenarios but it comes at a performance cost as fuzzy suggestion searches are slower and consume more resources.|  
 |`searchFields=[string] (optional)`|The list of comma-separated field names to search for the specified search text. Target fields must be part of a Suggester for the index. For more information see [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters).|  
-|`$top=# (optional, default = 5)`|The number of autocomplete suggestions to retrieve. The value must be a number between 1 and 100. **Note:**  When calling **Autocomplete** using POST, this parameter is named `top` instead of `$top`.|  
-|`minimumCoverage (optional, defaults to 80)`|A number between 0 and 100 indicating the percentage of the index that must be covered by an autocomplete query in order for the query to be reported as a success. By default, at least 80% of the index must be available or the Autocomplete operation returns HTTP status code 503. If you set `minimumCoverage` and Autocomplete succeeds, it returns HTTP 200 and include a `@search.coverage` value in the response indicating the percentage of the index that was included in the query. **Note:**  Setting this parameter to a value lower than 100 can be useful for ensuring search availability even for services with only one replica. However, not all matching autocomplete suggestions are guaranteed to be present in the search results. If search recall is more important to your application than availability, then it's best not to lower `minimumCoverage` below its default value of 80.|  
+|`$top=# (optional, default = 5)`|The number of autocomplete suggestions to retrieve. The value must be a number between 1 and 100.   When calling **Autocomplete** using POST, this parameter is named `top` instead of `$top`.|
+|`minimumCoverage (optional, defaults to 80)`|A number between 0 and 100 indicating the percentage of the index that must be covered by an autocomplete query in order for the query to be reported as a success. By default, at least 80% of the index must be available or the Autocomplete operation returns HTTP status code 503. If you set `minimumCoverage` and Autocomplete succeeds, it returns HTTP 200 and include a `@search.coverage` value in the response indicating the percentage of the index that was included in the query.   Setting this parameter to a value lower than 100 can be useful for ensuring search availability even for services with only one replica. However, not all matching autocomplete suggestions are guaranteed to be present in the search results. If search recall is more important to your application than availability, then it's best not to lower `minimumCoverage` below its default value of 80.|
 |`api-version=[string]`|The `api-version` parameter is required. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Autocomplete** with GET or POST.|  
 
 ### Request Headers  
@@ -115,16 +115,16 @@ api-key: [admin or query key]
 
  For POST:  
 
-```  
+```
 {  
   "autocompleteMode": "oneTerm" (default) | "twoTerms" | "oneTermWithContext",
   "filter": "odata_filter_expression",
   "fuzzy": true | false (default),  
   "highlightPreTag": "pre_tag",  
   "highlightPostTag": "post_tag",  
-  "minimumCoverage": # (% of index that must be covered to declare query successful; default 80),      
+  "minimumCoverage": # (% of index that must be covered to declare query successful; default 80),
   "search": "partial_search_input",  
-  "searchFields": "field_name_1, field_name_2, ...",        
+  "searchFields": "field_name_1, field_name_2, ...",
   "suggesterName": "suggester_name",  
   "top": # (default 5)  
 }  
@@ -162,7 +162,7 @@ api-key: [admin or query key]
   POST /indexes/insurance/docs/autocomplete?api-version=2017-11-11-Preview
   {  
     "search": "washington medic",
-    "filter": "search.in(state, 'washington')",
+    "filter": "search.in(roleId, 'admin,manager')",
     "top": 3,
     "suggesterName": "sg"  
   }  
