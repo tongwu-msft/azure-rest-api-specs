@@ -95,9 +95,9 @@ New features in version 2018-03-01.6.1 include:
 
   - Because of this change, [ImageReference][2] is now a required property of [VirtualMachineConfiguration][1].
 
-- (**Breaking change**) Multi-instance tasks (created using [MultiInstanceSettings](https://docs.microsoft.com/en-us/rest/api/batchservice/task/add#definitions_multiinstancesettings)) must now specify **CoordinationCommandLine**, and **NumberOfInstances** is now optional and defaults to 1.
+- (**Breaking change**) Multi-instance tasks (created using [MultiInstanceSettings](/rest/api/batchservice/task/add#multiinstancesettings)) must now specify **CoordinationCommandLine**, and **NumberOfInstances** is now optional and defaults to 1.
 
-- Added support for tasks run using Docker containers. To run a task using a Docker container, you must specify a **ContainerConfiguration** on the [VirtualMachineConfiguration][1] for a pool, and then add [TaskContainerSettings](https://docs.microsoft.com/en-us/rest/api/batchservice/task/add#definitions_taskcontainersettings) on the **Task**.
+- Added support for tasks run using Docker containers. To run a task using a Docker container, you must specify a **ContainerConfiguration** on the [VirtualMachineConfiguration][1] for a pool, and then add [TaskContainerSettings](/rest/api/batchservice/task/add#taskcontainersettings) on the **Task**.
 
 ### Version 2017-06-01.5.1
 
@@ -359,5 +359,5 @@ You can now request that application licenses be provisioned to your pool, via t
 
 
 <!--Reference links in article-->
-[1]: https://docs.microsoft.com/rest/api/batchservice/Pool/Add#definitions_virtualmachineconfiguration
-[2]: https://docs.microsoft.com/rest/api/batchservice/Pool/Add#definitions_imagereference
+[1]: /rest/api/batchservice/Pool/Add#virtualmachineconfiguration
+[2]: /rest/api/batchservice/Pool/Add#imagereference

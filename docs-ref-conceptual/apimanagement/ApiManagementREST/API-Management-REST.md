@@ -35,17 +35,15 @@ Azure API Management provides a REST API for performing operations on selected e
   
 ## In this topic  
   
--   [Prerequisites](../ApiManagementREST/API-Management-REST.md)  
+- [Enable access to the REST API](../ApiManagementREST/API-Management-REST.md#EnableRESTAPI)  
   
-    -   [Enable access to the REST API](../ApiManagementREST/API-Management-REST.md#EnableRESTAPI)  
+- [Default media type](../ApiManagementREST/API-Management-REST.md#DefaultMediaType)  
   
-    -   [Default media type](../ApiManagementREST/API-Management-REST.md#DefaultMediaType)  
+- [Authentication](../ApiManagementREST/API-Management-REST.md#Authentication)  
   
-    -   [Authentication](../ApiManagementREST/API-Management-REST.md#Authentication)  
+- [Base URL](../ApiManagementREST/API-Management-REST.md#BaseURL)  
   
-    -   [Base URL](../ApiManagementREST/API-Management-REST.md#BaseURL)  
-  
-    -   [Version Query Parameter](../ApiManagementREST/API-Management-REST.md#VersionQueryParameter)
+- [Version Query Parameter](../ApiManagementREST/API-Management-REST.md#VersionQueryParameter)
   
 ###  <a name="EnableRESTAPI"></a> Enable access to the REST API  
  Access to the API Management REST API must be granted before calls can be successfully made.
