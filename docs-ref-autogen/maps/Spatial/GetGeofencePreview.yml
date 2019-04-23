@@ -1,27 +1,16 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.spatial.postgeofence
-name: Post Geofence
+uid: atlas.microsoft.com.maps.spatial.getgeofencepreview
+name: Get Geofence Preview
 service: Maps
 groupName: Spatial
 apiVersion: "1.0"
-summary: >-
-  **Search Geofence Post API**
-
-
-
-  **Applies to:** S1 Pricing tier.
-
-
-  The Geofence Post API allows you to retrieve the proximity of a coordinate to a  provided geofence or set of fences. With POST call, you do not have to upload the fence data in advance, instead you supply the location of the object you are tracking in query parameters as well as the fence or set of fences data in post request body. See [Geofencing GeoJSON data](https://docs.microsoft.com/en-us/azure/azure-maps/geofence-geojson) for more details on the geofence data format. The response will contain information about the distance from the outer edge of the geofence. A negative value signifies that the  coordinate is inside of the fence while a positive value means that it is outside of the fence.<br><br>This API can be used for a variety of scenarios that include things like asset  tracking, fleet management, or setting up alerts for moving objects.
-
-
-  The API supports [integration with Event Grid](https://docs.microsoft.com/azure/azure-maps/azure-maps-event-grid-integration).  The isAsync parameter is used to enable integration with Event Grid (disabled by default).
+summary: "**Search Geofence Get API**\n\n**Applies to:** S1 Pricing tier.\n\nThe Geofence Get API allows you to retrieve the proximity of a coordinate to a \ngeofence that has been uploaded to the Data service. You can use the \n[Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) to upload \na geofence or set of fences. See [Geofencing GeoJSON data](https://docs.microsoft.com/en-us/azure/azure-maps/geofence-geojson) \nfor more details on the geofence data format. To query the proximity of a coordinate, you supply the location of the object you are tracking as well\nas the ID for the fence or set of fences, and the response will contain information about\nthe distance from the outer edge of the geofence. A negative value signifies that the \ncoordinate is inside of the fence while a positive value means that it is outside of the\nfence.<br><br>This API can be used for a variety of scenarios that include things like asset \ntracking, fleet management, or setting up alerts for moving objects.\n\nThe API supports [integration with Event Grid](https://docs.microsoft.com/azure/azure-maps/azure-maps-event-grid-integration). The isAsync parameter is used to enable integration with Event Grid (disabled by default).\nTo test this API, you can upload the sample data from Post Geofence API examples(Request Body) via Data Upload API and replace the [udid] from the sample request below with the udid returned by Data Upload API.\n\n\n### Geofencing InnerError code\n\nIn geofencing response error contract, `innererror` is  an object containing service specific information about the error. `code` is a property in `innererror` which can map to a specific geofencing error type. The table belows shows the code mapping between all the known client error type to the corresponding geofencing error `message`.\n\ninnererror.code | error.message\n---------------------------- | -------------------------------------- \nNullDeviceId  | Device Id should not be null.\nNullUdid	  | Udid should not be null.\nUdidWrongFormat| Udid should be acquired from user data ingestion API.\nInvalidUserTime| Usertime is invalid.\nInvalidSearchBuffer| Searchbuffer is invalid.\nInvalidSearchRange| The value range of searchbuffer should be from 0 to 500 meters.\nInvalidLatLon| Lat and/or lon parameters are invalid.\nInvalidIsAsyncValue| The IsAsync parameter is invalid.\nInvalidModeValue| The mode parameter invalid.\nInvalidJson| Geofencing data is not a valid json file.\nNotSupportedGeoJson| Geofencing data can't be read as a Feature or FeatureCollections.\nInvalidGeoJson| Geofencing data is invalid.\nNoUserDataWithAccountOrSubscription| Can't find user geofencing data with provided account-id and/or subscription-id.\nNoUserDataWithUdid|	Can't find user geofencing data with provided udId."
 consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://atlas.microsoft.com/spatial/geofence/json?api-version=1.0&deviceId={deviceId}&lat={lat}&lon={lon}
-- content: POST https://atlas.microsoft.com/spatial/geofence/json?subscription-key={subscription-key}&api-version=1.0&deviceId={deviceId}&lat={lat}&lon={lon}&userTime={userTime}&searchBuffer={searchBuffer}&isAsync={isAsync}&mode={mode}
+- content: GET https://atlas.microsoft.com/spatial/geofence/json?api-version=1.0&deviceId={deviceId}&udId={udId}&lat={lat}&lon={lon}
+- content: GET https://atlas.microsoft.com/spatial/geofence/json?subscription-key={subscription-key}&api-version=1.0&deviceId={deviceId}&udId={udId}&lat={lat}&lon={lon}&userTime={userTime}&searchBuffer={searchBuffer}&isAsync={isAsync}&mode={mode}
   isOptional: true
 uriParameters:
 - name: format
@@ -47,6 +36,12 @@ uriParameters:
   description: ID of the device
   types:
   - uid: string
+- name: udId
+  in: query
+  isRequired: true
+  description: The unique id returned from [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) after uploading a valid GeoJSON FeatureCollection object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's  properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
+  types:
+  - uid: string
 - name: lat
   in: query
   isRequired: true
@@ -61,7 +56,7 @@ uriParameters:
   - uid: number
 - name: userTime
   in: query
-  description: The user request time. If not presented in the request, the default value is DateTime.UtcNow.
+  description: The user request time. If not presented in the request, the default value is DateTime.Now.
   types:
   - uid: string
 - name: searchBuffer
@@ -110,13 +105,6 @@ responses:
   description: An error occurred while processing the request. Please try again later.
   types:
   - uid: ErrorResponse
-requestBody:
-- name: default
-  parameters:
-  - name: searchGeofenceRequestBody
-    in: body
-    types:
-    - uid: object
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -230,101 +218,7 @@ definitions:
 examples:
 - name: Geofence
   request:
-    uri: POST https://atlas.microsoft.com/spatial/geofence/json?subscription-key=[subscription-key]&api-version=1.0&deviceId=unique_device_name_under_account&lat=48.36&lon=-124.63&searchBuffer=50&isAsync=True&mode=EnterAndExit
-    body: >-
-      {
-        "type": "FeatureCollection",
-        "features": [
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Polygon",
-              "coordinates": [
-                [
-                  [
-                    -122.13241226662022,
-                    47.617011400917221
-                  ],
-                  [
-                    -122.12810106940353,
-                    47.6169969269402
-                  ],
-                  [
-                    -122.12824948956276,
-                    47.619076837513489
-                  ],
-                  [
-                    -122.12833297981392,
-                    47.621929787055336
-                  ],
-                  [
-                    -122.12971398040168,
-                    47.62184100705295
-                  ],
-                  [
-                    -122.1318413862121,
-                    47.62195364373008
-                  ],
-                  [
-                    -122.13231034769727,
-                    47.617163326181213
-                  ],
-                  [
-                    -122.13241226662022,
-                    47.617011400917221
-                  ]
-                ]
-              ]
-            },
-            "properties": {
-              "geometryId": "2",
-              "name": "Crossroad Mall"
-            }
-          },
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Polygon",
-              "coordinates": [
-                [
-                  [
-                    -122.15342205632391,
-                    47.609818185466253
-                  ],
-                  [
-                    -122.153451623509,
-                    47.606287331460038
-                  ],
-                  [
-                    -122.14971782206638,
-                    47.606250040787046
-                  ],
-                  [
-                    -122.14817354810637,
-                    47.606391046012305
-                  ],
-                  [
-                    -122.14827351288071,
-                    47.609833167963558
-                  ],
-                  [
-                    -122.15225500989803,
-                    47.609826136787518
-                  ],
-                  [
-                    -122.15342205632391,
-                    47.609818185466253
-                  ]
-                ]
-              ]
-            },
-            "properties": {
-              "geometryId": "1",
-              "name": "Sammamish High school"
-            }
-          }
-        ]
-      }
+    uri: GET https://atlas.microsoft.com/spatial/geofence/json?subscription-key=[subscription-key]&api-version=1.0&deviceId=unique_device_name_under_account&udId=[udId]&lat=48.36&lon=-124.63&userTime=9/10/2018 10:00:00 AM&searchBuffer=50&isAsync=True&mode=EnterAndExit
   responses:
   - statusCode: "200"
     body: >-
@@ -332,34 +226,38 @@ examples:
         "geometries": [
           {
             "deviceId": "unique_device_name_under_account",
+            "udId": "[udId]",
             "geometryId": "2",
-            "distance": -999,
+            "distance": 999,
             "nearestLat": 47.621954,
             "nearestLon": -122.131841
           },
           {
             "deviceId": "unique_device_name_under_account",
+            "udId": "[udId]",
             "geometryId": "1",
-            "distance": 999,
+            "distance": -999,
             "nearestLat": 47.609833,
             "nearestLon": -122.148274
           }
         ],
-        "expiredGeofenceGeometryId": [],
-        "invalidPeriodGeofenceGeometryId": [],
+        "expiredGeofenceGeometryId": [
+          "5"
+        ],
+        "invalidPeriodGeofenceGeometryId": [
+          "3",
+          "4"
+        ],
         "isEventPublished": true
       }
   - statusCode: "400"
-    headers:
-    - name: X-Correlation-ID
-      value: 80575fa1-2c1e-4738-834a-fcf45b58dd7c
     body: >-
       {
         "error": {
           "code": "BadRequest",
-          "message": "Lat and/or lon parameters are invalid.",
+          "message": "Can't find user geofencing data with provided udid.",
           "innererror": {
-            "code": "InvalidLatLon"
+            "code": "NoUserDataWithUdid"
           }
         }
       }
