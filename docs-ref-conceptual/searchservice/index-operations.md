@@ -40,7 +40,7 @@ Language-specific fields are also illustrated in this index. Description fields 
   {"name": "Description", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "en.microsoft"},
   {"name": "Description_fr", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "fr.microsoft"},
   {"name": "Category", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true},
-  {"name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "sortable": false, "facetable": true},
+  {"name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "sortable": false, "facetable": true, "analyzer":"tagsAnalyzer"},
   {"name": "ParkingIncluded", "type": "Edm.Boolean", "filterable": true, "sortable": true, "facetable": true},
   {"name": "LastRenovationDate", "type": "Edm.DateTimeOffset", "filterable": true, "sortable": true, "facetable": true},
   {"name": "Rating", "type": "Edm.Double", "filterable": true, "sortable": true, "facetable": true},
@@ -63,13 +63,20 @@ Language-specific fields are also illustrated in this index. Description fields 
 	{"name": "BedOptions", "type": "Edm.String", "searchable": true},
 	{"name": "SleepsCount", "type": "Edm.Int32", "filterable": true, "facetable": true},
 	{"name": "SmokingAllowed", "type": "Edm.Boolean", "filterable": true, "facetable": true},
-	{"name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "facetable": true}
+	{"name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "facetable": true, "analyzer":"tagsAnalyzer"}
 	]
   }
  ],
  "suggesters": [
  	{"name": "sg", "searchMode": "analyzingInfixMatching", "sourceFields": ["HotelName"]}
- 	]
+ ],
+ "analyzers": [
+  {
+   "name": "tagsAnalyzer",	 	]
+   "type": "#Microsoft.Azure.Search.CustomAnalyzer",	
+   "charFilters": [ "html_strip" ],	
+   "tokenizer": "standard_v2"	
+  }
 }
 ```  
 
