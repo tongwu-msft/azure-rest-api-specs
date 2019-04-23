@@ -68,7 +68,7 @@ The following are the headers that a request and response may include.
   
 
 ## Query parameters  
-The following is the list of query parameters that a request may specify. See the Required column for required parameters. The query parameter values must be URL encoded.  For information about query parameters used to filter the videos that Bing returns, see Filter Query Parameters.  
+The following is the list of query parameters that a request may specify. See the Required column for required parameters. The query parameter values must be URL encoded.  For information about query parameters used to filter the videos that Bing returns, see [Filter Query Parameters](#filter-query-parameters).  
   
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
