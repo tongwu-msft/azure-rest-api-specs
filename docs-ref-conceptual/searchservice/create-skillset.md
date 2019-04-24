@@ -1,5 +1,5 @@
 ---
-title: Create Skillset (REST api-version=2017-11-11-Preview) - Azure Search | Microsoft Docs
+title: Create Skillset (REST api-version=2019-05-06-Preview) - Azure Search | Microsoft Docs
 description: A skillset is a collection of cognitive skills that comprise an enriched indexing pipeline in Azure Search.
 
 ms.manager: cgronlun
