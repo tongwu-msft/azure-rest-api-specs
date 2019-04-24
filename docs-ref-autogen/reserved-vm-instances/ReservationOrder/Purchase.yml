@@ -86,11 +86,6 @@ requestBody:
     types:
     - uid: string
       isArray: true
-  - name: properties.renew
-    in: body
-    description: Setting this to true will automatically purchase a new reservation on the expiration date time.
-    types:
-    - uid: boolean
   - name: properties.reservedResourceProperties
     in: body
     description: Properties specific to each reserved resource type. Not required if not applicable.
@@ -215,10 +210,6 @@ definitions:
     types:
     - uid: string
       isArray: true
-  - name: properties.renew
-    description: Setting this to true will automatically purchase a new reservation on the expiration date time.
-    types:
-    - uid: boolean
   - name: properties.reservedResourceProperties
     description: Properties specific to each reserved resource type. Not required if not applicable.
     types:
@@ -376,14 +367,6 @@ definitions:
     description: ''
     types:
     - uid: ReservationMergeProperties
-  - name: renew
-    description: Setting this to true will automatically purchase a new reservation on the expiration date time.
-    types:
-    - uid: boolean
-  - name: renewProperties
-    description: ''
-    types:
-    - uid: RenewPropertiesResponse
 - name: ErrorResponseCode
   kind: enum
   properties:
@@ -587,21 +570,6 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: RenewPropertiesResponse
-  kind: object
-  properties:
-  - name: purchaseProperties
-    description: ''
-    types:
-    - uid: PurchaseRequest
-  - name: lockedPriceTotal
-    description: Locked currency & amount for new reservation purchase at the time of renewal. Price is locked 30 days before expiry date time if renew is true.
-    types:
-    - uid: LockedPriceTotal
-  - name: links
-    description: Contains prev and next reservation Ids' because of renewal.
-    types:
-    - uid: Links
 - name: ReservationStatusCode
   kind: enum
   properties:
@@ -632,30 +600,6 @@ definitions:
   - name: Succeeded
     types:
     - uid: string
-- name: LockedPriceTotal
-  description: Locked currency & amount for new reservation purchase at the time of renewal. Price is locked 30 days before expiry date time if renew is true.
-  kind: object
-  properties:
-  - name: currencyCode
-    description: ''
-    types:
-    - uid: string
-  - name: amount
-    description: ''
-    types:
-    - uid: string
-- name: Links
-  description: Contains prev and next reservation Ids' because of renewal.
-  kind: object
-  properties:
-  - name: renewSource
-    description: Reservation Id of the reservation from which this reservation is renewed. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}.
-    types:
-    - uid: string
-  - name: renewDestination
-    description: Reservation Id of the reservation which is purchased because of renew. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}.
-    types:
-    - uid: string
 examples:
 - name: Purchase
   request:
@@ -676,8 +620,7 @@ examples:
           "appliedScopeType": "Shared",
           "reservedResourceProperties": {
             "instanceFlexibility": "On"
-          },
-          "renew": false
+          }
         }
       }
   responses:
