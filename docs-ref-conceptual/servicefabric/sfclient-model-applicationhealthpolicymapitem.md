@@ -1,6 +1,6 @@
 ---
 title: "ApplicationHealthPolicyMapItem"
-ms.date: "2017-10-02"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,18 +35,18 @@ Defines an item in ApplicationHealthPolicyMap.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Key](#key) | string | Yes |
-| [Value](#value) | [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) | Yes |
+| [`Key`](#key) | string | Yes |
+| [`Value`](#value) | [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) | Yes |
 
 ____
-### Key
+### `Key`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The key of the application health policy map item. This is the name of the application.
 
 ____
-### Value
+### `Value`
 __Type__: [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) <br/>
 __Required__: Yes<br/>
 <br/>

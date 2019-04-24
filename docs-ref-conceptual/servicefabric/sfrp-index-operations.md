@@ -1,6 +1,6 @@
 ---
 title: "Operations"
-ms.date: "2017-05-16"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,5 +29,5 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
-| [List](sfrp-api-operations_list.md) | Lists all of the available ServiceFabric Resource Manager REST API operations.<br/> |
+| [List](sfrp-api-operations_list.md) | Lists all of the available Service Fabric resource provider API operations.<br/> |
 

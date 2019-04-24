@@ -29,7 +29,7 @@ The Server Message Block (SMB) protocol is the preferred file share protocol use
   
  The Azure File service also offers a compelling alternative to traditional Direct Attached Storage (DAS) and Storage Area Network (SAN) solutions, which are often complex and expensive to install, configure, and operate. Pricing for the new Azure File service is consistent with existing Azure Storage services and is charged in units of storage capacity and transactions. See the [Azure Storage Pricing page](https://www.windowsazure.com/pricing/details/) for details.  
   
- Files stored in Azure File service shares are accessible via the SMB protocol, and also via REST APIs, at the endpoint `http|https://<account>.file.core.window.net`. Note that HTTPS is recommended.  
+ Files stored in Azure File service shares are accessible via the SMB protocol, and also via REST APIs, at the endpoint `http|https://<account>.file.core.windows.net`. Note that HTTPS is recommended.  
   
  While the Azure File service REST APIs are similar to the Azure Blob service REST APIs, there are minor differences related to how the service models the underlying file system. These differences are noted in the operations table below.  
   

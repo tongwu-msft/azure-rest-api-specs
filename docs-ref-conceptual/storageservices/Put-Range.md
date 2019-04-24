@@ -57,8 +57,8 @@ The `Put Range` operation writes a range of bytes to a file.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Range` or `x-ms-range`|Either `Range` or `x-ms-range` is required.<br /><br /> Specifies the range of bytes to be written. Both the start and end of the range must be specified. This header is defined by the [HTTP/1.1 protocol specification](http://www.w3.org/Protocols/rfc2616/rfc2616.html).<br /><br /> For an update operation, the range can be up to 4 MB in size. For a clear operation, the range can be up to the value of the file's full size.<br /><br /> The File service accepts only a single byte range for the `Range` and `x-ms-range` headers, and the byte range must be specified in the following format: `bytes=startByte-endByte`.<br /><br /> If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. See [Specifying the Range Header for File Service Operations](Specifying-the-Range-Header-for-File-Service-Operations.md) for more information.|  
 |`Content-Length`|Required. Specifies the number of bytes being transmitted in the request body. When the `x-ms-write` header is set to `clear`, the value of this header must be set to zero.|  
@@ -146,7 +146,7 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  The `Put Range` operation writes a range of byte to a file. This operation can only be called on an existing file. It cannot be called to create a new file. Calling `Put Range` with a file name that does not currently exist returns status code 404 (Not Found).  
   
- To create a new file, call [Create File](Create-File.md). A file may be up to 1 TB in size.  
+ To create a new file, call [Create File](Create-File.md). A file may be up to 1 TiB in size.  
   
  A `Put Range` operation is permitted 10 minutes per MB to complete. If the operation is taking longer than 10 minutes per MB on average, the operation will timeout.  
   

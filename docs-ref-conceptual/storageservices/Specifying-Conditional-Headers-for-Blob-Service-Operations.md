@@ -157,13 +157,16 @@ Several Blob service operations support the use of conditional headers. You can 
 |[Get Blob](Get-Blob.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Get Blob Metadata](Get-Blob-Metadata.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Get Blob Properties](Get-Blob-Properties.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
-|[Get Page Ranges](Get-Page-Ranges.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
+|[Get Page Ranges](Get-Page-Ranges.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Lease Blob](Lease-Blob.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Lease Container](Lease-Container.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**|  
 |[Put Blob](Put-Blob.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
+|[Put Block From URL](Put-Block-From-URL.md)<br /><br /> (version 2018-03-28 and later)|Write|**x-ms-source-If-Modified-Since**<br /><br /> **x-ms-source-If-Unmodified-Since**<br /><br /> **x-ms-source-If-Match**<br /><br /> **x-ms-source-If-None-Match**| 
 |[Put Block List](Put-Block-List.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Append Block](Append-Block.md)<br /><br /> (version 2015-02-21 and later)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
+|[Append Block From URL](Append-Block-From-Url.md)<br /><br /> (version 2018-11-09 and later)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Put Page](Put-Page.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
+|[Put Page From URL](Put-Page-From-Url.md)<br /><br /> (version 2018-11-09 and later)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|    
 |[Set Blob Metadata](Set-Blob-Metadata.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Set Blob Properties](Set-Blob-Properties.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**|  
 |[Set Container ACL](Set-Container-ACL.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**|  
@@ -175,8 +178,6 @@ Several Blob service operations support the use of conditional headers. You can 
 -   [Abort Copy Blob](Abort-Copy-Blob.md)  
   
 -   [Create Container](Create-Container.md)  
-  
--   [Get Block List](Get-Block-List.md)  
   
 -   [Get Container ACL](Get-Container-ACL.md)  
   

@@ -1,0 +1,169 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.site-recovery.migrationrecoverypoints.listbyreplicationmigrationitems
+name: List By Replication Migration Items
+service: Recovery Services - Site Recovery
+groupName: Migration Recovery Points
+apiVersion: 2018-07-10
+summary: Gets the recovery points for a migration item.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrationRecoveryPoints?api-version=2018-07-10
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: fabricName
+  in: path
+  isRequired: true
+  description: Fabric unique name.
+  types:
+  - uid: string
+- name: protectionContainerName
+  in: path
+  isRequired: true
+  description: Protection container name.
+  types:
+  - uid: string
+- name: migrationItemName
+  in: path
+  isRequired: true
+  description: Migration item name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: MigrationRecoveryPointCollection
+requestHeader: []
+definitions:
+- name: MigrationRecoveryPointCollection
+  description: Collection of migration recovery points.
+  kind: object
+  properties:
+  - name: value
+    description: The migration recovery point details.
+    types:
+    - uid: MigrationRecoveryPoint
+      isArray: true
+  - name: nextLink
+    description: The value of next link.
+    types:
+    - uid: string
+- name: MigrationRecoveryPoint
+  description: Recovery point for a migration item.
+  kind: object
+  properties:
+  - name: properties
+    description: Recovery point properties.
+    types:
+    - uid: MigrationRecoveryPointProperties
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource Type
+    types:
+    - uid: string
+  - name: location
+    description: Resource Location
+    types:
+    - uid: string
+- name: MigrationRecoveryPointProperties
+  description: Migration item recovery point properties.
+  kind: object
+  properties:
+  - name: recoveryPointTime
+    isReadyOnly: true
+    description: The recovery point time.
+    types:
+    - uid: string
+  - name: recoveryPointType
+    isReadyOnly: true
+    description: The recovery point type.
+    types:
+    - uid: MigrationRecoveryPointType
+- name: MigrationRecoveryPointType
+  description: The recovery point type.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: ApplicationConsistent
+    types:
+    - uid: string
+  - name: CrashConsistent
+    types:
+    - uid: string
+examples:
+- name: Gets the recovery points for a migration item.
+  request:
+    uri: GET https://management.azure.com/Subscriptions/cb53d0c3-bd59-4721-89bc-06916a9147ef/resourceGroups/resourcegroup1/providers/Microsoft.RecoveryServices/vaults/migrationvault/replicationFabrics/vmwarefabric1/replicationProtectionContainers/vmwareContainer1/replicationMigrationItems/virtualmachine1/migrationRecoveryPoints?api-version=2018-07-10
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "648336ef-2d70-4d98-b100-8c299f97cd41",
+            "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationMigrationItems/migrationRecoveryPoints",
+            "id": "/Subscriptions/cb53d0c3-bd59-4721-89bc-06916a9147ef/resourceGroups/resourcegroup1/providers/Microsoft.RecoveryServices/vaults/migrationvault/replicationFabrics/vmwarefabric1/replicationProtectionContainers/vmwareContainer1/replicationMigrationItems/virtualmachine1/migrationRecoveryPoints/648336ef-2d70-4d98-b100-8c299f97cd41",
+            "properties": {
+              "recoveryPointTime": "2017-04-26T06:37:50.8082715Z",
+              "recoveryPointType": "CrashConsistent"
+            }
+          },
+          {
+            "name": "34cb2d05-e730-4d3f-b96b-a60a5e92acb2",
+            "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationMigrationItems/migrationRecoveryPoints",
+            "id": "/Subscriptions/cb53d0c3-bd59-4721-89bc-06916a9147ef/resourceGroups/resourcegroup1/providers/Microsoft.RecoveryServices/vaults/migrationvault/replicationFabrics/vmwarefabric1/replicationProtectionContainers/vmwareContainer1/replicationMigrationItems/virtualmachine1/migrationRecoveryPoints/34cb2d05-e730-4d3f-b96b-a60a5e92acb2",
+            "properties": {
+              "recoveryPointTime": "2017-04-26T07:37:30.9722019Z",
+              "recoveryPointType": "CrashConsistent"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+errorCodes: []

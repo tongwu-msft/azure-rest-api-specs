@@ -2,7 +2,6 @@
 title: "Common error codes"
 ms.custom: ""
 ms.date: "2016-11-14"
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "iot-hub"
 ms.suite: ""

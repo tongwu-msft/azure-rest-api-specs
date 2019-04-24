@@ -57,8 +57,8 @@ The `Set File Properties` operation sets system properties on the file.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-cache-control`|Optional. Modifies the cache control string for the file.<br /><br /> If this property is not specified on the request, then the property will be cleared for the file. Subsequent calls to [Get File Properties](Get-File-Properties.md) will not return this property, unless it is explicitly set on the file again.|  
 |`x-ms-content-type`|Optional. Sets the file's content type.<br /><br /> If this property is not specified on the request, then the property will be cleared for the file. Subsequent calls to [Get File Properties](Get-File-Properties.md) will not return this property, unless it is explicitly set on the file again.|  

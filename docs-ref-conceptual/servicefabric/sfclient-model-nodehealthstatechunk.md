@@ -1,6 +1,6 @@
 ---
 title: "NodeHealthStateChunk"
-ms.date: "2017-10-02"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -35,25 +35,30 @@ Represents the health state chunk of a node, which contains the node name and it
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [HealthState](#healthstate) | string (enum) | No |
-| [NodeName](#nodename) | string | No |
+| [`HealthState`](#healthstate) | string (enum) | No |
+| [`NodeName`](#nodename) | string | No |
 
 ____
-### HealthState
+### `HealthState`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
 
-  - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Ok - Indicates the health state is okay. The value is 1.
-  - Warning - Indicates the health state is at a warning level. The value is 2.
-  - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
-  - Unknown - Indicates an unknown health status. The value is 65535.
+Possible values are: 
+
+  - `Invalid` - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Ok` - Indicates the health state is okay. The value is 1.
+  - `Warning` - Indicates the health state is at a warning level. The value is 2.
+  - `Error` - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+  - `Unknown` - Indicates an unknown health status. The value is 65535.
+
 
 
 ____
-### NodeName
+### `NodeName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

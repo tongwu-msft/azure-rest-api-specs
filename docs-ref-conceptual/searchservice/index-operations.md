@@ -1,18 +1,13 @@
 ---
-title: "Index operations (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2016-11-09"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
+title: Index operations using Azure Search Service REST APIs - Azure Search
+description: Learn which REST APIs are used to create, delete, and update Azure Search index definitions.
+ms.date: 02/14/2019
+services: search
+ms.service: search
 ms.topic: "language-reference"
-ms.assetid: 028bc3ff-387f-4a42-a485-a32262508be9
-caps.latest.revision: 22
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -75,15 +70,11 @@ Language-specific fields are also illustrated in this index. Description fields 
 
  For a code sample that shows how to create and build an index using the REST API, see [Get Started with Azure Search using REST](https://github.com/Azure-Samples/search-rest-api-getting-started).  
 
- For a video introduction to indexing, see the [Channel 9 Cloud Cover episode 152 on Azure Search](http://channel9.msdn.com/Shows/Cloud+Cover/Cloud-Cover-152-Azure-Search-with-Liam-Cavanagh).  
+ For a video introduction to indexing, see the [Channel 9 Cloud Cover episode 152 on Azure Search](https://channel9.msdn.com/Shows/Cloud+Cover/Cloud-Cover-152-Azure-Search-with-Liam-Cavanagh).  
 
 ## Operations on indexes  
 
 -   [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  
-
--   [Add scoring profiles to a search index &#40;Azure Search Service REST API&#41;](add-scoring-profiles-to-a-search-index.md)  
-
--   [Language support &#40;Azure Search Service REST API&#41;](language-support.md)  
 
 -   [Update Index &#40;Azure Search Service REST API&#41;](update-index.md)  
 
@@ -98,4 +89,4 @@ Language-specific fields are also illustrated in this index. Description fields 
 ## See also  
  [Azure Search Service REST](index.md)   
  [Service limits in Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)   
- [Azure Search .NET library](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
+ [Azure Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  

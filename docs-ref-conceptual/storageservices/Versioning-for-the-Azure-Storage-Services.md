@@ -27,21 +27,15 @@ translation.priority.mt:
 # Versioning for the Azure Storage Services
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
- The current version of the Azure storage services is 2017-04-17, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Azure Storage Services Versions 2015-12-11 and Earlier](Azure-Storage-Services-Versions-2015-07-08-and-Earlier.md).  
+ The current version of the Azure storage services is [2018-03-28](version-2018-03-28.md), and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
   
-## Version 2017-04-17
+## Version 2018-03-28
 
-Version 2017-04-17 includes these changes: 
+Version 2018-03-28 includes these changes:
 
-* A new [Set Blob Tier](set-blob-tier.md) API is now available. 
-    -   Use this API to explicitly set a premium page blob (or disk) to a tier without having to resize. The blob will be provisioned and billed at the new tier. This is also the only way to use the tiers `P4` and `P6`. See [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features) for more information on premium tiers. 
-    -   This API can also be used on block blob on blob storage LRS accounts to set the `Hot`/`Cool`/`Archive` tier. Tiers on blob storage accounts are currently in preview. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
-* The [Create File](Create-File.md), [Create Directory](Create-Directory.md), [Put Range](Put-Range.md), [Set Directory Metadata](Set-Directory-Metadata.md), [Set File Metadata](Set-File-Metadata.md), and [Set File Properties](Set-File-Properties.md) operations now return the x-ms-request-server-encrypted response header. This header is set to true if the contents of the request have been successfully encrypted.
-* The [Get File](Get-File.md), [Get File Properties](Get-File-Properties.md), and [Get Directory Properties](Get-Directory-Properties.md) operations now return the x-ms-server-encrypted response header. This header is set to true if the file data and application metadata are completely encrypted. If the file is not encrypted, or if only parts of the file/application metadata are encrypted, this header is set to false.
-* The storage analytics logs corresponding to requests using version 2017-04-17 or later have a [more detailed `<request-status>`](Storage-Analytics-Log-Format.md) instead of `ClientOtherError`. The new codes are the same as the [error codes](Common-REST-API-Error-Codes.md) returned by the service.
-* Using `If-Match: *` to access an uncommitted blob will now fail.
-* If a request is throttled due to reaching the account-level Ingress, Egress, or IOPS limits, a new [user message](Common-REST-API-Error-Codes.md) is returned.
-* The [List Blobs](List-Blobs.md) API now returns the continuation token in the `Marker` XML element. Previously this was a blob name.
+- A static website may be configured using the [Set Blob Service Properties](Set-Blob-Service-Properties.md) API. The website is based on data in the `$web` container of a storage account. The website is accessible using a new endpoint, which is visible in the portal.
+- A new API [Put Block from URL](put-block-from-url.md) allow blocks in a block blob to be staged using a range of another blob as a source. This permits synchronous server-side copies to be orchestrated for block blobs of any size.
+- A new API [Get Account Information](get-account-information.md) returns the storage account SKU and kind.
 
 ## Specifying Storage Service Versions in Requests  
 
@@ -58,7 +52,7 @@ How you specify the version of the storage services to use for a request relates
   
 ```  
 Request Headers:  
-x-ms-version: 2017-04-17  
+x-ms-version: 2017-07-29
 ```  
   
  The following rules indicates how requests using Shared Key/Shared Key Lite are evaluated to determine the version to use in processing the request.  

@@ -1,6 +1,6 @@
 ---
 title: "ServiceTypeDeltaHealthPolicy"
-ms.date: "2017-05-16"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
 ---
 # ServiceTypeDeltaHealthPolicy
 
-Service health policy
+Represents the delta health policy used to evaluate the health of services belonging to a service type when upgrading the cluster.
 
 
 ## Properties
@@ -39,7 +39,11 @@ ____
 ### maxPercentDeltaUnhealthyServices
 __Type__: integer <br/>
 __Required__: No<br/>
+__Default__: 0 <br/>
 __InclusiveMaximum__: 100 <br/>
 __InclusiveMinimum__: 0 <br/>
 <br/>
-Maximum percentage of unhealthy services in cluster
+The maximum allowed percentage of services health degradation allowed during cluster upgrades.
+The delta is measured between the state of the services at the beginning of upgrade and the state of the services at the time of the health evaluation.
+The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits.
+

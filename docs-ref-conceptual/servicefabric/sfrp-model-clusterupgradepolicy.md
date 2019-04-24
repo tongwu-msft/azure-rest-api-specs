@@ -1,6 +1,6 @@
 ---
 title: "ClusterUpgradePolicy"
-ms.date: "2017-05-16"
+ms.date: "2018-05-25"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -103,4 +103,4 @@ ____
 __Type__: [ClusterUpgradeDeltaHealthPolicy](sfrp-model-clusterupgradedeltahealthpolicy.md) <br/>
 __Required__: No<br/>
 <br/>
-The delta health policy used when upgrading the cluster.
+The cluster delta health policy used when upgrading the cluster.

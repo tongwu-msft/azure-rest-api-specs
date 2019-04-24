@@ -1,0 +1,201 @@
+### YamlMime:RESTOperation
+uid: keyvault.getcertificateversions.getcertificateversions
+name: Get Certificate Versions
+service: Key Vault
+groupName: Get Certificate Versions
+apiVersion: "7.0"
+summary: "List the versions of a certificate.  \nThe GetCertificateVersions operation returns the versions of a certificate in the specified key vault. This operation requires the certificates/list permission."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {vaultBaseUrl}/certificates/{certificate-name}/versions?api-version=7.0
+- content: GET {vaultBaseUrl}/certificates/{certificate-name}/versions?maxresults={maxresults}&api-version=7.0
+  isOptional: true
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: certificate-name
+  in: path
+  isRequired: true
+  description: The name of the certificate.
+  types:
+  - uid: string
+- name: maxresults
+  in: query
+  description: Maximum number of results to return in a page. If not specified the service will return up to 25 results.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A response message containing a list of certificates in the key vault along with a link to the next page of keys.
+  types:
+  - uid: CertificateListResult
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestHeader: []
+definitions:
+- name: CertificateListResult
+  description: The certificate list result.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: A response message containing a list of certificates in the key vault along with a link to the next page of certificates.
+    types:
+    - uid: CertificateItem
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of certificates.
+    types:
+    - uid: string
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: CertificateItem
+  description: The certificate item containing certificate metadata.
+  kind: object
+  properties:
+  - name: id
+    description: Certificate identifier.
+    types:
+    - uid: string
+  - name: attributes
+    description: The certificate management attributes.
+    types:
+    - uid: CertificateAttributes
+  - name: tags
+    description: Application specific metadata in the form of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: x5t
+    description: Thumbprint of the certificate.
+    types:
+    - uid: string
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: CertificateAttributes
+  description: The certificate management attributes.
+  kind: object
+  properties:
+  - name: recoveryLevel
+    isReadyOnly: true
+    description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
+    types:
+    - uid: DeletionRecoveryLevel
+  - name: enabled
+    description: Determines whether the object is enabled.
+    types:
+    - uid: boolean
+  - name: nbf
+    description: Not before date in UTC.
+    types:
+    - uid: integer
+  - name: exp
+    description: Expiry date in UTC.
+    types:
+    - uid: integer
+  - name: created
+    isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+  - name: updated
+    isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+- name: DeletionRecoveryLevel
+  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  kind: enum
+  properties:
+  - name: Purgeable
+    types:
+    - uid: string
+  - name: Recoverable+Purgeable
+    types:
+    - uid: string
+  - name: Recoverable
+    types:
+    - uid: string
+  - name: Recoverable+ProtectedSubscription
+    types:
+    - uid: string
+examples:
+- name: GetCertificateVersions
+  request:
+    uri: GET {vaultBaseUrl}/certificates/listVersionsCert01/versions?api-version=7.0
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "https://karlaugsoftdeletesdk.vault-int.azure-int.net/certificates/listVersionsCert01/002ade539442463aba45c0efb42e3e84",
+            "x5t": "fLi3U52HunIVNXubkEnf8tP6Wbo",
+            "attributes": {
+              "enabled": true,
+              "nbf": 1430344421,
+              "exp": 2208988799,
+              "created": 1482189534,
+              "updated": 1482189534
+            }
+          },
+          {
+            "id": "https://karlaugsoftdeletesdk.vault-int.azure-int.net/certificates/listVersionsCert01/7fcb3e9eb8bf43f3a6ff4b9c3740801d",
+            "x5t": "fLi3U52HunIVNXubkEnf8tP6Wbo",
+            "attributes": {
+              "enabled": true,
+              "nbf": 1430344421,
+              "exp": 2208988799,
+              "created": 1482189532,
+              "updated": 1482189532
+            }
+          }
+        ],
+        "nextLink": null
+      }
+security: []
+errorCodes: []

@@ -1,20 +1,13 @@
 ---
-title: "Delete Index (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2016-11-09"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
+title: "Delete Index (Azure Search Service REST API) | Microsoft Docs"
+description: Permanently delete an index definition and all content from an Azure Search service.
+ms.date: "09/05/2018"
+services: search
+ms.service: search
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: 70456cdf-90b0-4519-89f7-2443420e7bac
-caps.latest.revision: 27
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -28,7 +21,9 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Delete Index (Azure Search Service REST API)
-  The **Delete Index** operation removes an index and associated documents from your Azure Search service. You can get the index name from the service dashboard in the Azure Preview portal, or from the API. See [List Indexes &#40;Azure Search Service REST API&#41;](list-indexes.md) for details.  
+  The **Delete Index** operation permanently removes an index and its contents from your Azure Search service. This operation is final, with no recovery option. Make sure you have a master copy of your index definition code, data ingestion code, and a backup of the external data source in case a rebuild is required.
+  
+  To delete an index, provide the command along with the index name. You can get the index name from the service dashboard in the Azure Preview portal, or from the API. See [List Indexes &#40;Azure Search Service REST API&#41;](list-indexes.md) for details.  
 
 ```  
 DELETE https://[service name].search.windows.net/indexes/[index name]?api-version=[api-version]  
@@ -41,7 +36,7 @@ api-key: [admin key]
 
  The [index name] in the request URI specifies which index to delete from the indexes collection.  
 
- The `api-version` parameter is required. The current version is `api-version=2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions.  
+ The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -62,4 +57,4 @@ api-key: [admin key]
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
- [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)
+ [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions)

@@ -5,7 +5,7 @@ ms.custom:
 ms.date: "06/28/2015"
 ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "cloud-services"
+
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -124,4 +124,4 @@ The `List Cloud Services` operation lists the cloud services that are available 
 ## Remarks  
  If the `x-ms-version` is older than 2012-03-01, cloud services that contain virtual machine deployments will not be returned.  
   
- You can see the cloud services that exist in your subscription by looking in the Cloud Services section of the Management Portal. You can also get a list of cloud services by using the [Get-AzureService](/powershell/module/azure/get-azureservice?view=azuresmps-4.0.0) cmdlet.
+ You can see the cloud services that exist in your subscription by looking in the Cloud Services section of the Management Portal. You can also get a list of cloud services by using the [Get-AzureService](/powershell/module/servicemanagement/azure/get-azureservice) cmdlet.

@@ -40,6 +40,12 @@ REST API operations for Azure storage services return standard HTTP status codes
 </Error>  
 ```  
   
+ For version 2017-07-29 and later, failed API operations also return the storage error code string in a response header.
+ 
+|Response Header|Description|  
+|---------------------|-----------------|  
+|`x-ms-error-code`|A value that indicates the storage service error code string.|  
+
  A given error response may also include additional error information to provide the developer with more information about the error. For example, the following error response indicates that a query parameter specified on the request URI was invalid, and provides additional information about the invalid parameter's name and value and the reason for the error.  
   
 ```  

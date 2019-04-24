@@ -1,6 +1,6 @@
 ---
 title: "ApplicationLoadInfo"
-ms.date: "2017-10-02"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,24 +34,24 @@ Load Information about a Service Fabric application.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Id](#id) | string | No |
-| [MinimumNodes](#minimumnodes) | integer (int64) | No |
-| [MaximumNodes](#maximumnodes) | integer (int64) | No |
-| [NodeCount](#nodecount) | integer (int64) | No |
-| [ApplicationLoadMetricInformation](#applicationloadmetricinformation) | array of [ApplicationMetricDescription](sfclient-model-applicationmetricdescription.md) | No |
+| [`Id`](#id) | string | No |
+| [`MinimumNodes`](#minimumnodes) | integer (int64) | No |
+| [`MaximumNodes`](#maximumnodes) | integer (int64) | No |
+| [`NodeCount`](#nodecount) | integer (int64) | No |
+| [`ApplicationLoadMetricInformation`](#applicationloadmetricinformation) | array of [ApplicationMetricDescription](sfclient-model-applicationmetricdescription.md) | No |
 
 ____
-### Id
+### `Id`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource. 
-
-Starting in version 6.0, hierarchical names are delimited with the "~" character. For example, if the application name is "fabric://myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
+The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
 
 
 ____
-### MinimumNodes
+### `MinimumNodes`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
@@ -61,7 +61,7 @@ For applications that do not have application capacity defined this value will b
 
 
 ____
-### MaximumNodes
+### `MaximumNodes`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
@@ -71,7 +71,7 @@ For applications that do not have application capacity defined this value will b
 
 
 ____
-### NodeCount
+### `NodeCount`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
@@ -80,7 +80,7 @@ For applications that do not have application capacity defined this value will b
 
 
 ____
-### ApplicationLoadMetricInformation
+### `ApplicationLoadMetricInformation`
 __Type__: array of [ApplicationMetricDescription](sfclient-model-applicationmetricdescription.md) <br/>
 __Required__: No<br/>
 <br/>

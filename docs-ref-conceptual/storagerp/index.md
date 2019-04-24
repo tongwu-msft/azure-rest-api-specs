@@ -15,6 +15,8 @@ The Storage Resource Provider (SRP) enables you to manage your storage account a
 
 The Storage Resource Provider requires all requests to be versioned. To make a request against the SRP, you must specify the version that you want to use for that operation. The currently supported versions are:
 
+* 2018-07-01
+* 2018-03-01-preview
 * 2016-12-01
 * 2016-01-01
 * 2015-06-15
@@ -24,6 +26,6 @@ The Storage Resource Provider requires all requests to be versioned. To make a r
 
 | Operation Group | Description |
 |-----------------|-------------|
-| [Storage Accounts](~/docs-ref-autogen/storagerp/storageaccounts.json) |Operations to manage your storage accounts, such as create, update, delete, etc.|
-| [Usage](~/docs-ref-autogen/storagerp/usage.json) |Operation to retrieve the current usage count and limit for the subscription's resources.|
+| [Storage Accounts](xref:management.azure.com.storagerp.storageaccounts) |Operations to manage your storage accounts, such as create, update, delete, etc.|
+| [Usages](xref:management.azure.com.storagerp.usages) |Operation to retrieve the current usage count and limit for the subscription's resources.|
 

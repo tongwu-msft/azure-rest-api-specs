@@ -1,0 +1,165 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.netapp.accounts.list
+name: List
+service: Azure NetApp Files
+groupName: Accounts
+apiVersion: 2017-08-15
+summary: Lists all NetApp accounts in the resource group
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts?api-version=2017-08-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: netAppAccountList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: error
+requestHeader: []
+definitions:
+- name: netAppAccountList
+  description: List of NetApp account resources
+  kind: object
+  properties:
+  - name: value
+    description: Multiple NetApp accounts
+    types:
+    - uid: netAppAccount
+      isArray: true
+- name: error
+  description: Error response describing why the operation failed.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Detailed error message
+    types:
+    - uid: string
+- name: netAppAccount
+  description: NetApp account resource
+  kind: object
+  properties:
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Azure lifecycle management
+    types:
+    - uid: string
+  - name: properties.activeDirectories
+    description: Active Directories
+    types:
+    - uid: activeDirectory
+      isArray: true
+- name: activeDirectory
+  description: Active Directory
+  kind: object
+  properties:
+  - name: activeDirectoryId
+    description: Id of the Active Directory
+    types:
+    - uid: string
+  - name: username
+    description: Username of Active Directory domain administrator
+    types:
+    - uid: string
+  - name: password
+    description: Plain text password of Active Directory domain administrator
+    types:
+    - uid: string
+  - name: domain
+    description: Name of the Active Directory domain
+    types:
+    - uid: string
+  - name: dNS
+    description: Comma separated list of DNS server IP addresses for the Active Directory domain
+    types:
+    - uid: string
+  - name: status
+    description: Status of the Active Directory
+    types:
+    - uid: string
+  - name: sMBServerName
+    description: NetBIOS name of the SMB server. This name will be registered as a computer account in the AD and used to mount volumes
+    types:
+    - uid: string
+  - name: organizationalUnit
+    description: The Organizational Unit (OU) within the Windows Active Directory
+    types:
+    - uid: string
+examples:
+- name: Accounts_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.NetApp/netAppAccounts?api-version=2017-08-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "Created"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

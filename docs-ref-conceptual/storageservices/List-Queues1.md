@@ -50,7 +50,7 @@ This operation lists all of the queues in a given storage account.
 |`prefix`|Filters the results to return only queues with names that begin with the specified prefix.|  
 |`marker`|A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a `NextMarker` element within the response body if the list returned was not complete. This value may then be used as a query parameter in a subsequent call to request the next portion of the list of queues.<br /><br /> The marker value is opaque to the client.|  
 |`maxresults`|Specifies the maximum number of queues to return. If `maxresults` is not specified, the server will return up to 5,000 items.|  
-|`include=metadata`|Optional. Include this parameter to specify that the container's metadata be returned as part of the response body.<br /><br /> Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of the Queue service. Beginning with this version, all metadata names must adhere to the naming conventions for [C# identifiers](http://msdn.microsoft.com/library/aa664670%28VS.71%29.aspx).|  
+|`include=metadata`|Optional. Include this parameter to specify that the container's metadata be returned as part of the response body.<br /><br /> Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of the Queue service. Beginning with this version, all metadata names must adhere to the naming conventions for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Queue Service Operations](Setting-Timeouts-for-Queue-Service-Operations.md).|  
   
 ### Request Headers  
@@ -58,8 +58,8 @@ This operation lists all of the queues in a given storage account.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
@@ -232,6 +232,6 @@ https://myaccount.queue.core.windows.net?comp=list&maxresults=3&include=metadata
 ```  
   
 ## See Also  
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+ [Authentication for the Azure Storage Services](authorization-for-the-azure-storage-services.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)

@@ -1,7 +1,7 @@
 ---
 title: "Table Service Error Codes"
 ms.custom: na
-ms.date: 2017-04-27
+ms.date: 12/13/2018
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -30,13 +30,22 @@ The error codes listed in the following table may be returned by an operation on
 |Error code|HTTP status code|User message|  
 |----------------|----------------------|------------------|  
 |DuplicatePropertiesSpecified|Bad Request (400)|A property is specified more than one time.|  
+|EntityNotFound|Not Found (404)|The specified entity does not exist.|  
 |EntityAlreadyExists|Conflict (409)|The specified entity already exists.|  
 |EntityTooLarge|Bad Request (400)|The entity is larger than the maximum size permitted.|  
-|HostInformationNotPresent|Bad Request (400)|The required host information is not present in the request. You must send a non-empty *Host* header or include the absolute URI in the request line.|  
+|HostInformationNotPresent|Bad Request (400)|The required host information is not present in the request. You must send a non-empty *Host* header or include the absolute URI in the request line.|
+|InvalidDuplicateRow|Bad Request (400)|A command with RowKey '{0}' is already present in the batch. An entity can appear only once in a batch.|
+|InvalidInput|Bad Request (400)|The batch request operation exceeds the maximum 100 changes per change set.|
+|InvalidInput|Bad Request (400)|If-None-Match HTTP header cannot be specified for PUT operations.|
+|InvalidInput|Bad Request (400)|If-Match or If-None-Match headers cannot be specified if the target type does not have etag properties defined.|
+|InvalidInput|Bad Request (400)|Both If-Match and If-None-Match HTTP headers cannot be specified at the same time. Please specify either one of the headers or none of them.|
+|InvalidInput|Bad Request (400)|If-None-Match HTTP header cannot be specified for DELETE operations.|
+|InvalidInput|Bad Request (400)|The etag value '{0}' specified in one of the request headers is not valid. Please make sure only one etag value is specified and is valid.|
 |InvalidValueType|Bad Request (400)|The value specified is invalid.|  
 |JsonFormatNotSupported|Unsupported Media Type (415)|JSON format is not supported.|  
 |MethodNotAllowed|Method Not Allowed (405)|The requested method is not allowed on the specified resource.|  
 |NotImplemented|Not Implemented (501)|The requested operation is not implemented on the specified resource.|  
+|OutOfRangeInput|Bad Request (400)|The '{0}' parameter of value '{1}' is out of range.|  
 |PropertiesNeedValue|Bad Request (400)|Values have not been specified for all properties in the entity.|  
 |PropertyNameInvalid|Bad Request (400)|The property name is invalid.|  
 |PropertyNameTooLong|Bad Request (400)|The property name exceeds the maximum allowed length.|  

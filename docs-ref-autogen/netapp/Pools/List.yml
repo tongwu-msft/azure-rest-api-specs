@@ -1,0 +1,162 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.netapp.pools.list
+name: List
+service: Azure NetApp Files
+groupName: Pools
+apiVersion: 2017-08-15
+summary: Lists all capacity pools in the NetApp Account
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools?api-version=2017-08-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the NetApp account
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: capacityPoolList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: error
+requestHeader: []
+definitions:
+- name: capacityPoolList
+  description: List of capacity pool resources
+  kind: object
+  properties:
+  - name: value
+    description: List of Capacity pools
+    types:
+    - uid: capacityPool
+      isArray: true
+- name: error
+  description: Error response describing why the operation failed.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Detailed error message
+    types:
+    - uid: string
+- name: capacityPool
+  description: Capacity pool resource
+  kind: object
+  properties:
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+  - name: properties.poolId
+    isReadyOnly: true
+    description: "poolId  \nUUID v4 used to identify the Pool"
+    types:
+    - uid: string
+  - name: properties.size
+    description: "size  \nProvisioned size of the pool (in bytes). Allowed values are in 4TiB chunks (value must be multiply of 4398046511104)."
+    types:
+    - uid: integer
+  - name: properties.serviceLevel
+    description: "serviceLevel  \nThe service level of the file system"
+    types:
+    - uid: ServiceLevel
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Azure lifecycle management
+    types:
+    - uid: string
+- name: ServiceLevel
+  description: serviceLevel
+  kind: enum
+  properties:
+  - name: Standard
+    description: Standard service level
+    types:
+    - uid: string
+  - name: Premium
+    description: Premium service level
+    types:
+    - uid: string
+  - name: Ultra
+    description: Ultra service level
+    types:
+    - uid: string
+examples:
+- name: Pools_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.NetApp/netAppAccounts/accountName/capacityPools?api-version=2017-08-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "Created",
+              "poolId": "9760acf5-4638-11e7-9bdb-020073ca7778",
+              "serviceLevel": "Premium",
+              "size": 4398046511104
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

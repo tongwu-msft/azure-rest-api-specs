@@ -23,7 +23,7 @@ ms.author: aedwin
 The Balance and Summary API offers a monthly summary of information on balances, new purchases, Azure Marketplace service charges, adjustments, and overage charges.
 
 
-##Request 
+## Request
 Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). If a billing period is not specified, then data for the current billing period is returned.
 
 |Method | Request URI|
@@ -72,7 +72,7 @@ Common header properties that need to be added are specified [here](https://docs
 
 **Response property definitions**
 
-|Property Name| Type| Description
+|Property Name| Type| Description|
 |-|-|-|
 |id|string|The unique Id for a specific billing period and enrollment|
 |billingPeriodId|string |The billing period Id|
@@ -92,12 +92,10 @@ Common header properties that need to be added are specified [here](https://docs
 
 
 <br/>
+
 ## See also
 
 * [Billing Periods API](billing-enterprise-api-billing-periods.md)
-
-* [Usage Detail API](billing-enterprise-api-usage-detail.md) 
-
-* [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md) 
-
+* [Usage Detail API](billing-enterprise-api-usage-detail.md)
+* [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md)
 * [Price Sheet API](billing-enterprise-api-pricesheet.md)

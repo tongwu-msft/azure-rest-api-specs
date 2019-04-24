@@ -1,6 +1,6 @@
 ---
 title: "EntityHealthStateChunkList"
-ms.date: "2017-10-02"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ A base type for the list of health state chunks found in the cluster. It contain
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [TotalCount](#totalcount) | integer (int64) | No |
+| [`TotalCount`](#totalcount) | integer (int64) | No |
 
 ____
-### TotalCount
+### `TotalCount`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>

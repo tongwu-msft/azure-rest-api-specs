@@ -1,18 +1,13 @@
 ---
-title: "Document operations (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2016-11-09"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
+title: Document operations using Azure Search Service REST APIs - Azure Search
+description: Learn which REST API calls are used to populate and query an Azure Search index.
+ms.date: 02/14/2019
+services: search
+ms.service: search
 ms.topic: "language-reference"
-ms.assetid: 86722ded-daf6-4776-b984-b0dfd48218c0
-caps.latest.revision: 14
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -26,27 +21,29 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Document operations (Azure Search Service REST API)
-  In Azure Search, an index is stored in the cloud and populated using JSON documents that you upload to the service. All the documents that you upload comprise the corpus of your search data. Documents contain fields, some of which are tokenized into search terms as they are uploaded. The `/docs` URL segment in the Azure Search API represents the collection of documents in an index. All operations performed on the collection such as uploading, merging, deleting, or querying documents take place in the context of a single index, so the URLs for these operations will always start with `/indexes/[index name]/docs` for a given index name.  
 
- Your application code must either generate JSON documents to upload to Azure Search or you can use an indexer to load documents if the data source is either Azure SQL Database or DocumentDB. Typically, indexes are populated from a single dataset that you provide.  
+In Azure Search, an index is stored in the cloud and populated using JSON documents that you upload to the service. All the documents that you upload comprise the corpus of your search data. Documents contain fields, some of which are tokenized into search terms as they are uploaded. The `/docs` URL segment in the Azure Search API represents the collection of documents in an index. All operations performed on the collection such as uploading, merging, deleting, or querying documents take place in the context of a single index, so the URLs for these operations will always start with `/indexes/[index name]/docs` for a given index name.  
 
- Before you can upload documents, you must have already created the index on the service. See [Create Index &#40;Azure Search Service REST API&#41;](create-index.md) or [Create an Azure Search index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/) for instructions.  
+Your application code must either generate JSON documents to upload to Azure Search or you can use an indexer to load documents if the data source is either Azure SQL Database or Azure Cosmos DB. Typically, indexes are populated from a single dataset that you provide.  
+
+Before you can upload documents, you must have already created the index on the service. See [Create Index &#40;Azure Search Service REST API&#41;](create-index.md) or [Create an Azure Search index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/) for instructions.  
 
 > [!NOTE]  
 >  For a code sample, see [Get Started with Azure Search using REST](https://github.com/Azure-Samples/search-rest-api-getting-started).  If you want to practice on an existing index and data (for example, if the code you want to write is on document operations rather than indexing), you can step through a portal-based walkthrough that gets you both data and an index quickly: [Get started with Azure Search in the Portal](https://azure.microsoft.com/en-us/documentation/articles/search-get-started-portal/).  
 
- **Document storage**  
+**Document storage**  
 
- In the majority of application development scenarios, search data is separate and external to your application data layer. If your application uses an on-premises database for tracking inventory status, the documents persisted in Azure Search will contain similar or identical data values in terms of product name, price, and availability, but they will be stored in the cloud, in an Azure Search index optimized for search operations.  
+In the majority of application development scenarios, search data is separate and external to your application data layer. If your application uses an on-premises database for tracking inventory status, the documents persisted in Azure Search will contain similar or identical data values in terms of product name, price, and availability, but they will be stored in the cloud, in an Azure Search index optimized for search operations.  
 
- You should plan on having one document for each item that you want to search. A movie rental application might have one document per movie, a storefront application might have one document per SKU, an online courseware application might have one document per course, a research firm might have one document for each academic paper in their repository, and so on.  
+You should plan on having one document for each item that you want to search. A movie rental application might have one document per movie, a storefront application might have one document per SKU, an online courseware application might have one document per course, a research firm might have one document for each academic paper in their repository, and so on.  
 
- **Document definition in the schema**  
+**Document definition in the schema**  
 
- Documents consist of one or more fields. Fields can contain text that is tokenized into search terms, as well as non-tokenized or non-text values that can be used in filters or scoring profiles. The names, data types, and search features supported for each field are determined by the [index schema](create-index.md). One of the fields in each index schema must be designated as an ID, and each document must have a value for the ID field that uniquely identifies that document in the index. All other document fields are optional and will default to a null value if left unspecified. Note that null values do not take up space in the inverted index.  
+Documents consist of one or more fields. Fields can contain text that is tokenized into search terms, as well as non-tokenized or non-text values that can be used in filters or scoring profiles. The names, data types, and search features supported for each field are determined by the [index schema](create-index.md). One of the fields in each index schema must be designated as an ID, and each document must have a value for the ID field that uniquely identifies that document in the index. All other document fields are optional and will default to a null value if left unspecified. Note that null values do not take up space in the inverted index.  
 
 ## Operations on Documents  
- Allowable operations on Azure Search documents include the following:  
+
+Allowable operations on Azure Search documents include the following:  
 
 -   [Add, Update or Delete Documents &#40;Azure Search Service REST API&#41;](addupdate-or-delete-documents.md)  
 
@@ -58,7 +55,7 @@ translation.priority.mt:
 
 -   [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)  
 
-     Suggestions are type-ahead, auto-complete queries that are displayed as the user enters a search term. For example, while typing "mountain bikes", a list of potential queries that include "mountain bikes" drop down below the search box. Suggestions are a document operation because potential queries are built from the fields in your documents.  
+     Suggestions are type-ahead, autocomplete queries that are displayed as the user enters a search term. For example, while typing "mountain bikes", a list of potential queries that include "mountain bikes" drop-down below the search box. Suggestions are a document operation because potential queries are built from the fields in your documents.  
 
 -   [Count Documents &#40;Azure Search Service REST API&#41;](count-documents.md)  
 
@@ -71,4 +68,4 @@ translation.priority.mt:
  [Index operations &#40;Azure Search Service REST API&#41;](index-operations.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Service limits in Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)   
- [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
+ [Azure Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  

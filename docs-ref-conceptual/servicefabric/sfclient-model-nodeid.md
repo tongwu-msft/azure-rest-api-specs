@@ -1,6 +1,6 @@
 ---
 title: "NodeId"
-ms.date: "2017-10-02"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -34,10 +34,10 @@ An internal ID used by Service Fabric to uniquely identify a node. Node Id is de
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Id](#id) | string | No |
+| [`Id`](#id) | string | No |
 
 ____
-### Id
+### `Id`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

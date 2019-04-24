@@ -1,0 +1,187 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.factories.getdataplaneaccess
+name: Get Data Plane Access
+service: Data Factory
+groupName: Factories
+apiVersion: 2018-06-01
+summary: Get Data Plane access.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getDataPlaneAccess?api-version=2018-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: AccessPolicyResponse
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: permissions
+    in: body
+    description: The string with permissions for Data Plane access. Currently only 'r' is supported which grants read only access.
+    types:
+    - uid: string
+  - name: accessResourcePath
+    in: body
+    description: The resource path to get access relative to factory. Currently only empty string is supported which corresponds to the factory resource.
+    types:
+    - uid: string
+  - name: profileName
+    in: body
+    description: The name of the profile. Currently only the default is supported. The default value is DefaultProfile.
+    types:
+    - uid: string
+  - name: startTime
+    in: body
+    description: Start time for the token. If not specified the current time will be used.
+    types:
+    - uid: string
+  - name: expireTime
+    in: body
+    description: Expiration time for the token. Maximum duration for the token is eight hours and by default the token will expire in eight hours.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: AccessPolicyResponse
+  description: Get Data Plane read only token response definition.
+  kind: object
+  properties:
+  - name: policy
+    description: The user access policy.
+    types:
+    - uid: UserAccessPolicy
+  - name: accessToken
+    description: Data Plane read only access token.
+    types:
+    - uid: string
+  - name: dataPlaneUrl
+    description: Data Plane service base URL.
+    types:
+    - uid: string
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+- name: UserAccessPolicy
+  description: Get Data Plane read only token request definition.
+  kind: object
+  properties:
+  - name: permissions
+    description: The string with permissions for Data Plane access. Currently only 'r' is supported which grants read only access.
+    types:
+    - uid: string
+  - name: accessResourcePath
+    description: The resource path to get access relative to factory. Currently only empty string is supported which corresponds to the factory resource.
+    types:
+    - uid: string
+  - name: profileName
+    description: The name of the profile. Currently only the default is supported. The default value is DefaultProfile.
+    types:
+    - uid: string
+  - name: startTime
+    description: Start time for the token. If not specified the current time will be used.
+    types:
+    - uid: string
+  - name: expireTime
+    description: Expiration time for the token. Maximum duration for the token is eight hours and by default the token will expire in eight hours.
+    types:
+    - uid: string
+examples:
+- name: Factories_GetDataPlaneAccess
+  request:
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/getDataPlaneAccess?api-version=2018-06-01
+    body: >-
+      {
+        "permissions": "r",
+        "accessResourcePath": "",
+        "profileName": "DefaultProfile",
+        "startTime": "2018-11-10T02:46:20.2659347Z",
+        "expireTime": "2018-11-10T09:46:20.2659347Z"
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Wed, 07 Nov 2018 03:41:57 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-reads
+      value: "11996"
+    - name: x-ms-request-id
+      value: 82bc20d2-4bec-496d-a1c8-3f7746fed307
+    - name: x-ms-correlation-request-id
+      value: 82bc20d2-4bec-496d-a1c8-3f7746fed307
+    body: >-
+      {
+        "policy": {
+          "permissions": "r",
+          "accessResourcePath": "",
+          "profileName": "DefaultProfile",
+          "startTime": "2018-11-10T02:46:20.2659347Z",
+          "expireTime": "2018-11-10T09:46:20.2659347Z"
+        },
+        "dataPlaneUrl": "https://rpeastus.svc.datafactory.azure.com:4433",
+        "accessToken": "**********"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

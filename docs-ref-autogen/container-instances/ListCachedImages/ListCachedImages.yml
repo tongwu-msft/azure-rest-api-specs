@@ -1,0 +1,134 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.container-instances.listcachedimages.listcachedimages
+name: List Cached Images
+service: Container Instances
+groupName: List Cached Images
+apiVersion: 2018-10-01
+summary: "Get the list of cached images.  \nGet the list of cached images on specific OS type for a subscription in a region."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/cachedImages?api-version=2018-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The identifier for the physical azure location.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: CachedImagesListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: CachedImagesListResult
+  description: The response containing cached images.
+  kind: object
+  properties:
+  - name: value
+    description: The list of cached images.
+    types:
+    - uid: cachedImages
+      isArray: true
+  - name: nextLink
+    description: The URI to fetch the next page of cached images.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Batch service.
+    types:
+    - uid: CloudErrorBody
+- name: cachedImages
+  description: The cached image and OS type.
+  kind: object
+  properties:
+  - name: id
+    description: The resource Id of the cached image.
+    types:
+    - uid: string
+  - name: osType
+    description: The OS type of the cached image.
+    types:
+    - uid: string
+  - name: image
+    description: The cached image name.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: CachedImages
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ContainerInstance/locations/westcentralus/cachedImages?api-version=2018-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "osType": "Linux",
+            "image": "ubuntu:16.04"
+          },
+          {
+            "osType": "Linux",
+            "image": "alpine:3.6"
+          },
+          {
+            "osType": "Windows",
+            "image": "microsoft/nanoserver:10.0.14393.2485"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+errorCodes: []

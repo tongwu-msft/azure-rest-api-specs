@@ -17,13 +17,13 @@ Azure Mobile Engagement is a software-as-a-service (SaaS) user-engagement platfo
 
 | Operation groups                                                           | Description                                            |
 |----------------------------------------------------------------------------|--------------------------------------------------------|
-| [App Collections](~/docs-ref-autogen/mobile-engagement/appcollections.json)         | Provides operations for working with app collections.  |
-| [Apps](~/docs-ref-autogen/mobile-engagement/apps.json)                              | Lists apps in an app collection.                       |
-| [Campaigns](~/docs-ref-autogen/mobile-engagement/campaigns.json)                    | Provides operations for managing campaigns.            |
-| [Devices](~/docs-ref-autogen/mobile-engagement/devices.json)                        | Provides operations for querying and tagging devices.  |
-| [Export Tasks](~/docs-ref-autogen/mobile-engagement/exporttasks.json)               | Provides operations for working with exports tasks.    |
-| [Import Tasks](~/docs-ref-autogen/mobile-engagement/importtasks.json)               | Provides operations for working with import tasks.     |
-| [Supported Platforms](~/docs-ref-autogen/mobile-engagement/supportedplatforms.json) | Lists supported platforms for Engagement applications. |
+| [App Collections](~/docs-ref-autogen/mobile-engagement/appcollections.yml)         | Provides operations for working with app collections.  |
+| [Apps](~/docs-ref-autogen/mobile-engagement/apps.yml)                              | Lists apps in an app collection.                       |
+| [Campaigns](~/docs-ref-autogen/mobile-engagement/campaigns.yml)                    | Provides operations for managing campaigns.            |
+| [Devices](~/docs-ref-autogen/mobile-engagement/devices.yml)                        | Provides operations for querying and tagging devices.  |
+| [Export Tasks](~/docs-ref-autogen/mobile-engagement/exporttasks.yml)               | Provides operations for working with exports tasks.    |
+| [Import Tasks](~/docs-ref-autogen/mobile-engagement/importtasks.yml)               | Provides operations for working with import tasks.     |
+| [Supported Platforms](~/docs-ref-autogen/mobile-engagement/supportedplatforms.yml) | Lists supported platforms for Engagement applications. |
 
 
 ## See also

@@ -1,0 +1,145 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.apps.publish
+name: Publish
+service: Cognitive Services
+groupName: Apps
+apiVersion: "2.0"
+summary: Publishes a specific version of the application.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/luis/api/v2.0/apps/{appId}/publish
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 201 Created
+  description: An object containing the application endpoint URL, its assigned endpoint key and publishing status.
+  types:
+  - uid: ProductionOrStagingEndpointInfo
+- name: Other Status Codes
+  description: An object containing the application endpoint URL, its assigned endpoint key and publishing status in case that publishing one or more regions failed.
+  types:
+  - uid: ProductionOrStagingEndpointInfo
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: versionId
+    in: body
+    description: The version ID to publish.
+    types:
+    - uid: string
+  - name: isStaging
+    in: body
+    description: Indicates if the staging slot should be used, instead of the Production one.
+    types:
+    - uid: boolean
+requestHeader: []
+definitions:
+- name: ProductionOrStagingEndpointInfo
+  kind: object
+  properties:
+  - name: versionId
+    description: The version ID to publish.
+    types:
+    - uid: string
+  - name: isStaging
+    description: Indicates if the staging slot should be used, instead of the Production one.
+    types:
+    - uid: boolean
+  - name: endpointUrl
+    description: The Runtime endpoint URL for this model version.
+    types:
+    - uid: string
+  - name: region
+    description: The target region that the application is published to.
+    types:
+    - uid: string
+  - name: assignedEndpointKey
+    description: The endpoint key.
+    types:
+    - uid: string
+  - name: endpointRegion
+    description: The endpoint's region.
+    types:
+    - uid: string
+  - name: failedRegions
+    description: Regions where publishing failed.
+    types:
+    - uid: string
+  - name: publishedDateTime
+    description: Timestamp when was last published.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: ApplicationPublishObject
+  description: Object model for publishing a specific application version.
+  kind: object
+  properties:
+  - name: versionId
+    description: The version ID to publish.
+    types:
+    - uid: string
+  - name: isStaging
+    description: Indicates if the staging slot should be used, instead of the Production one.
+    types:
+    - uid: boolean
+examples:
+- name: Successful Publish Application request
+  request:
+    uri: POST {Endpoint}/luis/api/v2.0/apps/11be6373fca44ded80fbe2afa8597c18/publish
+    body: >-
+      {
+        "versionId": "0.1",
+        "isStaging": false
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "isStaging": false,
+        "endpointUrl": "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/11be6373fca44ded80fbe2afa8597c18",
+        "assignedEndpointKey": "11be6373fca44ded80fbe2afa8597c18",
+        "endpointRegion": "westus, cus",
+        "failedRegions": null,
+        "publishedDateTime": "2017-11-28T19:20:28Z"
+      }
+  - statusCode: "207"
+    body: >-
+      {
+        "isStaging": false,
+        "endpointUrl": "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/11be6373fca44ded80fbe2afa8597c18",
+        "assignedEndpointKey": "11be6373fca44ded80fbe2afa8597c18",
+        "endpointRegion": "westus, cus",
+        "failedRegions": "cus",
+        "publishedDateTime": "2017-11-28T19:20:28Z"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+errorCodes: []

@@ -1,7 +1,7 @@
 ---
 title: "Using Blob Service Operations with Azure Premium Storage"
 ms.custom: na
-ms.date: 2016-06-29
+ms.date: 03/14/2019
 ms.prod: azure
 ms.reviewer: na
 ms.service: storage
@@ -11,7 +11,6 @@ ms.topic: reference
 ms.assetid: e8bf5476-6a6f-4357-8c64-eb5e23e2905a
 caps.latest.revision: 9
 author: tamram
-manager: carolz
 translation.priority.mt: 
   - de-de
   - es-es
@@ -25,9 +24,10 @@ translation.priority.mt:
   - zh-tw
 ---
 # Using Blob Service Operations with Azure Premium Storage
-Azure Premium Storage offers a world-class cloud storage solution for Azure Virtual Machine workloads requiring high performance and low latency. To learn about Azure Premium Storage, see [Premium Storage: High-Performance Storage for Azure Virtual Machine Workloads](http://go.microsoft.com/fwlink/?LinkId=521898). 
+
+Azure Premium Storage offers a world-class cloud storage solution for Azure Virtual Machine workloads requiring high performance and low latency. To learn more about Azure Premium Storage, see [Premium Storage: High-Performance Storage for Azure Virtual Machine Workloads](http://go.microsoft.com/fwlink/?LinkId=521898). 
   
- Premium Storage is currently available only for storing data on disks used by Azure Virtual Machines. These disks are backed by page blobs in Azure Storage. This topic provides information about performing REST operations against page blobs in Premium Storage accounts using the Azure Storage Services REST API.  
+ Premium Storage disks are backed by page blobs in Azure Storage. This topic provides information about performing REST operations against page blobs in Premium Storage accounts using the Azure Storage Services REST API.  
   
  To create and manage Resource Manager Premium storage accounts, please see the [Storage Resource Provider REST API reference](/rest/api/storagerp/). To create and manage classic Premium storage accounts, please see the [Service Management REST API reference](https://msdn.microsoft.com/library/azure/ee460790.aspx).   
   

@@ -1,20 +1,13 @@
 ---
-title: "Supported data types (Azure Search)"
-ms.custom: ""
-ms.date: "2017-01-13"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
+title: Supported data types - Azure Search
+description: Allowed data types for fields in an Azure Search index. 
+ms.date: 02/14/2019
+services: search
+ms.service: search
 ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: cc08c9f9-2aff-420f-b01a-bbde2e051c08
-caps.latest.revision: 30
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
+ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
   - "es-es"
@@ -28,10 +21,11 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Supported data types (Azure Search)
-  Document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model (MSDN)](https://msdn.microsoft.com/library/ee382825(v=vs.110).aspx) for details). Azure Search uses the following data types.  
+
+In Azure Search, document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model (MSDN)](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model) for details).
 
 > [!NOTE]  
->  If you're using indexers to pull data into Azure Search, indexers have different data type mappings for JSON and SQL Server data sources. See [Data type map for indexers in Azure Search](data-type-map-for-indexers-in-azure-search.md) for details.  
+>  If you're using indexers to pull data into Azure Search, indexers have different data type mappings for JSON and SQL Server data sources. For more information, see [Data type map for indexers in Azure Search](data-type-map-for-indexers-in-azure-search.md).  
 
 ## EDM data types used in Azure Search indexes and documents  
 
@@ -52,7 +46,7 @@ translation.priority.mt:
 <a name="Anchor_1"></a>
 ## Other EDM structures used in Azure Search  
 
- **Edm.GeographyPolygon** is a polygon representing a geographic region on the globe. While this type cannot be used in document fields, it can be used as an argument to the `geo.intersects` function. The literal form for URLs in OData is based on the [WKT (Well-known text) and OGC's simple feature access standards](http://www.opengeospatial.org/standards/sfa). A polygon literal is constructed as geography'POLYGON((lon lat, lon lat, ...))'.
+ **Edm.GeographyPolygon** is a polygon representing a geographic region on the globe. While this type cannot be used in document fields, it can be used as an argument to the `geo.intersects` function. The literal form for URLs in OData is based on the [WKT (Well-known text) and OGC's simple feature access standards](https://www.opengeospatial.org/standards/sfa). A polygon literal is constructed as geography'POLYGON((lon lat, lon lat, ...))'.
 
 To learn more about geospatial search in Azure, see this video: [Azure Search and Geospatial Data](https://azure.microsoft.com/documentation/videos/azure-search-and-geospatial-data/)
 
@@ -60,10 +54,11 @@ To learn more about geospatial search in Azure, see this video: [Azure Search an
 >  Points in a polygon *must* be in counterclockwise order. Points in a polygon are interpreted in counterclockwise order, relative to the inside of the polygon. For example, a 4-point closed polygon around London would be -0.3°W 51.6°N [top left] , -0.3°W 51.4°N [bottom left], 0.1°E 51.4°N [bottom right], 0.1°E 51.6°N [top right], -0.3°W 51.6°N [starting point].
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [Support for OData &#40;Azure Search&#41;](support-for-odata.md)   
- [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
- [Add, Update or Delete Documents &#40;Azure Search Service REST API&#41;](addupdate-or-delete-documents.md)   
- [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
- [Azure Search .NET SDK](https://msdn.microsoft.com/library/azure/dn951165.aspx)  
+
++ [Azure Search Service REST](index.md)   
++ [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
++ [Support for OData &#40;Azure Search&#41;](support-for-odata.md)   
++ [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)   
++ [Add, Update or Delete Documents &#40;Azure Search Service REST API&#41;](addupdate-or-delete-documents.md)   
++ [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
++ [Azure Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  

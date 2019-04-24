@@ -1,4 +1,15 @@
-# Data Catalog
+---
+title: Data Catalog - Azure Data Catalog REST API
+description: Create and manage a data catalog resource using the Azure Data Catalog REST API.
+author: markingmyname
+ms.author: maghan
+ms.reviewer: jasonwhowell
+ms.service: data-catalog
+ms.topic: reference
+ms.date: 11/09/2017
+---
+
+# Data Catalog (Azure Data Catalog REST API)
 
 ## Create or Update
 Creates or updates a catalog.  

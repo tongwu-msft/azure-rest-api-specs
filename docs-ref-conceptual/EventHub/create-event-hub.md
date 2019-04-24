@@ -18,7 +18,7 @@ manager: "timlt"
 
 # Create Event Hub
 
-Creates a new Event Hub. When creating an Event Hub, you can specify the following properties. If a property is not specified, Event Hubs uses the default value for this property. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription#properties_).  
+Creates a new Event Hub. When creating an Event Hub, you can specify the following properties. If a property is not specified, Event Hubs uses the default value for this property. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription#properties).  
   
 ## Properties  
 

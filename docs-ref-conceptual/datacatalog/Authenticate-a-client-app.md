@@ -1,30 +1,15 @@
 ---
-title: "Authenticate a client app"
-ms.custom: na
-ms.date: 2017-11-09
-ms.prod: azure
-ms.reviewer: na
+title: Authenticate a client app - Azure Data Catalog REST API
+author: markingmyname
+ms.author: maghan
+ms.reviewer: jasonwhowell
 ms.service: data-catalog
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: f9ed3fd6-b083-495e-ab77-baa88b4c2f04
-caps.latest.revision: 25
-author: spelluru
-manager: jhubbard
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.date: 11/09/2017
 ---
-# Authenticate a client app
+
+# Authenticate a client app (Azure Data Catalog REST API)
+
 ---  
 This article shows you how to authenticate a Data Catalog client app. It includes examples in C#; however, the authentication process is the same for other programming languages.  
   

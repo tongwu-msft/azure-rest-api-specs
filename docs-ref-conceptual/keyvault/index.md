@@ -2,67 +2,65 @@
 ms.assetid: 16d4764e-3c9d-42b4-b749-bed20ca6b741
 ms.title: Azure Key Vault REST API reference | Microsoft Docs
 ms.service: key-vault
-author: BrucePerlerMS
-ms.author: bruceper
+author: BryanLa
+ms.author: bryanla
 ms.manager: mbaldwin
-ms.date: 06/21/2017
+ms.date: 12/03/2018
 ---
 
 # Azure Key Vault REST API reference
 
-Managing your key vaults as well as the keys, secrets, and certificates within your key vaults can be accomplished through a REST interface.
+Managing your Key Vault and the contents of your Key Vault can be accomplished through a REST interface. Below are lists of some of the common tasks for managing both.
 
-Manage your key vaults using the following set of operations.
+## Key Vaults
 
-- [Manage key vaults](../../docs-ref-autogen/keyvault/Vaults.json)
+Manage your Key Vault using the following set of operations, which are also known as [management plane](/azure/key-vault/key-vault-secure-your-key-vault#management-plane-and-rbac) operations. The management plane interface is used to manage a Key Vault itself. For instance, creating, deleting, or updating Key Vault attributes, and setting access policies for the data plane. 
 
-Managing within a Key Vault includes operations for creating, managing and executing cryptographic operations with keys, secrets and certificates within the Azure environment.
+- [Manage a Key Vault](/rest/api/keyvault/vaults)
+- [Create or update a Key Vault](/rest/api/keyvault/vaults/createorupdate)
+- [Delete a Key Vault](/rest/api/keyvault/vaults/delete)
+- [Get info about a Key Vault](/rest/api/keyvault/vaults/get)
 
-- [Key operations](key-operations.md)
-- [Secret operations](secret-operations.md)
-- [Certificate operations](certificate-operations.md)
+## Keys, secrets, certificates, and storage accounts
 
-For conceptual and detailed information, see - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
-
-## Common tasks
-
-### Key vaults
-
-- [Create or update a key vault](../../docs-ref-autogen/keyvault/Vaults.json#Vaults_CreateOrUpdate)
-- [Deletes a key vault](../../docs-ref-autogen/keyvault/Vaults.json#Vaults_Delete)
-- [Gets info about a key vault](../../docs-ref-autogen/keyvault/Vaults.json#Vaults_Get)
+Managing data within a Key Vault, such as keys, secrets, certificates, and storage keys, is accomplished by [data plane](/azure/key-vault/key-vault-secure-your-key-vault#data-plane-and-access-policies) operations. The data plane interface is used to add, delete, modify, and use the keys, secrets, and certificates stored in a Key Vault. 
 
 ### Keys
 
-- [Create a key](../../docs-ref-autogen/keyvault/CreateKey.json)
-- [Get information about a key](../../docs-ref-autogen/keyvault/GetKey.json)
-- [Encrypt with a key](../../docs-ref-autogen/keyvault/encrypt.json)
-- [Recover deleted key](../../docs-ref-autogen/keyvault/RecoverDeletedKey.json)
+- [Create a key](xref:keyvault.createkey)
+- [Get information about a key](xref:keyvault.getkey)
+- [Encrypt using a key](xref:keyvault.encrypt)
+- [Recover a deleted key](xref:keyvault.recoverdeletedkey)
 
 ### Secrets
 
-- [Create a secret](../../docs-ref-autogen/keyvault/SetSecret.json)
-- [Get a secret](../../docs-ref-autogen/keyvault/GetSecret.json)
-- [Recover deleted secret](../../docs-ref-autogen/keyvault/RecoverDeletedSecret.json)
+- [Create a secret](xref:keyvault.setsecret)
+- [Get a secret](xref:keyvault.getsecret)
+- [Recover a deleted secret](xref:keyvault.recoverdeletedsecret)
 
 ### Certificates
 
-- [Create a certificate](../../docs-ref-autogen/keyvault/CreateCertificate.json)
-- [Import a certificate](../../docs-ref-autogen/keyvault/ImportCertificate.json)
-- [Update a certificate](../../docs-ref-autogen/keyvault/UpdateCertificate.json)
-- [Update a certificate policy](../../docs-ref-autogen/keyvault/UpdateCertificatePolicy.json)
-- [Recover deleted certificate](../../docs-ref-autogen/keyvault/RecoverDeletedCertificate.json)
+- [Create a certificate](xref:keyvault.createcertificate)
+- [Import a certificate](xref:keyvault.importcertificate)
+- [Update a certificate](xref:keyvault.updatecertificate)
+- [Update a certificate policy](xref:keyvault.updatecertificatepolicy)
+- [Recover a deleted certificate](xref:keyvault.recoverdeletedcertificate)
 
 ### Storage accounts
 
-- [Set a storage account](../../docs-ref-autogen/keyvault/SetStorageAccount.json)
-- [Get a storage account](../../docs-ref-autogen/keyvault/GetStorageAccount.json)
-- [Delete a storage account](../../docs-ref-autogen/keyvault/DeleteStorageAccount.json)
+- [Set a storage account](xref:keyvault.setstorageaccount)
+- [Get a storage account](xref:keyvault.getstorageaccount)
+- [Delete a storage account](xref:keyvault.deletestorageaccount)
 
-### See also
+For concepts and detailed information about data plane objects, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
 
-- [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
-- [Authentication, requests and responses](authentication--requests-and-responses.md)
-- [Key Vault Developer's Guide](/azure/key-vault/key-vault-developers-guide)
-- [Key Vault versions](key-vault-versions.md)
+## See also
 
+- For general information on constructing Azure REST API requests, see the [Azure REST API reference](/rest/api/azure/)
+- For information specific to constructing Key Vault REST API requests, see
+   - [Common HTTP request parameters and headers](common-parameters-and-headers.md)
+   - [Authentication, requests and responses](authentication--requests-and-responses.md)
+- See the following topics for additional Key Vault concepts and details
+   - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
+   - [Key Vault Developer's Guide](/azure/key-vault/key-vault-developers-guide)
+   - [Key Vault versions](key-vault-versions.md)

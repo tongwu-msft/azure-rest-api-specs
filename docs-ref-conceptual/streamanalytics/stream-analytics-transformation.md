@@ -1,3 +1,12 @@
+---
+ms.assetid: 
+ms.title: Transformation | Microsoft Docs
+ms.service: stream-analytics
+author: SnehaGunda
+ms.author: sngun
+ms.manager: kfile
+---
+
 # Transformation
 
 ## Create
@@ -71,7 +80,7 @@ Deletes a transformation from a Stream Analytics job in Microsoft Azure.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|**DELETE**|https://managment.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.StreamAnalytics/streamingjobs/{job-name}/transformations/{transformation-name}?api-version={api-version}|  
+|**DELETE**|https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.StreamAnalytics/streamingjobs/{job-name}/transformations/{transformation-name}?api-version={api-version}|  
   
  Replace {subscription-id} with your subscription ID.  
   
@@ -139,8 +148,8 @@ Updates the properties that are assigned to a transformation.
   
 |Method|Request URI|  
 |------------|-----------------|  
-|**PATCH**|https://managment.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.StreamAnalytics/streamingjobs/{job-name}/transformations/{transformation-name}?api-version={api-version}|  
-  
+|**PATCH**|https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.StreamAnalytics/streamingjobs/{job-name}/transformations/{transformation-name}?api-version={api-version}|  
+ 
  Replace {subscription-id} with your subscription ID.  
   
  Replace {resource-group-name} with the name of the resource group that this job will belong to. For more information about creating resource groups, see [Using resource groups to manage your Azure resources](https://azure.microsoft.com/en-us/documentation/articles/azure-preview-portal-using-resource-groups/).  
@@ -165,7 +174,7 @@ Updates the properties that are assigned to a transformation.
   
  Any one or more of the input properties may be specified in the request body, setting/replacing any existing value for each property specified.  
   
- For more information about input properties, see [Create Transformation &#40;Azure Stream Analytics&#41;](Create-Transformation--Azure-Stream-Analytics-.md).  
+ For more information about input properties, see [Create Transformation &#40;Azure Stream Analytics&#41;](#create).  
   
 ### Response  
  Status code: 201  

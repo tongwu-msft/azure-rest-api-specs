@@ -1,6 +1,6 @@
 ---
 title: "HealthStatistics"
-ms.date: "2017-10-02"
+ms.date: "2018-11-26"
 ms.prod: "azure"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -38,10 +38,10 @@ For partition, the health statistics include health counts for replicas.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [HealthStateCountList](#healthstatecountlist) | array of [EntityKindHealthStateCount](sfclient-model-entitykindhealthstatecount.md) | No |
+| [`HealthStateCountList`](#healthstatecountlist) | array of [EntityKindHealthStateCount](sfclient-model-entitykindhealthstatecount.md) | No |
 
 ____
-### HealthStateCountList
+### `HealthStateCountList`
 __Type__: array of [EntityKindHealthStateCount](sfclient-model-entitykindhealthstatecount.md) <br/>
 __Required__: No<br/>
 <br/>

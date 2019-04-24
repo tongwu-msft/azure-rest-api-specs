@@ -1,0 +1,199 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.operations.getdetails
+name: Get Details
+service: Cognitive Services
+groupName: Operations
+apiVersion: "4.0"
+summary: Gets details of a specific long running operation.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/qnamaker/v4.0/operations/{operationId}
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: Operation id.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: RetryAfter
+    value: integer
+  description: Details of the long running operation.
+  types:
+  - uid: Operation
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: Operation
+  description: Record to track long running operation.
+  kind: object
+  properties:
+  - name: operationState
+    description: Operation state.
+    types:
+    - uid: OperationStateType
+  - name: createdTimestamp
+    description: Timestamp when the operation was created.
+    types:
+    - uid: string
+  - name: lastActionTimestamp
+    description: Timestamp when the current state was entered.
+    types:
+    - uid: string
+  - name: resourceLocation
+    description: Relative URI to the target resource location for completed resources.
+    types:
+    - uid: string
+  - name: userId
+    description: User Id
+    types:
+    - uid: string
+  - name: operationId
+    description: Operation Id.
+    types:
+    - uid: string
+  - name: errorResponse
+    description: Error details in case of failures.
+    types:
+    - uid: ErrorResponse
+- name: ErrorResponse
+  description: Error response. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: Error
+- name: OperationStateType
+  description: Operation state.
+  kind: enum
+  properties:
+  - name: Failed
+    types:
+    - uid: string
+  - name: NotStarted
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+- name: Error
+  description: The error object. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: ErrorCodeType
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: ErrorCodeType
+  description: One of a server-defined set of error codes.
+  kind: enum
+  properties:
+  - name: BadArgument
+    types:
+    - uid: string
+  - name: Forbidden
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+  - name: KbNotFound
+    types:
+    - uid: string
+  - name: Unauthorized
+    types:
+    - uid: string
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: EndpointKeysError
+    types:
+    - uid: string
+  - name: QuotaExceeded
+    types:
+    - uid: string
+  - name: QnaRuntimeError
+    types:
+    - uid: string
+  - name: SKULimitExceeded
+    types:
+    - uid: string
+  - name: OperationNotFound
+    types:
+    - uid: string
+  - name: ServiceError
+    types:
+    - uid: string
+  - name: ValidationFailure
+    types:
+    - uid: string
+  - name: ExtractionFailure
+    types:
+    - uid: string
+- name: InnerErrorModel
+  description: An object containing more specific information about the error. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than was provided by the containing error.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+examples:
+- name: Successful query
+  request:
+    uri: GET {Endpoint}/qnamaker/v4.0/operations/03a4f4ce-30a6-4ec6-b436-02bcdf6153e1
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "operationState": "Succeeded",
+        "createdTimestamp": "2018-03-19T07:38:46Z",
+        "lastActionTimestamp": "2018-03-19T07:39:29Z",
+        "resourceLocation": "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0/knowledgebases/9d091697-fb8c-4ed5-9ac0-35bf8273bfff",
+        "userId": "86bb8390-56c0-42c2-9f81-3de161981191",
+        "operationId": "03a4f4ce-30a6-4ec6-b436-02bcdf6153e1"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+errorCodes: []
