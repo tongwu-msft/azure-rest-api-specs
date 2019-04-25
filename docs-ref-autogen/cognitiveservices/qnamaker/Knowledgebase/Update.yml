@@ -189,6 +189,10 @@ definitions:
     types:
     - uid: MetadataDTO
       isArray: true
+  - name: context
+    description: Context of a QnA
+    types:
+    - uid: Context
 - name: FileDTO
   description: DTO to hold details of uploaded files.
   kind: object
@@ -225,6 +229,10 @@ definitions:
     description: List of metadata associated with the answer to be updated
     types:
     - uid: Metadata
+  - name: context
+    description: Context associated with Qna to be updated.
+    types:
+    - uid: Context
 - name: OperationStateType
   description: Operation state.
   kind: enum
@@ -278,6 +286,24 @@ definitions:
     description: Metadata value.
     types:
     - uid: string
+- name: Context
+  description: Context of a QnA
+  kind: object
+  properties:
+  - name: isContextOnly
+    description: >-
+      To mark if a prompt is relevant only with a previous question or not.
+
+      true - Do not include this QnA as search result for queries without context
+
+      false - ignores context and includes this QnA in search result
+    types:
+    - uid: boolean
+  - name: prompts
+    description: List of prompts associated with the answer.
+    types:
+    - uid: PromptDTO
+      isArray: true
 - name: Questions
   description: List of questions associated with the answer.
   kind: object
@@ -364,6 +390,30 @@ definitions:
     description: An object containing more specific information than the current object about the error.
     types:
     - uid: InnerErrorModel
+- name: PromptDTO
+  description: Prompt for an answer.
+  kind: object
+  properties:
+  - name: displayOrder
+    description: Index of the prompt - used in ordering of the prompts
+    types:
+    - uid: integer
+  - name: qnaId
+    description: Qna id corresponding to the prompt - if QnaId is present, QnADTO object is ignored.
+    types:
+    - uid: integer
+  - name: qna
+    description: QnADTO - Either QnaId or QnADTO needs to be present in a PromptDTO object
+    types:
+    - uid: Qna
+  - name: displayText
+    description: Text displayed to represent a follow up question prompt
+    types:
+    - uid: string
+- name: Qna
+  description: QnADTO - Either QnaId or QnADTO needs to be present in a PromptDTO object
+  kind: object
+  properties: []
 examples:
 - name: Successful query
   request:
