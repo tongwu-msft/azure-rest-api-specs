@@ -33,11 +33,11 @@ Azure Premium Storage offers a world-class cloud storage solution for Azure Virt
   
  You can also access page blobs in Premium Storage via the [Azure Storage Client Library for .NET](http://go.microsoft.com/fwlink/?LinkID=398944&clcid=0x409).  
   
-## Premium Storage Supports Page Blobs Only  
- Premium Storage currently supports only Azure Virtual Machine disks backed by page blobs. A premium storage account stores only page blobs, and only REST APIs for page blobs and their containers are supported. Any API called on a Premium Storage account must be of version 2014-02-14 or later.  
+## Premium Storage Accounts Support Page Blobs Only  
+Premium Storage Accounts currently support only Azure Virtual Machine disks backed by page blobs. A premium storage account stores only page blobs, and only REST APIs for page blobs and their containers are supported. Any API called on a Premium Storage account must be of version 2014-02-14 or later.  Premium Block blobs can be created in BlockBlobStorage accounts.
   
 > [!NOTE]
->  Azure block blobs and the File, Table, and Queue services are not currently supported in premium storage accounts.  
+>  Azure block blobs and the File, Table, and Queue services are not currently supported in premium storage accounts.  However, Premium BlockBlobStorage accounts do support block and append blobs.  For more information and to see all the various storage options in a table, visit [Types of storage accounts](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview?toc=%2fazure%2fstorage%2fblobs%2ftoc.json#types-of-storage-accounts)
 >   
 >  A premium storage account endpoint cannot be mapped to a custom domain name.  
   
