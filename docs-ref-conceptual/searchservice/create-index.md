@@ -82,7 +82,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 -   **corsOptions** to allow cross-origin queries against your index.  
 
--   **encryptionKey** used to encrypted index data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
+-   **encryptionKey** used to encrypt index data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
 
  The syntax for structuring the request payload is as follows. A sample request is provided further on in this topic.  
 
