@@ -223,9 +223,9 @@ api-key: [admin or query key]
  Notice that **suggesterName** is required in an Autocomplete operation.  
 
 ## See also
- [Adding Suggestions or Autocomplete to an application](https://docs.microsoft.com/en-us/azure/search/search-autocomplete-tutorial) 
- [Examples showing simple query syntax](https://docs.microsoft.com/azure/search/search-query-simple-examples)
- [Examples showing full Lucene query syntax](https://docs.microsoft.com/azure/search/search-query-lucene-examples)
+ [Adding Suggestions or Autocomplete to an application](https://docs.microsoft.com/en-us/azure/search/search-autocomplete-tutorial)  
+ [Examples showing simple query syntax](https://docs.microsoft.com/azure/search/search-query-simple-examples)  
+ [Examples showing full Lucene query syntax](https://docs.microsoft.com/azure/search/search-query-lucene-examples)  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters)   
