@@ -2883,6 +2883,7 @@
 #### [List By Factory](datafactory/Datasets/ListByFactory.yml)
 ### [Exposure Control](datafactory/ExposureControl.yml)
 #### [Get Feature Value](datafactory/ExposureControl/GetFeatureValue.yml)
+#### [Get Feature Value By Factory](datafactory/ExposureControl/GetFeatureValueByFactory.yml)
 ### [Factories](datafactory/Factories.yml)
 #### [Configure Factory Repo](datafactory/Factories/ConfigureFactoryRepo.yml)
 #### [Create Or Update](datafactory/Factories/CreateOrUpdate.yml)

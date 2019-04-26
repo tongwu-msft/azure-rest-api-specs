@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.datafactory.reruntriggers.start
-name: Start
+uid: management.azure.com.datafactory.exposurecontrol.getfeaturevaluebyfactory
+name: Get Feature Value By Factory
 service: Data Factory
-groupName: Rerun Triggers
+groupName: Exposure Control
 apiVersion: 2018-06-01
-summary: Starts a trigger.
+summary: Get exposure control feature for specific factory.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/rerunTriggers/{rerunTriggerName}/start?api-version=2018-06-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getFeatureValue?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -32,20 +32,6 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
-- name: triggerName
-  in: path
-  isRequired: true
-  description: The trigger name.
-  types:
-  - uid: string
-  pattern: ^[A-Za-z0-9_][^<>*#.%&:\\+?/]*$
-- name: rerunTriggerName
-  in: path
-  isRequired: true
-  description: The rerun trigger name.
-  types:
-  - uid: string
-  pattern: ^[A-Za-z0-9_][^<>*#.%&:\\+?/]*$
 - name: api-version
   in: query
   isRequired: true
@@ -54,13 +40,42 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Trigger has been started successfully.
+  description: OK.
+  types:
+  - uid: ExposureControlResponse
 - name: Other Status Codes
   description: An error response received from the Azure Data Factory service.
   types:
   - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: featureName
+    in: body
+    description: The feature name.
+    types:
+    - uid: string
+  - name: featureType
+    in: body
+    description: The feature type.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
+- name: ExposureControlResponse
+  description: The exposure control response.
+  kind: object
+  properties:
+  - name: featureName
+    isReadyOnly: true
+    description: The feature name.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: The feature value.
+    types:
+    - uid: string
 - name: CloudError
   description: The object that defines the structure of an Azure Data Factory error response.
   kind: object
@@ -82,23 +97,39 @@ definitions:
     types:
     - uid: CloudError
       isArray: true
+- name: ExposureControlRequest
+  description: The exposure control request.
+  kind: object
+  properties:
+  - name: featureName
+    description: The feature name.
+    types:
+    - uid: string
+  - name: featureType
+    description: The feature type.
+    types:
+    - uid: string
 examples:
-- name: RerunTriggers_Start
+- name: ExposureControl_GetFeatureValueByFactory
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger/rerunTriggers/exampleRerunTrigger/start?api-version=2018-06-01
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/getFeatureValue?api-version=2018-06-01
+    body: >-
+      {
+        "featureName": "ADFIntegrationRuntimeSharingRbac",
+        "featureType": "Feature"
+      }
   responses:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Sat, 16 Jun 2018 00:40:20 GMT
+      value: Sat, 22 Dec 2018 09:46:07 GMT
     - name: X-Content-Type-Options
       value: nosniff
-    - name: x-ms-ratelimit-remaining-subscription-writes
-      value: "1184"
-    - name: x-ms-request-id
-      value: 0c1669a9-5b55-47fe-9413-df6d8710697d
-    - name: x-ms-correlation-request-id
-      value: 0c1669a9-5b55-47fe-9413-df6d8710697d
+    body: >-
+      {
+        "featureName": "ADFIntegrationRuntimeSharingRbac",
+        "value": "False"
+      }
 security:
 - name: azure_auth
   type: oauth2
