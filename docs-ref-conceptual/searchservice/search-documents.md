@@ -301,7 +301,7 @@ Status Code: 200 OK is returned for a successful response.
         }  
     ```  
 
-    Notice the last facet is on a nested field. Facets count the parent document (Hotels) and not intermediate sub-documents (Rooms), so the response will determine the number of hotels that have any rooms in each price bucket.
+    Notice the last facet is on a sub-field. Facets count the parent document (Hotels) and not intermediate sub-documents (Rooms), so the response will determine the number of hotels that have any rooms in each price bucket.
 
 3.  Using a filter, narrow down the previous faceted query result after the user clicks on Rating 3 and category "Motel".  
 

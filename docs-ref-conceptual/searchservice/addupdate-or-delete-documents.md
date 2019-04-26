@@ -1,7 +1,7 @@
 ---
 title: "Add, Update or Delete Documents (Azure Search Service REST API) | Microsoft Docs"
 description: Refresh an Azure Search with incremental indexing to replace, remove, or create new index entries.
-ms.date: "03/18/2019"
+ms.date: "04/25/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -30,7 +30,7 @@ api-key: [admin key]
 ```  
 
 > [!NOTE]  
->  For supported data sources, [indexers](https://docs.microsoft.com/azure/search/search-indexer-overview) offer an alternative methodology for adding and updating documents to Azure Search on an ad hoc or scheduled basis. See [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md) for details.  
+>  For supported data sources, [indexers](https://docs.microsoft.com/azure/search/search-indexer-overview) offer a different way to add and update documents in Azure Search on an ad-hoc or scheduled basis. See [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md) for details.  
 
 ## Request  
 HTTPS is required for all service requests. You can upload, merge, merge-or-upload, or delete documents from a specified index using HTTP POST.  
@@ -78,7 +78,11 @@ You can combine actions, such as an **upload** and a **delete**, in the same bat
 
 - **upload**: An upload action is similar to an "upsert" where the document will be inserted if it is new and updated/replaced if it exists. Note that all fields are replaced in the update case.  
 
-- **merge**: Merge updates an existing document with the specified fields. If the document doesn't exist, the merge will fail. Any field you specify in a merge will replace the existing field in the document. This applies also to collections of primitive and complex types. For example, if the document contains a field "tags" of type `Collection(Edm.String)` with value `["budget"]`, and you execute a merge with value `["economy", "pool"]` for "tags", the final value of the "tags" field will be `["economy", "pool"]`. It will not be `["budget", "economy", "pool"]`.  
+- **merge**: Merge updates an existing document with the specified fields. If the document doesn't exist, the merge will fail. Any field you specify in a merge will replace the existing field in the document. This also applies to collections of primitive and complex types.
+  - Primitive collection example: If the document contains a field "Tags" of type `Collection(Edm.String)` with value `["budget"]`, and you execute a merge with value `["economy", "pool"]` for "Tags", the final value of the "Tags" field will be `["economy", "pool"]`. It will not be `["budget", "economy", "pool"]`.
+  - Complex collection example: If the document contains a complex collection field named "Rooms" with value `[{ "Type": "Budget Room", "BaseRate": 75.0 }]`, and you execute a merge with value `[{ "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }]`, the final value of the "Rooms" field will be `[{ "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }]`. It will not be either of the following, for example:
+    - `[{ "Type": "Budget Room", "BaseRate": 75.0 }, { "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }]` (append elements)
+    - `[{ "Type": "Standard Room", "BaseRate": 75.0 }, { "Type": "Budget Room", "BaseRate": 60.5 }]` (merge elements in order, then append any extras)
 
 - **mergeOrUpload**: This action behaves like **merge** if a document with the given key already exists in the index. If the document does not exist, it behaves like **upload** with a new document.  
 
