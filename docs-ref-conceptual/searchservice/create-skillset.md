@@ -75,7 +75,7 @@ The syntax for structuring the request payload is as follows. A sample request i
     "cognitiveServices": "A billable Cognitive Services resource under the same subscription and region as Azure Search. 
     The resource has an odata.type of #Microsoft.Azure.Search.CognitiveServicesByKey (required), 
     an optional description, and a key authorizing access to the specific resource",
-    "knowledgeStore": "A storeage account where you can optionally save your enriched documents"
+    "knowledgeStore": "A storage account where you can optionally save your enriched documents"
 }  
 ```
 
