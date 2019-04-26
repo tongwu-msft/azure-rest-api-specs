@@ -1,7 +1,7 @@
 ---
 title: "Update Index (Azure Search Service REST API) | Microsoft Docs"
 ms.custom: ""
-ms.date: "10/02/2018"
+ms.date: "04/25/2019"
 services: search
 ms.service: search
 ms.suite: ""
@@ -89,7 +89,7 @@ Note that this operation takes your index offline for at least a few seconds, ca
   "fields": [  
     {  
       "name": "name_of_field",  
-      "type": "Edm.String | Edm.Int32 | Edm.Int64 | Edm.Double | Edm.Boolean | Edm.DateTimeOffset | Edm.GeographyPoint | Edm.ComplexType | Collection(Edm.String) | Collection(Edm.Int32) | Collection(Edm.Double) | Collection(Edm.Int64) | Collection(Edm.Boolean) | Collection(Edm.DateTimeOffset) | Collection(Edm.GeographyPoint) | Collection(Edm.ComplexType)",  
+      "type": "Edm.String | Edm.Int32 | Edm.Int64 | Edm.Double | Edm.Boolean | Edm.DateTimeOffset | Edm.GeographyPoint | Edm.ComplexType | Collection(Edm.String) | Collection(Edm.Int32) | Collection(Edm.Int64) | Collection(Edm.Double) | Collection(Edm.Boolean) | Collection(Edm.DateTimeOffset) | Collection(Edm.GeographyPoint) | Collection(Edm.ComplexType)",  
       "searchable": true (default where applicable) | false (only Edm.String and Collection(Edm.String) fields can be searchable),  
       "filterable": true (default) | false,  
       "sortable": true (default where applicable) | false (Collection(Edm.String) fields cannot be sortable),  
