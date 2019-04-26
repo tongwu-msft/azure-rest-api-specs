@@ -1,5 +1,5 @@
 ---
-title: Create Skillset (REST api-version=2017-11-11-Preview) - Azure Search | Microsoft Docs
+title: Create Skillset (REST api-version=2019-05-06-Preview) - Azure Search | Microsoft Docs
 description: A skillset is a collection of cognitive skills that comprise an enriched indexing pipeline in Azure Search.
 
 ms.manager: cgronlun
@@ -16,7 +16,7 @@ ms.date: 01/08/2019
 ---
 # Create Skillset (Azure Search Service REST API - Preview)
 
-**Applies to:** api-version-2017-11-11-Preview
+**Applies to:** api-version-2019-05-06-Preview
 
 A skillset is a collection of [cognitive skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills) used for natural language processing and other transformations. Skills include named entity extraction, key phrase extraction, chunking text into logical pages, among others.
 
@@ -75,6 +75,7 @@ The syntax for structuring the request payload is as follows. A sample request i
     "cognitiveServices": "A billable Cognitive Services resource under the same subscription and region as Azure Search. 
     The resource has an odata.type of #Microsoft.Azure.Search.CognitiveServicesByKey (required), 
     an optional description, and a key authorizing access to the specific resource",
+    "knowledgeStore": "A storeage account where you can optionally save your enriched documents"
 }  
 ```
 
@@ -134,7 +135,22 @@ The body of request is a JSON document. This particular skillset uses two skills
     "@odata.type": "#Microsoft.Azure.Search.CognitiveServicesByKey",
     "description": "mycogsvcs resource in West US 2",
     "key": "<your key goes here>"
-    }
+    },
+    "knowledgeStore": { 
+    "storageConnectionString": "<your storage connection string goes here>", 
+    "projections": [ 
+        { 
+            "tables": [  
+             { "tableName": "Records", "generatedKeyName": "RecordId", "source": "/document/Record"}, 
+             { "tableName": "Organizations", "generatedKeyName": "OrganizationId", "source": "/document/organizations*"}, 
+             { "tableName": "Sentiment", "generatedKeyName": "SentimentId", "source": "/document/mySentiment"}
+            ], 
+            "objects": [ 
+               
+            ]      
+        }    
+    ]     
+    } 
 }
 ```
 
@@ -153,3 +169,4 @@ The body of request is a JSON document. This particular skillset uses two skills
 + [How to define a custom interface](https://docs.microsoft.com/azure/search/cognitive-search-custom-skill-interface)
 + [Example: creating a custom skill](https://docs.microsoft.com/azure/search/cognitive-search-create-custom-skill-example)
 + [Predefined sklls](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills)
++ [Knowledge Store](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro)
