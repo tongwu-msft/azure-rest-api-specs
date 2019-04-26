@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.red-hat-openshift.openshiftmanagedclusters.get
-name: Get
+uid: management.azure.com.openshift.openshiftmanagedclusters.createorupdate
+name: Create Or Update
 service: Red Hat OpenShift
 groupName: Open Shift Managed Clusters
 apiVersion: 2019-04-30
-summary: "Gets a OpenShift managed cluster.  \nGets the details of the managed OpenShift cluster with a specified resource group and name."
+summary: "Creates or updates an OpenShift managed cluster.  \nCreates or updates a OpenShift managed cluster with the specified configuration for agents and OpenShift version."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/openShiftManagedClusters/{resourceName}?api-version=2019-04-30
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/openShiftManagedClusters/{resourceName}?api-version=2019-04-30
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,36 +41,25 @@ responses:
   description: OK
   types:
   - uid: OpenShiftManagedCluster
+- name: 201 Created
+  description: Created
+  types:
+  - uid: OpenShiftManagedCluster
 - name: Other Status Codes
-  description: Error response describing why the operation failed. If the cluster doesn't exist, 404 (Not found) is returned.
+  description: Error response describing why the operation failed. If the cluster doesn't exist, 404 (Not found) is returned.If any of the input parameters is wrong, 400(Bad Request) is returned.
   types:
   - uid: CloudError
-requestHeader: []
-definitions:
-- name: OpenShiftManagedCluster
-  description: OpenShift Managed cluster.
-  kind: object
-  properties:
-  - name: id
-    isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
+requestBody:
+- name: default
+  parameters:
   - name: location
+    in: body
+    isRequired: true
     description: Resource location
     types:
     - uid: string
   - name: tags
+    in: body
     description: Resource tags
     types:
     - uid: object
@@ -79,63 +68,45 @@ definitions:
       - uid: string
       - uid: string
   - name: plan
+    in: body
     description: Define the resource plan as required by ARM for billing purposes
     types:
     - uid: PurchasePlan
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The current deployment or provisioning state, which only appears in the response.
-    types:
-    - uid: string
   - name: properties.openShiftVersion
+    in: body
+    isRequired: true
     description: Version of OpenShift specified when creating the cluster.
-    types:
-    - uid: string
-  - name: properties.clusterVersion
-    isReadyOnly: true
-    description: Version of OpenShift specified when creating the cluster.
-    types:
-    - uid: string
-  - name: properties.publicHostname
-    isReadyOnly: true
-    description: Service generated FQDN for OpenShift API server.
-    types:
-    - uid: string
-  - name: properties.fqdn
-    isReadyOnly: true
-    description: Service generated FQDN for OpenShift API server loadbalancer internal hostname.
     types:
     - uid: string
   - name: properties.networkProfile
+    in: body
     description: Configuration for OpenShift networking.
     types:
     - uid: NetworkProfile
   - name: properties.routerProfiles
+    in: body
     description: Configuration for OpenShift router(s).
     types:
     - uid: OpenShiftRouterProfile
       isArray: true
   - name: properties.masterPoolProfile
+    in: body
     description: Configuration for OpenShift master VMs.
     types:
     - uid: OpenShiftManagedClusterMasterPoolProfile
   - name: properties.agentPoolProfiles
+    in: body
     description: Configuration of OpenShift cluster VMs.
     types:
     - uid: OpenShiftManagedClusterAgentPoolProfile
       isArray: true
   - name: properties.authProfile
+    in: body
     description: Configures OpenShift authentication.
     types:
     - uid: OpenShiftManagedClusterAuthProfile
-- name: CloudError
-  description: An error response from the Container service.
-  kind: object
-  properties:
-  - name: error
-    description: Details about the error.
-    types:
-    - uid: CloudErrorBody
+requestHeader: []
+definitions:
 - name: PurchasePlan
   description: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
   kind: object
@@ -251,27 +222,95 @@ definitions:
     types:
     - uid: OpenShiftManagedClusterIdentityProvider
       isArray: true
-- name: CloudErrorBody
+- name: OpenShiftManagedCluster
+  description: OpenShift Managed cluster.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: plan
+    description: Define the resource plan as required by ARM for billing purposes
+    types:
+    - uid: PurchasePlan
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The current deployment or provisioning state, which only appears in the response.
+    types:
+    - uid: string
+  - name: properties.openShiftVersion
+    description: Version of OpenShift specified when creating the cluster.
+    types:
+    - uid: string
+  - name: properties.clusterVersion
+    isReadyOnly: true
+    description: Version of OpenShift specified when creating the cluster.
+    types:
+    - uid: string
+  - name: properties.publicHostname
+    isReadyOnly: true
+    description: Service generated FQDN for OpenShift API server.
+    types:
+    - uid: string
+  - name: properties.fqdn
+    isReadyOnly: true
+    description: Service generated FQDN for OpenShift API server loadbalancer internal hostname.
+    types:
+    - uid: string
+  - name: properties.networkProfile
+    description: Configuration for OpenShift networking.
+    types:
+    - uid: NetworkProfile
+  - name: properties.routerProfiles
+    description: Configuration for OpenShift router(s).
+    types:
+    - uid: OpenShiftRouterProfile
+      isArray: true
+  - name: properties.masterPoolProfile
+    description: Configuration for OpenShift master VMs.
+    types:
+    - uid: OpenShiftManagedClusterMasterPoolProfile
+  - name: properties.agentPoolProfiles
+    description: Configuration of OpenShift cluster VMs.
+    types:
+    - uid: OpenShiftManagedClusterAgentPoolProfile
+      isArray: true
+  - name: properties.authProfile
+    description: Configures OpenShift authentication.
+    types:
+    - uid: OpenShiftManagedClusterAuthProfile
+- name: CloudError
   description: An error response from the Container service.
   kind: object
   properties:
-  - name: code
-    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-  - name: message
-    description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error. For example, the name of the property in error.
-    types:
-    - uid: string
-  - name: details
-    description: A list of additional details about the error.
+  - name: error
+    description: Details about the error.
     types:
     - uid: CloudErrorBody
-      isArray: true
 - name: OpenShiftContainerServiceVMSize
   description: Size of OpenShift VMs.
   kind: enum
@@ -408,6 +447,27 @@ definitions:
     types:
     - uid: OpenShiftManagedClusterAADIdentityProvider
     typesTitle: OpenShiftManagedClusterBaseIdentityProvider
+- name: CloudErrorBody
+  description: An error response from the Container service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: OpenShiftManagedClusterAADIdentityProvider
   description: Defines the Identity provider for MS AAD.
   kind: object
@@ -434,9 +494,67 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get OpenShift Managed Cluster
+- name: Create/Update OpenShift Managed Cluster
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/openShiftManagedClusters/clustername1?api-version=2019-04-30
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/openShiftManagedClusters/clustername1?api-version=2019-04-30
+    body: >-
+      {
+        "location": "location1",
+        "tags": {
+          "tier": "production",
+          "archv2": ""
+        },
+        "properties": {
+          "openShiftVersion": "v3.11",
+          "networkProfile": {
+            "vnetCidr": "10.0.0.0/8"
+          },
+          "masterPoolProfile": {
+            "name": "master",
+            "count": 3,
+            "vmSize": "Standard_D4s_v3",
+            "osType": "Linux",
+            "subnetCidr": "10.0.0.0/24"
+          },
+          "agentPoolProfiles": [
+            {
+              "name": "infra",
+              "role": "infra",
+              "count": 2,
+              "vmSize": "Standard_D4s_v3",
+              "osType": "Linux",
+              "subnetCidr": "10.0.0.0/24"
+            },
+            {
+              "name": "compute",
+              "role": "compute",
+              "count": 4,
+              "vmSize": "Standard_D4s_v3",
+              "osType": "Linux",
+              "subnetCidr": "10.0.0.0/24"
+            }
+          ],
+          "routerProfiles": [
+            {
+              "name": "default"
+            }
+          ],
+          "authProfile": {
+            "identityProviders": [
+              {
+                "name": "Azure AD",
+                "provider": {
+                  "kind": "AADIdentityProvider",
+                  "clientId": "clientId",
+                  "secret": "secret",
+                  "tenantId": "tenantId",
+                  "customerAdminGroupId": "customerAdminGroupId"
+                }
+              }
+            ]
+          }
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
@@ -450,7 +568,7 @@ examples:
         },
         "type": "Microsoft.ContainerService/OpenShiftManagedClusters",
         "properties": {
-          "provisioningState": "Succeeded",
+          "provisioningState": "Updating",
           "openShiftVersion": "v3.11",
           "clusterVersion": "osa.1",
           "fqdn": "df9337748a4b.location1.cloudapp.azure.com",
@@ -486,6 +604,70 @@ examples:
               "name": "default",
               "fqdn": "osa2925bdf9337748f4bd3b.location1.cloudapp.azure.com",
               "publicSubdomain": "apps.bc309ee87c164153871c.location1.azmosa.io"
+            }
+          ],
+          "authProfile": {
+            "identityProviders": [
+              {
+                "name": "Azure AD",
+                "provider": {
+                  "kind": "AADIdentityProvider",
+                  "clientId": "clientId",
+                  "tenantId": "tenantId",
+                  "customerAdminGroupId": "customerAdminGroupId"
+                }
+              }
+            ]
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/openShiftManagedClusters/clustername1",
+        "location": "location1",
+        "name": "clustername1",
+        "tags": {
+          "archv2": "",
+          "tier": "production"
+        },
+        "type": "Microsoft.ContainerService/OpenShiftManagedClusters",
+        "properties": {
+          "provisioningState": "Creating",
+          "openShiftVersion": "v3.11",
+          "clusterVersion": "osa.1",
+          "fqdn": "df9337748a4b.location1.cloudapp.azure.com",
+          "networkProfile": {
+            "vnetCidr": "10.0.0.0/8"
+          },
+          "masterPoolProfile": {
+            "name": "master",
+            "count": 3,
+            "vmSize": "Standard_D4s_v3",
+            "osType": "Linux",
+            "subnetCidr": "10.0.0.0/24"
+          },
+          "agentPoolProfiles": [
+            {
+              "name": "infra",
+              "role": "infra",
+              "count": 2,
+              "vmSize": "Standard_D4s_v3",
+              "osType": "Linux",
+              "subnetCidr": "10.0.0.0/24"
+            },
+            {
+              "name": "compute",
+              "role": "compute",
+              "count": 4,
+              "vmSize": "Standard_D4s_v3",
+              "osType": "Linux",
+              "subnetCidr": "10.0.0.0/24"
+            }
+          ],
+          "routerProfiles": [
+            {
+              "name": "default"
             }
           ],
           "authProfile": {
