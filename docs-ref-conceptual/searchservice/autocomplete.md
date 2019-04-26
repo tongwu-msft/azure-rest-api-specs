@@ -28,9 +28,6 @@ translation.priority.mt:
 ---
 # Autocomplete (Azure Search Service REST API)
 
-> [!NOTE]  
-> Autocomplete API is a preview feature and is not intended to be used in production code. Preview features are subject to change and are exempt from the service level agreement (SLA). A list of the most recent REST API and SDK versions can be found [here](https://docs.microsoft.com/azure/search/search-api-versions). Refer to this [.NET code sample](https://github.com/Azure-Samples/search-dotnet-getting-started/tree/master/DotNetHowToAutocomplete) and [tutorial](https://docs.microsoft.com/azure/search/search-autocomplete-tutorial) to learn more about autocomplete.
-
 The **Autocomplete API** helps users issue better search queries by completing partial search terms based on terms from an index. For example, if the query term is "medic", the Autocomplete API will return "medicare", "medicaid", "medicine" if those terms are in the index. Specifically, the search engine looks for matching terms in fields that have a [**Suggester**](https://docs.microsoft.com/azure/search/index-add-suggesters) configured.
 
  **Autocomplete Modes**  
@@ -225,7 +222,8 @@ api-key: [admin or query key]
 
  Notice that **suggesterName** is required in an Autocomplete operation.  
 
-## See also  
+## See also
+ [Adding Suggestions or Autocomplete to an application](https://docs.microsoft.com/en-us/azure/search/search-autocomplete-tutorial) 
  [Examples showing simple query syntax](https://docs.microsoft.com/azure/search/search-query-simple-examples)
  [Examples showing full Lucene query syntax](https://docs.microsoft.com/azure/search/search-query-lucene-examples)
  [Azure Search Service REST](index.md)   
