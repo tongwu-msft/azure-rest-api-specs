@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cosmos-db-resource-provider.databaseaccounts.listgremlincontainers
-name: List Gremlin Containers
+uid: management.azure.com.cosmos-db-resource-provider.databaseaccounts.getgremlingraph
+name: Get Gremlin Graph
 service: Cosmos DB Resource Provider
 groupName: Database Accounts
 apiVersion: 2015-04-08
-summary: Lists the Gremlin container under an existing Azure Cosmos DB database account.
+summary: Gets the Gremlin graph under an existing Azure Cosmos DB database account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseRid}/containers?api-version=2015-04-08
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseName}/graphs/{graphName}?api-version=2015-04-08
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,10 +31,16 @@ uriParameters:
   description: Cosmos DB database account name.
   types:
   - uid: string
-- name: databaseRid
+- name: databaseName
   in: path
   isRequired: true
-  description: Cosmos DB database rid.
+  description: Cosmos DB database name.
+  types:
+  - uid: string
+- name: graphName
+  in: path
+  isRequired: true
+  description: Cosmos DB graph name.
   types:
   - uid: string
 - name: api-version
@@ -45,23 +51,13 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The Gremlin container properties were retrieved successfully.
+  description: The Gremlin graph property was retrieved successfully.
   types:
-  - uid: ContainerListResult
+  - uid: GremlinGraph
 requestHeader: []
 definitions:
-- name: ContainerListResult
-  description: The List operation response, that contains the containers and their properties.
-  kind: object
-  properties:
-  - name: value
-    isReadyOnly: true
-    description: List of containers and their properties.
-    types:
-    - uid: Container
-      isArray: true
-- name: Container
-  description: An Azure Cosmos DB container.
+- name: GremlinGraph
+  description: An Azure Cosmos DB Gremlin graph.
   kind: object
   properties:
   - name: id
@@ -92,11 +88,11 @@ definitions:
       - uid: string
       - uid: string
   - name: properties.id
-    description: Name of the Cosmos DB container
+    description: Name of the Cosmos DB Gremlin graph
     types:
     - uid: string
   - name: properties.indexingPolicy
-    description: The configuration of the indexing policy. By default, the indexing is automatic for all document paths within the container
+    description: The configuration of the indexing policy. By default, the indexing is automatic for all document paths within the graph
     types:
     - uid: IndexingPolicy
   - name: properties.partitionKey
@@ -112,7 +108,7 @@ definitions:
     types:
     - uid: UniqueKeyPolicy
   - name: properties.conflictResolutionPolicy
-    description: The conflict resolution policy for the container.
+    description: The conflict resolution policy for the graph.
     types:
     - uid: ConflictResolutionPolicy
   - name: properties._rid
@@ -301,68 +297,64 @@ definitions:
     types:
     - uid: string
 examples:
-- name: CosmosDBGremlinContainerList
+- name: CosmosDBGremlinGraphGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/apis/gremlin/databases/databaseName/containers?api-version=2015-04-08
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/apis/gremlin/databases/databaseName/graphs/graphName?api-version=2015-04-08
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "testctn",
-            "name": "testctn",
-            "type": "Microsoft.DocumentDB/databaseAccounts/apis/databases/containers",
-            "properties": {
-              "id": "testctn",
-              "indexingPolicy": {
-                "indexingMode": "Consistent",
-                "automatic": true,
-                "includedPaths": [
+        "id": "graphName",
+        "name": "graphName",
+        "type": "Microsoft.DocumentDB/databaseAccounts/apis/databases/graphs",
+        "properties": {
+          "id": "graphName",
+          "indexingPolicy": {
+            "indexingMode": "Consistent",
+            "automatic": true,
+            "includedPaths": [
+              {
+                "path": "/*",
+                "indexes": [
                   {
-                    "path": "/*",
-                    "indexes": [
-                      {
-                        "kind": "Range",
-                        "dataType": "String",
-                        "precision": -1
-                      },
-                      {
-                        "kind": "Range",
-                        "dataType": "Number",
-                        "precision": -1
-                      }
-                    ]
-                  }
-                ],
-                "excludedPaths": []
-              },
-              "partitionKey": {
-                "paths": [
-                  "/AccountNumber"
-                ],
-                "kind": "Hash"
-              },
-              "defaultTtl": 100,
-              "uniqueKeyPolicy": {
-                "uniqueKeys": [
+                    "kind": "Range",
+                    "dataType": "String",
+                    "precision": -1
+                  },
                   {
-                    "paths": [
-                      "/testPath"
-                    ]
+                    "kind": "Range",
+                    "dataType": "Number",
+                    "precision": -1
                   }
                 ]
-              },
-              "conflictResolutionPolicy": {
-                "mode": "LastWriterWins",
-                "conflictResolutionPath": "/path"
-              },
-              "_rid": "PD5DALigDgw=",
-              "_ts": 1459200611,
-              "_etag": "\"00005900-0000-0000-0000-56f9a2630000\""
-            }
-          }
-        ]
+              }
+            ],
+            "excludedPaths": []
+          },
+          "partitionKey": {
+            "paths": [
+              "/AccountNumber"
+            ],
+            "kind": "Hash"
+          },
+          "defaultTtl": 100,
+          "uniqueKeyPolicy": {
+            "uniqueKeys": [
+              {
+                "paths": [
+                  "/testPath"
+                ]
+              }
+            ]
+          },
+          "conflictResolutionPolicy": {
+            "mode": "LastWriterWins",
+            "conflictResolutionPath": "/path"
+          },
+          "_rid": "PD5DALigDgw=",
+          "_ts": 1459200611,
+          "_etag": "\"00005900-0000-0000-0000-56f9a2630000\""
+        }
       }
 security:
 - name: azure_auth
