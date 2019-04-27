@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cosmos-db-resource-provider.databaseaccounts.getgremlincontainer
-name: Get Gremlin Container
+uid: management.azure.com.cosmos-db-resource-provider.databaseaccounts.createupdategremlingraph
+name: Create Update Gremlin Graph
 service: Cosmos DB Resource Provider
 groupName: Database Accounts
 apiVersion: 2015-04-08
-summary: Gets the Gremlin container under an existing Azure Cosmos DB database account.
+summary: Create or update an Azure Cosmos DB Gremlin graph
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseRid}/containers/{containerRid}?api-version=2015-04-08
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseName}/graphs/{graphName}?api-version=2015-04-08
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,16 +31,16 @@ uriParameters:
   description: Cosmos DB database account name.
   types:
   - uid: string
-- name: databaseRid
+- name: databaseName
   in: path
   isRequired: true
-  description: Cosmos DB database rid.
+  description: Cosmos DB database name.
   types:
   - uid: string
-- name: containerRid
+- name: graphName
   in: path
   isRequired: true
-  description: Cosmos DB container rid.
+  description: Cosmos DB graph name.
   types:
   - uid: string
 - name: api-version
@@ -50,14 +50,63 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 202 Accepted
+  description: The Gremlin graph create or update operation will complete asynchronously.
 - name: 200 OK
-  description: The Gremlin container property was retrieved successfully.
+  description: The Gremlin graph create or update operation was completed successfully.
   types:
-  - uid: Container
+  - uid: GremlinGraph
+requestBody:
+- name: default
+  parameters:
+  - name: properties.resource
+    in: body
+    isRequired: true
+    description: The standard JSON format of a Gremlin graph
+    types:
+    - uid: GremlinGraphResource
+  - name: properties.options
+    in: body
+    isRequired: true
+    description: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 requestHeader: []
 definitions:
-- name: Container
-  description: An Azure Cosmos DB container.
+- name: GremlinGraphResource
+  description: Cosmos DB Gremlin graph resource object
+  kind: object
+  properties:
+  - name: id
+    description: Name of the Cosmos DB Gremlin graph
+    types:
+    - uid: string
+  - name: indexingPolicy
+    description: The configuration of the indexing policy. By default, the indexing is automatic for all document paths within the graph
+    types:
+    - uid: IndexingPolicy
+  - name: partitionKey
+    description: The configuration of the partition key to be used for partitioning data into multiple partitions
+    types:
+    - uid: ContainerPartitionKey
+  - name: defaultTtl
+    description: Default time to live
+    types:
+    - uid: integer
+  - name: uniqueKeyPolicy
+    description: The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure Cosmos DB service.
+    types:
+    - uid: UniqueKeyPolicy
+  - name: conflictResolutionPolicy
+    description: The conflict resolution policy for the graph.
+    types:
+    - uid: ConflictResolutionPolicy
+- name: GremlinGraph
+  description: An Azure Cosmos DB Gremlin graph.
   kind: object
   properties:
   - name: id
@@ -88,11 +137,11 @@ definitions:
       - uid: string
       - uid: string
   - name: properties.id
-    description: Name of the Cosmos DB container
+    description: Name of the Cosmos DB Gremlin graph
     types:
     - uid: string
   - name: properties.indexingPolicy
-    description: The configuration of the indexing policy. By default, the indexing is automatic for all document paths within the container
+    description: The configuration of the indexing policy. By default, the indexing is automatic for all document paths within the graph
     types:
     - uid: IndexingPolicy
   - name: properties.partitionKey
@@ -108,7 +157,7 @@ definitions:
     types:
     - uid: UniqueKeyPolicy
   - name: properties.conflictResolutionPolicy
-    description: The conflict resolution policy for the container.
+    description: The conflict resolution policy for the graph.
     types:
     - uid: ConflictResolutionPolicy
   - name: properties._rid
@@ -123,6 +172,22 @@ definitions:
     description: A system generated property representing the resource etag required for optimistic concurrency control.
     types:
     - uid: string
+- name: GremlinGraphCreateUpdateParameters
+  description: Parameters to create and update Cosmos DB Gremlin graph.
+  kind: object
+  properties:
+  - name: properties.resource
+    description: The standard JSON format of a Gremlin graph
+    types:
+    - uid: GremlinGraphResource
+  - name: properties.options
+    description: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: IndexingPolicy
   description: Cosmos DB indexing policy
   kind: object
@@ -297,18 +362,69 @@ definitions:
     types:
     - uid: string
 examples:
-- name: CosmosDBGremlinContainerGet
+- name: CosmosDBGremlinGraphCreateUpdate
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/apis/gremlin/databases/databaseName/containers/containerName?api-version=2015-04-08
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/apis/gremlin/databases/databaseName/graphs/graphName?api-version=2015-04-08
+    body: >-
+      {
+        "properties": {
+          "resource": {
+            "id": "graphName",
+            "indexingPolicy": {
+              "indexingMode": "Consistent",
+              "automatic": true,
+              "includedPaths": [
+                {
+                  "path": "/*",
+                  "indexes": [
+                    {
+                      "kind": "Range",
+                      "dataType": "String",
+                      "precision": -1
+                    },
+                    {
+                      "kind": "Range",
+                      "dataType": "Number",
+                      "precision": -1
+                    }
+                  ]
+                }
+              ],
+              "excludedPaths": []
+            },
+            "partitionKey": {
+              "paths": [
+                "/AccountNumber"
+              ],
+              "kind": "Hash"
+            },
+            "defaultTtl": 100,
+            "uniqueKeyPolicy": {
+              "uniqueKeys": [
+                {
+                  "paths": [
+                    "/testPath"
+                  ]
+                }
+              ]
+            },
+            "conflictResolutionPolicy": {
+              "mode": "LastWriterWins",
+              "conflictResolutionPath": "/path"
+            }
+          },
+          "options": {}
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "containerName",
-        "name": "containerName",
-        "type": "Microsoft.DocumentDB/databaseAccounts/apis/databases/containers",
+        "id": "graphName",
+        "name": "graphName",
+        "type": "Microsoft.DocumentDB/databaseAccounts/apis/databases/graphs",
         "properties": {
-          "id": "containerName",
+          "id": "graphName",
           "indexingPolicy": {
             "indexingMode": "Consistent",
             "automatic": true,
@@ -356,6 +472,7 @@ examples:
           "_etag": "\"00005900-0000-0000-0000-56f9a2630000\""
         }
       }
+  - statusCode: "202"
 security:
 - name: azure_auth
   type: oauth2
