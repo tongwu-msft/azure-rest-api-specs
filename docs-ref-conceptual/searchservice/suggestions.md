@@ -166,7 +166,7 @@ POST /indexes/hotels/docs/suggest?api-version=2017-11-11
  Notice that **suggesterName** is required in a Suggestions operation.  
 
 ## See also  
- [Adding Suggestions or Autocomplete to an application](https://docs.microsoft.com/en-us/azure/search/search-autocomplete-tutorial)  
+ [Adding Suggestions or Autocomplete to an application](https://docs.microsoft.com/azure/search/search-autocomplete-tutorial)  
  [Azure Search Service REST](index.md)   
  [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
  [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters)   
