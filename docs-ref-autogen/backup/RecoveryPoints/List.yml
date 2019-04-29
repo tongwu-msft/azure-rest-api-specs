@@ -92,6 +92,11 @@ definitions:
     - uid: AzureWorkloadRecoveryPoint
     - uid: GenericRecoveryPoint
     - uid: IaasVMRecoveryPoint
+    - uid: AzureWorkloadPointInTimeRecoveryPoint
+    - uid: AzureWorkloadSAPHanaRecoveryPoint
+    - uid: AzureWorkloadSQLRecoveryPoint
+    - uid: AzureWorkloadSQLPointInTimeRecoveryPoint
+    - uid: AzureWorkloadSAPHanaPointInTimeRecoveryPoint
     typesTitle: RecoveryPoint
   - name: id
     isReadyOnly: true
@@ -310,6 +315,59 @@ definitions:
     types:
     - uid: AzureWorkloadSQLRecoveryPoint
     typesTitle: string
+- name: AzureWorkloadSQLPointInTimeRecoveryPoint
+  description: Recovery point specific to PointInTime
+  kind: object
+  properties:
+  - name: timeRanges
+    description: List of log ranges
+    types:
+    - uid: PointInTimeRange
+      isArray: true
+  - name: extendedInfo
+    description: >-
+      Extended Info that provides data directory details. Will be populated in two cases:
+
+      When a specific recovery point is accessed using GetRecoveryPoint
+
+      Or when ListRecoveryPoints is called for Log RP only with ExtendedInfo query filter
+    types:
+    - uid: AzureWorkloadSQLRecoveryPointExtendedInfo
+  - name: recoveryPointTimeInUTC
+    description: UTC time at which recovery point was created
+    types:
+    - uid: string
+  - name: type
+    description: Type of restore point
+    types:
+    - uid: RestorePointType
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: AzureWorkloadSQLPointInTimeRecoveryPoint
+    typesTitle: string
+- name: AzureWorkloadSAPHanaPointInTimeRecoveryPoint
+  description: Recovery point specific to PointInTime in SAPHana
+  kind: object
+  properties:
+  - name: timeRanges
+    description: List of log ranges
+    types:
+    - uid: PointInTimeRange
+      isArray: true
+  - name: recoveryPointTimeInUTC
+    description: UTC time at which recovery point was created
+    types:
+    - uid: string
+  - name: type
+    description: Type of restore point
+    types:
+    - uid: RestorePointType
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: AzureWorkloadSAPHanaPointInTimeRecoveryPoint
+    typesTitle: string
 - name: RestorePointType
   description: Type of restore point
   kind: enum
@@ -367,28 +425,6 @@ definitions:
     description: Recovery point tier status.
     types:
     - uid: RecoveryPointTierStatus
-- name: AzureWorkloadSAPHanaPointInTimeRecoveryPoint
-  description: Recovery point specific to PointInTime in SAPHana
-  kind: object
-  properties:
-  - name: timeRanges
-    description: List of log ranges
-    types:
-    - uid: PointInTimeRange
-      isArray: true
-  - name: recoveryPointTimeInUTC
-    description: UTC time at which recovery point was created
-    types:
-    - uid: string
-  - name: type
-    description: Type of restore point
-    types:
-    - uid: RestorePointType
-  - name: objectType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
-    types:
-    - uid: AzureWorkloadSAPHanaPointInTimeRecoveryPoint
-    typesTitle: string
 - name: PointInTimeRange
   description: Provides details for log ranges
   kind: object
@@ -401,37 +437,6 @@ definitions:
     description: End time of the time range for log recovery.
     types:
     - uid: string
-- name: AzureWorkloadSQLPointInTimeRecoveryPoint
-  description: Recovery point specific to PointInTime
-  kind: object
-  properties:
-  - name: timeRanges
-    description: List of log ranges
-    types:
-    - uid: PointInTimeRange
-      isArray: true
-  - name: extendedInfo
-    description: >-
-      Extended Info that provides data directory details. Will be populated in two cases:
-
-      When a specific recovery point is accessed using GetRecoveryPoint
-
-      Or when ListRecoveryPoints is called for Log RP only with ExtendedInfo query filter
-    types:
-    - uid: AzureWorkloadSQLRecoveryPointExtendedInfo
-  - name: recoveryPointTimeInUTC
-    description: UTC time at which recovery point was created
-    types:
-    - uid: string
-  - name: type
-    description: Type of restore point
-    types:
-    - uid: RestorePointType
-  - name: objectType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
-    types:
-    - uid: AzureWorkloadSQLPointInTimeRecoveryPoint
-    typesTitle: string
 - name: AzureWorkloadSQLRecoveryPointExtendedInfo
   description: Extended info class details
   kind: object

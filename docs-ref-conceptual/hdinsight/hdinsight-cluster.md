@@ -4,7 +4,7 @@ ms.service: hdinsight
 ms.topic: reference
 author: jasonwhowell
 ms.author: jasonh
-ms.date: 11/16/2016
+ms.date: 4/17/2019
 ---
 
 # Cluster REST API in Azure HDInsight
@@ -1024,15 +1024,15 @@ Gets the details/properties of the specified cluster.
 |port|int|Specifies the port to connect|
 
 
-## Get configurations
-Gets cluster configuration details.  
+## List configurations
+Retrieves all cluster configuration details (including sensitive information).  
   
 ### Request  
  See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
-|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations?api-version={api-version}`|  
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations?api-version={api-version}`|  
   
 ### Response  
  HTTP 200 (OK) on successful completion of the operation.  
@@ -1042,15 +1042,16 @@ Gets cluster configuration details.
 ```json
 "configurations":   
 {  
-   "gateway": {  
-     "restAuthCredential.isEnabled": true,  
-     "restAuthCredential.username": "user",  
-     "restAuthCredential.password": "password here"     
-   },  
+     "gateway": {  
+          "restAuthCredential.isEnabled": true,  
+          "restAuthCredential.username": "username",  
+          "restAuthCredential.password": "Password123!"     
+      },  
   
-   "core-site": {  
-	   "key1": "value1"  
-   }  
+      "core-site": {  
+           "fs.defaultFS": "wasbs://mycontainter@mystorageaccount.blob.core.windows.net",
+	   "fs.azure.account.key.mystorageaccount.blob.core.windows.net": "storagekey1value"  
+      }  
 }  
   
 ```  
@@ -1061,7 +1062,7 @@ Gets cluster configuration details.
 
 
 ## Get configuration
-Gets details about a single configuration type.  
+Gets details about a single configuration type (omits sensitive values).  
   
 ### Request  
  See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
@@ -1076,13 +1077,83 @@ Gets details about a single configuration type.
  Example response:  
   
 ```json
-"gateway": {  
-     "restAuthCredential.isEnabled": true,  
-     "restAuthCredential.username": "user",  
-     "restAuthCredential.password": "password here"     
-   }  
+{
+     "core-site": {  
+          "fs.defaultFS": "wasbs://mycontainter@mystorageaccount.blob.core.windows.net",
+	  "fs.azure.account.key.mystorageaccount.blob.core.windows.net": ""
+     }
+}
   
 ```
+
+
+## Get gateway settings
+This operation retrieves cluster gateway HTTP credentials.  
+  
+### Request  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+  
+|Method|Request URI|  
+|------------|-----------------|  
+|GET|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/getGatewaySettings?api-version={api-version}`|  
+  
+### Response  
+ HTTP 200 (OK) on successful completion of the operation.  
+  
+ Example response:  
+  
+```json
+{
+     "core-site": {
+          "fs.defaultFS": "wasbs://mycontainter@mystorageaccount.blob.core.windows.net",
+	  "fs.azure.account.key.mystorageaccount.blob.core.windows.net": ""
+     }
+}
+  
+```
+
+## Update gateway settings
+This operation allows users to change the cluster gateway HTTP credentials. 
+  
+### Request  
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+  
+|Method|Request URI|  
+|------------|-----------------|  
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/updateGatewaySettings?api-version={api-version}`|  
+  
+```json
+{  
+     "restAuthCredential.isEnabled": true,  
+     "restAuthCredential.username": "username",  
+     "restAuthCredential.password": "Password123!"  
+}  
+  
+```
+
+### Response  
+ HTTP 202 (Accepted) on successful completion of the operation.
+
+
+## Change connectivity settings	(DEPRECATED)
+~~This operation allows users to enable/disable the HTTPS connectivity to the cluster.~~
+
+Use [updateGatewaySettings](#update-gateway-settings) instead.
+  	
+### Request  	
+ See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  	
+  	
+|Method|Request URI|  	
+|------------|-----------------|  	
+|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations/{configuration Type}?api-version={api-version}`|  	
+  	
+ **To enable connectivity**  	
+  	
+```json	
+{  	
+   "restAuthCredential.isEnabled": true,  	
+   "restAuthCredential.username": "user",  	
+   "restAuthCredential.password": "password here"  
 
 
 ## List by resource group
@@ -1136,28 +1207,6 @@ Lists all the clusters in the user’s subscription.
     ]  
 }  
 ```
-
-
-## Change connectivity settings
-This operation allows users to enable/disable the HTTPS connectivity to the cluster.  
-  
-### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
-  
-|Method|Request URI|  
-|------------|-----------------|  
-|POST|`https://management.azure.com/subscriptions/{subscription Id}/resourceGroups/{resourceGroup Name}/providers/Microsoft.HDInsight/clusters/{cluster name}/configurations/{configuration Type}?api-version={api-version}`|  
-  
- **To enable connectivity**  
-  
-```json
-{  
-   "restAuthCredential.isEnabled": true,  
-   "restAuthCredential.username": "user",  
-   "restAuthCredential.password": "password here"  
-}  
-  
-```  
   
  **To disable connectivity**  
   

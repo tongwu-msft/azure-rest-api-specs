@@ -55,7 +55,7 @@ translation.priority.mt:
 |**_count**|This property shows the number of users returned as part of the list operation.|  
 |**Users**|It is the array containing the users returned as part of the list operation.<br /><br /> Properties of the user resource|  
 |**id**|The unique user generated name for the user.|  
-|**_rid**|It is a [system generated property](https://docs.microsoft.com/azure/cosmos-db/sql-api-resources#system-vs-user-defined-resources). The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement of and navigation to the user resource.|  
+|**_rid**|It is a [system generated property](/azure/cosmos-db/stored-procedures-triggers-udfs). The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement of and navigation to the user resource.|  
 |**_ts**|It is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
 |**_self**|It is a system generated property. It is the unique addressable URI for the resource.|  
 |**_etag**|It is a system generated property that represents the resource **etag** required for optimistic concurrency control.|  

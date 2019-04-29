@@ -3,14 +3,14 @@ uid: management.azure.com.frontdoorservice.routingrules.get
 name: Get
 service: Front Door Service
 groupName: Routing Rules
-apiVersion: 2018-08-01
+apiVersion: 2019-04-01
 summary: Gets a Routing Rule with the specified Rule name within the specified Front Door.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/routingRules/{routingRuleName}?api-version=2018-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/routingRules/{routingRuleName}?api-version=2019-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -93,26 +93,16 @@ definitions:
     types:
     - uid: string
       isArray: true
-  - name: properties.customForwardingPath
-    description: A custom path used to rewrite resource paths matched by this rule. Leave empty to use incoming path.
-    types:
-    - uid: string
-  - name: properties.forwardingProtocol
-    description: Protocol this rule will use when forwarding traffic to backends.
-    types:
-    - uid: FrontDoorForwardingProtocol
-  - name: properties.cacheConfiguration
-    description: The caching configuration associated with this rule.
-    types:
-    - uid: CacheConfiguration
-  - name: properties.backendPool
-    description: A reference to the BackendPool which this rule routes to.
-    types:
-    - uid: SubResource
   - name: properties.enabledState
     description: Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled'
     types:
-    - uid: FrontDoorEnabledState
+    - uid: routingRuleEnabledState
+  - name: properties.routeConfiguration
+    description: A reference to the routing configuration.
+    types:
+    - uid: ForwardingConfiguration
+    - uid: RedirectConfiguration
+    typesTitle: RouteConfiguration
 - name: ErrorResponse
   description: Error response indicates Front Door service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
@@ -157,6 +147,74 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: routingRuleEnabledState
+  description: Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled'
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ForwardingConfiguration
+  description: Describes Forwarding Route.
+  kind: object
+  properties:
+  - name: customForwardingPath
+    description: A custom path used to rewrite resource paths matched by this rule. Leave empty to use incoming path.
+    types:
+    - uid: string
+  - name: forwardingProtocol
+    description: Protocol this rule will use when forwarding traffic to backends.
+    types:
+    - uid: FrontDoorForwardingProtocol
+  - name: cacheConfiguration
+    description: The caching configuration associated with this rule.
+    types:
+    - uid: CacheConfiguration
+  - name: backendPool
+    description: A reference to the BackendPool which this rule routes to.
+    types:
+    - uid: SubResource
+  - name: '@odata.type'
+    description: ''
+    types:
+    - uid: '#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration'
+    typesTitle: string
+- name: RedirectConfiguration
+  description: Describes Redirect Route.
+  kind: object
+  properties:
+  - name: redirectType
+    description: The redirect type the rule will use when redirecting traffic.
+    types:
+    - uid: FrontDoorRedirectType
+  - name: redirectProtocol
+    description: The protocol of the destination to where the traffic is redirected
+    types:
+    - uid: FrontDoorRedirectProtocol
+  - name: customHost
+    description: Host to redirect. Leave empty to use the incoming host as the destination host.
+    types:
+    - uid: string
+  - name: customPath
+    description: The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the incoming path as destination path.
+    types:
+    - uid: string
+  - name: customFragment
+    description: 'Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include the #.'
+    types:
+    - uid: string
+  - name: customQueryString
+    description: The set of query strings to be placed in the redirect URL. Setting this value would replace any existing query string; leave empty to preserve the incoming query string. Query string must be in <key>=<value> format. The first ? and & will be added automatically so do not include them in the front, but do separate multiple query strings with &.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: ''
+    types:
+    - uid: '#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration'
+    typesTitle: string
 - name: FrontDoorForwardingProtocol
   description: Protocol this rule will use when forwarding traffic to backends.
   kind: enum
@@ -182,14 +240,33 @@ definitions:
     description: Whether to use dynamic compression for cached content
     types:
     - uid: DynamicCompressionEnabled
-- name: FrontDoorEnabledState
-  description: Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled'
+- name: FrontDoorRedirectType
+  description: The redirect type the rule will use when redirecting traffic.
   kind: enum
   properties:
-  - name: Enabled
+  - name: Moved
     types:
     - uid: string
-  - name: Disabled
+  - name: Found
+    types:
+    - uid: string
+  - name: TemporaryRedirect
+    types:
+    - uid: string
+  - name: PermanentRedirect
+    types:
+    - uid: string
+- name: FrontDoorRedirectProtocol
+  description: The protocol of the destination to where the traffic is redirected
+  kind: enum
+  properties:
+  - name: HttpOnly
+    types:
+    - uid: string
+  - name: HttpsOnly
+    types:
+    - uid: string
+  - name: MatchRequest
     types:
     - uid: string
 - name: FrontDoorQuery
@@ -213,14 +290,14 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get Routing Rule
+- name: Get Forwarding Routing Rule
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/routingRules/routingRule1?api-version=2018-08-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/routingRules/routingRule1?api-version=2019-04-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/routingRule1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/routingRules/routingRule1",
         "name": "routingRule1",
         "properties": {
           "frontendEndpoints": [
@@ -237,10 +314,49 @@ examples:
           "patternsToMatch": [
             "/*"
           ],
-          "customForwardingPath": "",
-          "forwardingProtocol": "MatchRequest",
-          "backendPool": {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/backendPools/backendPool1"
+          "routeConfiguration": {
+            "@odata.type": "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration",
+            "customForwardingPath": "",
+            "forwardingProtocol": "MatchRequest",
+            "backendPool": {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/backendPools/backendPool1"
+            }
+          },
+          "enabledState": "Enabled"
+        }
+      }
+- name: Get Redirect Routing Rule
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/routingRules/redirectRoutingRule1?api-version=2019-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/routingRules/redirectRoutingRule1",
+        "name": "redirectRoutingRule1",
+        "properties": {
+          "frontendEndpoints": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/frontendEndpoints/frontendEndpoint1"
+            },
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/frontendEndpoints/default"
+            }
+          ],
+          "acceptedProtocols": [
+            "Https"
+          ],
+          "patternsToMatch": [
+            "/*"
+          ],
+          "routeConfiguration": {
+            "@odata.type": "#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration",
+            "redirectType": "Moved",
+            "redirectProtocol": "HttpsOnly",
+            "customHost": "www.bing.com",
+            "customPath": "/api",
+            "customFragment": "fragment",
+            "customQueryString": "a=b"
           },
           "enabledState": "Enabled"
         }

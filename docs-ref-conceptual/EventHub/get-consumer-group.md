@@ -18,7 +18,7 @@ manager: "timlt"
 
 # Get consumer group
 
-Retrieves all metadata associated with the specified consumer group. See [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription).  
+Retrieves all metadata associated with the specified consumer group. See [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription#properties).  
   
 ## Request  
   

@@ -66,7 +66,7 @@ The following are the headers that a request and response may include.
    
 ## Query parameters 
 
-The following are the query parameters that a request may include. See the Required column for required parameters. You must URL encode the query parameter values. For information about query parameters that you use to filter the images that Bing returns, see Filter Query Parameters.  
+The following are the query parameters that a request may include. See the Required column for required parameters. You must URL encode the query parameter values. For information about query parameters that you use to filter the images that Bing returns, see [Filter Query Parameters](#filter-query-parameters).  
   
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  

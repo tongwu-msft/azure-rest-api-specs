@@ -3,20 +3,19 @@ uid: management.azure.com.reserved-vm-instances.reservation.update
 name: Update
 service: Reserved VM Instances
 groupName: Reservation
-apiVersion: 2017-11-01
+apiVersion: 2019-04-01
 summary: "Updates a `Reservation`.  \nUpdates the applied scopes of the `Reservation`."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}?api-version=2017-11-01
+- content: PATCH https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}?api-version=2019-04-01
 uriParameters:
 - name: reservationOrderId
   in: path
   isRequired: true
-  description: >
-    Order Id of the reservation
+  description: Order Id of the reservation
   types:
   - uid: string
 - name: reservationId
@@ -28,7 +27,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Supported version.
+  description: Supported version for this document is 2019-04-01
   types:
   - uid: string
 responses:
@@ -56,15 +55,26 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: properties.instanceFlexibility
+    in: body
+    description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
+    types:
+    - uid: InstanceFlexibility
+  - name: properties.name
+    in: body
+    description: Name of the Reservation
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: ReservationResponse
   kind: object
   properties:
   - name: location
-    description: Location in which the Resources needs to be reserved. It cannot be changed after the resource has been created.
+    isReadyOnly: true
+    description: The Azure Region where the reserved resource lives.
     types:
-    - uid: Location
+    - uid: string
   - name: etag
     description: ''
     types:
@@ -79,10 +89,6 @@ definitions:
     description: Name of the reservation
     types:
     - uid: string
-  - name: kind
-    description: Resource Provider type to be reserved.
-    types:
-    - uid: Kind
   - name: sku
     description: ''
     types:
@@ -115,87 +121,12 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: Location
-  description: Location in which the Resources needs to be reserved. It cannot be changed after the resource has been created.
-  kind: enum
-  properties:
-  - name: westus
+  - name: properties.instanceFlexibility
+    description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
     types:
-    - uid: string
-  - name: eastus
-    types:
-    - uid: string
-  - name: eastus2
-    types:
-    - uid: string
-  - name: northcentralus
-    types:
-    - uid: string
-  - name: westus2
-    types:
-    - uid: string
-  - name: southcentralus
-    types:
-    - uid: string
-  - name: centralus
-    types:
-    - uid: string
-  - name: westeurope
-    types:
-    - uid: string
-  - name: northeurope
-    types:
-    - uid: string
-  - name: eastasia
-    types:
-    - uid: string
-  - name: southeastasia
-    types:
-    - uid: string
-  - name: japaneast
-    types:
-    - uid: string
-  - name: japanwest
-    types:
-    - uid: string
-  - name: brazilsouth
-    types:
-    - uid: string
-  - name: australiaeast
-    types:
-    - uid: string
-  - name: australiasoutheast
-    types:
-    - uid: string
-  - name: southindia
-    types:
-    - uid: string
-  - name: westindia
-    types:
-    - uid: string
-  - name: centralindia
-    types:
-    - uid: string
-  - name: canadacentral
-    types:
-    - uid: string
-  - name: canadaeast
-    types:
-    - uid: string
-  - name: uksouth
-    types:
-    - uid: string
-  - name: westcentralus
-    types:
-    - uid: string
-  - name: ukwest
-    types:
-    - uid: string
-- name: Kind
-  description: Resource Provider type to be reserved.
-  kind: enum
-  properties:
-  - name: Microsoft.Compute
+    - uid: InstanceFlexibility
+  - name: properties.name
+    description: Name of the Reservation
     types:
     - uid: string
 - name: SkuName
@@ -208,6 +139,14 @@ definitions:
 - name: ReservationProperties
   kind: object
   properties:
+  - name: reservedResourceType
+    description: The type of the resource that is being reserved.
+    types:
+    - uid: ReservedResourceType
+  - name: instanceFlexibility
+    description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
+    types:
+    - uid: InstanceFlexibility
   - name: displayName
     description: Friendly name for user to easily identify the reservation
     types:
@@ -222,13 +161,13 @@ definitions:
     types:
     - uid: AppliedScopeType
   - name: quantity
-    description: Quantity of the SKUs that are part of the Reservation.
+    description: Quantity of the SKUs that are part of the Reservation. Must be greater than zero.
     types:
     - uid: integer
   - name: provisioningState
-    description: Represent the current state of the Reservation.
+    description: Current state of the reservation.
     types:
-    - uid: ProvisioningState
+    - uid: string
   - name: effectiveDateTime
     description: DateTime of the Reservation starting when this version is effective from.
     types:
@@ -240,6 +179,10 @@ definitions:
     - uid: string
   - name: expiryDate
     description: This is the date when the Reservation will expire.
+    types:
+    - uid: string
+  - name: skuDescription
+    description: Description of the SKU in english.
     types:
     - uid: string
   - name: extendedStatusInfo
@@ -275,47 +218,30 @@ definitions:
   - name: Shared
     types:
     - uid: string
-- name: ProvisioningState
-  description: Represent the current state of the Reservation.
+- name: InstanceFlexibility
+  description: Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type.
   kind: enum
   properties:
-  - name: Creating
+  - name: On
     types:
     - uid: string
-  - name: PendingResourceHold
+  - name: Off
     types:
     - uid: string
-  - name: ConfirmedResourceHold
+- name: ReservedResourceType
+  description: The type of the resource that is being reserved.
+  kind: enum
+  properties:
+  - name: VirtualMachines
     types:
     - uid: string
-  - name: PendingBilling
+  - name: SqlDatabases
     types:
     - uid: string
-  - name: ConfirmedBilling
+  - name: SuseLinux
     types:
     - uid: string
-  - name: Created
-    types:
-    - uid: string
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Cancelled
-    types:
-    - uid: string
-  - name: Expired
-    types:
-    - uid: string
-  - name: BillingFailed
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Split
-    types:
-    - uid: string
-  - name: Merged
+  - name: CosmosDb
     types:
     - uid: string
 - name: ExtendedStatusInfo
@@ -428,7 +354,7 @@ definitions:
   - name: AppliedScopesNotAssociatedWithCommerceAccount
     types:
     - uid: string
-  - name: AppliedScopesSameAsExisting
+  - name: PatchValuesSameAsExisting
     types:
     - uid: string
   - name: RoleAssignmentCreationFailed
@@ -554,11 +480,12 @@ definitions:
 examples:
 - name: PatchReservation
   request:
-    uri: PATCH https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/6ef59113-3482-40da-8d79-787f823e34bc?api-version=2017-11-01
+    uri: PATCH https://management.azure.com/providers/Microsoft.Capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/6ef59113-3482-40da-8d79-787f823e34bc?api-version=2019-04-01
     body: >-
       {
         "properties": {
-          "appliedScopeType": "Shared"
+          "appliedScopeType": "Shared",
+          "instanceFlexibility": "Off"
         }
       }
   responses:
@@ -581,6 +508,9 @@ examples:
           "displayName": "cabri_test",
           "effectiveDateTime": "2017-09-22T23:57:48.1891638Z",
           "lastUpdatedDateTime": "2017-09-22T23:57:54.3768768Z",
+          "reservedResourceType": "VirtualMachines",
+          "instanceFlexibility": "Off",
+          "skuDescription": "D1 v2",
           "mergeProperties": {
             "mergeSources": [
               "/providers/microsoft.capacity/reservationOrders/276e7ae4-84d0-4da6-ab4b-d6b94f3557da/reservations/00238563-7312-4c20-a134-8c030bf938a7",
