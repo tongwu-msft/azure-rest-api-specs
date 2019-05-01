@@ -1,7 +1,7 @@
 ---
 title: "Get Data Source (Azure Search Service REST API) | Microsoft Docs"
 description: Return data source connection information used by an Azure Searching indexer when crawling an external data source.
-ms.date: "01/16/2019"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -33,7 +33,7 @@ api-key: [admin key]
 
 The `[datasource name]` in the request URI specifies which data source definition to return from the datasources collection.  
 
-The `[api-version]` is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
+The `[api-version]` is required. The current version is `2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
 
 ### Request Headers  
 The following table describes the required and optional request headers.  

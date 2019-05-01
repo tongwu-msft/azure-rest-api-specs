@@ -1,7 +1,7 @@
 ---
 title: "Get Index (Azure Search Service REST API) | Microsoft Docs"
 description: Return an index definition in JSON, but not its contents, from an Azure Search service.
-ms.date: "04/20/2018"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -33,7 +33,7 @@ api-key: [admin key]
 
 The `[index name]` in the request URI specifies which index to return from the indexes collection.  
 
-The `[api-version]` is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
+The `[api-version]` is required. The current version is `2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
 
 ### Request Headers
 The following list describes the required and optional request headers.  

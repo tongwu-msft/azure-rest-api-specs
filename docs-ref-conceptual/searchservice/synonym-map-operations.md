@@ -1,12 +1,12 @@
 ---
 title: "Synonym Map Operations (Azure Search Service REST API) | Microsoft Docs"
 description: "Synonym maps contain custom rules to expand or rewrite a search query in Azure Search."
-ms.date: "04/20/2018"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
-author: "mhko"
-ms.author: "nateko"
+author: "Brjohnstmsft"
+ms.author: "brjohnst"
 ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
@@ -34,7 +34,7 @@ translation.priority.mt:
 
   For example, the index definition below configures the 'name' field to use the synonym map 'mysynonymmap'.
   ```
-	POST https://[service name].search.windows.net/indexes?api-version=2017-11-11
+	POST https://[service name].search.windows.net/indexes?api-version=2019-05-06
 	api-key: [admin key]
 
 	{

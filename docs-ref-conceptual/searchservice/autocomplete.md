@@ -1,7 +1,7 @@
 ---
 title: "Autocomplete (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "03/18/2019"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.suite: ""
@@ -152,11 +152,11 @@ api-key: [admin or query key]
 1. Retrieve three autocomplete suggestions where the partial search input is 'washington medic' with default mode (oneTerm):  
 
   ```  
-  GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&api-version=2017-11-11-Preview
+  GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&api-version=2019-05-06
   ```  
 
   ```  
-  POST /indexes/insurance/docs/autocomplete?api-version=2017-11-11-Preview
+  POST /indexes/insurance/docs/autocomplete?api-version=2019-05-06
   {  
     "search": "washington medic",
     "filter": "search.in(roleId, 'admin,manager')",
@@ -187,11 +187,11 @@ api-key: [admin or query key]
 2. Retrieve three autocomplete suggestions where the partial search input is 'washington medic' and `autocompleteMode=twoTerms`:  
 
   ```  
-  GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&autocompleteMode=twoTerms&api-version=2017-11-11-Preview
+  GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&autocompleteMode=twoTerms&api-version=2019-05-06
   ```  
 
   ```  
-  POST /indexes/insurance/docs/autocomplete?api-version=2017-11-11-Preview
+  POST /indexes/insurance/docs/autocomplete?api-version=2019-05-06
   {  
     "search": "washington medic",  
     "autocompleteMode": "twoTerms",
