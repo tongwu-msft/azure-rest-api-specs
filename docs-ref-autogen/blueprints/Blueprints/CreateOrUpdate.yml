@@ -324,6 +324,60 @@ examples:
         "type": "Microsoft.Blueprint/blueprints",
         "name": "simpleBlueprint"
       }
+- name: ResourceGroupWithTags
+  request:
+    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/{ManagementGroupId}/providers/Microsoft.Blueprint/blueprints/simpleBlueprint?api-version=2018-11-01-preview
+    body: >-
+      {
+        "properties": {
+          "targetScope": "subscription",
+          "resourceGroups": {
+            "myRGName": {
+              "name": "myRGName",
+              "location": "westus",
+              "metadata": {
+                "displayName": "My Resource Group"
+              },
+              "tags": {
+                "costcenter": "123456",
+                "nameOnlyTag": ""
+              }
+            }
+          },
+          "description": "An example blueprint containing an RG with two tags."
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "parameters": {},
+          "resourceGroups": {
+            "myRGName": {
+              "name": "myRGName",
+              "location": "westus",
+              "metadata": {
+                "displayName": "My Resource Group"
+              },
+              "dependsOn": [],
+              "tags": {
+                "costcenter": "123456",
+                "tagWithNoValue": ""
+              }
+            }
+          },
+          "targetScope": "subscription",
+          "status": {
+            "timeCreated": "2019-04-29T20:52:56+00:00",
+            "lastModified": "2019-04-29T20:52:56+00:00"
+          },
+          "description": "An example blueprint containing an RG with two tags."
+        },
+        "id": "/providers/Microsoft.Management/managementGroups/{ManagementGroupId}/providers/Microsoft.Blueprint/blueprints/RGTaggingExample",
+        "type": "Microsoft.Blueprint/blueprints",
+        "name": "RGTaggingExample"
+      }
 security:
 - name: azure_auth
   type: oauth2
