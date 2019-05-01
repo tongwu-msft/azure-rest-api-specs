@@ -1,7 +1,7 @@
 ---
 title: Index operations using Azure Search Service REST APIs - Azure Search
 description: Learn which REST APIs are used to create, delete, and update Azure Search index definitions.
-ms.date: 04/25/2019
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"

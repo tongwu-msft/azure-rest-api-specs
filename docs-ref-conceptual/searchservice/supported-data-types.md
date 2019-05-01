@@ -1,7 +1,7 @@
 ---
 title: Supported data types - Azure Search
 description: Allowed data types for fields in an Azure Search index. 
-ms.date: 04/25/2019
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"

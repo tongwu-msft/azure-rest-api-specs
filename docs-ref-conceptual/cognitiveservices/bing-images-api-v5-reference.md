@@ -61,7 +61,7 @@ The following are the headers that a request and response may include.
 > Remember that the Terms of Use require compliance with all applicable laws, including regarding use of these headers. For example, in certain jurisdictions, such as Europe, there are requirements to obtain user consent before placing certain tracking devices on user devices.
   
 ## Query parameters  
-The following are the query parameters that the request may include. See the Required column for required parameters. The query parameter values must be URL encoded. For information about query parameters used to filter the images that Bing returns, see Filter Query Parameters.  
+The following are the query parameters that the request may include. See the Required column for required parameters. The query parameter values must be URL encoded. For information about query parameters used to filter the images that Bing returns, see [Filter Query Parameters](#filter-query-parameters).  
   
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  

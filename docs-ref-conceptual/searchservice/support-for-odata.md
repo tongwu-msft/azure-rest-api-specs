@@ -1,7 +1,7 @@
 ---
 title: Support for OData protocol - Azure Search
 description: OData protocol is used for filter expressions and orderby expressions in Azure Search queries.
-ms.date: 02/14/2019
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"

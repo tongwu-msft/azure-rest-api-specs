@@ -60,7 +60,25 @@ requestBody:
   parameters:
   - name: sku
     in: body
-    description: The name and tier of the SKU.
+    description: >
+      The database SKU.
+
+
+      The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition, family, and capacity) that are available to your subscription in an Azure region, use the `Capabilities_ListByLocation` REST API or one of the following commands:
+
+
+      ```azurecli
+
+      az sql db list-editions -l <location> -o table
+
+      ````
+
+
+      ```powershell
+
+      Get-AzSqlServerServiceObjective -Location <location>
+
+      ````
     types:
     - uid: Sku
   - name: properties.createMode
@@ -168,6 +186,16 @@ requestBody:
     description: The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region.
     types:
     - uid: DatabaseReadScale
+  - name: properties.autoPauseDelay
+    in: body
+    description: Time in minutes after which database is automatically paused. A value of -1 means that automatic pause is disabled
+    types:
+    - uid: integer
+  - name: properties.minCapacity
+    in: body
+    description: Minimal capacity that database will always have allocated, if not paused
+    types:
+    - uid: number
   - name: location
     in: body
     isRequired: true
@@ -214,7 +242,25 @@ definitions:
   kind: object
   properties:
   - name: sku
-    description: The name and tier of the SKU.
+    description: >
+      The database SKU.
+
+
+      The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition, family, and capacity) that are available to your subscription in an Azure region, use the `Capabilities_ListByLocation` REST API or one of the following commands:
+
+
+      ```azurecli
+
+      az sql db list-editions -l <location> -o table
+
+      ````
+
+
+      ```powershell
+
+      Get-AzSqlServerServiceObjective -Location <location>
+
+      ````
     types:
     - uid: Sku
   - name: kind
@@ -366,6 +412,14 @@ definitions:
     description: The name and tier of the SKU.
     types:
     - uid: Sku
+  - name: properties.autoPauseDelay
+    description: Time in minutes after which database is automatically paused. A value of -1 means that automatic pause is disabled
+    types:
+    - uid: integer
+  - name: properties.minCapacity
+    description: Minimal capacity that database will always have allocated, if not paused
+    types:
+    - uid: number
   - name: location
     description: Resource location.
     types:
@@ -531,6 +585,12 @@ definitions:
   - name: Scaling
     types:
     - uid: string
+  - name: OfflineChangingDwPerformanceTiers
+    types:
+    - uid: string
+  - name: OnlineChangingDwPerformanceTiers
+    types:
+    - uid: string
 - name: CatalogCollationType
   description: Collation of the metadata catalog.
   kind: enum
@@ -562,6 +622,215 @@ definitions:
     types:
     - uid: string
 examples:
+- name: Creates a VCore database by specifying service objective name.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb?api-version=2017-10-01-preview
+    body: >-
+      {
+        "location": "southeastasia",
+        "sku": {
+          "name": "BC",
+          "family": "Gen4",
+          "capacity": 2
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "name": "BC_Gen4",
+          "tier": "BusinessCritical",
+          "family": "Gen4",
+          "capacity": 2
+        },
+        "kind": "v12.0,user",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "maxSizeBytes": 1073741824,
+          "status": "Online",
+          "databaseId": "6c764297-577b-470f-9af4-96d3d41e2ba3",
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "currentServiceObjectiveName": "BC_Gen4_2",
+          "defaultSecondaryLocation": "North Europe",
+          "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+          "licenseType": "LicenseIncluded",
+          "maxLogSizeBytes": 104857600
+        },
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "name": "BC_Gen4",
+          "tier": "BusinessCritical",
+          "family": "Gen4",
+          "capacity": 2
+        },
+        "kind": "v12.0,user",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "maxSizeBytes": 1073741824,
+          "status": "Online",
+          "databaseId": "6c764297-577b-470f-9af4-96d3d41e2ba3",
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "currentServiceObjectiveName": "BC_Gen4_2",
+          "defaultSecondaryLocation": "North Europe",
+          "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+          "licenseType": "LicenseIncluded",
+          "maxLogSizeBytes": 104857600
+        },
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "202"
+- name: Creates a VCore database by specifying sku name and capacity.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb?api-version=2017-10-01-preview
+    body: >-
+      {
+        "location": "southeastasia",
+        "sku": {
+          "name": "BC_Gen4",
+          "capacity": 2
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "name": "BC_Gen4",
+          "tier": "BusinessCritical",
+          "family": "Gen4",
+          "capacity": 2
+        },
+        "kind": "v12.0,user",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "maxSizeBytes": 1073741824,
+          "status": "Online",
+          "databaseId": "6c764297-577b-470f-9af4-96d3d41e2ba3",
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "currentServiceObjectiveName": "BC_Gen4_2",
+          "defaultSecondaryLocation": "North Europe",
+          "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+          "licenseType": "LicenseIncluded",
+          "maxLogSizeBytes": 104857600
+        },
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "name": "BC_Gen4",
+          "tier": "BusinessCritical",
+          "family": "Gen4",
+          "capacity": 2
+        },
+        "kind": "v12.0,user",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "maxSizeBytes": 1073741824,
+          "status": "Online",
+          "databaseId": "6c764297-577b-470f-9af4-96d3d41e2ba3",
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "currentServiceObjectiveName": "BC_Gen4_2",
+          "defaultSecondaryLocation": "North Europe",
+          "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+          "licenseType": "LicenseIncluded",
+          "maxLogSizeBytes": 104857600
+        },
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "202"
+- name: Creates a data warehouse by specifying service objective name.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdw?api-version=2017-10-01-preview
+    body: >-
+      {
+        "location": "westus",
+        "sku": {
+          "name": "DW1000c"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "name": "DataWarehouse",
+          "tier": "DataWarehouse",
+          "capacity": 9000
+        },
+        "kind": "v12.0,user,datawarehouse,gen2",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "maxSizeBytes": 263882790666240,
+          "status": "Online",
+          "databaseId": "188784c9-d602-4684-86cf-e67b6f03551a",
+          "creationDate": "2019-04-24T06:46:14.99Z",
+          "currentServiceObjectiveName": "DW1000c",
+          "requestedServiceObjectiveName": "DW1000c",
+          "defaultSecondaryLocation": "eastus",
+          "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+          "readScale": "Disabled",
+          "currentSku": {
+            "name": "DataWarehouse",
+            "tier": "DataWarehouse",
+            "capacity": 9000
+          }
+        },
+        "location": "westus",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdw",
+        "name": "testdw",
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "name": "DataWarehouse",
+          "tier": "DataWarehouse",
+          "capacity": 9000
+        },
+        "kind": "v12.0,user,datawarehouse,gen2",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "maxSizeBytes": 263882790666240,
+          "status": "Online",
+          "databaseId": "188784c9-d602-4684-86cf-e67b6f03551a",
+          "creationDate": "2019-04-24T06:46:14.99Z",
+          "currentServiceObjectiveName": "DW1000c",
+          "requestedServiceObjectiveName": "DW1000c",
+          "defaultSecondaryLocation": "eastus",
+          "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+          "readScale": "Disabled",
+          "currentSku": {
+            "name": "DataWarehouse",
+            "tier": "DataWarehouse",
+            "capacity": 9000
+          }
+        },
+        "location": "westus",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdw",
+        "name": "testdw",
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "202"
 - name: Creates a database with minimum number of parameters.
   request:
     uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb?api-version=2017-10-01-preview
@@ -614,142 +883,6 @@ examples:
         "location": "southeastasia",
         "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb",
         "name": "testdb",
-        "type": "Microsoft.Sql/servers/databases"
-      }
-  - statusCode: "202"
-- name: Creates a VCore database with minimum number of parameters.
-  request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb?api-version=2017-10-01-preview
-    body: >-
-      {
-        "location": "southeastasia",
-        "sku": {
-          "name": "BC_Gen4_2",
-          "tier": "BusinessCritical",
-          "capacity": 2
-        },
-        "properties": {
-          "createMode": "Default",
-          "collation": "SQL_Latin1_General_CP1_CI_AS",
-          "maxSizeBytes": 1073741824,
-          "licenseType": "LicenseIncluded"
-        }
-      }
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "sku": {
-          "name": "BC_Gen4_2",
-          "tier": "BusinessCritical",
-          "capacity": 2
-        },
-        "kind": "v12.0,user",
-        "properties": {
-          "collation": "SQL_Latin1_General_CP1_CI_AS",
-          "maxSizeBytes": 1073741824,
-          "status": "Online",
-          "databaseId": "6c764297-577b-470f-9af4-96d3d41e2ba3",
-          "creationDate": "2017-06-07T04:41:33.937Z",
-          "currentServiceObjectiveName": "BC_Gen4_2",
-          "defaultSecondaryLocation": "North Europe",
-          "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
-          "licenseType": "LicenseIncluded",
-          "maxLogSizeBytes": 104857600
-        },
-        "location": "southeastasia",
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb",
-        "name": "testdb",
-        "type": "Microsoft.Sql/servers/databases"
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "sku": {
-          "name": "BC_Gen4_2",
-          "tier": "BusinessCritical",
-          "capacity": 2
-        },
-        "kind": "v12.0,user",
-        "properties": {
-          "collation": "SQL_Latin1_General_CP1_CI_AS",
-          "maxSizeBytes": 1073741824,
-          "status": "Online",
-          "databaseId": "6c764297-577b-470f-9af4-96d3d41e2ba3",
-          "creationDate": "2017-06-07T04:41:33.937Z",
-          "currentServiceObjectiveName": "BC_Gen4_2",
-          "defaultSecondaryLocation": "North Europe",
-          "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
-          "licenseType": "LicenseIncluded",
-          "maxLogSizeBytes": 104857600
-        },
-        "location": "southeastasia",
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb",
-        "name": "testdb",
-        "type": "Microsoft.Sql/servers/databases"
-      }
-  - statusCode: "202"
-- name: Creates a database from restore with database deletion time.
-  request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/dbrestore?api-version=2017-10-01-preview
-    body: >-
-      {
-        "location": "southeastasia",
-        "sku": {
-          "name": "S0",
-          "tier": "Standard"
-        },
-        "properties": {
-          "createMode": "Restore",
-          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb",
-          "sourceDatabaseDeletionDate": "2017-07-14T06:41:06.613Z"
-        }
-      }
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "sku": {
-          "name": "S0",
-          "tier": "Standard"
-        },
-        "kind": "v12.0,user",
-        "properties": {
-          "collation": "SQL_Latin1_General_CP1_CI_AS",
-          "maxSizeBytes": 268435456000,
-          "status": "Online",
-          "databaseId": "6c764297-577b-470f-9af4-96d3d41e2ba3",
-          "creationDate": "2017-06-07T04:41:33.937Z",
-          "currentServiceObjectiveName": "S0",
-          "defaultSecondaryLocation": "North Europe",
-          "catalogCollation": "SQL_Latin1_General_CP1_CI_AS"
-        },
-        "location": "southeastasia",
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/dbrestore",
-        "name": "dbrestore",
-        "type": "Microsoft.Sql/servers/databases"
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "sku": {
-          "name": "S0",
-          "tier": "Standard"
-        },
-        "kind": "v12.0,user",
-        "properties": {
-          "collation": "SQL_Latin1_General_CP1_CI_AS",
-          "maxSizeBytes": 268435456000,
-          "status": "Online",
-          "databaseId": "6c764297-577b-470f-9af4-96d3d41e2ba3",
-          "creationDate": "2017-06-07T04:41:33.937Z",
-          "currentServiceObjectiveName": "S0",
-          "defaultSecondaryLocation": "North Europe",
-          "catalogCollation": "SQL_Latin1_General_CP1_CI_AS"
-        },
-        "location": "southeastasia",
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/dbrestore",
-        "name": "dbrestore",
         "type": "Microsoft.Sql/servers/databases"
       }
   - statusCode: "202"
@@ -880,9 +1013,9 @@ examples:
         "type": "Microsoft.Sql/servers/databases"
       }
   - statusCode: "202"
-- name: Creates a database from restore with restorableDroppedDatabaseId.
+- name: Creates a database as an on-line secondary.
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/dbcopy?api-version=2017-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb?api-version=2017-10-01-preview
     body: >-
       {
         "location": "southeastasia",
@@ -891,8 +1024,8 @@ examples:
           "tier": "Standard"
         },
         "properties": {
-          "createMode": "Copy",
-          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb"
+          "createMode": "Secondary",
+          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-NorthEurope/providers/Microsoft.Sql/servers/testsvr1/databases/testdb"
         }
       }
   responses:
@@ -915,8 +1048,8 @@ examples:
           "catalogCollation": "SQL_Latin1_General_CP1_CI_AS"
         },
         "location": "southeastasia",
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/dbcopy",
-        "name": "dbcopy",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb",
+        "name": "testdb",
         "type": "Microsoft.Sql/servers/databases"
       }
   - statusCode: "201"
@@ -938,8 +1071,8 @@ examples:
           "catalogCollation": "SQL_Latin1_General_CP1_CI_AS"
         },
         "location": "southeastasia",
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/dbcopy",
-        "name": "dbcopy",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb",
+        "name": "testdb",
         "type": "Microsoft.Sql/servers/databases"
       }
   - statusCode: "202"
@@ -1007,9 +1140,9 @@ examples:
         "type": "Microsoft.Sql/servers/databases"
       }
   - statusCode: "202"
-- name: Creates a database as an on-line secondary.
+- name: Creates a database from restore with database deletion time.
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb?api-version=2017-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/dbrestore?api-version=2017-10-01-preview
     body: >-
       {
         "location": "southeastasia",
@@ -1018,8 +1151,9 @@ examples:
           "tier": "Standard"
         },
         "properties": {
-          "createMode": "Secondary",
-          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-NorthEurope/providers/Microsoft.Sql/servers/testsvr1/databases/testdb"
+          "createMode": "Restore",
+          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb",
+          "sourceDatabaseDeletionDate": "2017-07-14T06:41:06.613Z"
         }
       }
   responses:
@@ -1042,8 +1176,8 @@ examples:
           "catalogCollation": "SQL_Latin1_General_CP1_CI_AS"
         },
         "location": "southeastasia",
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb",
-        "name": "testdb",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/dbrestore",
+        "name": "dbrestore",
         "type": "Microsoft.Sql/servers/databases"
       }
   - statusCode: "201"
@@ -1065,8 +1199,71 @@ examples:
           "catalogCollation": "SQL_Latin1_General_CP1_CI_AS"
         },
         "location": "southeastasia",
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb",
-        "name": "testdb",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/dbrestore",
+        "name": "dbrestore",
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "202"
+- name: Creates a database from restore with restorableDroppedDatabaseId.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/dbcopy?api-version=2017-10-01-preview
+    body: >-
+      {
+        "location": "southeastasia",
+        "sku": {
+          "name": "S0",
+          "tier": "Standard"
+        },
+        "properties": {
+          "createMode": "Copy",
+          "sourceDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "name": "S0",
+          "tier": "Standard"
+        },
+        "kind": "v12.0,user",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "maxSizeBytes": 268435456000,
+          "status": "Online",
+          "databaseId": "6c764297-577b-470f-9af4-96d3d41e2ba3",
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "currentServiceObjectiveName": "S0",
+          "defaultSecondaryLocation": "North Europe",
+          "catalogCollation": "SQL_Latin1_General_CP1_CI_AS"
+        },
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/dbcopy",
+        "name": "dbcopy",
+        "type": "Microsoft.Sql/servers/databases"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "name": "S0",
+          "tier": "Standard"
+        },
+        "kind": "v12.0,user",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "maxSizeBytes": 268435456000,
+          "status": "Online",
+          "databaseId": "6c764297-577b-470f-9af4-96d3d41e2ba3",
+          "creationDate": "2017-06-07T04:41:33.937Z",
+          "currentServiceObjectiveName": "S0",
+          "defaultSecondaryLocation": "North Europe",
+          "catalogCollation": "SQL_Latin1_General_CP1_CI_AS"
+        },
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/dbcopy",
+        "name": "dbcopy",
         "type": "Microsoft.Sql/servers/databases"
       }
   - statusCode: "202"

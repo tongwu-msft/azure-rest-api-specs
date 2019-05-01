@@ -1,7 +1,7 @@
 ---
 title: "Add, Update or Delete Documents (Azure Search Service REST API) | Microsoft Docs"
 description: Refresh an Azure Search with incremental indexing to replace, remove, or create new index entries.
-ms.date: "04/25/2019"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -41,7 +41,7 @@ POST /indexes/[index name]/docs/index?api-version=[api-version]
 
 The request URI includes, `[index name]`, specifying which index to post documents. You can only post documents to one index at a time.  
 
-The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.  
+The `api-version` parameter is required. The current version is `api-version=2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.  
 
 ### Request Headers  
 The following table describes the required and optional request headers.  
@@ -264,7 +264,7 @@ Status code: 429 indicates that you have exceeded your quota on the number of do
 ```  
 
 > [!NOTE]
-> When you upload `DateTimeOffset` values with time zone information to your index, Azure Search normalizes these values to UTC. For example, `2017-01-13T14:03:00-08:00` will be stored as `2017-01-13T22:03:00Z`. If you need to store time zone information, you will need to add an extra column to your index.
+> When you upload `DateTimeOffset` values with time zone information to your index, Azure Search normalizes these values to UTC. For example, `2019-01-13T14:03:00-08:00` will be stored as `2019-01-13T22:03:00Z`. If you need to store time zone information, you will need to add an extra column to your index.
 
 ## See also  
  [Azure Search Service REST](index.md)   

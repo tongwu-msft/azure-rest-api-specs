@@ -59,7 +59,7 @@ The following are the headers that a request and response may include.
    
 ## Query parameters 
 
-The following are the query parameters that a request may include. See the Required column for required parameters. You must URL encode the query parameter values. For information about query parameters that you use to filter the images that Bing returns, see Filter Query Parameters.  
+The following are the query parameters that a request may include. See the Required column for required parameters. You must URL encode the query parameter values. For information about query parameters that you use to filter the images that Bing returns, see [Filter Query Parameters](#filter-query-parameters).  
   
 |Name|Value|Type|Required|  
 |----------|-----------|----------|--------------|  
@@ -117,7 +117,7 @@ Defines the error that occurred.
   
 |Element|Description|Type|  
 |-------------|-----------------|----------|  
-|<a name="error-code" />code|The error code that identifies the category of error. For a list of possible codes, see Error Codes.|String|  
+|<a name="error-code" />code|The error code that identifies the category of error. For a list of possible codes, see [Error Codes](#error-codes).|String|  
 |<a name="error-message" />message|A description of the error.|String|  
 |<a name="error-moredetails" />moreDetails|A description that provides additional information about the error.|String|  
 |<a name="error-parameter" />parameter|The query parameter in the request that caused the error.|String|  

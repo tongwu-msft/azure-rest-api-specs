@@ -53,6 +53,7 @@ The stored procedure resource has a fixed schema. The body property contains the
 |**_etag**|It is a system-generated property that specifies the resource etag required for optimistic concurrency control.|  
   
 Stored procedures can use the Cosmos DB JavaScript Server-side SDK to make database operations like create, read, update, delete and query documents, as well as read from the request body and write to the response body of the stored procedure. For more information, see the [Cosmos DB server side programming tutorial](/azure/cosmos-db/how-to-write-stored-procedures-triggers-udfs).  
+
 For example, here’s a stored procedure for “Hello World”:  
   
 ```  

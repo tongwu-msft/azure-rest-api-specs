@@ -38,7 +38,7 @@ translation.priority.mt:
   
 -   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](/rest/api/resources).  
   
--   Replace {resourceGroupName} with the resource group name within your subscriptionId. For more information, see [Manage Azure resources through portal](/azure/azure-resource-manager/resource-group-portal#manage-resource-groups).  
+-   Replace {resourceGroupName} with the resource group name within your subscriptionId. For more information, see [Manage Azure Resource Manager resource groups by using the Azure portal](/azure/azure-resource-manager/manage-resource-groups-portal).  
   
 -   Replace {namespaceName} with the name of the namespace you created on the portal.  
   

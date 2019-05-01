@@ -1,5 +1,5 @@
 ---
-title: Update Skillset (REST api-version=2017-11-11-Preview) - Azure Search | Microsoft Docs
+title: Update Skillset (Azure Search Service REST API) | Microsoft Docs
 description: Modify an existing skillset. A skillset is a collection of cognitive skills that comprise an enrichment pipeline in Azure Search indexing.
 
 ms.manager: cgronlun
@@ -11,19 +11,17 @@ ms.service: search
 ms.devlang: rest-api
 ms.workload: search
 ms.topic: "language-reference"
-ms.date: 01/08/2019
+ms.date: "05/02/2019"
 ---
-# Update Skillset (Azure Search Service REST API - Preview)
-
-**Applies to:** api-version-2017-11-11-Preview
+# Update Skillset (Azure Search Service REST API)
 
 You can update an existing [skillset](create-skillset.md) using an HTTP PUT, specifying the name of the skillset to update on the request URI.
 
 > [!NOTE]
-> Skillsets are used in [cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro). Currently, this feature is in public preview. A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
+> Skillsets are used in [cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro). A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
 
 ```http  
-PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2017-11-11-Preview
+PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2019-05-06
 api-key: [admin key]
 Content-Type: application/json
 ```  
@@ -31,7 +29,7 @@ Content-Type: application/json
 ## Request  
  HTTPS is required for all service requests. The **Update Skillset** request can be constructed using a PUT method, with the skillset name as part of the URL. When the request is on a skillset that already exists, it is updated to the new definition. If the skillset doesn't exist, it is created. Notice that you can only PUT one skillset at a time.  
 
- The **api-version** is required. It is case-sensitive. The current preview version for cognitive search is `api-version=2017-11-11-Preview`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
+ The **api-version** is required. It is case-sensitive. The current version is `api-version=2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
 
 
 ### Request headers  
@@ -66,7 +64,7 @@ The syntax for structuring the request payload is as follows. A sample request i
  The following example updates a skillset used for enriching a collection of financial documents.
 
 ```http
-PUT https://[servicename].search.windows.net/skillsets/financedocenricher?api-version=2017-11-11-Preview
+PUT https://[servicename].search.windows.net/skillsets/financedocenricher?api-version=2019-05-06
 api-key: [admin key]
 Content-Type: application/json
 ```
