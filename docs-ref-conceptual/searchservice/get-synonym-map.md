@@ -1,12 +1,12 @@
 ---
 title: "Get Synonym Map (Azure Search Service REST API) | Microsoft Docs"
 description: "A content of a synonym map can be retrieved using REST API in Azure Search."
-ms.date: "04/20/2018"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
-author: "mhko"
-ms.author: "nateko"
+author: "Brjohnstmsft"
+ms.author: "brjohnst"
 ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"

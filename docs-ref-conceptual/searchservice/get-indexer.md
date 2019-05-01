@@ -1,7 +1,7 @@
 ---
 title: "Get Indexer (Azure Search Service REST API) | Microsoft Docs"
 description: Returns an indexer definition from an Azure Search service.
-ms.date: "04/20/2018"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"

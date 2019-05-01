@@ -11,7 +11,7 @@ ms.service: search
 ms.devlang: rest-api
 ms.workload: search
 ms.topic: "language-reference"
-ms.date: 02/14/2019
+ms.date: "05/02/2019"
 
 ---
 # Skillset operations (Azure Search Service REST API - Preview)

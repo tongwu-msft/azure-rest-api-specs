@@ -1,7 +1,7 @@
 ---
 title: "Get Index (Azure Search Service REST API) | Microsoft Docs"
 description: Return an index definition in JSON, but not its contents, from an Azure Search service.
-ms.date: "04/20/2018"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"

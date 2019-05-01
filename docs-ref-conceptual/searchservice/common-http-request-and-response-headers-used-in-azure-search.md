@@ -1,7 +1,7 @@
 ---
 title: Common HTTP request and response headers - Azure Search
 description: HTTP codes returned by Azure Search when making REST API calls.
-ms.date: 02/14/2019
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"

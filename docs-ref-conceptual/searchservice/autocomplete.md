@@ -1,7 +1,7 @@
 ---
 title: "Autocomplete (Azure Search Service REST API)"
 ms.custom: ""
-ms.date: "03/18/2019"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.suite: ""

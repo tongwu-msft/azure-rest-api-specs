@@ -1,7 +1,7 @@
 ---
 title: "Search Documents (Azure Search Service REST API)  | Microsoft Docs"
 description: Query an Azure Search index and return search results.
-ms.date: "02/20/2019"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -287,7 +287,7 @@ Status Code: 200 OK is returned for a successful response.
         }  
     ```  
 
-2.  In a faceted search, search the index and retrieve facets for categories, ratings, tags, as well as items with baseRate in specific ranges. In this example, the search string is a wildcard (*) but it could just as easily be a string.  
+2.  In a faceted search, search the index and retrieve facets for categories, ratings, tags, as well as items with baseRate in specific ranges. 
 
     ```  
     GET /indexes/hotels/docs?search=*&facet=category&facet=rating&facet=tags&facet=baseRate,values:80|150|220&api-version=2017-11-11  

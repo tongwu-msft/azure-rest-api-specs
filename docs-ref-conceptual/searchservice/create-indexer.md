@@ -5,7 +5,7 @@ services: search
 manager: pablocas
 author: luiscabrer
 ms.author: luisca
-ms.date: 02/09/2019
+ms.date: "05/02/2019"
 ms.service: search
 ms.devlang: rest-api
 ms.workload: search

@@ -1,7 +1,7 @@
 ---
 title: "Lookup Document (Azure Search Service REST API) | Microsoft Docs"
 description: Return a specific document by ID from an Azure Search index.
-ms.date: "04/20/2018"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"

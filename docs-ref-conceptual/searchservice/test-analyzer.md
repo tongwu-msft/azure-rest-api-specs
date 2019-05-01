@@ -1,7 +1,7 @@
 ---
 title: "Analyze Text (Azure Search Service REST API) | Microsoft Docs"
 description: Test predefined and custom analyzers used for breaking text into tokens during Azure Search indexing.
-ms.date: "04/20/2018"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"

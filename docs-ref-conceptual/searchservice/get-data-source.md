@@ -1,7 +1,7 @@
 ---
 title: "Get Data Source (Azure Search Service REST API) | Microsoft Docs"
 description: Return data source connection information used by an Azure Searching indexer when crawling an external data source.
-ms.date: "01/16/2019"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"

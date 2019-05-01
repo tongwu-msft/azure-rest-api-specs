@@ -1,7 +1,7 @@
 ---
 title: "Count Documents (Azure Search Service REST API) | Microsoft Docs"
 description: Return a count of total number of documents in an Azure Search index.
-ms.date: "2016-11-09"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"

@@ -1,7 +1,7 @@
 ---
 title: "Update Index (Azure Search Service REST API) | Microsoft Docs"
 ms.custom: ""
-ms.date: "10/02/2018"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.suite: ""

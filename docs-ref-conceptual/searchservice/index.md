@@ -19,7 +19,7 @@ translation.priority.mt:
   - "ru-ru"
   - "zh-cn"
   - "zh-tw"
-service_description: To be added
+service_description: Azure Search is an AI-Powered cloud search service for web and mobile app development.
 ---
 # Azure Search Service REST
 
@@ -37,7 +37,7 @@ For details on how to upgrade from a previous GA version, see [Upgrading to the 
 
 **2019-05-06-Preview** is the most current preview version. Preview features include:
 
-  -  Customer-managed encryption keys for service-side encryption-at-rest is available for evaluation in [Create Index](create-index.md) and [Create Synonym Map](searchservice\create-synonym-map.md). 
+  -  Customer-managed encryption keys for service-side encryption-at-rest is available for evaluation in [Create Index](create-index.md) and [Create Synonym Map](create-synonym-map.md). 
 
 For the full list of preview features, see [Preview APIs](https://docs.microsoft.com/azure/search/search-api-preview).
 
@@ -53,9 +53,9 @@ For the full list of preview features, see [Preview APIs](https://docs.microsoft
 
 -   [Indexer operations](indexer-operations.md). Automate aspects of an indexing operation by configuring a **data source** and an **indexer** that you can schedule or run on demand. This feature is supported for a limited number of data source types. 
 
--   [Skillset operations](skillset-operations.md). Part of a cognitive search workload, a skillset defines a series of enrichments performed on content inputs. Enrichments are based on built-in or custom cognitive skills. 
+-   [Skillset operations](skillset-operations.md). Part of a [cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) workload, a skillset defines a series of enrichment processing. A skillset is consumed by an indexer. 
 
--   [Synonym operations](synonym-operations.md). A synonym map is service-level resource that containers user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field).  
+-   [Synonym map operations](synonym-map-operations.md). A synonym map is service-level resource that containers user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field).  
 
  A separate REST API is provided for service administration, including provisioning the service or altering capacity. For more information, see [Azure Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md).  
 
