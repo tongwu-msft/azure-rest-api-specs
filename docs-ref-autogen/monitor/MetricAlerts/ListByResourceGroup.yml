@@ -185,6 +185,8 @@ definitions:
     types:
     - uid: MetricCriteria
       isArray: true
+    - uid: DynamicMetricCriteria
+      isArray: true
     typesTitle: MultiMetricCriteria[]
   - name: odata.type
     description: specifies the type of the alert criteria.
@@ -195,6 +197,19 @@ definitions:
   description: Criterion to filter metrics.
   kind: object
   properties:
+  - name: operator
+    description: the criteria operator.
+    types:
+    - uid: Operator
+  - name: threshold
+    description: the criteria threshold value that activates the alert.
+    types:
+    - uid: number
+  - name: criterionType
+    description: " Specifies the type of threshold criteria"
+    types:
+    - uid: StaticThresholdCriterion
+    typesTitle: string
   - name: name
     description: Name of the criteria.
     types:
@@ -207,28 +222,15 @@ definitions:
     description: Namespace of the metric.
     types:
     - uid: string
-  - name: operator
-    description: the criteria operator.
-    types:
-    - uid: Operator
   - name: timeAggregation
     description: the criteria time aggregation types.
     types:
     - uid: AggregationType
-  - name: threshold
-    description: the criteria threshold value that activates the alert.
-    types:
-    - uid: number
   - name: dimensions
     description: List of dimension conditions.
     types:
     - uid: MetricDimension
       isArray: true
-  - name: criterionType
-    description: " Specifies the type of threshold criteria"
-    types:
-    - uid: StaticThresholdCriterion
-    typesTitle: string
 - name: Operator
   description: the criteria operator.
   kind: enum
@@ -284,6 +286,90 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: DynamicMetricCriteria
+  description: Criterion for dynamic threshold.
+  kind: object
+  properties:
+  - name: operator
+    description: The operator used to compare the metric value against the threshold.
+    types:
+    - uid: DynamicThresholdOperator
+  - name: alertSensitivity
+    description: The extent of deviation required to trigger an alert. This will affect how tight the threshold is to the metric series pattern.
+    types:
+    - uid: DynamicThresholdSensitivity
+  - name: failingPeriods
+    description: The minimum number of violations required within the selected lookback time window required to raise an alert.
+    types:
+    - uid: DynamicThresholdFailingPeriods
+  - name: ignoreDataBefore
+    description: Use this option to set the date from which to start learning the metric historical data and calculate the dynamic thresholds (in ISO8601 format)
+    types:
+    - uid: string
+  - name: criterionType
+    description: " Specifies the type of threshold criteria"
+    types:
+    - uid: DynamicThresholdCriterion
+    typesTitle: string
+  - name: name
+    description: Name of the criteria.
+    types:
+    - uid: string
+  - name: metricName
+    description: Name of the metric.
+    types:
+    - uid: string
+  - name: metricNamespace
+    description: Namespace of the metric.
+    types:
+    - uid: string
+  - name: timeAggregation
+    description: the criteria time aggregation types.
+    types:
+    - uid: AggregationType
+  - name: dimensions
+    description: List of dimension conditions.
+    types:
+    - uid: MetricDimension
+      isArray: true
+- name: DynamicThresholdOperator
+  description: The operator used to compare the metric value against the threshold.
+  kind: enum
+  properties:
+  - name: GreaterThan
+    types:
+    - uid: string
+  - name: LessThan
+    types:
+    - uid: string
+  - name: GreaterOrLessThan
+    types:
+    - uid: string
+- name: DynamicThresholdSensitivity
+  description: The extent of deviation required to trigger an alert. This will affect how tight the threshold is to the metric series pattern.
+  kind: enum
+  properties:
+  - name: Low
+    types:
+    - uid: string
+  - name: Medium
+    types:
+    - uid: string
+  - name: High
+    types:
+    - uid: string
+- name: DynamicThresholdFailingPeriods
+  description: The minimum number of violations required within the selected lookback time window required to raise an alert.
+  kind: object
+  properties:
+  - name: numberOfEvaluationPeriods
+    description: The number of aggregated lookback points. The lookback time window is calculated based on the aggregation granularity (windowSize) and the selected number of aggregated points.
+    types:
+    - uid: number
+  - name: minFailingPeriodsToAlert
+    description: The number of violations to trigger an alert. Should be smaller or equal to numberOfEvaluationPeriods.
+    types:
+    - uid: number
 examples:
 - name: List metric alert rules
   request:
@@ -313,6 +399,7 @@ examples:
                 "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
                 "allOf": [
                   {
+                    "criterionType": "StaticThresholdCriterion",
                     "name": "High_CPU_80",
                     "metricName": "CustomMetric_\\Processor(_Total)\\% Processor Time",
                     "dimensions": [],
@@ -353,6 +440,7 @@ examples:
                 "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
                 "allOf": [
                   {
+                    "criterionType": "StaticThresholdCriterion",
                     "name": "Medium_CPU_50",
                     "metricName": "CustomMetric_\\Processor(_Total)\\% Processor Time",
                     "dimensions": [],
