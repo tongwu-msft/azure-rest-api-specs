@@ -49,7 +49,7 @@ The error codes listed in the following table may be returned by an operation ag
 |FeatureVersionMismatch|Conflict (409)|The operation for AppendBlob requires at least version 2015-02-21.|  
 |FeatureVersionMismatch|Conflict (409)|The type of blob in the container is unrecognized by this version.|  
 |IncrementalCopyBlobMismatch|Conflict (409)|The specified source blob is different than the copy source of the existing incremental copy blob.|
-|IncrementalCopyOfEralierVersionSnapshotNotAllowed|Conflict (409)|The specified snapshot is earlier than the last snapshot copied into the incremental copy blob.|
+|IncrementalCopyOfEarlierVersionSnapshotNotAllowed|Conflict (409)|The specified snapshot is earlier than the last snapshot copied into the incremental copy blob.|
 |IncrementalCopySourceMustBeSnapshot|Conflict (409)|The source for incremental copy request must be a snapshot.|
 |InfiniteLeaseDurationRequired|Precondition Failed (412)|The lease ID matched, but the specified lease must be an infinite-duration lease.|  
 |InvalidBlobOrBlock|Bad Request (400)|The specified blob or block content is invalid.|  
