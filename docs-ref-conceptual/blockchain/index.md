@@ -22,9 +22,11 @@ Azure Blockchain Service is a fully managed ledger service that enables you to o
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Blockchain members](xref:management.azure.com.blockchain.blockchainMembers)  | Provides operations for accessing blockchain members. |
+| [Blockchain members](xref:management.azure.com.blockchain.blockchainmembers)  | Provides operations for accessing blockchain members. |
 | [Locations](xref:management.azure.com.blockchain.locations)  | Provides operations for accessing consortium details. |
 | [Operations](xref:management.azure.com.blockchain.operations)  | Lists all available REST APIs for Blockchain Service. |
+| [SKUs](xref:management.azure.com.blockchain.skus)  | Lists the SKUs of the resource type. |
+| [Transaction nodes](xref:management.azure.com.blockchain.transactionnodes)  | Provides operations for accessing transaction nodes. |
 
 ## See also
 
