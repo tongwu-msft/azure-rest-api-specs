@@ -287,7 +287,7 @@ Status Code: 200 OK is returned for a successful response.
         }  
     ```  
 
-2.  In a faceted search, search the index and retrieve facets for categories, ratings, tags, as well as items with baseRate in specific ranges. In this example, the search string is a wildcard (*) but it could just as easily be a string.  
+2.  In a faceted search, search the index and retrieve facets for categories, ratings, tags, as well as items with baseRate in specific ranges.
 
     ```  
     GET /indexes/hotels/docs?search=*&facet=Category&facet=Rating&facet=Tags&facet=Rooms/BaseRate,values:80|150|220&api-version=2017-11-11  
