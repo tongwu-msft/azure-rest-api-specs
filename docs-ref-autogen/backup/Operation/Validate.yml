@@ -52,6 +52,11 @@ requestBody:
     - uid: AzureFileShareRestoreRequest
     - uid: AzureWorkloadRestoreRequest
     - uid: IaasVMRestoreRequest
+    - uid: AzureWorkloadPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaRestoreRequest
+    - uid: AzureWorkloadSQLRestoreRequest
+    - uid: AzureWorkloadSQLPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaPointInTimeRestoreRequest
     typesTitle: RestoreRequest
   - name: objectType
     in: body
@@ -59,6 +64,29 @@ requestBody:
     description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: ValidateRestoreOperationRequest
+    typesTitle: string
+- name: ValidateIaasVMRestoreOperationRequest
+  description: AzureRestoreValidation request.
+  parameters:
+  - name: restoreRequest
+    in: body
+    description: Sets restore request to be validated
+    types:
+    - uid: AzureFileShareRestoreRequest
+    - uid: AzureWorkloadRestoreRequest
+    - uid: IaasVMRestoreRequest
+    - uid: AzureWorkloadPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaRestoreRequest
+    - uid: AzureWorkloadSQLRestoreRequest
+    - uid: AzureWorkloadSQLPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaPointInTimeRestoreRequest
+    typesTitle: RestoreRequest
+  - name: objectType
+    in: body
+    isRequired: true
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: ValidateIaasVMRestoreOperationRequest
     typesTitle: string
 requestHeader: []
 definitions:
@@ -72,19 +100,17 @@ definitions:
     - uid: AzureFileShareRestoreRequest
     - uid: AzureWorkloadRestoreRequest
     - uid: IaasVMRestoreRequest
+    - uid: AzureWorkloadPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaRestoreRequest
+    - uid: AzureWorkloadSQLRestoreRequest
+    - uid: AzureWorkloadSQLPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaPointInTimeRestoreRequest
     typesTitle: RestoreRequest
   - name: objectType
     description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: ValidateRestoreOperationRequest
     typesTitle: string
-- name: ValidateOperationsResponse
-  kind: object
-  properties:
-  - name: validateOperationResponse
-    description: Base class for validate operation response.
-    types:
-    - uid: ValidateOperationResponse
 - name: ValidateIaasVMRestoreOperationRequest
   description: AzureRestoreValidation request.
   kind: object
@@ -95,12 +121,24 @@ definitions:
     - uid: AzureFileShareRestoreRequest
     - uid: AzureWorkloadRestoreRequest
     - uid: IaasVMRestoreRequest
+    - uid: AzureWorkloadPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaRestoreRequest
+    - uid: AzureWorkloadSQLRestoreRequest
+    - uid: AzureWorkloadSQLPointInTimeRestoreRequest
+    - uid: AzureWorkloadSAPHanaPointInTimeRestoreRequest
     typesTitle: RestoreRequest
   - name: objectType
     description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
     types:
     - uid: ValidateIaasVMRestoreOperationRequest
     typesTitle: string
+- name: ValidateOperationsResponse
+  kind: object
+  properties:
+  - name: validateOperationResponse
+    description: Base class for validate operation response.
+    types:
+    - uid: ValidateOperationResponse
 - name: ValidateOperationResponse
   description: Base class for validate operation response.
   kind: object
@@ -258,99 +296,6 @@ definitions:
     types:
     - uid: IaasVMRestoreRequest
     typesTitle: string
-- name: ErrorDetail
-  description: Error Detail class which encapsulates Code, Message and Recommendations.
-  kind: object
-  properties:
-  - name: code
-    description: Error code.
-    types:
-    - uid: string
-  - name: message
-    description: Error Message related to the Code.
-    types:
-    - uid: string
-  - name: recommendations
-    description: List of recommendation strings.
-    types:
-    - uid: string
-      isArray: true
-- name: RecoveryType
-  description: Type of this recovery.
-  kind: enum
-  properties:
-  - name: Invalid
-    types:
-    - uid: string
-  - name: OriginalLocation
-    types:
-    - uid: string
-  - name: AlternateLocation
-    types:
-    - uid: string
-  - name: RestoreDisks
-    types:
-    - uid: string
-- name: CopyOptions
-  description: Options to resolve copy conflicts.
-  kind: enum
-  properties:
-  - name: Invalid
-    types:
-    - uid: string
-  - name: CreateCopy
-    types:
-    - uid: string
-  - name: Skip
-    types:
-    - uid: string
-  - name: Overwrite
-    types:
-    - uid: string
-  - name: FailOnConflict
-    types:
-    - uid: string
-- name: RestoreRequestType
-  description: Restore Type (FullShareRestore or ItemLevelRestore)
-  kind: enum
-  properties:
-  - name: Invalid
-    types:
-    - uid: string
-  - name: FullShareRestore
-    types:
-    - uid: string
-  - name: ItemLevelRestore
-    types:
-    - uid: string
-- name: RestoreFileSpecs
-  description: Restore file specs like file path, type and target folder path info.
-  kind: object
-  properties:
-  - name: path
-    description: Source File/Folder path
-    types:
-    - uid: string
-  - name: fileSpecType
-    description: Indicates what the Path variable stands for
-    types:
-    - uid: string
-  - name: targetFolderPath
-    description: Destination folder path in target FileShare
-    types:
-    - uid: string
-- name: TargetAFSRestoreInfo
-  description: Target Azure File Share Info.
-  kind: object
-  properties:
-  - name: name
-    description: File share name
-    types:
-    - uid: string
-  - name: targetResourceId
-    description: Target file share resource ARM ID
-    types:
-    - uid: string
 - name: AzureWorkloadPointInTimeRestoreRequest
   description: AzureWorkload SAP Hana -specific restore. Specifically for PointInTime/Log restore
   kind: object
@@ -455,79 +400,6 @@ definitions:
     types:
     - uid: AzureWorkloadSQLRestoreRequest
     typesTitle: string
-- name: TargetRestoreInfo
-  description: Details about target workload during restore operation.
-  kind: object
-  properties:
-  - name: overwriteOption
-    description: Can Overwrite if Target DataBase already exists
-    types:
-    - uid: OverwriteOptions
-  - name: containerId
-    description: Resource Id name of the container in which Target DataBase resides
-    types:
-    - uid: string
-  - name: databaseName
-    description: Database name InstanceName/DataBaseName for SQL or System/DbName for SAP Hana
-    types:
-    - uid: string
-- name: EncryptionDetails
-  description: Details needed if the VM was encrypted at the time of backup.
-  kind: object
-  properties:
-  - name: encryptionEnabled
-    description: Identifies whether this backup copy represents an encrypted VM at the time of backup.
-    types:
-    - uid: boolean
-  - name: kekUrl
-    description: Key Url.
-    types:
-    - uid: string
-  - name: secretKeyUrl
-    description: Secret Url.
-    types:
-    - uid: string
-  - name: kekVaultId
-    description: ID of Key Vault where KEK is stored.
-    types:
-    - uid: string
-  - name: secretKeyVaultId
-    description: ID of Key Vault where Secret is stored.
-    types:
-    - uid: string
-- name: AzureWorkloadSAPHanaPointInTimeRestoreRequest
-  description: AzureWorkload SAP Hana -specific restore. Specifically for PointInTime/Log restore
-  kind: object
-  properties:
-  - name: pointInTime
-    description: PointInTime value
-    types:
-    - uid: string
-  - name: recoveryType
-    description: OLR/ALR, RestoreDisks is invalid option
-    types:
-    - uid: RecoveryType
-  - name: sourceResourceId
-    description: Fully qualified ARM ID of the VM on which workload that was running is being recovered.
-    types:
-    - uid: string
-  - name: propertyBag
-    description: Workload specific property bag.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: targetInfo
-    description: Details of target database
-    types:
-    - uid: TargetRestoreInfo
-  - name: objectType
-    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
-    types:
-    - uid: AzureWorkloadSAPHanaPointInTimeRestoreRequest
-    typesTitle: string
 - name: AzureWorkloadSQLPointInTimeRestoreRequest
   description: AzureWorkload SQL -specific restore. Specifically for PointInTime/Log restore
   kind: object
@@ -574,6 +446,172 @@ definitions:
     types:
     - uid: AzureWorkloadSQLPointInTimeRestoreRequest
     typesTitle: string
+- name: AzureWorkloadSAPHanaPointInTimeRestoreRequest
+  description: AzureWorkload SAP Hana -specific restore. Specifically for PointInTime/Log restore
+  kind: object
+  properties:
+  - name: pointInTime
+    description: PointInTime value
+    types:
+    - uid: string
+  - name: recoveryType
+    description: OLR/ALR, RestoreDisks is invalid option
+    types:
+    - uid: RecoveryType
+  - name: sourceResourceId
+    description: Fully qualified ARM ID of the VM on which workload that was running is being recovered.
+    types:
+    - uid: string
+  - name: propertyBag
+    description: Workload specific property bag.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: targetInfo
+    description: Details of target database
+    types:
+    - uid: TargetRestoreInfo
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: AzureWorkloadSAPHanaPointInTimeRestoreRequest
+    typesTitle: string
+- name: ErrorDetail
+  description: Error Detail class which encapsulates Code, Message and Recommendations.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error Message related to the Code.
+    types:
+    - uid: string
+  - name: recommendations
+    description: List of recommendation strings.
+    types:
+    - uid: string
+      isArray: true
+- name: RecoveryType
+  description: Type of this recovery.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: OriginalLocation
+    types:
+    - uid: string
+  - name: AlternateLocation
+    types:
+    - uid: string
+  - name: RestoreDisks
+    types:
+    - uid: string
+- name: CopyOptions
+  description: Options to resolve copy conflicts.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: CreateCopy
+    types:
+    - uid: string
+  - name: Skip
+    types:
+    - uid: string
+  - name: Overwrite
+    types:
+    - uid: string
+  - name: FailOnConflict
+    types:
+    - uid: string
+- name: RestoreRequestType
+  description: Restore Type (FullShareRestore or ItemLevelRestore)
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: FullShareRestore
+    types:
+    - uid: string
+  - name: ItemLevelRestore
+    types:
+    - uid: string
+- name: RestoreFileSpecs
+  description: Restore file specs like file path, type and target folder path info.
+  kind: object
+  properties:
+  - name: path
+    description: Source File/Folder path
+    types:
+    - uid: string
+  - name: fileSpecType
+    description: Indicates what the Path variable stands for
+    types:
+    - uid: string
+  - name: targetFolderPath
+    description: Destination folder path in target FileShare
+    types:
+    - uid: string
+- name: TargetAFSRestoreInfo
+  description: Target Azure File Share Info.
+  kind: object
+  properties:
+  - name: name
+    description: File share name
+    types:
+    - uid: string
+  - name: targetResourceId
+    description: Target file share resource ARM ID
+    types:
+    - uid: string
+- name: TargetRestoreInfo
+  description: Details about target workload during restore operation.
+  kind: object
+  properties:
+  - name: overwriteOption
+    description: Can Overwrite if Target DataBase already exists
+    types:
+    - uid: OverwriteOptions
+  - name: containerId
+    description: Resource Id name of the container in which Target DataBase resides
+    types:
+    - uid: string
+  - name: databaseName
+    description: Database name InstanceName/DataBaseName for SQL or System/DbName for SAP Hana
+    types:
+    - uid: string
+- name: EncryptionDetails
+  description: Details needed if the VM was encrypted at the time of backup.
+  kind: object
+  properties:
+  - name: encryptionEnabled
+    description: Identifies whether this backup copy represents an encrypted VM at the time of backup.
+    types:
+    - uid: boolean
+  - name: kekUrl
+    description: Key Url.
+    types:
+    - uid: string
+  - name: secretKeyUrl
+    description: Secret Url.
+    types:
+    - uid: string
+  - name: kekVaultId
+    description: ID of Key Vault where KEK is stored.
+    types:
+    - uid: string
+  - name: secretKeyVaultId
+    description: ID of Key Vault where Secret is stored.
+    types:
+    - uid: string
 - name: SQLDataDirectoryMapping
   description: Encapsulates information regarding data directory
   kind: object
