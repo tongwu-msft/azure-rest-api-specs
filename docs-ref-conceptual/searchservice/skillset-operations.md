@@ -14,9 +14,7 @@ ms.topic: "language-reference"
 ms.date: "05/02/2019"
 
 ---
-# Skillset operations (Azure Search Service REST API - Preview)
-
-**Applies to:** api-version-2017-11-11-Preview
+# Skillset operations (Azure Search Service REST API)
 
 A skillset is a collection of AI-powered algorithms, referred to as *cognitive skills*, used for natural language processing and other transformations on content that you are indexing in Azure Search. A skillset can include [built-in skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills), custom skills, or a combination of both. Examples of built-in skills include entity recognition, key phrase extraction, chunking text into logical pages, among others.
 

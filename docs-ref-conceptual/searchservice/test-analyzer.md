@@ -33,7 +33,7 @@ The **Analyze API** shows how an analyzer breaks text into tokens.
 
 HTTPS is required for all services requests. The **Analyze API** request can be constructed using the POST method.
 
-`api-version=[string]` (required). The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.
+`api-version=[string]` (required). The current version is `api-version=2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.
 
 ### Request Headers  
 The following list describes the required and optional request headers.

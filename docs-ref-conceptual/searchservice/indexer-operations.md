@@ -34,10 +34,7 @@ translation.priority.mt:
 
 ## Supportability
 
- Version 2017-11-11 of the Service REST API adds support for the Azure Blob and Azure Table indexers. Previously, these features were only available in the preview API.
-
- > [!NOTE]
- > Indexing of CSV blobs and blobs containing JSON arrays is still in preview and is therefore not supported in the 2017-11-11 API version.
+ Version 2019-05-06 of the Service REST API provides the Azure Blob and Azure Table indexers, but the CSV blob indexer support is preview-only through `api-version=2019-05-06-Preview`.
 
  A **data source** specifies what data needs to be indexed, credentials to access the data, and policies to enable Azure Search to efficiently identify changes in the data (such as modified or deleted rows in a database table). It's defined as an independent resource so that it can be used by multiple indexers.  
 
@@ -185,7 +182,7 @@ POST https://[service name].search.windows.net/indexers/[indexer name]/reset?api
  [Create Skillset](create-skillset.md)  
 
 ```http  
-PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2017-11-11-Preview
+PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=[api-version]  
 api-key: [admin key]
 Content-Type: application/json
 ```  

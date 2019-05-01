@@ -44,7 +44,7 @@ Content-Type: application/json
 api-key: [admin key]  
 ``` 
 
-The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
+The `api-version` parameter is required. The current version is `api-version=2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
 ### Request Headers  
 The following table describes the required and optional request headers.  

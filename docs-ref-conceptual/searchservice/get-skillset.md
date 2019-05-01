@@ -1,5 +1,5 @@
 ---
-title: "Get Skillset (REST api-version=2017-11-11-Preview) - Azure Search  | Microsoft Docs"
+title: "Get Skillset Azure Search Service REST API | Microsoft Docs"
 description: Returns a cognitive search skillset definition from an Azure Search service.
 ms.manager: cgronlun
 author: luiscabrer
@@ -12,9 +12,8 @@ ms.workload: search
 ms.topic: language-reference
 ms.date: "05/02/2019"
 ---
-# Get Skillset (Azure Search Service REST API - Preview)
+# Get Skillset (Azure Search Service REST API)
 
-**Applies to:** api-version-2017-11-11-Preview
 
 The **Get Skillset** operation gets the skillset definition from Azure Search.  A skillset is a chain of skills, linked by input-output mappings, that performs enrichments during indexing to make raw content full-text-searchable in Azure Search.
 
@@ -22,11 +21,11 @@ The **Get Skillset** operation gets the skillset definition from Azure Search.  
 HTTPS is required for all services requests. The **Get Indexer** request can be constructed using the GET method.  
 
 ```  
-GET https://[service name].search.windows.net/skillsets/[skillset name]?api-version=2017-11-11-Preview 
+GET https://[service name].search.windows.net/skillsets/[skillset name]?api-version=2019-05-06
     api-key: [admin key]  
 ```  
 
-The **api-version** is required. It is case-sensitive. The current preview version for cognitive search is `api-version=2017-11-11-Preview`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
+ The **api-version** is required. It is case-sensitive. The current version is `api-version=2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
 
 Because this request returns schema information, the **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
 

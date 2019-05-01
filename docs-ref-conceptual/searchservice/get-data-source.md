@@ -33,7 +33,7 @@ api-key: [admin key]
 
 The `[datasource name]` in the request URI specifies which data source definition to return from the datasources collection.  
 
-The `[api-version]` is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
+The `[api-version]` is required. The current version is `2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
 
 ### Request Headers  
 The following table describes the required and optional request headers.  

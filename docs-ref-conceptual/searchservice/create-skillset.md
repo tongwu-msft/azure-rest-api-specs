@@ -1,5 +1,5 @@
 ---
-title: Create Skillset (REST api-version=2019-05-06-Preview) - Azure Search | Microsoft Docs
+title: Create Skillset (Azure Search Service REST API) | Microsoft Docs
 description: A skillset is a collection of cognitive skills that comprise an enriched indexing pipeline in Azure Search.
 
 ms.manager: cgronlun
@@ -14,9 +14,7 @@ ms.topic: language-reference
 ms.date: "05/02/2019"
 
 ---
-# Create Skillset (Azure Search Service REST API - Preview)
-
-**Applies to:** api-version-2019-05-06-Preview
+# Create Skillset (Azure Search Service REST API)
 
 A skillset is a collection of [cognitive skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills) used for natural language processing and other transformations. Skills include named entity extraction, key phrase extraction, chunking text into logical pages, among others.
 
@@ -27,10 +25,10 @@ A skillset is expressed in Azure Search through an HTTP PUT or POST request. For
 A skillset must have at least one skill. There is no theoretical limit on maximum number of skills, but three to five is a common configuration.  
 
 > [!NOTE]
-> Skillsets are used in [cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro). Currently, this feature is in public preview. A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
+> Skillsets are used in [cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro). A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
 
 ```http  
-PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2017-11-11-Preview
+PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2019-05-06
 api-key: [admin key]
 Content-Type: application/json
 ```  
@@ -47,7 +45,7 @@ Content-Type: application/json
 
 After starting the skillset name with a letter or number, the rest of the name can include any letter, number, and dashes as long as the dashes are not consecutive.  
 
- The **api-version** is required. It is case-sensitive. The current preview version for cognitive search is `api-version=2017-11-11-Preview`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
+ The **api-version** is required. It is case-sensitive. The current version is `api-version=2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details. 
 
 
 ### Request headers  
@@ -83,7 +81,7 @@ The syntax for structuring the request payload is as follows. A sample request i
  The following example creates a skillset used for enriching a collection of financial documents.
 
 ```http
-PUT https://[servicename].search.windows.net/skillsets/financedocenricher?api-version=2017-11-11-Preview
+PUT https://[servicename].search.windows.net/skillsets/financedocenricher?api-version=2019-05-06
 api-key: [admin key]
 Content-Type: application/json
 ```
