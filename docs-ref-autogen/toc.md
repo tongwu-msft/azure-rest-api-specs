@@ -1178,6 +1178,8 @@
 ### [Get](azurestack/BlobServices/Get.yml)
 ### [List Metric Definitions](azurestack/BlobServices/ListMetricDefinitions.yml)
 ### [List Metrics](azurestack/BlobServices/ListMetrics.yml)
+## [Check Identity Health](azurestack/CheckIdentityHealth.yml)
+### [Check Identity Health](azurestack/CheckIdentityHealth/CheckIdentityHealth.yml)
 ## [Containers](azurestack/Containers.yml)
 ### [Cancel Migration](azurestack/Containers/CancelMigration.yml)
 ### [List](azurestack/Containers/List.yml)
