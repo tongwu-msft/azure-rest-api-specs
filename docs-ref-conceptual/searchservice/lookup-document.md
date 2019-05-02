@@ -1,7 +1,7 @@
 ---
 title: "Lookup Document (Azure Search Service REST API) | Microsoft Docs"
 description: Return a specific document by ID from an Azure Search index.
-ms.date: "04/20/2018"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -57,7 +57,7 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
 |--------------------|-----------------|  
 |*api-key*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **Lookup Document** request can specify either an admin key or query key for the `api-key`.|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body  
  None.  
@@ -75,13 +75,13 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
  Lookup the document that has key '2':  
 
 ```  
-GET /indexes/hotels/docs/2?api-version=2017-11-11  
+GET /indexes/hotels/docs/2?api-version=2019-05-06
 ```  
 
  Lookup the document that has key '3' using OData syntax:  
 
 ```  
-GET /indexes/hotels/docs('3')?api-version=2017-11-11  
+GET /indexes/hotels/docs('3')?api-version=2019-05-06
 ```  
 
 ## See also  

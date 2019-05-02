@@ -1,7 +1,7 @@
 ---
 title: "Azure Search Service REST | Microsoft Docs"
 description: REST API reference for Azure Search, used for non-managed code such as Java, JavaScript, node.js, Python, and any programming language compatible with REST.
-ms.date: "01/16/2019"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -19,7 +19,7 @@ translation.priority.mt:
   - "ru-ru"
   - "zh-cn"
   - "zh-tw"
-service_description: To be added
+service_description: Azure Search is an AI-Powered cloud search service for web and mobile app development.
 ---
 # Azure Search Service REST
 
@@ -27,17 +27,17 @@ Azure Search is a fully managed cloud search service that provides a rich search
 
 ## Generally available and preview versions
 
-**2017-11-11** is the most current generally available release of the Azure Search Service REST API. This version operates under an Azure service level agreement (SLA).  New features in this API version include:
+**2019-05-06** is the most current generally available release of the Azure Search Service REST API. This version operates under an Azure service level agreement (SLA).  New features in this API version include:
 
-  - [Synonyms](https://docs.microsoft.com/azure/search/search-synonyms). The new synonyms feature allows you to define equivalent terms and expand the scope of the query.
-  - [Support for efficiently indexing text blobs](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-blob-storage#IndexingPlainText). The new `text` parsing mode for Azure Blob indexers significantly improves indexing performance.
-  - [Service Statistics API](get-service-statistics.md). View the current usage and limits of resources in Azure Search with this new API.
+  - [Skillset operations](skillset-operations.md). [Cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) functionality is now generally available.
+  - [Autocomplete](autocomplete.md) is backed by a Suggester construct in an Azure Search index. This is query-related functionality that finishes a partial term input with a word or phrase found in the index.
+  - JSON parsing modes (all) for Blob indexer are now a generally available [indexer operation](indexer-operations.md). 
 
 For details on how to upgrade from a previous GA version, see [Upgrading to the latest Azure Search Service REST API version](https://docs.microsoft.com/azure/search/search-api-migration).
 
-**2017-11-11-Preview** is the most current preview version. Preview features include:
+**2019-05-06-Preview** is the most current preview version. Preview features include:
 
-  -  [cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) with new and updated REST APIs for enriching the indexing pipeline. [Create Skillset](create-skillset.md) specifies a collection of [predefined skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills) and [custom skills](https://docs.microsoft.com/azure/search/cognitive-search-create-custom-skill-example) that add natural language and image processing steps to indexing. [Create Indexer](create-indexer.md) called with `api-version=2017-11-11-Preview` adds a **skillSetName** element and **outputFieldMappings** for chaining inputs and outputs created through a skillset.
+  -  Customer-managed encryption keys for service-side encryption-at-rest is available for evaluation in [Create Index](create-index.md) and [Create Synonym Map](create-synonym-map.md). 
 
 For the full list of preview features, see [Preview APIs](https://docs.microsoft.com/azure/search/search-api-preview).
 
@@ -51,7 +51,11 @@ For the full list of preview features, see [Preview APIs](https://docs.microsoft
 
 -   [Document operations](document-operations.md). Add, update, or delete documents in the index, query the index, or look up specific documents by ID.  
 
--   [Indexer operations](indexer-operations.md). Automate aspects of an indexing operation by configuring a **data source** and an **indexer** that you can schedule or run on demand. This feature is supported for a limited number of data source types.  
+-   [Indexer operations](indexer-operations.md). Automate aspects of an indexing operation by configuring a **data source** and an **indexer** that you can schedule or run on demand. This feature is supported for a limited number of data source types. 
+
+-   [Skillset operations](skillset-operations.md). Part of a [cognitive search](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) workload, a skillset defines a series of enrichment processing. A skillset is consumed by an indexer. 
+
+-   [Synonym map operations](synonym-map-operations.md). A synonym map is service-level resource that containers user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field).  
 
  A separate REST API is provided for service administration, including provisioning the service or altering capacity. For more information, see [Azure Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md).  
 
@@ -67,7 +71,7 @@ For the full list of preview features, see [Preview APIs](https://docs.microsoft
 
 -   All API requests must include the **api-version** in the URI. Its value must be set to the version of the current service release, shown in the following example:  
 
-     `GET https://[search service name].search.windows.net/indexes?api-version=2017-11-11`  
+     `GET https://[search service name].search.windows.net/indexes?api-version=2019-05-06`  
 
 -   All API requests can optionally set the Accept HTTP header. If the header is not set, the default is assumed to be `application/json`.  
 
@@ -80,7 +84,7 @@ For the full list of preview features, see [Preview APIs](https://docs.microsoft
 |Key|Description|Limits|  
 |---------|-----------------|------------|  
 |Admin|Admin keys grant full rights to all operations, including the ability to manage the service, get status and object definitions, and create and delete **indexes**, **indexers**, and **data sources**.<br /><br /> Two admin **api-keys**, referred to as *primary* and *secondary* keys in the portal, are automatically generated when the service is created and can be individually regenerated on demand. Having two keys allows you to roll over one key while using the second key for continued access to the service.<br /><br /> Admin keys are only specified in HTTP request headers. You cannot place an admin **api-key** in a URL.|Maximum of 2 per service|  
-|Query|Query keys grant read-only access to content within an index (documents), and are typically distributed to client applications that issue search requests.<br /><br /> Query keys are created on demand. You can create them manually in the portal or programmatically via the [Management REST API](~/docs-ref-conceptual/searchmanagement/index.md).<br /><br /> Query keys can be specified  in an HTTP request header for search, suggestion, or lookup operation. Alternatively, you can pass a query key  as a parameter on a URL. Depending on how your client application formulates the request, it might be easier to pass the key as a query parameter:<br /><br /> `GET /indexes/hotels/docs?search=*&$orderby=lastRenovationDate desc&api-version=2017-11-11&api-key=[query key]`|50 per service|  
+|Query|Query keys grant read-only access to content within an index (documents), and are typically distributed to client applications that issue search requests.<br /><br /> Query keys are created on demand. You can create them manually in the portal or programmatically via the [Management REST API](~/docs-ref-conceptual/searchmanagement/index.md).<br /><br /> Query keys can be specified  in an HTTP request header for search, suggestion, or lookup operation. Alternatively, you can pass a query key  as a parameter on a URL. Depending on how your client application formulates the request, it might be easier to pass the key as a query parameter:<br /><br /> `GET /indexes/hotels/docs?search=*&$orderby=lastRenovationDate desc&api-version=2019-05-06&api-key=[query key]`|50 per service|  
 
  Visually, there is no distinction between an admin key or query key. Both keys are strings composed of 32 randomly-generated alpha-numeric characters. If you lose track of what type of key is specified in your application, you can [check the key values in the portal](https://portal.azure.com) or use the [REST API](~/docs-ref-conceptual/searchmanagement/index.md) to return the value and key type.  
 
@@ -99,48 +103,48 @@ For the full list of preview features, see [Preview APIs](https://docs.microsoft
 -   [Create Index &#40;Azure Search Service REST API&#41;](create-index.md)  
 
     ```  
-    POST /indexes?api-version=2017-11-11  
+    POST /indexes?api-version=2019-05-06  
     ```  
 
 -   [Update Index &#40;Azure Search Service REST API&#41;](update-index.md)  
 
     ```  
-    PUT /indexes/[index name]?api-version=2017-11-11  
+    PUT /indexes/[index name]?api-version=2019-05-06 
     ```  
 
 -   [Get Index &#40;Azure Search Service REST API&#41;](get-index.md)  
 
     ```  
-    GET /indexes/[index name]?api-version=2017-11-11  
+    GET /indexes/[index name]?api-version=2019-05-06
     ```  
 
 -   [List Indexes &#40;Azure Search Service REST API&#41;](list-indexes.md)  
 
     ```  
-    GET /indexes?api-version=2017-11-11  
+    GET /indexes?api-version=2019-05-06
     ```  
 
 -   [Get Index Statistics &#40;Azure Search Service REST API&#41;](get-index-statistics.md)  
 
     ```  
-    GET /indexes/[index name]/stats?api-version=2017-11-11  
+    GET /indexes/[index name]/stats?api-version=2019-05-06  
     ```  
 -  [Test Analyzer](test-analyzer.md)
 
     ```
-    POST /indexes/[index name]/analyze?api-version=2017-11-11
+    POST /indexes/[index name]/analyze?api-version=2019-05-06
     ```  
 
 -   [Delete Index &#40;Azure Search Service REST API&#41;](delete-index.md)  
 
     ```  
-    DELETE /indexes/[index name]?api-version=2017-11-11  
+    DELETE /indexes/[index name]?api-version=2019-05-06 
     ```  
 
 -   [Add, Update or Delete Documents &#40;Azure Search Service REST API&#41;](addupdate-or-delete-documents.md)  
 
     ```  
-    POST /indexes/[index name]/docs/index?api-version=2017-11-11  
+    POST /indexes/[index name]/docs/index?api-version=2019-05-06 
     ```  
 
 -   [Search Documents &#40;Azure Search Service REST API&#41;](search-documents.md)  
@@ -150,7 +154,7 @@ For the full list of preview features, see [Preview APIs](https://docs.microsoft
     ```  
 
     ```  
-    POST /indexes/[index name]/docs/search?api-version=2017-11-11  
+    POST /indexes/[index name]/docs/search?api-version=2019-05-06 
     ```  
 
 -   [Lookup Document &#40;Azure Search Service REST API&#41;](lookup-document.md)  
@@ -162,7 +166,7 @@ For the full list of preview features, see [Preview APIs](https://docs.microsoft
 -   [Count Documents &#40;Azure Search Service REST API&#41;](count-documents.md)  
 
     ```  
-    GET /indexes/[index name]/docs/$count?api-version=2017-11-11  
+    GET /indexes/[index name]/docs/$count?api-version=2019-05-06 
     ```  
 
 -   [Suggestions &#40;Azure Search Service REST API&#41;](suggestions.md)  
@@ -172,7 +176,7 @@ For the full list of preview features, see [Preview APIs](https://docs.microsoft
     ```  
 
     ```  
-    POST /indexes/[index name]/docs/suggest?api-version=2017-11-11  
+    POST /indexes/[index name]/docs/suggest?api-version=2019-05-06
     ```  
 
 

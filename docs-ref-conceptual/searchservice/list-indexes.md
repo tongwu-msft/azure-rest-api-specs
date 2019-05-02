@@ -1,7 +1,7 @@
 ---
 title: "List Indexes (Azure Search Service REST API) | Microsoft Docs"
 description: Return a list of index names for indexes in the current Azure Search service.
-ms.date: "04/20/2018"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -31,7 +31,7 @@ api-key: [admin key]
 ## Request  
  HTTPS is required for all service requests. The **List Indexes** request can be constructed using the GET method.  
 
- The `api-version` parameter is required. The current version is `api-version=2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.  
+ The `api-version` parameter is required. The current version is `api-version=2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.  
 
 ### Request Headers  
  The following table describes the required and optional request headers.  
@@ -40,7 +40,7 @@ api-key: [admin key]
 |--------------------|-----------------|  
 |*api-key:*|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. The **List Indexes** request must include an `api-key` set to an admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+ You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
 
 ### Request Body  
  None.  
@@ -72,7 +72,7 @@ api-key: [admin key]
  Note that you can filter the response down to just the properties you're interested in. For example, if you want only a list of index names, use the OData `$select` query option:  
 
 ```  
-GET /indexes?api-version=2014-07-31-Preview&$select=name  
+GET /indexes?api-version=2019-05-06&$select=name  
 ```  
 
  In this case, the response from the above example would appear as follows:  
