@@ -303,7 +303,7 @@ For information about testing HTTP requests/responses, see:
 [AAD-OAuth-Client-Creds]: /azure/active-directory/active-directory-protocols-oauth-service-to-service#request-an-access-token
 [AAD-Oauth-Code-Authz]: /azure/active-directory/active-directory-protocols-oauth-code#request-an-authorization-code
 [AAD-Oauth-Code-Token]: /azure/active-directory/active-directory-protocols-oauth-code#use-the-authorization-code-to-request-an-access-token
-[ARM-Create-Sp-Portal]: /azure/azure-resource-manager/resource-group-create-service-principal-portal
+[ARM-Create-Sp-Portal]: /azure/active-directory/develop/quickstart-register-app
 [ARM-Provider-Summary]: /azure/azure-resource-manager/resource-manager-supported-services
 [ARM-Async-Ops]: /azure/azure-resource-manager/resource-manager-async-operations
 [SDK-NET]: /dotnet/api/overview/azure/
