@@ -1250,6 +1250,7 @@
 ## [Locations](azurestack/Locations.yml)
 ### [Create Or Update](azurestack/Locations/CreateOrUpdate.yml)
 ### [Get](azurestack/Locations/Get.yml)
+### [Get Operations Status](azurestack/Locations/GetOperationsStatus.yml)
 ### [List](azurestack/Locations/List.yml)
 ## [Logical Networks](azurestack/LogicalNetworks.yml)
 ### [Get](azurestack/LogicalNetworks/Get.yml)
