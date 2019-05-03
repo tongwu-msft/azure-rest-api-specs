@@ -104,6 +104,7 @@ Use Key Vault to safeguard and manage cryptographic keys and secrets used by clo
 | [Update Certificate Operation](/rest/api/keyvault/UpdateCertificateOperation) | Updates a certificate operation. |
 | [Update Certificate Policy](/rest/api/keyvault/UpdateCertificatePolicy) | Updates the policy for a certificate. |
 
+## Storage operations
 
 | Operation | Description |
 |--|--|
