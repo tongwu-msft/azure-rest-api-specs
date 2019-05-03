@@ -1,6 +1,6 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.spatial.postclosestpointpreview
-name: Post Closest Point Preview
+uid: atlas.microsoft.com.maps.spatial.postbuffer
+name: Post Buffer
 service: Maps
 groupName: Spatial
 apiVersion: "1.0"
@@ -8,13 +8,13 @@ summary: >-
   **Applies to**: S1 pricing tier.
 
 
-  This API returns the closest point between a base point and a given set of target points. The set of target points is provided by user data in post request body. The user data may only contain a collection of Point geometry. MultiPoint or other geometries will be ignored if provided. The algorithm does not take into account routing or traffic. The maximum number of points accepted is 100,000. Information returned includes closest point latitude, longitude, and distance in meters from the closest point.
+  This API returns a FeatureCollection where each Feature is a buffer around the corresponding indexed Feature of the input. The buffer could be either on the outside or the inside of the provided Feature, depending on the distance provided in the input. There must be either one distance provided per Feature in the FeatureCollection  input, or if only one distance is provided, then that distance is applied to every Feature in the collection. The positive (or negative) buffer of a geometry is defined as the Minkowski sum (or difference) of the geometry with a circle of radius equal to the absolute value of the buffer distance. The buffer API always returns a polygonal result. The negative or zero-distance buffer of lines and points is always an empty polygon. The input may contain a collection of Point, MultiPoint, Polygon, MultiPolygon, LineString and MultiLineString. GeometryCollection will be ignored if provided.
 consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://atlas.microsoft.com/spatial/closestPoint/json?api-version=1.0&lat={lat}&lon={lon}
-- content: POST https://atlas.microsoft.com/spatial/closestPoint/json?subscription-key={subscription-key}&api-version=1.0&lat={lat}&lon={lon}&numberOfClosestPoints={numberOfClosestPoints}
+- content: POST https://atlas.microsoft.com/spatial/buffer/json?api-version=1.0
+- content: POST https://atlas.microsoft.com/spatial/buffer/json?subscription-key={subscription-key}&api-version=1.0
   isOptional: true
 uriParameters:
 - name: format
@@ -34,28 +34,11 @@ uriParameters:
   description: Version number of Azure Maps API. Current version is 1.0
   types:
   - uid: string
-- name: lat
-  in: query
-  isRequired: true
-  description: 'The base point latitude of the location being passed.  Example: 47.622942.'
-  types:
-  - uid: number
-- name: lon
-  in: query
-  isRequired: true
-  description: 'The base point longitude of the location being passed.  Example: -122.316456.'
-  types:
-  - uid: number
-- name: numberOfClosestPoints
-  in: query
-  description: 'The number of closest points expected from response. Default: 1, minimum: 1 and maximum: 50'
-  types:
-  - uid: integer
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: PostClosestPointResponse
+  - uid: BufferResponse
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -102,20 +85,19 @@ definitions:
     description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
-- name: PostClosestPointResponse
-  description: This object is returned from a successful Post Spatial Closest Point call
+- name: BufferResponse
+  description: This object is returned from a successful Spatial Buffer call.
   kind: object
   properties:
   - name: summary
     isReadyOnly: true
-    description: Post Closest Point Summary object
+    description: Summary of the call.
     types:
-    - uid: PostClosestPointSummary
+    - uid: Summary
   - name: result
-    description: Closest Point Result Array
+    description: The FeatureCollection of buffers for the input.
     types:
-    - uid: ClosestPointResultEntry
-      isArray: true
+    - uid: object
 - name: ErrorResponse
   description: This response object is returned when an error occurs in the Maps API
   kind: object
@@ -124,48 +106,32 @@ definitions:
     description: This object is returned when an error occurs in the Maps API
     types:
     - uid: Error
-- name: ClosestPointRequestBody
-  description: An object with a set of Point geometries
+- name: BufferRequestBody
+  description: An object with a FeatureCollection and a list of distances.
   kind: object
   properties:
   - name: geometries
     description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
     types:
     - {}
-- name: PostClosestPointSummary
-  description: Post Closest Point Summary object
+  - name: distances
+    isReadyOnly: true
+    description: List of the distances to compute the buffer for, one-to-one per Feature in the collection, or one for all Features in the collection.
+    types:
+    - uid: number
+      isArray: true
+- name: Summary
+  description: Summary of the call.
   kind: object
   properties:
-  - name: sourcePoint
-    description: A location represented as a latitude and longitude
-    types:
-    - uid: Coordinate
   - name: udid
     isReadyOnly: true
-    description: A unique data id (udid) for the uploaded content. Udid is not applicable for POST spatial operations(set to null)
+    description: The udid for the user data if one exists
     types:
     - uid: string
   - name: information
     isReadyOnly: true
-    description: Processing information
-    types:
-    - uid: string
-- name: ClosestPointResultEntry
-  description: Closest Point Result Entry Object
-  kind: object
-  properties:
-  - name: distanceInMeters
-    isReadyOnly: true
-    description: The distance in meters from the source point to the closest point
-    types:
-    - uid: number
-  - name: position
-    description: A location represented as a latitude and longitude
-    types:
-    - uid: Coordinate
-  - name: geometryId
-    isReadyOnly: true
-    description: The unique id identifies a geometry
+    description: The information about what happened during the call.
     types:
     - uid: string
 - name: Error
@@ -182,103 +148,203 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
-- name: Coordinate
-  description: A location represented as a latitude and longitude
-  kind: object
-  properties:
-  - name: lat
-    isReadyOnly: true
-    description: Latitude property
-    types:
-    - uid: number
-  - name: lon
-    isReadyOnly: true
-    description: Longitude property
-    types:
-    - uid: number
 examples:
-- name: PostClosestPoint
+- name: PostBuffer
   request:
-    uri: POST https://atlas.microsoft.com/spatial/closestPoint/json?subscription-key=[subscription-key]&api-version=1.0&lat=47.622942&lon=-122.316456
+    uri: POST https://atlas.microsoft.com/spatial/buffer/json?subscription-key=[subscription-key]&api-version=1.0
     body: >-
       {
-        "FeatureCollection": {
+        "geometries": {
           "type": "FeatureCollection",
           "features": [
             {
               "type": "Feature",
               "properties": {
-                "geometryId": 1001
+                "geometryId": "ExampleId"
               },
               "geometry": {
                 "type": "Point",
                 "coordinates": [
-                  -105.02860293715861,
-                  40.516153406773952
-                ]
-              }
-            },
-            {
-              "type": "Feature",
-              "properties": {
-                "geometryId": 1002
-              },
-              "geometry": {
-                "type": "Point",
-                "coordinates": [
-                  -105.02860381672178,
-                  40.515990990037309
-                ]
-              }
-            },
-            {
-              "type": "Feature",
-              "properties": {
-                "geometryId": 1003
-              },
-              "geometry": {
-                "type": "Point",
-                "coordinates": [
-                  -105.02812292879467,
-                  40.516058678088562
+                  -111.9267386,
+                  33.5362475
                 ]
               }
             }
           ]
-        }
+        },
+        "distances": [
+          176.3
+        ]
       }
   responses:
   - statusCode: "200"
     body: >-
       {
         "summary": {
-          "sourcePoint": {
-            "lat": 47.622942,
-            "lon": -122.316456
-          },
           "udid": null,
-          "information": "3 points processed in user data"
+          "information": "1 feature processed in user data"
         },
-        "result": [
-          {
-            "distanceInMeters": 1587492.66,
-            "position": {
-              "lat": 40.516153406773952,
-              "lon": -105.02860293715861
-            },
-            "geometryId": "1001"
-          }
-        ]
+        "result": {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "type": "Feature",
+              "properties": {
+                "geometryId": "ExampleId",
+                "bufferDist": 176.3
+              },
+              "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      -111.92483859605078,
+                      33.5362475
+                    ],
+                    [
+                      -111.92487510409389,
+                      33.53587682761772
+                    ],
+                    [
+                      -111.92498322523962,
+                      33.535520399967204
+                    ],
+                    [
+                      -111.92515880445296,
+                      33.535191914363196
+                    ],
+                    [
+                      -111.92539509432322,
+                      33.53490399432323
+                    ],
+                    [
+                      -111.92568301436319,
+                      33.534667704452971
+                    ],
+                    [
+                      -111.9260114999672,
+                      33.53449212523963
+                    ],
+                    [
+                      -111.9263679276177,
+                      33.5343840040939
+                    ],
+                    [
+                      -111.9267386,
+                      33.534347496050785
+                    ],
+                    [
+                      -111.92710927238228,
+                      33.5343840040939
+                    ],
+                    [
+                      -111.92746570003278,
+                      33.53449212523963
+                    ],
+                    [
+                      -111.9277941856368,
+                      33.534667704452971
+                    ],
+                    [
+                      -111.92808210567677,
+                      33.53490399432323
+                    ],
+                    [
+                      -111.92831839554702,
+                      33.535191914363196
+                    ],
+                    [
+                      -111.92849397476037,
+                      33.535520399967204
+                    ],
+                    [
+                      -111.9286020959061,
+                      33.53587682761772
+                    ],
+                    [
+                      -111.92863860394921,
+                      33.5362475
+                    ],
+                    [
+                      -111.9286020959061,
+                      33.536618172382283
+                    ],
+                    [
+                      -111.92849397476037,
+                      33.5369746000328
+                    ],
+                    [
+                      -111.92831839554702,
+                      33.537303085636808
+                    ],
+                    [
+                      -111.92808210567677,
+                      33.537591005676774
+                    ],
+                    [
+                      -111.9277941856368,
+                      33.537827295547032
+                    ],
+                    [
+                      -111.92746570003278,
+                      33.538002874760373
+                    ],
+                    [
+                      -111.92710927238228,
+                      33.5381109959061
+                    ],
+                    [
+                      -111.9267386,
+                      33.538147503949219
+                    ],
+                    [
+                      -111.9263679276177,
+                      33.5381109959061
+                    ],
+                    [
+                      -111.9260114999672,
+                      33.538002874760373
+                    ],
+                    [
+                      -111.92568301436319,
+                      33.537827295547032
+                    ],
+                    [
+                      -111.92539509432322,
+                      33.537591005676774
+                    ],
+                    [
+                      -111.92515880445296,
+                      33.537303085636808
+                    ],
+                    [
+                      -111.92498322523962,
+                      33.5369746000328
+                    ],
+                    [
+                      -111.92487510409389,
+                      33.536618172382283
+                    ],
+                    [
+                      -111.92483859605078,
+                      33.5362475
+                    ]
+                  ]
+                ]
+              }
+            }
+          ]
+        }
       }
   - statusCode: "400"
     body: >-
       {
         "error": {
           "code": "ClientParams",
-          "message": "One or more parameters are missing.",
+          "message": "Request body is not a valid json.",
           "innererror": {
-            "code": "MissingQueryParameter",
-            "message": "Input parameter lon is missing."
+            "code": "InvalidJson",
+            "message": "Only 2 Json Objects accepted; Received: 1 JSON Objects"
           }
         }
       }
