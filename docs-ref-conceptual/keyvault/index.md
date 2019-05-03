@@ -33,6 +33,7 @@ Use Key Vault to safeguard and manage cryptographic keys and secrets used by clo
 
 | Operation | Description |
 |--|--|
+| [Backup Key](/rest/api/keyvault/BackupKey) | Requests that a backup of the specified key be downloaded to the client. |
 | [Create Key](/rest/api/keyvault/CreateKey) | Creates a new key, stores it, then returns key parameters and attributes to the client. |
 | [Delete Key](/rest/api/keyvault/DeleteKey) | Deletes a key of any type from storage in Azure Key Vault. |
 | [Get Deleted Key](/rest/api/keyvault/GetDeletedKey) | Gets the public part of a deleted key. |
@@ -41,6 +42,8 @@ Use Key Vault to safeguard and manage cryptographic keys and secrets used by clo
 | [Get Key Versions](/rest/api/keyvault/GetKeyVersions) | Retrieves a list of individual key versions with the same key name. |
 | [Get Keys](/rest/api/keyvault/GetKeys) | List keys in the specified vault. |
 | [Import Key](/rest/api/keyvault/ImportKey) | Imports an externally created key, stores it, and returns key parameters and attributes to the client. |
+| [Purge Deleted Key](/rest/api/keyvault/PurgeDeletedKey) | Permanently deletes the specified key. |
+| [Recover Deleted Key](/rest/api/keyvault/RecoverDeletedKey) | Recovers the deleted key to its latest version. |
 | [Restore Key](/rest/api/keyvault/RestoreKey) | Restores a backed up key to a vault. |
 | [Unwrap Key](/rest/api/keyvault/unwrapKey) | Unwraps a symmetric key using the specified key that was initially used for wrapping that key. |
 | [Update Key](/rest/api/keyvault/UpdateKey) | The update key operation changes specified attributes of a stored key and can be applied to any key type and key version stored in Azure Key Vault. |
@@ -50,12 +53,15 @@ Use Key Vault to safeguard and manage cryptographic keys and secrets used by clo
 
 | Operation | Description |
 |--|--|
+| [Backup Secret](/rest/api/keyvault/BackupSecret) | Backs up the specified secret. |
 | [Delete Secret](/rest/api/keyvault/DeleteSecret) | Deletes a secret from a specified key vault. |
 | [Get Deleted Secret](/rest/api/keyvault/GetDeletedSecret) | Gets the specified deleted secret. |
 | [Get Deleted Secrets](/rest/api/keyvault/GetDeletedSecrets) | Lists deleted secrets for the specified vault. |
 | [Get Secret](/rest/api/keyvault/GetSecret) | Get a specified secret from a given key vault. |
 | [Get Secret Versions](/rest/api/keyvault/GetSecretVersions) | List all versions of the specified secret. |
 | [Get Secrets](/rest/api/keyvault/GetSecrets) | List secrets in a specified key vault. |
+| [Purge Deleted Secret](/rest/api/keyvault/PurgeDeletedSecret) | Permanently deletes the specified secret. |
+| [Recover Deleted Secret](/rest/api/keyvault/RecoverDeletedSecret) | Recovers the deleted secret to the latest version. |
 | [Restore Secret](/rest/api/keyvault/RestoreSecret) | Restores a backed up secret to a vault. |
 | [Set Secret](/rest/api/keyvault/SetSecret) | Sets a secret in a specified key vault. |
 | [Update Secret](/rest/api/keyvault/UpdateSecret) | Updates the attributes associated with a specified secret in a given key vault. |
@@ -67,38 +73,19 @@ Use Key Vault to safeguard and manage cryptographic keys and secrets used by clo
 | [Decrypt](/rest/api/keyvault/decrypt) | Decrypts a single block of encrypted data. |
 | [Encrypt](/rest/api/keyvault/encrypt) | Encrypts an arbitrary sequence of bytes using an encryption key that is stored in a key vault. |
 
-## Purge operations
+## Signature operations
 
 | Operation | Description |
 |--|--|
-| [Purge Deleted Certificate](/rest/api/keyvault/PurgeDeletedCertificate) | Permanently deletes the specified deleted certificate. |
-| [Purge Deleted Key](/rest/api/keyvault/PurgeDeletedKey) | Permanently deletes the specified key. |
-| [Purge Deleted Secret](/rest/api/keyvault/PurgeDeletedSecret) | Permanently deletes the specified secret. |
-| [Purge Deleted Storage Account](/rest/api/keyvault/PurgeDeletedStorageAccount) | Permanently deletes the specified storage account. |
+| [Sign](/rest/api/keyvault/sign) | Creates a signature from a digest using the specified key. |
+| [Verify](/rest/api/keyvault/verify) | Verifies a signature using a specified key. |
 
-## Recover operations
-
-| Operation | Description |
-|--|--|
-| [Recover Deleted Certificate](/rest/api/keyvault/RecoverDeletedCertificate) | Recovers the deleted certificate back to its current version under /certificates. |
-| [Recover Deleted Key](/rest/api/keyvault/RecoverDeletedKey) | Recovers the deleted key to its latest version. |
-| [Recover Deleted Sas Definition](/rest/api/keyvault/RecoverDeletedSasDefinition) | Recovers the deleted SAS definition. |
-| [Recover Deleted Secret](/rest/api/keyvault/RecoverDeletedSecret) | Recovers the deleted secret to the latest version. |
-| [Recover Deleted Storage Account](/rest/api/keyvault/RecoverDeletedStorageAccount) | Recovers the deleted storage account. |
-
-## Backup operations
-
-| Operation | Description |
-|--|--|
-| [Backup Certificate](/rest/api/keyvault/BackupCertificate) | Backs up the specified certificate. |
-| [Backup Key](/rest/api/keyvault/BackupKey) | Requests that a backup of the specified key be downloaded to the client. |
-| [Backup Secret](/rest/api/keyvault/BackupSecret) | Backs up the specified secret. |
-| [Backup Storage Account](/rest/api/keyvault/BackupStorageAccount) | Backs up the specified storage account. |
 
 ## Certificate operations
 
 | Operation | Description |
 |--|--|
+| [Backup Certificate](/rest/api/keyvault/BackupCertificate) | Backs up the specified certificate. |
 | [Create Certificate](/rest/api/keyvault/CreateCertificate) | Creates a new certificate. |
 | [Delete Certificate](/rest/api/keyvault/DeleteCertificate) | Deletes a certificate from a specified key vault. |
 | [Delete Certificate Contacts](/rest/api/keyvault/DeleteCertificateContacts) | Deletes the certificate contacts for a specified key vault. |
@@ -116,6 +103,8 @@ Use Key Vault to safeguard and manage cryptographic keys and secrets used by clo
 | [Get Deleted Certificates](/rest/api/keyvault/GetDeletedCertificates) | Lists the deleted certificates in the specified vault currently available for recovery. |
 | [Import Certificate](/rest/api/keyvault/ImportCertificate) | Imports a certificate into a specified key vault. |
 | [Merge Certificate](/rest/api/keyvault/MergeCertificate) | Merges a certificate or a certificate chain with a key pair existing on the server. |
+| [Purge Deleted Certificate](/rest/api/keyvault/PurgeDeletedCertificate) | Permanently deletes the specified deleted certificate. |
+| [Recover Deleted Certificate](/rest/api/keyvault/RecoverDeletedCertificate) | Recovers the deleted certificate back to its current version under /certificates. |
 | [Restore Certificate](/rest/api/keyvault/RestoreCertificate) | Restores a backed up certificate to a vault. |
 | [Set Certificate Contacts](/rest/api/keyvault/SetCertificateContacts) | Sets the certificate contacts for the specified key vault. |
 | [Set Certificate Issuer](/rest/api/keyvault/SetCertificateIssuer) | Sets the specified certificate issuer. |
@@ -133,25 +122,22 @@ Use Key Vault to safeguard and manage cryptographic keys and secrets used by clo
 | [Get Deleted Sas Definitions](/rest/api/keyvault/GetDeletedSasDefinitions) | Lists deleted SAS definitions for the specified vault and storage account. |
 | [Get Sas Definition](/rest/api/keyvault/GetSasDefinition) | Gets information about a SAS definition for the specified storage account. This operation requires the storage/getsas permission. |
 | [Get Sas Definitions](/rest/api/keyvault/GetSasDefinitions) | List storage SAS definitions for the given storage account. This operation requires the storage/listsas permission. |
+| [Recover Deleted Sas Definition](/rest/api/keyvault/RecoverDeletedSasDefinition) | Recovers the deleted SAS definition. |
 | [Set Sas Definition](/rest/api/keyvault/SetSasDefinition) | Creates or updates a new SAS definition for the specified storage account. This operation requires the storage/setsas permission. |
 | [Update Sas Definition](/rest/api/keyvault/UpdateSasDefinition) | Updates the specified attributes associated with the given SAS definition. This operation requires the storage/setsas permission. |
-
-## Signature operations
-
-| Operation | Description |
-|--|--|
-| [Sign](/rest/api/keyvault/sign) | Creates a signature from a digest using the specified key. |
-| [Verify](/rest/api/keyvault/verify) | Verifies a signature using a specified key. |
 
 ## Storage operations
 
 | Operation | Description |
 |--|--|
+| [Backup Storage Account](/rest/api/keyvault/BackupStorageAccount) | Backs up the specified storage account. |
 | [Delete Storage Account](/rest/api/keyvault/DeleteStorageAccount) | Deletes a storage account. This operation requires the storage/delete permission. |
 | [Get Deleted Storage Account](/rest/api/keyvault/GetDeletedStorageAccount) | Gets the specified deleted storage account. |
 | [Get Deleted Storage Accounts](/rest/api/keyvault/GetDeletedStorageAccounts) | Lists deleted storage accounts for the specified vault. |
 | [Get Storage Account](/rest/api/keyvault/GetStorageAccount) | Gets information about a specified storage account. This operation requires the storage/get permission. |
 | [Get Storage Accounts](/rest/api/keyvault/GetStorageAccounts) | List storage accounts managed by the specified key vault. This operation requires the storage/list permission. |
+| [Purge Deleted Storage Account](/rest/api/keyvault/PurgeDeletedStorageAccount) | Permanently deletes the specified storage account. |
+| [Recover Deleted Storage Account](/rest/api/keyvault/RecoverDeletedStorageAccount) | Recovers the deleted storage account. |
 | [Regenerate Storage Account Key](/rest/api/keyvault/RegenerateStorageAccountKey) | Regenerates the specified key value for the given storage account. This operation requires the storage/regeneratekey permission. |
 | [Restore Storage Account](/rest/api/keyvault/RestoreStorageAccount) | Restores a backed up storage account to a vault. |
 | [Set Storage Account](/rest/api/keyvault/SetStorageAccount) | Creates or updates a new storage account. This operation requires the storage/set permission. |
