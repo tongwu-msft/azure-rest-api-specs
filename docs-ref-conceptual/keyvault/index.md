@@ -25,7 +25,7 @@ Use Key Vault to safeguard and manage cryptographic keys and secrets used by clo
 | [List By Resource Group](/rest/api/keyvault/vaults/listbyresourcegroup) | The List operation gets information about the vaults associated with the subscription and within the specified resource group.| 
 | [List By Subscription](/rest/api/keyvault/vaults/listbysubscription) | The List operation gets information about the vaults associated with the subscription.| 
 | [List Deleted](/rest/api/keyvault/vaults/listdeleted) | Gets information about the deleted vaults in a subscription.| 
-| [Purge Deleted](/rest/api/keyvault/vaults/purgedeleted) | Permanently deletes the specified vault. aka Purges the deleted Azure key vault.| 
+| [Purge Deleted](/rest/api/keyvault/vaults/purgedeleted) | Permanently deletes the specified vault. | 
 | [Update](/rest/api/keyvault/vaults/update) | Update a key vault in the specified subscription.| 
 | [Update Access Policy](/rest/api/keyvault/vaults/updateaccesspolicy) | Update access policies in a key vault in the specified subscription.| 
 
