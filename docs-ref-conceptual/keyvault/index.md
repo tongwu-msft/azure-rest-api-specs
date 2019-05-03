@@ -35,7 +35,9 @@ Use Key Vault to safeguard and manage cryptographic keys and secrets used by clo
 |--|--|
 | [Backup Key](/rest/api/keyvault/BackupKey) | Requests that a backup of the specified key be downloaded to the client. |
 | [Create Key](/rest/api/keyvault/CreateKey) | Creates a new key, stores it, then returns key parameters and attributes to the client. |
+| [Decrypt](/rest/api/keyvault/decrypt) | Decrypts a single block of encrypted data. |
 | [Delete Key](/rest/api/keyvault/DeleteKey) | Deletes a key of any type from storage in Azure Key Vault. |
+| [Encrypt](/rest/api/keyvault/encrypt) | Encrypts an arbitrary sequence of bytes using an encryption key that is stored in a key vault. |
 | [Get Deleted Key](/rest/api/keyvault/GetDeletedKey) | Gets the public part of a deleted key. |
 | [Get Deleted Keys](/rest/api/keyvault/GetDeletedKeys) | Lists the deleted keys in the specified vault. |
 | [Get Key](/rest/api/keyvault/GetKey) | Gets the public part of a stored key. |
@@ -45,8 +47,10 @@ Use Key Vault to safeguard and manage cryptographic keys and secrets used by clo
 | [Purge Deleted Key](/rest/api/keyvault/PurgeDeletedKey) | Permanently deletes the specified key. |
 | [Recover Deleted Key](/rest/api/keyvault/RecoverDeletedKey) | Recovers the deleted key to its latest version. |
 | [Restore Key](/rest/api/keyvault/RestoreKey) | Restores a backed up key to a vault. |
+| [Sign](/rest/api/keyvault/sign) | Creates a signature from a digest using the specified key. |
 | [Unwrap Key](/rest/api/keyvault/unwrapKey) | Unwraps a symmetric key using the specified key that was initially used for wrapping that key. |
 | [Update Key](/rest/api/keyvault/UpdateKey) | The update key operation changes specified attributes of a stored key and can be applied to any key type and key version stored in Azure Key Vault. |
+| [Verify](/rest/api/keyvault/verify) | Verifies a signature using a specified key. |
 | [Wrap Key](/rest/api/keyvault/wrapKey) | Wraps a symmetric key using a specified key. |
 
 ## Secret operations
@@ -66,19 +70,6 @@ Use Key Vault to safeguard and manage cryptographic keys and secrets used by clo
 | [Set Secret](/rest/api/keyvault/SetSecret) | Sets a secret in a specified key vault. |
 | [Update Secret](/rest/api/keyvault/UpdateSecret) | Updates the attributes associated with a specified secret in a given key vault. |
 
-## Encryption operations
-
-| Operation | Description |
-|--|--|
-| [Decrypt](/rest/api/keyvault/decrypt) | Decrypts a single block of encrypted data. |
-| [Encrypt](/rest/api/keyvault/encrypt) | Encrypts an arbitrary sequence of bytes using an encryption key that is stored in a key vault. |
-
-## Signature operations
-
-| Operation | Description |
-|--|--|
-| [Sign](/rest/api/keyvault/sign) | Creates a signature from a digest using the specified key. |
-| [Verify](/rest/api/keyvault/verify) | Verifies a signature using a specified key. |
 
 
 ## Certificate operations
@@ -113,34 +104,28 @@ Use Key Vault to safeguard and manage cryptographic keys and secrets used by clo
 | [Update Certificate Operation](/rest/api/keyvault/UpdateCertificateOperation) | Updates a certificate operation. |
 | [Update Certificate Policy](/rest/api/keyvault/UpdateCertificatePolicy) | Updates the policy for a certificate. |
 
-## SAS operations
-
-| Operation | Description |
-|--|--|
-| [Delete Sas Definition](/rest/api/keyvault/DeleteSasDefinition) | Deletes a SAS definition from a specified storage account. This operation requires the storage/deletesas permission. |
-| [Get Deleted Sas Definition](/rest/api/keyvault/GetDeletedSasDefinition) | Gets the specified deleted sas definition. |
-| [Get Deleted Sas Definitions](/rest/api/keyvault/GetDeletedSasDefinitions) | Lists deleted SAS definitions for the specified vault and storage account. |
-| [Get Sas Definition](/rest/api/keyvault/GetSasDefinition) | Gets information about a SAS definition for the specified storage account. This operation requires the storage/getsas permission. |
-| [Get Sas Definitions](/rest/api/keyvault/GetSasDefinitions) | List storage SAS definitions for the given storage account. This operation requires the storage/listsas permission. |
-| [Recover Deleted Sas Definition](/rest/api/keyvault/RecoverDeletedSasDefinition) | Recovers the deleted SAS definition. |
-| [Set Sas Definition](/rest/api/keyvault/SetSasDefinition) | Creates or updates a new SAS definition for the specified storage account. This operation requires the storage/setsas permission. |
-| [Update Sas Definition](/rest/api/keyvault/UpdateSasDefinition) | Updates the specified attributes associated with the given SAS definition. This operation requires the storage/setsas permission. |
-
-## Storage operations
 
 | Operation | Description |
 |--|--|
 | [Backup Storage Account](/rest/api/keyvault/BackupStorageAccount) | Backs up the specified storage account. |
+| [Delete Sas Definition](/rest/api/keyvault/DeleteSasDefinition) | Deletes a SAS definition from a specified storage account. This operation requires the storage/deletesas permission. |
 | [Delete Storage Account](/rest/api/keyvault/DeleteStorageAccount) | Deletes a storage account. This operation requires the storage/delete permission. |
+| [Get Deleted Sas Definition](/rest/api/keyvault/GetDeletedSasDefinition) | Gets the specified deleted sas definition. |
+| [Get Deleted Sas Definitions](/rest/api/keyvault/GetDeletedSasDefinitions) | Lists deleted SAS definitions for the specified vault and storage account. |
 | [Get Deleted Storage Account](/rest/api/keyvault/GetDeletedStorageAccount) | Gets the specified deleted storage account. |
 | [Get Deleted Storage Accounts](/rest/api/keyvault/GetDeletedStorageAccounts) | Lists deleted storage accounts for the specified vault. |
+| [Get Sas Definition](/rest/api/keyvault/GetSasDefinition) | Gets information about a SAS definition for the specified storage account. This operation requires the storage/getsas permission. |
+| [Get Sas Definitions](/rest/api/keyvault/GetSasDefinitions) | List storage SAS definitions for the given storage account. This operation requires the storage/listsas permission. |
 | [Get Storage Account](/rest/api/keyvault/GetStorageAccount) | Gets information about a specified storage account. This operation requires the storage/get permission. |
 | [Get Storage Accounts](/rest/api/keyvault/GetStorageAccounts) | List storage accounts managed by the specified key vault. This operation requires the storage/list permission. |
 | [Purge Deleted Storage Account](/rest/api/keyvault/PurgeDeletedStorageAccount) | Permanently deletes the specified storage account. |
+| [Recover Deleted Sas Definition](/rest/api/keyvault/RecoverDeletedSasDefinition) | Recovers the deleted SAS definition. |
 | [Recover Deleted Storage Account](/rest/api/keyvault/RecoverDeletedStorageAccount) | Recovers the deleted storage account. |
 | [Regenerate Storage Account Key](/rest/api/keyvault/RegenerateStorageAccountKey) | Regenerates the specified key value for the given storage account. This operation requires the storage/regeneratekey permission. |
 | [Restore Storage Account](/rest/api/keyvault/RestoreStorageAccount) | Restores a backed up storage account to a vault. |
+| [Set Sas Definition](/rest/api/keyvault/SetSasDefinition) | Creates or updates a new SAS definition for the specified storage account. This operation requires the storage/setsas permission. |
 | [Set Storage Account](/rest/api/keyvault/SetStorageAccount) | Creates or updates a new storage account. This operation requires the storage/set permission. |
+| [Update Sas Definition](/rest/api/keyvault/UpdateSasDefinition) | Updates the specified attributes associated with the given SAS definition. This operation requires the storage/setsas permission. |
 | [Update Storage Account](/rest/api/keyvault/UpdateStorageAccount) | Updates the specified attributes associated with the given storage account. This operation requires the storage/set/update permission. |
 
 
