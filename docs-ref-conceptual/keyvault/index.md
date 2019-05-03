@@ -10,27 +10,26 @@ ms.date: 05/03/2018
 
 # Azure Key Vault REST API reference
 
-Managing your Key Vault and the contents of your Key Vault can be accomplished through a REST interface. Below are lists of some of the common tasks for managing both.
-
+Use Key Vault to safeguard and manage cryptographic keys and secrets used by cloud applications and services.
 
 ## Vault operations
 
 | Operation | Description |
 |--|--|
-| Vaults - Check Name Availability | Checks that the vault name is valid and is not already in use.| 
-| Vaults - Create Or Update | Create or update a key vault in the specified subscription.| 
-| Vaults - Delete | Deletes the specified Azure key vault.| 
-| Vaults - Get | Gets the specified Azure key vault.| 
-| Vaults - Get Deleted | Gets the deleted Azure key vault.| 
-| Vaults - List | The List operation gets information about the vaults associated with the subscription.| 
-| Vaults - List By Resource Group | The List operation gets information about the vaults associated with the subscription and within the specified resource group.| 
-| Vaults - List By Subscription | The List operation gets information about the vaults associated with the subscription.| 
-| Vaults - List Deleted | Gets information about the deleted vaults in a subscription.| 
-| Vaults - Purge Deleted | Permanently deletes the specified vault. aka Purges the deleted Azure key vault.| 
-| Vaults - Update | Update a key vault in the specified subscription.| 
-| Vaults - Update Access Policy | Update access policies in a key vault in the specified subscription.| 
+| [Check Name Availability](/rest/api/keyvault/vaults/checknameavailability) | Checks that the vault name is valid and is not already in use.| 
+| [Create Or Update](/rest/api/keyvault/vaults/createorupdate) | Create or update a key vault in the specified subscription.| 
+| [Delete](/rest/api/keyvault/vaults/delete) | Deletes the specified Azure key vault.| 
+| [Get](/rest/api/keyvault/vaults/get) | Gets the specified Azure key vault.| 
+| [Get Deleted](/rest/api/keyvault/vaults/getdeleted) | Gets the deleted Azure key vault.| 
+| [List](/rest/api/keyvault/vaults/list) | The List operation gets information about the vaults associated with the subscription.| 
+| [List By Resource Group](/rest/api/keyvault/vaults/listbyresourcegroup) | The List operation gets information about the vaults associated with the subscription and within the specified resource group.| 
+| [List By Subscription](/rest/api/keyvault/vaults/listbysubscription) | The List operation gets information about the vaults associated with the subscription.| 
+| [List Deleted](/rest/api/keyvault/vaults/listdeleted) | Gets information about the deleted vaults in a subscription.| 
+| [Purge Deleted](/rest/api/keyvault/vaults/purgedeleted) | Permanently deletes the specified vault. aka Purges the deleted Azure key vault.| 
+| [Update](/rest/api/keyvault/vaults/update) | Update a key vault in the specified subscription.| 
+| [Update Access Policy](/rest/api/keyvault/vaults/updateaccesspolicy) | Update access policies in a key vault in the specified subscription.| 
 
-## Key Operations
+## Key operations
 
 | Operation | Description |
 |--|--|
@@ -65,8 +64,8 @@ Managing your Key Vault and the contents of your Key Vault can be accomplished t
 
 | Operation | Description |
 |--|--|
-| [decrypt](/rest/api/keyvault/decrypt) | Decrypts a single block of encrypted data. |
-| [encrypt](/rest/api/keyvault/encrypt) | Encrypts an arbitrary sequence of bytes using an encryption key that is stored in a key vault. |
+| [Decrypt](/rest/api/keyvault/decrypt) | Decrypts a single block of encrypted data. |
+| [Encrypt](/rest/api/keyvault/encrypt) | Encrypts an arbitrary sequence of bytes using an encryption key that is stored in a key vault. |
 
 ## Purge operations
 
@@ -141,8 +140,8 @@ Managing your Key Vault and the contents of your Key Vault can be accomplished t
 
 | Operation | Description |
 |--|--|
-| [sign](/rest/api/keyvault/sign) | Creates a signature from a digest using the specified key. |
-| [verify](/rest/api/keyvault/verify) | Verifies a signature using a specified key. |
+| [Sign](/rest/api/keyvault/sign) | Creates a signature from a digest using the specified key. |
+| [Verify](/rest/api/keyvault/verify) | Verifies a signature using a specified key. |
 
 ## Storage operations
 
