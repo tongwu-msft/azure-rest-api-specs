@@ -1,7 +1,7 @@
 ---
 title: Naming rules for objects created in Azure Search - Azure Search
 description: Name coventions for Azure Search services, indexes, indexers, data sources, and other resources.
-ms.date: 02/14/2019
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"

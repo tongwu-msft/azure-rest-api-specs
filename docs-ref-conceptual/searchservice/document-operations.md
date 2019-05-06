@@ -1,7 +1,7 @@
 ---
 title: Document operations using Azure Search Service REST APIs - Azure Search
 description: Learn which REST API calls are used to populate and query an Azure Search index.
-ms.date: 02/14/2019
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"

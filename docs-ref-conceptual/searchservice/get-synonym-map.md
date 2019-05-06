@@ -1,12 +1,12 @@
 ---
 title: "Get Synonym Map (Azure Search Service REST API) | Microsoft Docs"
 description: "A content of a synonym map can be retrieved using REST API in Azure Search."
-ms.date: "04/20/2018"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
-author: "mhko"
-ms.author: "nateko"
+author: "Brjohnstmsft"
+ms.author: "brjohnst"
 ms.manager: cgronlun
 translation.priority.mt:
   - "de-de"
@@ -34,7 +34,7 @@ api-key: [admin key]
 
 The `[synonymmap name]` in the request URI specifies which synonym map to return from the synonymmaps collection.  
 
-The `[api-version]` is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
+The `[api-version]` is required. The current version is `2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
 ### Request Headers
 The following list describes the required and optional request headers.  

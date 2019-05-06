@@ -1,7 +1,7 @@
 ---
 title: HTTP status codes for REST API call - Azure Search
 description: A list of the HTTP status codes returned by the Azure Search REST APIs.
-ms.date: 02/16/2019
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"

@@ -1,7 +1,7 @@
 ---
 title: "List Indexers (Azure Search Service REST API)| Microsoft Docs"
 description: Return a list of Azure Search indexers used for crawling external data for searchable content.
-ms.date: "04/20/2018"
+ms.date: "05/02/2019"
 services: search
 ms.service: search
 ms.topic: "language-reference"
@@ -28,7 +28,7 @@ translation.priority.mt:
     api-key: [admin key]  
 ```  
 
- The **api-version** is required. The current version is `2017-11-11`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
+ The **api-version** is required. The current version is `2019-05-06`. See [API versions in Azure Search](https://docs.microsoft.com/azure/search/search-api-versions) for details.  
 
  The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
 
@@ -51,7 +51,7 @@ translation.priority.mt:
  Note that you can filter the response down to just the properties you're interested in. For example, if you want only a list of indexer names, use the OData **$select** query option:  
 
 ```  
-GET /indexers?api-version=2014-10-20-Preview&$select=name  
+GET /indexers?api-version=2019-05-06&$select=name  
 ```  
 
  In this case, the response from the above example would appear as follows:  
