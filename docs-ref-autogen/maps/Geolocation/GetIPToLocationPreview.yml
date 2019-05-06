@@ -4,22 +4,21 @@ name: Get IP To Location Preview
 service: Maps
 groupName: Geolocation
 apiVersion: "1.0"
-summary: "\n**Applies to**: S0 and S1 pricing tiers.\n\n\nThis service will return the ISO country code for the provided IP address. Developers can use this information  to block or alter certain content based on geographical locations where the application is being viewed from. \n\n\n__Note:__ This service returns results from IANA and does not necessarily reflect the views of Microsoft  Corporation. __After May 1st 2019__ service will return camelCased properties in the JSON response. Ensure that your  application can parse and process responses with camelCased properties."
+summary: "\n**Applies to**: S0 and S1 pricing tiers.\n\n\nThis service will return the ISO country code for the provided IP address. Developers can use this information  to block or alter certain content based on geographical locations where the application is being viewed from. \n\n\n__Note:__ This service returns results from IANA and does not necessarily reflect the views of Microsoft  Corporation."
 consumes: []
 produces:
 - application/json
-- application/xml
 paths:
-- content: GET https://atlas.microsoft.com/geolocation/ip/{format}?api-version=1.0&ip={ip}
-- content: GET https://atlas.microsoft.com/geolocation/ip/{format}?subscription-key={subscription-key}&api-version=1.0&ip={ip}
+- content: GET https://atlas.microsoft.com/geolocation/ip/json?api-version=1.0&ip={ip}
+- content: GET https://atlas.microsoft.com/geolocation/ip/json?subscription-key={subscription-key}&api-version=1.0&ip={ip}
   isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Value can be either _json_ or _xml_.
+  description: Desired format of the response. Only `json` format is supported.
   types:
-  - uid: TextFormat
+  - uid: JsonFormat
 - name: subscription-key
   in: query
   description: One of the Azure Maps keys provided from an Azure Map Account. Refer to the subscription-key security definition.
@@ -72,28 +71,24 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: TextFormat
-  description: Desired format of the response. Value can be either _json_ or _xml_.
+- name: JsonFormat
+  description: Desired format of the response. Only `json` format is supported.
   kind: enum
   properties:
   - name: json
     description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
-  - name: xml
-    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
-    types:
-    - uid: string
 - name: IpAddressToLocationResult
   description: This object is returned from a successful call to IP Address to country/region API
   kind: object
   properties:
-  - name: CountryRegion
+  - name: countryRegion
     isReadyOnly: true
     description: The object containing the country/region information.
     types:
     - uid: CountryRegion
-  - name: IPAddress
+  - name: ipAddress
     isReadyOnly: true
     description: The IP Address of the request.
     types:
@@ -110,7 +105,7 @@ definitions:
   description: The object containing the country/region information.
   kind: object
   properties:
-  - name: IsoCode
+  - name: isoCode
     isReadyOnly: true
     description: "The IP Address's 2-character code [(ISO 3166-1)](https://www.iso.org/iso-3166-country-codes.html) of the country or region as assigned by IANA and regional internet authorities. Please note, IP address in ranges reserved for special purpose will return Null for country/region. "
     types:
@@ -137,10 +132,10 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "CountryRegion": {
-          "IsoCode": "US"
+        "countryRegion": {
+          "isoCode": "US"
         },
-        "IPAddress": "2001:4898:80e8:b::189"
+        "ipAddress": "2001:4898:80e8:b::189"
       }
   - statusCode: "400"
     body: >-
