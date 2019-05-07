@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.blockchain.blockchainmembers.get
-name: Get
+uid: management.azure.com.blockchain.blockchainmembers.create
+name: Create
 service: Blockchain
 groupName: Blockchain Members
 apiVersion: 2018-06-01-preview
-summary: Get details about a blockchain member.
+summary: Create a blockchain member.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Blockchain/blockchainMembers/{blockchainMemberName}?api-version=2018-06-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Blockchain/blockchainMembers/{blockchainMemberName}?api-version=2018-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,8 +41,111 @@ responses:
   description: Success
   types:
   - uid: BlockchainMember
+- name: 201 Created
+  description: Success
+  types:
+  - uid: BlockchainMember
+requestBody:
+- name: default
+  parameters:
+  - name: sku
+    in: body
+    description: Gets or sets the blockchain member Sku.
+    types:
+    - uid: Sku
+  - name: properties.protocol
+    in: body
+    description: Gets or sets the blockchain protocol.
+    types:
+    - uid: BlockchainProtocol
+  - name: properties.validatorNodesSku
+    in: body
+    description: Gets or sets the blockchain validator nodes Sku.
+    types:
+    - uid: BlockchainMemberNodesSku
+  - name: properties.password
+    in: body
+    description: Sets the basic auth password of the blockchain member.
+    types:
+    - uid: string
+  - name: properties.consortium
+    in: body
+    description: Gets or sets the consortium for the blockchain member.
+    types:
+    - uid: string
+  - name: properties.consortiumManagementAccountPassword
+    in: body
+    description: Sets the managed consortium management account password.
+    types:
+    - uid: string
+  - name: properties.consortiumRole
+    in: body
+    description: Gets the role of the member in the consortium.
+    types:
+    - uid: string
+  - name: properties.consortiumMemberDisplayName
+    in: body
+    description: Gets the display name of the member in the consortium.
+    types:
+    - uid: string
+  - name: properties.firewallRules
+    in: body
+    description: Gets or sets firewall rules
+    types:
+    - uid: FirewallRule
+      isArray: true
+  - name: location
+    in: body
+    description: The GEO location of the blockchain service.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Tags of the service which is a list of key value pairs that describes the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 requestHeader: []
 definitions:
+- name: Sku
+  description: Blockchain member Sku in payload
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets Sku name
+    types:
+    - uid: string
+  - name: tier
+    description: Gets or sets Sku tier
+    types:
+    - uid: string
+- name: BlockchainMemberNodesSku
+  description: Payload of the blockchain member nodes Sku for a blockchain member.
+  kind: object
+  properties:
+  - name: capacity
+    description: Gets or sets the nodes capacity.
+    types:
+    - uid: integer
+- name: FirewallRule
+  description: Ip range for firewall rules
+  kind: object
+  properties:
+  - name: ruleName
+    description: Gets or sets the name of the firewall rules.
+    types:
+    - uid: string
+  - name: startIpAddress
+    description: Gets or sets the start IP address of the firewall rule range.
+    types:
+    - uid: string
+  - name: endIpAddress
+    description: Gets or sets the end IP address of the firewall rule range.
+    types:
+    - uid: string
 - name: BlockchainMember
   description: Payload of the blockchain member which is exposed in the request/response of the resource provider.
   kind: object
@@ -141,18 +244,6 @@ definitions:
     description: The type of the service - e.g. "Microsoft.Blockchain"
     types:
     - uid: string
-- name: Sku
-  description: Blockchain member Sku in payload
-  kind: object
-  properties:
-  - name: name
-    description: Gets or sets Sku name
-    types:
-    - uid: string
-  - name: tier
-    description: Gets or sets Sku tier
-    types:
-    - uid: string
 - name: BlockchainProtocol
   description: Gets or sets the blockchain protocol.
   kind: enum
@@ -169,14 +260,6 @@ definitions:
   - name: Corda
     types:
     - uid: string
-- name: BlockchainMemberNodesSku
-  description: Payload of the blockchain member nodes Sku for a blockchain member.
-  kind: object
-  properties:
-  - name: capacity
-    description: Gets or sets the nodes capacity.
-    types:
-    - uid: integer
 - name: BlockchainMemberProvisioningState
   description: Gets or sets the blockchain member provision state.
   kind: enum
@@ -199,27 +282,51 @@ definitions:
   - name: Stale
     types:
     - uid: string
-- name: FirewallRule
-  description: Ip range for firewall rules
-  kind: object
-  properties:
-  - name: ruleName
-    description: Gets or sets the name of the firewall rules.
-    types:
-    - uid: string
-  - name: startIpAddress
-    description: Gets or sets the start IP address of the firewall rule range.
-    types:
-    - uid: string
-  - name: endIpAddress
-    description: Gets or sets the end IP address of the firewall rule range.
-    types:
-    - uid: string
 examples:
-- name: BlockchainMembers_Get
+- name: BlockchainMembers_Create
   request:
-    uri: GET https://management.azure.com/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Blockchain/blockchainMembers/contosemember1?api-version=2018-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Blockchain/blockchainMembers/contosemember1?api-version=2018-06-01-preview
+    body: >-
+      {
+        "location": "southeastasia",
+        "properties": {
+          "validatorNodesSku": {
+            "capacity": 2
+          },
+          "protocol": "Quorum",
+          "password": "$@123_34#&",
+          "consortium": "ContoseConsortium",
+          "consortiumManagementAccountPassword": "$@123_34#&"
+        }
+      }
   responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "location": "southeastasia",
+        "name": "contosemember1",
+        "properties": {
+          "protocol": "Quorum",
+          "validatorNodesSku": {
+            "capacity": 2
+          },
+          "provisioningState": "Updating",
+          "dns": null,
+          "userName": "contosemember1",
+          "password": null,
+          "consortium": "ContoseConsortium",
+          "consortiumManagementAccountAddress": null,
+          "consortiumManagementAccountPassword": null,
+          "consortiumRole": null,
+          "consortiumMemberDisplayName": null,
+          "rootContractAddress": null,
+          "publicKey": null,
+          "firewallRules": null
+        },
+        "type": "Microsoft.Blockchain/blockchainMembers",
+        "id": "/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Blockchain/blockchainMembers/contosemember1",
+        "tags": null
+      }
   - statusCode: "200"
     body: >-
       {
@@ -230,23 +337,24 @@ examples:
           "validatorNodesSku": {
             "capacity": 2
           },
-          "provisioningState": "Succeeded",
-          "dns": "contosemember1.blockchain.azure.com",
+          "provisioningState": "Updating",
+          "dns": null,
           "userName": "contosemember1",
           "password": null,
           "consortium": "ContoseConsortium",
-          "consortiumManagementAccountAddress": "0xc40d40dedc353885d3e8393735cf799e4d7fe38c",
+          "consortiumManagementAccountAddress": null,
           "consortiumManagementAccountPassword": null,
-          "consortiumRole": "ADMIN",
-          "consortiumMemberDisplayName": "contosemember1",
-          "rootContractAddress": "0x7407947df2f67142340ca7d1a2c120f0dbfd30e1",
-          "publicKey": "1VhPX4PbNGnE9dOEjgTrw92dltBpKxFQjXWNugcwvl0=",
+          "consortiumRole": null,
+          "consortiumMemberDisplayName": null,
+          "rootContractAddress": null,
+          "publicKey": null,
           "firewallRules": null
         },
         "type": "Microsoft.Blockchain/blockchainMembers",
         "id": "/subscriptions/51766542-3ed7-4a72-a187-0c8ab644ddab/resourceGroups/mygroup/providers/Microsoft.Blockchain/blockchainMembers/contosemember1",
         "tags": null
       }
+  - statusCode: "400"
 security:
 - name: azure_auth
   type: oauth2
