@@ -2,7 +2,7 @@
 title: Azure IoT Hub Device Provisioning Service REST API | Microsoft Docs
 author: sethmanheim
 ms.author: sethm
-ms.date: 09/05/2017
+ms.date: 05/08/2019
 ms.topic: reference
 ms.service: iot-dps
 ms.devlang: rest-api
