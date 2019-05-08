@@ -1,8 +1,8 @@
 ### YamlMime:RESTOperation
-uid: personalizer.v1.0.cognitiveservices.events.rank
+uid: personalizer.v1.0.cognitiveservices.rank.rank
 name: Rank
 service: Cognitive Services
-groupName: Events
+groupName: Rank
 apiVersion: v1.0
 summary: A Personalizer rank request.
 consumes:
@@ -24,7 +24,9 @@ responses:
   types:
   - uid: RankResponse
 - name: Other Status Codes
-  description: '*** Error Responses: ***\n\n * 400 Invalid arguments.\n\n * 404 ResourceNotFound.'
+  description: Invalid rank request.
+  types:
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -115,6 +117,14 @@ definitions:
     description: "The action chosen by the Personalizer service. This is the action for which to report the reward. This might not be the \nfirst found in 'ranking' if an action in the request in first position was part of the excluded ids."
     types:
     - uid: string
+- name: ErrorResponse
+  description: Used to return an error to the client
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: PersonalizerError
 - name: RankRequest
   description: Request a set of actions to be ranked by the Personalizer service.
   kind: object
@@ -179,8 +189,61 @@ definitions:
     description: Probability of the action
     types:
     - uid: number
+- name: PersonalizerError
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: High level error code.
+    types:
+    - uid: ErrorCode
+  - name: message
+    description: A message explaining the error reported by the service.
+    types:
+    - uid: string
+  - name: target
+    description: Error source element.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: PersonalizerError
+      isArray: true
+  - name: innerError
+    description: Finer error details.
+    types:
+    - uid: InternalError
+- name: ErrorCode
+  description: High level error code.
+  kind: enum
+  properties:
+  - name: BadRequest
+    description: Request could not be understood by the server.
+    types:
+    - uid: string
+  - name: ResourceNotFound
+    description: Requested resource does not exist on the server.
+    types:
+    - uid: string
+  - name: InternalServerError
+    description: A generic error has occurred on the server.
+    types:
+    - uid: string
+- name: InternalError
+  description: An object containing more specific information than the parent object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: Detailed error code.
+    types:
+    - uid: string
+  - name: innererror
+    description: The error object.
+    types:
+    - uid: InternalError
 examples:
-- name: Successful Events_Rank request
+- name: Successful Rank request
   request:
     uri: POST {Endpoint}/personalizer/v1.0/rank
     body: >-
