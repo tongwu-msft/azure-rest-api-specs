@@ -61,6 +61,17 @@
 ## [Original Access API model](../docs-ref-conceptual/apimanagement/ApiManagementREST/API-Management-REST.md)
 ### [Authentication](../docs-ref-conceptual/apimanagement/ApiManagementREST/Azure-API-Management-REST-API-Authentication.md)
 ## Reference
+### 2018-01-01
+#### [Policy](apimanagement/2018-01-01/Policy.yml)
+##### [Create Or Update](apimanagement/2018-01-01/Policy/CreateOrUpdate.yml)
+##### [Delete](apimanagement/2018-01-01/Policy/Delete.yml)
+##### [Get](apimanagement/2018-01-01/Policy/Get.yml)
+##### [Get Entity Tag](apimanagement/2018-01-01/Policy/GetEntityTag.yml)
+##### [List By Service](apimanagement/2018-01-01/Policy/ListByService.yml)
+#### [Policy Snippets](apimanagement/2018-01-01/PolicySnippets.yml)
+##### [List By Service](apimanagement/2018-01-01/PolicySnippets/ListByService.yml)
+#### [Regions](apimanagement/2018-01-01/Regions.yml)
+##### [List By Service](apimanagement/2018-01-01/Regions/ListByService.yml)
 ### 2019-01-01
 #### [Api](apimanagement/2019-01-01/Api.yml)
 ##### [List By Tags](apimanagement/2019-01-01/Api/ListByTags.yml)
