@@ -2331,8 +2331,9 @@
 ### Personalizer
 #### [Events](cognitiveservices/personalizer/Events.yml)
 ##### [Activate](cognitiveservices/personalizer/Events/Activate.yml)
-##### [Rank](cognitiveservices/personalizer/Events/Rank.yml)
 ##### [Reward](cognitiveservices/personalizer/Events/Reward.yml)
+#### [Rank](cognitiveservices/personalizer/Rank.yml)
+##### [Rank](cognitiveservices/personalizer/Rank/Rank.yml)
 ### QnA Maker
 #### [Alterations](cognitiveservices/qnamaker/Alterations.yml)
 ##### [Get](cognitiveservices/qnamaker/Alterations/Get.yml)

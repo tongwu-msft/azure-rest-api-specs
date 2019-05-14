@@ -225,7 +225,7 @@ Index schemas are subject to the following limits (the values vary between diffe
 While all Azure search indexes are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), indexes could also be configured to be encrypted with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys). 
 
 > [!NOTE]
-> Encryption with customer-managed keys is a **preview** feature that is not available for free services. For paid services, it is only available for search services created on or after 2019-01-01, using the latest preview api-version (api-version=2019-05-06-preview).
+> Encryption with customer-managed keys is a **preview** feature that is not available for free services. For paid services, it is only available for search services created on or after 2019-01-01, using the latest preview api-version (api-version=2019-05-06-Preview).
 
 <a name="CreateUpdateIndexExample"></a>
 ### Request Body Example  
